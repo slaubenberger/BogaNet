@@ -7,8 +7,8 @@ using System.Net.Http.Headers;
 
 namespace BogaNet;
 
-/// <summary>V
-/// arious helper functions for networking.
+/// <summary>
+/// Various helper functions for networking.
 /// </summary>
 public abstract class NetworkHelper
 {

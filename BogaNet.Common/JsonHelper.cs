@@ -95,9 +95,6 @@ public abstract class JsonHelper
          _logger.LogError(ex, $"Could not convert JSON: {obj}");
          throw;
       }
-
-      //return null;
-      //return JsonConvert.SerializeObject(obj, formatter);
    }
 
    /// <summary>Deserialize a JSON-file to an object.</summary>
@@ -119,8 +116,6 @@ public abstract class JsonHelper
          _logger.LogError(ex, "Could not deserialize the object from a file");
          throw;
       }
-
-      //return default;
    }
 
    /// <summary>Deserialize a JSON-string to an object.</summary>
@@ -142,7 +137,5 @@ public abstract class JsonHelper
          _logger.LogError(ex, $"Could not convert JSON: {jsonAsString}");
          throw;
       }
-
-      //return default;
    }
 }

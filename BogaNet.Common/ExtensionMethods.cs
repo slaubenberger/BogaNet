@@ -36,21 +36,6 @@ public static class ExtensionMethods
       sb.Append(obj.GetType().Name);
       sb.Append(":[");
       sb.Append(JsonHelper.SerializeToString(obj, JsonHelper.FORMAT_NONE));
-
-      /*
-      List<object?> listValues = obj.GetType().GetFields(bindingFlags).Select(field => field.GetValue(obj)).Where(value => value != null).ToList();
-      foreach (object item in listValues)
-      {
-         // Note that you need to cast to string on objects that don't support ToSting() native! Maybe a new method to cast.
-         sb.Append($"{item?.GetType().Name}='{item}', ");
-      }
-
-      List<object?> listProperties = obj.GetType().GetProperties(bindingFlags).Select(property => property.GetValue(obj)).Where(value => value != null).ToList();
-      foreach (object item in listProperties)
-      {
-         sb.Append($"{item?.GetType().Name}='{item}', ");
-      }
-*/
       sb.Append(']');
 
       return sb.ToString();

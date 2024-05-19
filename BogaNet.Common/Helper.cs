@@ -172,7 +172,6 @@ public abstract class Helper
       }
    }
 
-
    /// <summary>Generates a "Lorem Ipsum" based on various parameters.</summary>
    /// <param name="length">Length of the text</param>
    /// <param name="minSentences">Minimum number of sentences for the text (optional, default: 1)</param>
