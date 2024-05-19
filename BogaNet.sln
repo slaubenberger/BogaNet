@@ -1,8 +1,28 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BogaNet.Common", "BogaNet.Common\BogaNet.Common.csproj", "{761B0B59-DC54-4A07-B5A9-E0BD5BC6D448}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BogaNet.Common.Test", "BogaNet.Common.Test\BogaNet.Common.Test.csproj", "{6B1F0E29-1B62-4E3D-A017-C4004B643DAC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BogaNet.CLI", "BogaNet.CLI\BogaNet.CLI.csproj", "{8CE41FAB-3A14-47C3-9182-8EDD7C1E183E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{761B0B59-DC54-4A07-B5A9-E0BD5BC6D448}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{761B0B59-DC54-4A07-B5A9-E0BD5BC6D448}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{761B0B59-DC54-4A07-B5A9-E0BD5BC6D448}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{761B0B59-DC54-4A07-B5A9-E0BD5BC6D448}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B1F0E29-1B62-4E3D-A017-C4004B643DAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B1F0E29-1B62-4E3D-A017-C4004B643DAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B1F0E29-1B62-4E3D-A017-C4004B643DAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B1F0E29-1B62-4E3D-A017-C4004B643DAC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8CE41FAB-3A14-47C3-9182-8EDD7C1E183E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CE41FAB-3A14-47C3-9182-8EDD7C1E183E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CE41FAB-3A14-47C3-9182-8EDD7C1E183E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CE41FAB-3A14-47C3-9182-8EDD7C1E183E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
