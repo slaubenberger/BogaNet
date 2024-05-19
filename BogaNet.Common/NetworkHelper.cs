@@ -43,7 +43,7 @@ public abstract class NetworkHelper
    /// <param name="username">Name of the user</param>
    /// <param name="password">Password of the user</param>
    /// <returns>Basic AuthenticationHeaderValue</returns>
-   public AuthenticationHeaderValue CreateBasicAuth(string username, string password)
+   public static AuthenticationHeaderValue CreateBasicAuth(string username, string password)
    {
       return new AuthenticationHeaderValue(
          "Basic",
@@ -57,7 +57,7 @@ public abstract class NetworkHelper
    /// </summary>
    /// <param name="bearerToken">Token for bearer</param>
    /// <returns>Bearer AuthenticationHeaderValue</returns>
-   public AuthenticationHeaderValue CreateBearerAuth(string bearerToken)
+   public static AuthenticationHeaderValue CreateBearerAuth(string bearerToken)
    {
       return new AuthenticationHeaderValue(
          "Bearer",
