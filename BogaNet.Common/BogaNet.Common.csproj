@@ -8,6 +8,14 @@
         <Company>Boga</Company>
         <Copyright>© 2024 Stefan Laubenberger</Copyright>
         <Authors>Stefan Laubenberger</Authors>
+        <Description>NET 8 version of Boga, a library with many little helpers to speed up C# development.</Description>
+        <RepositoryUrl>https://github.com/slaubenberger/BogaNet</RepositoryUrl>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageTags>AES Crypto File Directory Path Hash SHA JSON Obfuscation XML Network IP MIME</PackageTags>
+        <PackageReleaseNotes>Initial release</PackageReleaseNotes>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <!--<PackageIcon></PackageIcon>-->
+        <PackageProjectUrl>https://www.crosstales.com/media/data/BogaNet/api/</PackageProjectUrl>
     </PropertyGroup>
 
     <ItemGroup>
@@ -15,4 +23,7 @@
       <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     </ItemGroup>
 
+    <ItemGroup>
+        <None Include="README.md" Pack="true" PackagePath="\"/>
+    </ItemGroup>
 </Project>

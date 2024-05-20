@@ -16,8 +16,9 @@ public static class Program
 
       _logger.LogTrace("Hi there, this is a test app!");
 
+      testConvert();
       //testObf();
-      testToString();
+      //testToString();
 
       Exit(0);
    }
@@ -28,6 +29,16 @@ public static class Program
       Environment.Exit(code);
    }
 
+   private static void testConvert()
+   {
+      decimal inVal = 1;
+
+      decimal outVal = UnitArea.MILE2.Convert(UnitArea.M2, inVal);
+
+      _logger.LogInformation($"{inVal} => {outVal}");
+   }
+
+
    private static void testObf()
    {
       //string plain = Helper.CreateString("ハローワールド", 50);
@@ -37,11 +48,9 @@ public static class Program
       string? obf = Obfuscator.Obfuscate(plain, 23);
       string? plainAgain = Obfuscator.Deobfuscate(obf, 23);
 
-      Console.WriteLine($"'{plain}'");
-      Console.WriteLine($"'{obf}'");
-      Console.WriteLine($"'{plainAgain}' - Equals: {plain.Equals(plainAgain)}");
-
-      Console.WriteLine();
+      _logger.LogInformation($"'{plain}'");
+      _logger.LogInformation($"'{obf}'");
+      _logger.LogInformation($"'{plainAgain}' - Equals: {plain.Equals(plainAgain)}");
    }
 
    private static void testToString()
@@ -56,12 +65,10 @@ public static class Program
          //TestModel tm = new TestModel();
       ];
 
-      Console.WriteLine(tm.CTDump());
+      _logger.LogInformation(tm.CTDump());
       //TestModel tm = new TestModel();
 
-      Console.WriteLine(tm.CTToString());
-
-      Console.WriteLine();
+      _logger.LogInformation(tm.CTToString());
    }
 }
 

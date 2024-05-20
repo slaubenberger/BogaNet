@@ -3,7 +3,7 @@
 /// <summary>
 /// Information about the BogaNet library
 /// </summary>
-public class LibraryInformation
+public abstract class LibraryInformation
 {
     private static readonly System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
     private static readonly System.Diagnostics.FileVersionInfo fvi = System.Diagnostics.FileVersionInfo.GetVersionInfo(assembly.Location);

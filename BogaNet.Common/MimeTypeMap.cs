@@ -11,7 +11,7 @@ public abstract class MimeTypeMap
    private const string Dot = ".";
    private const string QuestionMark = "?";
    private const string DefaultMimeType = "application/octet-stream";
-   private static readonly Lazy<IDictionary<string, string?>> _mappings = new(buildMappings);
+   private static readonly Lazy<IDictionary<string, string>> _mappings = new(buildMappings);
 
    #endregion
 
@@ -89,9 +89,9 @@ public abstract class MimeTypeMap
 
    #region Private methods
 
-   private static IDictionary<string, string?> buildMappings()
+   private static IDictionary<string, string> buildMappings()
    {
-      Dictionary<string, string?> mappings = new(StringComparer.OrdinalIgnoreCase)
+      Dictionary<string, string> mappings = new(StringComparer.OrdinalIgnoreCase)
       {
          #region Big freaking list of mime types
 

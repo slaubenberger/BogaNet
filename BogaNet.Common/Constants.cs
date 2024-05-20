@@ -80,13 +80,13 @@ public abstract class Constants
 
    #region Physic/Math constants
 
-   public const float SPEED_OF_LIGHT = 299792458f; //speed of light in m/s
-   public const float ABSOLUTE_ZERO = -273.15f; //absolute zero in Celsius
-   public const float GRAVITY_ON_EARTH = 9.80665f; //gravity on earth in m/s^2
-   public const float FACTOR_KCAL_TO_KJ = 4.1868f; //kilogram calorie to kilojoule
+   public const decimal SPEED_OF_LIGHT = 299792458m; //speed of light in m/s
+   public const decimal ABSOLUTE_ZERO = -273.15m; //absolute zero in Celsius
+   public const decimal GRAVITY_ON_EARTH = 9.80665m; //gravity on earth in m/s^2
+   public const decimal FACTOR_KCAL_TO_KJ = 4.1868m; //kilogram calorie to kilojoule
 
-   public const float FACTOR_SQRT_2 = 1.41421356f; //Square root of 2
-   public const float FACTOR_GOLDEN_RATIO_A_TO_B = 1.6180339887f; //golden ratio between a and b
+   public const decimal FACTOR_SQRT_2 = 1.41421356m; //Square root of 2
+   public const decimal FACTOR_GOLDEN_RATIO_A_TO_B = 1.6180339887m; //golden ratio between a and b
 
    #endregion
 
@@ -220,18 +220,6 @@ public abstract class Constants
    /*
     * factors
     */
-//		//area
-//		public static final BigDecimal FACTOR_MM2_TO_CM2 = HelperNumber.NUMBER_100; //millimeters^2 to centimeters^2
-//		public static final BigDecimal FACTOR_CM2_TO_M2 = HelperNumber.NUMBER_10000; //centimeters^2 to meters^2
-//		public static final BigDecimal FACTOR_M2_TO_AREA = HelperNumber.NUMBER_100; //meters^2 to area
-//		public static final BigDecimal FACTOR_AREA_TO_HECTARE = HelperNumber.NUMBER_100; //area to hectare
-//		public static final BigDecimal FACTOR_HECTARE_TO_KM2 = HelperNumber.NUMBER_100; //hectare to kilometers^2
-//		public static final BigDecimal FACTOR_FOOT2_TO_M2 = new BigDecimal("0.09290304"); //square foot to meters^2
-//		public static final BigDecimal FACTOR_YARD2_TO_M2 = new BigDecimal("0.83612736"); //square yard to meters^2
-//		public static final BigDecimal FACTOR_PERCH_TO_M2 = new BigDecimal("25.2928526"); //square perch to meters^2
-//		public static final BigDecimal FACTOR_ACRE_TO_M2 = new BigDecimal("4046.8564224"); //acre to meters^2
-//		public static final BigDecimal FACTOR_MILE2_TO_KM2 = new BigDecimal("2.5899881103"); //square mile (terrestrial) to kilometers^2
-//		
 //		//bit
 //		public static final BigDecimal FACTOR_BIT_TO_BYTE = HelperNumber.NUMBER_8; //bit to byte
 //		public static final BigDecimal FACTOR_BIT_TO_KILOBIT = new BigDecimal("10E2");
