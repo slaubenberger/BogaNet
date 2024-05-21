@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Text;
 
-namespace BogaNet;
+namespace BogaNet.IO;
 
 /// <summary>
 /// Various helper functions for filesystem operations.

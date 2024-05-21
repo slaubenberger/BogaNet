@@ -1,6 +1,6 @@
 ﻿using System.Security.Cryptography;
 
-namespace BogaNet;
+namespace BogaNet.Crypto;
 
 /// <summary>
 /// Helper for AES cryptography.
@@ -16,7 +16,7 @@ public abstract class AESHelper
    /// <exception cref="Exception"></exception>
    public static void EncryptFile(string? file, string? key, byte[]? IV)
    {
-      FileHelper.WriteAllBytes(file, Encrypt(FileHelper.ReadAllBytes(file), HashHelper.SHA256(key), IV));
+      BogaNet.IO.FileHelper.WriteAllBytes(file, Encrypt(BogaNet.IO.FileHelper.ReadAllBytes(file), HashHelper.SHA256(key), IV));
    }
 
    /// <summary>
@@ -28,7 +28,7 @@ public abstract class AESHelper
    /// <exception cref="Exception"></exception>
    public static void EncryptFile(string? file, byte[]? key, byte[]? IV)
    {
-      FileHelper.WriteAllBytes(file, Encrypt(FileHelper.ReadAllBytes(file), key, IV));
+      BogaNet.IO.FileHelper.WriteAllBytes(file, Encrypt(BogaNet.IO.FileHelper.ReadAllBytes(file), key, IV));
    }
 
    /// <summary>
@@ -40,7 +40,7 @@ public abstract class AESHelper
    /// <exception cref="Exception"></exception>
    public static void DecryptFile(string? file, string? key, byte[]? IV)
    {
-      FileHelper.WriteAllBytes(file, Decrypt(FileHelper.ReadAllBytes(file), HashHelper.SHA256(key), IV));
+      BogaNet.IO.FileHelper.WriteAllBytes(file, Decrypt(BogaNet.IO.FileHelper.ReadAllBytes(file), HashHelper.SHA256(key), IV));
    }
 
    /// <summary>
@@ -52,7 +52,7 @@ public abstract class AESHelper
    /// <exception cref="Exception"></exception>
    public static void DecryptFile(string? file, byte[]? key, byte[]? IV)
    {
-      FileHelper.WriteAllBytes(file, Decrypt(FileHelper.ReadAllBytes(file), key, IV));
+      BogaNet.IO.FileHelper.WriteAllBytes(file, Decrypt(BogaNet.IO.FileHelper.ReadAllBytes(file), key, IV));
    }
 
    /// <summary>

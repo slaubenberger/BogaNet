@@ -237,7 +237,7 @@ public static class ExtensionString
    public static bool BNIsIPv4(this string? str)
    {
       //TODO add check for IPv6
-      return str != null && NetworkHelper.isIPv4(str);
+      return str != null && BogaNet.IO.NetworkHelper.isIPv4(str);
    }
 
    /// <summary>

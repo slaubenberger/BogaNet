@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace BogaNet;
+namespace BogaNet.Crypto;
 
 /// <summary>
 /// Obfuscator for strings and byte-arrays.

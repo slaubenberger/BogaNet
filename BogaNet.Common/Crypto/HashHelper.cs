@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace BogaNet;
+namespace BogaNet.Crypto;
 
 /// <summary>
 /// Helper for hash functions.

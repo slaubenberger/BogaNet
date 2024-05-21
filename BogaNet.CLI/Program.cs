@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
+using BogaNet.Util;
+using BogaNet.Crypto;
 
 namespace BogaNet.CLI;
 

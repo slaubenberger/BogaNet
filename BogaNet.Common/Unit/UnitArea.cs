@@ -1,3 +1,5 @@
+using Microsoft.Extensions.Logging;
+
 namespace BogaNet;
 
 /// <summary>
@@ -15,16 +17,16 @@ public enum UnitArea
    YARD2,
    PERCH,
    ACRE,
-   MILE2
+   MILE2,
 }
-
-//		public static final BigDecimal FACTOR_MILE2_TO_KM2 = new BigDecimal("2.5899881103"); //square mile (terrestrial) to kilometers^2
 
 /// <summary>
 /// Extension methods for UnitArea
 /// </summary>
 public static class ExtensionUnitArea
 {
+   private static readonly ILogger _logger = GlobalLogging.CreateLogger("ExtensionUnitArea");
+
    public const decimal FACTOR_MM2_TO_CM2 = 100; //millimeters^2 to centimeters^2
    public const decimal FACTOR_CM2_TO_M2 = 10000; //centimeters^2 to meters^2
    public const decimal FACTOR_M2_TO_AREA = 100; //meters^2 to area
@@ -83,6 +85,9 @@ public static class ExtensionUnitArea
          case UnitArea.MILE2:
             val = inVal * FACTOR_M2_TO_MILE2;
             break;
+         default:
+            _logger.LogWarning($"There is no conversion for the fromUnit: {fromUnit}");
+            break;
       }
 
       //Convert from m2
@@ -120,6 +125,9 @@ public static class ExtensionUnitArea
             break;
          case UnitArea.MILE2:
             outVal = val / FACTOR_M2_TO_MILE2;
+            break;
+         default:
+            _logger.LogWarning($"There is no conversion for the toUnit: {toUnit}");
             break;
       }
 

@@ -5,7 +5,7 @@ using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Net.Http.Headers;
 
-namespace BogaNet;
+namespace BogaNet.IO;
 
 /// <summary>
 /// Various helper functions for networking.

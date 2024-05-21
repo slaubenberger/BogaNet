@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Reflection;
 using System.Text;
 
-namespace BogaNet;
+namespace BogaNet.Util;
 
 /// <summary>
 /// Various helper functions of very general utility.

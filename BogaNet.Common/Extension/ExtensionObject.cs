@@ -25,7 +25,7 @@ public static class ExtensionObject
 
       sb.Append(obj.GetType().Name);
       sb.Append(":[");
-      sb.Append(JsonHelper.SerializeToString(obj, JsonHelper.FORMAT_NONE));
+      sb.Append(BogaNet.IO.JsonHelper.SerializeToString(obj, BogaNet.IO.JsonHelper.FORMAT_NONE));
       sb.Append(']');
 
       return sb.ToString();

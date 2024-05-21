@@ -3,7 +3,7 @@ using System.Xml.Serialization;
 using System.Xml;
 using Microsoft.Extensions.Logging;
 
-namespace BogaNet;
+namespace BogaNet.IO;
 
 /// <summary>
 /// Helper-class for XML.

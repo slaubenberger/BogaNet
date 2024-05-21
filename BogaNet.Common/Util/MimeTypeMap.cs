@@ -1,4 +1,4 @@
-﻿namespace BogaNet;
+﻿namespace BogaNet.Util;
 
 /// <summary>
 /// Mime type mapper.

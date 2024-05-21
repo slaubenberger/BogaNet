@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
-namespace BogaNet;
+namespace BogaNet.IO;
 
 /// <summary>
 /// Helper-class for JSON. Extends https://www.newtonsoft.com/json

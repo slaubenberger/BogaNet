@@ -1,4 +1,6 @@
-﻿namespace BogaNet.Test;
+﻿using BogaNet.IO;
+
+namespace BogaNet.Test;
 
 public class FileHelperTest
 {
