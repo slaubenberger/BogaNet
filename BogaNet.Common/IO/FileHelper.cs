@@ -200,11 +200,11 @@ public abstract class FileHelper
          string fileName;
          if (isWin || isUNC)
          {
-            fileName = result.Substring(result.CTLastIndexOf(Constants.PATH_DELIMITER_WINDOWS) + 1);
+            fileName = result.Substring(result.BNLastIndexOf(Constants.PATH_DELIMITER_WINDOWS) + 1);
          }
          else
          {
-            fileName = result.Substring(result.CTLastIndexOf(Constants.PATH_DELIMITER_UNIX) + 1);
+            fileName = result.Substring(result.BNLastIndexOf(Constants.PATH_DELIMITER_UNIX) + 1);
          }
 
          string newName = fileName;
@@ -267,23 +267,30 @@ public abstract class FileHelper
 
             if (_path != null)
             {
-               if (filenames == null || filenames.Length == 0 || filenames.Any(extension => extension.Equals("*") || extension.Equals("*.*")))
+               if (ExistsDirectory(_path))
                {
-                  return Directory.EnumerateFiles(_path, "*", isRecursive
-                     ? SearchOption.AllDirectories
-                     : SearchOption.TopDirectoryOnly).ToArray();
+                  if (filenames == null || filenames.Length == 0 || filenames.Any(extension => extension.Equals("*") || extension.Equals("*.*")))
+                  {
+                     return Directory.EnumerateFiles(_path, "*", isRecursive
+                        ? SearchOption.AllDirectories
+                        : SearchOption.TopDirectoryOnly).ToArray();
+                  }
+
+                  List<string> files = [];
+
+                  foreach (string filename in filenames)
+                  {
+                     files.AddRange(Directory.EnumerateFiles(_path, filename.StartsWith("*.") ? filename : $"*{filename}*", isRecursive
+                        ? SearchOption.AllDirectories
+                        : SearchOption.TopDirectoryOnly));
+                  }
+
+                  return files.OrderBy(q => q).ToArray();
                }
-
-               List<string> files = [];
-
-               foreach (string filename in filenames)
-               {
-                  files.AddRange(Directory.EnumerateFiles(_path, filename.StartsWith("*.") ? filename : $"*{filename}*", isRecursive
-                     ? SearchOption.AllDirectories
-                     : SearchOption.TopDirectoryOnly));
-               }
-
-               return files.OrderBy(q => q).ToArray();
+            }
+            else
+            {
+               _logger.LogError($"Path does not exist: {path}");
             }
          }
          catch (Exception ex)
@@ -336,10 +343,17 @@ public abstract class FileHelper
          {
             string? _path = ValidatePath(path);
 
-            if (_path != null)
-               return Directory.EnumerateDirectories(_path, "*", isRecursive
-                  ? SearchOption.AllDirectories
-                  : SearchOption.TopDirectoryOnly).ToArray();
+            if (ExistsDirectory(_path))
+            {
+               if (_path != null)
+                  return Directory.EnumerateDirectories(_path, "*", isRecursive
+                     ? SearchOption.AllDirectories
+                     : SearchOption.TopDirectoryOnly).ToArray();
+            }
+            else
+            {
+               _logger.LogError($"Path does not exist: {path}");
+            }
          }
          catch (Exception ex)
          {
@@ -394,7 +408,7 @@ public abstract class FileHelper
          {
             if (!ExistsDirectory(src))
             {
-               _logger.LogWarning($"Source directory does not exists: {src}");
+               _logger.LogError($"Source directory does not exists: {src}");
             }
             else
             {
@@ -454,7 +468,7 @@ public abstract class FileHelper
       {
          if (sourceFile == null || !ExistsFile(sourceFile))
          {
-            _logger.LogWarning($"Source file does not exists: {sourceFile}");
+            _logger.LogError($"Source file does not exists: {sourceFile}");
          }
          else
          {
@@ -678,7 +692,7 @@ public abstract class FileHelper
          {
             if (!ExistsDirectory(path))
             {
-               _logger.LogWarning($"Path directory does not exists: {path}");
+               _logger.LogError($"Path directory does not exists: {path}");
             }
             else
             {
@@ -735,7 +749,7 @@ public abstract class FileHelper
       {
          if (!ExistsDirectory(path))
          {
-            _logger.LogWarning($"Path directory does not exists: {path}");
+            _logger.LogError($"Path directory does not exists: {path}");
          }
          else
          {
@@ -795,6 +809,7 @@ public abstract class FileHelper
 
       if (ExistsDirectory(path))
          return true;
+
       if (ExistsFile(path))
          return false;
 
@@ -846,7 +861,7 @@ public abstract class FileHelper
 
          if (string.IsNullOrEmpty(fname) || fname == _path)
          {
-            fname = isWindowsPath(_path) ? _path.Substring(_path.CTLastIndexOf(Constants.PATH_DELIMITER_WINDOWS) + 1) : _path.Substring(_path.CTLastIndexOf(Constants.PATH_DELIMITER_UNIX) + 1);
+            fname = isWindowsPath(_path) ? _path.Substring(_path.BNLastIndexOf(Constants.PATH_DELIMITER_WINDOWS) + 1) : _path.Substring(_path.BNLastIndexOf(Constants.PATH_DELIMITER_UNIX) + 1);
          }
 
          if (removeInvalidChars)
@@ -877,7 +892,7 @@ public abstract class FileHelper
 
          if (string.IsNullOrEmpty(dname) || dname == _path)
          {
-            dname = isWindowsPath(_path) ? _path.Substring(_path.CTLastIndexOf(Constants.PATH_DELIMITER_WINDOWS) + 1) : _path.Substring(_path.CTLastIndexOf(Constants.PATH_DELIMITER_UNIX) + 1);
+            dname = isWindowsPath(_path) ? _path.Substring(_path.BNLastIndexOf(Constants.PATH_DELIMITER_WINDOWS) + 1) : _path.Substring(_path.BNLastIndexOf(Constants.PATH_DELIMITER_UNIX) + 1);
 
             if (HasPathInvalidChars(dname))
                dname = string.Join(string.Empty, dname.Split(_invalidPathChars));
@@ -962,7 +977,7 @@ public abstract class FileHelper
          }
       }
 
-      _logger.LogWarning($"Path is not a file: {path}");
+      _logger.LogError($"File does not exists: {path}");
 
       return -1;
    }
@@ -988,7 +1003,7 @@ public abstract class FileHelper
          }
       }
 
-      _logger.LogWarning($"File does not exists: {path}");
+      _logger.LogError($"File does not exists: {path}");
 
       return null;
    }
@@ -1015,96 +1030,84 @@ public abstract class FileHelper
          }
       }
 
-      _logger.LogWarning($"File does not exists: {path}");
+      _logger.LogError($"File does not exists: {path}");
 
       return DateTime.MinValue;
    }
 
    /// <summary>Reads the text of a file.</summary>
-   /// <param name="sourceFile">Source file path</param>
+   /// <param name="path">Path to the file</param>
    /// <param name="encoding">Encoding of the text (optional, default: UTF8)</param>
    /// <returns>Text-content of the file</returns>
    /// <exception cref="Exception"></exception>
-   public static string? ReadAllText(string? sourceFile, Encoding? encoding = null) //NUnit
+   public static string? ReadAllText(string? path, Encoding? encoding = null) //NUnit
    {
-      if (sourceFile != null)
+      if (path != null)
       {
          try
          {
-            if (!ExistsFile(sourceFile))
-            {
-               _logger.LogWarning($"Source file does not exists: {sourceFile}");
-            }
-            else
-            {
-               return File.ReadAllText(sourceFile, encoding ?? Encoding.UTF8);
-            }
+            if (ExistsFile(path))
+               return File.ReadAllText(path, encoding ?? Encoding.UTF8);
          }
          catch (Exception ex)
          {
-            _logger.LogError(ex, $"Could not read file '{sourceFile}'");
+            _logger.LogError(ex, $"Could not read file '{path}'");
             throw;
          }
       }
+
+      _logger.LogError($"File does not exists: {path}");
 
       return null;
    }
 
    /// <summary>Reads all lines of text from a file.</summary>
-   /// <param name="sourceFile">Source file path</param>
+   /// <param name="path">Path to the file</param>
    /// <param name="encoding">Encoding of the text (optional, default: UTF8)</param>
    /// <returns>Array of text lines from the file</returns>
    /// <exception cref="Exception"></exception>
-   public static string[]? ReadAllLines(string? sourceFile, Encoding? encoding = null) //NUnit
+   public static string[]? ReadAllLines(string? path, Encoding? encoding = null) //NUnit
    {
-      if (sourceFile != null)
+      if (path != null)
       {
          try
          {
-            if (!ExistsFile(sourceFile))
-            {
-               _logger.LogWarning($"Source file does not exists: {sourceFile}");
-            }
-            else
-            {
-               return File.ReadAllLines(sourceFile, encoding ?? Encoding.UTF8);
-            }
+            if (ExistsFile(path))
+               return File.ReadAllLines(path, encoding ?? Encoding.UTF8);
          }
          catch (Exception ex)
          {
-            _logger.LogError(ex, $"Could not read file '{sourceFile}'");
+            _logger.LogError(ex, $"Could not read file '{path}'");
             throw;
          }
       }
+
+      _logger.LogError($"File does not exists: {path}");
 
       return null;
    }
 
    /// <summary>Reads the bytes of a file.</summary>
-   /// <param name="sourceFile">Source file path</param>
+   /// <param name="path">Path to the file</param>
    /// <returns>Byte-content of the file</returns>
    /// <exception cref="Exception"></exception>
-   public static byte[]? ReadAllBytes(string? sourceFile) //NUnit
+   public static byte[]? ReadAllBytes(string? path) //NUnit
    {
-      if (sourceFile != null)
+      if (path != null)
       {
          try
          {
-            if (!ExistsFile(sourceFile))
-            {
-               _logger.LogWarning($"Source file does not exists: {sourceFile}");
-            }
-            else
-            {
-               return File.ReadAllBytes(sourceFile);
-            }
+            if (ExistsFile(path))
+               return File.ReadAllBytes(path);
          }
          catch (Exception ex)
          {
-            _logger.LogError(ex, $"Could not read file '{sourceFile}'");
+            _logger.LogError(ex, $"Could not read file '{path}'");
             throw;
          }
       }
+
+      _logger.LogError($"File does not exists: {path}");
 
       return null;
    }

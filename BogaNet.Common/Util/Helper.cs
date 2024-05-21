@@ -83,7 +83,7 @@ public abstract class Helper
                {
                   if (ignoreCommentedLines)
                   {
-                     if (!lines[ii].CTStartsWith("#")) //valid and not disabled line?
+                     if (!lines[ii].BNStartsWith("#")) //valid and not disabled line?
                         result.Add(lines[ii]);
                   }
                   else
@@ -200,7 +200,7 @@ public abstract class Helper
                result.Append(' ');
 
             result.Append(
-               w == 0 ? words[_rnd.Next(words.Length)].CTToTitleCase() : words[_rnd.Next(words.Length)]);
+               w == 0 ? words[_rnd.Next(words.Length)].BNToTitleCase() : words[_rnd.Next(words.Length)]);
          }
 
          result.Append(". ");
@@ -270,7 +270,7 @@ public abstract class Helper
 
          for (int ii = 0; ii < args.Length; ii++)
          {
-            if (name.CTEquals(args[ii]) && args.Length > ii + 1)
+            if (name.BNEquals(args[ii]) && args.Length > ii + 1)
                return args[ii + 1];
          }
       }

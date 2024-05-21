@@ -8,9 +8,6 @@ namespace BogaNet;
 /// </summary>
 public abstract class HashHelper
 {
-   //public static readonly System.Security.Cryptography.SHA512 ALGO_SHA512 = System.Security.Cryptography.SHA512.Create();
-   public static readonly System.Security.Cryptography.SHA256 ALGO_SHA256 = System.Security.Cryptography.SHA256.Create();
-
    /// <summary>
    /// Generates a hash-value as byte-array with a given byte-array and algorithm as input
    /// </summary>
@@ -88,7 +85,8 @@ public abstract class HashHelper
    /// <exception cref="ArgumentNullException"></exception>
    public static byte[] SHA256(byte[]? input)
    {
-      return Hash(input, ALGO_SHA256);
+      using SHA256? sha256 = System.Security.Cryptography.SHA256.Create();
+      return Hash(input, sha256);
    }
 
    /// <summary>
@@ -99,7 +97,8 @@ public abstract class HashHelper
    /// <exception cref="ArgumentNullException"></exception>
    public static byte[] SHA256(string? text)
    {
-      return Hash(text, ALGO_SHA256);
+      using SHA256? sha256 = System.Security.Cryptography.SHA256.Create();
+      return Hash(text, sha256);
    }
 
    /// <summary>
@@ -110,7 +109,8 @@ public abstract class HashHelper
    /// <exception cref="ArgumentNullException"></exception>
    public static string SHA256AsString(byte[]? input)
    {
-      return HashAsString(input, ALGO_SHA256);
+      using SHA256? sha256 = System.Security.Cryptography.SHA256.Create();
+      return HashAsString(input, sha256);
    }
 
    /// <summary>
@@ -121,6 +121,55 @@ public abstract class HashHelper
    /// <exception cref="ArgumentNullException"></exception>
    public static string SHA256AsString(string? text)
    {
-      return HashAsString(text, ALGO_SHA256);
+      using SHA256? sha256 = System.Security.Cryptography.SHA256.Create();
+      return HashAsString(text, sha256);
+   }
+   
+   /// <summary>
+   /// Generates a SHA512-value as byte-array with a given byte-array
+   /// </summary>
+   /// <param name="input">Data as byte-array</param>
+   /// <returns>SHA512-value as byte-array</returns>
+   /// <exception cref="ArgumentNullException"></exception>
+   public static byte[] SHA512(byte[]? input)
+   {
+      using SHA512? sha512 = System.Security.Cryptography.SHA512.Create();
+      return Hash(input, sha512);
+   }
+
+   /// <summary>
+   /// Generates a SHA512-value as byte-array with a given string
+   /// </summary>
+   /// <param name="text">Data as string</param>
+   /// <returns>SHA512-value as byte-array</returns>
+   /// <exception cref="ArgumentNullException"></exception>
+   public static byte[] SHA512(string? text)
+   {
+      using SHA512? sha512 = System.Security.Cryptography.SHA512.Create();
+      return Hash(text, sha512);
+   }
+
+   /// <summary>
+   /// Generates a SHA512-value as string with a given byte-array
+   /// </summary>
+   /// <param name="input">Data as byte-array</param>
+   /// <returns>SHA512-value as string</returns>
+   /// <exception cref="ArgumentNullException"></exception>
+   public static string SHA512AsString(byte[]? input)
+   {
+      using SHA512? sha512 = System.Security.Cryptography.SHA512.Create();
+      return HashAsString(input, sha512);
+   }
+
+   /// <summary>
+   /// Generates a SHA512-value as string with a given string
+   /// </summary>
+   /// <param name="text">Data as string</param>
+   /// <returns>SHA512-value as string</returns>
+   /// <exception cref="ArgumentNullException"></exception>
+   public static string SHA512AsString(string? text)
+   {
+      using SHA512? sha512 = System.Security.Cryptography.SHA512.Create();
+      return HashAsString(text, sha512);
    }
 }

@@ -330,7 +330,7 @@ public class FileHelperTest
 
       Assert.True(FileHelper.ExistsDirectory(newPath));
 
-      string? movePath = FileHelper.CreateDirectory(testTempPath, "CT_TEST");
+      string? movePath = FileHelper.CreateDirectory(testTempPath, "BN_TEST");
 
       Assert.True(FileHelper.CopyDirectory(newPath, movePath, true));
 
@@ -772,7 +772,7 @@ public class FileHelperTest
    public void WriteAndReadAllBytes_Test()
    {
       string fname = FileHelper.TempFile;
-      byte[]? data = Constants.SIGNS.CTToByteArray();
+      byte[]? data = Constants.SIGNS.BNToByteArray();
 
       Assert.True(FileHelper.WriteAllBytes(fname, data));
 

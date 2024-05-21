@@ -56,6 +56,9 @@ public static class ExtensionUnitArea
          case UnitArea.MM2:
             val = inVal / FACTOR_MM2_TO_M2;
             break;
+         case UnitArea.CM2:
+            val = inVal / FACTOR_CM2_TO_M2;
+            break;
          case UnitArea.AREA:
             val = inVal * FACTOR_M2_TO_AREA;
             break;
@@ -90,6 +93,9 @@ public static class ExtensionUnitArea
             break;
          case UnitArea.MM2:
             outVal = val * FACTOR_MM2_TO_M2;
+            break;
+         case UnitArea.CM2:
+            outVal = val * FACTOR_CM2_TO_M2;
             break;
          case UnitArea.AREA:
             outVal = val / FACTOR_M2_TO_AREA;

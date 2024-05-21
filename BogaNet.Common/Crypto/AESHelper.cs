@@ -105,7 +105,7 @@ public abstract class AESHelper
 
       using MemoryStream msDecrypt = new(dataToDecrypt);
       using CryptoStream csDecrypt = new(msDecrypt, decryptor, CryptoStreamMode.Read);
-      byte[] decrypted = csDecrypt.CTReadFully();
+      byte[] decrypted = csDecrypt.BNReadFully();
 
       return decrypted;
    }

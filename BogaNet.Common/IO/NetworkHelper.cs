@@ -84,7 +84,6 @@ public abstract class NetworkHelper
       if (isURL(url))
       {
          openURL(url);
-
          return true;
       }
 
@@ -148,16 +147,16 @@ public abstract class NetworkHelper
          string? result = url?.Trim().Replace('\\', '/');
 
          if (removeWWW)
-            result = result?.CTReplace("www.", string.Empty);
+            result = result?.BNReplace("www.", string.Empty);
 
-         if (removeSlash && result.CTEndsWith(Constants.PATH_DELIMITER_UNIX))
+         if (removeSlash && result.BNEndsWith(Constants.PATH_DELIMITER_UNIX))
             result = result?.Substring(0, result.Length - 1);
 
          if (!string.IsNullOrEmpty(result))
          {
             if (removeProtocol)
             {
-               int split = result.CTIndexOf("//");
+               int split = result.BNIndexOf("//");
                //string? protocol = result?.Substring(0, split + 2);
                string data = result.Substring(split > 1 ? split + 2 : 0);
 
@@ -177,10 +176,10 @@ public abstract class NetworkHelper
    public static bool isURL(string? url) //NUnit
    {
       return !string.IsNullOrEmpty(url) &&
-             (url.CTStartsWith(Constants.PREFIX_FILE) ||
-              url.CTStartsWith(Constants.PREFIX_HTTP) ||
-              url.CTStartsWith(Constants.PREFIX_HTTPS) ||
-              url.CTStartsWith("www."));
+             (url.BNStartsWith(Constants.PREFIX_FILE) ||
+              url.BNStartsWith(Constants.PREFIX_HTTP) ||
+              url.BNStartsWith(Constants.PREFIX_HTTPS) ||
+              url.BNStartsWith("www."));
    }
 
    /// <summary>Checks if the input is an IPv4 address.</summary>

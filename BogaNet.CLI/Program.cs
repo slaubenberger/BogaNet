@@ -33,7 +33,7 @@ public static class Program
    {
       decimal inVal = 1;
 
-      decimal outVal = UnitArea.MILE2.Convert(UnitArea.M2, inVal);
+      decimal outVal = UnitArea.M2.Convert(UnitArea.CM2, inVal);
 
       _logger.LogInformation($"{inVal} => {outVal}");
    }
@@ -65,10 +65,10 @@ public static class Program
          //TestModel tm = new TestModel();
       ];
 
-      _logger.LogInformation(tm.CTDump());
+      _logger.LogInformation(tm.BNDump());
       //TestModel tm = new TestModel();
 
-      _logger.LogInformation(tm.CTToString());
+      _logger.LogInformation(tm.BNToString());
    }
 }
 

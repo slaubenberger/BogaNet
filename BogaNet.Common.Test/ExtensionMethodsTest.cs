@@ -3,65 +3,65 @@
 public class ExtensionMethodsTest
 {
    [Test]
-   public void CTToTitleCaseOk()
+   public void BNToTitleCaseOk()
    {
       //Test: input good
       const string input = "testing tiTle cASE";
-      string? result = input.CTToTitleCase();
+      string? result = input.BNToTitleCase();
 
       Assert.That(result, Is.EqualTo("Testing Title Case"));
    }
 
    [Test]
-   public void CTToTitleCaseNotOk()
+   public void BNToTitleCaseNotOk()
    {
       //Test: input empty
       const string input = "";
-      string? result = input.CTToTitleCase();
+      string? result = input.BNToTitleCase();
 
       Assert.IsEmpty(result);
    }
 
    [Test]
-   public void CTReverseOk()
+   public void BNReverseOk()
    {
       //Test: input good
       const string input = "crosstales LLC";
-      string? result = input.CTReverse();
+      string? result = input.BNReverse();
 
       Assert.That(result, Is.EqualTo("CLL selatssorc"));
    }
 
    [Test]
-   public void CTReverseNotOk()
+   public void BNReverseNotOk()
    {
       //Test: input empty
       const string input = "";
-      string? result = input.CTReverse();
+      string? result = input.BNReverse();
 
       Assert.IsEmpty(result);
    }
 
    [Test]
-   public void CTReplaceOk()
+   public void BNReplaceOk()
    {
       //Test: input good
       const string input = "crosstales GmbH";
       const string oldString = "gmbh";
       const string newString = "LLC";
-      string? result = input.CTReplace(oldString, newString);
+      string? result = input.BNReplace(oldString, newString);
 
       Assert.That(result, Is.EqualTo("crosstales LLC"));
    }
 
    [Test]
-   public void CTReplaceNotOk()
+   public void BNReplaceNotOk()
    {
       //Test: input empty
       const string input = "";
       const string oldString = "gmbh";
       const string newString = "LLC";
-      string? result = input.CTReplace(oldString, newString);
+      string? result = input.BNReplace(oldString, newString);
 
       Assert.IsEmpty(result);
 /*
