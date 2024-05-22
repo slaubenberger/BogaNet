@@ -7,75 +7,6 @@ namespace BogaNet;
 /// </summary>
 public static class ExtensionArray
 {
-/*
-   /// <summary>
-   /// Extension method for arrays.
-   /// Shuffles an array.
-   /// </summary>
-   /// <param name="array">Array-instance to shuffle.</param>
-   /// <param name="seed">Seed for the PRNG (optional, default: 0 (=standard))</param>
-   /// <exception cref="ArgumentNullException"></exception>
-   public static void BNShuffle<T>(this T[]? array, int seed = 0)
-   {
-      if (array == null || array.Length <= 0)
-         throw new ArgumentNullException(nameof(array));
-
-      Random rnd = seed == 0 ? new Random() : new Random(seed);
-      int n = array.Length;
-      while (n > 1)
-      {
-         int k = rnd.Next(n--);
-         (array[n], array[k]) = (array[k], array[n]);
-      }
-   }
-
-   /// <summary>
-   /// Case insensitive 'Contains' per default.
-   /// </summary>
-   /// <param name="str">String array-instance.</param>
-   /// <param name="toCheck">String to check.</param>
-   /// <param name="comp">StringComparer (optional, default: StringComparer.OrdinalIgnoreCase)</param>
-   /// <returns>True if the string array contains the given string.</returns>
-   public static bool BNContains(this string[]? str, string? toCheck, StringComparer? comp = null)
-   {
-      if (str == null)
-         return false;
-
-      comp ??= StringComparer.OrdinalIgnoreCase;
-
-      return str.Contains(toCheck, comp);
-   }
-
-   /// <summary>
-   /// Dumps an array to a string.
-   /// </summary>
-   /// <param name="array">Array-instance to dump.</param>
-   /// <param name="prefix">Prefix for every element (optional, default: empty).</param>
-   /// <param name="postfix">Postfix for every element (optional, default: empty).</param>
-   /// <param name="appendNewLine">Append new line, otherwise use the given delimiter (optional, default: false).</param>
-   /// <param name="delimiter">Delimiter if appendNewLine is false (optional, default: "; ").</param>
-   /// <returns>String with lines for all array entries.</returns>
-   public static string? BNDump<T>(this T[]? array, string? prefix = "", string? postfix = "", bool appendNewLine = true, string delimiter = "; ")
-   {
-      if (array == null) // || array.Length <= 0)
-         return null;
-
-      StringBuilder sb = new();
-
-      foreach (T element in array)
-      {
-         if (0 < sb.Length)
-         {
-            sb.Append(appendNewLine ? Environment.NewLine : delimiter);
-         }
-
-         sb.Append(prefix);
-         sb.Append(element);
-         sb.Append(postfix);
-      }
-
-      return sb.ToString();
-   }
 
    /// <summary>
    /// Generates a string array with all entries (via CTToString).
@@ -97,14 +28,14 @@ public static class ExtensionArray
          T content = array[ii];
 
          if (content != null)
-            line = content.CTToString()!;
+            line = content.BNToString()!;
 
          result[ii] = line;
       }
 
       return result;
    }
-*/
+
    /// <summary>
    /// Converts a byte-array to a float-array.
    /// </summary>
@@ -210,7 +141,7 @@ public static class ExtensionArray
    /// <param name="offset">Offset inside the byte-array (optional, default: 0)</param>
    /// <param name="length">Length of the string (optional, default: 8)</param>
    /// <returns>double from the byte-array.</returns>
-   public static double BNConvertToDouble(byte[]? bytes, int offset = 0, int length = 8)
+   public static double BNConvertToDouble(this byte[]? bytes, int offset = 0, int length = 8)
    {
       if (bytes == null)
          return 0f;
@@ -227,7 +158,7 @@ public static class ExtensionArray
    /// <param name="offset">Offset inside the byte-array (optional, default: 0)</param>
    /// <param name="length">Length of the string (optional, default: 4)</param>
    /// <returns>float from the byte-array.</returns>
-   public static float BNConvertToFloat(byte[]? bytes, int offset = 0, int length = 4)
+   public static float BNConvertToFloat(this byte[]? bytes, int offset = 0, int length = 4)
    {
       if (bytes == null)
          return 0f;
@@ -244,7 +175,7 @@ public static class ExtensionArray
    /// <param name="offset">Offset inside the byte-array (optional, default: 0)</param>
    /// <param name="length">Length of the string (optional, default: 8)</param>
    /// <returns>long from the byte-array.</returns>
-   public static long BNConvertToLong(byte[]? bytes, int offset = 0, int length = 8)
+   public static long BNConvertToLong(this byte[]? bytes, int offset = 0, int length = 8)
    {
       if (bytes == null)
          return 0;
@@ -262,7 +193,7 @@ public static class ExtensionArray
    /// <param name="offset">Offset inside the byte-array (optional, default: 0)</param>
    /// <param name="length">Length of the string (optional, default: 8)</param>
    /// <returns>long from the byte-array.</returns>
-   public static ulong BNConvertToULong(byte[]? bytes, int offset = 0, int length = 8)
+   public static ulong BNConvertToULong(this byte[]? bytes, int offset = 0, int length = 8)
    {
       if (bytes == null)
          return 0;
@@ -279,7 +210,7 @@ public static class ExtensionArray
    /// <param name="offset">Offset inside the byte-array (optional, default: 0)</param>
    /// <param name="length">Length of the string (optional, default: 4)</param>
    /// <returns>int from the byte-array.</returns>
-   public static int BNConvertToInt(byte[]? bytes, int offset = 0, int length = 4)
+   public static int BNConvertToInt(this byte[]? bytes, int offset = 0, int length = 4)
    {
       if (bytes == null)
          return 0;
@@ -296,7 +227,7 @@ public static class ExtensionArray
    /// <param name="offset">Offset inside the byte-array (optional, default: 0)</param>
    /// <param name="length">Length of the string (optional, default: 4)</param>
    /// <returns>uint from the byte-array.</returns>
-   public static uint BNConvertToUInt(byte[]? bytes, int offset = 0, int length = 4)
+   public static uint BNConvertToUInt(this byte[]? bytes, int offset = 0, int length = 4)
    {
       if (bytes == null)
          return 0;
@@ -313,7 +244,7 @@ public static class ExtensionArray
    /// <param name="offset">Offset inside the byte-array (optional, default: 0)</param>
    /// <param name="length">Length of the string (optional, default: 2)</param>
    /// <returns>short from the byte-array.</returns>
-   public static short BNConvertToShort(byte[]? bytes, int offset = 0, int length = 2)
+   public static short BNConvertToShort(this byte[]? bytes, int offset = 0, int length = 2)
    {
       if (bytes == null)
          return 0;
@@ -330,7 +261,7 @@ public static class ExtensionArray
    /// <param name="offset">Offset inside the byte-array (optional, default: 0)</param>
    /// <param name="length">Length of the string (optional, default: 2)</param>
    /// <returns>ushort from the byte-array.</returns>
-   public static ushort BNConvertToUShort(byte[]? bytes, int offset = 0, int length = 2)
+   public static ushort BNConvertToUShort(this byte[]? bytes, int offset = 0, int length = 2)
    {
       if (bytes == null)
          return 0;
@@ -371,6 +302,76 @@ public static class ExtensionArray
    {
       return matrix != null ? Enumerable.Range(0, matrix.GetLength(1)).Select(x => matrix[rowNumber, x]).ToArray() : default;
    }
+/*
+   /// <summary>
+   /// Extension method for arrays.
+   /// Shuffles an array.
+   /// </summary>
+   /// <param name="array">Array-instance to shuffle.</param>
+   /// <param name="seed">Seed for the PRNG (optional, default: 0 (=standard))</param>
+   /// <exception cref="ArgumentNullException"></exception>
+   public static void BNShuffle<T>(this T[]? array, int seed = 0)
+   {
+      if (array == null || array.Length <= 0)
+         throw new ArgumentNullException(nameof(array));
+
+      Random rnd = seed == 0 ? new Random() : new Random(seed);
+      int n = array.Length;
+      while (n > 1)
+      {
+         int k = rnd.Next(n--);
+         (array[n], array[k]) = (array[k], array[n]);
+      }
+   }
+
+   /// <summary>
+   /// Case insensitive 'Contains' per default.
+   /// </summary>
+   /// <param name="str">String array-instance.</param>
+   /// <param name="toCheck">String to check.</param>
+   /// <param name="comp">StringComparer (optional, default: StringComparer.OrdinalIgnoreCase)</param>
+   /// <returns>True if the string array contains the given string.</returns>
+   public static bool BNContains(this string[]? str, string? toCheck, StringComparer? comp = null)
+   {
+      if (str == null)
+         return false;
+
+      comp ??= StringComparer.OrdinalIgnoreCase;
+
+      return str.Contains(toCheck, comp);
+   }
+
+   /// <summary>
+   /// Dumps an array to a string.
+   /// </summary>
+   /// <param name="array">Array-instance to dump.</param>
+   /// <param name="prefix">Prefix for every element (optional, default: empty).</param>
+   /// <param name="postfix">Postfix for every element (optional, default: empty).</param>
+   /// <param name="appendNewLine">Append new line, otherwise use the given delimiter (optional, default: false).</param>
+   /// <param name="delimiter">Delimiter if appendNewLine is false (optional, default: "; ").</param>
+   /// <returns>String with lines for all array entries.</returns>
+   public static string? BNDump<T>(this T[]? array, string? prefix = "", string? postfix = "", bool appendNewLine = true, string delimiter = "; ")
+   {
+      if (array == null) // || array.Length <= 0)
+         return null;
+
+      StringBuilder sb = new();
+
+      foreach (T element in array)
+      {
+         if (0 < sb.Length)
+         {
+            sb.Append(appendNewLine ? Environment.NewLine : delimiter);
+         }
+
+         sb.Append(prefix);
+         sb.Append(element);
+         sb.Append(postfix);
+      }
+
+      return sb.ToString();
+   }
+*/
 
    #region Private methods
 

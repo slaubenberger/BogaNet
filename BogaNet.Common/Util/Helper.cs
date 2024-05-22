@@ -16,8 +16,6 @@ public abstract class Helper
 
    private static readonly Random _rnd = new();
 
-   private static string[]? _args = null;
-
    #endregion
 
    #region Properties
@@ -271,14 +269,14 @@ public abstract class Helper
       return null;
    }
 
-   /// <summary>Returns an argument for a name from the url or command line.</summary>
+   /// <summary>Returns a CLI argument for a name from the command line.</summary>
    /// <param name="name">Name for the argument</param>
-   /// <returns>Argument for a name from the url or command line.</returns>
-   public static string? GetArgument(string? name)
+   /// <returns>Argument for a name from the command line.</returns>
+   public static string? GetCLIArgument(string? name)
    {
       if (!string.IsNullOrEmpty(name))
       {
-         string[] args = GetArguments();
+         string[] args = GetCLIArguments();
 
          for (int ii = 0; ii < args.Length; ii++)
          {
@@ -290,11 +288,11 @@ public abstract class Helper
       return null;
    }
 
-   /// <summary>Returns all arguments from the url or command line.</summary>
-   /// <returns>Arguments from the url or command line.</returns>
-   public static string[] GetArguments()
+   /// <summary>Returns all CLI arguments.</summary>
+   /// <returns>Arguments from the command line.</returns>
+   public static string[] GetCLIArguments()
    {
-      return _args ??= Environment.GetCommandLineArgs();
+      return Environment.GetCommandLineArgs();
    }
 
 /*

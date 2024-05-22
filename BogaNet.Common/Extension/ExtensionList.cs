@@ -121,4 +121,19 @@ public static class ExtensionList
 
       return str.Contains(toCheck, comp);
    }
+
+   /// <summary>
+   /// Returns a list with lists of a given chunk size
+   /// </summary>
+   /// <param name="source">Source list</param>
+   /// <param name="chunkSize">Chunk size of the lists</param>
+   /// <returns>List with lists of a given chunk size</returns>
+   public static List<List<T>> BNChunkBy<T>(this IEnumerable<T> source, int chunkSize)
+   {
+      return source
+         .Select((x, i) => new { Index = i, Value = x })
+         .GroupBy(x => x.Index / chunkSize)
+         .Select(x => x.Select(v => v.Value).ToList())
+         .ToList();
+   }
 }
