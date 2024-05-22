@@ -213,7 +213,7 @@ public abstract class Constants
 
    #endregion
 
-   #region old, but interesting Java-stuff :-)
+   #region some old, but interesting Java-stuff :-)
 
    //TODO convert it when being used or free-time is available...
 
@@ -255,16 +255,6 @@ public abstract class Constants
 //		public static final BigDecimal FACTOR_BIT_TO_ZEBIBYTE = FACTOR_BIT_TO_BYTE.multiply(FACTOR_BIT_TO_ZEBIBIT);
 //		public static final BigDecimal FACTOR_BIT_TO_YOBIBYTE = FACTOR_BIT_TO_BYTE.multiply(FACTOR_BIT_TO_YOBIBIT);
 //		
-//		//length
-//		public static final BigDecimal FACTOR_INCH_TO_CM = new BigDecimal("2.54"); //inch to centimeters
-//		public static final BigDecimal FACTOR_FOOT_TO_M = new BigDecimal("0.3048"); //foot to meters
-//		public static final BigDecimal FACTOR_YARD_TO_M = new BigDecimal("0.9144"); //yard to meters
-//		public static final BigDecimal FACTOR_MILE_TO_M = new BigDecimal("1609.344"); //mile (terrestrial) to meters
-//		public static final BigDecimal FACTOR_NAUTICAL_MILE_TO_M = new BigDecimal("1852"); //nautical mile to meters
-//		public static final BigDecimal FACTOR_MM_TO_CM = BigDecimal.TEN; //millimeters to centimeters
-//		public static final BigDecimal FACTOR_CM_TO_M = HelperNumber.NUMBER_100; //centimeters to meters
-//		public static final BigDecimal FACTOR_M_TO_KM = HelperNumber.NUMBER_1000; //meters to kilometers
-//		
 //		//time
 //		public static final BigDecimal FACTOR_NANOSECOND_TO_SECOND = new BigDecimal("1000000000"); //nanoseconds to seconds
 //		public static final BigDecimal FACTOR_MICROSECOND_TO_SECOND = HelperNumber.NUMBER_1000000; //microseconds to seconds
@@ -275,15 +265,6 @@ public abstract class Constants
 //		public static final BigDecimal FACTOR_DAY_TO_WEEK = new BigDecimal("7"); //days to weeks
 //		public static final BigDecimal FACTOR_DAY_TO_MONTH = new BigDecimal("30"); //days to months
 //		public static final BigDecimal FACTOR_DAY_TO_YEAR = new BigDecimal("365"); //days to years
-//		
-//		//volume
-//		public static final BigDecimal FACTOR_MM3_TO_CM3 = HelperNumber.NUMBER_1000; //millimeters^3 to centimeters^3
-//		public static final BigDecimal FACTOR_CM3_TO_L = HelperNumber.NUMBER_1000; //centimeters^3 to liter
-//		public static final BigDecimal FACTOR_L_TO_M3 = HelperNumber.NUMBER_1000; //liter to m^3
-//		public static final BigDecimal FACTOR_PINT_TO_CM3 = new BigDecimal("473.176473"); //pObscuredInt to centimeters^3
-//		public static final BigDecimal FACTOR_QUART_TO_L = new BigDecimal("0.946326"); //quart to liter
-//		public static final BigDecimal FACTOR_GALLON_US_TO_L = new BigDecimal("3.785411784"); //gallon to liter
-//		public static final BigDecimal FACTOR_BARREL_TO_L = new BigDecimal("158.987294928"); //barrel to liter
 //		
 //		//weight
 //		public static final BigDecimal FACTOR_MILLIGRAM_TO_GRAM = HelperNumber.NUMBER_1000; //milligram to gram

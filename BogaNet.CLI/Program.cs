@@ -33,9 +33,9 @@ public static class Program
 
    private static void testConvert()
    {
-      decimal inVal = 1;
+      decimal inVal = 1m;
 
-      decimal outVal = UnitArea.M2.Convert(UnitArea.CM2, inVal);
+      decimal outVal = UnitVolume.GALLON.Convert(UnitVolume.LITER, inVal);
 
       _logger.LogInformation($"{inVal} => {outVal}");
    }
