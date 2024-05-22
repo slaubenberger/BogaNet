@@ -85,7 +85,7 @@ public abstract class HashHelper
    /// <exception cref="ArgumentNullException"></exception>
    public static byte[] SHA256(byte[]? input)
    {
-      using SHA256? sha256 = System.Security.Cryptography.SHA256.Create();
+      using SHA256 sha256 = System.Security.Cryptography.SHA256.Create();
       return Hash(input, sha256);
    }
 
@@ -97,7 +97,7 @@ public abstract class HashHelper
    /// <exception cref="ArgumentNullException"></exception>
    public static byte[] SHA256(string? text)
    {
-      using SHA256? sha256 = System.Security.Cryptography.SHA256.Create();
+      using SHA256 sha256 = System.Security.Cryptography.SHA256.Create();
       return Hash(text, sha256);
    }
 
@@ -109,7 +109,7 @@ public abstract class HashHelper
    /// <exception cref="ArgumentNullException"></exception>
    public static string SHA256AsString(byte[]? input)
    {
-      using SHA256? sha256 = System.Security.Cryptography.SHA256.Create();
+      using SHA256 sha256 = System.Security.Cryptography.SHA256.Create();
       return HashAsString(input, sha256);
    }
 
@@ -121,10 +121,10 @@ public abstract class HashHelper
    /// <exception cref="ArgumentNullException"></exception>
    public static string SHA256AsString(string? text)
    {
-      using SHA256? sha256 = System.Security.Cryptography.SHA256.Create();
+      using SHA256 sha256 = System.Security.Cryptography.SHA256.Create();
       return HashAsString(text, sha256);
    }
-   
+
    /// <summary>
    /// Generates a SHA512-value as byte-array with a given byte-array
    /// </summary>
@@ -133,7 +133,7 @@ public abstract class HashHelper
    /// <exception cref="ArgumentNullException"></exception>
    public static byte[] SHA512(byte[]? input)
    {
-      using SHA512? sha512 = System.Security.Cryptography.SHA512.Create();
+      using SHA512 sha512 = System.Security.Cryptography.SHA512.Create();
       return Hash(input, sha512);
    }
 
@@ -145,7 +145,7 @@ public abstract class HashHelper
    /// <exception cref="ArgumentNullException"></exception>
    public static byte[] SHA512(string? text)
    {
-      using SHA512? sha512 = System.Security.Cryptography.SHA512.Create();
+      using SHA512 sha512 = System.Security.Cryptography.SHA512.Create();
       return Hash(text, sha512);
    }
 
@@ -157,7 +157,7 @@ public abstract class HashHelper
    /// <exception cref="ArgumentNullException"></exception>
    public static string SHA512AsString(byte[]? input)
    {
-      using SHA512? sha512 = System.Security.Cryptography.SHA512.Create();
+      using SHA512 sha512 = System.Security.Cryptography.SHA512.Create();
       return HashAsString(input, sha512);
    }
 
@@ -169,7 +169,7 @@ public abstract class HashHelper
    /// <exception cref="ArgumentNullException"></exception>
    public static string SHA512AsString(string? text)
    {
-      using SHA512? sha512 = System.Security.Cryptography.SHA512.Create();
+      using SHA512 sha512 = System.Security.Cryptography.SHA512.Create();
       return HashAsString(text, sha512);
    }
 }

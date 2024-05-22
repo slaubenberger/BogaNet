@@ -7,6 +7,7 @@ namespace BogaNet.CLI;
 
 /// <summary>
 /// Main class for the CLI application
+/// This is mainly used for some quick and dirty experiments
 /// </summary>
 public static class Program
 {
@@ -16,9 +17,11 @@ public static class Program
    {
       GlobalLogging.LoggerFactory = new NLogLoggerFactory();
 
-      _logger.LogTrace("Hi there, this is a test app!");
+      _logger.LogDebug("Hi there, this is a test app!");
 
-      testConvert();
+      //_logger.LogInformation(BogaNet.IO.FileHelper.TempDirectory);
+
+      //testConvert();
       //testObf();
       //testToString();
 
@@ -27,15 +30,24 @@ public static class Program
 
    public static void Exit(int code)
    {
+      if (code == 0)
+      {
+         _logger.LogDebug($"Application exited with code {code}");
+      }
+      else
+      {
+         _logger.LogError($"Application exited with an error code {code}");
+      }
+
       NLog.LogManager.Shutdown();
       Environment.Exit(code);
    }
 
    private static void testConvert()
    {
-      decimal inVal = 1m;
+      const decimal inVal = 1m;
 
-      decimal outVal = UnitVolume.GALLON.Convert(UnitVolume.LITER, inVal);
+      decimal outVal = UnitVolume.GALLON.BNConvert(UnitVolume.LITER, inVal);
 
       _logger.LogInformation($"{inVal} => {outVal}");
    }

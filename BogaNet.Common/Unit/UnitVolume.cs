@@ -15,7 +15,6 @@ public enum UnitVolume
    FOOT3,
    PINT,
    GALLON,
-
    BARREL
    //TODO add more exotic volumes?
 }
@@ -40,7 +39,14 @@ public static class ExtensionUnitVolume //TODO implement
 
    public static decimal FACTOR_MM3_TO_L => FACTOR_MM3_TO_CM3 * FACTOR_CM3_TO_L;
 
-   public static decimal Convert(this UnitVolume fromUnit, UnitVolume toUnit, decimal inVal)
+   /// <summary>
+   /// Converts a value from one unit to another
+   /// </summary>
+   /// <param name="fromUnit">Source unit</param>
+   /// <param name="toUnit">Target unit</param>
+   /// <param name="inVal">Value of the source unit</param>
+   /// <returns>Value in the target unit</returns>
+   public static decimal BNConvert(this UnitVolume fromUnit, UnitVolume toUnit, decimal inVal)
    {
       if (IgnoreSameUnit && fromUnit == toUnit)
          return inVal;

@@ -23,7 +23,7 @@ public abstract class MimeTypeMap
    /// <param name="str">The filename or extension.</param>
    /// <param name="mimeType">The variable to store the MIME type.</param>
    /// <returns>The MIME type.</returns>
-   /// <exception cref="ArgumentNullException" />
+   /// <exception cref="ArgumentNullException"></exception>
    public static bool TryGetMimeType(string? str, out string? mimeType)
    {
       if (str == null)
@@ -54,7 +54,7 @@ public abstract class MimeTypeMap
    /// </summary>
    /// <param name="str">The filename or extension.</param>
    /// <returns>The MIME type.</returns>
-   /// <exception cref="ArgumentNullException" />
+   /// <exception cref="ArgumentNullException"></exception>
    public static string? GetMimeType(string? str)
    {
       return TryGetMimeType(str, out string? result) ? result : DefaultMimeType;
@@ -66,8 +66,7 @@ public abstract class MimeTypeMap
    /// <param name="mimeType">Type of the MIME.</param>
    /// <param name="throwErrorIfNotFound">if set to <c>true</c>, throws error if extension's not found.</param>
    /// <returns>The extension.</returns>
-   /// <exception cref="ArgumentNullException" />
-   /// <exception cref="ArgumentException" />
+   /// <exception cref="ArgumentNullException"></exception>
    public static string? GetExtension(string? mimeType, bool throwErrorIfNotFound = true)
    {
       if (mimeType == null)
@@ -89,7 +88,7 @@ public abstract class MimeTypeMap
 
    #region Private methods
 
-   private static IDictionary<string, string> buildMappings()
+   private static Dictionary<string, string> buildMappings()
    {
       Dictionary<string, string> mappings = new(StringComparer.OrdinalIgnoreCase)
       {

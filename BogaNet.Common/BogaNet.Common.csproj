@@ -11,10 +11,11 @@
         <Description>NET 8 version of Boga, a library with many little helpers to speed up C# development.</Description>
         <RepositoryUrl>https://github.com/slaubenberger/BogaNet</RepositoryUrl>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageTags>AES Crypto File Directory Path Hash SHA JSON Obfuscation XML Network IP MIME</PackageTags>
+        <PackageTags>AES Crypto File Directory Path Hash SHA JSON Obfuscation XML Network IP MIME Bytes Extension</PackageTags>
         <PackageReleaseNotes>Initial release</PackageReleaseNotes>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <!--<PackageIcon></PackageIcon>-->
+        <!-- <PackageIconUrl>https://www.crosstales.com/media/data/BogaNet/logo_boga.png</PackageIconUrl> -->
+        <PackageIcon>logo_boga.png</PackageIcon>
         <PackageProjectUrl>https://www.crosstales.com/media/data/BogaNet/api/</PackageProjectUrl>
     </PropertyGroup>
 
@@ -25,5 +26,6 @@
 
     <ItemGroup>
         <None Include="README.md" Pack="true" PackagePath="\"/>
+        <None Include="../Resources/logo_boga.png" Pack="true" PackagePath="\"/>
     </ItemGroup>
 </Project>

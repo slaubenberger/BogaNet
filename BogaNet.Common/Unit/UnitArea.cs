@@ -18,7 +18,6 @@ public enum UnitArea
    YARD2,
    PERCH,
    ACRE,
-
    MILE2
    //TODO add more exotic areas?
 }
@@ -50,7 +49,14 @@ public static class ExtensionUnitArea
    public static decimal FACTOR_INCH2_TO_M2 => FACTOR_INCH_TO_CM2 * FACTOR_CM2_TO_M2;
    public static decimal FACTOR_M2_TO_MILE2 => FACTOR_M2_TO_KM2 * FACTOR_MILE2_TO_KM2;
 
-   public static decimal Convert(this UnitArea fromUnit, UnitArea toUnit, decimal inVal)
+   /// <summary>
+   /// Converts a value from one unit to another
+   /// </summary>
+   /// <param name="fromUnit">Source unit</param>
+   /// <param name="toUnit">Target unit</param>
+   /// <param name="inVal">Value of the source unit</param>
+   /// <returns>Value in the target unit</returns>
+   public static decimal BNConvert(this UnitArea fromUnit, UnitArea toUnit, decimal inVal)
    {
       if (IgnoreSameUnit && fromUnit == toUnit)
          return inVal;

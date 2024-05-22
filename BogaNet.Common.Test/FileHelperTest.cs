@@ -735,7 +735,7 @@ public class FileHelperTest
    public void WriteAndReadAllText_Test()
    {
       string fname = FileHelper.TempFile;
-      string text = Constants.SIGNS;
+      const string text = Constants.SIGNS;
 
       Assert.True(FileHelper.WriteAllText(fname, text));
 

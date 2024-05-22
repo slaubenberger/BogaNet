@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using System.Text;
+using BogaNet.Util;
 
 namespace BogaNet.IO;
 
@@ -27,6 +28,20 @@ public abstract class FileHelper
    /// <summary>Returns the temporary directory path from the device.</summary>
    /// <returns>Temporary directory path of the device</returns>
    public static string TempPath => Path.GetTempPath();
+
+   /// <summary>Returns a temporary directory from the device.</summary>
+   /// <returns>Temporary directory</returns>
+   public static string TempDirectory
+   {
+      get
+      {
+         string name = $"{TempPath}{Helper.ShortGuid}";
+
+         CreateDirectory(name);
+
+         return name;
+      }
+   }
 
    #endregion
 

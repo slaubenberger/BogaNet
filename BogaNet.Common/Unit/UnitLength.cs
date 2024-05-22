@@ -15,7 +15,6 @@ public enum UnitLength
    FOOT,
    YARD,
    MILE,
-
    NAUTICAL_MILE
    //TODO add more exotic lengths?
 }
@@ -41,7 +40,14 @@ public static class ExtensionUnitLength
    public static decimal FACTOR_MM_TO_M => FACTOR_MM_TO_CM * FACTOR_CM_TO_M;
    public static decimal FACTOR_INCH_TO_M => FACTOR_INCH_TO_CM / FACTOR_CM_TO_M;
 
-   public static decimal Convert(this UnitLength fromUnit, UnitLength toUnit, decimal inVal)
+   /// <summary>
+   /// Converts a value from one unit to another
+   /// </summary>
+   /// <param name="fromUnit">Source unit</param>
+   /// <param name="toUnit">Target unit</param>
+   /// <param name="inVal">Value of the source unit</param>
+   /// <returns>Value in the target unit</returns>
+   public static decimal BNConvert(this UnitLength fromUnit, UnitLength toUnit, decimal inVal)
    {
       if (IgnoreSameUnit && fromUnit == toUnit)
          return inVal;

@@ -196,20 +196,7 @@ public abstract class Constants
    #region Properties
 
    /// <summary>URL prefix for files.</summary>
-   public static string PREFIX_FILE
-   {
-      get
-      {
-         //TODO determine platform
-
-         //if ("Windows")
-         //{
-         //   return "file:///";
-         //}
-
-         return "file://";
-      }
-   }
+   public static string PREFIX_FILE => "file://"; //TODO determine platform?
 
    #endregion
 
