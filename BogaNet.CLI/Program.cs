@@ -19,7 +19,7 @@ public static class Program
 
       _logger.LogDebug("Hi there, this is a test app!");
 
-      //_logger.LogInformation(BogaNet.IO.FileHelper.TempDirectory);
+      _logger.LogInformation(BogaNet.IO.FileHelper.TempDirectory);
 
       testConvert();
       //testObf();

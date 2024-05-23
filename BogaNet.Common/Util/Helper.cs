@@ -24,18 +24,6 @@ public abstract class Helper
    /// <returns>Culture of the application.</returns>
    public static CultureInfo BaseCulture => CultureInfo.CurrentCulture;
 
-   /// <summary>
-   /// Returns a short GUID with a length of 22 characters (instead 36 of the normal Guid)
-   /// </summary>
-   public static string? ShortGuid
-   {
-      get
-      {
-         string? uid = Guid.NewGuid().ToByteArray().BNToBase64();
-         return uid?.Substring(0, uid.Length - 2).Replace("/", "_").Replace("+", "-");
-      }
-   }
-
    #endregion
 
    #region Public methods

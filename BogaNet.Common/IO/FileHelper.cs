@@ -37,7 +37,7 @@ public abstract class FileHelper
    {
       get
       {
-         string name = $"{TempPath}{Helper.ShortGuid}";
+         string name = $"{TempPath}{ShortUID.NewShortUID()}";
 
          CreateDirectory(name);
 
