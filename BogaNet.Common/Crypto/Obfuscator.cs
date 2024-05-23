@@ -53,7 +53,7 @@ public abstract class Obfuscator
 
       byte[]? result = Obfuscate(_encoding.GetBytes(plainText), IV);
 
-      return result != null ? Convert.ToBase64String(result).Replace('=', '!').Replace('+', '-').Replace('/', '_') : null;
+      return result?.BNToBase64().Replace('=', '!').Replace('+', '-').Replace('/', '_');
    }
 
    /// <summary>
@@ -94,7 +94,7 @@ public abstract class Obfuscator
       if (string.IsNullOrEmpty(obfuscatedText))
          return obfuscatedText;
 
-      byte[]? result = Deobfuscate(Convert.FromBase64String(obfuscatedText.Replace('!', '=').Replace('-', '+').Replace('_', '/')), IV);
+      byte[]? result = Deobfuscate(obfuscatedText.Replace('!', '=').Replace('-', '+').Replace('_', '/').BNFromBase64ToByteArray(), IV);
 
       Encoding _encoding = encoding ?? Encoding.UTF8;
 

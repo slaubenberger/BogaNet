@@ -19,6 +19,13 @@ public static class Program
 
       _logger.LogDebug("Hi there, this is a test app!");
 /*
+      ushort v1 = 123;
+      var bytes = v1.BNToByteArray();
+      ushort v2 = bytes.BNToNumber<ushort>();
+      
+      _logger.LogDebug($"{v1} - {v2}");
+*/
+/*
       _logger.LogInformation(BogaNet.IO.FileHelper.TempDirectory);
       _logger.LogInformation(BogaNet.IO.FileHelper.TempFile);
       _logger.LogInformation(BogaNet.IO.FileHelper.CurrentDirectory);

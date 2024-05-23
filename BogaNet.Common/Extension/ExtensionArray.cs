@@ -1,4 +1,6 @@
 ﻿using System.Text;
+using Microsoft.Extensions.Logging;
+using System.Numerics;
 
 namespace BogaNet;
 
@@ -7,6 +9,8 @@ namespace BogaNet;
 /// </summary>
 public static class ExtensionArray
 {
+   private static readonly ILogger _logger = GlobalLogging.CreateLogger("ExtensionArray");
+
    /*
    /// <summary>
    /// Generates a string array with all entries (via CTToString).
@@ -105,7 +109,7 @@ public static class ExtensionArray
    /// <param name="bytes">Input string as byte-array.</param>
    /// <param name="encoding">Encoding of the string (optional, default: UTF8).</param>
    /// <returns>String from the byte-array.</returns>
-   public static string? BNConvertToString(this byte[]? bytes, Encoding? encoding = null)
+   public static string? BNToString(this byte[]? bytes, Encoding? encoding = null)
    {
       if (bytes == null)
          return null;
@@ -123,152 +127,88 @@ public static class ExtensionArray
    /// <param name="length">Length of the string</param>
    /// <param name="encoding">Encoding of the string (optional, default: UTF8).</param>
    /// <returns>String from the byte-array.</returns>
-   public static string? BNConvertToString(this byte[]? bytes, int offset, int length, Encoding? encoding = null)
+   public static string? BNToString(this byte[]? bytes, int offset, int length, Encoding? encoding = null)
    {
       if (bytes == null)
          return null;
 
       byte[] content = new byte[length];
       Buffer.BlockCopy(bytes, offset, content, 0, length);
-      string? res = content.BNConvertToString(encoding);
+      string? res = content.BNToString(encoding);
       return res?.Trim('\0');
    }
 
    /// <summary>
-   /// Converts a byte-array to a double.
+   /// Converts a byte-array to a Number.
    /// </summary>
    /// <param name="bytes">Byte-array</param>
    /// <param name="offset">Offset inside the byte-array (optional, default: 0)</param>
-   /// <param name="length">Length of the string (optional, default: 8)</param>
-   /// <returns>double from the byte-array.</returns>
-   public static double BNConvertToDouble(this byte[]? bytes, int offset = 0, int length = 8)
+   /// <returns>Number from the byte-array.</returns>
+   public static T BNToNumber<T>(this byte[]? bytes, int offset = 0) where T : INumber<T>
+   //public unsafe static T BNToNumber<T>(this byte[]? bytes, int offset = 0) where T : INumber<T>
    {
       if (bytes == null)
-         return 0f;
+         return default;
 
-      byte[] content = new byte[length];
-      Buffer.BlockCopy(bytes, offset, content, 0, length);
-      return BitConverter.ToDouble(content, 0);
-   }
+      Type type = typeof(T);
+      byte[] content;
 
-   /// <summary>
-   /// Converts a byte-array to a float.
-   /// </summary>
-   /// <param name="bytes">Byte-array</param>
-   /// <param name="offset">Offset inside the byte-array (optional, default: 0)</param>
-   /// <param name="length">Length of the string (optional, default: 4)</param>
-   /// <returns>float from the byte-array.</returns>
-   public static float BNConvertToFloat(this byte[]? bytes, int offset = 0, int length = 4)
-   {
-      if (bytes == null)
-         return 0f;
+      switch (type)
+      {
+         case Type t when t == typeof(double):
+            content = new byte[8];
+            Buffer.BlockCopy(bytes, offset, content, 0, 8);
+            return T.CreateTruncating(BitConverter.ToDouble(content, 0));
+         case Type t when t == typeof(float):
+            content = new byte[4];
+            Buffer.BlockCopy(bytes, offset, content, 0, 4);
+            return T.CreateTruncating(BitConverter.ToSingle(content, 0));
+         case Type t when t == typeof(long):
+            content = new byte[8];
+            Buffer.BlockCopy(bytes, offset, content, 0, 8);
+            return T.CreateTruncating(BitConverter.ToInt64(content, 0));
+         case Type t when t == typeof(ulong):
+            content = new byte[8];
+            Buffer.BlockCopy(bytes, offset, content, 0, 8);
+            return T.CreateTruncating(BitConverter.ToUInt64(content, 0));
+         case Type t when t == typeof(int):
+            content = new byte[4];
+            Buffer.BlockCopy(bytes, offset, content, 0, 4);
+            return T.CreateTruncating(BitConverter.ToInt32(content, 0));
+         case Type t when t == typeof(uint):
+            content = new byte[4];
+            Buffer.BlockCopy(bytes, offset, content, 0, 4);
+            return T.CreateTruncating(BitConverter.ToUInt32(content, 0));
+         case Type t when t == typeof(short):
+            content = new byte[2];
+            Buffer.BlockCopy(bytes, offset, content, 0, 2);
+            return T.CreateTruncating(BitConverter.ToInt16(content, 0));
+         case Type t when t == typeof(ushort):
+            content = new byte[2];
+            Buffer.BlockCopy(bytes, offset, content, 0, 2);
+            return T.CreateTruncating(BitConverter.ToUInt16(content, 0));
+         /*
+         case Type t when t == typeof(nint):
+            int sizeInt = sizeof(nint);
+            content = new byte[sizeInt];
+            Buffer.BlockCopy(bytes, offset, content, 0, sizeInt);
+            return T.CreateTruncating(BitConverter.ToUInt16(content, 0));
+         case Type t when t == typeof(nuint):
+            int size = sizeof(nuint);
+            content = new byte[size];
+            Buffer.BlockCopy(bytes, offset, content, 0, size);
+            return T.CreateTruncating(BitConverter.ToUInt16(content, 0));
+         */
+         case Type t when t == typeof(byte):
+            return T.CreateTruncating(bytes[offset]);
+         case Type t when t == typeof(sbyte):
+            return T.CreateTruncating(bytes[offset]);
+         default:
+            _logger.LogWarning("Number type is not supported!");
+            break;
+      }
 
-      byte[] content = new byte[length];
-      Buffer.BlockCopy(bytes, offset, content, 0, length);
-      return BitConverter.ToSingle(content, 0);
-   }
-
-   /// <summary>
-   /// Converts a byte-array to a long.
-   /// </summary>
-   /// <param name="bytes">Byte-array</param>
-   /// <param name="offset">Offset inside the byte-array (optional, default: 0)</param>
-   /// <param name="length">Length of the string (optional, default: 8)</param>
-   /// <returns>long from the byte-array.</returns>
-   public static long BNConvertToLong(this byte[]? bytes, int offset = 0, int length = 8)
-   {
-      if (bytes == null)
-         return 0;
-
-      byte[] content = new byte[length];
-      Buffer.BlockCopy(bytes, offset, content, 0, length);
-      return BitConverter.ToInt64(content, 0);
-   }
-
-
-   /// <summary>
-   /// Converts a byte-array to a long.
-   /// </summary>
-   /// <param name="bytes">Byte-array</param>
-   /// <param name="offset">Offset inside the byte-array (optional, default: 0)</param>
-   /// <param name="length">Length of the string (optional, default: 8)</param>
-   /// <returns>long from the byte-array.</returns>
-   public static ulong BNConvertToULong(this byte[]? bytes, int offset = 0, int length = 8)
-   {
-      if (bytes == null)
-         return 0;
-
-      byte[] content = new byte[length];
-      Buffer.BlockCopy(bytes, offset, content, 0, length);
-      return BitConverter.ToUInt64(content, 0);
-   }
-
-   /// <summary>
-   /// Converts a byte-array to an int.
-   /// </summary>
-   /// <param name="bytes">Byte-array</param>
-   /// <param name="offset">Offset inside the byte-array (optional, default: 0)</param>
-   /// <param name="length">Length of the string (optional, default: 4)</param>
-   /// <returns>int from the byte-array.</returns>
-   public static int BNConvertToInt(this byte[]? bytes, int offset = 0, int length = 4)
-   {
-      if (bytes == null)
-         return 0;
-
-      byte[] content = new byte[length];
-      Buffer.BlockCopy(bytes, offset, content, 0, length);
-      return BitConverter.ToInt32(content, 0);
-   }
-
-   /// <summary>
-   /// Converts a byte-array to an uint.
-   /// </summary>
-   /// <param name="bytes">Byte-array</param>
-   /// <param name="offset">Offset inside the byte-array (optional, default: 0)</param>
-   /// <param name="length">Length of the string (optional, default: 4)</param>
-   /// <returns>uint from the byte-array.</returns>
-   public static uint BNConvertToUInt(this byte[]? bytes, int offset = 0, int length = 4)
-   {
-      if (bytes == null)
-         return 0;
-
-      byte[] content = new byte[length];
-      Buffer.BlockCopy(bytes, offset, content, 0, length);
-      return BitConverter.ToUInt32(content, 0);
-   }
-
-   /// <summary>
-   /// Converts a byte-array to a short.
-   /// </summary>
-   /// <param name="bytes">Byte-array</param>
-   /// <param name="offset">Offset inside the byte-array (optional, default: 0)</param>
-   /// <param name="length">Length of the string (optional, default: 2)</param>
-   /// <returns>short from the byte-array.</returns>
-   public static short BNConvertToShort(this byte[]? bytes, int offset = 0, int length = 2)
-   {
-      if (bytes == null)
-         return 0;
-
-      byte[] content = new byte[length];
-      Buffer.BlockCopy(bytes, offset, content, 0, length);
-      return BitConverter.ToInt16(content, 0);
-   }
-
-   /// <summary>
-   /// Converts a byte-array to an ushort.
-   /// </summary>
-   /// <param name="bytes">Byte-array</param>
-   /// <param name="offset">Offset inside the byte-array (optional, default: 0)</param>
-   /// <param name="length">Length of the string (optional, default: 2)</param>
-   /// <returns>ushort from the byte-array.</returns>
-   public static ushort BNConvertToUShort(this byte[]? bytes, int offset = 0, int length = 2)
-   {
-      if (bytes == null)
-         return 0;
-
-      byte[] content = new byte[length];
-      Buffer.BlockCopy(bytes, offset, content, 0, length);
-      return BitConverter.ToUInt16(content, 0);
+      return default;
    }
 
    /// <summary>
