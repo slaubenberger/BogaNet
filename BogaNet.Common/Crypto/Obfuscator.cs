@@ -53,7 +53,7 @@ public abstract class Obfuscator
 
       byte[]? result = Obfuscate(_encoding.GetBytes(plainText), IV);
 
-      return result?.BNToBase64().Replace('=', '!').Replace('+', '-').Replace('/', '_');
+      return result?.BNToBase64()?.Replace('=', '!').Replace('+', '-').Replace('/', '_');
    }
 
    /// <summary>

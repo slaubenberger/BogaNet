@@ -27,7 +27,7 @@ public abstract class FileHelper
 
    /// <summary>Returns the temporary directory path.</summary>
    /// <returns>Temporary directory path of the device</returns>
-   public static string TempPath => ValidatePath(Path.GetTempPath());
+   public static string TempPath => ValidatePath(Path.GetTempPath()) ?? string.Empty;
 
    /// <summary>Returns a temporary directory.</summary>
    /// <returns>Temporary directory</returns>
@@ -35,7 +35,7 @@ public abstract class FileHelper
    {
       get
       {
-         string name = ValidatePath($"{TempPath}{ShortUID.NewShortUID()}");
+         string name = ValidatePath($"{TempPath}{ShortUID.NewShortUID()}") ?? string.Empty;
 
          CreateDirectory(name);
 
@@ -45,7 +45,7 @@ public abstract class FileHelper
 
    /// <summary>Returns the current directory.</summary>
    /// <returns>Current directory</returns>
-   public static string CurrentDirectory => ValidatePath(Environment.CurrentDirectory);
+   public static string CurrentDirectory => ValidatePath(Environment.CurrentDirectory) ?? string.Empty;
 
    #endregion
 
@@ -1087,7 +1087,7 @@ public abstract class FileHelper
    /// <param name="encoding">Encoding of the text (optional, default: UTF8)</param>
    /// <returns>Text-content of the file</returns>
    /// <exception cref="Exception"></exception>
-   public static async Task<string> ReadAllTextAsync(string? path, Encoding? encoding = null)
+   public static async Task<string?> ReadAllTextAsync(string? path, Encoding? encoding = null)
    {
       if (path != null)
       {
@@ -1123,7 +1123,7 @@ public abstract class FileHelper
    /// <param name="encoding">Encoding of the text (optional, default: UTF8)</param>
    /// <returns>Array of text lines from the file</returns>
    /// <exception cref="Exception"></exception>
-   public static async Task<string[]> ReadAllLinesAsync(string? path, Encoding? encoding = null)
+   public static async Task<string[]?> ReadAllLinesAsync(string? path, Encoding? encoding = null)
    {
       if (path != null)
       {
@@ -1157,7 +1157,7 @@ public abstract class FileHelper
    /// <param name="path">Path to the file</param>
    /// <returns>Byte-content of the file</returns>
    /// <exception cref="Exception"></exception>
-   public static async Task<byte[]>? ReadAllBytesAsync(string? path)
+   public static async Task<byte[]?> ReadAllBytesAsync(string? path)
    {
       if (path != null)
       {

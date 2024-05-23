@@ -83,7 +83,6 @@ public static class ExtensionNumber
          return null;
 
       Type type = typeof(T);
-      byte[] content;
 
       switch (type)
       {

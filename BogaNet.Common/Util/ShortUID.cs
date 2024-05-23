@@ -64,8 +64,8 @@ public static class ExtensionShortUID
    {
       try
       {
-         string guidText = uid.Code.Replace("_", "/").Replace("-", "+") + "==";
-         Guid guid = new(guidText.BNFromBase64ToByteArray());
+         string guidText = uid?.Code.Replace("_", "/").Replace("-", "+") + "==";
+         Guid guid = new(guidText.BNFromBase64ToByteArray() ?? Array.Empty<byte>());
 
          return guid;
       }
@@ -84,6 +84,6 @@ public static class ExtensionShortUID
    public static ShortUID BNToShortUID(this Guid uid)
    {
       string? guid = uid.ToByteArray().BNToBase64();
-      return new ShortUID(guid?.Substring(0, guid.Length - 2).Replace("/", "_").Replace("+", "-"));
+      return new ShortUID(guid?.Substring(0, guid.Length - 2).Replace("/", "_").Replace("+", "-") ?? string.Empty);
    }
 }

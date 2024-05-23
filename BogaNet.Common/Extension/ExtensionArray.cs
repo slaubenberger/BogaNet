@@ -144,7 +144,7 @@ public static class ExtensionArray
    /// <param name="bytes">Byte-array</param>
    /// <param name="offset">Offset inside the byte-array (optional, default: 0)</param>
    /// <returns>Number from the byte-array.</returns>
-   public static T BNToNumber<T>(this byte[]? bytes, int offset = 0) where T : INumber<T>
+   public static T? BNToNumber<T>(this byte[]? bytes, int offset = 0) where T : INumber<T>
    //public unsafe static T BNToNumber<T>(this byte[]? bytes, int offset = 0) where T : INumber<T>
    {
       if (bytes == null)
