@@ -522,7 +522,7 @@ public static class ExtensionString
    /// <param name="filler">Filler charachter for the string (optional, default ' ')</param>
    /// <param name="padRight">Right padding - otherwise left padding (optional, default: true)</param>
    /// <returns>Fix length string</returns>
-   public static string BNFixedLength(this string? str, int length, char filler = ' ', bool padRight = true) //TODO replace with BNFixedLength
+   public static string BNFixedLength(this string? str, int length, char filler = ' ', bool padRight = true)
    {
       if (str == null)
          return new string(filler, length);

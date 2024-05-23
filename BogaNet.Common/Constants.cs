@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using BogaNet.Util;
 
 namespace BogaNet;
 
@@ -193,7 +194,7 @@ public abstract class Constants
    #region Properties
 
    /// <summary>URL prefix for files.</summary>
-   public static string PREFIX_FILE => "file://"; //TODO determine platform?
+   public static string PREFIX_FILE => Helper.isWindows ? "file:///" : "file://";
 
    #endregion
 

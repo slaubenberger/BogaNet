@@ -20,6 +20,31 @@ public abstract class Helper
 
    #region Properties
 
+   /// <summary>
+   /// True if the current platform is Windows
+   /// </summary>
+   public static bool isWindows => System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.Windows);
+
+   /// <summary>
+   /// True if the current platform is Mac
+   /// </summary>
+   public static bool isOSX => System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.OSX);
+
+   /// <summary>
+   /// True if the current platform is Linux
+   /// </summary>
+   public static bool isLinux => System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.Linux);
+
+   /// <summary>
+   /// True if the current platform is FreeBSD
+   /// </summary>
+   public static bool isFreeBSD => System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.FreeBSD);
+
+   /// <summary>
+   /// True if the current platform is Unix-based
+   /// </summary>
+   public static bool isUnix => isLinux || isFreeBSD || isOSX;
+
    /// <summary>The current culture of the application.</summary>
    /// <returns>Culture of the application.</returns>
    public static CultureInfo BaseCulture => CultureInfo.CurrentCulture;

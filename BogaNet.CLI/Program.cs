@@ -18,10 +18,13 @@ public static class Program
       GlobalLogging.LoggerFactory = new NLogLoggerFactory();
 
       _logger.LogDebug("Hi there, this is a test app!");
-
+/*
       _logger.LogInformation(BogaNet.IO.FileHelper.TempDirectory);
-
-      testConvert();
+      _logger.LogInformation(BogaNet.IO.FileHelper.TempFile);
+      _logger.LogInformation(BogaNet.IO.FileHelper.CurrentDirectory);
+      _logger.LogInformation(BogaNet.IO.FileHelper.TempPath);
+*/
+      //testConvert();
       //testObf();
       //testToString();
 

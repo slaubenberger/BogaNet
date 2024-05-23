@@ -54,6 +54,17 @@ public abstract class JsonHelper
    /// <exception cref="Exception"></exception>
    public static bool SerializeToFile(object? obj, string? path, JsonSerializerSettings? settings = null)
    {
+      return SerializeToFileAsync(obj, path, settings).GetAwaiter().GetResult();
+   }
+
+   /// <summary>Serialize an object to an JSON-file asynchronusly.</summary>
+   /// <param name="obj">Object to serialize.</param>
+   /// <param name="path">File name of the JSON.</param>
+   /// <param name="settings">Serializer settings (optional).</param>
+   /// <returns>True if the operation was successful</returns>
+   /// <exception cref="Exception"></exception>
+   public static async Task<bool> SerializeToFileAsync(object? obj, string? path, JsonSerializerSettings? settings = null)
+   {
       if (obj == null)
          throw new ArgumentNullException(nameof(obj));
       if (path == null)
@@ -61,7 +72,7 @@ public abstract class JsonHelper
 
       try
       {
-         return FileHelper.WriteAllText(path, SerializeToString(obj, settings));
+         return await FileHelper.WriteAllTextAsync(path, SerializeToString(obj, settings));
       }
       catch (Exception ex)
       {
@@ -98,12 +109,22 @@ public abstract class JsonHelper
    /// <exception cref="Exception"></exception>
    public static T? DeserializeFromFile<T>(string? path, JsonSerializerSettings? settings = null)
    {
+      return DeserializeFromFileAsync<T>(path, settings).GetAwaiter().GetResult();
+   }
+
+   /// <summary>Deserialize a JSON-file to an object asynchronusly.</summary>
+   /// <param name="path">JSON-file of the object</param>
+   /// <param name="settings">Serializer settings (optional).</param>
+   /// <returns>Object</returns>
+   /// <exception cref="Exception"></exception>
+   public static async Task<T?> DeserializeFromFileAsync<T>(string? path, JsonSerializerSettings? settings = null)
+   {
       if (path == null)
          throw new ArgumentNullException(nameof(path));
 
       try
       {
-         return DeserializeFromString<T>(File.ReadAllText(path), settings);
+         return DeserializeFromString<T>(await File.ReadAllTextAsync(path), settings);
       }
       catch (Exception ex)
       {

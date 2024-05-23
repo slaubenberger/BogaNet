@@ -13,11 +13,22 @@ public static class ExtensionStream
    /// <exception cref="ArgumentNullException"></exception>
    public static byte[] BNReadFully(this Stream? input)
    {
+      return BNReadFullyAsync(input).GetAwaiter().GetResult();
+   }
+
+   /// <summary>
+   /// Reads the full content of a Stream asynchronusly.
+   /// </summary>
+   /// <param name="input">Stream-instance to read.</param>
+   /// <returns>Byte-array of the Stream content.</returns>
+   /// <exception cref="ArgumentNullException"></exception>
+   public static async Task<byte[]> BNReadFullyAsync(this Stream? input)
+   {
       if (input == null)
          throw new ArgumentNullException(nameof(input));
 
       using MemoryStream ms = new();
-      input.CopyTo(ms);
+      await input.CopyToAsync(ms);
       return ms.ToArray();
    }
 }

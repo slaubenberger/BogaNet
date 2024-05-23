@@ -23,7 +23,7 @@ public enum UnitVolume
 /// <summary>
 /// Extension methods for UnitVolume
 /// </summary>
-public static class ExtensionUnitVolume //TODO implement
+public static class ExtensionUnitVolume
 {
    private static readonly ILogger _logger = GlobalLogging.CreateLogger("ExtensionUnitArea");
 

@@ -17,8 +17,6 @@ public abstract class FileHelper
    private static char[] _invalidFilenameChars = [];
    private static char[] _invalidPathChars = [];
 
-   private const int DefaultBufferSize = 4096;
-
    #endregion
 
    #region Properties
@@ -27,23 +25,27 @@ public abstract class FileHelper
    /// <returns>Temporary file</returns>
    public static string TempFile => Path.GetTempFileName();
 
-   /// <summary>Returns the temporary directory path from the device.</summary>
+   /// <summary>Returns the temporary directory path.</summary>
    /// <returns>Temporary directory path of the device</returns>
-   public static string TempPath => Path.GetTempPath();
+   public static string TempPath => ValidatePath(Path.GetTempPath());
 
-   /// <summary>Returns a temporary directory from the device.</summary>
+   /// <summary>Returns a temporary directory.</summary>
    /// <returns>Temporary directory</returns>
    public static string TempDirectory
    {
       get
       {
-         string name = $"{TempPath}{ShortUID.NewShortUID()}";
+         string name = ValidatePath($"{TempPath}{ShortUID.NewShortUID()}");
 
          CreateDirectory(name);
 
          return name;
       }
    }
+
+   /// <summary>Returns the current directory.</summary>
+   /// <returns>Current directory</returns>
+   public static string CurrentDirectory => ValidatePath(Environment.CurrentDirectory);
 
    #endregion
 
@@ -268,6 +270,7 @@ public abstract class FileHelper
 
    /// <summary>
    /// Find files inside a path.
+   /// NOTE: for an non-blocking version, consider calling this method from a separate thread
    /// </summary>
    /// <param name="path">Path to find the files</param>
    /// <param name="isRecursive">Recursive search (optional, default: false)</param>
@@ -322,6 +325,7 @@ public abstract class FileHelper
 
    /// <summary>
    /// Find files inside a path.
+   /// NOTE: for an non-blocking version, consider calling this method from a separate thread
    /// </summary>
    /// <param name="path">Path to find the files</param>
    /// <param name="isRecursive">Recursive search (optional, default: false)</param>
@@ -346,7 +350,8 @@ public abstract class FileHelper
    }
 
    /// <summary>
-   /// Find directories inside.
+   /// Find directories inside a path.
+   /// NOTE: for an non-blocking version, consider calling this method from a separate thread
    /// </summary>
    /// <param name="path">Path to find the directories</param>
    /// <param name="isRecursive">Recursive search (optional, default: false)</param>
@@ -402,7 +407,10 @@ public abstract class FileHelper
       //return Array.Empty<string>();
    }
 
-   /// <summary>Copy or move a directory.</summary>
+   /// <summary>
+   /// Copy or move a directory.
+   /// NOTE: for an non-blocking version, consider calling this method from a separate thread
+   /// </summary>
    /// <param name="sourceDir">Source directory path</param>
    /// <param name="destDir">Destination directory path</param>
    /// <param name="move">Move directory instead of copy (optional, default: false)</param>
@@ -467,7 +475,10 @@ public abstract class FileHelper
       return success;
    }
 
-   /// <summary>Copy or move a file.</summary>
+   /// <summary>
+   /// Copy or move a file.
+   /// NOTE: for an non-blocking version, consider calling this method from a separate thread
+   /// </summary>
    /// <param name="sourceFile">Source file path</param>
    /// <param name="destFile">Destination file path</param>
    /// <param name="move">Move file instead of copy (optional, default: false)</param>
@@ -532,7 +543,10 @@ public abstract class FileHelper
       return success;
    }
 
-   /// <summary>Move a directory.</summary>
+   /// <summary>
+   /// Move a directory.
+   /// NOTE: for an non-blocking version, consider calling this method from a separate thread
+   /// </summary>
    /// <param name="sourceDir">Source directory path</param>
    /// <param name="destDir">Destination directory path</param>
    /// <returns>True if the operation was successful</returns>
@@ -542,7 +556,10 @@ public abstract class FileHelper
       return CopyDirectory(sourceDir, destDir, true);
    }
 
-   /// <summary>Move a file.</summary>
+   /// <summary>
+   /// Move a file.
+   /// NOTE: for an non-blocking version, consider calling this method from a separate thread
+   /// </summary>
    /// <param name="sourceFile">Source file path</param>
    /// <param name="destFile">Destination file path</param>
    /// <returns>True if the operation was successful</returns>
@@ -648,7 +665,10 @@ public abstract class FileHelper
       return success;
    }
 
-   /// <summary>Delete a directory.</summary>
+   /// <summary>
+   /// Delete a directory.
+   /// NOTE: for an non-blocking version, consider calling this method from a separate thread
+   /// </summary>
    /// <param name="dir">Directory to delete</param>
    /// <returns>True if the operation was successful</returns>
    /// <exception cref="Exception"></exception>
@@ -882,7 +902,7 @@ public abstract class FileHelper
          }
 
          if (removeInvalidChars)
-            fname = string.Join(string.Empty, fname.Split(_invalidFilenameChars)); //.Replace(BaseConstants.PATH_DELIMITER_WINDOWS, string.Empty).Replace(BaseConstants.PATH_DELIMITER_UNIX, string.Empty);
+            fname = string.Join(string.Empty, fname.Split(_invalidFilenameChars));
       }
 
       return fname;
@@ -1315,31 +1335,25 @@ public abstract class FileHelper
             using Process process = new();
             process.StartInfo.Arguments = $"\"{path}\"";
 
-            process.StartInfo.FileName = "explorer.exe";
-            process.StartInfo.CreateNoWindow = true;
-
-            process.StartInfo.FileName = "explorer.exe";
-            process.StartInfo.CreateNoWindow = true;
-
-            /*
-               if (BaseHelper.isWindowsPlatform || BaseHelper.isWindowsEditor)
-               {
-                   process.StartInfo.FileName = "explorer.exe";
-                   process.StartInfo.CreateNoWindow = true;
-               }
-               else if (BaseHelper.isMacOSPlatform || BaseHelper.isMacOSEditor)
-               {
-                   process.StartInfo.FileName = "open";
-               }
-               else
-               {
-                   process.StartInfo.FileName = "xdg-open";
-               }
-               */
+            if (Helper.isWindows)
+            {
+               process.StartInfo.FileName = "explorer.exe";
+               process.StartInfo.CreateNoWindow = true;
+            }
+            else if (Helper.isOSX)
+            {
+               process.StartInfo.FileName = "open";
+            }
+            else
+            {
+               process.StartInfo.FileName = "xdg-open";
+            }
 
             process.Start();
+
             success = true;
          }
+
          else
          {
             _logger.LogWarning($"Path to file doesn't exist: {path}");
@@ -1371,28 +1385,24 @@ public abstract class FileHelper
          {
             using (Process process = new())
             {
-               process.StartInfo.FileName = "explorer";
-               process.StartInfo.Arguments = $"\"{file}\"";
-
-               /*
-               if (BaseHelper.isMacOSPlatform || BaseHelper.isMacOSEditor)
+               if (Helper.isWindows)
                {
-                   process.StartInfo.FileName = "open";
-                   process.StartInfo.WorkingDirectory = GetDirectoryName(file) + BaseConstants.PATH_DELIMITER_UNIX;
-                   process.StartInfo.Arguments = $"-t \"{GetFileName(file)}\"";
+                  process.StartInfo.FileName = "explorer";
+                  process.StartInfo.Arguments = $"\"{file}\"";
                }
-               else if (BaseHelper.isLinuxPlatform || BaseHelper.isLinuxEditor)
+               else if (Helper.isOSX)
                {
-                   process.StartInfo.FileName = "xdg-open";
-                   process.StartInfo.WorkingDirectory = GetDirectoryName(file) + BaseConstants.PATH_DELIMITER_UNIX;
-                   process.StartInfo.Arguments = GetFileName(file);
+                  process.StartInfo.FileName = "open";
+                  process.StartInfo.WorkingDirectory = GetDirectoryName(file) + Constants.PATH_DELIMITER_UNIX;
+                  process.StartInfo.Arguments = $"-t \"{GetFileName(file)}\"";
                }
                else
                {
-                   process.StartInfo.FileName = "explorer";
-                   process.StartInfo.Arguments = $"\"{file}\"";
+                  process.StartInfo.FileName = "xdg-open";
+                  process.StartInfo.WorkingDirectory = GetDirectoryName(file) + Constants.PATH_DELIMITER_UNIX;
+                  process.StartInfo.Arguments = GetFileName(file);
                }
-               */
+
                process.Start();
             }
 

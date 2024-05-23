@@ -19,6 +19,16 @@ public abstract class XmlHelper
    /// <exception cref="Exception"></exception>
    public static bool SerializeToFile<T>(T? obj, string? filename)
    {
+      return SerializeToFileAsync(obj, filename).GetAwaiter().GetResult();
+   }
+
+   /// <summary>Serialize an object to a XML-file asynchronusly.</summary>
+   /// <param name="obj">Object to serialize.</param>
+   /// <param name="filename">File name of the XML.</param>
+   /// <returns>True if the operation was successful</returns>
+   /// <exception cref="Exception"></exception>
+   public static async Task<bool> SerializeToFileAsync<T>(T? obj, string? filename)
+   {
       if (obj == null)
          throw new ArgumentNullException(nameof(obj));
 
@@ -27,7 +37,7 @@ public abstract class XmlHelper
 
       try
       {
-         return FileHelper.WriteAllText(filename, SerializeToString(obj));
+         return await FileHelper.WriteAllTextAsync(filename, SerializeToString(obj));
       }
       catch (Exception ex)
       {
@@ -92,6 +102,16 @@ public abstract class XmlHelper
    /// <exception cref="Exception"></exception>
    public static T? DeserializeFromFile<T>(string? filename, bool skipBOM = false)
    {
+      return DeserializeFromFileAsync<T>(filename, skipBOM).GetAwaiter().GetResult();
+   }
+
+   /// <summary>Deserialize a XML-file to an object asynchronusly.</summary>
+   /// <param name="filename">XML-file of the object</param>
+   /// <param name="skipBOM">Skip BOM (optional, default: false)</param>
+   /// <returns>Object</returns>
+   /// <exception cref="Exception"></exception>
+   public static async Task<T?> DeserializeFromFileAsync<T>(string? filename, bool skipBOM = false)
+   {
       if (filename == null)
          throw new ArgumentNullException(nameof(filename));
 
@@ -99,7 +119,7 @@ public abstract class XmlHelper
       {
          if (FileHelper.ExistsFile(filename))
          {
-            string? data = FileHelper.ReadAllText(filename);
+            string? data = await FileHelper.ReadAllTextAsync(filename);
 
             if (string.IsNullOrEmpty(data))
             {

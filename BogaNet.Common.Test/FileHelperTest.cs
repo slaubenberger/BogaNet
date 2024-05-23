@@ -9,8 +9,8 @@ public class FileHelperTest
    private static readonly string testTempPath = FileHelper.TempPath;
    private static readonly string testTempFile = FileHelper.TempFile;
 
-   private static readonly string testDirectory = $"{Environment.CurrentDirectory}/Testfiles"; //TODO move to FileHelper?
-   private static readonly string testFile = $"{testDirectory}/Images/logo_ct.png";
+   private static readonly string testDirectory = $"{FileHelper.CurrentDirectory}Testfiles/";
+   private static readonly string testFile = $"{testDirectory}Images/logo_ct.png";
 
    private const string testDirectoryName = "crosstales LLC";
    private const string testDirectoryWin = $@"C:\Windows\System64\{testDirectoryName}";
