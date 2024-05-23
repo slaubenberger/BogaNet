@@ -3,7 +3,7 @@
     <PropertyGroup>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <Version>0.8.3</Version>
+        <Version>0.8.4</Version>
         <Company>Boga</Company>
         <Copyright>© 2024 Stefan Laubenberger</Copyright>
         <Authors>Stefan Laubenberger</Authors>

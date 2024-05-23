@@ -7,6 +7,7 @@ namespace BogaNet;
 /// </summary>
 public static class ExtensionList
 {
+   /*
    /// <summary>
    /// Generates a string list with all entries (via CTToString).
    /// </summary>
@@ -35,7 +36,7 @@ public static class ExtensionList
 
       return sb.ToString();
    }
-
+*/
    /// <summary>
    /// Shuffles a List.
    /// </summary>

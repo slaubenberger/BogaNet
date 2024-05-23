@@ -7,7 +7,7 @@ namespace BogaNet;
 /// </summary>
 public static class ExtensionArray
 {
-
+   /*
    /// <summary>
    /// Generates a string array with all entries (via CTToString).
    /// </summary>
@@ -35,7 +35,7 @@ public static class ExtensionArray
 
       return result;
    }
-
+*/
    /// <summary>
    /// Converts a byte-array to a float-array.
    /// </summary>
