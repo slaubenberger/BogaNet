@@ -17,6 +17,8 @@ public abstract class FileHelper
    private static char[] _invalidFilenameChars = [];
    private static char[] _invalidPathChars = [];
 
+   private const int DefaultBufferSize = 4096;
+
    #endregion
 
    #region Properties
@@ -1057,23 +1059,7 @@ public abstract class FileHelper
    /// <exception cref="Exception"></exception>
    public static string? ReadAllText(string? path, Encoding? encoding = null) //NUnit
    {
-      if (path != null)
-      {
-         try
-         {
-            if (ExistsFile(path))
-               return File.ReadAllText(path, encoding ?? Encoding.UTF8);
-         }
-         catch (Exception ex)
-         {
-            _logger.LogError(ex, $"Could not read file '{path}'");
-            throw;
-         }
-      }
-
-      _logger.LogError($"File does not exists: {path}");
-
-      return null;
+      return ReadAllTextAsync(path, encoding).GetAwaiter().GetResult();
    }
 
    /// <summary>Reads the text of a file asynchronusly.</summary>
@@ -1088,18 +1074,7 @@ public abstract class FileHelper
          try
          {
             if (ExistsFile(path))
-            {
-               const int DefaultBufferSize = 4096;
-               const FileOptions DefaultOptions = FileOptions.Asynchronous | FileOptions.SequentialScan;
-
-               var lines = new List<string>();
-
-               await using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read, DefaultBufferSize, DefaultOptions))
-               {
-                  using var reader = new StreamReader(stream, encoding ?? Encoding.UTF8);
-                  return await reader.ReadToEndAsync();
-               }
-            }
+               return await File.ReadAllTextAsync(path, encoding ?? Encoding.UTF8);
          }
          catch (Exception ex)
          {
@@ -1120,23 +1095,7 @@ public abstract class FileHelper
    /// <exception cref="Exception"></exception>
    public static string[]? ReadAllLines(string? path, Encoding? encoding = null) //NUnit
    {
-      if (path != null)
-      {
-         try
-         {
-            if (ExistsFile(path))
-               return File.ReadAllLines(path, encoding ?? Encoding.UTF8);
-         }
-         catch (Exception ex)
-         {
-            _logger.LogError(ex, $"Could not read file '{path}'");
-            throw;
-         }
-      }
-
-      _logger.LogError($"File does not exists: {path}");
-
-      return null;
+      return ReadAllLinesAsync(path, encoding).GetAwaiter().GetResult();
    }
 
    /// <summary>Reads all lines of text from a file asynchronusly.</summary>
@@ -1151,24 +1110,7 @@ public abstract class FileHelper
          try
          {
             if (ExistsFile(path))
-            {
-               const int DefaultBufferSize = 4096;
-               const FileOptions DefaultOptions = FileOptions.Asynchronous | FileOptions.SequentialScan;
-
-               var lines = new List<string>();
-
-               await using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read, DefaultBufferSize, DefaultOptions))
-               {
-                  using var reader = new StreamReader(stream, encoding ?? Encoding.UTF8);
-                  string line;
-                  while ((line = await reader.ReadLineAsync()) != null)
-                  {
-                     lines.Add(line);
-                  }
-               }
-
-               return lines.ToArray();
-            }
+               return await File.ReadAllLinesAsync(path, encoding ?? Encoding.UTF8);
          }
          catch (Exception ex)
          {
@@ -1188,12 +1130,21 @@ public abstract class FileHelper
    /// <exception cref="Exception"></exception>
    public static byte[]? ReadAllBytes(string? path) //NUnit
    {
+      return ReadAllBytesAsync(path).GetAwaiter().GetResult();
+   }
+
+   /// <summary>Reads the bytes of a file asynchronusly.</summary>
+   /// <param name="path">Path to the file</param>
+   /// <returns>Byte-content of the file</returns>
+   /// <exception cref="Exception"></exception>
+   public static async Task<byte[]>? ReadAllBytesAsync(string? path)
+   {
       if (path != null)
       {
          try
          {
             if (ExistsFile(path))
-               return File.ReadAllBytes(path);
+               return await File.ReadAllBytesAsync(path);
          }
          catch (Exception ex)
          {
@@ -1215,6 +1166,17 @@ public abstract class FileHelper
    /// <exception cref="Exception"></exception>
    public static bool WriteAllText(string? destFile, string? text, Encoding? encoding = null) //NUnit
    {
+      return WriteAllTextAsync(destFile, text, encoding).GetAwaiter().GetResult();
+   }
+
+   /// <summary>Writes text to a file asynchronusly.</summary>
+   /// <param name="destFile">Destination file path</param>
+   /// <param name="text">Text-content to write</param>
+   /// <param name="encoding">Encoding of the text (optional, default: UTF8)</param>
+   /// <returns>True if the operation was successful</returns>
+   /// <exception cref="Exception"></exception>
+   public static async Task<bool> WriteAllTextAsync(string? destFile, string? text, Encoding? encoding = null)
+   {
       if (string.IsNullOrEmpty(destFile))
          return false;
 
@@ -1222,7 +1184,7 @@ public abstract class FileHelper
 
       try
       {
-         File.WriteAllText(destFile, text, encoding ?? Encoding.UTF8);
+         await File.WriteAllTextAsync(destFile, text, encoding ?? Encoding.UTF8);
          success = true;
       }
       catch (Exception ex)
@@ -1242,6 +1204,17 @@ public abstract class FileHelper
    /// <exception cref="Exception"></exception>
    public static bool WriteAllLines(string? destFile, string[]? lines, Encoding? encoding = null) //NUnit
    {
+      return WriteAllLinesAsync(destFile, lines, encoding).GetAwaiter().GetResult();
+   }
+
+   /// <summary>Writes all lines of text to a file asynchronusly.</summary>
+   /// <param name="destFile">Destination file path</param>
+   /// <param name="lines">Array of text lines to write</param>
+   /// <param name="encoding">Encoding of the text (optional, default: UTF8)</param>
+   /// <returns>True if the operation was successful</returns>
+   /// <exception cref="Exception"></exception>
+   public static async Task<bool> WriteAllLinesAsync(string? destFile, string[]? lines, Encoding? encoding = null) //NUnit
+   {
       if (string.IsNullOrEmpty(destFile) || lines == null)
          return false;
 
@@ -1249,7 +1222,7 @@ public abstract class FileHelper
 
       try
       {
-         File.WriteAllLines(destFile, lines, encoding ?? Encoding.UTF8);
+         await File.WriteAllLinesAsync(destFile, lines, encoding ?? Encoding.UTF8);
          success = true;
       }
       catch (Exception ex)
@@ -1268,6 +1241,16 @@ public abstract class FileHelper
    /// <exception cref="Exception"></exception>
    public static bool WriteAllBytes(string? destFile, byte[]? data) //NUnit
    {
+      return WriteAllBytesAsync(destFile, data).GetAwaiter().GetResult();
+   }
+
+   /// <summary>Writes bytes to a file.</summary>
+   /// <param name="destFile">Destination file path</param>
+   /// <param name="data">Byte-content to write</param>
+   /// <returns>True if the operation was successful</returns>
+   /// <exception cref="Exception"></exception>
+   public static async Task<bool> WriteAllBytesAsync(string? destFile, byte[]? data) //NUnit
+   {
       if (string.IsNullOrEmpty(destFile) || data == null)
          return false;
 
@@ -1275,7 +1258,7 @@ public abstract class FileHelper
 
       try
       {
-         File.WriteAllBytes(destFile, data);
+         await File.WriteAllBytesAsync(destFile, data);
          success = true;
       }
       catch (Exception ex)
