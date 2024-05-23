@@ -1,115 +1,35 @@
-﻿namespace BogaNet;
+﻿using System.Numerics;
+
+namespace BogaNet;
 
 /// <summary>
-/// Extension method for various number formats.
+/// Extension methods for numbers.
 /// </summary>
 public static class ExtensionNumber
 {
    /// <summary>
-   /// Clamps the value between min and max
+   /// Clamps a value between min and max
    /// </summary>
    /// <param name="value">Given value</param>
    /// <param name="min">Min value</param>
    /// <param name="max">Max value</param>
-   /// <returns>Clamped value</returns>
-   public static byte BNClamp(this byte value, byte min, byte max)
+   /// <returns>Clamped value</returns>t
+   public static T BNClamp<T>(this T value, T min, T max) where T : INumber<T>
    {
       return value < min ? min : (value > max) ? max : value;
    }
 
    /// <summary>
-   /// Clamps the value between min and max
+   /// Converts the value of a ushort Hex-string.
    /// </summary>
-   /// <param name="value">Given value</param>
-   /// <param name="min">Min value</param>
-   /// <param name="max">Max value</param>
-   /// <returns>Clamped value</returns>
-   public static ushort BNClamp(this ushort value, ushort min, ushort max)
+   /// <param name="val">Value</param>
+   /// <param name="pairs">Number of pairs in the Hex-string</param>
+   /// <param name="addPrefix">Add "0x"-as prefix (optional, default: false).</param>
+   /// <returns>ushort as converted Hex-string.</returns>
+   public static string BNToHex<T>(this T val, int pairs = 8, bool addPrefix = false) where T : INumber<T>
    {
-      return value < min ? min : (value > max) ? max : value;
-   }
+      string res = val.ToString("x2", null).BNFixedLength(pairs * 2, '0', false);
 
-   /// <summary>
-   /// Clamps the value between min and max
-   /// </summary>
-   /// <param name="value">Given value</param>
-   /// <param name="min">Min value</param>
-   /// <param name="max">Max value</param>
-   /// <returns>Clamped value</returns>
-   public static short BNClamp(this short value, short min, short max)
-   {
-      return value < min ? min : (value > max) ? max : value;
-   }
-
-   /// <summary>
-   /// Clamps the value between min and max
-   /// </summary>
-   /// <param name="value">Given value</param>
-   /// <param name="min">Min value</param>
-   /// <param name="max">Max value</param>
-   /// <returns>Clamped value</returns>
-   public static uint BNClamp(this uint value, uint min, uint max)
-   {
-      return value < min ? min : (value > max) ? max : value;
-   }
-
-   /// <summary>
-   /// Clamps the value between min and max
-   /// </summary>
-   /// <param name="value">Given value</param>
-   /// <param name="min">Min value</param>
-   /// <param name="max">Max value</param>
-   /// <returns>Clamped value</returns>
-   public static int BNClamp(this int value, int min, int max)
-   {
-      return value < min ? min : (value > max) ? max : value;
-   }
-
-   /// <summary>
-   /// Clamps the value between min and max
-   /// </summary>
-   /// <param name="value">Given value</param>
-   /// <param name="min">Min value</param>
-   /// <param name="max">Max value</param>
-   /// <returns>Clamped value</returns>
-   public static ulong BNClamp(this ulong value, ulong min, ulong max)
-   {
-      return value < min ? min : (value > max) ? max : value;
-   }
-
-   /// <summary>
-   /// Clamps the value between min and max
-   /// </summary>
-   /// <param name="value">Given value</param>
-   /// <param name="min">Min value</param>
-   /// <param name="max">Max value</param>
-   /// <returns>Clamped value</returns>
-   public static long BNClamp(this long value, long min, long max)
-   {
-      return value < min ? min : (value > max) ? max : value;
-   }
-
-   /// <summary>
-   /// Clamps the value between min and max
-   /// </summary>
-   /// <param name="value">Given value</param>
-   /// <param name="min">Min value</param>
-   /// <param name="max">Max value</param>
-   /// <returns>Clamped value</returns>
-   public static float BNClamp(this float value, float min, float max)
-   {
-      return value < min ? min : (value > max) ? max : value;
-   }
-
-   /// <summary>
-   /// Clamps the value between min and max
-   /// </summary>
-   /// <param name="value">Given value</param>
-   /// <param name="min">Min value</param>
-   /// <param name="max">Max value</param>
-   /// <returns>Clamped value</returns>
-   public static double BNClamp(this double value, double min, double max)
-   {
-      return value < min ? min : (value > max) ? max : value;
+      return addPrefix ? $"0x{res}" : res;
    }
 }

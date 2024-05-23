@@ -1,10 +1,11 @@
 ﻿using System.Globalization;
 using System.Text;
+using System.Numerics;
 
 namespace BogaNet;
 
 /// <summary>
-/// Extension method for strings.
+/// Extension methods for strings.
 /// </summary>
 public static class ExtensionString
 {
@@ -417,29 +418,45 @@ public static class ExtensionString
    /// <summary>
    /// Converts the Hex-value of a string to a string (with Unicode support).
    /// </summary>
-   /// <param name="hexString">Input as Hex-string.</param>
+   /// <param name="hex">Input as Hex-string.</param>
    /// <returns>Hex-string value as converted string.</returns>
-   public static string? BNHexToString(this string? hexString)
+   public static string? BNHexToString(this string? hex)
    {
-      if (hexString == null)
+      if (hex == null)
          return null;
 
-      string _hex = hexString;
+      string _hex = hex;
 
       if (_hex.StartsWith("0x"))
          _hex = _hex.Substring(2);
 
-      if (hexString.Length % 2 != 0)
-         throw new FormatException($"String seems to be an invalid hex-code: {hexString}");
+      if (hex.Length % 2 != 0)
+         throw new FormatException($"String seems to be an invalid hex-code: {hex}");
 
       byte[] bytes = new byte[_hex.Length / 2];
       for (int ii = 0; ii < bytes.Length; ii++)
       {
-         bytes[ii] = Convert.ToByte(hexString.Substring(ii * 2, 2), 16);
+         bytes[ii] = Convert.ToByte(hex.Substring(ii * 2, 2), 16);
       }
 
       //return Encoding.ASCII.GetString(bytes);
       return Encoding.Unicode.GetString(bytes); // returns: "Hello world" for "48656C6C6F20776F726C64"
+   }
+
+   /// <summary>
+   /// Converts the Hex-value of a string to number.
+   /// </summary>
+   /// <param name="hex">Input as Hex-string.</param>
+   /// <returns>Hex-string value as converted number.</returns>
+   public static T? BNHexToNumber<T>(this string? hex) where T : INumber<T>
+   {
+      if (hex == null)
+         return default;
+
+      if (hex.StartsWith("0x"))
+         hex = hex.Substring(2);
+
+      return T.Parse(hex, System.Globalization.NumberStyles.HexNumber, null);
    }
 
    /// <summary>
@@ -493,13 +510,23 @@ public static class ExtensionString
    /// </summary>
    /// <param name="str">Input to fix.</param>
    /// <param name="length">Length of the string</param>
-   /// <param name="padRight">Right padding (otherwise left padding)</param>
+   /// <param name="filler">Filler charachter for the string (optional, default ' ')</param>
+   /// <param name="padRight">Right padding - otherwise left padding (optional, default: true)</param>
    /// <returns>Fix length string</returns>
-   public static string BNFixedLength(this string? str, int length, bool padRight = true)
+   public static string BNFixedLength(this string? str, int length, char filler = ' ', bool padRight = true) //TODO replace with BNFixedLength
    {
-      if (padRight)
-         return str == null ? new string(' ', length) : str.PadRight(length).Substring(0, length);
+      if (str == null)
+         return new string(filler, length);
 
-      return str == null ? new string(' ', length) : str.PadLeft(length).Substring(0, length);
+      int diff = length - str.Length;
+
+      if (diff > 0)
+      {
+         string fill = new string(filler, diff);
+
+         return padRight ? $"{str}{fill}" : $"{fill}{str}";
+      }
+
+      return str.Substring(0, length);
    }
 }
