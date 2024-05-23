@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using System.Numerics;
 
 namespace BogaNet;
 
@@ -46,43 +47,43 @@ public static class ExtensionUnitVolume //TODO implement
    /// <param name="toUnit">Target unit</param>
    /// <param name="inVal">Value of the source unit</param>
    /// <returns>Value in the target unit</returns>
-   public static decimal BNConvert(this UnitVolume fromUnit, UnitVolume toUnit, decimal inVal)
+   public static T BNConvert<T>(this UnitVolume fromUnit, UnitVolume toUnit, T inVal) where T : INumber<T>
    {
       if (IgnoreSameUnit && fromUnit == toUnit)
          return inVal;
 
-      decimal val = inVal;
+      decimal val = Convert.ToDecimal(inVal);
       decimal outVal = 0; // = inVal;
 
       //Convert to liter
       switch (fromUnit)
       {
          case UnitVolume.LITER:
-            val = inVal;
+            //val = inVal;
             break;
          case UnitVolume.MM3:
-            val = inVal / FACTOR_MM3_TO_L;
+            val = val / FACTOR_MM3_TO_L;
             break;
          case UnitVolume.CM3:
-            val = inVal / FACTOR_CM3_TO_L;
+            val = val / FACTOR_CM3_TO_L;
             break;
          case UnitVolume.M3:
-            val = inVal * FACTOR_L_TO_M3;
+            val = val * FACTOR_L_TO_M3;
             break;
          case UnitVolume.INCH3:
-            val = inVal * FACTOR_INCH3_TO_L;
+            val = val * FACTOR_INCH3_TO_L;
             break;
          case UnitVolume.FOOT3:
-            val = inVal * FACTOR_FOOT3_TO_L;
+            val = val * FACTOR_FOOT3_TO_L;
             break;
          case UnitVolume.PINT:
-            val = inVal * FACTOR_PINT_TO_L;
+            val = val * FACTOR_PINT_TO_L;
             break;
          case UnitVolume.GALLON:
-            val = inVal * FACTOR_GALLON_US_TO_L;
+            val = val * FACTOR_GALLON_US_TO_L;
             break;
          case UnitVolume.BARREL:
-            val = inVal * FACTOR_BARREL_TO_L;
+            val = val * FACTOR_BARREL_TO_L;
             break;
          default:
             _logger.LogWarning($"There is no conversion for the fromUnit: {fromUnit}");
@@ -124,6 +125,6 @@ public static class ExtensionUnitVolume //TODO implement
             break;
       }
 
-      return outVal;
+      return T.CreateTruncating(outVal);
    }
 }

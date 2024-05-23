@@ -237,8 +237,17 @@ public static class ExtensionString
    /// <returns>True if the string is an IPv4 address.</returns>
    public static bool BNIsIPv4(this string? str)
    {
-      //TODO add check for IPv6
-      return str != null && BogaNet.IO.NetworkHelper.isIPv4(str);
+      return BogaNet.IO.NetworkHelper.isIPv4(str);
+   }
+
+   /// <summary>
+   /// Checks if the string is an IPv6 address.
+   /// </summary>
+   /// <param name="str">String-instance.</param>
+   /// <returns>True if the string is an IPv6 address.</returns>
+   public static bool BNIsIPv6(this string? str)
+   {
+      return BogaNet.IO.NetworkHelper.isIPv6(str);
    }
 
    /// <summary>

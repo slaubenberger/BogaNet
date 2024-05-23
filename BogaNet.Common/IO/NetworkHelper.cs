@@ -184,23 +184,18 @@ public abstract class NetworkHelper
 
    /// <summary>Checks if the input is an IPv4 address.</summary>
    /// <param name="ip">Input as possible IPv4</param>
-   /// <returns>True if the given path is an IPv4 address</returns>
+   /// <returns>True if the given input is an IPv4 address</returns>
    public static bool isIPv4(string? ip) //NUnit
    {
-      if (!string.IsNullOrEmpty(ip) && Constants.REGEX_IP_ADDRESS.IsMatch(ip))
-      {
-         string[] ipBytes = ip.Split('.');
+      return Uri.CheckHostName(ip) == UriHostNameType.IPv4;
+   }
 
-         foreach (string ipByte in ipBytes)
-         {
-            if (int.TryParse(ipByte, out int val) && val is > 255 or < 0)
-               return false;
-         }
-
-         return true;
-      }
-
-      return false;
+   /// <summary>Checks if the input is an IPv6 address.</summary>
+   /// <param name="ip">Input as possible IPv6</param>
+   /// <returns>True if the given input is an IPv6 address</returns>
+   public static bool isIPv6(string? ip) //NUnit
+   {
+      return Uri.CheckHostName(ip) == UriHostNameType.IPv6;
    }
 
    /// <summary>Returns the IP of a given host name.</summary>

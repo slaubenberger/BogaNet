@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using System.Numerics;
 
 namespace BogaNet;
 
@@ -47,43 +48,43 @@ public static class ExtensionUnitLength
    /// <param name="toUnit">Target unit</param>
    /// <param name="inVal">Value of the source unit</param>
    /// <returns>Value in the target unit</returns>
-   public static decimal BNConvert(this UnitLength fromUnit, UnitLength toUnit, decimal inVal)
+   public static T BNConvert<T>(this UnitLength fromUnit, UnitLength toUnit, T inVal) where T : INumber<T>
    {
       if (IgnoreSameUnit && fromUnit == toUnit)
          return inVal;
 
-      decimal val = inVal;
+      decimal val = Convert.ToDecimal(inVal);
       decimal outVal = 0; // = inVal;
 
       //Convert to m
       switch (fromUnit)
       {
          case UnitLength.M:
-            val = inVal;
+            //val = inVal;
             break;
          case UnitLength.MM:
-            val = inVal / FACTOR_MM_TO_M;
+            val = val / FACTOR_MM_TO_M;
             break;
          case UnitLength.CM:
-            val = inVal / FACTOR_CM_TO_M;
+            val = val / FACTOR_CM_TO_M;
             break;
          case UnitLength.KM:
-            val = inVal * FACTOR_M_TO_KM;
+            val = val * FACTOR_M_TO_KM;
             break;
          case UnitLength.INCH:
-            val = inVal * FACTOR_INCH_TO_M;
+            val = val * FACTOR_INCH_TO_M;
             break;
          case UnitLength.FOOT:
-            val = inVal * FACTOR_FOOT_TO_M;
+            val = val * FACTOR_FOOT_TO_M;
             break;
          case UnitLength.YARD:
-            val = inVal * FACTOR_YARD_TO_M;
+            val = val * FACTOR_YARD_TO_M;
             break;
          case UnitLength.MILE:
-            val = inVal * FACTOR_MILE_TO_M;
+            val = val * FACTOR_MILE_TO_M;
             break;
          case UnitLength.NAUTICAL_MILE:
-            val = inVal * FACTOR_NAUTICAL_MILE_TO_M;
+            val = val * FACTOR_NAUTICAL_MILE_TO_M;
             break;
          default:
             _logger.LogWarning($"There is no conversion for the fromUnit: {fromUnit}");
@@ -125,6 +126,6 @@ public static class ExtensionUnitLength
             break;
       }
 
-      return outVal;
+      return T.CreateTruncating(outVal);
    }
 }

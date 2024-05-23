@@ -4,134 +4,154 @@ namespace BogaNet.Test;
 
 public class NetworkHelperTest
 {
-    #region Variables
+   #region Variables
 
-    private static readonly string testUrl = Constants.COMPANY_URL;
-    private const string ipCT = "207.154.226.218"; //this may change
-    private const string ipLocalhost = "127.0.0.1";
-    private const string ipWrong1 = "256.154.226.218";
-    private const string ipWrong2 = "-1.154.226.218";
-    private const string ipWrong3 = "207.154.226.218.218";
-    private const string ipWrong4 = "207.154.226";
+   private static readonly string testUrl = Constants.COMPANY_URL;
+   private const string ipCT = "207.154.226.218"; //this may change
+   private const string ipLocalhost = "127.0.0.1";
+   private const string ipValid = "207.154.226";
+   private const string ipWrong1 = "256.154.226.218";
+   private const string ipWrong2 = "-1.154.226.218";
+   private const string ipWrong3 = "207.154.226.218.218";
+   private const string ipV6 = "2345:0425:2CA1:0000:0000:0567:5673:23b5";
+   private const string ipV6Complex = "2345:425:2CA1:0000:0000:567:5673:23b5/64";
 
-    #endregion
+   #endregion
 
-    #region Tests
+   #region Tests
 
-    [Test]
-    public void GetURLFromFile_Test()
-    {
-        string file = FileHelper.TempFile;
+   [Test]
+   public void GetURLFromFile_Test()
+   {
+      string file = FileHelper.TempFile;
 
-        string? url = NetworkHelper.GetURLFromFile(file);
-        Assert.That(url, Is.EqualTo($"{Constants.PREFIX_FILE}{file.Replace('\\', '/')}"));
+      string? url = NetworkHelper.GetURLFromFile(file);
+      Assert.That(url, Is.EqualTo($"{Constants.PREFIX_FILE}{file.Replace('\\', '/')}"));
 
-        url = NetworkHelper.GetURLFromFile(testUrl);
-        Assert.That(url, Is.EqualTo(testUrl));
+      url = NetworkHelper.GetURLFromFile(testUrl);
+      Assert.That(url, Is.EqualTo(testUrl));
 
-        url = NetworkHelper.GetURLFromFile("");
-        Assert.That(url, Is.EqualTo(""));
+      url = NetworkHelper.GetURLFromFile("");
+      Assert.That(url, Is.EqualTo(""));
 
-        url = NetworkHelper.GetURLFromFile(null);
-        Assert.That(url, Is.EqualTo(null));
-    }
+      url = NetworkHelper.GetURLFromFile(null);
+      Assert.That(url, Is.EqualTo(null));
+   }
 
-    [Test]
-    public void ValidateURL_Test()
-    {
-        string inUrl = "https://www.crosstales.com/";
-        string outUrl = "crosstales.com";
+   [Test]
+   public void ValidateURL_Test()
+   {
+      string inUrl = "https://www.crosstales.com/";
+      string outUrl = "crosstales.com";
 
-        string? url = NetworkHelper.ValidateURL(inUrl, true);
-        Assert.That(url, Is.EqualTo(outUrl));
+      string? url = NetworkHelper.ValidateURL(inUrl, true);
+      Assert.That(url, Is.EqualTo(outUrl));
 
-        outUrl = "https://crosstales.com";
-        url = NetworkHelper.ValidateURL(inUrl);
-        Assert.That(url, Is.EqualTo(outUrl));
+      outUrl = "https://crosstales.com";
+      url = NetworkHelper.ValidateURL(inUrl);
+      Assert.That(url, Is.EqualTo(outUrl));
 
-        outUrl = "https://www.crosstales.com";
-        url = NetworkHelper.ValidateURL(inUrl, false, false);
-        Assert.That(url, Is.EqualTo(outUrl));
+      outUrl = "https://www.crosstales.com";
+      url = NetworkHelper.ValidateURL(inUrl, false, false);
+      Assert.That(url, Is.EqualTo(outUrl));
 
-        url = NetworkHelper.ValidateURL(inUrl, false, false, false);
-        Assert.That(url, Is.EqualTo(inUrl));
+      url = NetworkHelper.ValidateURL(inUrl, false, false, false);
+      Assert.That(url, Is.EqualTo(inUrl));
 
-        inUrl = "https://www.crosstales.com/images\\ct logo.png";
-        outUrl = "https://crosstales.com/images/ct%20logo.png";
-        url = NetworkHelper.ValidateURL(inUrl);
-        Assert.That(url, Is.EqualTo(outUrl));
+      inUrl = "https://www.crosstales.com/images\\ct logo.png";
+      outUrl = "https://crosstales.com/images/ct%20logo.png";
+      url = NetworkHelper.ValidateURL(inUrl);
+      Assert.That(url, Is.EqualTo(outUrl));
 
-        url = NetworkHelper.ValidateURL(ipCT);
-        Assert.That(url, Is.EqualTo(ipCT));
+      url = NetworkHelper.ValidateURL(ipCT);
+      Assert.That(url, Is.EqualTo(ipCT));
 
-        url = NetworkHelper.ValidateURL("");
-        Assert.That(url, Is.EqualTo(""));
+      url = NetworkHelper.ValidateURL("");
+      Assert.That(url, Is.EqualTo(""));
 
-        url = NetworkHelper.ValidateURL(null);
-        Assert.That(url, Is.EqualTo(null));
+      url = NetworkHelper.ValidateURL(null);
+      Assert.That(url, Is.EqualTo(null));
 
-        inUrl = "www.crosstales.com/";
-        outUrl = "crosstales.com";
+      inUrl = "www.crosstales.com/";
+      outUrl = "crosstales.com";
 
-        url = NetworkHelper.ValidateURL(inUrl, true);
-        Assert.That(url, Is.EqualTo(outUrl));
-    }
+      url = NetworkHelper.ValidateURL(inUrl, true);
+      Assert.That(url, Is.EqualTo(outUrl));
+   }
 
-    [Test]
-    public void isURL_Test()
-    {
-        string file = FileHelper.TempFile;
+   [Test]
+   public void isURL_Test()
+   {
+      string file = FileHelper.TempFile;
 
-        Assert.True(NetworkHelper.isURL(testUrl));
+      Assert.True(NetworkHelper.isURL(testUrl));
 
-        Assert.False(NetworkHelper.isURL(file));
-        Assert.False(NetworkHelper.isURL(""));
-        Assert.False(NetworkHelper.isURL(null));
-        Assert.True(NetworkHelper.isURL("www.crosstales.com"));
-    }
+      Assert.False(NetworkHelper.isURL(file));
+      Assert.False(NetworkHelper.isURL(""));
+      Assert.False(NetworkHelper.isURL(null));
+      Assert.True(NetworkHelper.isURL("www.crosstales.com"));
+   }
 
-    [Test]
-    public void isIPv4_Test()
-    {
-        Assert.True(NetworkHelper.isIPv4(ipCT));
-        Assert.True(NetworkHelper.isIPv4(ipLocalhost));
+   [Test]
+   public void isIPv4_Test()
+   {
+      Assert.True(NetworkHelper.isIPv4(ipCT));
+      Assert.True(NetworkHelper.isIPv4(ipLocalhost));
+      Assert.True(NetworkHelper.isIPv4(ipValid));
 
-        Assert.False(NetworkHelper.isIPv4(ipWrong1));
-        Assert.False(NetworkHelper.isIPv4(ipWrong2));
-        Assert.False(NetworkHelper.isIPv4(ipWrong3));
-        Assert.False(NetworkHelper.isIPv4(ipWrong4));
-        Assert.False(NetworkHelper.isIPv4(testUrl));
-        Assert.False(NetworkHelper.isIPv4("ueli"));
-        Assert.False(NetworkHelper.isIPv4(""));
-        Assert.False(NetworkHelper.isIPv4(null));
-    }
+      Assert.False(NetworkHelper.isIPv4(ipWrong1));
+      Assert.False(NetworkHelper.isIPv4(ipWrong2));
+      Assert.False(NetworkHelper.isIPv4(ipWrong3));
+      Assert.False(NetworkHelper.isIPv4(testUrl));
+      Assert.False(NetworkHelper.isIPv4("ueli"));
+      Assert.False(NetworkHelper.isIPv4(""));
+      Assert.False(NetworkHelper.isIPv4(null));
+   }
 
-    [Test]
-    public void GetIP_Test()
-    {
-        string? ip = NetworkHelper.GetIP(testUrl);
-        Assert.That(ip, Is.EqualTo(ipCT));
+   [Test]
+   public void isIPv6_Test()
+   {
+      Assert.True(NetworkHelper.isIPv6(ipV6));
+      Assert.True(NetworkHelper.isIPv6(ipV6Complex));
 
-        ip = NetworkHelper.GetIP("localhost");
-        Assert.That(ip, Is.EqualTo(ipLocalhost));
+      Assert.False(NetworkHelper.isIPv6(ipCT));
+      Assert.False(NetworkHelper.isIPv6(ipLocalhost));
+      Assert.False(NetworkHelper.isIPv6(ipWrong1));
+      Assert.False(NetworkHelper.isIPv6(ipWrong2));
+      Assert.False(NetworkHelper.isIPv6(ipWrong3));
+      Assert.False(NetworkHelper.isIPv6(ipValid));
+      Assert.False(NetworkHelper.isIPv6(testUrl));
+      Assert.False(NetworkHelper.isIPv6("ueli"));
+      Assert.False(NetworkHelper.isIPv6(""));
+      Assert.False(NetworkHelper.isIPv6(null));
+   }
 
-        ip = NetworkHelper.GetIP("");
-        Assert.That(ip, Is.EqualTo(""));
+   [Test]
+   public void GetIP_Test()
+   {
+      string? ip = NetworkHelper.GetIP(testUrl);
+      Assert.That(ip, Is.EqualTo(ipCT));
 
-        ip = NetworkHelper.GetIP(null);
-        Assert.That(ip, Is.EqualTo(null));
-    }
+      ip = NetworkHelper.GetIP("localhost");
+      Assert.That(ip, Is.EqualTo(ipLocalhost));
 
-    #endregion
+      ip = NetworkHelper.GetIP("");
+      Assert.That(ip, Is.EqualTo(""));
 
-    /*
-          #region Cleanup
+      ip = NetworkHelper.GetIP(null);
+      Assert.That(ip, Is.EqualTo(null));
+   }
 
-          [TearDown]
-          public void CleanUp()
-          {
-          }
+   #endregion
 
-          #endregion
-    */
+   /*
+         #region Cleanup
+
+         [TearDown]
+         public void CleanUp()
+         {
+         }
+
+         #endregion
+   */
 }

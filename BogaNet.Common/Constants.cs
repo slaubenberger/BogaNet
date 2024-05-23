@@ -120,9 +120,6 @@ public abstract class Constants
    private static Regex? _regexUrlWeb;
    public static Regex REGEX_URL_WEB => _regexUrlWeb ??= new Regex(@"^(ht|f)tp(s?)\:\/\/[0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*(:(0-9)*)*(\/?)([a-zA-Z0-9\-\.\?\,\'\/\\\+&amp;%\$#_]*)?$");
 
-   private static Regex? _regexIPAddress;
-   public static Regex REGEX_IP_ADDRESS => _regexIPAddress ??= new Regex(@"^([0-9]{1,3}\.){3}[0-9]{1,3}$");
-
    private static Regex? _regexInvalidChars;
    public static Regex REGEX_INVALID_CHARS => _regexInvalidChars ??= new Regex(@"[^\w\.@-]");
 

@@ -21,7 +21,7 @@ public static class Program
 
       //_logger.LogInformation(BogaNet.IO.FileHelper.TempDirectory);
 
-      //testConvert();
+      testConvert();
       //testObf();
       //testToString();
 
@@ -45,9 +45,9 @@ public static class Program
 
    private static void testConvert()
    {
-      const decimal inVal = 1m;
+      const float inVal = 1;
 
-      decimal outVal = UnitVolume.GALLON.BNConvert(UnitVolume.LITER, inVal);
+      var outVal = UnitArea.M2.BNConvert(UnitArea.FOOT2, inVal);
 
       _logger.LogInformation($"{inVal} => {outVal}");
    }

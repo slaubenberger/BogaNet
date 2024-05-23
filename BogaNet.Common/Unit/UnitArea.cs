@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using System.Numerics;
 
 namespace BogaNet;
 
@@ -56,52 +57,52 @@ public static class ExtensionUnitArea
    /// <param name="toUnit">Target unit</param>
    /// <param name="inVal">Value of the source unit</param>
    /// <returns>Value in the target unit</returns>
-   public static decimal BNConvert(this UnitArea fromUnit, UnitArea toUnit, decimal inVal)
+   public static T BNConvert<T>(this UnitArea fromUnit, UnitArea toUnit, T inVal) where T : INumber<T>
    {
       if (IgnoreSameUnit && fromUnit == toUnit)
          return inVal;
 
-      decimal val = inVal;
+      decimal val = Convert.ToDecimal(inVal);
       decimal outVal = 0; // = inVal;
 
       //Convert to m2
       switch (fromUnit)
       {
          case UnitArea.M2:
-            val = inVal;
+            //val = inVal;
             break;
          case UnitArea.MM2:
-            val = inVal / FACTOR_MM2_TO_M2;
+            val = val / FACTOR_MM2_TO_M2;
             break;
          case UnitArea.CM2:
-            val = inVal / FACTOR_CM2_TO_M2;
+            val = val / FACTOR_CM2_TO_M2;
             break;
          case UnitArea.AREA:
-            val = inVal * FACTOR_M2_TO_AREA;
+            val = val * FACTOR_M2_TO_AREA;
             break;
          case UnitArea.HECTARE:
-            val = inVal * FACTOR_M2_TO_HECTARE;
+            val = val * FACTOR_M2_TO_HECTARE;
             break;
          case UnitArea.KM2:
-            val = inVal * FACTOR_M2_TO_KM2;
+            val = val * FACTOR_M2_TO_KM2;
             break;
          case UnitArea.INCH2:
-            val = inVal / FACTOR_INCH2_TO_M2;
+            val = val / FACTOR_INCH2_TO_M2;
             break;
          case UnitArea.FOOT2:
-            val = inVal * FACTOR_FOOT2_TO_M2;
+            val = val * FACTOR_FOOT2_TO_M2;
             break;
          case UnitArea.YARD2:
-            val = inVal * FACTOR_YARD2_TO_M2;
+            val = val * FACTOR_YARD2_TO_M2;
             break;
          case UnitArea.PERCH:
-            val = inVal * FACTOR_PERCH_TO_M2;
+            val = val * FACTOR_PERCH_TO_M2;
             break;
          case UnitArea.ACRE:
-            val = inVal * FACTOR_ACRE_TO_M2;
+            val = val * FACTOR_ACRE_TO_M2;
             break;
          case UnitArea.MILE2:
-            val = inVal * FACTOR_M2_TO_MILE2;
+            val = val * FACTOR_M2_TO_MILE2;
             break;
          default:
             _logger.LogWarning($"There is no conversion for the fromUnit: {fromUnit}");
@@ -152,6 +153,6 @@ public static class ExtensionUnitArea
             break;
       }
 
-      return outVal;
+      return T.CreateTruncating(outVal);
    }
 }
