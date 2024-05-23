@@ -1076,6 +1076,43 @@ public abstract class FileHelper
       return null;
    }
 
+   /// <summary>Reads the text of a file asynchronusly.</summary>
+   /// <param name="path">Path to the file</param>
+   /// <param name="encoding">Encoding of the text (optional, default: UTF8)</param>
+   /// <returns>Text-content of the file</returns>
+   /// <exception cref="Exception"></exception>
+   public static async Task<string> ReadAllTextAsync(string? path, Encoding? encoding = null)
+   {
+      if (path != null)
+      {
+         try
+         {
+            if (ExistsFile(path))
+            {
+               const int DefaultBufferSize = 4096;
+               const FileOptions DefaultOptions = FileOptions.Asynchronous | FileOptions.SequentialScan;
+
+               var lines = new List<string>();
+
+               await using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read, DefaultBufferSize, DefaultOptions))
+               {
+                  using var reader = new StreamReader(stream, encoding ?? Encoding.UTF8);
+                  return await reader.ReadToEndAsync();
+               }
+            }
+         }
+         catch (Exception ex)
+         {
+            _logger.LogError(ex, $"Could not read file '{path}'");
+            throw;
+         }
+      }
+
+      _logger.LogError($"File does not exists: {path}");
+
+      return null;
+   }
+
    /// <summary>Reads all lines of text from a file.</summary>
    /// <param name="path">Path to the file</param>
    /// <param name="encoding">Encoding of the text (optional, default: UTF8)</param>
@@ -1089,6 +1126,49 @@ public abstract class FileHelper
          {
             if (ExistsFile(path))
                return File.ReadAllLines(path, encoding ?? Encoding.UTF8);
+         }
+         catch (Exception ex)
+         {
+            _logger.LogError(ex, $"Could not read file '{path}'");
+            throw;
+         }
+      }
+
+      _logger.LogError($"File does not exists: {path}");
+
+      return null;
+   }
+
+   /// <summary>Reads all lines of text from a file asynchronusly.</summary>
+   /// <param name="path">Path to the file</param>
+   /// <param name="encoding">Encoding of the text (optional, default: UTF8)</param>
+   /// <returns>Array of text lines from the file</returns>
+   /// <exception cref="Exception"></exception>
+   public static async Task<string[]> ReadAllLinesAsync(string? path, Encoding? encoding = null)
+   {
+      if (path != null)
+      {
+         try
+         {
+            if (ExistsFile(path))
+            {
+               const int DefaultBufferSize = 4096;
+               const FileOptions DefaultOptions = FileOptions.Asynchronous | FileOptions.SequentialScan;
+
+               var lines = new List<string>();
+
+               await using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read, DefaultBufferSize, DefaultOptions))
+               {
+                  using var reader = new StreamReader(stream, encoding ?? Encoding.UTF8);
+                  string line;
+                  while ((line = await reader.ReadLineAsync()) != null)
+                  {
+                     lines.Add(line);
+                  }
+               }
+
+               return lines.ToArray();
+            }
          }
          catch (Exception ex)
          {
