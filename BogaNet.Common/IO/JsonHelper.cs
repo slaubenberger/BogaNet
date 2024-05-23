@@ -21,6 +21,7 @@ public abstract class JsonHelper
          NullValueHandling = NullValueHandling.Ignore,
          FloatParseHandling = FloatParseHandling.Double,
          MissingMemberHandling = MissingMemberHandling.Ignore,
+         Converters = [new Newtonsoft.Json.Converters.StringEnumConverter()]
          //StringEscapeHandling = StringEscapeHandling.Default,
          //ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
          //ConstructorHandling = ConstructorHandling.Default,
@@ -42,14 +43,7 @@ public abstract class JsonHelper
          NullValueHandling = NullValueHandling.Ignore,
          FloatParseHandling = FloatParseHandling.Double,
          MissingMemberHandling = MissingMemberHandling.Ignore,
-         //StringEscapeHandling = StringEscapeHandling.Default,
-         //ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-         //ConstructorHandling = ConstructorHandling.Default,
-         //DefaultValueHandling = DefaultValueHandling.Ignore,
-         //ObjectCreationHandling = ObjectCreationHandling.Auto,
-         //MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
-         //PreserveReferencesHandling = PreserveReferencesHandling.All,
-         //TypeNameHandling = TypeNameHandling.All
+         Converters = [new Newtonsoft.Json.Converters.StringEnumConverter()]
       };
 
    /// <summary>Serialize an object to an JSON-file.</summary>
