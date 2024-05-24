@@ -1,4 +1,6 @@
-﻿namespace BogaNet.Test;
+﻿using BogaNet.Unit;
+
+namespace BogaNet.Test;
 
 public class UnitAreaTest
 {

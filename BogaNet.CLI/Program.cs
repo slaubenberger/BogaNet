@@ -2,6 +2,7 @@
 using NLog.Extensions.Logging;
 using BogaNet.Util;
 using BogaNet.Crypto;
+using BogaNet.Unit;
 
 namespace BogaNet.CLI;
 

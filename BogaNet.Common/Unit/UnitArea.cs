@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Logging;
 using System.Numerics;
 
-namespace BogaNet;
+namespace BogaNet.Unit;
 
 /// <summary>
 /// Units for areas
