@@ -65,6 +65,33 @@ public abstract class NetworkHelper
    }
 
    /// <summary>
+   /// Sets the global proxy for all network requests to the default
+   /// </summary>
+   /// <returns>Used global proxy</returns>
+   public static IWebProxy SetGloblProxyToDefault()
+   {
+      WebRequest.DefaultWebProxy.Credentials = CredentialCache.DefaultNetworkCredentials;
+      HttpClient.DefaultProxy = WebRequest.DefaultWebProxy;
+      return WebRequest.DefaultWebProxy;
+   }
+   
+   /// <summary>
+   /// Sets the global proxy for all network requests with the given credentials
+   /// </summary>
+   /// <param name="user">User for the proxy</param>
+   /// <param name="password">Password for the proxy</param>
+   /// <param name="url">Url of the proxy</param>
+   /// <returns>Used global proxy</returns>
+   public static IWebProxy SetGloblProxy(string user, string password, string url)
+   {
+      NetworkCredential credentials = new NetworkCredential(user, password);
+
+      WebProxy proxy = new WebProxy(new Uri(url), true, null, credentials);
+      HttpClient.DefaultProxy = proxy;
+      return proxy;
+   }
+
+   /// <summary>
    /// Escape the data in an URL (like spaces etc.)
    /// </summary>
    /// <param name="url"></param>
