@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Reflection;
 using System.Text;
+using System.Numerics;
 
 namespace BogaNet.Util;
 
@@ -53,74 +54,6 @@ public abstract class Helper
 
    #region Public methods
 
-   /// <summary>Creates a string of characters with a given length.</summary>
-   /// <param name="generateChars">Characters to generate the string (if more than one character is used, the generated string will be a randomized result of all characters)</param>
-   /// <param name="stringLength">Length of the generated string</param>
-   /// <returns>Generated string</returns>
-   public static string CreateString(string? generateChars, int stringLength)
-   {
-      if (generateChars != null)
-      {
-         if (generateChars.Length > 1)
-         {
-            char[] chars = new char[stringLength];
-
-            for (int ii = 0; ii < stringLength; ii++)
-            {
-               chars[ii] = generateChars[_rnd.Next(0, generateChars.Length)];
-            }
-
-            return new string(chars);
-         }
-
-         return generateChars.Length == 1 ? new string(generateChars[0], stringLength) : string.Empty;
-      }
-
-      return string.Empty;
-   }
-
-   /// <summary>Split the given text to lines and return it as list.</summary>
-   /// <param name="text">Complete text fragment</param>
-   /// <param name="ignoreCommentedLines">Ignore commente lines (optional, default: true)</param>
-   /// <param name="skipHeaderLines">Number of skipped header lines (optional, default: 0)</param>
-   /// <param name="skipFooterLines">Number of skipped footer lines (optional, default: 0)</param>
-   /// <returns>Splitted lines as array</returns>
-   public static List<string> SplitStringToLines(string? text,
-      bool ignoreCommentedLines = true, int skipHeaderLines = 0, int skipFooterLines = 0)
-   {
-      List<string> result = new(100);
-
-      if (string.IsNullOrEmpty(text))
-      {
-         _logger.LogWarning("Parameter 'text' is null or empty => 'SplitStringToLines()' will return an empty string list.");
-      }
-      else
-      {
-         string[] lines = Constants.REGEX_LINEENDINGS.Split(text);
-
-         for (int ii = 0; ii < lines.Length; ii++)
-         {
-            if (ii + 1 > skipHeaderLines && ii < lines.Length - skipFooterLines)
-            {
-               if (!string.IsNullOrEmpty(lines[ii]))
-               {
-                  if (ignoreCommentedLines)
-                  {
-                     if (!lines[ii].BNStartsWith("#")) //valid and not disabled line?
-                        result.Add(lines[ii]);
-                  }
-                  else
-                  {
-                     result.Add(lines[ii]);
-                  }
-               }
-            }
-         }
-      }
-
-      return result;
-   }
-
    /// <summary>Format byte-value to Human-Readable-Form.</summary>
    /// <param name="bytes">Value in bytes</param>
    /// <param name="useSI">Use SI-system (optional, default: false)</param>
@@ -164,32 +97,34 @@ public abstract class Helper
    /// <summary>Format seconds to Human-Readable-Form.</summary>
    /// <param name="seconds">Value in seconds</param>
    /// <returns>Formatted seconds in Human-Readable-Form.</returns>
-   public static string FormatSecondsToHRF(double seconds)
+   public static string FormatSecondsToHRF<T>(T seconds) where T : INumber<T>
    {
-      bool wasMinus = seconds < 0;
+      long val = Convert.ToInt64(seconds);
 
-      int totalSeconds = Math.Abs((int)seconds);
-      int calcSeconds = totalSeconds % 60;
+      bool wasMinus = val < 0;
 
-      if (seconds >= 86400)
+      long totalSeconds = Math.Abs(val);
+      long calcSeconds = totalSeconds % 60;
+
+      if (val >= 86400)
       {
-         int calcDays = totalSeconds / 86400;
-         int calcHours = (totalSeconds -= calcDays * 86400) / 3600;
-         int calcMinutes = (totalSeconds - calcHours * 3600) / 60;
+         long calcDays = totalSeconds / 86400;
+         long calcHours = (totalSeconds -= calcDays * 86400) / 3600;
+         long calcMinutes = (totalSeconds - calcHours * 3600) / 60;
 
          return $"{(wasMinus ? "-" : "")}{calcDays}d {calcHours}:{addLeadingZero(calcMinutes)}:{addLeadingZero(calcSeconds)}";
       }
 
-      if (seconds >= 3600)
+      if (val >= 3600)
       {
-         int calcHours = totalSeconds / 3600;
-         int calcMinutes = (totalSeconds - calcHours * 3600) / 60;
+         long calcHours = totalSeconds / 3600;
+         long calcMinutes = (totalSeconds - calcHours * 3600) / 60;
 
          return $"{(wasMinus ? "-" : "")}{calcHours}:{addLeadingZero(calcMinutes)}:{addLeadingZero(calcSeconds)}";
       }
       else
       {
-         int calcMinutes = totalSeconds / 60;
+         long calcMinutes = totalSeconds / 60;
 
          return $"{(wasMinus ? "-" : "")}{calcMinutes}:{addLeadingZero(calcSeconds)}";
       }
@@ -349,7 +284,7 @@ public abstract class Helper
 
    #region Private methods
 
-   private static string addLeadingZero(int value)
+   private static string addLeadingZero(long value)
    {
       return value < 10 ? "0" + value : value.ToString();
    }

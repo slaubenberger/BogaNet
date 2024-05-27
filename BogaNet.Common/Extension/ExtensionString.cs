@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using System.Text;
 using System.Numerics;
+using Microsoft.Extensions.Logging;
 
 namespace BogaNet;
 
@@ -9,6 +10,9 @@ namespace BogaNet;
 /// </summary>
 public static class ExtensionString
 {
+   private static readonly ILogger _logger = GlobalLogging.CreateLogger("ExtensionNumber");
+   private static readonly Random _rnd = new();
+
    /// <summary>
    /// Converts a string to title case (first letter uppercase).
    /// </summary>
@@ -531,11 +535,89 @@ public static class ExtensionString
 
       if (diff > 0)
       {
-         string fill = new string(filler, diff);
+         string fill = new(filler, diff);
 
          return padRight ? $"{str}{fill}" : $"{fill}{str}";
       }
 
       return str.Substring(0, length);
+   }
+
+
+   /// <summary>Split the given text to lines and return it as list.</summary>
+   /// <param name="text">Complete text fragment</param>
+   /// <param name="ignoreCommentedLines">Ignore commente lines (optional, default: true)</param>
+   /// <param name="skipHeaderLines">Number of skipped header lines (optional, default: 0)</param>
+   /// <param name="skipFooterLines">Number of skipped footer lines (optional, default: 0)</param>
+   /// <returns>Splitted lines as list</returns>
+   public static List<string> BNSplitToLines(this string? text, bool ignoreCommentedLines = true, int skipHeaderLines = 0, int skipFooterLines = 0)
+   {
+      List<string> result = new(100);
+
+      if (string.IsNullOrEmpty(text))
+      {
+         _logger.LogWarning("Parameter 'text' is null or empty => 'SplitStringToLines()' will return an empty string list.");
+      }
+      else
+      {
+         string[] lines = Constants.REGEX_LINEENDINGS.Split(text);
+
+         for (int ii = 0; ii < lines.Length; ii++)
+         {
+            if (ii + 1 > skipHeaderLines && ii < lines.Length - skipFooterLines)
+            {
+               if (!string.IsNullOrEmpty(lines[ii]))
+               {
+                  if (ignoreCommentedLines)
+                  {
+                     if (!lines[ii].BNStartsWith("#")) //valid and not disabled line?
+                        result.Add(lines[ii]);
+                  }
+                  else
+                  {
+                     result.Add(lines[ii]);
+                  }
+               }
+            }
+         }
+      }
+
+      return result;
+   }
+
+
+   /// <summary>Creates a string of characters with a given length.</summary>
+   /// <param name="generateChars">Characters to generate the string (if more than one character is used, the generated string will be a randomized result of all characters)</param>
+   /// <param name="stringLength">Length of the generated string</param>
+   /// <returns>Generated string</returns>
+   public static string BNCreateString(this string? generateChars, int stringLength)
+   {
+      if (generateChars != null)
+      {
+         if (generateChars.Length > 1)
+         {
+            char[] chars = new char[stringLength];
+
+            for (int ii = 0; ii < stringLength; ii++)
+            {
+               chars[ii] = generateChars[_rnd.Next(0, generateChars.Length)];
+            }
+
+            return new string(chars);
+         }
+
+         return generateChars.Length == 1 ? new string(generateChars[0], stringLength) : string.Empty;
+      }
+
+      return string.Empty;
+   }
+
+   /// <summary>Creates a string of characters with a given length.</summary>
+   /// <param name="generateChar">Character to generate the string</param>
+   /// <param name="stringLength">Length of the generated string</param>
+   /// <returns>Generated string</returns>
+   public static string BNCreateString(this char? generateChar, int stringLength)
+   {
+      return generateChar.ToString().BNCreateString(stringLength);
    }
 }

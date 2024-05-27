@@ -67,7 +67,7 @@ public static class Program
    private static void testObf()
    {
       //string plain = Helper.CreateString("ハローワールド", 50);
-      string plain = Helper.CreateString(Constants.SIGNS_EXT, 80);
+      string plain = Constants.SIGNS_EXT.BNCreateString(80);
       //string plain = Helper.CreateString(Constants.SIGNS, 80);
 
       string? obf = Obfuscator.Obfuscate(plain, 23);

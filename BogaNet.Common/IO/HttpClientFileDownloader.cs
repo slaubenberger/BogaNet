@@ -9,7 +9,7 @@ public class HttpClientFileDownloader
 {
    #region Variables
 
-   private static readonly ILogger _logger = GlobalLogging.CreateLogger("FileHelper");
+   private static readonly ILogger<HttpClientFileDownloader> _logger = GlobalLogging.CreateLogger<HttpClientFileDownloader>();
 
    /// <summary>Delegate for the progress changes.</summary>
    public delegate void ProgressChangedHandler(long? totalFileSize, long totalBytesDownloaded, double? progressPercentage);
