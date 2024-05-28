@@ -18,7 +18,7 @@ public abstract class AESHelper
    /// <exception cref="Exception"></exception>
    public static bool EncryptFile(string? file, string? key, byte[]? IV)
    {
-      return EncryptFileAsync(file, key, IV).GetAwaiter().GetResult();
+      return Task.Run(() => EncryptFileAsync(file, key, IV)).GetAwaiter().GetResult();
    }
 
    /// <summary>
@@ -44,7 +44,7 @@ public abstract class AESHelper
    /// <exception cref="Exception"></exception>
    public static bool EncryptFile(string? file, byte[]? key, byte[]? IV)
    {
-      return EncryptFileAsync(file, key, IV).GetAwaiter().GetResult();
+      return Task.Run(() => EncryptFileAsync(file, key, IV)).GetAwaiter().GetResult();
    }
 
    /// <summary>
@@ -70,7 +70,7 @@ public abstract class AESHelper
    /// <exception cref="Exception"></exception>
    public static bool DecryptFile(string? file, string? key, byte[]? IV)
    {
-      return DecryptFileAsync(file, key, IV).GetAwaiter().GetResult();
+      return Task.Run(() => DecryptFileAsync(file, key, IV)).GetAwaiter().GetResult();
    }
 
    /// <summary>
@@ -96,7 +96,7 @@ public abstract class AESHelper
    /// <exception cref="Exception"></exception>
    public static bool DecryptFile(string? file, byte[]? key, byte[]? IV)
    {
-      return DecryptFileAsync(file, key, IV).GetAwaiter().GetResult();
+      return Task.Run(() => DecryptFileAsync(file, key, IV)).GetAwaiter().GetResult();
    }
 
    /// <summary>
@@ -121,7 +121,7 @@ public abstract class AESHelper
    /// <exception cref="ArgumentNullException"></exception>
    public static byte[] Encrypt(byte[]? dataToEncrypt, byte[]? key, byte[]? IV)
    {
-      return EncryptAsync(dataToEncrypt, key, IV).GetAwaiter().GetResult();
+      return Task.Run(() => EncryptAsync(dataToEncrypt, key, IV)).GetAwaiter().GetResult();
    }
 
    /// <summary>
@@ -162,7 +162,7 @@ public abstract class AESHelper
    /// <exception cref="ArgumentNullException"></exception>
    public static byte[] Decrypt(byte[]? dataToDecrypt, byte[]? key, byte[]? IV)
    {
-      return DecryptAsync(dataToDecrypt, key, IV).GetAwaiter().GetResult();
+      return Task.Run(() => DecryptAsync(dataToDecrypt, key, IV)).GetAwaiter().GetResult();
    }
 
    /// <summary>

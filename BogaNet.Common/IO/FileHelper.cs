@@ -1079,7 +1079,7 @@ public abstract class FileHelper
    /// <exception cref="Exception"></exception>
    public static string? ReadAllText(string? path, Encoding? encoding = null) //NUnit
    {
-      return ReadAllTextAsync(path, encoding).GetAwaiter().GetResult();
+      return Task.Run(() => ReadAllTextAsync(path, encoding)).GetAwaiter().GetResult();
    }
 
    /// <summary>Reads the text of a file asynchronusly.</summary>
@@ -1115,7 +1115,7 @@ public abstract class FileHelper
    /// <exception cref="Exception"></exception>
    public static string[]? ReadAllLines(string? path, Encoding? encoding = null) //NUnit
    {
-      return ReadAllLinesAsync(path, encoding).GetAwaiter().GetResult();
+      return Task.Run(() => ReadAllLinesAsync(path, encoding)).GetAwaiter().GetResult();
    }
 
    /// <summary>Reads all lines of text from a file asynchronusly.</summary>
@@ -1150,7 +1150,7 @@ public abstract class FileHelper
    /// <exception cref="Exception"></exception>
    public static byte[]? ReadAllBytes(string? path) //NUnit
    {
-      return ReadAllBytesAsync(path).GetAwaiter().GetResult();
+      return Task.Run(() => ReadAllBytesAsync(path)).GetAwaiter().GetResult();
    }
 
    /// <summary>Reads the bytes of a file asynchronusly.</summary>
@@ -1186,7 +1186,7 @@ public abstract class FileHelper
    /// <exception cref="Exception"></exception>
    public static bool WriteAllText(string? destFile, string? text, Encoding? encoding = null) //NUnit
    {
-      return WriteAllTextAsync(destFile, text, encoding).GetAwaiter().GetResult();
+      return Task.Run(() => WriteAllTextAsync(destFile, text, encoding)).GetAwaiter().GetResult();
    }
 
    /// <summary>Writes text to a file asynchronusly.</summary>
@@ -1224,7 +1224,7 @@ public abstract class FileHelper
    /// <exception cref="Exception"></exception>
    public static bool WriteAllLines(string? destFile, string[]? lines, Encoding? encoding = null) //NUnit
    {
-      return WriteAllLinesAsync(destFile, lines, encoding).GetAwaiter().GetResult();
+      return Task.Run(() => WriteAllLinesAsync(destFile, lines, encoding)).GetAwaiter().GetResult();
    }
 
    /// <summary>Writes all lines of text to a file asynchronusly.</summary>
@@ -1261,7 +1261,7 @@ public abstract class FileHelper
    /// <exception cref="Exception"></exception>
    public static bool WriteAllBytes(string? destFile, byte[]? data) //NUnit
    {
-      return WriteAllBytesAsync(destFile, data).GetAwaiter().GetResult();
+      return Task.Run(() => WriteAllBytesAsync(destFile, data)).GetAwaiter().GetResult();
    }
 
    /// <summary>Writes bytes to a file.</summary>

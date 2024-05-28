@@ -54,7 +54,7 @@ public abstract class JsonHelper
    /// <exception cref="Exception"></exception>
    public static bool SerializeToFile(object? obj, string? path, JsonSerializerSettings? settings = null)
    {
-      return SerializeToFileAsync(obj, path, settings).GetAwaiter().GetResult();
+      return Task.Run(() => SerializeToFileAsync(obj, path, settings)).GetAwaiter().GetResult();
    }
 
    /// <summary>Serialize an object to an JSON-file asynchronusly.</summary>
@@ -109,7 +109,7 @@ public abstract class JsonHelper
    /// <exception cref="Exception"></exception>
    public static T? DeserializeFromFile<T>(string? path, JsonSerializerSettings? settings = null)
    {
-      return DeserializeFromFileAsync<T>(path, settings).GetAwaiter().GetResult();
+      return Task.Run(() => DeserializeFromFileAsync<T>(path, settings)).GetAwaiter().GetResult();
    }
 
    /// <summary>Deserialize a JSON-file to an object asynchronusly.</summary>

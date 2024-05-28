@@ -13,7 +13,7 @@ public static class ExtensionStream
    /// <exception cref="ArgumentNullException"></exception>
    public static byte[] BNReadFully(this Stream? input)
    {
-      return BNReadFullyAsync(input).GetAwaiter().GetResult();
+      return Task.Run(() => BNReadFullyAsync(input)).GetAwaiter().GetResult();
    }
 
    /// <summary>

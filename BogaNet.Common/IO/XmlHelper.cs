@@ -19,7 +19,7 @@ public abstract class XmlHelper
    /// <exception cref="Exception"></exception>
    public static bool SerializeToFile<T>(T? obj, string? filename)
    {
-      return SerializeToFileAsync(obj, filename).GetAwaiter().GetResult();
+      return Task.Run(() => SerializeToFileAsync(obj, filename)).GetAwaiter().GetResult();
    }
 
    /// <summary>Serialize an object to a XML-file asynchronusly.</summary>
@@ -102,7 +102,7 @@ public abstract class XmlHelper
    /// <exception cref="Exception"></exception>
    public static T? DeserializeFromFile<T>(string? filename, bool skipBOM = false)
    {
-      return DeserializeFromFileAsync<T>(filename, skipBOM).GetAwaiter().GetResult();
+      return Task.Run(() => DeserializeFromFileAsync<T>(filename, skipBOM)).GetAwaiter().GetResult();
    }
 
    /// <summary>Deserialize a XML-file to an object asynchronusly.</summary>
