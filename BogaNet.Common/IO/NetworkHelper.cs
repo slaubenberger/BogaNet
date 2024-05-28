@@ -68,13 +68,18 @@ public abstract class NetworkHelper
    /// Sets the global proxy for all network requests to the default
    /// </summary>
    /// <returns>Used global proxy</returns>
-   public static IWebProxy SetGloblProxyToDefault()
+   public static IWebProxy? SetGloblProxyToDefault()
    {
-      WebRequest.DefaultWebProxy.Credentials = CredentialCache.DefaultNetworkCredentials;
-      HttpClient.DefaultProxy = WebRequest.DefaultWebProxy;
-      return WebRequest.DefaultWebProxy;
+      if (WebRequest.DefaultWebProxy != null)
+      {
+         WebRequest.DefaultWebProxy.Credentials = CredentialCache.DefaultNetworkCredentials;
+         HttpClient.DefaultProxy = WebRequest.DefaultWebProxy;
+         return WebRequest.DefaultWebProxy;
+      }
+
+      return null;
    }
-   
+
    /// <summary>
    /// Sets the global proxy for all network requests with the given credentials
    /// </summary>

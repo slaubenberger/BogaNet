@@ -15,7 +15,7 @@ public class HttpClientFileDownloader
    public delegate void ProgressChangedHandler(long? totalFileSize, long totalBytesDownloaded, double? progressPercentage);
 
    /// <summary>Event triggered whenever the progress changes.</summary>
-   public event ProgressChangedHandler ProgressChanged;
+   public event ProgressChangedHandler? ProgressChanged;
 
    private string? _downloadUrl;
    private string? _destinationPath;
@@ -73,32 +73,35 @@ public class HttpClientFileDownloader
 
    private async Task processContentStream(long? totalDownloadSize, Stream contentStream)
    {
-      long totalBytesRead = 0L;
-      long readCount = 0L;
-      byte[] buffer = new byte[8192];
-      bool isMoreToRead = true;
-
-      await using FileStream fileStream = new(_destinationPath, FileMode.Create, FileAccess.Write, FileShare.None, 8192, true);
-
-      do
+      if (_destinationPath != null)
       {
-         int bytesRead = await contentStream.ReadAsync(buffer, 0, buffer.Length);
+         long totalBytesRead = 0L;
+         long readCount = 0L;
+         byte[] buffer = new byte[8192];
+         bool isMoreToRead = true;
 
-         if (bytesRead == 0)
+         await using FileStream fileStream = new(_destinationPath, FileMode.Create, FileAccess.Write, FileShare.None, 8192, true);
+
+         do
          {
-            isMoreToRead = false;
-            triggerProgressChanged(totalDownloadSize, totalBytesRead);
-            continue;
-         }
+            int bytesRead = await contentStream.ReadAsync(buffer, 0, buffer.Length);
 
-         await fileStream.WriteAsync(buffer, 0, bytesRead);
+            if (bytesRead == 0)
+            {
+               isMoreToRead = false;
+               triggerProgressChanged(totalDownloadSize, totalBytesRead);
+               continue;
+            }
 
-         totalBytesRead += bytesRead;
-         readCount += 1;
+            await fileStream.WriteAsync(buffer, 0, bytesRead);
 
-         if (readCount % 100 == 0)
-            triggerProgressChanged(totalDownloadSize, totalBytesRead);
-      } while (isMoreToRead);
+            totalBytesRead += bytesRead;
+            readCount += 1;
+
+            if (readCount % 100 == 0)
+               triggerProgressChanged(totalDownloadSize, totalBytesRead);
+         } while (isMoreToRead);
+      }
    }
 
    private void triggerProgressChanged(long? totalDownloadSize, long totalBytesRead)
