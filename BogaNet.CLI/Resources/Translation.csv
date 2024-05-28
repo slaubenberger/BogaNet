@@ -1,0 +1,4 @@
+key,en,de
+GreetingText,"Hi There!","Hallo zusammen!!!!!!!!!"
+GreetingText2,"I was started {0} times","Ich wurde {0} mal gestartet"
+GreetingText2_Tooltip,"TOOLTIP","Tooltipli"

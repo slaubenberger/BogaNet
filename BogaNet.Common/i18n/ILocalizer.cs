@@ -1,0 +1,132 @@
+﻿using System.Globalization;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace BogaNet.i18n;
+
+/// <summary>
+/// Interface for localizers.
+/// </summary>
+public interface ILocalizer
+{
+   /// <summary>
+   /// Current culture.
+   /// </summary>
+   CultureInfo Culture { get; set; }
+
+   /// <summary>
+   /// Supported cultures.
+   /// </summary>
+   List<CultureInfo> SupportedCultures { get; }
+
+   /// <summary>
+   /// List of missing translations.
+   /// </summary>
+   List<string> MissingTranslations { get; }
+
+   /// <summary>
+   /// List of missing country codes.
+   /// </summary>
+   List<string> MissingCountries { get; }
+
+   /// <summary>
+   /// List of removed translations.
+   /// </summary>
+   List<string> RemovedTranslations { get; }
+
+   /// <summary>
+   /// List of added translations.
+   /// </summary>
+   List<string> AddedTranslations { get; }
+
+   /// <summary>
+   /// Delegate for culture changes.
+   /// </summary>
+   delegate void CultureChange(CultureInfo lang);
+
+   /// <summary>
+   /// Event triggered whenever the culture changes.
+   /// </summary>
+   event CultureChange OnCultureChange;
+
+   /// <summary>
+   /// Gets the text for a key and the current culture.
+   /// </summary>
+   /// <param name="key">Key for the text</param>
+   /// <param name="textType">Type of the text (optional, default: LABEL)</param>
+   /// <returns>Text for the key</returns>
+   string? GetText(string key, TextType textType = TextType.LABEL);
+
+   /// <summary>
+   /// Gets the text for a key and a given culture.
+   /// </summary>
+   /// <param name="key">Key for the text</param>
+   /// <param name="culture">Culture for the text</param>
+   /// <param name="textType">Type of the text (optional, default: LABEL)</param>
+   /// <returns>Text for the key</returns>
+   string? GetText(string key, CultureInfo culture, TextType textType = TextType.LABEL);
+
+   /// <summary>
+   /// Gets the text for a key with replacements (for placeholders like '{0}') and the current culture.
+   /// </summary>
+   /// <param name="key">Key for the text</param>
+   /// <param name="textType">Type of the text (optional, default: LABEL)</param>
+   /// <param name="replacements">Replacements for the text</param>
+   /// <returns>Text with replacements for the key</returns>
+   string? GetTextWithReplacements(string key, TextType textType = TextType.LABEL, params string[] replacements);
+
+   /// <summary>
+   /// Gets the text for a key with replacements (for placeholders like '{0}') and a given culture.
+   /// </summary>
+   /// <param name="key">Key for the text</param>
+   /// <param name="culture">Culture for the text</param>
+   /// <param name="textType">Type of the text (optional, default: LABEL)</param>
+   /// <param name="replacements">Replacements for the text</param>
+   /// <returns>Text with replacements for the key</returns>
+   string? GetTextWithReplacements(string key, CultureInfo culture, TextType textType = TextType.LABEL, params string[] replacements);
+
+   //void Load(Dictionary<string, string[]> dataDict);
+
+   /// <summary>
+   /// Adds a translated text.
+   /// </summary>
+   /// <param name="key">Key for the text</param>
+   /// <param name="culture">Culture for the text</param>
+   /// <param name="value">Value of the text</param>
+   void Add(string key, CultureInfo culture, string value);
+
+   /// <summary>
+   /// Removes a key and all assigned translated texts.
+   /// </summary>
+   /// <param name="key">Key to remove</param>
+   void Remove(string key);
+
+   /// <summary>
+   /// Clears all translations.
+   /// </summary>
+   void Clear();
+
+   /// <summary>
+   /// Load translation files (CSV).
+   /// </summary>
+   /// <param name="files">Files to load</param>
+   void LoadFiles(params string[] files);
+
+   /// <summary>
+   /// Load translation files (CSV) asynchronusly.
+   /// </summary>
+   /// <param name="files">Files to load</param>
+   Task LoadFilesAsync(params string[] files);
+
+   /// <summary>
+   /// Saves all translations to a given file (CSV).
+   /// </summary>
+   /// <param name="filename">File for the translations</param>
+   void SaveFile(string filename);
+
+   /// <summary>
+   /// Saves all translations to a given file (CSV) asynchronusly.
+   /// </summary>
+   /// <param name="filename">File for the translations</param>
+   Task SaveFileAsync(string filename);
+}

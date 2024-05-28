@@ -1,8 +1,9 @@
 ﻿using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
-using BogaNet.Util;
 using BogaNet.Crypto;
 using BogaNet.Unit;
+using System.Globalization;
+using BogaNet.i18n;
 
 namespace BogaNet.CLI;
 
@@ -19,19 +20,8 @@ public static class Program
       GlobalLogging.LoggerFactory = new NLogLoggerFactory();
 
       _logger.LogDebug("Hi there, this is a test app!");
-/*
-      ushort v1 = 123;
-      var bytes = v1.BNToByteArray();
-      ushort v2 = bytes.BNToNumber<ushort>();
-      
-      _logger.LogDebug($"{v1} - {v2}");
-*/
-/*
-      _logger.LogInformation(BogaNet.IO.FileHelper.TempDirectory);
-      _logger.LogInformation(BogaNet.IO.FileHelper.TempFile);
-      _logger.LogInformation(BogaNet.IO.FileHelper.CurrentDirectory);
-      _logger.LogInformation(BogaNet.IO.FileHelper.TempPath);
-*/
+
+      testLocalizer();
       //testConvert();
       //testObf();
       //testToString();
@@ -52,6 +42,35 @@ public static class Program
 
       NLog.LogManager.Shutdown();
       Environment.Exit(code);
+   }
+
+   private static void testLocalizer()
+   {
+      var loc = Localizer.Instance;
+      loc.LoadFiles("./Resources/Translation.csv", "./Resources/Translation_de.csv");
+
+      loc.Add("GreetingText2", new CultureInfo("en"), "Hello world");
+      loc.Add("GreetingText", new CultureInfo("it"), "Ciao!");
+
+      //loc.Remove("GreetingText");
+
+      loc.Culture = new CultureInfo("en");
+      _logger.LogInformation(loc.GetText("GreetingText"));
+      _logger.LogInformation(loc.GetText("GreetingText2"));
+      _logger.LogInformation(loc.GetText("GreetingText2", TextType.TOOLTIP));
+
+      loc.Culture = new CultureInfo("de");
+      _logger.LogInformation(loc.GetText("GreetingText"));
+      _logger.LogInformation(loc.GetTextWithReplacements("GreetingText2", TextType.LABEL, "1000"));
+      _logger.LogInformation(loc.GetText("GreetingText2", TextType.TOOLTIP));
+
+
+      loc.Culture = new CultureInfo("it");
+      _logger.LogInformation(loc.GetText("GreetingText"));
+      _logger.LogInformation(loc.GetText("GreetingText2"));
+      _logger.LogInformation(loc.GetText("GreetingText2", TextType.TOOLTIP));
+
+      //loc.SaveFile("./MyTranslations.csv");
    }
 
    private static void testConvert()
