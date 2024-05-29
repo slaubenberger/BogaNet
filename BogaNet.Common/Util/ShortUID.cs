@@ -1,31 +1,83 @@
-using Microsoft.Extensions.Logging;
+using System.Text;
 
 namespace BogaNet.Util;
 
 /// <summary>
-/// Short GUID implementation with a length of 22 characters (instead 36 of the normal Guid)
+/// Short Guid implementation with a length of 22 characters (instead 36 of the normal Guid).
 /// </summary>
 public class ShortUID
 {
+   #region Variables
+
    public string Code { get; private set; }
 
+   #endregion
+
+   #region Constructors
+
    /// <summary>
-   /// Constructor with a ShortUID-code
+   /// Constructor for a ShortUID with a given byte-array.
    /// </summary>
-   /// <param name="code">Code of the ShortUID</param>
-   public ShortUID(string code)
+   /// <param name="data">ShortUID as byte-array</param>
+   public ShortUID(byte[] data)
    {
-      Code = code.BNFixedLength(22, '-');
+      Code = data.BNToString(Encoding.ASCII) ?? string.Empty;
    }
 
    /// <summary>
-   /// Generates a new ShortUID
+   /// Constructor for a ShortUID with a given string.
+   /// </summary>
+   /// <param name="code">ShortUID as string</param>
+   public ShortUID(string code)
+   {
+      Code = code; //.BNFixedLength(22, '-');
+   }
+
+   /// <summary>
+   /// Empty constructor for a new ShortUID.
+   /// </summary>
+   public ShortUID()
+   {
+      Code = NewShortUID().Code;
+   }
+
+   #endregion
+
+   #region Public methods
+
+   /// <summary>
+   /// Generates a new ShortUID.
    /// </summary>
    /// <returns>New ShortUID</returns>
    public static ShortUID NewShortUID()
    {
       return Guid.NewGuid().BNToShortUID();
    }
+
+   /// <summary>
+   /// Returns the ShortUID as byte-array.
+   /// </summary>
+   /// <returns>ShortUID as byte-array</returns>
+   public byte[] ToByteArray()
+   {
+      return Code.BNToByteArray(Encoding.ASCII) ?? Array.Empty<byte>();
+   }
+
+   /// <summary>
+   /// Converts the ShortUID to a Guid
+   /// </summary>
+   /// <returns>Guid-instance</returns>
+   public Guid ToGuid()
+   {
+      string guidText = Code.Replace("_", "/").Replace("-", "+") + "==";
+      Guid guid = new(guidText.BNFromBase64ToByteArray() ?? Array.Empty<byte>());
+
+      return guid;
+   }
+
+   #endregion
+
+   #region Overridden methods
 
    public override string ToString()
    {
@@ -46,36 +98,15 @@ public class ShortUID
    {
       return base.GetHashCode();
    }
+
+   #endregion
 }
 
 /// <summary>
-/// Extension methods for ShortUID
+/// Extension methods for Guid
 /// </summary>
-public static class ExtensionShortUID
+public static class ExtensionGuid
 {
-   private static readonly ILogger _logger = GlobalLogging.CreateLogger("ExtensionShortUID");
-
-   /// <summary>
-   /// Converts a ShortUID to a Guid
-   /// </summary>
-   /// <param name="uid">ShortUID-instance</param>
-   /// <returns>Guid-instance</returns>
-   public static Guid BNToGuid(this ShortUID? uid)
-   {
-      try
-      {
-         string guidText = uid?.Code.Replace("_", "/").Replace("-", "+") + "==";
-         Guid guid = new(guidText.BNFromBase64ToByteArray() ?? Array.Empty<byte>());
-
-         return guid;
-      }
-      catch (Exception ex)
-      {
-         _logger.LogError(ex, "Could not convert ShortUID to Guid!");
-         throw;
-      }
-   }
-
    /// <summary>
    /// Converts a Guid to a ShortUID
    /// </summary>
