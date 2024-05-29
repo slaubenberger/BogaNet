@@ -46,11 +46,16 @@ public static class Program
 
    private static void testLocalizer()
    {
+      var sw = new BogaNet.Util.StopWatch();
+
+      sw.Start();
       var loc = Localizer.Instance;
       loc.LoadFiles("./Resources/Translation.csv", "./Resources/Translation_de.csv");
+      sw.AddPoint("Load");
 
       loc.Add("GreetingText2", new CultureInfo("en"), "Hello world");
       loc.Add("GreetingText", new CultureInfo("it"), "Ciao!");
+      sw.AddPoint("Add");
 
       //loc.Remove("GreetingText");
 
@@ -58,18 +63,22 @@ public static class Program
       _logger.LogInformation(loc.GetText("GreetingText"));
       _logger.LogInformation(loc.GetText("GreetingText2"));
       _logger.LogInformation(loc.GetText("GreetingText2", TextType.TOOLTIP));
+      sw.AddPoint("en");
 
       loc.Culture = new CultureInfo("de");
       _logger.LogInformation(loc.GetText("GreetingText"));
       _logger.LogInformation(loc.GetTextWithReplacements("GreetingText2", TextType.LABEL, "1000"));
       _logger.LogInformation(loc.GetText("GreetingText2", TextType.TOOLTIP));
-
+      sw.AddPoint("de");
 
       loc.Culture = new CultureInfo("it");
       _logger.LogInformation(loc.GetText("GreetingText"));
       _logger.LogInformation(loc.GetText("GreetingText2"));
       _logger.LogInformation(loc.GetText("GreetingText2", TextType.TOOLTIP));
+      sw.AddPoint("it");
 
+      sw.Stop();
+      _logger.LogInformation($"{sw.ElapsedTime} - {sw.PointsAndTime.BNDump(false)}");
       //loc.SaveFile("./MyTranslations.csv");
    }
 

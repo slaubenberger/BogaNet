@@ -620,4 +620,24 @@ public static class ExtensionString
    {
       return generateChar.ToString().BNCreateString(stringLength);
    }
+
+   /// <summary>
+   /// Decodes a HTML encoded string to a normal string.
+   /// </summary>
+   /// <param name="input">HTML encoded string</param>
+   /// <returns>Normal string</returns>
+   public static string BNHtmlDecode(this string input)
+   {
+      return System.Web.HttpUtility.HtmlDecode(input);
+   }
+
+   /// <summary>
+   /// Encodes a normal string to a HTML encoded string.
+   /// </summary>
+   /// <param name="input">Normal string</param>
+   /// <returns>HTML encoded string</returns>
+   public static string BNHtmlEncode(this string input)
+   {
+      return System.Web.HttpUtility.HtmlEncode(input);
+   }
 }

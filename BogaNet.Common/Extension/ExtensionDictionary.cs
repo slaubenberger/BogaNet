@@ -14,12 +14,12 @@ public static class ExtensionDictionary
    /// Dumps a dictionary to a string.
    /// </summary>
    /// <param name="dict">IDictionary-instance to dump.</param>
+   /// <param name="appendNewLine">Append new line, otherwise use the given delimiter (optional, default: true).</param>
    /// <param name="prefix">Prefix for every element (optional, default: empty).</param>
    /// <param name="postfix">Postfix for every element (optional, default: empty).</param>
-   /// <param name="appendNewLine">Append new line, otherwise use the given delimiter (optional, default: false).</param>
    /// <param name="delimiter">Delimiter if appendNewLine is false (optional, default: "; ").</param>
    /// <returns>String with lines for all dictionary entries.</returns>
-   public static string? BNDump<K, V>(this IDictionary<K, V>? dict, string? prefix = "", string? postfix = "", bool appendNewLine = true, string delimiter = "; ")
+   public static string? BNDump<K, V>(this IDictionary<K, V>? dict, bool appendNewLine = true, string? prefix = "", string? postfix = "", string delimiter = "; ")
    {
       if (dict == null)
          return null;
