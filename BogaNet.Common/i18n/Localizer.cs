@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
+﻿using System.Globalization;
 using Microsoft.Extensions.Logging;
-using System.Threading.Tasks;
 using BogaNet.IO;
 using System.Text;
 
@@ -82,7 +78,6 @@ public class Localizer : ILocalizer
 
    #region Events
 
-   /// <summary>An event triggered whenever the language changes.</summary>
    public event ILocalizer.CultureChange? OnCultureChange;
 
    #endregion
