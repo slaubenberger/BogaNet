@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Text;
 using Microsoft.Extensions.Logging;
 
 namespace BogaNet.Util;
@@ -63,10 +64,10 @@ public class ProcessRunner
 
    #endregion
 
-   #region De-constructor
+   #region Finalizer
 
    /// <summary>
-   /// De-constructor
+   /// Finalizer
    /// </summary>
    ~ProcessRunner()
    {
@@ -74,7 +75,6 @@ public class ProcessRunner
    }
 
    #endregion
-
 
    #region Public-Methoden
 
@@ -84,10 +84,28 @@ public class ProcessRunner
    /// <param name="command">Process/command to execute</param>
    /// <param name="args">Arguments for the command (optional)</param>
    /// <param name="waitForExit">Wait for the process to exit (optional, default: false)</param>
-   /// <param name="encoding">Encoding of the I/O (optional, default: UTF8)</param>
+   /// <param name="encoding">Encoding of the I/O (optional, default: Latin1)</param>
+   /// <param name="useShellExecute">Use shell execute (optional, default: false)</param>
+   /// <param name="createNoWindow">Ceate no window (optional, default: true)</param>
    /// <returns>Process object</returns>
    /// <exception cref="Exception"></exception>
-   public Process Start(string command, string? args = null, bool waitForExit = false, System.Text.Encoding? encoding = null)
+   public Process Start(string command, string? args = null, bool waitForExit = false, Encoding? encoding = null, bool useShellExecute = false, bool createNoWindow = true)
+   {
+      return Task.Run(() => StartAsync(command, args, waitForExit, encoding, useShellExecute, createNoWindow)).GetAwaiter().GetResult();
+   }
+
+   /// <summary>
+   /// Starts a process with arguments asynchronously.
+   /// </summary>
+   /// <param name="command">Process/command to execute</param>
+   /// <param name="args">Arguments for the command (optional)</param>
+   /// <param name="waitForExit">Wait for the process to exit (optional, default: false)</param>
+   /// <param name="encoding">Encoding of the I/O (optional, default: Latin1)</param>
+   /// <param name="useShellExecute">Use shell execute (optional, default: false)</param>
+   /// <param name="createNoWindow">Ceate no window (optional, default: true)</param>
+   /// <returns>Process object</returns>
+   /// <exception cref="Exception"></exception>
+   public async Task<Process> StartAsync(string command, string? args = null, bool waitForExit = false, Encoding? encoding = null, bool useShellExecute = false, bool createNoWindow = true)
    {
       if (string.IsNullOrEmpty(command))
          throw new ArgumentNullException(nameof(command));
@@ -106,14 +124,14 @@ public class ProcessRunner
          if (args != null)
             psi.Arguments = args;
 
-         psi.UseShellExecute = false;
-         psi.CreateNoWindow = true;
-         psi.StandardErrorEncoding = psi.StandardOutputEncoding = psi.StandardInputEncoding = encoding ?? System.Text.Encoding.UTF8;
+         psi.UseShellExecute = useShellExecute;
+         psi.CreateNoWindow = createNoWindow;
+         psi.StandardErrorEncoding = psi.StandardOutputEncoding = psi.StandardInputEncoding = encoding ?? Encoding.Latin1;
          psi.RedirectStandardOutput = psi.RedirectStandardError = psi.RedirectStandardInput = true;
          process.StartInfo = psi;
 
          process.OutputDataReceived += outputReceived;
-         process.OutputDataReceived += errorReceived;
+         process.ErrorDataReceived += errorReceived;
 
          process.Start();
 
@@ -123,8 +141,9 @@ public class ProcessRunner
          if (waitTime > 0)
              process.WaitForExit(waitTime * 1000);
          */
+
          if (waitForExit)
-            process.WaitForExit();
+            await process.WaitForExitAsync();
 
          return process;
       }
@@ -138,26 +157,19 @@ public class ProcessRunner
    /// <summary>
    /// Stops the process.
    /// </summary>
-   /// <returns>True if the process was stopped successfully</returns>
    /// <exception cref="Exception"></exception>
-   public bool Stop()
+   public void Stop()
    {
-      bool result = false;
-
       try
       {
          if (isRunning)
             process?.Kill();
-
-         result = true;
       }
       catch (Exception ex)
       {
          _logger.LogError(ex, "Could not stop the process!");
          throw;
       }
-
-      return result;
    }
 
    /// <summary>
@@ -189,7 +201,6 @@ public class ProcessRunner
    }
 
    #endregion
-
 
    #region Callbacks
 

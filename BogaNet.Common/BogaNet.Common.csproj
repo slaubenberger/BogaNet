@@ -3,14 +3,14 @@
     <PropertyGroup>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <Version>0.9.1</Version>
+        <Version>0.9.2</Version>
         <Company>Boga</Company>
         <Copyright>© 2024 Stefan Laubenberger</Copyright>
         <Authors>Stefan Laubenberger</Authors>
         <Description>NET 8 version of Boga, a library with many little helpers to speed up C# development.</Description>
         <RepositoryUrl>https://github.com/slaubenberger/BogaNet</RepositoryUrl>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageTags>AES Crypto File Directory Path Hash SHA JSON Obfuscation XML Network IP MIME Bytes Extension ShortUID Localizer i18n</PackageTags>
+        <PackageTags>AES Crypto File Directory Path Hash SHA JSON Obfuscation XML Network IP MIME Bytes Extension ShortUID Localizer i18n Process</PackageTags>
         <PackageReleaseNotes>Initial release</PackageReleaseNotes>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <!-- <PackageIconUrl>https://www.crosstales.com/media/data/BogaNet/logo_boga.png</PackageIconUrl> -->

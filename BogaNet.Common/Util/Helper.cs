@@ -231,17 +231,18 @@ public abstract class Helper
    /// Returns a CLI argument for a name from the command line.
    /// </summary>
    /// <param name="name">Name for the argument</param>
+   /// <param name="args">Arguments to search for (optional)</param>
    /// <returns>Argument for a name from the command line</returns>
-   public static string? GetCLIArgument(string? name)
+   public static string? GetCLIArgument(string? name, string[]? args = null)
    {
       if (!string.IsNullOrEmpty(name))
       {
-         string[] args = GetCLIArguments();
+         string[] cliArguments = args ?? GetCLIArguments();
 
-         for (int ii = 0; ii < args.Length; ii++)
+         for (int ii = 0; ii < cliArguments.Length; ii++)
          {
-            if (name.BNEquals(args[ii]) && args.Length > ii + 1)
-               return args[ii + 1];
+            if (name.BNEquals(cliArguments[ii]) && cliArguments.Length > ii + 1)
+               return cliArguments[ii + 1];
          }
       }
 
