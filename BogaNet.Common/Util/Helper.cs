@@ -24,27 +24,42 @@ public abstract class Helper
    /// <summary>
    /// True if the current platform is Windows.
    /// </summary>
-   public static bool isWindows => System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.Windows);
+   public static bool isWindows => OperatingSystem.IsWindows();
 
    /// <summary>
    /// True if the current platform is Mac.
    /// </summary>
-   public static bool isOSX => System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.OSX);
+   public static bool isOSX => OperatingSystem.IsMacOS();
 
    /// <summary>
    /// True if the current platform is Linux.
    /// </summary>
-   public static bool isLinux => System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.Linux);
+   public static bool isLinux => OperatingSystem.IsLinux();
 
    /// <summary>
    /// True if the current platform is FreeBSD.
    /// </summary>
-   public static bool isFreeBSD => System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.FreeBSD);
+   public static bool isFreeBSD => OperatingSystem.IsFreeBSD();
 
    /// <summary>
    /// True if the current platform is Unix-based.
    /// </summary>
    public static bool isUnix => isLinux || isFreeBSD || isOSX;
+
+   /// <summary>
+   /// True if the current platform is iOS.
+   /// </summary>
+   public static bool isIOS => OperatingSystem.IsIOS();
+
+   /// <summary>
+   /// True if the current platform is Android.
+   /// </summary>
+   public static bool isAndroid => OperatingSystem.IsAndroid();
+
+   /// <summary>
+   /// True if the current platform is a web browser.
+   /// </summary>
+   public static bool isBrowser => OperatingSystem.IsBrowser();
 
    /// <summary>
    /// The current culture of the application.
