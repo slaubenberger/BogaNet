@@ -22,7 +22,7 @@ public abstract class NetworkHelper
 
 /*
         /// <summary>Checks if an Internet connection is available.</summary>
-        /// <returns>True if an Internet connection is available.</returns>
+        /// <returns>True if an Internet connection is available</returns>
         public static bool isInternetAvailable
         {
             get
@@ -38,7 +38,7 @@ public abstract class NetworkHelper
    #region Public methods
 
    /// <summary>
-   /// Create a basic AuthenticationHeaderValue
+   /// Create a basic AuthenticationHeaderValue.
    /// </summary>
    /// <param name="username">Name of the user</param>
    /// <param name="password">Password of the user</param>
@@ -52,7 +52,7 @@ public abstract class NetworkHelper
    }
 
    /// <summary>
-   /// Create a bearer AuthenticationHeaderValue
+   /// Create a bearer AuthenticationHeaderValue.
    /// </summary>
    /// <param name="bearerToken">Token for bearer</param>
    /// <returns>Bearer AuthenticationHeaderValue</returns>
@@ -65,7 +65,7 @@ public abstract class NetworkHelper
    }
 
    /// <summary>
-   /// Sets the global proxy for all network requests to the default
+   /// Sets the global proxy for all network requests to the default.
    /// </summary>
    /// <returns>Used global proxy</returns>
    public static IWebProxy? SetGloblProxyToDefault()
@@ -81,7 +81,7 @@ public abstract class NetworkHelper
    }
 
    /// <summary>
-   /// Sets the global proxy for all network requests with the given credentials
+   /// Sets the global proxy for all network requests with the given credentials.
    /// </summary>
    /// <param name="user">User for the proxy</param>
    /// <param name="password">Password for the proxy</param>
@@ -97,16 +97,18 @@ public abstract class NetworkHelper
    }
 
    /// <summary>
-   /// Escape the data in an URL (like spaces etc.)
+   /// Escape the data in an URL (like spaces etc.).
    /// </summary>
    /// <param name="url"></param>
    /// <returns></returns>
-   public static string? EscapeURLString(string? url)
+   public static string? EscapeURLString(string? url) //TODO move to extensions?
    {
       return url == null ? null : Uri.EscapeDataString(url).Replace("%2F", "/").Replace("%3A", ":");
    }
 
-   /// <summary>Opens the given URL with the file explorer or browser.</summary>
+   /// <summary>
+   /// Opens the given URL with the file explorer or browser.
+   /// </summary>
    /// <param name="url">URL to open</param>
    /// <returns>True if the operation was successful</returns>
    /// <exception cref="Exception"></exception>
@@ -121,8 +123,16 @@ public abstract class NetworkHelper
       _logger.LogWarning($"URL was invalid: {url}");
       return false;
    }
-
-   /// <summary>HTTPS-certification callback.</summary>
+   
+   /// <summary>
+   /// HTTPS-certification callback, which overrides the checks for invalid certificates (like dev-certs).
+   /// NOTE: don't use this in production since it breaks the SSL security!
+   /// </summary>
+   /// <param name="sender">Sender of the callback</param>
+   /// <param name="certificate">Certificate to check</param>
+   /// <param name="chain">Chain to use</param>
+   /// <param name="sslPolicyErrors">SSL errors</param>
+   /// <returns>True if the validation of the certificate was successful</returns>
    public static bool RemoteCertificateValidationCallback(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
    {
       bool isOk = true;
@@ -144,7 +154,9 @@ public abstract class NetworkHelper
       return isOk;
    }
 
-   /// <summary>Returns the URL of a given file.</summary>
+   /// <summary>
+   /// Returns the URL of a given file.
+   /// </summary>
    /// <param name="path">File path</param>
    /// <returns>URL of the file path</returns>
    public static string? GetURLFromFile(string? path) //NUnit
@@ -165,12 +177,14 @@ public abstract class NetworkHelper
       return path;
    }
 
-   /// <summary>Validates a given URL.</summary>
+   /// <summary>
+   /// Validates a given URL.
+   /// </summary>
    /// <param name="url">URL to validate</param>
    /// <param name="removeProtocol">Remove the protocol, e.g. http:// (optional, default: false)</param>
    /// <param name="removeWWW">Remove www (optional, default: true)</param>
    /// <param name="removeSlash">Remove slash at the end (optional, default: true)</param>
-   /// <returns>Clean URL</returns>
+   /// <returns>Validated URL</returns>
    public static string? ValidateURL(string? url, bool removeProtocol = false, bool removeWWW = true, bool removeSlash = true) //NUnit
    {
       if (isURL(url))
@@ -201,7 +215,9 @@ public abstract class NetworkHelper
       return url;
    }
 
-   /// <summary>Checks if the input is an URL.</summary>
+   /// <summary>
+   /// Checks if the input is an URL.
+   /// </summary>
    /// <param name="url">Input as possible URL</param>
    /// <returns>True if the given path is an URL</returns>
    public static bool isURL(string? url) //NUnit
@@ -213,7 +229,9 @@ public abstract class NetworkHelper
               url.BNStartsWith("www."));
    }
 
-   /// <summary>Checks if the input is an IPv4 address.</summary>
+   /// <summary>
+   /// Checks if the input is an IPv4 address.
+   /// </summary>
    /// <param name="ip">Input as possible IPv4</param>
    /// <returns>True if the given input is an IPv4 address</returns>
    public static bool isIPv4(string? ip) //NUnit
@@ -221,7 +239,9 @@ public abstract class NetworkHelper
       return Uri.CheckHostName(ip) == UriHostNameType.IPv4;
    }
 
-   /// <summary>Checks if the input is an IPv6 address.</summary>
+   /// <summary>
+   /// Checks if the input is an IPv6 address.
+   /// </summary>
    /// <param name="ip">Input as possible IPv6</param>
    /// <returns>True if the given input is an IPv6 address</returns>
    public static bool isIPv6(string? ip) //NUnit
@@ -229,9 +249,11 @@ public abstract class NetworkHelper
       return Uri.CheckHostName(ip) == UriHostNameType.IPv6;
    }
 
-   /// <summary>Returns the IP of a given host name.</summary>
+   /// <summary>
+   /// Returns the IP of a given host name.
+   /// </summary>
    /// <param name="host">Host name</param>
-   /// <returns>IP of a given host name.</returns>
+   /// <returns>IP of a given host name</returns>
    /// <exception cref="Exception"></exception>
    public static string? GetIP(string? host) //NUnit
    {

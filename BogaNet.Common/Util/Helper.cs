@@ -22,42 +22,46 @@ public abstract class Helper
    #region Properties
 
    /// <summary>
-   /// True if the current platform is Windows
+   /// True if the current platform is Windows.
    /// </summary>
    public static bool isWindows => System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.Windows);
 
    /// <summary>
-   /// True if the current platform is Mac
+   /// True if the current platform is Mac.
    /// </summary>
    public static bool isOSX => System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.OSX);
 
    /// <summary>
-   /// True if the current platform is Linux
+   /// True if the current platform is Linux.
    /// </summary>
    public static bool isLinux => System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.Linux);
 
    /// <summary>
-   /// True if the current platform is FreeBSD
+   /// True if the current platform is FreeBSD.
    /// </summary>
    public static bool isFreeBSD => System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.FreeBSD);
 
    /// <summary>
-   /// True if the current platform is Unix-based
+   /// True if the current platform is Unix-based.
    /// </summary>
    public static bool isUnix => isLinux || isFreeBSD || isOSX;
 
-   /// <summary>The current culture of the application.</summary>
-   /// <returns>Culture of the application.</returns>
-   public static CultureInfo BaseCulture => CultureInfo.CurrentCulture;
+   /// <summary>
+   /// The current culture of the application.
+   /// </summary>
+   /// <returns>Culture of the application</returns>
+   public static CultureInfo CurrentCulture => CultureInfo.CurrentCulture;
 
    #endregion
 
    #region Public methods
 
-   /// <summary>Format byte-value to Human-Readable-Form.</summary>
+   /// <summary>
+   /// Format byte-value to Human-Readable-Form.
+   /// </summary>
    /// <param name="bytes">Value in bytes</param>
    /// <param name="useSI">Use SI-system (optional, default: false)</param>
-   /// <returns>Formatted byte-value in Human-Readable-Form.</returns>
+   /// <returns>Formatted byte-value in Human-Readable-Form</returns>
    public static string FormatBytesToHRF(long bytes, bool useSI = false)
    {
       const string ci = "kMGTPE";
@@ -94,9 +98,11 @@ public abstract class Helper
       return $"{(value / 1024f):N2} {ci[index]}iB";
    }
 
-   /// <summary>Format seconds to Human-Readable-Form.</summary>
+   /// <summary>
+   /// Format seconds to Human-Readable-Form.
+   /// </summary>
    /// <param name="seconds">Value in seconds</param>
-   /// <returns>Formatted seconds in Human-Readable-Form.</returns>
+   /// <returns>Formatted seconds in Human-Readable-Form</returns>
    public static string FormatSecondsToHRF<T>(T seconds) where T : INumber<T>
    {
       long val = Convert.ToInt64(seconds);
@@ -130,13 +136,15 @@ public abstract class Helper
       }
    }
 
-   /// <summary>Generates a "Lorem Ipsum" based on various parameters.</summary>
+   /// <summary>
+   /// Generates a "Lorem Ipsum" based on various parameters.
+   /// </summary>
    /// <param name="length">Length of the text</param>
    /// <param name="minSentences">Minimum number of sentences for the text (optional, default: 1)</param>
    /// <param name="maxSentences">Maximal number of sentences for the text (optional, default: int.MaxValue)</param>
    /// <param name="minWords">Minimum number of words per sentence (optional, default: 1)</param>
    /// <param name="maxWords">Maximal number of words per sentence (optional, default: 15)</param>
-   /// <returns>"Lorem Ipsum" based on the given parameters.</returns>
+   /// <returns>"Lorem Ipsum" based on the given parameters</returns>
    public static string GenerateLoremIpsum(int length, int minSentences = 1, int maxSentences = int.MaxValue, int minWords = 1, int maxWords = 15)
    {
       string[] words =
@@ -172,7 +180,9 @@ public abstract class Helper
       return text;
    }
 
-   /// <summary>Invokes a method on a full qualified class.</summary>
+   /// <summary>
+   /// Invokes a method on a full qualified class.
+   /// </summary>
    /// <param name="className">Full qualified name of the class</param>
    /// <param name="methodName">Public static method of the class to execute</param>
    /// <param name="flags">Binding flags for the method (optional, default: static/public)</param>
@@ -217,9 +227,11 @@ public abstract class Helper
       return null;
    }
 
-   /// <summary>Returns a CLI argument for a name from the command line.</summary>
+   /// <summary>
+   /// Returns a CLI argument for a name from the command line.
+   /// </summary>
    /// <param name="name">Name for the argument</param>
-   /// <returns>Argument for a name from the command line.</returns>
+   /// <returns>Argument for a name from the command line</returns>
    public static string? GetCLIArgument(string? name)
    {
       if (!string.IsNullOrEmpty(name))
@@ -236,8 +248,10 @@ public abstract class Helper
       return null;
    }
 
-   /// <summary>Returns all CLI arguments.</summary>
-   /// <returns>Arguments from the command line.</returns>
+   /// <summary>
+   /// Returns all CLI arguments.
+   /// </summary>
+   /// <returns>Arguments from the command line</returns>
    public static string[] GetCLIArguments()
    {
       return Environment.GetCommandLineArgs();
@@ -245,14 +259,14 @@ public abstract class Helper
 
 /*
          /// <summary>Generates a string of all latin latin characters (ABC...xyz).</summary>
-         /// <returns>"String of all latin latin characters.</returns>
+         /// <returns>"String of all latin latin characters</returns>
          public static string GenerateLatinABC()
          {
             return GenerateLatinUppercaseABC() + GenerateLatinLowercaseABC();
          }
 
          /// <summary>Generates a string of all latin latin characters in uppercase (ABC...XYZ).</summary>
-         /// <returns>"String of all latin latin characters in uppercase.</returns>
+         /// <returns>"String of all latin latin characters in uppercase</returns>
          public static string GenerateLatinUppercaseABC()
          {
             Text.StringBuilder result = new Text.StringBuilder();
@@ -266,7 +280,7 @@ public abstract class Helper
          }
 
          /// <summary>Generates a string of all latin latin characters in lowercase (abc...xyz).</summary>
-         /// <returns>"String of all latin latin characters in lowercase.</returns>
+         /// <returns>"String of all latin latin characters in lowercase</returns>
          public static string GenerateLatinLowercaseABC()
          {
             Text.StringBuilder result = new Text.StringBuilder();

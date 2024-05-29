@@ -110,23 +110,27 @@ public interface ILocalizer
    /// Load translation files (CSV).
    /// </summary>
    /// <param name="files">Files to load</param>
+   /// <exception cref="Exception"></exception>
    void LoadFiles(params string[] files);
 
    /// <summary>
-   /// Load translation files (CSV) asynchronusly.
+   /// Load translation files (CSV) asynchronously.
    /// </summary>
    /// <param name="files">Files to load</param>
+   /// <exception cref="Exception"></exception>
    Task LoadFilesAsync(params string[] files);
 
    /// <summary>
    /// Saves all translations to a given file (CSV).
    /// </summary>
    /// <param name="filename">File for the translations</param>
+   /// <exception cref="Exception"></exception>
    void SaveFile(string filename);
 
    /// <summary>
-   /// Saves all translations to a given file (CSV) asynchronusly.
+   /// Saves all translations to a given file (CSV) asynchronously.
    /// </summary>
    /// <param name="filename">File for the translations</param>
+   /// <exception cref="Exception"></exception>
    Task SaveFileAsync(string filename);
 }

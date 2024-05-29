@@ -1,7 +1,7 @@
 ﻿namespace BogaNet;
 
 /// <summary>
-/// Information about the BogaNet library
+/// Information about the BogaNet library.
 /// </summary>
 public abstract class LibraryInformation
 {
@@ -9,7 +9,7 @@ public abstract class LibraryInformation
     private static readonly System.Diagnostics.FileVersionInfo fvi = System.Diagnostics.FileVersionInfo.GetVersionInfo(assembly.Location);
 
     /// <summary>
-    /// Version of the library
+    /// Version of the library.
     /// </summary>
     public static string? Version
     {
@@ -22,17 +22,17 @@ public abstract class LibraryInformation
     }
 
     /// <summary>
-    /// Name of the library
+    /// Name of the library.
     /// </summary>
     public static string? Name => fvi.ProductName;
 
     /// <summary>
-    /// Company
+    /// Company of the library.
     /// </summary>
     public static string? Company => fvi.CompanyName;
 
     /// <summary>
-    /// Copyright
+    /// Copyright of the library..
     /// </summary>
     public static string? Copyright => fvi.LegalCopyright;
 }

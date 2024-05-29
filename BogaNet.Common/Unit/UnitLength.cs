@@ -4,7 +4,7 @@ using System.Numerics;
 namespace BogaNet.Unit;
 
 /// <summary>
-/// Units for lengths
+/// Units for lengths.
 /// </summary>
 public enum UnitLength
 {
@@ -21,11 +21,11 @@ public enum UnitLength
 }
 
 /// <summary>
-/// Extension methods for UnitLength
+/// Extension methods for UnitLength.
 /// </summary>
 public static class ExtensionUnitLength
 {
-   private static readonly ILogger _logger = GlobalLogging.CreateLogger("ExtensionUnitArea");
+   private static readonly ILogger _logger = GlobalLogging.CreateLogger("ExtensionUnitLength");
 
    public static bool IgnoreSameUnit = true;
 
@@ -42,7 +42,7 @@ public static class ExtensionUnitLength
    public static decimal FACTOR_INCH_TO_M => FACTOR_INCH_TO_CM / FACTOR_CM_TO_M;
 
    /// <summary>
-   /// Converts a value from one unit to another
+   /// Converts a value from one unit to another.
    /// </summary>
    /// <param name="fromUnit">Source unit</param>
    /// <param name="toUnit">Target unit</param>

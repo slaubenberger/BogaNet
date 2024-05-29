@@ -28,12 +28,12 @@ public class ProcessRunner
    public bool isRunning => process != null && !process.HasExited;
 
    /// <summary>
-   /// stdout (output-stream) of the process
+   /// stdout (output-stream) of the process.
    /// </summary>
    public string[] Output => outputList.ToArray();
 
    /// <summary>
-   /// stderr (error-stream) of the process
+   /// stderr (error-stream) of the process.
    /// </summary>
    public string[] Error => errorList.ToArray();
 
@@ -63,10 +63,10 @@ public class ProcessRunner
 
    #endregion
 
-   #region Deconstructor
+   #region De-constructor
 
    /// <summary>
-   /// Deconstructor
+   /// De-constructor
    /// </summary>
    ~ProcessRunner()
    {
@@ -86,7 +86,8 @@ public class ProcessRunner
    /// <param name="waitForExit">Wait for the process to exit (optional, default: false)</param>
    /// <param name="encoding">Encoding of the I/O (optional, default: UTF8)</param>
    /// <returns>Process object</returns>
-   public Process? Start(string command, string? args = null, bool waitForExit = false, System.Text.Encoding? encoding = null)
+   /// <exception cref="Exception"></exception>
+   public Process Start(string command, string? args = null, bool waitForExit = false, System.Text.Encoding? encoding = null)
    {
       if (string.IsNullOrEmpty(command))
          throw new ArgumentNullException(nameof(command));
@@ -124,19 +125,21 @@ public class ProcessRunner
          */
          if (waitForExit)
             process.WaitForExit();
+
+         return process;
       }
       catch (Exception ex)
       {
          _logger.LogError(ex, "Could not start the process!");
+         throw;
       }
-
-      return process;
    }
 
    /// <summary>
-   /// Stops the process
+   /// Stops the process.
    /// </summary>
-   /// <returns>true if the process was stopped successfully</returns>
+   /// <returns>True if the process was stopped successfully</returns>
+   /// <exception cref="Exception"></exception>
    public bool Stop()
    {
       bool result = false;
@@ -151,16 +154,18 @@ public class ProcessRunner
       catch (Exception ex)
       {
          _logger.LogError(ex, "Could not stop the process!");
+         throw;
       }
 
       return result;
    }
 
    /// <summary>
-   /// Writes on the stdin (input-stream) of the process
+   /// Writes on the stdin (input-stream) of the process.
    /// </summary>
    /// <param name="input">Data for the process</param>
-   /// <returns>true if the data was transmitted successfully</returns>
+   /// <returns>True if the data was transmitted successfully</returns>
+   /// <exception cref="Exception"></exception>
    public bool WriteInput(string input)
    {
       bool result = false;
@@ -177,6 +182,7 @@ public class ProcessRunner
       catch (Exception ex)
       {
          _logger.LogError(ex, $"Could not write the data to the stdin of the process!");
+         throw;
       }
 
       return result;

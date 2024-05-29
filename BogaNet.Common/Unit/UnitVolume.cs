@@ -4,7 +4,7 @@ using System.Numerics;
 namespace BogaNet.Unit;
 
 /// <summary>
-/// Units for volumes
+/// Units for volumes.
 /// </summary>
 public enum UnitVolume
 {
@@ -21,11 +21,11 @@ public enum UnitVolume
 }
 
 /// <summary>
-/// Extension methods for UnitVolume
+/// Extension methods for UnitVolume.
 /// </summary>
 public static class ExtensionUnitVolume
 {
-   private static readonly ILogger _logger = GlobalLogging.CreateLogger("ExtensionUnitArea");
+   private static readonly ILogger _logger = GlobalLogging.CreateLogger("ExtensionUnitVolume");
 
    public static bool IgnoreSameUnit = true;
 
@@ -41,7 +41,7 @@ public static class ExtensionUnitVolume
    public static decimal FACTOR_MM3_TO_L => FACTOR_MM3_TO_CM3 * FACTOR_CM3_TO_L;
 
    /// <summary>
-   /// Converts a value from one unit to another
+   /// Converts a value from one unit to another.
    /// </summary>
    /// <param name="fromUnit">Source unit</param>
    /// <param name="toUnit">Target unit</param>

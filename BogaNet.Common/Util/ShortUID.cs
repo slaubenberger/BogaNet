@@ -64,7 +64,7 @@ public class ShortUID
    }
 
    /// <summary>
-   /// Converts the ShortUID to a Guid
+   /// Converts the ShortUID to a Guid.
    /// </summary>
    /// <returns>Guid-instance</returns>
    public Guid ToGuid()
@@ -103,12 +103,12 @@ public class ShortUID
 }
 
 /// <summary>
-/// Extension methods for Guid
+/// Extension methods for Guid.
 /// </summary>
 public static class ExtensionGuid
 {
    /// <summary>
-   /// Converts a Guid to a ShortUID
+   /// Converts a Guid to a ShortUID.
    /// </summary>
    /// <param name="uid">Guid-instance</param>
    /// <returns>ShortUID-instance</returns>

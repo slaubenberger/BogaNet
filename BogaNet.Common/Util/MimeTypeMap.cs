@@ -20,9 +20,9 @@ public abstract class MimeTypeMap
    /// <summary>
    /// Tries to get the type of the MIME from the provided string.
    /// </summary>
-   /// <param name="str">The filename or extension.</param>
-   /// <param name="mimeType">The variable to store the MIME type.</param>
-   /// <returns>The MIME type.</returns>
+   /// <param name="str">The filename or extension</param>
+   /// <param name="mimeType">The variable to store the MIME type</param>
+   /// <returns>The MIME type</returns>
    /// <exception cref="ArgumentNullException"></exception>
    public static bool TryGetMimeType(string? str, out string? mimeType)
    {
@@ -52,8 +52,8 @@ public abstract class MimeTypeMap
    /// <summary>
    /// Gets the type of the MIME from the provided string.
    /// </summary>
-   /// <param name="str">The filename or extension.</param>
-   /// <returns>The MIME type.</returns>
+   /// <param name="str">The filename or extension</param>
+   /// <returns>The MIME type</returns>
    /// <exception cref="ArgumentNullException"></exception>
    public static string? GetMimeType(string? str)
    {
@@ -63,9 +63,9 @@ public abstract class MimeTypeMap
    /// <summary>
    /// Gets the extension from the provided MIME type.
    /// </summary>
-   /// <param name="mimeType">Type of the MIME.</param>
-   /// <param name="throwErrorIfNotFound">if set to <c>true</c>, throws error if extension's not found.</param>
-   /// <returns>The extension.</returns>
+   /// <param name="mimeType">Type of the MIME</param>
+   /// <param name="throwErrorIfNotFound">if set to <c>true</c>, throws error if extension's not found</param>
+   /// <returns>The extension</returns>
    /// <exception cref="ArgumentNullException"></exception>
    public static string? GetExtension(string? mimeType, bool throwErrorIfNotFound = true)
    {

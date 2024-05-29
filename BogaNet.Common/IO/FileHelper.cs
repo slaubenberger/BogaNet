@@ -21,15 +21,21 @@ public abstract class FileHelper
 
    #region Properties
 
-   /// <summary>Returns a temporary file.</summary>
+   /// <summary>
+   /// Returns a temporary file.
+   /// </summary>
    /// <returns>Temporary file</returns>
    public static string TempFile => Path.GetTempFileName();
 
-   /// <summary>Returns the temporary directory path.</summary>
-   /// <returns>Temporary directory path of the device</returns>
+   /// <summary>
+   /// Returns the temporary directory path.
+   /// </summary>
+   /// <returns>Temporary directory path</returns>
    public static string TempPath => ValidatePath(Path.GetTempPath()) ?? string.Empty;
 
-   /// <summary>Returns a temporary directory.</summary>
+   /// <summary>
+   /// Returns a temporary directory.
+   /// </summary>
    /// <returns>Temporary directory</returns>
    public static string TempDirectory
    {
@@ -43,7 +49,9 @@ public abstract class FileHelper
       }
    }
 
-   /// <summary>Returns the current directory.</summary>
+   /// <summary>
+   /// Returns the current directory.
+   /// </summary>
    /// <returns>Current directory</returns>
    public static string CurrentDirectory => ValidatePath(Environment.CurrentDirectory) ?? string.Empty;
 
@@ -95,7 +103,7 @@ public abstract class FileHelper
    #region Public methods
 
    /// <summary>
-   /// Combine two paths together
+   /// Combine two paths together.
    /// </summary>
    /// <param name="path1">First path</param>
    /// <param name="path2">Second path</param>
@@ -111,7 +119,9 @@ public abstract class FileHelper
       return Path.Combine(path1, path2);
    }
 
-   /// <summary>Checks if the given path is from a Unix-device</summary>
+   /// <summary>
+   /// Checks if the given path is from a Unix-device.
+   /// </summary>
    /// <param name="path">Path to check</param>
    /// <returns>True if the given path is from a Unix-device</returns>
    public static bool isUnixPath(string? path) //NUnit
@@ -119,7 +129,9 @@ public abstract class FileHelper
       return !string.IsNullOrEmpty(path) && path.StartsWith('/');
    }
 
-   /// <summary>Checks if the given path is from a Windows-device</summary>
+   /// <summary>
+   /// Checks if the given path is from a Windows-device.
+   /// </summary>
    /// <param name="path">Path to check</param>
    /// <returns>True if the given path is from a Windows-device</returns>
    public static bool isWindowsPath(string? path) //NUnit
@@ -127,7 +139,9 @@ public abstract class FileHelper
       return !string.IsNullOrEmpty(path) && Constants.REGEX_DRIVE_LETTERS.IsMatch(path);
    }
 
-   /// <summary>Checks if the given path is UNC</summary>
+   /// <summary>
+   /// Checks if the given path is UNC.
+   /// </summary>
    /// <param name="path">Path to check</param>
    /// <returns>True if the given path is UNC</returns>
    public static bool isUNCPath(string? path) //NUnit
@@ -135,7 +149,9 @@ public abstract class FileHelper
       return !string.IsNullOrEmpty(path) && path.StartsWith(@"\\");
    }
 
-   /// <summary>Checks if the given path is an URL</summary>
+   /// <summary>
+   /// Checks if the given path is an URL.
+   /// </summary>
    /// <param name="path">Path to check</param>
    /// <returns>True if the given path is an URL</returns>
    public static bool isURL(string? path) //NUnit
@@ -143,7 +159,9 @@ public abstract class FileHelper
       return NetworkHelper.isURL(path);
    }
 
-   /// <summary>Validates a given path and add missing slash.</summary>
+   /// <summary>
+   /// Validates a given path and add missing slash.
+   /// </summary>
    /// <param name="path">Path to validate</param>
    /// <param name="addEndDelimiter">Add delimiter at the end of the path (optional, default: true)</param>
    /// <param name="preserveFile">Preserves a given file in the path (optional, default: true)</param>
@@ -193,7 +211,9 @@ public abstract class FileHelper
       return null;
    }
 
-   /// <summary>Validates a given file.</summary>
+   /// <summary>
+   /// Validates a given file.
+   /// </summary>
    /// <param name="path">File to validate</param>
    /// <param name="removeInvalidChars">Removes invalid characters in the file name (optional, default: true)</param>
    /// <returns>Valid file path</returns>
@@ -241,11 +261,11 @@ public abstract class FileHelper
    }
 
    /// <summary>
-   /// Checks a given path for invalid characters
+   /// Checks a given path for invalid characters.
    /// </summary>
    /// <param name="path">Path to check for invalid characters</param>
    /// <param name="ignoreNullOrEmpty">If set to true, return false for null or empty paths (optional, default: true)</param>
-   /// <returns>Returns true if the path contains invalid chars, otherwise it's false.</returns>
+   /// <returns>Returns true if the path contains invalid chars, otherwise it's false</returns>
    public static bool HasPathInvalidChars(string? path, bool ignoreNullOrEmpty = true) //NUnit
    {
       if (string.IsNullOrEmpty(path))
@@ -255,11 +275,11 @@ public abstract class FileHelper
    }
 
    /// <summary>
-   /// Checks a given file for invalid characters
+   /// Checks a given file for invalid characters.
    /// </summary>
    /// <param name="file">File to check for invalid characters</param>
    /// <param name="ignoreNullOrEmpty">If set to true, return false for null or empty paths (optional, default: true)</param>
-   /// <returns>Returns true if the file contains invalid chars, otherwise it's false.</returns>
+   /// <returns>Returns true if the file contains invalid chars, otherwise it's false</returns>
    public static bool HasFileInvalidChars(string? file, bool ignoreNullOrEmpty = true) //NUnit
    {
       if (file == null || string.IsNullOrEmpty(file))
@@ -275,7 +295,7 @@ public abstract class FileHelper
    /// <param name="path">Path to find the files</param>
    /// <param name="isRecursive">Recursive search (optional, default: false)</param>
    /// <param name="filenames">Array of file names for the file search, e.g. "Image.png" (optional)</param>
-   /// <returns>Returns array of the found files inside the path (alphabetically ordered). Zero length array when an error occured.</returns>
+   /// <returns>Returns array of the found files inside the path (alphabetically ordered). Zero length array when an error occured</returns>
    /// <exception cref="Exception"></exception>
    public static string[] GetFilesForName(string? path, bool isRecursive = false, params string[]? filenames) //NUnit
    {
@@ -330,7 +350,7 @@ public abstract class FileHelper
    /// <param name="path">Path to find the files</param>
    /// <param name="isRecursive">Recursive search (optional, default: false)</param>
    /// <param name="extensions">Extensions for the file search, e.g. "png" (optional)</param>
-   /// <returns>Returns array of the found files inside the path (alphabetically ordered). Zero length array when an error occured.</returns>
+   /// <returns>Returns array of the found files inside the path (alphabetically ordered). Zero length array when an error occured</returns>
    /// <exception cref="Exception"></exception>
    public static string[] GetFiles(string? path, bool isRecursive = false, params string[]? extensions) //NUnit
    {
@@ -355,7 +375,7 @@ public abstract class FileHelper
    /// </summary>
    /// <param name="path">Path to find the directories</param>
    /// <param name="isRecursive">Recursive search (optional, default: false)</param>
-   /// <returns>Returns array of the found directories inside the path. Zero length array when an error occured.</returns>
+   /// <returns>Returns array of the found directories inside the path. Zero length array when an error occured</returns>
    /// <exception cref="Exception"></exception>
    public static string[] GetDirectories(string? path, bool isRecursive = false) //NUnit
    {
@@ -390,7 +410,7 @@ public abstract class FileHelper
    /// <summary>
    /// Find all logical drives.
    /// </summary>
-   /// <returns>Returns array of the found drives. Zero length array when an error occured.</returns>
+   /// <returns>Returns array of the found drives. Zero length array when an error occured</returns>
    /// <exception cref="Exception"></exception>
    public static string[] GetDrives() //NUnit
    {
@@ -569,7 +589,9 @@ public abstract class FileHelper
       return CopyFile(sourceFile, destFile, true);
    }
 
-   /// <summary>Renames a directory in a path.</summary>
+   /// <summary>
+   /// Renames a directory in a path.
+   /// </summary>
    /// <param name="path">Path to the directory</param>
    /// <param name="newName">New name for the directory</param>
    /// <returns>New path of the directory</returns>
@@ -602,7 +624,9 @@ public abstract class FileHelper
       return null;
    }
 
-   /// <summary>Renames a file in a path.</summary>
+   /// <summary>
+   /// Renames a file in a path.
+   /// </summary>
    /// <param name="path">Path to the file</param>
    /// <param name="newName">New name for the file</param>
    /// <returns>New path of the file</returns>
@@ -633,7 +657,9 @@ public abstract class FileHelper
       return null;
    }
 
-   /// <summary>Delete a file.</summary>
+   /// <summary>
+   /// Delete a file.
+   /// </summary>
    /// <param name="file">File to delete</param>
    /// <returns>True if the operation was successful</returns>
    /// <exception cref="Exception"></exception>
@@ -700,21 +726,27 @@ public abstract class FileHelper
       return success;
    }
 
-   /// <summary>Checks if the directory exists.</summary>
+   /// <summary>
+   /// Checks if the directory exists.
+   /// </summary>
    /// <returns>True if the directory exists</returns>
    public static bool ExistsFile(string? file) //NUnit
    {
       return File.Exists(file);
    }
 
-   /// <summary>Checks if the directory exists.</summary>
+   /// <summary>
+   /// Checks if the directory exists.
+   /// </summary>
    /// <returns>True if the directory exists</returns>
    public static bool ExistsDirectory(string? path) //NUnit
    {
       return Directory.Exists(path);
    }
 
-   /// <summary>Creates a directory in a given path.</summary>
+   /// <summary>
+   /// Creates a directory in a given path.
+   /// </summary>
    /// <param name="path">Path for the directory</param>
    /// <param name="folderName">New folder</param>
    /// <exception cref="Exception"></exception>
@@ -748,7 +780,9 @@ public abstract class FileHelper
       return null;
    }
 
-   /// <summary>Creates a directory.</summary>
+   /// <summary>
+   /// Creates a directory.
+   /// </summary>
    /// <param name="path">Path to the directory to create</param>
    /// <returns>True if the operation was successful</returns>
    /// <exception cref="Exception"></exception>
@@ -773,7 +807,9 @@ public abstract class FileHelper
       return success;
    }
 
-   /// <summary>Creates a file in a given path.</summary>
+   /// <summary>
+   /// Creates a file in a given path.
+   /// </summary>
    /// <param name="path">Path for the file</param>
    /// <param name="fileName">New file</param>
    /// <exception cref="Exception"></exception>
@@ -807,7 +843,9 @@ public abstract class FileHelper
       return null;
    }
 
-   /// <summary>Creates a file.</summary>
+   /// <summary>
+   /// Creates a file.
+   /// </summary>
    /// <param name="path">Path to the file to create</param>
    /// <returns>True if the operation was successful</returns>
    /// <exception cref="Exception"></exception>
@@ -835,7 +873,9 @@ public abstract class FileHelper
       return success;
    }
 
-   /// <summary>Checks if the path is a directory.</summary>
+   /// <summary>
+   /// Checks if the path is a directory.
+   /// </summary>
    /// <param name="path">Path to the directory</param>
    /// <param name="checkForExtensions">Check for extensions (optional, default: true)</param>
    /// <returns>True if the path is a directory</returns>
@@ -859,7 +899,9 @@ public abstract class FileHelper
       return false;
    }
 
-   /// <summary>Checks if the path is a file.</summary>
+   /// <summary>
+   /// Checks if the path is a file.
+   /// </summary>
    /// <param name="path">Path to the file</param>
    /// <param name="checkForExtensions">Check for extensions (optional, default: true)</param>
    /// <returns>True if the path is a file</returns>
@@ -868,7 +910,9 @@ public abstract class FileHelper
       return !string.IsNullOrEmpty(path) && !isDirectory(path, checkForExtensions);
    }
 
-   /// <summary>Checks if the path is the root.</summary>
+   /// <summary>
+   /// Checks if the path is the root.
+   /// </summary>
    /// <param name="path">Possible root</param>
    /// <returns>True if the path is the root</returns>
    public static bool isRoot(string? path) //NUnit
@@ -876,7 +920,9 @@ public abstract class FileHelper
       return !string.IsNullOrEmpty(path) && (path.Equals("/") || (path.Length is > 1 and < 4 && Constants.REGEX_DRIVE_LETTERS.IsMatch(path)));
    }
 
-   /// <summary>Returns the file name for the path.</summary>
+   /// <summary>
+   /// Returns the file name for the path.
+   /// </summary>
    /// <param name="path">Path to the file</param>
    /// <param name="removeInvalidChars">Removes invalid characters in the file name (optional, default: true)</param>
    /// <returns>File name for the path</returns>
@@ -908,7 +954,9 @@ public abstract class FileHelper
       return fname;
    }
 
-   /// <summary>Returns the current directory name for the path.</summary>
+   /// <summary>
+   /// Returns the current directory name for the path.
+   /// </summary>
    /// <param name="path">Path to the directory</param>
    /// <returns>Current directory name for the path</returns>
    public static string? GetCurrentDirectoryName(string? path) //NUnit
@@ -939,7 +987,9 @@ public abstract class FileHelper
       return dname;
    }
 
-   /// <summary>Returns the directory name for the path.</summary>
+   /// <summary>
+   /// Returns the directory name for the path.
+   /// </summary>
    /// <param name="path">Path to the directory</param>
    /// <returns>Directory name for the path</returns>
    /// <exception cref="Exception"></exception>
@@ -992,7 +1042,9 @@ public abstract class FileHelper
       return dname;
    }
 
-   /// <summary>Returns the size of a file.</summary>
+   /// <summary>
+   /// Returns the size of a file in bytes.
+   /// </summary>
    /// <param name="path">Path of the file</param>
    /// <returns>Size for the file</returns>
    /// <exception cref="Exception"></exception>
@@ -1019,7 +1071,9 @@ public abstract class FileHelper
       return -1;
    }
 
-   /// <summary>Returns the extension of a file.</summary>
+   /// <summary>
+   /// Returns the extension of a file.
+   /// </summary>
    /// <param name="path">Path to the file</param>
    /// <returns>Extension of the file</returns>
    /// <exception cref="Exception"></exception>
@@ -1045,34 +1099,182 @@ public abstract class FileHelper
       return null;
    }
 
-   /// <summary>Returns the size of a file.</summary>
-   /// <param name="path">Path to the file</param>
-   /// <returns>Size for the file</returns>
+   /// <summary>
+   /// Returns the last write (=modified) timestamp of a file.
+   /// </summary>
+   /// <param name="file">Path to the file</param>
+   /// <returns>Last write timestamp</returns>
    /// <exception cref="Exception"></exception>
-   public static DateTime GetLastModifiedDate(string? path) //NUnit
+   public static DateTime GetLastFileWriteTime(string? file) //NUnit
    {
-      if (path != null)
+      if (file != null)
       {
-         if (ExistsFile(path))
+         if (ExistsFile(file))
          {
             try
             {
-               return new FileInfo(path).LastWriteTime;
+               return new FileInfo(file).LastWriteTime;
             }
             catch (Exception ex)
             {
-               _logger.LogError(ex, $"Could not get last modify date for '{path}'");
+               _logger.LogError(ex, $"Could not get last write timestamp for '{file}'");
                throw;
             }
          }
       }
 
-      _logger.LogError($"File does not exists: {path}");
+      _logger.LogError($"File does not exists: {file}");
 
       return DateTime.MinValue;
    }
 
-   /// <summary>Reads the text of a file.</summary>
+   /// <summary>
+   /// Returns the last access (=read) timestamp of a file.
+   /// </summary>
+   /// <param name="file">Path to the file</param>
+   /// <returns>Last access timestamp</returns>
+   /// <exception cref="Exception"></exception>
+   public static DateTime GetLastFileAccessTime(string? file) //NUnit
+   {
+      if (file != null)
+      {
+         if (ExistsFile(file))
+         {
+            try
+            {
+               return new FileInfo(file).LastAccessTime;
+            }
+            catch (Exception ex)
+            {
+               _logger.LogError(ex, $"Could not get last access timestamp for '{file}'");
+               throw;
+            }
+         }
+      }
+
+      _logger.LogError($"File does not exists: {file}");
+
+      return DateTime.MinValue;
+   }
+
+   /// <summary>
+   /// Returns the creation timestamp of a file.
+   /// </summary>
+   /// <param name="file">Path to the file</param>
+   /// <returns>Creation timestamp</returns>
+   /// <exception cref="Exception"></exception>
+   public static DateTime GetFileCreationTime(string? file) //NUnit
+   {
+      if (file != null)
+      {
+         if (ExistsFile(file))
+         {
+            try
+            {
+               return new FileInfo(file).CreationTime;
+            }
+            catch (Exception ex)
+            {
+               _logger.LogError(ex, $"Could not get creation timestamp for '{file}'");
+               throw;
+            }
+         }
+      }
+
+      _logger.LogError($"File does not exists: {file}");
+
+      return DateTime.MinValue;
+   }
+
+   /// <summary>
+   /// Returns the last write (=modified) timestamp of directory.
+   /// </summary>
+   /// <param name="path">Path to the directory</param>
+   /// <returns>Last write timestamp</returns>
+   /// <exception cref="Exception"></exception>
+   public static DateTime GetLastDirectoryWriteTime(string? path) //NUnit
+   {
+      if (path != null)
+      {
+         if (ExistsDirectory(path))
+         {
+            try
+            {
+               return new DirectoryInfo(path).LastWriteTime;
+            }
+            catch (Exception ex)
+            {
+               _logger.LogError(ex, $"Could not get last write timestamp for '{path}'");
+               throw;
+            }
+         }
+      }
+
+      _logger.LogError($"Directory does not exists: {path}");
+
+      return DateTime.MinValue;
+   }
+
+   /// <summary>
+   /// Returns the last access (=read) timestamp of a directory.
+   /// </summary>
+   /// <param name="path">Path to the directory</param>
+   /// <returns>Last access timestamp</returns>
+   /// <exception cref="Exception"></exception>
+   public static DateTime GetLastDirectoryAccessTime(string? path) //NUnit
+   {
+      if (path != null)
+      {
+         if (ExistsDirectory(path))
+         {
+            try
+            {
+               return new DirectoryInfo(path).LastAccessTime;
+            }
+            catch (Exception ex)
+            {
+               _logger.LogError(ex, $"Could not get last access timestamp for '{path}'");
+               throw;
+            }
+         }
+      }
+
+      _logger.LogError($"Directory does not exists: {path}");
+
+      return DateTime.MinValue;
+   }
+
+   /// <summary>
+   /// Returns the creation timestamp of a directory.
+   /// </summary>
+   /// <param name="path">Path to the directory</param>
+   /// <returns>Creation timestamp</returns>
+   /// <exception cref="Exception"></exception>
+   public static DateTime GetDirectoryCreationTime(string? path) //NUnit
+   {
+      if (path != null)
+      {
+         if (ExistsDirectory(path))
+         {
+            try
+            {
+               return new DirectoryInfo(path).CreationTime;
+            }
+            catch (Exception ex)
+            {
+               _logger.LogError(ex, $"Could not get creation timestamp for '{path}'");
+               throw;
+            }
+         }
+      }
+
+      _logger.LogError($"Directory does not exists: {path}");
+
+      return DateTime.MinValue;
+   }
+   /// <summary>
+   /// Reads the text of a file.
+   /// </summary>
    /// <param name="path">Path to the file</param>
    /// <param name="encoding">Encoding of the text (optional, default: UTF8)</param>
    /// <returns>Text-content of the file</returns>
@@ -1082,7 +1284,9 @@ public abstract class FileHelper
       return Task.Run(() => ReadAllTextAsync(path, encoding)).GetAwaiter().GetResult();
    }
 
-   /// <summary>Reads the text of a file asynchronusly.</summary>
+   /// <summary>
+   /// Reads the text of a file asynchronously.
+   /// </summary>
    /// <param name="path">Path to the file</param>
    /// <param name="encoding">Encoding of the text (optional, default: UTF8)</param>
    /// <returns>Text-content of the file</returns>
@@ -1108,7 +1312,9 @@ public abstract class FileHelper
       return null;
    }
 
-   /// <summary>Reads all lines of text from a file.</summary>
+   /// <summary>
+   /// Reads all lines of text from a file.
+   /// </summary>
    /// <param name="path">Path to the file</param>
    /// <param name="encoding">Encoding of the text (optional, default: UTF8)</param>
    /// <returns>Array of text lines from the file</returns>
@@ -1118,7 +1324,9 @@ public abstract class FileHelper
       return Task.Run(() => ReadAllLinesAsync(path, encoding)).GetAwaiter().GetResult();
    }
 
-   /// <summary>Reads all lines of text from a file asynchronusly.</summary>
+   /// <summary>
+   /// Reads all lines of text from a file asynchronously.
+   /// </summary>
    /// <param name="path">Path to the file</param>
    /// <param name="encoding">Encoding of the text (optional, default: UTF8)</param>
    /// <returns>Array of text lines from the file</returns>
@@ -1144,7 +1352,9 @@ public abstract class FileHelper
       return null;
    }
 
-   /// <summary>Reads the bytes of a file.</summary>
+   /// <summary>
+   /// Reads the bytes of a file.
+   /// </summary>
    /// <param name="path">Path to the file</param>
    /// <returns>Byte-content of the file</returns>
    /// <exception cref="Exception"></exception>
@@ -1153,7 +1363,9 @@ public abstract class FileHelper
       return Task.Run(() => ReadAllBytesAsync(path)).GetAwaiter().GetResult();
    }
 
-   /// <summary>Reads the bytes of a file asynchronusly.</summary>
+   /// <summary>
+   /// Reads the bytes of a file asynchronously.
+   /// </summary>
    /// <param name="path">Path to the file</param>
    /// <returns>Byte-content of the file</returns>
    /// <exception cref="Exception"></exception>
@@ -1178,7 +1390,9 @@ public abstract class FileHelper
       return null;
    }
 
-   /// <summary>Writes text to a file.</summary>
+   /// <summary>
+   /// Writes text to a file.
+   /// </summary>
    /// <param name="destFile">Destination file path</param>
    /// <param name="text">Text-content to write</param>
    /// <param name="encoding">Encoding of the text (optional, default: UTF8)</param>
@@ -1189,7 +1403,9 @@ public abstract class FileHelper
       return Task.Run(() => WriteAllTextAsync(destFile, text, encoding)).GetAwaiter().GetResult();
    }
 
-   /// <summary>Writes text to a file asynchronusly.</summary>
+   /// <summary>
+   /// Writes text to a file asynchronously.
+   /// </summary>
    /// <param name="destFile">Destination file path</param>
    /// <param name="text">Text-content to write</param>
    /// <param name="encoding">Encoding of the text (optional, default: UTF8)</param>
@@ -1216,7 +1432,9 @@ public abstract class FileHelper
       return success;
    }
 
-   /// <summary>Writes all lines of text to a file.</summary>
+   /// <summary>
+   /// Writes all lines of text to a file.
+   /// </summary>
    /// <param name="destFile">Destination file path</param>
    /// <param name="lines">Array of text lines to write</param>
    /// <param name="encoding">Encoding of the text (optional, default: UTF8)</param>
@@ -1227,7 +1445,9 @@ public abstract class FileHelper
       return Task.Run(() => WriteAllLinesAsync(destFile, lines, encoding)).GetAwaiter().GetResult();
    }
 
-   /// <summary>Writes all lines of text to a file asynchronusly.</summary>
+   /// <summary>
+   /// Writes all lines of text to a file asynchronously.
+   /// </summary>
    /// <param name="destFile">Destination file path</param>
    /// <param name="lines">Array of text lines to write</param>
    /// <param name="encoding">Encoding of the text (optional, default: UTF8)</param>
@@ -1254,7 +1474,9 @@ public abstract class FileHelper
       return success;
    }
 
-   /// <summary>Writes bytes to a file.</summary>
+   /// <summary>
+   /// Writes bytes to a file.
+   /// </summary>
    /// <param name="destFile">Destination file path</param>
    /// <param name="data">Byte-content to write</param>
    /// <returns>True if the operation was successful</returns>
@@ -1264,7 +1486,9 @@ public abstract class FileHelper
       return Task.Run(() => WriteAllBytesAsync(destFile, data)).GetAwaiter().GetResult();
    }
 
-   /// <summary>Writes bytes to a file.</summary>
+   /// <summary>
+   /// Writes bytes to a file asynchronously.
+   /// </summary>
    /// <param name="destFile">Destination file path</param>
    /// <param name="data">Byte-content to write</param>
    /// <returns>True if the operation was successful</returns>

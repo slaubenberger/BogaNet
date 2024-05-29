@@ -12,9 +12,11 @@ public abstract class XmlHelper
 {
    private static readonly ILogger _logger = GlobalLogging.CreateLogger("XmlHelper");
 
-   /// <summary>Serialize an object to a XML-file.</summary>
-   /// <param name="obj">Object to serialize.</param>
-   /// <param name="filename">File name of the XML.</param>
+   /// <summary>
+   /// Serialize an object to a XML-file.
+   /// </summary>
+   /// <param name="obj">Object to serialize</param>
+   /// <param name="filename">File name of the XML</param>
    /// <returns>True if the operation was successful</returns>
    /// <exception cref="Exception"></exception>
    public static bool SerializeToFile<T>(T? obj, string? filename)
@@ -22,9 +24,11 @@ public abstract class XmlHelper
       return Task.Run(() => SerializeToFileAsync(obj, filename)).GetAwaiter().GetResult();
    }
 
-   /// <summary>Serialize an object to a XML-file asynchronusly.</summary>
-   /// <param name="obj">Object to serialize.</param>
-   /// <param name="filename">File name of the XML.</param>
+   /// <summary>
+   /// Serialize an object to a XML-file asynchronously.
+   /// </summary>
+   /// <param name="obj">Object to serialize</param>
+   /// <param name="filename">File name of the XML</param>
    /// <returns>True if the operation was successful</returns>
    /// <exception cref="Exception"></exception>
    public static async Task<bool> SerializeToFileAsync<T>(T? obj, string? filename)
@@ -46,8 +50,10 @@ public abstract class XmlHelper
       }
    }
 
-   /// <summary>Serialize an object to a XML-string.</summary>
-   /// <param name="obj">Object to serialize.</param>
+   /// <summary>
+   /// Serialize an object to a XML-string.
+   /// </summary>
+   /// <param name="obj">Object to serialize</param>
    /// <returns>Object as XML-string</returns>
    /// <exception cref="Exception"></exception>
    public static string SerializeToString<T>(T? obj)
@@ -60,8 +66,10 @@ public abstract class XmlHelper
       return Encoding.UTF8.GetString(result).Trim('\uFEFF', '\u200B'); //remove invalid BOM
    }
 
-   /// <summary>Serialize an object to a XML byte-array.</summary>
-   /// <param name="obj">Object to serialize.</param>
+   /// <summary>
+   /// Serialize an object to a XML byte-array.
+   /// </summary>
+   /// <param name="obj">Object to serialize</param>
    /// <returns>Object as byte-array</returns>
    /// <exception cref="Exception"></exception>
    public static byte[] SerializeToByteArray<T>(T? obj)
@@ -95,7 +103,9 @@ public abstract class XmlHelper
       //return null;
    }
 
-   /// <summary>Deserialize a XML-file to an object.</summary>
+   /// <summary>
+   /// Deserialize a XML-file to an object.
+   /// </summary>
    /// <param name="filename">XML-file of the object</param>
    /// <param name="skipBOM">Skip BOM (optional, default: false)</param>
    /// <returns>Object</returns>
@@ -105,7 +115,9 @@ public abstract class XmlHelper
       return Task.Run(() => DeserializeFromFileAsync<T>(filename, skipBOM)).GetAwaiter().GetResult();
    }
 
-   /// <summary>Deserialize a XML-file to an object asynchronusly.</summary>
+   /// <summary>
+   /// Deserialize a XML-file to an object asynchronously.
+   /// </summary>
    /// <param name="filename">XML-file of the object</param>
    /// <param name="skipBOM">Skip BOM (optional, default: false)</param>
    /// <returns>Object</returns>
@@ -144,7 +156,9 @@ public abstract class XmlHelper
       return default;
    }
 
-   /// <summary>Deserialize a XML-string to an object.</summary>
+   /// <summary>
+   /// Deserialize a XML-string to an object.
+   /// </summary>
    /// <param name="xmlAsString">XML of the object</param>
    /// <param name="skipBOM">Skip BOM (optional, default: true)</param>
    /// <returns>Object</returns>
@@ -177,7 +191,9 @@ public abstract class XmlHelper
       return default;
    }
 
-   /// <summary>Deserialize a XML byte-array to an object.</summary>
+   /// <summary>
+   /// Deserialize a XML byte-array to an object.
+   /// </summary>
    /// <param name="data">XML of the object</param>
    /// <returns>Object</returns>
    /// <exception cref="Exception"></exception>

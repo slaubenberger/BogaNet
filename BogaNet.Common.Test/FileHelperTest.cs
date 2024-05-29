@@ -720,15 +720,66 @@ public class FileHelperTest
    }
 
    [Test]
-   public void GetLastModifiedDate_Test()
+   public void GetLastWriteTime_Test()
    {
-      Assert.That(FileHelper.GetLastModifiedDate(FileHelper.TempFile), Is.GreaterThanOrEqualTo(System.DateTime.Today));
+      Assert.That(FileHelper.GetLastFileWriteTime(FileHelper.TempFile), Is.GreaterThanOrEqualTo(System.DateTime.Today));
 
-      Assert.That(FileHelper.GetLastModifiedDate(testFileName), Is.EqualTo(System.DateTime.MinValue));
+      Assert.That(FileHelper.GetLastFileWriteTime(testFileName), Is.EqualTo(System.DateTime.MinValue));
 
-      Assert.That(FileHelper.GetLastModifiedDate(FileHelper.TempPath), Is.EqualTo(System.DateTime.MinValue));
-      Assert.That(FileHelper.GetLastModifiedDate(""), Is.EqualTo(System.DateTime.MinValue));
-      Assert.That(FileHelper.GetLastModifiedDate(null), Is.EqualTo(System.DateTime.MinValue));
+      Assert.That(FileHelper.GetLastFileWriteTime(FileHelper.TempPath), Is.EqualTo(System.DateTime.MinValue));
+      Assert.That(FileHelper.GetLastFileWriteTime(""), Is.EqualTo(System.DateTime.MinValue));
+      Assert.That(FileHelper.GetLastFileWriteTime(null), Is.EqualTo(System.DateTime.MinValue));
+   }
+
+   [Test]
+   public void GetLastAccessTime_Test()
+   {
+      Assert.That(FileHelper.GetLastFileAccessTime(FileHelper.TempFile), Is.GreaterThanOrEqualTo(System.DateTime.Today));
+
+      Assert.That(FileHelper.GetLastFileAccessTime(testFileName), Is.EqualTo(System.DateTime.MinValue));
+
+      Assert.That(FileHelper.GetLastFileAccessTime(FileHelper.TempPath), Is.EqualTo(System.DateTime.MinValue));
+      Assert.That(FileHelper.GetLastFileAccessTime(""), Is.EqualTo(System.DateTime.MinValue));
+      Assert.That(FileHelper.GetLastFileAccessTime(null), Is.EqualTo(System.DateTime.MinValue));
+   }
+
+   [Test]
+   public void GetCreationTime_Test()
+   {
+      Assert.That(FileHelper.GetFileCreationTime(FileHelper.TempFile), Is.GreaterThanOrEqualTo(System.DateTime.Today));
+
+      Assert.That(FileHelper.GetFileCreationTime(testFileName), Is.EqualTo(System.DateTime.MinValue));
+
+      Assert.That(FileHelper.GetFileCreationTime(FileHelper.TempPath), Is.EqualTo(System.DateTime.MinValue));
+      Assert.That(FileHelper.GetFileCreationTime(""), Is.EqualTo(System.DateTime.MinValue));
+      Assert.That(FileHelper.GetFileCreationTime(null), Is.EqualTo(System.DateTime.MinValue));
+   }
+
+   [Test]
+   public void GetDirWriteTime_Test()
+   {
+      Assert.That(FileHelper.GetLastDirectoryWriteTime(FileHelper.TempDirectory), Is.GreaterThanOrEqualTo(System.DateTime.Today));
+
+      Assert.That(FileHelper.GetLastDirectoryWriteTime(""), Is.EqualTo(System.DateTime.MinValue));
+      Assert.That(FileHelper.GetLastDirectoryWriteTime(null), Is.EqualTo(System.DateTime.MinValue));
+   }
+
+   [Test]
+   public void GetDirAccessTime_Test()
+   {
+      Assert.That(FileHelper.GetLastDirectoryAccessTime(FileHelper.TempDirectory), Is.GreaterThanOrEqualTo(System.DateTime.Today));
+
+      Assert.That(FileHelper.GetLastDirectoryAccessTime(""), Is.EqualTo(System.DateTime.MinValue));
+      Assert.That(FileHelper.GetLastDirectoryAccessTime(null), Is.EqualTo(System.DateTime.MinValue));
+   }
+
+   [Test]
+   public void GetDirCreationTime_Test()
+   {
+      Assert.That(FileHelper.GetDirectoryCreationTime(FileHelper.TempDirectory), Is.GreaterThanOrEqualTo(System.DateTime.Today));
+
+      Assert.That(FileHelper.GetDirectoryCreationTime(""), Is.EqualTo(System.DateTime.MinValue));
+      Assert.That(FileHelper.GetDirectoryCreationTime(null), Is.EqualTo(System.DateTime.MinValue));
    }
 
    [Test]

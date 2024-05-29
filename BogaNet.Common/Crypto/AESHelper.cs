@@ -1,5 +1,6 @@
 ﻿using System.Security.Cryptography;
 using BogaNet.IO;
+using Microsoft.Extensions.Logging;
 
 namespace BogaNet.Crypto;
 
@@ -8,6 +9,8 @@ namespace BogaNet.Crypto;
 /// </summary>
 public abstract class AESHelper
 {
+   private static readonly ILogger _logger = GlobalLogging.CreateLogger("AESHelper");
+
    /// <summary>
    /// Encrypts a file with AES.
    /// </summary>
@@ -22,7 +25,7 @@ public abstract class AESHelper
    }
 
    /// <summary>
-   /// Encrypts a file with AES asynchronusly.
+   /// Encrypts a file with AES asynchronously.
    /// </summary>
    /// <param name="file">File to encrypt</param>
    /// <param name="key">Key for the file as string</param>
@@ -48,7 +51,7 @@ public abstract class AESHelper
    }
 
    /// <summary>
-   /// Encrypts a file with AES asynchronusly.
+   /// Encrypts a file with AES asynchronously.
    /// </summary>
    /// <param name="file">File to encrypt</param>
    /// <param name="key">Key for the file as byte-array</param>
@@ -74,7 +77,7 @@ public abstract class AESHelper
    }
 
    /// <summary>
-   /// Decrypts a file with AES asynchronusly.
+   /// Decrypts a file with AES asynchronously.
    /// </summary>
    /// <param name="file">File to decrypt</param>
    /// <param name="key">Key for the file as string</param>
@@ -100,7 +103,7 @@ public abstract class AESHelper
    }
 
    /// <summary>
-   /// Decrypts a file with AES asynchronusly.
+   /// Decrypts a file with AES asynchronously.
    /// </summary>
    /// <param name="file">File to decrypt</param>
    /// <param name="key">Key for the file as byte-array</param>
@@ -118,19 +121,19 @@ public abstract class AESHelper
    /// <param name="dataToEncrypt">byte-array to encrypt</param>
    /// <param name="key">Key for the byte-array as byte-array</param>
    /// <param name="IV">IV (initial vector) for AES</param>
-   /// <exception cref="ArgumentNullException"></exception>
+   /// <exception cref="Exception"></exception>
    public static byte[] Encrypt(byte[]? dataToEncrypt, byte[]? key, byte[]? IV)
    {
       return Task.Run(() => EncryptAsync(dataToEncrypt, key, IV)).GetAwaiter().GetResult();
    }
 
    /// <summary>
-   /// Encrypts a byte-array with AES asynchronusly.
+   /// Encrypts a byte-array with AES asynchronously.
    /// </summary>
    /// <param name="dataToEncrypt">byte-array to encrypt</param>
    /// <param name="key">Key for the byte-array as byte-array</param>
    /// <param name="IV">IV (initial vector) for AES</param>
-   /// <exception cref="ArgumentNullException"></exception>
+   /// <exception cref="Exception"></exception>
    public static async Task<byte[]> EncryptAsync(byte[]? dataToEncrypt, byte[]? key, byte[]? IV)
    {
       if (dataToEncrypt == null || dataToEncrypt.Length <= 0)
@@ -140,17 +143,23 @@ public abstract class AESHelper
       if (IV == null || IV.Length <= 0)
          throw new ArgumentNullException(nameof(IV));
 
-      using Aes algo = Aes.Create();
-      ICryptoTransform encryptor = algo.CreateEncryptor(key, IV);
+      try
+      {
+         using Aes algo = Aes.Create();
+         ICryptoTransform encryptor = algo.CreateEncryptor(key, IV);
 
-      using MemoryStream msEncrypt = new();
-      await using CryptoStream csEncrypt = new(msEncrypt, encryptor, CryptoStreamMode.Write);
-      await csEncrypt.WriteAsync(dataToEncrypt, 0, dataToEncrypt.Length);
-      await csEncrypt.FlushFinalBlockAsync();
+         using MemoryStream msEncrypt = new();
+         await using CryptoStream csEncrypt = new(msEncrypt, encryptor, CryptoStreamMode.Write);
+         await csEncrypt.WriteAsync(dataToEncrypt, 0, dataToEncrypt.Length);
+         await csEncrypt.FlushFinalBlockAsync();
 
-      byte[] encrypted = msEncrypt.ToArray();
-
-      return encrypted;
+         return msEncrypt.ToArray();
+      }
+      catch (Exception ex)
+      {
+         _logger.LogError(ex, "Encrypt failed!");
+         throw;
+      }
    }
 
    /// <summary>
@@ -159,19 +168,19 @@ public abstract class AESHelper
    /// <param name="dataToDecrypt">byte-array to decrypt</param>
    /// <param name="key">Key for the byte-array as byte-array</param>
    /// <param name="IV">IV (initial vector) for AES</param>
-   /// <exception cref="ArgumentNullException"></exception>
+   /// <exception cref="Exception"></exception>
    public static byte[] Decrypt(byte[]? dataToDecrypt, byte[]? key, byte[]? IV)
    {
       return Task.Run(() => DecryptAsync(dataToDecrypt, key, IV)).GetAwaiter().GetResult();
    }
 
    /// <summary>
-   /// Decrypts a byte-array with AES asynchronusly.
+   /// Decrypts a byte-array with AES asynchronously.
    /// </summary>
    /// <param name="dataToDecrypt">byte-array to decrypt</param>
    /// <param name="key">Key for the byte-array as byte-array</param>
    /// <param name="IV">IV (initial vector) for AES</param>
-   /// <exception cref="ArgumentNullException"></exception>
+   /// <exception cref="Exception"></exception>
    public static async Task<byte[]> DecryptAsync(byte[]? dataToDecrypt, byte[]? key, byte[]? IV)
    {
       if (dataToDecrypt == null || dataToDecrypt.Length <= 0)
@@ -181,13 +190,20 @@ public abstract class AESHelper
       if (IV == null || IV.Length <= 0)
          throw new ArgumentNullException(nameof(IV));
 
-      using Aes algo = Aes.Create();
-      ICryptoTransform decryptor = algo.CreateDecryptor(key, IV);
+      try
+      {
+         using Aes algo = Aes.Create();
+         ICryptoTransform decryptor = algo.CreateDecryptor(key, IV);
 
-      using MemoryStream msDecrypt = new(dataToDecrypt);
-      await using CryptoStream csDecrypt = new(msDecrypt, decryptor, CryptoStreamMode.Read);
-      byte[] decrypted = await csDecrypt.BNReadFullyAsync();
+         using MemoryStream msDecrypt = new(dataToDecrypt);
+         await using CryptoStream csDecrypt = new(msDecrypt, decryptor, CryptoStreamMode.Read);
 
-      return decrypted;
+         return await csDecrypt.BNReadFullyAsync();
+      }
+      catch (Exception ex)
+      {
+         _logger.LogError(ex, "Decrypt failed!");
+         throw;
+      }
    }
 }

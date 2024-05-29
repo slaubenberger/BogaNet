@@ -10,7 +10,7 @@ public static class ExtensionList
    /// <summary>
    /// Shuffles a List.
    /// </summary>
-   /// <param name="list">IList-instance to shuffle.</param>
+   /// <param name="list">IList-instance to shuffle</param>
    /// <param name="seed">Seed for the PRNG (optional, default: 0 (=standard))</param>
    /// <exception cref="ArgumentNullException"></exception>
    public static void BNShuffle<T>(this IList<T>? list, int seed = 0)
@@ -31,12 +31,12 @@ public static class ExtensionList
    /// <summary>
    /// Dumps a list to a string.
    /// </summary>
-   /// <param name="list">IList-instance to dump.</param>
-   /// <param name="appendNewLine">Append new line, otherwise use the given delimiter (optional, default: true).</param>
-   /// <param name="prefix">Prefix for every element (optional, default: empty).</param>
-   /// <param name="postfix">Postfix for every element (optional, default: empty).</param>
-   /// <param name="delimiter">Delimiter if appendNewLine is false (optional, default: "; ").</param>
-   /// <returns>String with lines for all list entries.</returns>
+   /// <param name="list">IList-instance to dump</param>
+   /// <param name="appendNewLine">Append new line, otherwise use the given delimiter (optional, default: true)</param>
+   /// <param name="prefix">Prefix for every element (optional, default: empty)</param>
+   /// <param name="postfix">Postfix for every element (optional, default: empty)</param>
+   /// <param name="delimiter">Delimiter if appendNewLine is false (optional, default: "; ")</param>
+   /// <returns>String with lines for all list entries</returns>
    public static string? BNDump<T>(this IList<T>? list, bool appendNewLine = true, string? prefix = "", string? postfix = "", string delimiter = "; ")
    {
       if (list == null)
@@ -62,8 +62,8 @@ public static class ExtensionList
    /// <summary>
    /// Generates a string list with all entries (via BNToString).
    /// </summary>
-   /// <param name="list">IList-instance to ToString.</param>
-   /// <returns>String list with all entries (via CTToString).</returns>
+   /// <param name="list">IList-instance to ToString</param>
+   /// <returns>String list with all entries (via CTToString)</returns>
    /// <exception cref="ArgumentNullException"></exception>
    public static List<string> BNToStringList<T>(this IList<T>? list)
    {
@@ -79,10 +79,10 @@ public static class ExtensionList
    /// <summary>
    /// Default: case insensitive 'Contains'.
    /// </summary>
-   /// <param name="str">String list-instance.</param>
-   /// <param name="toCheck">String to check.</param>
+   /// <param name="str">String list-instance</param>
+   /// <param name="toCheck">String to check</param>
    /// <param name="comp">StringComparer (optional, default: StringComparer.OrdinalIgnoreCase)</param>
-   /// <returns>True if the string list contains the given string.</returns>
+   /// <returns>True if the string list contains the given string</returns>
    public static bool BNContains(this IList<string>? str, string? toCheck, StringComparer? comp = null)
    {
       if (str == null)
@@ -109,10 +109,10 @@ public static class ExtensionList
    }
    /*
 /// <summary>
-/// Generates a string list with all entries (via CTToString).
+/// Generates a string list with all entries (via BNToString).
 /// </summary>
-/// <param name="list">IList-instance to ToString.</param>
-/// <returns>String list with all entries (via CTToString).</returns>
+/// <param name="list">IList-instance to ToString</param>
+/// <returns>String list with all entries (via BNToString)</returns>
 /// <exception cref="ArgumentNullException"></exception>
 public static string BNToString<T>(this IList<T>? list)
 {

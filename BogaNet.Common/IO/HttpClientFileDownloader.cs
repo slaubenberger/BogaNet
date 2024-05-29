@@ -3,7 +3,7 @@
 namespace BogaNet.IO;
 
 /// <summary>
-/// HttpClient for file downloads with progress-callback
+/// HttpClient for file downloads with progress-callback.
 /// </summary>
 public class HttpClientFileDownloader
 {
@@ -11,26 +11,35 @@ public class HttpClientFileDownloader
 
    private static readonly ILogger<HttpClientFileDownloader> _logger = GlobalLogging.CreateLogger<HttpClientFileDownloader>();
 
-   /// <summary>Delegate for the progress changes.</summary>
-   public delegate void ProgressChangedHandler(long? totalFileSize, long totalBytesDownloaded, double? progressPercentage);
-
-   /// <summary>Event triggered whenever the progress changes.</summary>
-   public event ProgressChangedHandler? ProgressChanged;
-
    private string? _downloadUrl;
    private string? _destinationPath;
+
+   #endregion
+
+   #region Events
+
+   /// <summary>
+   /// Delegate for the progress changes.
+   /// </summary>
+   public delegate void ProgressChangedHandler(long? totalFileSize, long totalBytesDownloaded, double? progressPercentage);
+
+   /// <summary>
+   /// Event triggered whenever the progress changes.
+   /// </summary>
+   public event ProgressChangedHandler? OnProgressChanged;
 
    #endregion
 
    #region Public methods
 
    /// <summary>
-   /// Downloads the file
+   /// Downloads a file.
    /// </summary>
    /// <param name="downloadUrl">URL of the file</param>
    /// <param name="destinationPath">Destination for the file</param>
    /// <param name="timeout">Timeout in seconds (optional, default: 3600)</param>
    /// <returns>True if the operation was successful</returns>
+   /// <exception cref="Exception"></exception>
    public async Task<bool> Download(string downloadUrl, string destinationPath, int timeout = 3600)
    {
       if (string.IsNullOrEmpty(downloadUrl))
@@ -44,13 +53,14 @@ public class HttpClientFileDownloader
          _downloadUrl = NetworkHelper.ValidateURL(downloadUrl);
          _destinationPath = FileHelper.ValidateFile(destinationPath);
 
-         using HttpClient _httpClient = new() { Timeout = TimeSpan.FromSeconds(timeout) };
+         using HttpClient _httpClient = new();
+         _httpClient.Timeout = TimeSpan.FromSeconds(timeout);
          using HttpResponseMessage response = await _httpClient.GetAsync(_downloadUrl, HttpCompletionOption.ResponseHeadersRead);
          await downloadFileFromHttpResponseMessage(response);
       }
       catch (Exception ex)
       {
-         _logger.LogError(ex, $"Could not download file '{downloadUrl}'");
+         _logger.LogError(ex, $"Could not download file: {downloadUrl}");
          throw;
       }
 
@@ -106,15 +116,12 @@ public class HttpClientFileDownloader
 
    private void triggerProgressChanged(long? totalDownloadSize, long totalBytesRead)
    {
-      if (ProgressChanged == null)
-         return;
-
       double? progressPercentage = null;
 
       if (totalDownloadSize.HasValue)
          progressPercentage = Math.Round((double)totalBytesRead / totalDownloadSize.Value * 100, 2);
 
-      ProgressChanged(totalDownloadSize, totalBytesRead, progressPercentage);
+      OnProgressChanged?.Invoke(totalDownloadSize, totalBytesRead, progressPercentage);
    }
 
    #endregion

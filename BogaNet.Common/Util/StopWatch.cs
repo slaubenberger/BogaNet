@@ -21,7 +21,7 @@ public class StopWatch
    public List<Tuple<object, long>> Points { get; } = new();
 
    /// <summary>
-   /// Recorded points and time as string list
+   /// Recorded points and time as string list.
    /// </summary>
    public List<string> PointsAndTime
    {

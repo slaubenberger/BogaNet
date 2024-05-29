@@ -81,13 +81,35 @@ public abstract class Constants
 
    #region Physic/Math constants
 
-   public const decimal SPEED_OF_LIGHT = 299792458m; //speed of light in m/s
-   public const decimal ABSOLUTE_ZERO = -273.15m; //absolute zero in Celsius
-   public const decimal GRAVITY_ON_EARTH = 9.80665m; //gravity on earth in m/s^2
-   public const decimal FACTOR_KCAL_TO_KJ = 4.1868m; //kilogram calorie to kilojoule
+   /// <summary>
+   /// Speed of light in m/s.
+   /// </summary>
+   public const decimal SPEED_OF_LIGHT = 299792458m;
+   
+   /// <summary>
+   /// Absolute zero in Celsius.
+   /// </summary>
+   public const decimal ABSOLUTE_ZERO = -273.15m;
+   
+   /// <summary>
+   /// Gravity on earth in m/s^2.
+   /// </summary>
+   public const decimal GRAVITY_ON_EARTH = 9.80665m;
+   
+   /// <summary>
+   /// Kilogram calorie to kilojoule.
+   /// </summary>
+   public const decimal FACTOR_KCAL_TO_KJ = 4.1868m;
 
-   public const decimal FACTOR_SQRT_2 = 1.41421356m; //Square root of 2
-   public const decimal FACTOR_GOLDEN_RATIO_A_TO_B = 1.6180339887m; //golden ratio between a and b
+   /// <summary>
+   /// Square root of 2
+   /// </summary>
+   public const decimal FACTOR_SQRT_2 = 1.41421356m;
+   
+   /// <summary>
+   /// Golden ratio between a and b
+   /// </summary>
+   public const decimal FACTOR_GOLDEN_RATIO_A_TO_B = 1.6180339887m;
 
    #endregion
 

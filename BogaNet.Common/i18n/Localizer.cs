@@ -14,14 +14,12 @@ public class Localizer : ILocalizer
 
    private static readonly ILogger<Localizer> _logger = GlobalLogging.CreateLogger<Localizer>();
 
-   private CultureInfo _culture = BogaNet.Util.Helper.BaseCulture;
-
-   private const char _separator = ',';
-
    private static Localizer? _instance;
 
-   private readonly List<CultureInfo> _cultures = new();
-   private readonly Dictionary<string, Dictionary<string, string>> _messages = new();
+   protected CultureInfo _culture = BogaNet.Util.Helper.CurrentCulture;
+   protected const char _separator = ',';
+   protected readonly List<CultureInfo> _cultures = new();
+   protected readonly Dictionary<string, Dictionary<string, string>> _messages = new();
 
    #endregion
 
@@ -69,10 +67,10 @@ public class Localizer : ILocalizer
       }
    }
 
-   public List<string> MissingTranslations { get; } = new();
-   public List<string> MissingCountries { get; } = new();
-   public List<string> RemovedTranslations { get; } = new();
-   public List<string> AddedTranslations { get; } = new();
+   public virtual List<string> MissingTranslations { get; } = new();
+   public virtual List<string> MissingCountries { get; } = new();
+   public virtual List<string> RemovedTranslations { get; } = new();
+   public virtual List<string> AddedTranslations { get; } = new();
 
    #endregion
 
@@ -286,7 +284,7 @@ public class Localizer : ILocalizer
 
    #region Private methods
 
-   private string? getText(string? key, string culture, TextType textType, bool returnDefault = true)
+   protected string? getText(string? key, string culture, TextType textType, bool returnDefault = true)
    {
       if (string.IsNullOrEmpty(key))
          throw new ArgumentNullException(nameof(key));
@@ -351,7 +349,7 @@ public class Localizer : ILocalizer
       return "???" + usedKey + "???";
    }
 
-   private string getEntries()
+   protected string getEntries()
    {
       StringBuilder sb = new();
 
@@ -382,7 +380,7 @@ public class Localizer : ILocalizer
       return sb.ToString();
    }
 
-   private void hasChanged()
+   protected void hasChanged()
    {
       _cultures.Clear();
    }

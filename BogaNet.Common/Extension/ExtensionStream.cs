@@ -8,8 +8,8 @@ public static class ExtensionStream
    /// <summary>
    /// Reads the full content of a Stream.
    /// </summary>
-   /// <param name="input">Stream-instance to read.</param>
-   /// <returns>Byte-array of the Stream content.</returns>
+   /// <param name="input">Stream-instance to read</param>
+   /// <returns>Byte-array of the Stream content</returns>
    /// <exception cref="ArgumentNullException"></exception>
    public static byte[] BNReadFully(this Stream? input)
    {
@@ -17,10 +17,10 @@ public static class ExtensionStream
    }
 
    /// <summary>
-   /// Reads the full content of a Stream asynchronusly.
+   /// Reads the full content of a Stream asynchronously.
    /// </summary>
-   /// <param name="input">Stream-instance to read.</param>
-   /// <returns>Byte-array of the Stream content.</returns>
+   /// <param name="input">Stream-instance to read</param>
+   /// <returns>Byte-array of the Stream content</returns>
    /// <exception cref="ArgumentNullException"></exception>
    public static async Task<byte[]> BNReadFullyAsync(this Stream? input)
    {

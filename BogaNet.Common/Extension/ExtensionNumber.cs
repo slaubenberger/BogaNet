@@ -11,7 +11,7 @@ public static class ExtensionNumber
    private static readonly ILogger _logger = GlobalLogging.CreateLogger("ExtensionNumber");
 
    /// <summary>
-   /// Clamps a value between min and max
+   /// Clamps a value between min and max.
    /// </summary>
    /// <param name="number">Given value</param>
    /// <param name="min">Min value</param>
@@ -26,8 +26,8 @@ public static class ExtensionNumber
    /// Converts the value of a Number to a Hex-string.
    /// </summary>
    /// <param name="number">Given value</param>
-   /// <param name="addPrefix">Add "0x"-as prefix (optional, default: false).</param>
-   /// <returns>Number as converted Hex-string.</returns>
+   /// <param name="addPrefix">Add "0x"-as prefix (optional, default: false)</param>
+   /// <returns>Number as converted Hex-string</returns>
    public static string BNToHex<T>(this T number, bool addPrefix = false) where T : INumber<T>
    //public unsafe static string BNToHex<T>(this T val, bool addPrefix = false) where T : INumber<T>
    {
@@ -76,7 +76,7 @@ public static class ExtensionNumber
    /// Converts the value of a Number to a byte-array.
    /// </summary>
    /// <param name="number">Given value</param>
-   /// <returns>Byte-array with the Number.</returns>
+   /// <returns>Byte-array with the Number</returns>
    public static byte[]? BNToByteArray<T>(this T? number) where T : INumber<T>
    {
       if (number == null)

@@ -16,8 +16,8 @@ public static class ExtensionString
    /// <summary>
    /// Converts a string to title case (first letter uppercase).
    /// </summary>
-   /// <param name="str">String-instance.</param>
-   /// <returns>Converted string in title case.</returns>
+   /// <param name="str">String-instance</param>
+   /// <returns>Converted string in title case</returns>
    public static string? BNToTitleCase(this string? str)
    {
       return str == null ? str : CultureInfo.CurrentCulture.TextInfo.ToTitleCase(str.ToLower());
@@ -26,8 +26,8 @@ public static class ExtensionString
    /// <summary>
    /// Reverses a string.
    /// </summary>
-   /// <param name="str">String-instance.</param>
-   /// <returns>Reversed string.</returns>
+   /// <param name="str">String-instance</param>
+   /// <returns>Reversed string</returns>
    public static string? BNReverse(this string? str)
    {
       if (str == null)
@@ -42,11 +42,11 @@ public static class ExtensionString
    /// <summary>
    /// Case insensitive 'Replace' per default.
    /// </summary>
-   /// <param name="str">String-instance.</param>
-   /// <param name="oldString">String to replace.</param>
-   /// <param name="newString">New replacement string.</param>
+   /// <param name="str">String-instance</param>
+   /// <param name="oldString">String to replace</param>
+   /// <param name="newString">New replacement string</param>
    /// <param name="comp">StringComparison-method (optional, default: StringComparison.OrdinalIgnoreCase)</param>
-   /// <returns>Replaced string.</returns>
+   /// <returns>Replaced string</returns>
    public static string? BNReplace(this string? str, string? oldString, string? newString, StringComparison comp = StringComparison.OrdinalIgnoreCase)
    {
       if (str == null)
@@ -77,11 +77,11 @@ public static class ExtensionString
    }
 
    /// <summary>
-   /// Removes characters from a string
+   /// Removes characters from a string.
    /// </summary>
-   /// <param name="str">String-instance.</param>
-   /// <param name="removeChars">Characters to remove.</param>
-   /// <returns>String without the given characters.</returns>
+   /// <param name="str">String-instance</param>
+   /// <param name="removeChars">Characters to remove</param>
+   /// <returns>String without the given characters</returns>
    public static string? BNRemoveChars(this string? str, params char[]? removeChars)
    {
       if (str == null)
@@ -96,10 +96,10 @@ public static class ExtensionString
    /// <summary>
    /// Case insensitive 'Equals' per default.
    /// </summary>
-   /// <param name="str">String-instance.</param>
-   /// <param name="toCheck">String to check.</param>
+   /// <param name="str">String-instance</param>
+   /// <param name="toCheck">String to check</param>
    /// <param name="comp">StringComparison-method (optional, default: StringComparison.OrdinalIgnoreCase)</param>
-   /// <returns>True if the string contains the given string.</returns>
+   /// <returns>True if the string contains the given string</returns>
    public static bool BNEquals(this string? str, string? toCheck, StringComparison comp = StringComparison.OrdinalIgnoreCase)
    {
       return str?.Equals(toCheck, comp) == true;
@@ -108,10 +108,10 @@ public static class ExtensionString
    /// <summary>
    /// Case insensitive 'Contains' per default.
    /// </summary>
-   /// <param name="str">String-instance.</param>
-   /// <param name="toCheck">String to check.</param>
+   /// <param name="str">String-instance</param>
+   /// <param name="toCheck">String to check</param>
    /// <param name="comp">StringComparison-method (optional, default: StringComparison.OrdinalIgnoreCase)</param>
-   /// <returns>True if the string contains the given string.</returns>
+   /// <returns>True if the string contains the given string</returns>
    public static bool BNContains(this string? str, string? toCheck, StringComparison comp = StringComparison.OrdinalIgnoreCase)
    {
       return toCheck != null && str?.IndexOf(toCheck, comp) >= 0;
@@ -120,10 +120,10 @@ public static class ExtensionString
    /// <summary>
    /// Contains any given string.
    /// </summary>
-   /// <param name="str">String-instance.</param>
-   /// <param name="searchTerms">Search terms separated by the given split-character.</param>
+   /// <param name="str">String-instance</param>
+   /// <param name="searchTerms">Search terms separated by the given split-character</param>
    /// <param name="splitChar">Split-character (optional, default: ' ')</param>
-   /// <returns>True if the string contains any parts of the given string.</returns>
+   /// <returns>True if the string contains any parts of the given string</returns>
    public static bool BNContainsAny(this string? str, string? searchTerms, char splitChar = ' ')
    {
       if (str == null)
@@ -140,10 +140,10 @@ public static class ExtensionString
    /// <summary>
    /// Contains all given strings.
    /// </summary>
-   /// <param name="str">String-instance.</param>
-   /// <param name="searchTerms">Search terms separated by the given split-character.</param>
+   /// <param name="str">String-instance</param>
+   /// <param name="searchTerms">Search terms separated by the given split-character</param>
    /// <param name="splitChar">Split-character (optional, default: ' ')</param>
-   /// <returns>True if the string contains all parts of the given string.</returns>
+   /// <returns>True if the string contains all parts of the given string</returns>
    public static bool BNContainsAll(this string? str, string? searchTerms, char splitChar = ' ')
    {
       if (str == null)
@@ -160,10 +160,10 @@ public static class ExtensionString
    /// <summary>
    /// Replaces new lines with a replacement string pattern.
    /// </summary>
-   /// <param name="str">String-instance.</param>
-   /// <param name="replacement">Replacement string pattern (optional, default: "#nl#").</param>
-   /// <param name="newLine">New line string (optional, default: Environment.NewLine).</param>
-   /// <returns>Replaced string without new lines.</returns>
+   /// <param name="str">String-instance</param>
+   /// <param name="replacement">Replacement string pattern (optional, default: "#nl#")</param>
+   /// <param name="newLine">New line string (optional, default: Environment.NewLine)</param>
+   /// <returns>Replaced string without new lines</returns>
    public static string? BNRemoveNewLines(this string? str, string? replacement = "#nl#", string? newLine = null)
    {
       return str?.Replace(string.IsNullOrEmpty(newLine) ? Environment.NewLine : newLine, replacement);
@@ -172,10 +172,10 @@ public static class ExtensionString
    /// <summary>
    /// Replaces a given string pattern with new lines in a string.
    /// </summary>
-   /// <param name="str">String-instance.</param>
-   /// <param name="replacement">Replacement string pattern (optional, default: "#nl#").</param>
-   /// <param name="newLine">New line string (optional, default: Environment.NewLine).</param>
-   /// <returns>Replaced string with new lines.</returns>
+   /// <param name="str">String-instance</param>
+   /// <param name="replacement">Replacement string pattern (optional, default: "#nl#")</param>
+   /// <param name="newLine">New line string (optional, default: Environment.NewLine)</param>
+   /// <returns>Replaced string with new lines</returns>
    public static string? BNAddNewLines(this string? str, string? replacement = "#nl#", string? newLine = null)
    {
       return str?.BNReplace(replacement, string.IsNullOrEmpty(newLine) ? Environment.NewLine : newLine);
@@ -184,8 +184,8 @@ public static class ExtensionString
    /// <summary>
    /// Checks if the string is numeric.
    /// </summary>
-   /// <param name="str">String-instance.</param>
-   /// <returns>True if the string is numeric.</returns>
+   /// <param name="str">String-instance</param>
+   /// <returns>True if the string is numeric</returns>
    public static bool BNIsNumeric(this string? str)
    {
       return str != null && double.TryParse(str, out double _);
@@ -194,8 +194,8 @@ public static class ExtensionString
    /// <summary>
    /// Checks if the string is integer.
    /// </summary>
-   /// <param name="str">String-instance.</param>
-   /// <returns>True if the string is integer.</returns>
+   /// <param name="str">String-instance</param>
+   /// <returns>True if the string is integer</returns>
    public static bool BNIsInteger(this string? str)
    {
       if (str == null)
@@ -207,8 +207,8 @@ public static class ExtensionString
    /// <summary>
    /// Checks if the string is an email address.
    /// </summary>
-   /// <param name="str">String-instance.</param>
-   /// <returns>True if the string is an email address.</returns>
+   /// <param name="str">String-instance</param>
+   /// <returns>True if the string is an email address</returns>
    public static bool BNIsEmail(this string? str)
    {
       return str != null && Constants.REGEX_EMAIL.IsMatch(str);
@@ -217,8 +217,8 @@ public static class ExtensionString
    /// <summary>
    /// Checks if the string is a website address.
    /// </summary>
-   /// <param name="str">String-instance.</param>
-   /// <returns>True if the string is a website address.</returns>
+   /// <param name="str">String-instance</param>
+   /// <returns>True if the string is a website address</returns>
    public static bool BNIsWebsite(this string? str)
    {
       return str != null && Constants.REGEX_URL_WEB.IsMatch(str);
@@ -227,8 +227,8 @@ public static class ExtensionString
    /// <summary>
    /// Checks if the string is a creditcard.
    /// </summary>
-   /// <param name="str">String-instance.</param>
-   /// <returns>True if the string is a creditcard.</returns>
+   /// <param name="str">String-instance</param>
+   /// <returns>True if the string is a creditcard</returns>
    public static bool BNIsCreditcard(this string? str)
    {
       return str != null && Constants.REGEX_CREDITCARD.IsMatch(str);
@@ -237,8 +237,8 @@ public static class ExtensionString
    /// <summary>
    /// Checks if the string is an IPv4 address.
    /// </summary>
-   /// <param name="str">String-instance.</param>
-   /// <returns>True if the string is an IPv4 address.</returns>
+   /// <param name="str">String-instance</param>
+   /// <returns>True if the string is an IPv4 address</returns>
    public static bool BNIsIPv4(this string? str)
    {
       return BogaNet.IO.NetworkHelper.isIPv4(str);
@@ -247,8 +247,8 @@ public static class ExtensionString
    /// <summary>
    /// Checks if the string is an IPv6 address.
    /// </summary>
-   /// <param name="str">String-instance.</param>
-   /// <returns>True if the string is an IPv6 address.</returns>
+   /// <param name="str">String-instance</param>
+   /// <returns>True if the string is an IPv6 address</returns>
    public static bool BNIsIPv6(this string? str)
    {
       return BogaNet.IO.NetworkHelper.isIPv6(str);
@@ -257,8 +257,8 @@ public static class ExtensionString
    /// <summary>
    /// Checks if the string is alphanumeric.
    /// </summary>
-   /// <param name="str">String-instance.</param>
-   /// <returns>True if the string is alphanumeric.</returns>
+   /// <param name="str">String-instance</param>
+   /// <returns>True if the string is alphanumeric</returns>
    public static bool BNIsAlphanumeric(this string? str)
    {
       return str != null && Constants.REGEX_ALPHANUMERIC.IsMatch(str);
@@ -267,8 +267,8 @@ public static class ExtensionString
    /// <summary>
    /// Checks if the string has line endings.
    /// </summary>
-   /// <param name="str">String-instance.</param>
-   /// <returns>True if the string has line endings.</returns>
+   /// <param name="str">String-instance</param>
+   /// <returns>True if the string has line endings</returns>
    public static bool BNHasLineEndings(this string? str)
    {
       return str != null && Constants.REGEX_LINEENDINGS.IsMatch(str);
@@ -277,8 +277,8 @@ public static class ExtensionString
    /// <summary>
    /// Checks if the string has invalid characters.
    /// </summary>
-   /// <param name="str">String-instance.</param>
-   /// <returns>True if the string has invalid characters.</returns>
+   /// <param name="str">String-instance</param>
+   /// <returns>True if the string has invalid characters</returns>
    public static bool BNHasInvalidChars(this string? str)
    {
       return str != null && Constants.REGEX_INVALID_CHARS.IsMatch(str);
@@ -287,10 +287,10 @@ public static class ExtensionString
    /// <summary>
    /// Checks if the string starts with another string.
    /// </summary>
-   /// <param name="str">String-instance.</param>
-   /// <param name="toCheck">String to check.</param>
+   /// <param name="str">String-instance</param>
+   /// <param name="toCheck">String to check</param>
    /// <param name="comp">StringComparison-method (optional, default: StringComparison.OrdinalIgnoreCase)</param>
-   /// <returns>True if the string is integer.</returns>
+   /// <returns>True if the string is integer</returns>
    public static bool BNStartsWith(this string? str, string? toCheck, StringComparison comp = StringComparison.OrdinalIgnoreCase)
    {
       if (str == null)
@@ -302,10 +302,10 @@ public static class ExtensionString
    /// <summary>
    /// Checks if the string ends with another string.
    /// </summary>
-   /// <param name="str">String-instance.</param>
-   /// <param name="toCheck">String to check.</param>
+   /// <param name="str">String-instance</param>
+   /// <param name="toCheck">String to check</param>
    /// <param name="comp">StringComparison-method (optional, default: StringComparison.OrdinalIgnoreCase)</param>
-   /// <returns>True if the string is integer.</returns>
+   /// <returns>True if the string is integer</returns>
    public static bool BNEndsWith(this string? str, string? toCheck, StringComparison comp = StringComparison.OrdinalIgnoreCase)
    {
       if (str == null)
@@ -317,10 +317,10 @@ public static class ExtensionString
    /// <summary>
    /// Returns the index of the last occurence of a given string.
    /// </summary>
-   /// <param name="str">String-instance.</param>
-   /// <param name="toCheck">String for the index.</param>
+   /// <param name="str">String-instance</param>
+   /// <param name="toCheck">String for the index</param>
    /// <param name="comp">StringComparison-method (optional, default: StringComparison.OrdinalIgnoreCase)</param>
-   /// <returns>The index of the last occurence of the given string if the string is integer.</returns>
+   /// <returns>The index of the last occurence of the given string if the string is integer</returns>
    public static int BNLastIndexOf(this string? str, string? toCheck, StringComparison comp = StringComparison.OrdinalIgnoreCase)
    {
       if (str == null)
@@ -332,10 +332,10 @@ public static class ExtensionString
    /// <summary>
    /// Returns the index of the first occurence of a given string.
    /// </summary>
-   /// <param name="str">String-instance.</param>
-   /// <param name="toCheck">String for the index.</param>
+   /// <param name="str">String-instance</param>
+   /// <param name="toCheck">String for the index</param>
    /// <param name="comp">StringComparison-method (optional, default: StringComparison.OrdinalIgnoreCase)</param>
-   /// <returns>The index of the first occurence of the given string if the string is integer.</returns>
+   /// <returns>The index of the first occurence of the given string if the string is integer</returns>
    public static int BNIndexOf(this string? str, string? toCheck, StringComparison comp = StringComparison.OrdinalIgnoreCase)
    {
       if (str == null)
@@ -347,11 +347,11 @@ public static class ExtensionString
    /// <summary>
    /// Returns the index of the first occurence of a given string.
    /// </summary>
-   /// <param name="str">String-instance.</param>
-   /// <param name="toCheck">String for the index.</param>
-   /// <param name="startIndex">Start index for the check.</param>
+   /// <param name="str">String-instance</param>
+   /// <param name="toCheck">String for the index</param>
+   /// <param name="startIndex">Start index for the check</param>
    /// <param name="comp">StringComparison-method (optional, default: StringComparison.OrdinalIgnoreCase)</param>
-   /// <returns>The index of the first occurence of the given string if the string is integer.</returns>
+   /// <returns>The index of the first occurence of the given string if the string is integer</returns>
    public static int BNIndexOf(this string? str, string? toCheck, int startIndex, StringComparison comp = StringComparison.OrdinalIgnoreCase)
    {
       if (str == null)
@@ -363,9 +363,9 @@ public static class ExtensionString
    /// <summary>
    /// Converts the value of a string to a Base64-string.
    /// </summary>
-   /// <param name="str">Input string.</param>
-   /// <param name="encoding">Encoding of the string (optional, default: UTF8).</param>
-   /// <returns>String value as converted Base64-string.</returns>
+   /// <param name="str">Input string</param>
+   /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
+   /// <returns>String value as converted Base64-string</returns>
    public static string? BNToBase64(this string? str, Encoding? encoding = null)
    {
       if (str == null)
@@ -379,9 +379,9 @@ public static class ExtensionString
    /// <summary>
    /// Converts the value of a Base64-string to a string.
    /// </summary>
-   /// <param name="str">Input Base64-string.</param>
-   /// <param name="encoding">Encoding of the string (optional, default: UTF8).</param>
-   /// <returns>Base64-string value as converted string.</returns>
+   /// <param name="str">Input Base64-string</param>
+   /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
+   /// <returns>Base64-string value as converted string</returns>
    public static string? BNFromBase64(this string? str, Encoding? encoding = null)
    {
       if (str == null)
@@ -396,8 +396,8 @@ public static class ExtensionString
    /// <summary>
    /// Converts the value of a Base64-string to a byte-array.
    /// </summary>
-   /// <param name="str">Input Base64-string.</param>
-   /// <returns>Base64-Byte-array from the Base64-string.</returns>
+   /// <param name="str">Input Base64-string</param>
+   /// <returns>Base64-Byte-array from the Base64-string</returns>
    public static byte[]? BNFromBase64ToByteArray(this string? str)
    {
       return str == null ? null : Convert.FromBase64String(str);
@@ -406,9 +406,9 @@ public static class ExtensionString
    /// <summary>
    /// Converts the value of a string to a Hex-string (with Unicode support).
    /// </summary>
-   /// <param name="str">Input string.</param>
-   /// <param name="addPrefix">Add "0x"-as prefix (optional, default: false).</param>
-   /// <returns>String value as converted Hex-string.</returns>
+   /// <param name="str">Input string</param>
+   /// <param name="addPrefix">Add "0x"-as prefix (optional, default: false)</param>
+   /// <returns>String value as converted Hex-string</returns>
    public static string? BNToHex(this string? str, bool addPrefix = false)
    {
       if (str == null)
@@ -431,8 +431,8 @@ public static class ExtensionString
    /// <summary>
    /// Converts the Hex-value of a string to a string (with Unicode support).
    /// </summary>
-   /// <param name="hex">Input as Hex-string.</param>
-   /// <returns>Hex-string value as converted string.</returns>
+   /// <param name="hex">Input as Hex-string</param>
+   /// <returns>Hex-string value as converted string</returns>
    public static string? BNHexToString(this string? hex)
    {
       if (hex == null)
@@ -459,8 +459,8 @@ public static class ExtensionString
    /// <summary>
    /// Converts the Hex-value of a string to number.
    /// </summary>
-   /// <param name="hex">Input as Hex-string.</param>
-   /// <returns>Hex-string value as converted number.</returns>
+   /// <param name="hex">Input as Hex-string</param>
+   /// <returns>Hex-string value as converted number</returns>
    public static T? BNHexToNumber<T>(this string? hex) where T : INumber<T>
    {
       if (hex == null)
@@ -475,9 +475,9 @@ public static class ExtensionString
    /// <summary>
    /// Converts the value of a string to a byte-array.
    /// </summary>
-   /// <param name="str">Input string.</param>
-   /// <param name="encoding">Encoding of the string (optional, default: UTF8).</param>
-   /// <returns>Byte-array with the string.</returns>
+   /// <param name="str">Input string</param>
+   /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
+   /// <returns>Byte-array with the string</returns>
    public static byte[]? BNToByteArray(this string? str, Encoding? encoding = null)
    {
       if (str == null)
@@ -491,8 +491,8 @@ public static class ExtensionString
    /// <summary>
    /// Cleans a given text from tags.
    /// </summary>
-   /// <param name="str">Input to clean.</param>
-   /// <returns>Clean text without tags.</returns>
+   /// <param name="str">Input to clean</param>
+   /// <returns>Clean text without tags</returns>
    public static string? BNClearTags(this string? str)
    {
       return str != null ? Constants.REGEX_CLEAN_TAGS.Replace(str, string.Empty).Trim() : null;
@@ -501,8 +501,8 @@ public static class ExtensionString
    /// <summary>
    /// Cleans a given text from multiple spaces.
    /// </summary>
-   /// <param name="str">Input to clean.</param>
-   /// <returns>Clean text without multiple spaces.</returns>
+   /// <param name="str">Input to clean</param>
+   /// <returns>Clean text without multiple spaces</returns>
    public static string? BNClearSpaces(this string? str)
    {
       return str != null ? Constants.REGEX_CLEAN_SPACES.Replace(str, " ").Trim() : null;
@@ -511,8 +511,8 @@ public static class ExtensionString
    /// <summary>
    /// Cleans a given text from line endings.
    /// </summary>
-   /// <param name="str">Input to clean.</param>
-   /// <returns>Clean text without line endings.</returns>
+   /// <param name="str">Input to clean</param>
+   /// <returns>Clean text without line endings</returns>
    public static string? BNClearLineEndings(this string? str)
    {
       return str != null ? Constants.REGEX_LINEENDINGS.Replace(str, string.Empty).Trim() : null;
@@ -521,7 +521,7 @@ public static class ExtensionString
    /// <summary>
    /// Creates a fixed length string.
    /// </summary>
-   /// <param name="str">Input to fix.</param>
+   /// <param name="str">Input to fix</param>
    /// <param name="length">Length of the string</param>
    /// <param name="filler">Filler charachter for the string (optional, default ' ')</param>
    /// <param name="padRight">Right padding - otherwise left padding (optional, default: true)</param>
@@ -544,7 +544,9 @@ public static class ExtensionString
    }
 
 
-   /// <summary>Split the given text to lines and return it as list.</summary>
+   /// <summary>
+   /// Split the given text to lines and return it as list.
+   /// </summary>
    /// <param name="text">Complete text fragment</param>
    /// <param name="ignoreCommentedLines">Ignore commente lines (optional, default: true)</param>
    /// <param name="skipHeaderLines">Number of skipped header lines (optional, default: 0)</param>
@@ -586,7 +588,9 @@ public static class ExtensionString
    }
 
 
-   /// <summary>Creates a string of characters with a given length.</summary>
+   /// <summary>
+   /// Creates a string of characters with a given length.
+   /// </summary>
    /// <param name="generateChars">Characters to generate the string (if more than one character is used, the generated string will be a randomized result of all characters)</param>
    /// <param name="stringLength">Length of the generated string</param>
    /// <returns>Generated string</returns>
@@ -612,7 +616,9 @@ public static class ExtensionString
       return string.Empty;
    }
 
-   /// <summary>Creates a string of characters with a given length.</summary>
+   /// <summary>
+   /// Creates a string of characters with a given length.
+   /// </summary>
    /// <param name="generateChar">Character to generate the string</param>
    /// <param name="stringLength">Length of the generated string</param>
    /// <returns>Generated string</returns>

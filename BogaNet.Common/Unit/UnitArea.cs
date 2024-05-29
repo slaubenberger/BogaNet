@@ -4,7 +4,7 @@ using System.Numerics;
 namespace BogaNet.Unit;
 
 /// <summary>
-/// Units for areas
+/// Units for areas.
 /// </summary>
 public enum UnitArea
 {
@@ -24,7 +24,7 @@ public enum UnitArea
 }
 
 /// <summary>
-/// Extension methods for UnitArea
+/// Extension methods for UnitArea.
 /// </summary>
 public static class ExtensionUnitArea
 {
@@ -51,7 +51,7 @@ public static class ExtensionUnitArea
    public static decimal FACTOR_M2_TO_MILE2 => FACTOR_M2_TO_KM2 * FACTOR_MILE2_TO_KM2;
 
    /// <summary>
-   /// Converts a value from one unit to another
+   /// Converts a value from one unit to another.
    /// </summary>
    /// <param name="fromUnit">Source unit</param>
    /// <param name="toUnit">Target unit</param>

@@ -11,7 +11,7 @@ public abstract class Obfuscator
    private const byte DEFAULT_IV = 76; //TODO change the value in every project!
 
    /// <summary>
-   /// Obfuscate a byte-array
+   /// Obfuscate a byte-array.
    /// </summary>
    /// <param name="data">byte-array to obfuscate</param>
    /// <param name="IV">Initial-Vector byte (optional)</param>
@@ -38,11 +38,11 @@ public abstract class Obfuscator
    }
 
    /// <summary>
-   /// Obfuscate a string
+   /// Obfuscate a string.
    /// </summary>
    /// <param name="plainText">String to obfuscate</param>
    /// <param name="IV">Initial-Vector byte (optional)</param>
-   /// <param name="encoding">Encoding of the string (optional, default: UTF8).</param>
+   /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
    /// <returns>Obfuscated string</returns>
    public static string? Obfuscate(string? plainText, byte IV = DEFAULT_IV, Encoding? encoding = null)
    {
@@ -57,7 +57,7 @@ public abstract class Obfuscator
    }
 
    /// <summary>
-   /// De-obfuscate a byte-array
+   /// De-obfuscate a byte-array.
    /// </summary>
    /// <param name="obfuscatedData">byte-array to de-obfuscate</param>
    /// <param name="IV">Initial-Vector byte (optional)</param>
@@ -83,11 +83,11 @@ public abstract class Obfuscator
    }
 
    /// <summary>
-   /// De-obfuscate a string
+   /// De-obfuscate a string.
    /// </summary>
    /// <param name="obfuscatedText">String to de-obfuscate</param>
    /// <param name="IV">Initial-Vector byte (optional)</param>
-   /// <param name="encoding">Encoding of the string (optional, default: UTF8).</param>
+   /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
    /// <returns>De-obfuscated string</returns>
    public static string? Deobfuscate(string? obfuscatedText, byte IV = DEFAULT_IV, Encoding? encoding = null)
    {

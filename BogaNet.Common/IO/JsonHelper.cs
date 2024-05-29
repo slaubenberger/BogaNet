@@ -10,6 +10,9 @@ public abstract class JsonHelper
 {
    private static readonly ILogger _logger = GlobalLogging.CreateLogger("JsonHelper");
 
+   /// <summary>
+   /// Format for JSON as single line.
+   /// </summary>
    public static JsonSerializerSettings FORMAT_NONE =>
       new()
       {
@@ -32,6 +35,9 @@ public abstract class JsonHelper
          //TypeNameHandling = TypeNameHandling.All
       };
 
+   /// <summary>
+   /// Format for indented JSON.
+   /// </summary>
    public static JsonSerializerSettings FORMAT_INDENTED =>
       new()
       {
@@ -46,10 +52,12 @@ public abstract class JsonHelper
          Converters = [new Newtonsoft.Json.Converters.StringEnumConverter()]
       };
 
-   /// <summary>Serialize an object to an JSON-file.</summary>
-   /// <param name="obj">Object to serialize.</param>
-   /// <param name="path">File name of the JSON.</param>
-   /// <param name="settings">Serializer settings (optional).</param>
+   /// <summary>
+   /// Serialize an object to an JSON-file.
+   /// </summary>
+   /// <param name="obj">Object to serialize</param>
+   /// <param name="path">File name of the JSON</param>
+   /// <param name="settings">Serializer settings (optional)</param>
    /// <returns>True if the operation was successful</returns>
    /// <exception cref="Exception"></exception>
    public static bool SerializeToFile(object? obj, string? path, JsonSerializerSettings? settings = null)
@@ -57,10 +65,12 @@ public abstract class JsonHelper
       return Task.Run(() => SerializeToFileAsync(obj, path, settings)).GetAwaiter().GetResult();
    }
 
-   /// <summary>Serialize an object to an JSON-file asynchronusly.</summary>
-   /// <param name="obj">Object to serialize.</param>
-   /// <param name="path">File name of the JSON.</param>
-   /// <param name="settings">Serializer settings (optional).</param>
+   /// <summary>
+   /// Serialize an object to an JSON-file asynchronously.
+   /// </summary>
+   /// <param name="obj">Object to serialize</param>
+   /// <param name="path">File name of the JSON</param>
+   /// <param name="settings">Serializer settings (optional)</param>
    /// <returns>True if the operation was successful</returns>
    /// <exception cref="Exception"></exception>
    public static async Task<bool> SerializeToFileAsync(object? obj, string? path, JsonSerializerSettings? settings = null)
@@ -81,9 +91,11 @@ public abstract class JsonHelper
       }
    }
 
-   /// <summary>Serialize an object to an JSON-string.</summary>
-   /// <param name="obj">Object to serialize.</param>
-   /// <param name="settings">Serializer settings (optional).</param>
+   /// <summary>
+   /// Serialize an object to an JSON-string.
+   /// </summary>
+   /// <param name="obj">Object to serialize</param>
+   /// <param name="settings">Serializer settings (optional)</param>
    /// <returns>Object as JSON-string</returns>
    /// <exception cref="Exception"></exception>
    public static string SerializeToString(object? obj, JsonSerializerSettings? settings = null)
@@ -102,9 +114,11 @@ public abstract class JsonHelper
       }
    }
 
-   /// <summary>Deserialize a JSON-file to an object.</summary>
+   /// <summary>
+   /// Deserialize a JSON-file to an object.
+   /// </summary>
    /// <param name="path">JSON-file of the object</param>
-   /// <param name="settings">Serializer settings (optional).</param>
+   /// <param name="settings">Serializer settings (optional)</param>
    /// <returns>Object</returns>
    /// <exception cref="Exception"></exception>
    public static T? DeserializeFromFile<T>(string? path, JsonSerializerSettings? settings = null)
@@ -112,9 +126,11 @@ public abstract class JsonHelper
       return Task.Run(() => DeserializeFromFileAsync<T>(path, settings)).GetAwaiter().GetResult();
    }
 
-   /// <summary>Deserialize a JSON-file to an object asynchronusly.</summary>
+   /// <summary>
+   /// Deserialize a JSON-file to an object asynchronously.
+   /// </summary>
    /// <param name="path">JSON-file of the object</param>
-   /// <param name="settings">Serializer settings (optional).</param>
+   /// <param name="settings">Serializer settings (optional)</param>
    /// <returns>Object</returns>
    /// <exception cref="Exception"></exception>
    public static async Task<T?> DeserializeFromFileAsync<T>(string? path, JsonSerializerSettings? settings = null)
@@ -133,9 +149,11 @@ public abstract class JsonHelper
       }
    }
 
-   /// <summary>Deserialize a JSON-string to an object.</summary>
+   /// <summary>
+   /// Deserialize a JSON-string to an object.
+   /// </summary>
    /// <param name="jsonAsString">JSON of the object</param>
-   /// <param name="settings">Serializer settings (optional).</param>
+   /// <param name="settings">Serializer settings (optional)</param>
    /// <returns>Object</returns>
    /// <exception cref="Exception"></exception>
    public static T? DeserializeFromString<T>(string? jsonAsString, JsonSerializerSettings? settings = null)
