@@ -9,7 +9,7 @@ public class StopWatch
 {
    #region Variables
 
-   private Stopwatch? _watch;
+   private readonly Stopwatch _watch = Stopwatch.StartNew();
 
    #endregion
 
@@ -18,35 +18,30 @@ public class StopWatch
    /// <summary>
    /// Recorded points.
    /// </summary>
-   public List<string> Points { get; } = new();
-
-   /// <summary>
-   /// Recorded time in milliseconds.
-   /// </summary>
-   public List<long> Time { get; } = new();
+   public List<Tuple<object, long>> Points { get; } = new();
 
    /// <summary>
    /// Recorded points and time as string list
    /// </summary>
-   public string[] PointsAndTime
+   public List<string> PointsAndTime
    {
       get
       {
          List<string> result = new();
 
-         for (int ii = 0; ii < Points.Count; ii++)
+         foreach (var point in Points)
          {
-            result.Add($"{Points[ii]}: {Time[ii]}");
+            result.Add($"{point.Item1}: {point.Item2}");
          }
 
-         return result.ToArray();
+         return result;
       }
    }
 
    /// <summary>
    /// Elapsed time in milliseconds.
    /// </summary>
-   public long? ElapsedTime => _watch != null ? _watch.ElapsedMilliseconds : 0;
+   public long? ElapsedTime => _watch.ElapsedMilliseconds;
 
    #endregion
 
@@ -58,19 +53,20 @@ public class StopWatch
    public void Start()
    {
       Points.Clear();
-      Time.Clear();
-      _watch = Stopwatch.StartNew();
+      _watch.Restart();
    }
 
    /// <summary>
-   /// Adds a time point.
+   /// Adds point as an object to the current elapsed time.
    /// </summary>
-   /// <param name="name">Name of the point</param>
+   /// <param name="obj">Object for the point</param>
    /// <returns>Elapsed time in milliseconds</returns>
-   public long AddPoint(string name)
+   public long AddPoint(object obj)
    {
-      Points.Add(name);
-      Time.Add((long)_watch?.ElapsedMilliseconds);
+      if (!_watch.IsRunning)
+         Start();
+
+      Points.Add(new Tuple<object, long>(obj, _watch.ElapsedMilliseconds));
       return _watch.ElapsedMilliseconds;
    }
 
@@ -79,9 +75,12 @@ public class StopWatch
    /// </summary>
    public long Stop()
    {
-      _watch?.Stop();
+      if (!_watch.IsRunning)
+         return 0;
 
-      return (long)_watch?.ElapsedMilliseconds;
+      _watch.Stop();
+
+      return _watch.ElapsedMilliseconds;
    }
 
    #endregion
