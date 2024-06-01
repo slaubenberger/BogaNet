@@ -9,7 +9,7 @@ public class ShortUID
 {
    #region Variables
 
-   public string Code { get; private set; }
+   public string Code { get; set; }
 
    #endregion
 
