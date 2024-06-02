@@ -9,7 +9,7 @@ namespace BogaNet.Crypto;
 /// </summary>
 public abstract class AESHelper
 {
-   private static readonly ILogger _logger = GlobalLogging.CreateLogger("AESHelper");
+   private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(AESHelper));
 
    /// <summary>
    /// Encrypts a file with AES.

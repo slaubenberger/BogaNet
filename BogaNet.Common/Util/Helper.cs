@@ -13,7 +13,7 @@ public abstract class Helper
 {
    #region Variables
 
-   private static readonly ILogger _logger = GlobalLogging.CreateLogger("Helper");
+   private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(Helper));
 
    private static readonly Random _rnd = new();
 

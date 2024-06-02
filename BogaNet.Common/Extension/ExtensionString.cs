@@ -10,7 +10,7 @@ namespace BogaNet;
 /// </summary>
 public static class ExtensionString
 {
-   private static readonly ILogger _logger = GlobalLogging.CreateLogger("ExtensionNumber");
+   private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(ExtensionString));
    private static readonly Random _rnd = new();
 
    /// <summary>

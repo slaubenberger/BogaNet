@@ -25,7 +25,7 @@ public enum UnitLength
 /// </summary>
 public static class ExtensionUnitLength
 {
-   private static readonly ILogger _logger = GlobalLogging.CreateLogger("ExtensionUnitLength");
+   private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(ExtensionUnitLength));
 
    public static bool IgnoreSameUnit = true;
 

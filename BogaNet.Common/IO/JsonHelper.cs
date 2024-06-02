@@ -8,7 +8,7 @@ namespace BogaNet.IO;
 /// </summary>
 public abstract class JsonHelper
 {
-   private static readonly ILogger _logger = GlobalLogging.CreateLogger("JsonHelper");
+   private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(JsonHelper));
 
    /// <summary>
    /// Format for JSON as single line.

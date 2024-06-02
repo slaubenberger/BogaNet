@@ -25,7 +25,7 @@ public enum UnitVolume
 /// </summary>
 public static class ExtensionUnitVolume
 {
-   private static readonly ILogger _logger = GlobalLogging.CreateLogger("ExtensionUnitVolume");
+   private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(ExtensionUnitVolume));
 
    public static bool IgnoreSameUnit = true;
 

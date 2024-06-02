@@ -12,7 +12,7 @@ public abstract class FileHelper
 {
    #region Variables
 
-   private static readonly ILogger _logger = GlobalLogging.CreateLogger("FileHelper");
+   private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(FileHelper));
 
    private static char[] _invalidFilenameChars = [];
    private static char[] _invalidPathChars = [];

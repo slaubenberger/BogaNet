@@ -8,7 +8,7 @@ namespace BogaNet;
 /// </summary>
 public static class ExtensionNumber
 {
-   private static readonly ILogger _logger = GlobalLogging.CreateLogger("ExtensionNumber");
+   private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(ExtensionNumber));
 
    /// <summary>
    /// Clamps a value between min and max.

@@ -14,7 +14,7 @@ public abstract class NetworkHelper
 {
    #region Variables
 
-   private static readonly ILogger _logger = GlobalLogging.CreateLogger("NetworkHelper");
+   private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(NetworkHelper));
 
    #endregion
 

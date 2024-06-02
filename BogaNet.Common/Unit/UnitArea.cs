@@ -28,7 +28,7 @@ public enum UnitArea
 /// </summary>
 public static class ExtensionUnitArea
 {
-   private static readonly ILogger _logger = GlobalLogging.CreateLogger("ExtensionUnitArea");
+   private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(ExtensionUnitArea));
 
    public static bool IgnoreSameUnit = true;
 

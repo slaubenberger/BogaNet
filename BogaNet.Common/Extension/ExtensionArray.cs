@@ -9,7 +9,7 @@ namespace BogaNet;
 /// </summary>
 public static class ExtensionArray
 {
-   private static readonly ILogger _logger = GlobalLogging.CreateLogger("ExtensionArray");
+   private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(ExtensionArray));
 
    /// <summary>
    /// Converts a byte-array to a float-array.

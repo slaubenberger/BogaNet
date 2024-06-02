@@ -8,7 +8,7 @@ namespace BogaNet;
 /// </summary>
 public static class ExtensionDictionary
 {
-   private static readonly ILogger _logger = GlobalLogging.CreateLogger("ExtensionDictionary");
+   private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(ExtensionDictionary));
 
    /// <summary>
    /// Dumps a dictionary to a string.

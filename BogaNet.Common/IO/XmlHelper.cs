@@ -10,7 +10,7 @@ namespace BogaNet.IO;
 /// </summary>
 public abstract class XmlHelper
 {
-   private static readonly ILogger _logger = GlobalLogging.CreateLogger("XmlHelper");
+   private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(XmlHelper));
 
    /// <summary>
    /// Serialize an object to a XML-file.

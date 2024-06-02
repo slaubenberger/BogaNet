@@ -9,7 +9,7 @@ namespace BogaNet.Crypto;
 /// </summary>
 public abstract class HashHelper
 {
-   private static readonly ILogger _logger = GlobalLogging.CreateLogger("HashHelper");
+   private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(HashHelper));
 
    /// <summary>
    /// Generates a hash-value as byte-array with a given byte-array and algorithm as input.

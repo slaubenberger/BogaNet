@@ -13,7 +13,7 @@ namespace BogaNet.CLI;
 /// </summary>
 public static class Program
 {
-   private static readonly ILogger _logger = GlobalLogging.CreateLogger("Program");
+   private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(Program));
 
    public static void Main(string[] args)
    {
