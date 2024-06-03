@@ -91,12 +91,12 @@ public class ShortUID
 
       ShortUID su = (ShortUID)obj;
 
-      return Code == su.Code;
+      return Code.Equals(su.Code);
    }
 
    public override int GetHashCode()
    {
-      return base.GetHashCode();
+      return Code.GetHashCode();
    }
 
    #endregion
