@@ -3,13 +3,13 @@ using System.Runtime.Serialization;
 using System.Xml.Schema;
 using System.Xml;
 
-namespace BogaNet.Util;
+namespace BogaNet;
 
 /// <summary>
 /// Serializable Dictionary-class for XML.
 /// </summary>
 [System.Serializable]
-public class XMLSerializableDictionary<TKey, TVal> : Dictionary<TKey, TVal>, IXmlSerializable, ISerializable where TKey : notnull
+public class DictionaryXML<TKey, TVal> : Dictionary<TKey, TVal>, IXmlSerializable, ISerializable where TKey : notnull
 {
    #region Variables
 
@@ -26,32 +26,32 @@ public class XMLSerializableDictionary<TKey, TVal> : Dictionary<TKey, TVal>, IXm
 
    #region Constructors
 
-   public XMLSerializableDictionary()
+   public DictionaryXML()
    {
       //empty
    }
 
-   public XMLSerializableDictionary(IDictionary<TKey, TVal> dictionary) : base(dictionary)
+   public DictionaryXML(IDictionary<TKey, TVal> dictionary) : base(dictionary)
    {
       //empty
    }
 
-   public XMLSerializableDictionary(IEqualityComparer<TKey> comparer) : base(comparer)
+   public DictionaryXML(IEqualityComparer<TKey> comparer) : base(comparer)
    {
       //empty
    }
 
-   public XMLSerializableDictionary(int capacity) : base(capacity)
+   public DictionaryXML(int capacity) : base(capacity)
    {
       //empty
    }
 
-   public XMLSerializableDictionary(IDictionary<TKey, TVal> dictionary, IEqualityComparer<TKey> comparer) : base(dictionary, comparer)
+   public DictionaryXML(IDictionary<TKey, TVal> dictionary, IEqualityComparer<TKey> comparer) : base(dictionary, comparer)
    {
       //empty
    }
 
-   public XMLSerializableDictionary(int capacity, IEqualityComparer<TKey> comparer) : base(capacity, comparer)
+   public DictionaryXML(int capacity, IEqualityComparer<TKey> comparer) : base(capacity, comparer)
    {
       //empty
    }
@@ -61,7 +61,7 @@ public class XMLSerializableDictionary<TKey, TVal> : Dictionary<TKey, TVal>, IXm
 
    #region ISerializable Members
 
-   protected XMLSerializableDictionary(SerializationInfo info, StreamingContext context)
+   protected DictionaryXML(SerializationInfo info, StreamingContext context)
    {
       int itemCount = info.GetInt32("ItemCount");
       for (int ii = 0; ii < itemCount; ii++)
