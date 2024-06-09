@@ -1,6 +1,8 @@
 ﻿using System.Text;
 using Microsoft.Extensions.Logging;
 using System.Numerics;
+using System;
+using System.Linq;
 
 namespace BogaNet;
 

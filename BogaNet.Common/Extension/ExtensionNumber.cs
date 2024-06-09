@@ -1,5 +1,6 @@
 ﻿using System.Numerics;
 using Microsoft.Extensions.Logging;
+using System;
 
 namespace BogaNet;
 

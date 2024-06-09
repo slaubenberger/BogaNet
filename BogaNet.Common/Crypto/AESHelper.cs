@@ -1,6 +1,9 @@
 ﻿using System.Security.Cryptography;
 using BogaNet.IO;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Threading.Tasks;
+using System.IO;
 
 namespace BogaNet.Crypto;
 

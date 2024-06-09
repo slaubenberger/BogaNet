@@ -4,6 +4,9 @@ using System.Net;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Net.Http.Headers;
+using System;
+using System.Linq;
+using System.Net.Http;
 
 namespace BogaNet.IO;
 
@@ -123,7 +126,7 @@ public abstract class NetworkHelper
       _logger.LogWarning($"URL was invalid: {url}");
       return false;
    }
-   
+
    /// <summary>
    /// HTTPS-certification callback, which overrides the checks for invalid certificates (like dev-certs).
    /// NOTE: don't use this in production since it breaks the SSL security!

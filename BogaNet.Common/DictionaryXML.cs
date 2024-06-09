@@ -2,6 +2,7 @@
 using System.Runtime.Serialization;
 using System.Xml.Schema;
 using System.Xml;
+using System.Collections.Generic;
 
 namespace BogaNet;
 

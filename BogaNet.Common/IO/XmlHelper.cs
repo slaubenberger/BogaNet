@@ -2,6 +2,9 @@
 using System.Xml.Serialization;
 using System.Xml;
 using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
+using System;
+using System.IO;
 
 namespace BogaNet.IO;
 

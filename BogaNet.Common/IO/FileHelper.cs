@@ -2,6 +2,11 @@
 using System.Diagnostics;
 using System.Text;
 using BogaNet.Util;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System;
+using System.Linq;
+using System.IO;
 
 namespace BogaNet.IO;
 

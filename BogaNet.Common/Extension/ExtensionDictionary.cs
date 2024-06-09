@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using System.Text;
+using System.Collections.Generic;
+using System;
 
 namespace BogaNet;
 
@@ -70,5 +72,19 @@ public static class ExtensionDictionary
             _logger.LogWarning($"Duplicate key found: {item.Key} - {item.Value}");
          }
       }
+   }
+
+   /// <summary>
+   /// Converts a dictionary to a XML serializable dictionary.
+   /// </summary>
+   /// <param name="dict">Standard dictionary</param>
+   /// <returns>XML serializable dictionary</returns>
+   /// <exception cref="ArgumentNullException"></exception>
+   public static DictionaryXML<K, V> BNToDictionaryXML<K, V>(this IDictionary<K, V>? dict) where K : notnull
+   {
+      DictionaryXML<K, V> xmlDict = new();
+      xmlDict.BNAddRange(dict);
+
+      return xmlDict;
    }
 }

@@ -1,4 +1,6 @@
-﻿namespace BogaNet;
+﻿using System;
+
+namespace BogaNet;
 
 /// <summary>
 /// Extension methods for byte.

@@ -2,6 +2,10 @@
 using Microsoft.Extensions.Logging;
 using BogaNet.IO;
 using System.Text;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System;
+using System.Linq;
 
 namespace BogaNet.i18n;
 

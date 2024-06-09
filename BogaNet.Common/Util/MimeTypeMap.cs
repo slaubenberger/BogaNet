@@ -1,4 +1,8 @@
-﻿namespace BogaNet.Util;
+﻿using System.Collections.Generic;
+using System;
+using System.Linq;
+
+namespace BogaNet.Util;
 
 /// <summary>
 /// Mime type mapper.

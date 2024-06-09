@@ -1,4 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
+using System;
+using System.IO;
+using System.Net.Http;
 
 namespace BogaNet.IO;
 

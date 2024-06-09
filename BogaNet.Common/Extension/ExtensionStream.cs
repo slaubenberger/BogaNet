@@ -1,4 +1,8 @@
-﻿namespace BogaNet;
+﻿using System.Threading.Tasks;
+using System;
+using System.IO;
+
+namespace BogaNet;
 
 /// <summary>
 /// Extension methods for Stream.
