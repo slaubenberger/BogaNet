@@ -124,6 +124,7 @@ public abstract class AESHelper
    /// <param name="dataToEncrypt">byte-array to encrypt</param>
    /// <param name="key">Key for the byte-array as byte-array</param>
    /// <param name="IV">IV (initial vector) for AES</param>
+   /// <returns>Encrypted byte-array</returns>
    /// <exception cref="Exception"></exception>
    public static byte[] Encrypt(byte[]? dataToEncrypt, byte[]? key, byte[]? IV)
    {
@@ -136,6 +137,7 @@ public abstract class AESHelper
    /// <param name="dataToEncrypt">byte-array to encrypt</param>
    /// <param name="key">Key for the byte-array as byte-array</param>
    /// <param name="IV">IV (initial vector) for AES</param>
+   /// <returns>Encrypted byte-array</returns>
    /// <exception cref="Exception"></exception>
    public static async Task<byte[]> EncryptAsync(byte[]? dataToEncrypt, byte[]? key, byte[]? IV)
    {
@@ -171,6 +173,7 @@ public abstract class AESHelper
    /// <param name="dataToDecrypt">byte-array to decrypt</param>
    /// <param name="key">Key for the byte-array as byte-array</param>
    /// <param name="IV">IV (initial vector) for AES</param>
+   /// <returns>Decrypted byte-array</returns>
    /// <exception cref="Exception"></exception>
    public static byte[] Decrypt(byte[]? dataToDecrypt, byte[]? key, byte[]? IV)
    {
@@ -183,6 +186,7 @@ public abstract class AESHelper
    /// <param name="dataToDecrypt">byte-array to decrypt</param>
    /// <param name="key">Key for the byte-array as byte-array</param>
    /// <param name="IV">IV (initial vector) for AES</param>
+   /// <returns>Decrypted byte-array</returns>
    /// <exception cref="Exception"></exception>
    public static async Task<byte[]> DecryptAsync(byte[]? dataToDecrypt, byte[]? key, byte[]? IV)
    {

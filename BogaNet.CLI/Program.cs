@@ -4,6 +4,8 @@ using BogaNet.Crypto;
 using BogaNet.Unit;
 using System.Globalization;
 using BogaNet.i18n;
+using BogaNet.IO;
+using System.Security.Cryptography.X509Certificates;
 
 namespace BogaNet.CLI;
 
@@ -21,7 +23,8 @@ public static class Program
 
       _logger.LogDebug("Hi there, this is a test app!");
 
-      testLocalizer();
+      testRSA();
+      //testLocalizer();
       //testConvert();
       //testObf();
       //testToString();
@@ -43,6 +46,29 @@ public static class Program
       NLog.LogManager.Shutdown();
       Environment.Exit(code);
    }
+
+   private static void testRSA()
+   {
+      string text = "Hello there!";
+
+      var cert = RSAHelper.GenerateSelfSignedCertificate("BogaTest");
+
+      var certPrivateFile = FileHelper.TempFile;
+      RSAHelper.WritePrivateCertificateToFile(certPrivateFile, cert, "W3NeedASaf3rPassw0rd");
+      var certPrivate = RSAHelper.ReadCertificateFromFile(certPrivateFile, "W3NeedASaf3rPassw0rd");
+
+      var certPublicFile = FileHelper.TempFile;
+      RSAHelper.WritePublicCertificateToFile(certPublicFile, cert);
+      var certPublic = RSAHelper.ReadCertificateFromFile(certPublicFile);
+
+      var enc = RSAHelper.Encrypt(text.BNToByteArray(), certPublic);
+      var dec = RSAHelper.Decrypt(enc, certPrivate);
+
+      string result = dec.BNToString();
+
+      _logger.LogInformation($"{text} - {result}");
+   }
+
 
    private static void testLocalizer()
    {

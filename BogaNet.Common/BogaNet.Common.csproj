@@ -3,7 +3,7 @@
     <PropertyGroup>
         <Nullable>enable</Nullable>
         <Version>0.9.4</Version>
-        <Company>Boga</Company>
+        <Company>crosstales LLC</Company>
         <Copyright>© 2024 Stefan Laubenberger</Copyright>
         <Authors>Stefan Laubenberger</Authors>
         <Description>NET 8 version of Boga, a library with many little helpers to speed up C# development.</Description>

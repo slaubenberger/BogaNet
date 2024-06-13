@@ -32,7 +32,7 @@ public abstract class LibraryInformation
     public static string? Company => fvi.CompanyName;
 
     /// <summary>
-    /// Copyright of the library..
+    /// Copyright of the library.
     /// </summary>
     public static string? Copyright => fvi.LegalCopyright;
 }
