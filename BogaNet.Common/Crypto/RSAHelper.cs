@@ -46,8 +46,9 @@ public abstract class RSAHelper
 
       X509Certificate2 certificate = request.CreateSelfSigned(new DateTimeOffset(DateTime.UtcNow.AddDays(-1)), new DateTimeOffset(DateTime.UtcNow.AddDays(3650)));
 
-      if (Helper.isWindows)
-         certificate.FriendlyName = certName;
+#if WINDOWS
+      certificate.FriendlyName = certName;
+#endif
 
       return certificate;
    }
@@ -135,8 +136,12 @@ public abstract class RSAHelper
    /// <param name="data">X509-certificate as byte-array</param>
    /// <param name="password">Password for the file</param>
    /// <returns>X509-certificate</returns>
-   public static X509Certificate2 GetCertificate(byte[] data, string password = "")
+   /// <exception cref="ArgumentNullException"></exception>
+   public static X509Certificate2 GetCertificate(byte[]? data, string password = "")
    {
+      if (data == null || data.Length <= 0)
+         throw new ArgumentNullException(nameof(data));
+
       return new X509Certificate2(data, password);
    }
 
@@ -169,6 +174,7 @@ public abstract class RSAHelper
    /// <param name="filename">Name of the file with the certificate</param>
    /// <param name="password">Password for the file</param>
    /// <returns>X509-certificate</returns>
+   /// <exception cref="ArgumentNullException"></exception>
    public static X509Certificate2 ReadCertificateFromFile(string filename, string password = "")
    {
       return GetCertificate(FileHelper.ReadAllBytes(filename), password);
