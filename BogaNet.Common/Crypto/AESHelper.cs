@@ -15,6 +15,31 @@ public abstract class AESHelper
    private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(AESHelper));
 
    /// <summary>
+   /// Generates a secure IV for AES.
+   /// </summary>
+   /// <returns>IV as byte-array</returns>
+   public static byte[] GenerateIV()
+   {
+      byte[] buffer = new byte[16];
+      using RandomNumberGenerator rng = RandomNumberGenerator.Create();
+      rng.GetBytes(buffer);
+      return buffer;
+   }
+
+   /// <summary>
+   /// Generates a secure key for AES.
+   /// </summary>
+   /// <param name="length">Length of the key (optional, default: 16)</param>
+   /// <returns>Secure key as byte-array</returns>
+   public static byte[] GenerateKey(int length = 16)
+   {
+      byte[] buffer = new byte[length];
+      using RandomNumberGenerator rng = RandomNumberGenerator.Create();
+      rng.GetBytes(buffer);
+      return buffer;
+   }
+
+   /// <summary>
    /// Encrypts a file with AES.
    /// </summary>
    /// <param name="file">File to encrypt</param>

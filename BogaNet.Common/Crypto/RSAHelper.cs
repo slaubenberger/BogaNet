@@ -18,8 +18,10 @@ public abstract class RSAHelper
    /// Generates a self-signed X509-certificate.
    /// </summary>
    /// <param name="certName">Name of the certificate</param>
+   /// <param name="keyLength">Key length of the certificate (optional, default: 2048)</param>
+   /// <param name="oid">OID for the certificate (optional, default: "1.2.840.10045.3.1.7"</param>
    /// <returns>X509-certificate</returns>
-   public static X509Certificate2 GenerateSelfSignedCertificate(string certName)
+   public static X509Certificate2 GenerateSelfSignedCertificate(string certName, int keyLength = 2048, string oid = "1.2.840.10045.3.1.7")
    {
       SubjectAlternativeNameBuilder sanBuilder = new();
       sanBuilder.AddIpAddress(System.Net.IPAddress.Loopback);
@@ -29,14 +31,14 @@ public abstract class RSAHelper
 
       X500DistinguishedName distinguishedName = new($"CN={certName}");
 
-      using RSA rsa = RSA.Create(2048);
+      using RSA rsa = RSA.Create(keyLength);
       CertificateRequest request = new(distinguishedName, rsa, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
 
       request.CertificateExtensions.Add(new X509KeyUsageExtension(X509KeyUsageFlags.DataEncipherment | X509KeyUsageFlags.KeyEncipherment | X509KeyUsageFlags.DigitalSignature, false));
 
       request.CertificateExtensions.Add(
          new X509EnhancedKeyUsageExtension(
-            new OidCollection { new("1.2.840.10045.3.1.7") },
+            new OidCollection { new(oid) },
             //new OidCollection { new("1.3.6.1.5.5.7.3.1") },
             false));
 
@@ -59,7 +61,7 @@ public abstract class RSAHelper
    public static X509Certificate2? GetCertificateFromStore(string certName, StoreLocation storeLocation = StoreLocation.LocalMachine)
    {
       // Get the certificate store for the current user.
-      X509Store store = new(storeLocation);
+      using X509Store store = new(storeLocation);
       try
       {
          store.Open(OpenFlags.ReadOnly);
@@ -91,7 +93,7 @@ public abstract class RSAHelper
    /// <param name="storeLocation">Location in the key store (optional, default: LocalMachine)</param>
    public static void AddCertificateToStore(X509Certificate2 cert, StoreName storeName = StoreName.TrustedPublisher, StoreLocation storeLocation = StoreLocation.LocalMachine)
    {
-      X509Store store = new(storeName, storeLocation);
+      using X509Store store = new(storeName, storeLocation);
 
       try
       {
