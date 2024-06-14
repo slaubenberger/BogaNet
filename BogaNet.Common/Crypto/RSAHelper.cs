@@ -105,6 +105,40 @@ public abstract class RSAHelper
    }
 
    /// <summary>
+   /// Gets the public key from a X509-certificate.
+   /// </summary>
+   /// <param name="cert">X509-certificate</param>
+   /// <param name="password">Password for the file (optional, default: none)</param>
+   /// <returns>X509-certificate as byte-array</returns>
+   public static byte[] GetPublicCertificate(X509Certificate2 cert, string password = "")
+   {
+      return cert.Export(X509ContentType.Cert, password);
+   }
+
+   /// <summary>
+   /// Gets the private and public key from a X509-certificate.
+   /// NOTE: never share this data with people outside of your organisation!
+   /// </summary>
+   /// <param name="cert">X509-certificate</param>
+   /// <param name="password">Password for the file (optional, default: none)</param>
+   /// <returns>X509-certificate as byte-array</returns>
+   public static byte[] GetPrivateCertificate(X509Certificate2 cert, string password = "")
+   {
+      return cert.Export(X509ContentType.Pfx, password);
+   }
+
+   /// <summary>
+   /// Gets a X509-certificate from a byte-array.
+   /// </summary>
+   /// <param name="data">X509-certificate as byte-array</param>
+   /// <param name="password">Password for the file</param>
+   /// <returns>X509-certificate</returns>
+   public static X509Certificate2 GetCertificate(byte[] data, string password = "")
+   {
+      return new X509Certificate2(data, password);
+   }
+
+   /// <summary>
    /// Writes the public key as X509-certificate to a file.
    /// </summary>
    /// <param name="filename">Name of the file</param>
@@ -112,8 +146,7 @@ public abstract class RSAHelper
    /// <param name="password">Password for the file (optional, default: none)</param>
    public static void WritePublicCertificateToFile(string filename, X509Certificate2 cert, string password = "")
    {
-      var certPublicData = cert.Export(X509ContentType.Cert, password);
-      FileHelper.WriteAllBytes(filename, certPublicData);
+      FileHelper.WriteAllBytes(filename, GetPublicCertificate(cert, password));
    }
 
    /// <summary>
@@ -125,8 +158,7 @@ public abstract class RSAHelper
    /// <param name="password">Password for the file</param>
    public static void WritePrivateCertificateToFile(string filename, X509Certificate2 cert, string password)
    {
-      var certPrivateData = cert.Export(X509ContentType.Pfx, password);
-      FileHelper.WriteAllBytes(filename, certPrivateData);
+      FileHelper.WriteAllBytes(filename, GetPrivateCertificate(cert, password));
    }
 
    /// <summary>
@@ -137,7 +169,7 @@ public abstract class RSAHelper
    /// <returns>X509-certificate</returns>
    public static X509Certificate2 ReadCertificateFromFile(string filename, string password = "")
    {
-      return new X509Certificate2(FileHelper.ReadAllBytes(filename), password);
+      return GetCertificate(FileHelper.ReadAllBytes(filename), password);
    }
 
    /// <summary>
