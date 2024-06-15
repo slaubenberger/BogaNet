@@ -370,6 +370,66 @@ public abstract class NetworkHelper
       return adapters;
    }
 
+   /// <summary>
+   /// Checks the availability of the Internet (aka "Captive Portal Detection").
+   /// </summary>
+   /// <returns>True if a connection to the Internet is available</returns>
+   public static bool CheckInternetAvailability()
+   {
+      return Task.Run(CheckInternetAvailabilityAsync).GetAwaiter().GetResult();
+   }
+
+   /// <summary>
+   /// Checks the availability of the Internet (aka "Captive Portal Detection") asynchronously.
+   /// </summary>
+   /// <returns>True if a connection to the Internet is available</returns>
+   public static async Task<bool> CheckInternetAvailabilityAsync()
+   {
+      const string microsoftUrl = "http://www.msftncsi.com/ncsi.txt";
+      const string appleUrl = "https://www.apple.com/library/test/success.html";
+      const string ubuntuUrl = "https://start.ubuntu.com/connectivity-check";
+
+      const string microsoftText = "Microsoft NCSI";
+      const string appleText = "<TITLE>Success</TITLE>";
+      const string ubuntuText = "<TITLE>Lorem Ipsum</TITLE>";
+
+      const string windowsDesc = "Microsoft";
+      const string appleDesc = "Apple";
+      const string ubuntuDesc = "Ubuntu";
+
+      const bool microsoftEquals = true;
+      const bool appleEquals = false;
+      const bool ubuntuEquals = false;
+
+      bool available = false;
+
+      // Microsoft check
+      if (!BogaNet.Util.Helper.isIOS)
+      {
+         available = await checkAsync(microsoftUrl, microsoftText, microsoftEquals, windowsDesc);
+
+         _logger.LogDebug($"{windowsDesc} check: {available}");
+      }
+
+      // Apple check
+      if (!available && (!BogaNet.Util.Helper.isIOS || !BogaNet.Util.Helper.isOSX))
+      {
+         available = await checkAsync(appleUrl, appleText, appleEquals, appleDesc);
+
+         _logger.LogDebug($"{appleDesc} check: {available}");
+      }
+
+      // Ubuntu check
+      if (!available)
+      {
+         available = await checkAsync(ubuntuUrl, ubuntuText, ubuntuEquals, ubuntuDesc);
+
+         _logger.LogDebug($"{ubuntuDesc} check: {available}");
+      }
+
+      return available;
+   }
+
    #endregion
 
    #region Private methods
@@ -379,6 +439,35 @@ public abstract class NetworkHelper
       using Process process = new();
       process.StartInfo.FileName = url;
       process.Start();
+   }
+
+   private static async Task<bool> checkAsync(string url, string data, bool equals, string type, bool showError = false)
+   {
+      bool _available = false;
+
+      try
+      {
+         using HttpClient client = new();
+
+         string content = await client.GetStringAsync(urlAntiCacheRandomizer(url));
+
+         _logger.LogTrace($"Content from {type}: {content}");
+
+         _available = equals ? !string.IsNullOrEmpty(content) && content.Equals(data) : !string.IsNullOrEmpty(content) && content.Contains(data);
+      }
+      catch (Exception ex)
+      {
+         if (showError)
+            _logger.LogError(ex, $"Error getting content from {type}!");
+      }
+
+      return _available;
+   }
+
+   private static string urlAntiCacheRandomizer(string url)
+   {
+      Random rnd = new();
+      return $"{url}?p={rnd.NextInt64(9999, long.MaxValue)}";
    }
 
    #endregion

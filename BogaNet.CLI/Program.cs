@@ -95,9 +95,12 @@ public static class Program
 
    private static void testNetwork()
    {
+      _logger.LogInformation("CPD: " + NetworkHelper.CheckInternetAvailability());
+/*
       _logger.LogInformation("Public IP: " + NetworkHelper.GetPublicIP());
 
       _logger.LogInformation("Network adapters: " + NetworkHelper.GetNetworkAdapters().BNDump(false));
+*/
    }
 
    private static void testRSA()
