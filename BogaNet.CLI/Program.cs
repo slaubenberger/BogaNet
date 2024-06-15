@@ -6,6 +6,7 @@ using System.Globalization;
 using BogaNet.i18n;
 using BogaNet.IO;
 using System.Security.Cryptography.X509Certificates;
+using BogaNet.Util;
 
 namespace BogaNet.CLI;
 
@@ -23,6 +24,8 @@ public static class Program
 
       _logger.LogDebug("Hi there, this is a test app!");
 
+      //testBitrateHRF();
+      //testBytesHRF();
       //testDrive();
       testNetwork();
       //testRSA();
@@ -49,11 +52,47 @@ public static class Program
       Environment.Exit(code);
    }
 
-   private static void testDrive() //yay, what a game :-)
+   private static void testBitrateHRF()
    {
-      _logger.LogInformation("Drive details: " + FileHelper.GetDriveInfo().BNDump(false));
+      bool useSI = true;
+
+      _logger.LogInformation(Helper.FormatBitrateToHRF(1000, useSI));
+      _logger.LogInformation(Helper.FormatBitrateToHRF((long)Math.Pow(1000, 2), useSI));
+      _logger.LogInformation(Helper.FormatBitrateToHRF((long)Math.Pow(1000, 3), useSI));
+      _logger.LogInformation(Helper.FormatBitrateToHRF((long)Math.Pow(1000, 4), useSI));
+      _logger.LogInformation(Helper.FormatBitrateToHRF((long)Math.Pow(1000, 5), useSI));
+      _logger.LogInformation(Helper.FormatBitrateToHRF((long)Math.Pow(1000, 6), useSI));
+      _logger.LogInformation(Helper.FormatBitrateToHRF(1024, useSI));
+      _logger.LogInformation(Helper.FormatBitrateToHRF((long)Math.Pow(1024, 2), useSI));
+      _logger.LogInformation(Helper.FormatBitrateToHRF((long)Math.Pow(1024, 3), useSI));
+      _logger.LogInformation(Helper.FormatBitrateToHRF((long)Math.Pow(1024, 4), useSI));
+      _logger.LogInformation(Helper.FormatBitrateToHRF((long)Math.Pow(1024, 5), useSI));
+      _logger.LogInformation(Helper.FormatBitrateToHRF((long)Math.Pow(1024, 6), useSI));
    }
    
+   private static void testBytesHRF()
+   {
+      bool useSI = true;
+
+      _logger.LogInformation(Helper.FormatBytesToHRF(1000, useSI));
+      _logger.LogInformation(Helper.FormatBytesToHRF((long)Math.Pow(1000, 2), useSI));
+      _logger.LogInformation(Helper.FormatBytesToHRF((long)Math.Pow(1000, 3), useSI));
+      _logger.LogInformation(Helper.FormatBytesToHRF((long)Math.Pow(1000, 4), useSI));
+      _logger.LogInformation(Helper.FormatBytesToHRF((long)Math.Pow(1000, 5), useSI));
+      _logger.LogInformation(Helper.FormatBytesToHRF((long)Math.Pow(1000, 6), useSI));
+      _logger.LogInformation(Helper.FormatBytesToHRF(1024, useSI));
+      _logger.LogInformation(Helper.FormatBytesToHRF((long)Math.Pow(1024, 2), useSI));
+      _logger.LogInformation(Helper.FormatBytesToHRF((long)Math.Pow(1024, 3), useSI));
+      _logger.LogInformation(Helper.FormatBytesToHRF((long)Math.Pow(1024, 4), useSI));
+      _logger.LogInformation(Helper.FormatBytesToHRF((long)Math.Pow(1024, 5), useSI));
+      _logger.LogInformation(Helper.FormatBytesToHRF((long)Math.Pow(1024, 6), useSI));
+   }
+
+   private static void testDrive() //yay, what a game :-)
+   {
+      //_logger.LogInformation("Drive details: " + FileHelper.GetDriveInfo().BNDump(false));
+   }
+
    private static void testNetwork()
    {
       _logger.LogInformation("Public IP: " + NetworkHelper.GetPublicIP());

@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
+using BogaNet.Util;
 
 namespace BogaNet.IO;
 
@@ -384,7 +385,7 @@ public abstract class NetworkHelper
 }
 
 /// <summary>
-/// Network adapter (interface) from the current device
+/// Network adapter (interface) from the current device.
 /// </summary>
 public class NetworkAdapter
 {
@@ -477,8 +478,8 @@ public class NetworkAdapter
          result.Append(", ");
 
          result.Append("Speed: ");
-         result.Append(Speed / 1000000);
-         result.Append(" Mbps, ");
+         result.Append(Helper.FormatBitrateToHRF(Speed));
+         result.Append(", ");
       }
 
       result.Append("Status: ");

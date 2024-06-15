@@ -74,45 +74,25 @@ public abstract class Helper
    #region Public methods
 
    /// <summary>
-   /// Format byte-value to Human-Readable-Form.
+   /// Format byte (B) to Human-Readable-Form.
    /// </summary>
    /// <param name="bytes">Value in bytes</param>
-   /// <param name="useSI">Use SI-system (optional, default: false)</param>
+   /// <param name="useSI">Use SI-system (optional, default: true)</param>
    /// <returns>Formatted byte-value in Human-Readable-Form</returns>
-   public static string FormatBytesToHRF(long bytes, bool useSI = false)
+   public static string FormatBytesToHRF(long bytes, bool useSI = true)
    {
-      const string ci = "kMGTPE";
-      int index = 0;
+      return formatToHRF(bytes, useSI, "B");
+   }
 
-      if (useSI)
-      {
-         if (bytes is > -1000 and < 1000)
-            return bytes + " B";
-
-         while (bytes is <= -999_950 or >= 999_950)
-         {
-            bytes /= 1000;
-            index++;
-         }
-
-         return $"{(bytes / 1000f):N2} {ci[index]}B";
-      }
-
-      long absB = bytes == long.MinValue ? long.MaxValue : Math.Abs(bytes);
-      if (absB < 1024)
-         return bytes + " B";
-
-      long value = absB;
-
-      for (int i = 40; i >= 0 && absB > 0xfffccccccccccccL >> i; i -= 10)
-      {
-         value >>= 10;
-         index++;
-      }
-
-      value *= Math.Sign(bytes);
-
-      return $"{(value / 1024f):N2} {ci[index]}iB";
+   /// <summary>
+   /// Format bitrate (bit/s) to Human-Readable-Form.
+   /// </summary>
+   /// <param name="bits">Bitrate in bit/s</param>
+   /// <param name="useSI">Use SI-system (optional, default: true)</param>
+   /// <returns>Formatted bitrate in Human-Readable-Form</returns>
+   public static string FormatBitrateToHRF(long bits, bool useSI = true)
+   {
+      return formatToHRF(bits, useSI, "bit/s");
    }
 
    /// <summary>
@@ -319,6 +299,44 @@ public abstract class Helper
    private static string addLeadingZero(long value)
    {
       return value < 10 ? "0" + value : value.ToString();
+   }
+
+   private static string formatToHRF(long bits, bool useSI, string unit)
+   {
+      const string siIndex = "kMGTPE";
+      const string binIndex = "KMGTPE";
+
+      int index = 0;
+
+      if (useSI)
+      {
+         if (bits is > -1000 and < 1000)
+            return $"{bits} {unit}";
+
+         while (bits is <= -999_950 or >= 999_950)
+         {
+            bits /= 1000;
+            index++;
+         }
+
+         return $"{(bits / 1000.0):N2} {siIndex[index]}{unit}";
+      }
+
+      long absB = bits == long.MinValue ? long.MaxValue : Math.Abs(bits);
+      if (absB < 1024)
+         return $"{bits} {unit}";
+
+      long value = absB;
+
+      for (int ii = 40; ii >= 0 && absB > 0xfffccccccccccccL >> ii; ii -= 10)
+      {
+         value >>= 10;
+         index++;
+      }
+
+      value *= Math.Sign(bits);
+
+      return $"{(value / 1024f):N2} {binIndex[index]}i{unit}";
    }
 
    #endregion
