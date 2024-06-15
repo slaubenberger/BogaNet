@@ -433,6 +433,15 @@ public abstract class FileHelper
    }
 
    /// <summary>
+   /// Gathers all information for all logical drives.
+   /// </summary>
+   /// <returns>Array with DriveInfo</returns>
+   public static DriveInfo[] GetDriveInfo()
+   {
+      return DriveInfo.GetDrives();
+   }
+
+   /// <summary>
    /// Copy or move a directory.
    /// NOTE: for an non-blocking version, consider calling this method from a separate thread
    /// </summary>
@@ -1277,6 +1286,7 @@ public abstract class FileHelper
 
       return DateTime.MinValue;
    }
+
    /// <summary>
    /// Reads the text of a file.
    /// </summary>

@@ -23,6 +23,7 @@ public static class Program
 
       _logger.LogDebug("Hi there, this is a test app!");
 
+      //testDrive();
       testNetwork();
       //testRSA();
       //testLocalizer();
@@ -48,6 +49,11 @@ public static class Program
       Environment.Exit(code);
    }
 
+   private static void testDrive() //yay, what a game :-)
+   {
+      _logger.LogInformation("Drive details: " + FileHelper.GetDriveInfo().BNDump(false));
+   }
+   
    private static void testNetwork()
    {
       _logger.LogInformation("Public IP: " + NetworkHelper.GetPublicIP());
