@@ -8,6 +8,9 @@ using System;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Net.NetworkInformation;
+using System.Net.Sockets;
 
 namespace BogaNet.IO;
 
@@ -320,6 +323,52 @@ public abstract class NetworkHelper
       return "unknown";
    }
 
+   /// <summary>
+   /// Returns a list of all available network interfaces.
+   /// </summary>
+   /// <param name="activeOnly">Search only for active network interfaces (optional, default: true)</param>
+   /// <returns>List of network interfaces.</returns>
+   public static List<NetworkAdapter> GetNetworkAdapters(bool activeOnly = true)
+   {
+      List<NetworkAdapter> adapters = new();
+
+#if !BROWSER
+      NetworkInterface[] networkInterfaces = activeOnly ? NetworkInterface.GetAllNetworkInterfaces().Where(ni => ni.OperationalStatus == OperationalStatus.Up).ToArray() : NetworkInterface.GetAllNetworkInterfaces();
+
+      foreach (NetworkInterface networkInterface in networkInterfaces)
+      {
+         PhysicalAddress physicalAddress = networkInterface.GetPhysicalAddress();
+
+         string macAddress = string.Join(":", physicalAddress.GetAddressBytes().Select(delegate(byte val)
+         {
+            string sign = val.ToString("X");
+            if (sign.Length == 1)
+               sign = $"0{sign}";
+
+            return sign;
+         }).ToArray());
+
+         IPInterfaceProperties ipInterfaceProperties = networkInterface.GetIPProperties();
+         UnicastIPAddressInformation? unicastAddressIP =
+            ipInterfaceProperties.UnicastAddresses.FirstOrDefault(ua =>
+               ua.Address?.AddressFamily == AddressFamily.InterNetwork);
+
+         IPAddress gateway = ipInterfaceProperties.GatewayAddresses.Select(g => g.Address)
+            .FirstOrDefault(a => a != null);
+
+         if (unicastAddressIP != null)
+         {
+            adapters.Add(new NetworkAdapter(networkInterface.Id, networkInterface.Name, networkInterface.NetworkInterfaceType,
+               unicastAddressIP.Address, unicastAddressIP.IPv4Mask, macAddress, gateway, networkInterface.Speed,
+               networkInterface.OperationalStatus));
+         }
+      }
+#else
+      _logger.LogWarning("'GetNetworkAdapters' is not supported under the current platform!");
+#endif
+      return adapters;
+   }
+
    #endregion
 
    #region Private methods
@@ -329,6 +378,113 @@ public abstract class NetworkHelper
       using Process process = new();
       process.StartInfo.FileName = url;
       process.Start();
+   }
+
+   #endregion
+}
+
+/// <summary>
+/// Network adapter (interface) from the current device
+/// </summary>
+public class NetworkAdapter
+{
+   #region Properties
+
+   /// <summary>Id of the network adapter.</summary>
+   public string Id { get; private set; }
+
+   /// <summary>Name of the network adapter.</summary>
+   public string Name { get; private set; }
+
+   /// <summary>Type of the network adapter.</summary>
+   public NetworkInterfaceType Type { get; private set; }
+
+   /// <summary>Address of the network adapter.</summary>
+   public IPAddress Address { get; private set; }
+
+   /// <summary>Mask of the network adapter.</summary>
+   public IPAddress Mask { get; private set; }
+
+   /// <summary>MAC address of the network adapter.</summary>
+   public string MacAddress { get; private set; }
+
+   /// <summary>Gateway of the network adapter.</summary>
+   public IPAddress Gateway { get; private set; }
+
+   /// <summary>Speed of the network adapter in bits-per-second (bps).</summary>
+   public long Speed { get; private set; }
+
+   /// <summary>Status of the network adapter.</summary>
+   public OperationalStatus Status { get; private set; }
+
+   #endregion
+
+
+   #region Constructor
+
+   public NetworkAdapter(string id, string name, NetworkInterfaceType type,
+      IPAddress address, IPAddress mask, string macAddress, IPAddress gateway,
+      long speed, OperationalStatus status)
+   {
+      Id = id;
+      Name = name;
+      Type = type;
+      Address = address;
+      Mask = mask;
+      MacAddress = macAddress;
+      Gateway = gateway;
+      Speed = speed;
+      Status = status;
+   }
+
+   #endregion
+
+   #region Overridden methods
+
+   public override string ToString()
+   {
+      System.Text.StringBuilder result = new();
+
+      result.Append("• ");
+      result.Append(Name);
+
+      result.Append(" (");
+      result.Append(Type);
+      result.Append("), ");
+
+      result.Append("Address: ");
+      result.Append(Address);
+
+      if (Status == OperationalStatus.Up)
+      {
+         result.Append(" (");
+         result.Append(Mask);
+         result.Append("), ");
+      }
+      else
+      {
+         result.Append(", ");
+      }
+
+      result.Append("Mac: ");
+      result.Append(MacAddress);
+      result.Append(", ");
+
+      if (Status == OperationalStatus.Up)
+      {
+         result.Append("Gateway: ");
+         result.Append(Gateway);
+         result.Append(", ");
+
+         result.Append("Speed: ");
+         result.Append(Speed / 1000000);
+         result.Append(" Mbps, ");
+      }
+
+      result.Append("Status: ");
+      result.Append(Status);
+
+      return result.ToString();
    }
 
    #endregion

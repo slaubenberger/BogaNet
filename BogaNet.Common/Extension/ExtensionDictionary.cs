@@ -39,7 +39,8 @@ public static class ExtensionDictionary
          sb.Append("Key = ");
          sb.Append(kvp.Key);
          sb.Append(", Value = ");
-         sb.Append(kvp.Value.BNToString());
+         //sb.Append(kvp.Value.BNToString());
+         sb.Append(kvp.Value);
          sb.Append(postfix);
       }
 

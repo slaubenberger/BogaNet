@@ -23,7 +23,8 @@ public static class Program
 
       _logger.LogDebug("Hi there, this is a test app!");
 
-      testRSA();
+      testNetwork();
+      //testRSA();
       //testLocalizer();
       //testConvert();
       //testObf();
@@ -45,6 +46,13 @@ public static class Program
 
       NLog.LogManager.Shutdown();
       Environment.Exit(code);
+   }
+
+   private static void testNetwork()
+   {
+      _logger.LogInformation("Public IP: " + NetworkHelper.GetPublicIP());
+
+      _logger.LogInformation("Network adapters: " + NetworkHelper.GetNetworkAdapters().BNDump(false));
    }
 
    private static void testRSA()

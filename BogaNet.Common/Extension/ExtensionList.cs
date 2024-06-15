@@ -55,7 +55,8 @@ public static class ExtensionList
          }
 
          sb.Append(prefix);
-         sb.Append(element.BNToString());
+         //sb.Append(element.BNToString());
+         sb.Append(element);
          sb.Append(postfix);
       }
 
