@@ -430,6 +430,44 @@ public abstract class NetworkHelper
       return available;
    }
 
+   /// <summary>
+   /// Pings a given host and returns the Roundtrip-Time.
+   /// </summary>
+   /// <param name="hostname">Host to ping</param>
+   /// <returns>Roundtrip-Time in milliseconds</returns>
+   /// <exception cref="Exception"></exception>
+   public static long Ping(string hostname)
+   {
+      return Task.Run(() => PingAsync(hostname)).GetAwaiter().GetResult();
+   }
+
+   /// <summary>
+   /// Pings a given host and returns the Roundtrip-Time asynchronously.
+   /// </summary>
+   /// <param name="hostname">Host to ping</param>
+   /// <returns>Roundtrip-Time in milliseconds</returns>
+   /// <exception cref="Exception"></exception>
+   public static async Task<long> PingAsync(string hostname)
+   {
+      if (string.IsNullOrEmpty(hostname))
+         throw new ArgumentNullException(nameof(hostname));
+
+      try
+      {
+         string? ip = GetIP(hostname);
+
+         Ping ping = new();
+         var reply = await ping.SendPingAsync(ip);
+
+         return reply.RoundtripTime;
+      }
+      catch (Exception ex)
+      {
+         _logger.LogError(ex, "Ping failed!");
+         throw;
+      }
+   }
+
    #endregion
 
    #region Private methods

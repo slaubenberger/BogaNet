@@ -96,6 +96,8 @@ public static class Program
    private static void testNetwork()
    {
       _logger.LogInformation("CPD: " + NetworkHelper.CheckInternetAvailability());
+      
+      _logger.LogInformation("Ping: " + NetworkHelper.Ping("crosstales.com"));
 /*
       _logger.LogInformation("Public IP: " + NetworkHelper.GetPublicIP());
 
