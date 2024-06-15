@@ -7,6 +7,7 @@ using System.Net.Http.Headers;
 using System;
 using System.Linq;
 using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace BogaNet.IO;
 
@@ -279,6 +280,44 @@ public abstract class NetworkHelper
       _logger.LogWarning("Host name is null or empty - can't resolve to IP!");
 
       return host;
+   }
+
+   /// <summary>
+   /// Returns the public IP of the Internet connection.
+   /// </summary>
+   /// <param name="checkUrl">External url to check the ip (optional, default: https://checkip.amazonaws.com/</param>
+   /// <returns>Public IP of the Internet connection.</returns>
+   public static string GetPublicIP(string checkUrl = "https://checkip.amazonaws.com/") //alternatives: "https://icanhazip.com", "https://ipinfo.io/ip"
+   {
+      return Task.Run(() => GetPublicIPAsync(checkUrl)).GetAwaiter().GetResult();
+   }
+
+   /// <summary>
+   /// Returns the public IP of the Internet connection asynchronously.
+   /// </summary>
+   /// <param name="checkUrl">External url to check the ip (optional, default: https://checkip.amazonaws.com/</param>
+   /// <returns>Public IP of the Internet connection.</returns>
+   public static async Task<string> GetPublicIPAsync(string checkUrl = "https://checkip.amazonaws.com/") //alternatives: "https://icanhazip.com", "https://ipinfo.io/ip"
+   {
+#if !BROWSER
+      try
+      {
+         using HttpClient client = new();
+
+         string content = await client.GetStringAsync(checkUrl);
+
+         _logger.LogDebug($"Content: {content}");
+
+         return content.Trim();
+      }
+      catch (System.Exception ex)
+      {
+         _logger.LogError(ex, "Could not determine the public IP!");
+      }
+#else
+         _logger.LogWarning("'GetPublicIPAsync' is not supported under the current platform!");
+#endif
+      return "unknown";
    }
 
    #endregion
