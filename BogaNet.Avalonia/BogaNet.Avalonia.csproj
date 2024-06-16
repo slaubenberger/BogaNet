@@ -3,15 +3,15 @@
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
          <Nullable>enable</Nullable>
-        <Version>0.1.1</Version>
+        <Version>0.1.2</Version>
         <Company>crosstales LLC</Company>
         <Copyright>© 2024 Stefan Laubenberger</Copyright>
         <Authors>Stefan Laubenberger</Authors>
         <Description>NET 8 version of Boga, a library with many little helpers to speed up Avalonia development.</Description>
         <RepositoryUrl>https://github.com/slaubenberger/BogaNet</RepositoryUrl>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageTags>Extensions for Avalonia added.</PackageTags>
-        <PackageReleaseNotes>Initial release</PackageReleaseNotes>
+        <PackageTags>Avalonia Extension Image Text Resources i18n</PackageTags>
+        <PackageReleaseNotes>Extensions for Avalonia added.</PackageReleaseNotes>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <!-- <PackageIconUrl>https://www.crosstales.com/media/data/BogaNet/logo_boga.png</PackageIconUrl> -->
         <PackageIcon>logo_boga.png</PackageIcon>
@@ -21,7 +21,7 @@
 
     <ItemGroup>
       <PackageReference Include="Avalonia" Version="11.0.10" />
-      <PackageReference Include="BogaNet.Common" Version="0.9.6" />
+      <PackageReference Include="BogaNet.Common" Version="0.9.7" />
     </ItemGroup>
     
     <ItemGroup>
