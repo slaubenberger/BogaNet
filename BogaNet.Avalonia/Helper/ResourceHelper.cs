@@ -1,5 +1,7 @@
 using System.Reflection;
-using Microsoft.Extensions.Logging;
+using System;
+using System.IO;
+using Avalonia.Platform;
 
 namespace BogaNet.Avalonia.Helper;
 
@@ -24,5 +26,29 @@ public abstract class ResourceHelper
       }
 
       return resourcePath;
+   }
+
+   /// <summary>
+   /// Reads a resource as text.
+   /// </summary>
+   /// <param name="resourcePath"></param>
+   /// <returns></returns>
+   public static string LoadText(string resourcePath)
+   {
+      Uri fileUri = new(ValidateResource(resourcePath));
+      using StreamReader streamReader = new(AssetLoader.Open(fileUri));
+      return streamReader.ReadToEnd();
+   }
+
+   /// <summary>
+   /// Reads a resource as binary.
+   /// </summary>
+   /// <param name="resourcePath"></param>
+   /// <returns></returns>
+   public static byte[] LoadBinary(string resourcePath)
+   {
+      Uri fileUri = new(ValidateResource(resourcePath));
+      using BufferedStream streamReader = new(AssetLoader.Open(fileUri));
+      return streamReader.BNReadFully();
    }
 }
