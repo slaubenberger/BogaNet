@@ -358,7 +358,7 @@ public abstract class NetworkHelper
                ua.Address?.AddressFamily == AddressFamily.InterNetwork);
 
          IPAddress gateway = ipInterfaceProperties.GatewayAddresses.Select(g => g.Address)
-            .FirstOrDefault(a => a != null);
+            .FirstOrDefault(a => a != null)!;
 
          if (unicastAddressIP != null)
          {
@@ -458,6 +458,9 @@ public abstract class NetworkHelper
       try
       {
          string? ip = GetIP(hostname);
+
+         if (ip == null)
+            return -1;
 
          Ping ping = new();
          var reply = await ping.SendPingAsync(ip);
