@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using System;
+using System.Security.Cryptography;
 
 namespace BogaNet.Crypto;
 
@@ -10,6 +11,18 @@ namespace BogaNet.Crypto;
 public abstract class Obfuscator
 {
    private const byte DEFAULT_IV = 76; //TODO change the value in every project!
+
+   /// <summary>
+   /// Generates a secure IV for the obfuscation.
+   /// </summary>
+   /// <returns>IV as byte</returns>
+   public static byte GenerateIV()
+   {
+      byte[] buffer = new byte[1];
+      using RandomNumberGenerator rng = RandomNumberGenerator.Create();
+      rng.GetBytes(buffer);
+      return buffer[0];
+   }
 
    /// <summary>
    /// Obfuscate a byte-array.
@@ -54,7 +67,7 @@ public abstract class Obfuscator
 
       byte[]? result = Obfuscate(_encoding.GetBytes(plainText), IV);
 
-      return result?.BNToBase64()?.Replace('=', '!').Replace('+', '-').Replace('/', '_');
+      return result?.BNToBase64()?.Replace("==", ".").Replace('=', '~').Replace('+', '-').Replace('/', '_');
    }
 
    /// <summary>
@@ -95,7 +108,7 @@ public abstract class Obfuscator
       if (string.IsNullOrEmpty(obfuscatedText))
          return obfuscatedText;
 
-      byte[]? result = Deobfuscate(obfuscatedText.Replace('!', '=').Replace('-', '+').Replace('_', '/').BNFromBase64ToByteArray(), IV);
+      byte[]? result = Deobfuscate(obfuscatedText.Replace(".", "==").Replace('~', '=').Replace('-', '+').Replace('_', '/').BNFromBase64ToByteArray(), IV);
 
       Encoding _encoding = encoding ?? Encoding.UTF8;
 

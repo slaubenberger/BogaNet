@@ -7,6 +7,7 @@ using BogaNet.i18n;
 using BogaNet.IO;
 using System.Security.Cryptography.X509Certificates;
 using BogaNet.Util;
+using BogaNet.Crypto.ObfuscatedType;
 
 namespace BogaNet.CLI;
 
@@ -24,10 +25,11 @@ public static class Program
 
       _logger.LogDebug("Hi there, this is a test app!");
 
+      testValueType();
       //testBitrateHRF();
       //testBytesHRF();
       //testDrive();
-      testNetwork();
+      //testNetwork();
       //testRSA();
       //testLocalizer();
       //testConvert();
@@ -50,6 +52,16 @@ public static class Program
 
       NLog.LogManager.Shutdown();
       Environment.Exit(code);
+   }
+
+   private static void testValueType()
+   {
+      BNfloat age = 35.9f;
+      BNfloat years = 15.7654f;
+
+      age += years;
+
+      _logger.LogInformation("Age: " + age);
    }
 
    private static void testBitrateHRF()
