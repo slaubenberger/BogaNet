@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BogaNet.Common.Test", "Boga
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BogaNet.CLI", "BogaNet.CLI\BogaNet.CLI.csproj", "{8CE41FAB-3A14-47C3-9182-8EDD7C1E183E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BogaNet.Avalonia", "BogaNet.Avalonia\BogaNet.Avalonia.csproj", "{86DF5AE1-6577-44DA-BBF0-A92D94BB7C4F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{8CE41FAB-3A14-47C3-9182-8EDD7C1E183E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8CE41FAB-3A14-47C3-9182-8EDD7C1E183E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8CE41FAB-3A14-47C3-9182-8EDD7C1E183E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86DF5AE1-6577-44DA-BBF0-A92D94BB7C4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86DF5AE1-6577-44DA-BBF0-A92D94BB7C4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86DF5AE1-6577-44DA-BBF0-A92D94BB7C4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86DF5AE1-6577-44DA-BBF0-A92D94BB7C4F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
