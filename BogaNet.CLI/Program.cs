@@ -69,7 +69,7 @@ public static class Program
       _logger.LogInformation(Helper.FormatBitrateToHRF((long)Math.Pow(1024, 5), useSI));
       _logger.LogInformation(Helper.FormatBitrateToHRF((long)Math.Pow(1024, 6), useSI));
    }
-   
+
    private static void testBytesHRF()
    {
       bool useSI = true;
@@ -96,7 +96,7 @@ public static class Program
    private static void testNetwork()
    {
       _logger.LogInformation("CPD: " + NetworkHelper.CheckInternetAvailability());
-      
+
       _logger.LogInformation("Ping: " + NetworkHelper.Ping("crosstales.com"));
 /*
       _logger.LogInformation("Public IP: " + NetworkHelper.GetPublicIP());

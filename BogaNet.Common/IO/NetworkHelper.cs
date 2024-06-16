@@ -265,6 +265,9 @@ public abstract class NetworkHelper
    /// <exception cref="Exception"></exception>
    public static string? GetIP(string? host) //NUnit
    {
+      if (host.BNIsIPv4() || host.BNIsIPv6())
+         return host;
+
       string? validHost = ValidateURL(host, isURL(host));
 
       if (!string.IsNullOrEmpty(validHost))
@@ -433,7 +436,7 @@ public abstract class NetworkHelper
    /// <summary>
    /// Pings a given host and returns the Roundtrip-Time.
    /// </summary>
-   /// <param name="hostname">Host to ping</param>
+   /// <param name="hostname">Host/IP to ping</param>
    /// <returns>Roundtrip-Time in milliseconds</returns>
    /// <exception cref="Exception"></exception>
    public static long Ping(string hostname)
@@ -444,7 +447,7 @@ public abstract class NetworkHelper
    /// <summary>
    /// Pings a given host and returns the Roundtrip-Time asynchronously.
    /// </summary>
-   /// <param name="hostname">Host to ping</param>
+   /// <param name="hostname">Host/IP to ping</param>
    /// <returns>Roundtrip-Time in milliseconds</returns>
    /// <exception cref="Exception"></exception>
    public static async Task<long> PingAsync(string hostname)
