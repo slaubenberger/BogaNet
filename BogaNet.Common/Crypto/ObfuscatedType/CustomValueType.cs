@@ -5,17 +5,17 @@ using Microsoft.Extensions.Logging;
 
 namespace BogaNet.Crypto.ObfuscatedType;
 
+/// <summary>
+/// Custom implementation for value types.
+/// </summary>
+/// <typeparam name="TCustom"></typeparam>
+/// <typeparam name="TValue"></typeparam>
 public class CustomValueType<TCustom, TValue> where TValue : INumber<TValue>
 {
    private static readonly ILogger<CustomValueType<TCustom, TValue>> _logger = GlobalLogging.CreateLogger<CustomValueType<TCustom, TValue>>();
 
-   private static byte obf;
+   private static readonly byte obf = Obfuscator.GenerateIV();
    private string obfValue;
-
-   static CustomValueType()
-   {
-      obf = Obfuscator.GenerateIV();
-   }
 
    protected TValue _value
    {
