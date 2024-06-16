@@ -52,6 +52,9 @@ public static class ExtensionNumber
          case Type t when t == typeof(ushort):
             pairs = 2;
             break;
+         case Type t when t == typeof(char):
+            pairs = 2;
+            break;
 /*
          case Type t when t == typeof(nint):
             length = sizeof(nint);

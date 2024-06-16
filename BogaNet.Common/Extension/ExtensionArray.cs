@@ -203,6 +203,10 @@ public static class ExtensionArray
             content = new byte[2];
             Buffer.BlockCopy(bytes, offset, content, 0, 2);
             return T.CreateTruncating(BitConverter.ToUInt16(content, 0));
+         case Type t when t == typeof(char):
+            content = new byte[2];
+            Buffer.BlockCopy(bytes, offset, content, 0, 2);
+            return T.CreateTruncating(BitConverter.ToChar(content, 0));
          /*
          case Type t when t == typeof(nint):
             int sizeInt = sizeof(nint);

@@ -62,6 +62,20 @@ public static class Program
       age += years;
 
       _logger.LogInformation("Age: " + age);
+
+      BNstring text = "Hello everybody!";
+
+      text += " BYE";
+
+      string textB = "Hello everybody! BYE";
+
+      _logger.LogInformation("Text: " + text);
+
+      _logger.LogInformation("Text: " + (text == textB));
+
+      BNchar ch = 'A';
+
+      _logger.LogInformation("Char: " + ch);
    }
 
    private static void testBitrateHRF()

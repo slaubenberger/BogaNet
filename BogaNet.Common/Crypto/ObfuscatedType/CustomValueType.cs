@@ -60,11 +60,12 @@ public class CustomValueType<TCustom, TValue> where TValue : INumber<TValue>
             case Type t when t == typeof(byte):
                byte byteVal = byte.Parse(plainValue);
                return TValue.CreateTruncating(byteVal);
-            /*
             case Type t when t == typeof(sbyte):
-               sbyte sbyteVal = sbyte.CreateTruncating(number);
-               return [sbyteVal];
-            */
+               sbyte sbyteVal = sbyte.Parse(plainValue);
+               return TValue.CreateTruncating(sbyteVal);
+            case Type t when t == typeof(char):
+               char charVal = char.Parse(plainValue);
+               return TValue.CreateTruncating(charVal);
             default:
                _logger.LogWarning("Number type is not supported!");
                break;
