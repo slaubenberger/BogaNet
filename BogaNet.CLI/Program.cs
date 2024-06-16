@@ -12,8 +12,8 @@ using BogaNet.Crypto.ObfuscatedType;
 namespace BogaNet.CLI;
 
 /// <summary>
-/// Main class for the CLI application
-/// This is mainly used for some quick and dirty experiments
+/// Main class for the CLI application.
+/// This is mainly used for some quick and dirty experiments :-)
 /// </summary>
 public static class Program
 {
@@ -25,7 +25,7 @@ public static class Program
 
       _logger.LogDebug("Hi there, this is a test app!");
 
-      testValueType();
+      testObfType();
       //testBitrateHRF();
       //testBytesHRF();
       //testDrive();
@@ -33,7 +33,7 @@ public static class Program
       //testRSA();
       //testLocalizer();
       //testConvert();
-      //testObf();
+      testObf();
       //testToString();
 
       Exit(0);
@@ -54,7 +54,7 @@ public static class Program
       Environment.Exit(code);
    }
 
-   private static void testValueType()
+   private static void testObfType()
    {
       BNulong age = 35;
       ulong years = 7;
@@ -64,7 +64,7 @@ public static class Program
 
       _logger.LogInformation($"Age: {age} - {(age.Equals(res))}");
 
-      BNstring text = $"Hello everybody!";
+      BNstring text = $"Hello everybody! {DateTime.Now}";
       string frag = " BYE";
       text += frag;
 
@@ -208,8 +208,7 @@ public static class Program
 
       _logger.LogInformation($"{inVal} => {outVal}");
    }
-
-
+   
    private static void testObf()
    {
       //string plain = Helper.CreateString("ハローワールド", 50);

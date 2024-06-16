@@ -11,7 +11,7 @@ public class BNstring
    #region Variables
 
    private static readonly byte obf = Obfuscator.GenerateIV();
-   private string obfValue;
+   private string? obfValue;
 
    /*
    //secure, but slow implementation
@@ -29,7 +29,7 @@ public class BNstring
       get
       {
          //return AESHelper.Decrypt(secretValue, key, iv).BNToString();
-         return Obfuscator.Deobfuscate(obfValue, obf);
+         return Obfuscator.Deobfuscate(obfValue, obf) ?? string.Empty;
       }
       set
       {

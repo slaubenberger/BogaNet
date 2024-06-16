@@ -4,7 +4,7 @@
         <TargetFramework>net8.0</TargetFramework>
         <LangVersion>12</LangVersion>
         <Nullable>enable</Nullable>
-        <Version>0.9.6</Version>
+        <Version>0.9.7</Version>
         <Company>crosstales LLC</Company>
         <Copyright>© 2024 Stefan Laubenberger</Copyright>
         <Authors>Stefan Laubenberger</Authors>
@@ -12,7 +12,7 @@
         <RepositoryUrl>https://github.com/slaubenberger/BogaNet</RepositoryUrl>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageTags>AES Crypto File Directory Path Hash SHA AES HMAC X509 Obfuscation JSON XML Network IP Ping Captive_Portal_Detection MIME Bytes Extension ShortUID Localizer i18n</PackageTags>
-        <PackageReleaseNotes>Many improvements and additions for the NetworkHelper.</PackageReleaseNotes>
+        <PackageReleaseNotes>Obfuscated types added.</PackageReleaseNotes>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <!-- <PackageIconUrl>https://www.crosstales.com/media/data/BogaNet/logo_boga.png</PackageIconUrl> -->
         <PackageIcon>logo_boga.png</PackageIcon>

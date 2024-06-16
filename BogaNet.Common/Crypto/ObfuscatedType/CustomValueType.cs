@@ -17,7 +17,7 @@ public abstract class CustomValueType<TCustom, TValue> where TValue : INumber<TV
    private static readonly ILogger<CustomValueType<TCustom, TValue>> _logger = GlobalLogging.CreateLogger<CustomValueType<TCustom, TValue>>();
 
    protected abstract byte obf { get; } //= Obfuscator.GenerateIV();
-   private string obfValue;
+   private string? obfValue;
 
    /*
    //secure, but slow implementation
@@ -37,7 +37,10 @@ public abstract class CustomValueType<TCustom, TValue> where TValue : INumber<TV
          Type type = typeof(TValue);
 
          //string plainValue = AESHelper.Decrypt(secretValue, key, iv).BNToString();
-         string plainValue = Obfuscator.Deobfuscate(obfValue, obf);
+         string? plainValue = Obfuscator.Deobfuscate(obfValue, obf);
+
+         if (plainValue == null)
+            return TValue.CreateTruncating(0);
 
          switch (type)
          {
@@ -85,7 +88,7 @@ public abstract class CustomValueType<TCustom, TValue> where TValue : INumber<TV
                break;
          }
 
-         return default;
+         return TValue.CreateTruncating(0);
       }
       private set
       {
@@ -153,10 +156,10 @@ public abstract class CustomValueType<TCustom, TValue> where TValue : INumber<TV
 
    public override string ToString()
    {
-      return _value.ToString();
+      return _value.ToString() ?? string.Empty;
    }
 
-   public override bool Equals(object obj)
+   public override bool Equals(object? obj)
    {
       if (ReferenceEquals(null, obj)) return false;
       if (ReferenceEquals(this, obj)) return true;
