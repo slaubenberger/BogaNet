@@ -2,10 +2,13 @@ namespace BogaNet.Crypto.ObfuscatedType;
 
 /// <summary>
 /// Obfuscated float implementation. This prevents the value from being "plain" in the memory of the application.
-/// NOTE: This class is not cryptographically secure and don't use it for intense computations!
+/// NOTE: This class is not cryptographically secure!
 /// </summary>
 public class BNfloat : CustomValueType<BNfloat, float>
 {
+   private static readonly byte _obf = Obfuscator.GenerateIV();
+   protected override byte obf { get; } = _obf;
+
    private BNfloat(float value) : base(value)
    {
    }

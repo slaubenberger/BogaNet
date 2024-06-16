@@ -56,26 +56,34 @@ public static class Program
 
    private static void testValueType()
    {
-      BNfloat age = 35.9f;
-      BNfloat years = 15.7654f;
-
+      BNulong age = 35;
+      ulong years = 7;
       age += years;
 
-      _logger.LogInformation("Age: " + age);
+      ulong res = age;
 
-      BNstring text = "Hello everybody!";
+      _logger.LogInformation($"Age: {age} - {(age.Equals(res))}");
 
-      text += " BYE";
+      BNstring text = $"Hello everybody!";
+      string frag = " BYE";
+      text += frag;
 
-      string textB = "Hello everybody! BYE";
+      string textB = text;
 
-      _logger.LogInformation("Text: " + text);
-
-      _logger.LogInformation("Text: " + (text == textB));
+      _logger.LogInformation($"Text: {text} - {(text.Equals(textB))}");
 
       BNchar ch = 'A';
+      char ch2 = ch;
 
-      _logger.LogInformation("Char: " + ch);
+      _logger.LogInformation($"Char: {ch} - {(ch.Equals(ch2))}");
+
+      BNdouble temp = 35.67;
+      double incr = 7.65;
+      temp += incr;
+
+      double res2 = temp;
+
+      _logger.LogInformation($"Temp: {temp} - {(temp.Equals(res2))}");
    }
 
    private static void testBitrateHRF()

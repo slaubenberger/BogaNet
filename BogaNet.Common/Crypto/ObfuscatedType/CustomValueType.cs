@@ -10,12 +10,25 @@ namespace BogaNet.Crypto.ObfuscatedType;
 /// </summary>
 /// <typeparam name="TCustom"></typeparam>
 /// <typeparam name="TValue"></typeparam>
-public class CustomValueType<TCustom, TValue> where TValue : INumber<TValue>
+public abstract class CustomValueType<TCustom, TValue> where TValue : INumber<TValue>
 {
+   #region Variables
+
    private static readonly ILogger<CustomValueType<TCustom, TValue>> _logger = GlobalLogging.CreateLogger<CustomValueType<TCustom, TValue>>();
 
-   private static readonly byte obf = Obfuscator.GenerateIV();
+   protected abstract byte obf { get; } //= Obfuscator.GenerateIV();
    private string obfValue;
+
+   /*
+   //secure, but slow implementation
+   private static readonly byte[] key = AESHelper.GenerateKey();
+   private static readonly byte[] iv = AESHelper.GenerateIV();
+   private byte[] secretValue;
+   */
+
+   #endregion
+
+   #region Properties
 
    protected TValue _value
    {
@@ -23,6 +36,7 @@ public class CustomValueType<TCustom, TValue> where TValue : INumber<TValue>
       {
          Type type = typeof(TValue);
 
+         //string plainValue = AESHelper.Decrypt(secretValue, key, iv).BNToString();
          string plainValue = Obfuscator.Deobfuscate(obfValue, obf);
 
          switch (type)
@@ -73,18 +87,25 @@ public class CustomValueType<TCustom, TValue> where TValue : INumber<TValue>
 
          return default;
       }
-      private set { obfValue = Obfuscator.Obfuscate(value.ToString(), obf); }
+      private set
+      {
+         //secretValue = AESHelper.Encrypt(value.BNToByteArray(), key, iv);
+         obfValue = Obfuscator.Obfuscate(value.ToString(), obf);
+      }
    }
+
+   #endregion
+
+   #region Constructors
 
    public CustomValueType(TValue value)
    {
       _value = value;
    }
 
-   public override string ToString()
-   {
-      return _value.ToString();
-   }
+   #endregion
+
+   #region Operators
 
    public static bool operator <(CustomValueType<TCustom, TValue> a, CustomValueType<TCustom, TValue> b)
    {
@@ -126,21 +147,40 @@ public class CustomValueType<TCustom, TValue> where TValue : INumber<TValue>
       return ((dynamic)a._value - b._value);
    }
 
-   protected bool Equals(CustomValueType<TCustom, TValue> other)
+   #endregion
+
+   #region Overridden methods
+
+   public override string ToString()
    {
-      return EqualityComparer<TValue>.Default.Equals(_value, other._value);
+      return _value.ToString();
    }
 
    public override bool Equals(object obj)
    {
       if (ReferenceEquals(null, obj)) return false;
       if (ReferenceEquals(this, obj)) return true;
-      if (obj.GetType() != this.GetType()) return false;
-      return Equals((CustomValueType<TCustom, TValue>)obj);
+
+      if (obj.GetType() == typeof(TValue))
+         return _value.Equals(obj);
+
+      if (obj.GetType() != GetType()) return false;
+      return equals((CustomValueType<TCustom, TValue>)obj);
    }
 
    public override int GetHashCode()
    {
       return EqualityComparer<TValue>.Default.GetHashCode(_value);
    }
+
+   #endregion
+
+   #region Private methods
+
+   protected bool equals(CustomValueType<TCustom, TValue> other)
+   {
+      return EqualityComparer<TValue>.Default.Equals(_value, other._value);
+   }
+
+   #endregion
 }
