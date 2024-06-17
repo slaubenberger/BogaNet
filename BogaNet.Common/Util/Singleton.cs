@@ -10,9 +10,9 @@ namespace BogaNet.Util;
 public class Singleton<T> where T : class
 {
    private static object mutex = new object();
-   private static T instance;
+   private static T? instance;
 
-   public static T Instance
+   public static T? Instance
    {
       get
       {
