@@ -25,7 +25,8 @@ public static class Program
 
       _logger.LogDebug("Hi there, this is a test app!");
 
-      testCrc();
+      testDI();
+      //testCrc();
       //testObfType();
       //testBitrateHRF();
       //testBytesHRF();
@@ -53,6 +54,18 @@ public static class Program
 
       NLog.LogManager.Shutdown();
       Environment.Exit(code);
+   }
+
+   private static void testDI()
+   {
+      DIContainer.Bind<ILocalizer, Localizer>(Localizer.Instance);
+      DIContainer.Bind<ILocalizer, Localizer>(Localizer.Instance);
+
+      _logger.LogInformation($"{DIContainer.Resolve<ILocalizer>()}");
+
+      DIContainer.Unbind<ILocalizer>();
+
+      _logger.LogInformation($"{DIContainer.Resolve<ILocalizer>()}");
    }
 
    private static void testCrc()

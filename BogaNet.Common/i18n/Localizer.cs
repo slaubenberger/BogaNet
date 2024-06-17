@@ -6,19 +6,18 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using BogaNet.Util;
 
 namespace BogaNet.i18n;
 
 /// <summary>
 /// i18n localizer
 /// </summary>
-public class Localizer : ILocalizer
+public class Localizer : Singleton<Localizer>, ILocalizer
 {
    #region Variables
 
    private static readonly ILogger<Localizer> _logger = GlobalLogging.CreateLogger<Localizer>();
-
-   private static Localizer? _instance;
 
    protected CultureInfo _culture = BogaNet.Util.Helper.CurrentCulture;
    protected const char _separator = ',';
@@ -28,8 +27,6 @@ public class Localizer : ILocalizer
    #endregion
 
    #region Properties
-
-   public static Localizer Instance => _instance ??= new();
 
    public virtual CultureInfo Culture
    {
