@@ -8,51 +8,50 @@ namespace BogaNet.Util;
 /// </summary>
 public static class DIContainer
 {
-   private static readonly Dictionary<Type, object?> _references = new();
+   private static readonly Dictionary<Type, object?> _container = new();
 
    /// <summary>
-   /// Bind an instance to a given interface.
+   /// Bind an instance to a given Type.
    /// </summary>
-   /// <param name="theInstance">Instance of the object</param>
-   /// <typeparam name="TInterface">Interface of the instance</typeparam>
-   /// <typeparam name="TValue">Class of the object</typeparam>
-   public static void Bind<TInterface, TValue>(TValue? theInstance) where TValue : TInterface where TInterface : class
+   /// <param name="instance">Instance of the Type</param>
+   /// <typeparam name="TType">Type (interface/class) of the instance</typeparam>
+   /// <typeparam name="TValue">Class of the instance</typeparam>
+   public static void Bind<TType, TValue>(TValue? instance) where TValue : TType where TType : class
    {
-      //TODO check for existing objects?
-      _references[typeof(TInterface)] = theInstance;
+      //TODO check for existing instances?
+      _container[typeof(TType)] = instance;
    }
 
    /// <summary>
-   /// Resolves an interface to a bound object.
+   /// Resolves a Type to a bound instance.
    /// </summary>
-   /// <typeparam name="TInterface">Interface of the instance</typeparam>
-   /// <returns>Object instance</returns>
-   public static TInterface? Resolve<TInterface>()
+   /// <typeparam name="TType">Type (interface/class) of the instance</typeparam>
+   /// <returns>Type-instance</returns>
+   public static TType? Resolve<TType>()
    {
-      if (_references.TryGetValue(typeof(TInterface), out object? value))
-         return value == null ? default : (TInterface)value;
+      if (_container.TryGetValue(typeof(TType), out object? value))
+         return value == null ? default : (TType)value;
 
       return default;
    }
 
    /// <summary>
-   /// Removes a bound object.
+   /// Removes a bound instance.
    /// </summary>
-   /// <typeparam name="TInterface">Interface of the instance</typeparam>
-   /// <returns>Object instance</returns>
-   public static void Unbind<TInterface>()
+   /// <typeparam name="TType">Type (interface/class) of the instance</typeparam>
+   public static void Unbind<TType>()
    {
-      if (_references.ContainsKey(typeof(TInterface)))
-         _references.Remove(typeof(TInterface));
+      if (_container.ContainsKey(typeof(TType)))
+         _container.Remove(typeof(TType));
    }
 
    /// <summary>
-   /// True if an interface is bound to an object.
+   /// True if a Type is bound to an instance.
    /// </summary>
-   /// <typeparam name="TInterface">Interface of the instance</typeparam>
-   /// <returns>True if an interface is bound to an object</returns>
-   public static bool isBound<TInterface>()
+   /// <typeparam name="TType">Type (interface/class) of the instance</typeparam>
+   /// <returns>True if a Type is bound to an instance</returns>
+   public static bool isBound<TType>()
    {
-      return _references.ContainsKey(typeof(TInterface));
+      return _container.ContainsKey(typeof(TType));
    }
 }
