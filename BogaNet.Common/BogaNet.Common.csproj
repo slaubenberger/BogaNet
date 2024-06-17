@@ -12,7 +12,7 @@
         <RepositoryUrl>https://github.com/slaubenberger/BogaNet</RepositoryUrl>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageTags>File Directory Path AES Crypto CRC Hash SHA AES HMAC X509 Obfuscation JSON XML Network IP Ping Captive_Portal_Detection MIME Bytes Extension ShortUID Localizer i18n Singleton</PackageTags>
-        <PackageReleaseNotes>Obfuscated types added.</PackageReleaseNotes>
+        <PackageReleaseNotes>CRCHelper added.</PackageReleaseNotes>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <!-- <PackageIconUrl>https://www.crosstales.com/media/data/BogaNet/logo_boga.png</PackageIconUrl> -->
         <PackageIcon>logo_boga.png</PackageIcon>
