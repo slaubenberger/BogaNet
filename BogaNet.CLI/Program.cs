@@ -60,8 +60,8 @@ public static class Program
       string input1 = "Hallo Welt";
       string input2 = "Hallp Welt";
 
-      var crc1 = CRCHelper.CRC64(input1.BNToByteArray());
-      var crc2 = CRCHelper.CRC64(input2.BNToByteArray());
+      var crc1 = CRCHelper.CRC16(input1.BNToByteArray());
+      var crc2 = CRCHelper.CRC16(input2.BNToByteArray());
 
       _logger.LogInformation($"{crc1} - {crc2}");
    }

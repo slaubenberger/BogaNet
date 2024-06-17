@@ -17,10 +17,10 @@ public abstract class CRCHelper
    static CRCHelper()
    {
       //fill table for CRC8
-      for (int i1 = 0; i1 < 256; ++i1)
+      for (int ii = 0; ii < _crc8table.Length; ii++)
       {
-         int temp = i1;
-         for (int j = 0; j < 8; ++j)
+         int temp = ii;
+         for (int yy = 0; yy < 8; yy++)
          {
             if ((temp & 0x80) != 0)
             {
@@ -32,18 +32,18 @@ public abstract class CRCHelper
             }
          }
 
-         _crc8table[i1] = (byte)temp;
+         _crc8table[ii] = (byte)temp;
       }
 
       //fill table for CRC16
       ushort value;
       ushort tempCrc16;
-      for (ushort ii = 0; ii < _crc16table.Length; ++ii)
+      for (ushort ii = 0; ii < _crc16table.Length; ii++)
       {
          value = 0;
          tempCrc16 = ii;
 
-         for (byte yy = 0; yy < 8; ++yy)
+         for (byte yy = 0; yy < 8; yy++)
          {
             if (((value ^ tempCrc16) & 0x0001) != 0)
             {
