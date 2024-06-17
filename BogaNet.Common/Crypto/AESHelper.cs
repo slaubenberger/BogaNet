@@ -43,32 +43,6 @@ public abstract class AESHelper
    /// Encrypts a file with AES.
    /// </summary>
    /// <param name="file">File to encrypt</param>
-   /// <param name="key">Key for the file as string</param>
-   /// <param name="IV">IV (initial vector) for AES</param>
-   /// <returns>True if the operation was successful</returns>
-   /// <exception cref="Exception"></exception>
-   public static bool EncryptFile(string? file, string? key, byte[]? IV)
-   {
-      return Task.Run(() => EncryptFileAsync(file, key, IV)).GetAwaiter().GetResult();
-   }
-
-   /// <summary>
-   /// Encrypts a file with AES asynchronously.
-   /// </summary>
-   /// <param name="file">File to encrypt</param>
-   /// <param name="key">Key for the file as string</param>
-   /// <param name="IV">IV (initial vector) for AES</param>
-   /// <returns>True if the operation was successful</returns>
-   /// <exception cref="Exception"></exception>
-   public static async Task<bool> EncryptFileAsync(string? file, string? key, byte[]? IV)
-   {
-      return await FileHelper.WriteAllBytesAsync(file, await EncryptAsync(await FileHelper.ReadAllBytesAsync(file), HashHelper.SHA256(key), IV));
-   }
-
-   /// <summary>
-   /// Encrypts a file with AES.
-   /// </summary>
-   /// <param name="file">File to encrypt</param>
    /// <param name="key">Key for the file as byte-array</param>
    /// <param name="IV">IV (initial vector) for AES</param>
    /// <returns>True if the operation was successful</returns>
@@ -89,32 +63,6 @@ public abstract class AESHelper
    public static async Task<bool> EncryptFileAsync(string? file, byte[]? key, byte[]? IV)
    {
       return await FileHelper.WriteAllBytesAsync(file, await EncryptAsync(await FileHelper.ReadAllBytesAsync(file), key, IV));
-   }
-
-   /// <summary>
-   /// Decrypts a file with AES.
-   /// </summary>
-   /// <param name="file">File to decrypt</param>
-   /// <param name="key">Key for the file as string</param>
-   /// <param name="IV">IV (initial vector) for AES</param>
-   /// <returns>True if the operation was successful</returns>
-   /// <exception cref="Exception"></exception>
-   public static bool DecryptFile(string? file, string? key, byte[]? IV)
-   {
-      return Task.Run(() => DecryptFileAsync(file, key, IV)).GetAwaiter().GetResult();
-   }
-
-   /// <summary>
-   /// Decrypts a file with AES asynchronously.
-   /// </summary>
-   /// <param name="file">File to decrypt</param>
-   /// <param name="key">Key for the file as string</param>
-   /// <param name="IV">IV (initial vector) for AES</param>
-   /// <returns>True if the operation was successful</returns>
-   /// <exception cref="Exception"></exception>
-   public static async Task<bool> DecryptFileAsync(string? file, string? key, byte[]? IV)
-   {
-      return await FileHelper.WriteAllBytesAsync(file, await DecryptAsync(await FileHelper.ReadAllBytesAsync(file), HashHelper.SHA256(key), IV));
    }
 
    /// <summary>

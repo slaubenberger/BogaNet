@@ -52,18 +52,29 @@ public abstract class HMACHelper
    }
 
    /// <summary>
-   /// Generates a HMAC-value with SHA-256 as string with a given byte-array and secret as input.
+   /// Generates a HMAC-value with SHA-384 as byte-array with a given byte-array and secret as input.
    /// </summary>
    /// <param name="input">Data as byte-array</param>
    /// <param name="secret">Shared secret for HMAC</param>
-   /// <returns>HMAC-value with SHA-256 as string</returns>
+   /// <returns>HMAC-value with SHA-384 as byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static string HMAC256AsString(byte[]? input, byte[]? secret)
+   public static byte[] HMAC384(byte[]? input, byte[]? secret)
    {
-      string hash = string.Empty;
-      byte[] crypto = HMAC256(input, secret);
+      if (input == null || input.Length <= 0)
+         throw new ArgumentNullException(nameof(input));
+      if (secret == null || secret.Length <= 0)
+         throw new ArgumentNullException(nameof(secret));
 
-      return crypto.Aggregate(hash, (current, bit) => current + bit.ToString("x2"));
+      try
+      {
+         using HMACSHA384 hash = new HMACSHA384(secret);
+         return hash.ComputeHash(input);
+      }
+      catch (Exception ex)
+      {
+         _logger.LogError(ex, "Compute of HMAC failed!");
+         throw;
+      }
    }
 
    /// <summary>
@@ -90,20 +101,5 @@ public abstract class HMACHelper
          _logger.LogError(ex, "Compute of HMAC failed!");
          throw;
       }
-   }
-
-   /// <summary>
-   /// Generates a HMAC-value with SHA-512 as string with a given byte-array and secret as input.
-   /// </summary>
-   /// <param name="input">Data as byte-array</param>
-   /// <param name="secret">Shared secret for HMAC</param>
-   /// <returns>HMAC-value with SHA-512 as string</returns>
-   /// <exception cref="Exception"></exception>
-   public static string HMAC512AsString(byte[]? input, byte[]? secret)
-   {
-      string hash = string.Empty;
-      byte[] crypto = HMAC512(input, secret);
-
-      return crypto.Aggregate(hash, (current, bit) => current + bit.ToString("x2"));
    }
 }

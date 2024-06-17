@@ -15,7 +15,7 @@ public class AESHelperTest
       byte[] IV = System.Text.Encoding.ASCII.GetBytes(initVector);
 
       string keyPlain = "abce1235";
-      byte[] key = HashHelper.SHA256(keyPlain);
+      byte[] key = HashHelper.SHA256(keyPlain.BNToByteArray());
 
       var output = AESHelper.Encrypt(plain.BNToByteArray(), key, IV);
       string plain2 = AESHelper.Decrypt(output, key, IV).BNToString();

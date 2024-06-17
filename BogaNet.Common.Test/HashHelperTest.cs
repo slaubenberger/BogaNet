@@ -11,13 +11,13 @@ public class HashHelperTest
    {
       string plain = "BogaNet rulez!";
 
-      string h1 = HashHelper.SHA256AsString(plain);
-      string h2 = HashHelper.SHA256AsString(plain);
+      var h1 = HashHelper.SHA256(plain.BNToByteArray());
+      var h2 = HashHelper.SHA256(plain.BNToByteArray());
 
       Assert.That(h1, Is.EqualTo(h2));
 
       plain = "BogaNet ruleZ!";
-      h2 = HashHelper.SHA256AsString(plain);
+      h2 = HashHelper.SHA256(plain.BNToByteArray());
 
       Assert.False(h1 == h2);
    }

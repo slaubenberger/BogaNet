@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Numerics;
 using System;
 using Microsoft.Extensions.Logging;
+using System.Text;
 
 namespace BogaNet.Crypto.ObfuscatedType;
 
@@ -17,7 +18,7 @@ public abstract class CustomValueType<TCustom, TValue> where TValue : INumber<TV
    private static readonly ILogger<CustomValueType<TCustom, TValue>> _logger = GlobalLogging.CreateLogger<CustomValueType<TCustom, TValue>>();
 
    protected abstract byte obf { get; } //= Obfuscator.GenerateIV();
-   private string? obfValue;
+   private byte[]? obfValue;
 
    /*
    //secure, but slow implementation
@@ -37,7 +38,7 @@ public abstract class CustomValueType<TCustom, TValue> where TValue : INumber<TV
          Type type = typeof(TValue);
 
          //string plainValue = AESHelper.Decrypt(secretValue, key, iv).BNToString();
-         string? plainValue = Obfuscator.Deobfuscate(obfValue, obf);
+         string? plainValue = Obfuscator.Deobfuscate(obfValue, obf).BNToString(Encoding.ASCII);
 
          if (plainValue == null)
             return TValue.CreateTruncating(0);
@@ -93,7 +94,7 @@ public abstract class CustomValueType<TCustom, TValue> where TValue : INumber<TV
       private set
       {
          //secretValue = AESHelper.Encrypt(value.BNToByteArray(), key, iv);
-         obfValue = Obfuscator.Obfuscate(value.ToString(), obf);
+         obfValue = Obfuscator.Obfuscate(value.ToString().BNToByteArray(Encoding.ASCII), obf);
       }
    }
 

@@ -25,7 +25,8 @@ public static class Program
 
       _logger.LogDebug("Hi there, this is a test app!");
 
-      testObfType();
+      testCrc();
+      //testObfType();
       //testBitrateHRF();
       //testBytesHRF();
       //testDrive();
@@ -33,7 +34,7 @@ public static class Program
       //testRSA();
       //testLocalizer();
       //testConvert();
-      testObf();
+      //testObf();
       //testToString();
 
       Exit(0);
@@ -52,6 +53,17 @@ public static class Program
 
       NLog.LogManager.Shutdown();
       Environment.Exit(code);
+   }
+
+   private static void testCrc()
+   {
+      string input1 = "Hallo Welt";
+      string input2 = "Hallp Welt";
+
+      var crc1 = CRCHelper.CRC64(input1.BNToByteArray());
+      var crc2 = CRCHelper.CRC64(input2.BNToByteArray());
+
+      _logger.LogInformation($"{crc1} - {crc2}");
    }
 
    private static void testObfType()
@@ -208,15 +220,15 @@ public static class Program
 
       _logger.LogInformation($"{inVal} => {outVal}");
    }
-   
+
    private static void testObf()
    {
       //string plain = Helper.CreateString("ハローワールド", 50);
       string plain = Constants.SIGNS_EXT.BNCreateString(80);
       //string plain = Helper.CreateString(Constants.SIGNS, 80);
 
-      string? obf = Obfuscator.Obfuscate(plain, 23);
-      string? plainAgain = Obfuscator.Deobfuscate(obf, 23);
+      byte[]? obf = Obfuscator.Obfuscate(plain.BNToByteArray(), 23);
+      string? plainAgain = Obfuscator.Deobfuscate(obf, 23).BNToString();
 
       _logger.LogInformation($"'{plain}'");
       _logger.LogInformation($"'{obf}'");
