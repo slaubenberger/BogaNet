@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System;
 
 namespace BogaNet.Util;
 
@@ -7,7 +8,7 @@ namespace BogaNet.Util;
 /// </summary>
 public static class DIContainer
 {
-   private static readonly Dictionary<System.Type, object?> _references = new();
+   private static readonly Dictionary<Type, object?> _references = new();
 
    /// <summary>
    /// Bind an instance to a given interface.
@@ -17,6 +18,7 @@ public static class DIContainer
    /// <typeparam name="TValue">Class of the object</typeparam>
    public static void Bind<TInterface, TValue>(TValue? theInstance) where TValue : TInterface where TInterface : class
    {
+      //TODO check for existing objects?
       _references[typeof(TInterface)] = theInstance;
    }
 
@@ -51,6 +53,6 @@ public static class DIContainer
    /// <returns>True if an interface is bound to an object</returns>
    public static bool isBound<TInterface>()
    {
-      return Resolve<TInterface>() != null;
+      return _references.ContainsKey(typeof(TInterface));
    }
 }
