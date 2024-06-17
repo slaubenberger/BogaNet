@@ -20,10 +20,11 @@ public abstract class ImageHelper
    /// Loads an image from a given resource path.
    /// </summary>
    /// <param name="imageResource">Resource path of the image</param>
+   /// <param name="resourceAssembly">Assembly with the resource (optional, default: ResourceAssembly)</param>
    /// <returns>Loaded image as Bitmap</returns>
-   public static Bitmap LoadFromResource(string imageResource)
+   public static Bitmap LoadFromResource(string imageResource, string? resourceAssembly = null)
    {
-      return new Bitmap(AssetLoader.Open(new Uri(ResourceHelper.ValidateResource(imageResource))));
+      return new Bitmap(AssetLoader.Open(new Uri(ResourceHelper.ValidateResource(imageResource, resourceAssembly))));
    }
 
    /// <summary>
