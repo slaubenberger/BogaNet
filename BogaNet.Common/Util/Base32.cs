@@ -3,15 +3,24 @@ using Enumerable = System.Linq.Enumerable;
 
 namespace BogaNet.Util;
 
+/// <summary>
+/// Base32 encoder class.
+/// </summary>
 public static class Base32
 {
-   public static byte[] FromBase32String(string input)
+   /// <summary>
+   /// Converts a Base32-string to a byte-array.
+   /// </summary>
+   /// <param name="base32string">Data as Base32-string</param>
+   /// <returns>Data as byte-array</returns>
+   /// <exception cref="ArgumentNullException"></exception>
+   public static byte[] FromBase32String(string base32string)
    {
-      if (string.IsNullOrEmpty(input))
-         throw new ArgumentNullException(nameof(input));
+      if (string.IsNullOrEmpty(base32string))
+         throw new ArgumentNullException(nameof(base32string));
 
-      input = input.TrimEnd('=');
-      int byteCount = input.Length * 5 / 8;
+      base32string = base32string.TrimEnd('=');
+      int byteCount = base32string.Length * 5 / 8;
       byte[] returnArray = new byte[byteCount];
 
       byte currentByte = 0;
@@ -19,7 +28,7 @@ public static class Base32
       int mask = 0;
       int arrayIndex = 0;
 
-      foreach (int cValue in Enumerable.Select(input, charToValue))
+      foreach (int cValue in Enumerable.Select(base32string, charToValue))
       {
          if (bitsRemaining > 5)
          {
@@ -44,18 +53,24 @@ public static class Base32
       return returnArray;
    }
 
-   public static string ToBase32String(byte[] input)
+   /// <summary>
+   /// Converts a byte-array to a Base32-string.
+   /// </summary>
+   /// <param name="bytes">Data as byte-array</param>
+   /// <returns>Data as encoded Base32-string</returns>
+   /// <exception cref="ArgumentNullException"></exception>
+   public static string ToBase32String(byte[] bytes)
    {
-      if (input == null || input.Length == 0)
-         throw new ArgumentNullException(nameof(input));
+      if (bytes == null || bytes.Length == 0)
+         throw new ArgumentNullException(nameof(bytes));
 
-      int charCount = (int)Math.Ceiling(input.Length / 5d) * 8;
+      int charCount = (int)Math.Ceiling(bytes.Length / 5d) * 8;
       char[] returnArray = new char[charCount];
 
       byte nextChar = 0, bitsRemaining = 5;
       int arrayIndex = 0;
 
-      foreach (byte b in input)
+      foreach (byte b in bytes)
       {
          nextChar = (byte)(nextChar | (b >> (8 - bitsRemaining)));
          returnArray[arrayIndex++] = valueToChar(nextChar);
