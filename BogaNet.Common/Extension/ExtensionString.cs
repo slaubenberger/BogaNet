@@ -5,6 +5,8 @@ using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using BogaNet.Util;
+using BogaNet.IO;
 
 namespace BogaNet;
 
@@ -244,7 +246,7 @@ public static class ExtensionString
    /// <returns>True if the string is an IPv4 address</returns>
    public static bool BNIsIPv4(this string? str)
    {
-      return BogaNet.IO.NetworkHelper.isIPv4(str);
+      return NetworkHelper.isIPv4(str);
    }
 
    /// <summary>
@@ -254,7 +256,7 @@ public static class ExtensionString
    /// <returns>True if the string is an IPv6 address</returns>
    public static bool BNIsIPv6(this string? str)
    {
-      return BogaNet.IO.NetworkHelper.isIPv6(str);
+      return NetworkHelper.isIPv6(str);
    }
 
    /// <summary>
@@ -404,6 +406,49 @@ public static class ExtensionString
    public static byte[]? BNFromBase64ToByteArray(this string? str)
    {
       return str == null ? null : Convert.FromBase64String(str);
+   }
+
+   /// <summary>
+   /// Converts the value of a string to a Base32-string.
+   /// </summary>
+   /// <param name="str">Input string</param>
+   /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
+   /// <returns>String value as converted Base32-string</returns>
+   public static string? BNToBase32(this string? str, Encoding? encoding = null)
+   {
+      if (str == null)
+         return null;
+
+      Encoding _encoding = encoding ?? Encoding.UTF8;
+
+      return _encoding.GetBytes(str).BNToBase32();
+   }
+
+   /// <summary>
+   /// Converts the value of a Base32-string to a string.
+   /// </summary>
+   /// <param name="str">Input Base32-string</param>
+   /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
+   /// <returns>Base32-string value as converted string</returns>
+   public static string? BNFromBase32(this string? str, Encoding? encoding = null)
+   {
+      if (str == null)
+         return null;
+
+      Encoding _encoding = encoding ?? Encoding.UTF8;
+
+      byte[]? base32 = str.BNFromBase32ToByteArray();
+      return base32 == null ? null : _encoding.GetString(base32);
+   }
+
+   /// <summary>
+   /// Converts the value of a Base32-string to a byte-array.
+   /// </summary>
+   /// <param name="str">Input Base32-string</param>
+   /// <returns>Base32-Byte-array from the Base32-string</returns>
+   public static byte[]? BNFromBase32ToByteArray(this string? str)
+   {
+      return str == null ? null : Base32.FromBase32String(str);
    }
 
    /// <summary>

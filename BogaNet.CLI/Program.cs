@@ -25,7 +25,8 @@ public static class Program
 
       _logger.LogDebug("Hi there, this is a test app!");
 
-      testDI();
+      testBase32();
+      //testDI();
       //testCrc();
       //testObfType();
       //testBitrateHRF();
@@ -54,6 +55,23 @@ public static class Program
 
       NLog.LogManager.Shutdown();
       Environment.Exit(code);
+   }
+
+   private static void testBase32()
+   {
+      string test = "Grüezi wohl!";
+
+      string base64 = test.BNToBase64();
+      string base32 = test.BNToBase32();
+
+      _logger.LogInformation($"Base64: {base64} - {base64.Length}");
+      _logger.LogInformation($"Base32: {base32} - {base32.Length}");
+
+      string fromBase64 = base64.BNFromBase64();
+      string fromBase32 = base32.BNFromBase32();
+
+      _logger.LogInformation($"FromBase64: {fromBase64} - {fromBase64.Equals(test)}");
+      _logger.LogInformation($"FromBase32: {fromBase32} - {fromBase32.Equals(test)}");
    }
 
    private static void testDI()

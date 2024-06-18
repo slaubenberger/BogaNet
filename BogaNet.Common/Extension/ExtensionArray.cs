@@ -4,6 +4,7 @@ using System.Numerics;
 using System;
 using System.Linq;
 using BogaNet.Crypto.ObfuscatedType;
+using BogaNet.Util;
 
 namespace BogaNet;
 
@@ -239,6 +240,16 @@ public static class ExtensionArray
    public static string? BNToBase64(this byte[]? data)
    {
       return data == null ? null : Convert.ToBase64String(data);
+   }
+
+   /// <summary>
+   /// Converts a byte-array to a Base32-string.
+   /// </summary>
+   /// <param name="data">Input as byte-array</param>
+   /// <returns>Base32-string from the byte-array</returns>
+   public static string? BNToBase32(this byte[]? data)
+   {
+      return data == null ? null : Base32.ToBase32String(data);
    }
 
    /// <summary>
