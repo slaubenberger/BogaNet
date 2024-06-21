@@ -238,32 +238,24 @@ public abstract class Constants
 //		public static final BigDecimal FACTOR_BIT_TO_TERABIT = new BigDecimal("10E11");
 //		public static final BigDecimal FACTOR_BIT_TO_PETABIT = new BigDecimal("10E14");
 //		public static final BigDecimal FACTOR_BIT_TO_EXABIT = new BigDecimal("10E17");
-//		public static final BigDecimal FACTOR_BIT_TO_ZETTABIT = new BigDecimal("10E20");
-//		public static final BigDecimal FACTOR_BIT_TO_YOTTABIT = new BigDecimal("10E23");
 //		public static final BigDecimal FACTOR_BIT_TO_KILOBYTE = FACTOR_BIT_TO_BYTE.multiply(FACTOR_BIT_TO_KILOBIT);
 //		public static final BigDecimal FACTOR_BIT_TO_MEGABYTE = FACTOR_BIT_TO_BYTE.multiply(FACTOR_BIT_TO_MEGABIT);
 //		public static final BigDecimal FACTOR_BIT_TO_GIGABYTE = FACTOR_BIT_TO_BYTE.multiply(FACTOR_BIT_TO_GIGABIT);
 //		public static final BigDecimal FACTOR_BIT_TO_TERABYTE = FACTOR_BIT_TO_BYTE.multiply(FACTOR_BIT_TO_TERABIT);
 //		public static final BigDecimal FACTOR_BIT_TO_PETABYTE = FACTOR_BIT_TO_BYTE.multiply(FACTOR_BIT_TO_PETABIT);
 //		public static final BigDecimal FACTOR_BIT_TO_EXABYTE = FACTOR_BIT_TO_BYTE.multiply(FACTOR_BIT_TO_EXABIT);
-//		public static final BigDecimal FACTOR_BIT_TO_ZETTABYTE = FACTOR_BIT_TO_BYTE.multiply(FACTOR_BIT_TO_ZETTABIT);
-//		public static final BigDecimal FACTOR_BIT_TO_YOTTABYTE = FACTOR_BIT_TO_BYTE.multiply(FACTOR_BIT_TO_YOTTABIT);
 //		public static final BigDecimal FACTOR_BIT_TO_KIBIBIT = HelperNumber.NUMBER_1024;
 //		public static final BigDecimal FACTOR_BIT_TO_MEBIBIT = FACTOR_BIT_TO_KIBIBIT.multiply(HelperNumber.NUMBER_1024);
 //		public static final BigDecimal FACTOR_BIT_TO_GIBIBIT = FACTOR_BIT_TO_MEBIBIT.multiply(HelperNumber.NUMBER_1024);
 //		public static final BigDecimal FACTOR_BIT_TO_TEBIBIT = FACTOR_BIT_TO_GIBIBIT.multiply(HelperNumber.NUMBER_1024);
 //		public static final BigDecimal FACTOR_BIT_TO_PEBIBIT = FACTOR_BIT_TO_TEBIBIT.multiply(HelperNumber.NUMBER_1024);
 //		public static final BigDecimal FACTOR_BIT_TO_EXBIBIT = FACTOR_BIT_TO_PEBIBIT.multiply(HelperNumber.NUMBER_1024);
-//		public static final BigDecimal FACTOR_BIT_TO_ZEBIBIT = FACTOR_BIT_TO_EXBIBIT.multiply(HelperNumber.NUMBER_1024);
-//		public static final BigDecimal FACTOR_BIT_TO_YOBIBIT = FACTOR_BIT_TO_ZEBIBIT.multiply(HelperNumber.NUMBER_1024);
 //		public static final BigDecimal FACTOR_BIT_TO_KIBIBYTE = FACTOR_BIT_TO_BYTE.multiply(FACTOR_BIT_TO_KIBIBIT);
 //		public static final BigDecimal FACTOR_BIT_TO_MEBIBYTE = FACTOR_BIT_TO_BYTE.multiply(FACTOR_BIT_TO_MEBIBIT);
 //		public static final BigDecimal FACTOR_BIT_TO_GIBIBYTE = FACTOR_BIT_TO_BYTE.multiply(FACTOR_BIT_TO_GIBIBIT);
 //		public static final BigDecimal FACTOR_BIT_TO_TEBIBYTE = FACTOR_BIT_TO_BYTE.multiply(FACTOR_BIT_TO_TEBIBIT);
 //		public static final BigDecimal FACTOR_BIT_TO_PEBIBYTE = FACTOR_BIT_TO_BYTE.multiply(FACTOR_BIT_TO_PEBIBIT);
 //		public static final BigDecimal FACTOR_BIT_TO_EXBIBYTE = FACTOR_BIT_TO_BYTE.multiply(FACTOR_BIT_TO_EXBIBIT);
-//		public static final BigDecimal FACTOR_BIT_TO_ZEBIBYTE = FACTOR_BIT_TO_BYTE.multiply(FACTOR_BIT_TO_ZEBIBIT);
-//		public static final BigDecimal FACTOR_BIT_TO_YOBIBYTE = FACTOR_BIT_TO_BYTE.multiply(FACTOR_BIT_TO_YOBIBIT);
 //		
 //		//time
 //		public static final BigDecimal FACTOR_NANOSECOND_TO_SECOND = new BigDecimal("1000000000"); //nanoseconds to seconds
@@ -275,13 +267,6 @@ public abstract class Constants
 //		public static final BigDecimal FACTOR_DAY_TO_WEEK = new BigDecimal("7"); //days to weeks
 //		public static final BigDecimal FACTOR_DAY_TO_MONTH = new BigDecimal("30"); //days to months
 //		public static final BigDecimal FACTOR_DAY_TO_YEAR = new BigDecimal("365"); //days to years
-//		
-//		//weight
-//		public static final BigDecimal FACTOR_MILLIGRAM_TO_GRAM = HelperNumber.NUMBER_1000; //milligram to gram
-//		public static final BigDecimal FACTOR_GRAM_TO_KILOGRAM = HelperNumber.NUMBER_1000; //gram to kilogram
-//		public static final BigDecimal FACTOR_OUNCE_TO_GRAM = new BigDecimal("28.34952"); //ounce to gram
-//		public static final BigDecimal FACTOR_POUND_TO_KILOGRAM = new BigDecimal("0.453592"); //pound to kilogram
-//		public static final BigDecimal FACTOR_TON_TO_KILOGRAM = new BigDecimal("907.1847"); //ton to kilogram
 
    #endregion
 }
