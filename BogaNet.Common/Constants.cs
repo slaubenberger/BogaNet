@@ -28,13 +28,13 @@ public abstract class Constants
    public const float FLOAT_TOLERANCE = 0.0001f;
 
    /// <summary>ToString for two decimal places.</summary>
-   public const string FORMAT_TWO_DECIMAL_PLACES = "0.00";
+   public const string FORMAT_NUMBER_TWO_DECIMAL_PLACES = "0.00";
 
    /// <summary>ToString for no decimal places.</summary>
-   public const string FORMAT_NO_DECIMAL_PLACES = "0";
+   public const string FORMAT_NUMBER_NO_DECIMAL_PLACES = "0";
 
    /// <summary>ToString for percent.</summary>
-   public const string FORMAT_PERCENT = "0%";
+   public const string FORMAT_NUMBER_PERCENT = "0%";
 
    /// <summary>Path delimiter for Windows.</summary>
    public const string PATH_DELIMITER_WINDOWS = @"\";
@@ -77,6 +77,9 @@ public abstract class Constants
    public const long MILLISECONDS_PER_YEAR = DAYS_PER_YEAR * MILLISECONDS_PER_DAY;
    public const long SECONDS_BETWEEN_1900_AND_1970 = 2208988800L;
 
+   /// <summary>Format for DateTime in ISO8601.</summary>
+   public const string FORMAT_DATETIME_ISO8601 = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'";
+
    #endregion
 
    #region Physic/Math constants
@@ -85,17 +88,17 @@ public abstract class Constants
    /// Speed of light in m/s.
    /// </summary>
    public const decimal SPEED_OF_LIGHT = 299792458m;
-   
+
    /// <summary>
    /// Absolute zero in Celsius.
    /// </summary>
    public const decimal ABSOLUTE_ZERO = -273.15m;
-   
+
    /// <summary>
    /// Gravity on earth in m/s^2.
    /// </summary>
    public const decimal GRAVITY_ON_EARTH = 9.80665m;
-   
+
    /// <summary>
    /// Kilogram calorie to kilojoule.
    /// </summary>
@@ -105,7 +108,7 @@ public abstract class Constants
    /// Square root of 2
    /// </summary>
    public const decimal FACTOR_SQRT_2 = 1.41421356m;
-   
+
    /// <summary>
    /// Golden ratio between a and b
    /// </summary>

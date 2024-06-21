@@ -452,12 +452,13 @@ public static class ExtensionString
    }
 
    /// <summary>
-   /// Converts the value of a string to a Hex-string (with Unicode support).
+   /// Converts the value of a string to a Hex-string.
    /// </summary>
    /// <param name="str">Input string</param>
    /// <param name="addPrefix">Add "0x"-as prefix (optional, default: false)</param>
+   /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
    /// <returns>String value as converted Hex-string</returns>
-   public static string? BNToHex(this string? str, bool addPrefix = false)
+   public static string? BNToHex(this string? str, bool addPrefix = false, Encoding? encoding = null)
    {
       if (str == null)
          return null;
@@ -467,7 +468,9 @@ public static class ExtensionString
       if (addPrefix)
          sb.Append("0x");
 
-      byte[] bytes = Encoding.Unicode.GetBytes(str);
+      Encoding _encoding = encoding ?? Encoding.UTF8;
+
+      byte[] bytes = _encoding.GetBytes(str);
       foreach (byte t in bytes)
       {
          sb.Append(t.ToString("X2"));
@@ -477,31 +480,17 @@ public static class ExtensionString
    }
 
    /// <summary>
-   /// Converts the Hex-value of a string to a string (with Unicode support).
+   /// Converts the Hex-value of a string to a string.
    /// </summary>
    /// <param name="hex">Input as Hex-string</param>
+   /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
    /// <returns>Hex-string value as converted string</returns>
-   public static string? BNHexToString(this string? hex)
+   public static string? BNHexToString(this string? hex, Encoding? encoding = null)
    {
-      if (hex == null)
-         return null;
+      byte[]? bytes = hex?.BNHexToByteArray();
 
-      string _hex = hex;
-
-      if (_hex.StartsWith("0x"))
-         _hex = _hex.Substring(2);
-
-      if (hex.Length % 2 != 0)
-         throw new FormatException($"String seems to be an invalid hex-code: {hex}");
-
-      byte[] bytes = new byte[_hex.Length / 2];
-      for (int ii = 0; ii < bytes.Length; ii++)
-      {
-         bytes[ii] = Convert.ToByte(hex.Substring(ii * 2, 2), 16);
-      }
-
-      //return Encoding.ASCII.GetString(bytes);
-      return Encoding.Unicode.GetString(bytes); // returns: "Hello world" for "48656C6C6F20776F726C64"
+      Encoding _encoding = encoding ?? Encoding.UTF8;
+      return bytes == null ? null : _encoding.GetString(bytes);
    }
 
    /// <summary>
@@ -518,6 +507,34 @@ public static class ExtensionString
          hex = hex.Substring(2);
 
       return T.Parse(hex, System.Globalization.NumberStyles.HexNumber, null);
+   }
+
+   /// <summary>
+   /// Converts the Hex-value of a string to a byte-array.
+   /// </summary>
+   /// <param name="hex">Input as Hex-string</param>
+   /// <returns>Hex-string value as converted byte-array</returns>
+   public static byte[]? BNHexToByteArray(this string? hex)
+   {
+      if (hex == null)
+         return null;
+
+      string _hex = hex;
+
+      if (_hex.StartsWith("0x"))
+         _hex = _hex.Substring(2);
+
+      if (hex.Length % 2 != 0)
+         throw new FormatException($"String seems to be an invalid hex-code: {hex}");
+
+      byte[] bytes = new byte[_hex.Length / 2];
+
+      for (int ii = 0; ii < bytes.Length; ii++)
+      {
+         bytes[ii] = Convert.ToByte(hex.Substring(ii * 2, 2), 16);
+      }
+
+      return bytes;
    }
 
    /// <summary>
@@ -634,7 +651,6 @@ public static class ExtensionString
 
       return result;
    }
-
 
    /// <summary>
    /// Creates a string of characters with a given length.
