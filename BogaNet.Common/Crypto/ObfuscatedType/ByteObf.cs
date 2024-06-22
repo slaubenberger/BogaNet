@@ -4,21 +4,21 @@ namespace BogaNet.Crypto.ObfuscatedType;
 /// Obfuscated byte implementation. This prevents the value from being "plain" in the memory of the application.
 /// NOTE: This class is not cryptographically secure!
 /// </summary>
-public class BNbyte : CustomValueType<BNbyte, byte>
+public class ByteObf : ObfuscatedValueType<ByteObf, byte>
 {
    private static readonly byte _obf = Obfuscator.GenerateIV();
    protected override byte obf { get; } = _obf;
 
-   private BNbyte(byte value) : base(value)
+   private ByteObf(byte value) : base(value)
    {
    }
 
-   public static implicit operator BNbyte(byte value)
+   public static implicit operator ByteObf(byte value)
    {
-      return new BNbyte(value);
+      return new ByteObf(value);
    }
 
-   public static implicit operator byte(BNbyte custom)
+   public static implicit operator byte(ByteObf custom)
    {
       return custom._value;
    }

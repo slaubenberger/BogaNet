@@ -4,21 +4,21 @@ namespace BogaNet.Crypto.ObfuscatedType;
 /// Obfuscated float implementation. This prevents the value from being "plain" in the memory of the application.
 /// NOTE: This class is not cryptographically secure!
 /// </summary>
-public class BNfloat : CustomValueType<BNfloat, float>
+public class FloatObf : ObfuscatedValueType<FloatObf, float>
 {
    private static readonly byte _obf = Obfuscator.GenerateIV();
    protected override byte obf { get; } = _obf;
 
-   private BNfloat(float value) : base(value)
+   private FloatObf(float value) : base(value)
    {
    }
 
-   public static implicit operator BNfloat(float value)
+   public static implicit operator FloatObf(float value)
    {
-      return new BNfloat(value);
+      return new FloatObf(value);
    }
 
-   public static implicit operator float(BNfloat custom)
+   public static implicit operator float(FloatObf custom)
    {
       return custom._value;
    }

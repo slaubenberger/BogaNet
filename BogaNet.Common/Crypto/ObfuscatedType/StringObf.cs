@@ -6,7 +6,7 @@ namespace BogaNet.Crypto.ObfuscatedType;
 /// Obfuscated string implementation. This prevents the value from being "plain" in the memory of the application.
 /// NOTE: This class is not cryptographically secure!
 /// </summary>
-public class BNstring
+public class StringObf
 {
    #region Variables
 
@@ -42,7 +42,7 @@ public class BNstring
 
    #region Constructors
 
-   public BNstring(string value)
+   public StringObf(string value)
    {
       _value = value;
    }
@@ -51,12 +51,12 @@ public class BNstring
 
    #region Operators
 
-   public static implicit operator BNstring(string value)
+   public static implicit operator StringObf(string value)
    {
-      return new BNstring(value);
+      return new StringObf(value);
    }
 
-   public static implicit operator string(BNstring custom)
+   public static implicit operator string(StringObf custom)
    {
       return custom._value;
    }
@@ -91,7 +91,7 @@ public class BNstring
          return _value.Equals(obj);
 
       if (obj.GetType() != GetType()) return false;
-      return equals((BNstring)obj);
+      return equals((StringObf)obj);
    }
 
    public override int GetHashCode()
@@ -103,7 +103,7 @@ public class BNstring
 
    #region Private methods
 
-   private bool equals(BNstring other)
+   private bool equals(StringObf other)
    {
       return EqualityComparer<string>.Default.Equals(_value, other._value);
    }

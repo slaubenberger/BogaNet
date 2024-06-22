@@ -7,15 +7,15 @@ using System.Text;
 namespace BogaNet.Crypto.ObfuscatedType;
 
 /// <summary>
-/// Custom implementation for value types.
+/// Obfuscated implementation for value types.
 /// </summary>
 /// <typeparam name="TCustom"></typeparam>
 /// <typeparam name="TValue"></typeparam>
-public abstract class CustomValueType<TCustom, TValue> where TValue : INumber<TValue>
+public abstract class ObfuscatedValueType<TCustom, TValue> where TValue : INumber<TValue>
 {
    #region Variables
 
-   private static readonly ILogger<CustomValueType<TCustom, TValue>> _logger = GlobalLogging.CreateLogger<CustomValueType<TCustom, TValue>>();
+   private static readonly ILogger<ObfuscatedValueType<TCustom, TValue>> _logger = GlobalLogging.CreateLogger<ObfuscatedValueType<TCustom, TValue>>();
 
    protected abstract byte obf { get; } //= Obfuscator.GenerateIV();
    private byte[]? obfValue;
@@ -102,7 +102,7 @@ public abstract class CustomValueType<TCustom, TValue> where TValue : INumber<TV
 
    #region Constructors
 
-   public CustomValueType(TValue value)
+   public ObfuscatedValueType(TValue value)
    {
       _value = value;
    }
@@ -111,42 +111,42 @@ public abstract class CustomValueType<TCustom, TValue> where TValue : INumber<TV
 
    #region Operators
 
-   public static bool operator <(CustomValueType<TCustom, TValue> a, CustomValueType<TCustom, TValue> b)
+   public static bool operator <(ObfuscatedValueType<TCustom, TValue> a, ObfuscatedValueType<TCustom, TValue> b)
    {
       return Comparer<TValue>.Default.Compare(a._value, b._value) < 0;
    }
 
-   public static bool operator >(CustomValueType<TCustom, TValue> a, CustomValueType<TCustom, TValue> b)
+   public static bool operator >(ObfuscatedValueType<TCustom, TValue> a, ObfuscatedValueType<TCustom, TValue> b)
    {
       return !(a < b);
    }
 
-   public static bool operator <=(CustomValueType<TCustom, TValue> a, CustomValueType<TCustom, TValue> b)
+   public static bool operator <=(ObfuscatedValueType<TCustom, TValue> a, ObfuscatedValueType<TCustom, TValue> b)
    {
       return (a < b) || (a == b);
    }
 
-   public static bool operator >=(CustomValueType<TCustom, TValue> a, CustomValueType<TCustom, TValue> b)
+   public static bool operator >=(ObfuscatedValueType<TCustom, TValue> a, ObfuscatedValueType<TCustom, TValue> b)
    {
       return (a > b) || (a == b);
    }
 
-   public static bool operator ==(CustomValueType<TCustom, TValue> a, CustomValueType<TCustom, TValue> b)
+   public static bool operator ==(ObfuscatedValueType<TCustom, TValue> a, ObfuscatedValueType<TCustom, TValue> b)
    {
       return a.Equals((object)b);
    }
 
-   public static bool operator !=(CustomValueType<TCustom, TValue> a, CustomValueType<TCustom, TValue> b)
+   public static bool operator !=(ObfuscatedValueType<TCustom, TValue> a, ObfuscatedValueType<TCustom, TValue> b)
    {
       return !(a == b);
    }
 
-   public static TCustom operator +(CustomValueType<TCustom, TValue> a, CustomValueType<TCustom, TValue> b)
+   public static TCustom operator +(ObfuscatedValueType<TCustom, TValue> a, ObfuscatedValueType<TCustom, TValue> b)
    {
       return (dynamic)a._value + b._value;
    }
 
-   public static TCustom operator -(CustomValueType<TCustom, TValue> a, CustomValueType<TCustom, TValue> b)
+   public static TCustom operator -(ObfuscatedValueType<TCustom, TValue> a, ObfuscatedValueType<TCustom, TValue> b)
    {
       return ((dynamic)a._value - b._value);
    }
@@ -169,7 +169,7 @@ public abstract class CustomValueType<TCustom, TValue> where TValue : INumber<TV
          return _value.Equals(obj);
 
       if (obj.GetType() != GetType()) return false;
-      return equals((CustomValueType<TCustom, TValue>)obj);
+      return equals((ObfuscatedValueType<TCustom, TValue>)obj);
    }
 
    public override int GetHashCode()
@@ -181,7 +181,7 @@ public abstract class CustomValueType<TCustom, TValue> where TValue : INumber<TV
 
    #region Private methods
 
-   protected bool equals(CustomValueType<TCustom, TValue> other)
+   protected bool equals(ObfuscatedValueType<TCustom, TValue> other)
    {
       return EqualityComparer<TValue>.Default.Equals(_value, other._value);
    }

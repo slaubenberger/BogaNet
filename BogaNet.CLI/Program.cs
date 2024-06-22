@@ -99,7 +99,7 @@ public static class Program
 
    private static void testObfType()
    {
-      BNulong age = 35;
+      UlongObf age = 35;
       ulong years = 7;
       age += years;
 
@@ -107,7 +107,7 @@ public static class Program
 
       _logger.LogInformation($"Age: {age} - {(age.Equals(res))}");
 
-      BNstring text = $"Hello everybody! {DateTime.Now}";
+      StringObf text = $"Hello everybody! {DateTime.Now}";
       string frag = " BYE";
       text += frag;
 
@@ -115,12 +115,12 @@ public static class Program
 
       _logger.LogInformation($"Text: {text} - {(text.Equals(textB))}");
 
-      BNchar ch = 'A';
+      CharObf ch = 'A';
       char ch2 = ch;
 
       _logger.LogInformation($"Char: {ch} - {(ch.Equals(ch2))}");
 
-      BNdouble temp = 35.67;
+      DoubleObf temp = 35.67;
       double incr = 7.65;
       temp += incr;
 

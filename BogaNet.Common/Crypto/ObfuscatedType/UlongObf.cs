@@ -4,21 +4,21 @@ namespace BogaNet.Crypto.ObfuscatedType;
 /// Obfuscated ulong implementation. This prevents the value from being "plain" in the memory of the application.
 /// NOTE: This class is not cryptographically secure!
 /// </summary>
-public class BNulong : CustomValueType<BNulong, ulong>
+public class UlongObf : ObfuscatedValueType<UlongObf, ulong>
 {
    private static readonly byte _obf = Obfuscator.GenerateIV();
    protected override byte obf { get; } = _obf;
 
-   private BNulong(ulong value) : base(value)
+   private UlongObf(ulong value) : base(value)
    {
    }
 
-   public static implicit operator BNulong(ulong value)
+   public static implicit operator UlongObf(ulong value)
    {
-      return new BNulong(value);
+      return new UlongObf(value);
    }
 
-   public static implicit operator ulong(BNulong custom)
+   public static implicit operator ulong(UlongObf custom)
    {
       return custom._value;
    }

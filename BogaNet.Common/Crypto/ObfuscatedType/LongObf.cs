@@ -4,21 +4,21 @@ namespace BogaNet.Crypto.ObfuscatedType;
 /// Obfuscated long implementation. This prevents the value from being "plain" in the memory of the application.
 /// NOTE: This class is not cryptographically secure!
 /// </summary>
-public class BNlong : CustomValueType<BNlong, long>
+public class LongObf : ObfuscatedValueType<LongObf, long>
 {
    private static readonly byte _obf = Obfuscator.GenerateIV();
    protected override byte obf { get; } = _obf;
 
-   private BNlong(long value) : base(value)
+   private LongObf(long value) : base(value)
    {
    }
 
-   public static implicit operator BNlong(long value)
+   public static implicit operator LongObf(long value)
    {
-      return new BNlong(value);
+      return new LongObf(value);
    }
 
-   public static implicit operator long(BNlong custom)
+   public static implicit operator long(LongObf custom)
    {
       return custom._value;
    }

@@ -9,7 +9,7 @@ namespace BogaNet.Crypto;
 /// </summary>
 public abstract class Obfuscator
 {
-   private const byte DEFAULT_IV = 76; //TODO change the value in every project!
+   private const byte DEFAULT_IV = 76;
 
    /// <summary>
    /// Generates a secure IV for the obfuscation.

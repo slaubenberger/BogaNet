@@ -21,12 +21,12 @@ public static class ArrayExtension
    /// <param name="array">Array-instance to convert</param>
    /// <returns>Converted BNbyte-array</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static BNbyte[] BNToBNbyteArray(this byte[]? array)
+   public static ByteObf[] BNToBNbyteArray(this byte[]? array)
    {
       if (array == null)
          throw new ArgumentNullException(nameof(array));
 
-      BNbyte[] bNbytes = new BNbyte[array.Length];
+      ByteObf[] bNbytes = new ByteObf[array.Length];
 
       for (int ii = 0; ii < array.Length; ii++)
       {
@@ -42,7 +42,7 @@ public static class ArrayExtension
    /// <param name="array">Array-instance to convert</param>
    /// <returns>Converted byte-array</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static byte[] BNToByteArray(this BNbyte[]? array)
+   public static byte[] BNToByteArray(this ByteObf[]? array)
    {
       if (array == null)
          throw new ArgumentNullException(nameof(array));

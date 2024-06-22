@@ -4,21 +4,21 @@ namespace BogaNet.Crypto.ObfuscatedType;
 /// Obfuscated uint implementation. This prevents the value from being "plain" in the memory of the application.
 /// NOTE: This class is not cryptographically secure!
 /// </summary>
-public class BNuint : CustomValueType<BNuint, uint>
+public class UintObf : ObfuscatedValueType<UintObf, uint>
 {
    private static readonly byte _obf = Obfuscator.GenerateIV();
    protected override byte obf { get; } = _obf;
 
-   private BNuint(uint value) : base(value)
+   private UintObf(uint value) : base(value)
    {
    }
 
-   public static implicit operator BNuint(uint value)
+   public static implicit operator UintObf(uint value)
    {
-      return new BNuint(value);
+      return new UintObf(value);
    }
 
-   public static implicit operator uint(BNuint custom)
+   public static implicit operator uint(UintObf custom)
    {
       return custom._value;
    }
