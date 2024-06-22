@@ -44,12 +44,12 @@ public static class ExtensionUnitWeight
    /// <param name="toUnit">Target unit</param>
    /// <param name="inVal">Value of the source unit</param>
    /// <returns>Value in the target unit</returns>
-   public static T BNConvert<T>(this UnitWeight fromUnit, UnitWeight toUnit, T inVal) where T : INumber<T>
+   public static T Convert<T>(this UnitWeight fromUnit, UnitWeight toUnit, T inVal) where T : INumber<T>
    {
       if (IgnoreSameUnit && fromUnit == toUnit)
          return inVal;
 
-      decimal val = Convert.ToDecimal(inVal);
+      decimal val = System.Convert.ToDecimal(inVal);
       decimal outVal = 0; // = inVal;
 
       //Convert to kg

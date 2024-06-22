@@ -92,7 +92,7 @@ public abstract class Constants
    /// <summary>
    /// Absolute zero in Celsius.
    /// </summary>
-   public const decimal ABSOLUTE_ZERO = -273.15m;
+   public const decimal ABSOLUTE_ZERO = -273.16m;
 
    /// <summary>
    /// Gravity on earth in m/s^2.
@@ -107,12 +107,12 @@ public abstract class Constants
    /// <summary>
    /// Square root of 2
    /// </summary>
-   public const decimal FACTOR_SQRT_2 = 1.41421356m;
+   public const decimal FACTOR_SQRT_2 = 1.414213562373m;
 
    /// <summary>
    /// Golden ratio between a and b
    /// </summary>
-   public const decimal FACTOR_GOLDEN_RATIO_A_TO_B = 1.6180339887m;
+   public const decimal FACTOR_GOLDEN_RATIO_A_TO_B = 1.618033988749m;
 
    #endregion
 

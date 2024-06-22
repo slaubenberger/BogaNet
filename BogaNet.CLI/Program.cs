@@ -247,7 +247,7 @@ public static class Program
    {
       const float inVal = 1;
 
-      var outVal = UnitArea.M2.BNConvert(UnitArea.FOOT2, inVal);
+      var outVal = UnitArea.M2.Convert(UnitArea.FOOT2, inVal);
 
       _logger.LogInformation($"{inVal} => {outVal}");
    }
