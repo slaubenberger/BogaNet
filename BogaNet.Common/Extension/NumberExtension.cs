@@ -1,6 +1,7 @@
 ﻿using System.Numerics;
 using Microsoft.Extensions.Logging;
 using System;
+using BogaNet.Helper;
 
 namespace BogaNet;
 
@@ -55,6 +56,7 @@ public static class NumberExtension
          case Type t when t == typeof(char):
             pairs = 2;
             break;
+         //TODO needs unsafe...
 /*
          case Type t when t == typeof(nint):
             length = sizeof(nint);
@@ -71,7 +73,7 @@ public static class NumberExtension
             break;
       }
 
-      string res = number.ToString("x2", null).BNFixedLength(2 * pairs, '0', false);
+      string res = StringHelper.CreateFixedLength(number.ToString("x2", null),2 * pairs, '0', false);
 
       return addPrefix ? $"0x{res}" : res;
    }

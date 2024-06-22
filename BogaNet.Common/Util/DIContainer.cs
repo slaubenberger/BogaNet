@@ -50,7 +50,7 @@ public static class DIContainer
    /// </summary>
    /// <typeparam name="TType">Type (interface/class) of the instance</typeparam>
    /// <returns>True if a Type is bound to an instance</returns>
-   public static bool isBound<TType>()
+   public static bool IsBound<TType>()
    {
       return _container.ContainsKey(typeof(TType));
    }

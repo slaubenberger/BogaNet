@@ -1,61 +1,16 @@
-﻿using System.Text;
-using Microsoft.Extensions.Logging;
-using System.Numerics;
+﻿using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
-using BogaNet.Crypto.ObfuscatedType;
 using BogaNet.Util;
 
 namespace BogaNet.Helper;
 
 /// <summary>
-/// Extension methods for arrays.
+/// Helper methods for arrays.
 /// </summary>
-public static class ExtensionArray
+public static class ArrayHelper
 {
-   private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(ExtensionArray));
-
-   /// <summary>
-   /// Converts a byte-array to a BNbyte-array.
-   /// </summary>
-   /// <param name="array">Array-instance to convert</param>
-   /// <returns>Converted BNbyte-array</returns>
-   /// <exception cref="ArgumentNullException"></exception>
-   public static ByteObf[] BNToBNbyteArray(this byte[]? array)
-   {
-      if (array == null)
-         throw new ArgumentNullException(nameof(array));
-
-      ByteObf[] bNbytes = new ByteObf[array.Length];
-
-      for (int ii = 0; ii < array.Length; ii++)
-      {
-         bNbytes[ii] = array[ii];
-      }
-
-      return bNbytes;
-   }
-
-   /// <summary>
-   /// Converts a BNbyte-array to a byte-array.
-   /// </summary>
-   /// <param name="array">Array-instance to convert</param>
-   /// <returns>Converted byte-array</returns>
-   /// <exception cref="ArgumentNullException"></exception>
-   public static byte[] BNToByteArray(this ByteObf[]? array)
-   {
-      if (array == null)
-         throw new ArgumentNullException(nameof(array));
-
-      byte[] bytes = new byte[array.Length];
-
-      for (int ii = 0; ii < array.Length; ii++)
-      {
-         bytes[ii] = array[ii];
-      }
-
-      return bytes;
-   }
+   private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(ArrayHelper));
 
    /// <summary>
    /// Converts a byte-array to a float-array.
@@ -64,7 +19,7 @@ public static class ExtensionArray
    /// <param name="count">Number of bytes to convert (optional)</param>
    /// <returns>Converted float-array</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static float[] BNToFloatArray(this byte[]? array, int count = 0)
+   public static float[] ByteArrayToFloatArray(byte[]? array, int count = 0)
    {
       if (array == null) // || array.Length <= 0)
          throw new ArgumentNullException(nameof(array));
@@ -93,7 +48,7 @@ public static class ExtensionArray
    /// <param name="count">Number of floats to convert (optional)</param>
    /// <returns>Converted byte-array</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static byte[] BNToByteArray(this float[]? array, int count = 0)
+   public static byte[] FloatArrayToByteArray(float[]? array, int count = 0)
    {
       if (array == null) // || array.Length <= 0)
          throw new ArgumentNullException(nameof(array));
@@ -121,123 +76,11 @@ public static class ExtensionArray
    }
 
    /// <summary>
-   /// Converts a byte-array to a string.
-   /// </summary>
-   /// <param name="bytes">Input string as byte-array</param>
-   /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
-   /// <returns>String from the byte-array</returns>
-   public static string? BNToString(this byte[]? bytes, Encoding? encoding = null)
-   {
-      if (bytes == null)
-         return null;
-
-      Encoding _encoding = encoding ?? Encoding.UTF8;
-
-      return _encoding.GetString(bytes);
-   }
-
-   /// <summary>
-   /// Converts a byte-array to a string.
-   /// </summary>
-   /// <param name="bytes">Byte-array</param>
-   /// <param name="offset">Offset inside the byte-array</param>
-   /// <param name="length">Length of the string</param>
-   /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
-   /// <returns>String from the byte-array</returns>
-   public static string? BNToString(this byte[]? bytes, int offset, int length, Encoding? encoding = null)
-   {
-      if (bytes == null)
-         return null;
-
-      byte[] content = new byte[length];
-      Buffer.BlockCopy(bytes, offset, content, 0, length);
-      string? res = content.BNToString(encoding);
-      return res?.Trim('\0');
-   }
-
-   /// <summary>
-   /// Converts a byte-array to a Number.
-   /// </summary>
-   /// <param name="bytes">Byte-array</param>
-   /// <param name="offset">Offset inside the byte-array (optional, default: 0)</param>
-   /// <returns>Number from the byte-array</returns>
-   public static T? BNToNumber<T>(this byte[]? bytes, int offset = 0) where T : INumber<T>
-   //public unsafe static T BNToNumber<T>(this byte[]? bytes, int offset = 0) where T : INumber<T>
-   {
-      if (bytes == null)
-         return default;
-
-      Type type = typeof(T);
-      byte[] content;
-
-      switch (type)
-      {
-         case Type t when t == typeof(double):
-            content = new byte[8];
-            Buffer.BlockCopy(bytes, offset, content, 0, 8);
-            return T.CreateTruncating(BitConverter.ToDouble(content, 0));
-         case Type t when t == typeof(float):
-            content = new byte[4];
-            Buffer.BlockCopy(bytes, offset, content, 0, 4);
-            return T.CreateTruncating(BitConverter.ToSingle(content, 0));
-         case Type t when t == typeof(long):
-            content = new byte[8];
-            Buffer.BlockCopy(bytes, offset, content, 0, 8);
-            return T.CreateTruncating(BitConverter.ToInt64(content, 0));
-         case Type t when t == typeof(ulong):
-            content = new byte[8];
-            Buffer.BlockCopy(bytes, offset, content, 0, 8);
-            return T.CreateTruncating(BitConverter.ToUInt64(content, 0));
-         case Type t when t == typeof(int):
-            content = new byte[4];
-            Buffer.BlockCopy(bytes, offset, content, 0, 4);
-            return T.CreateTruncating(BitConverter.ToInt32(content, 0));
-         case Type t when t == typeof(uint):
-            content = new byte[4];
-            Buffer.BlockCopy(bytes, offset, content, 0, 4);
-            return T.CreateTruncating(BitConverter.ToUInt32(content, 0));
-         case Type t when t == typeof(short):
-            content = new byte[2];
-            Buffer.BlockCopy(bytes, offset, content, 0, 2);
-            return T.CreateTruncating(BitConverter.ToInt16(content, 0));
-         case Type t when t == typeof(ushort):
-            content = new byte[2];
-            Buffer.BlockCopy(bytes, offset, content, 0, 2);
-            return T.CreateTruncating(BitConverter.ToUInt16(content, 0));
-         case Type t when t == typeof(char):
-            content = new byte[2];
-            Buffer.BlockCopy(bytes, offset, content, 0, 2);
-            return T.CreateTruncating(BitConverter.ToChar(content, 0));
-         /*
-         case Type t when t == typeof(nint):
-            int sizeInt = sizeof(nint);
-            content = new byte[sizeInt];
-            Buffer.BlockCopy(bytes, offset, content, 0, sizeInt);
-            return T.CreateTruncating(BitConverter.ToUInt16(content, 0));
-         case Type t when t == typeof(nuint):
-            int size = sizeof(nuint);
-            content = new byte[size];
-            Buffer.BlockCopy(bytes, offset, content, 0, size);
-            return T.CreateTruncating(BitConverter.ToUInt16(content, 0));
-         */
-         case Type t when t == typeof(byte):
-            return T.CreateTruncating(bytes[offset]);
-         case Type t when t == typeof(sbyte):
-            return T.CreateTruncating(bytes[offset]);
-         default:
-            _logger.LogWarning("Number type is not supported!");
-            break;
-      }
-
-      return default;
-   }
-
-   /// <summary>
    /// Converts a byte-array to a Base64-string.
    /// </summary>
    /// <param name="data">Input as byte-array</param>
    /// <returns>Base64-string from the byte-array</returns>
-   public static string? BNToBase64(this byte[]? data)
+   public static string? ByteArrayToBase64String(byte[]? data)
    {
       return data == null ? null : Convert.ToBase64String(data);
    }
@@ -247,20 +90,9 @@ public static class ExtensionArray
    /// </summary>
    /// <param name="data">Input as byte-array</param>
    /// <returns>Base32-string from the byte-array</returns>
-   public static string? BNToBase32(this byte[]? data)
+   public static string? ByteArrayToBase32String(byte[]? data)
    {
       return data == null ? null : Base32.ToBase32String(data);
-   }
-
-   /// <summary>
-   /// Converts a byte-array to a Hex-string.
-   /// </summary>
-   /// <param name="data">Input as byte-array</param>
-   /// <returns>Hex-string from the byte-array</returns>
-   public static string? BNToHex(this byte[]? data)
-   {
-      string hex = string.Empty;
-      return data == null ? null : data.Aggregate(hex, (current, bit) => current + bit.ToString("x2"));
    }
 
    /// <summary>
@@ -269,7 +101,7 @@ public static class ExtensionArray
    /// <param name="matrix">Input as 2D-array</param>
    /// <param name="columnNumber">Desired column of the 2D-array</param>
    /// <returns>Column of a 2D-array as array</returns>
-   public static T[]? BNGetColumn<T>(this T[,]? matrix, int columnNumber)
+   public static T[]? GetColumn<T>(T[,]? matrix, int columnNumber)
    {
       return matrix != null ? Enumerable.Range(0, matrix.GetLength(0)).Select(x => matrix[x, columnNumber]).ToArray() : default;
    }
@@ -280,109 +112,10 @@ public static class ExtensionArray
    /// <param name="matrix">Input as 2D-array</param>
    /// <param name="rowNumber">Desired row of the 2D-array</param>
    /// <returns>Row of a 2D-array as array</returns>
-   public static T[]? BNGetRow<T>(this T[,]? matrix, int rowNumber)
+   public static T[]? GetRow<T>(T[,]? matrix, int rowNumber)
    {
       return matrix != null ? Enumerable.Range(0, matrix.GetLength(1)).Select(x => matrix[rowNumber, x]).ToArray() : default;
    }
-   /*
-/// <summary>
-/// Generates a string array with all entries (via BNToString).
-/// </summary>
-/// <param name="array">Array-instance to ToString</param>
-/// <returns>String array with all entries (via BNToString)</returns>
-/// <exception cref="ArgumentNullException"></exception>
-public static string[] BNToStringArray<T>(this T[]? array)
-{
-   if (array == null) // || array.Length <= 0)
-      throw new ArgumentNullException(nameof(array));
-
-   string[] result = new string[array.Length];
-
-   for (int ii = 0; ii < array.Length; ii++)
-   {
-      string line = "null";
-
-      T content = array[ii];
-
-      if (content != null)
-         line = content.BNToString()!;
-
-      result[ii] = line;
-   }
-
-   return result;
-}
-*/
-/*
-   /// <summary>
-   /// Extension method for arrays.
-   /// Shuffles an array.
-   /// </summary>
-   /// <param name="array">Array-instance to shuffle</param>
-   /// <param name="seed">Seed for the PRNG (optional, default: 0 (=standard))</param>
-   /// <exception cref="ArgumentNullException"></exception>
-   public static void BNShuffle<T>(this T[]? array, int seed = 0)
-   {
-      if (array == null || array.Length <= 0)
-         throw new ArgumentNullException(nameof(array));
-
-      Random rnd = seed == 0 ? new Random() : new Random(seed);
-      int n = array.Length;
-      while (n > 1)
-      {
-         int k = rnd.Next(n--);
-         (array[n], array[k]) = (array[k], array[n]);
-      }
-   }
-
-   /// <summary>
-   /// Case insensitive 'Contains' per default.
-   /// </summary>
-   /// <param name="str">String array-instance</param>
-   /// <param name="toCheck">String to check</param>
-   /// <param name="comp">StringComparer (optional, default: StringComparer.OrdinalIgnoreCase)</param>
-   /// <returns>True if the string array contains the given string</returns>
-   public static bool BNContains(this string[]? str, string? toCheck, StringComparer? comp = null)
-   {
-      if (str == null)
-         return false;
-
-      comp ??= StringComparer.OrdinalIgnoreCase;
-
-      return str.Contains(toCheck, comp);
-   }
-
-   /// <summary>
-   /// Dumps an array to a string.
-   /// </summary>
-   /// <param name="array">Array-instance to dump</param>
-   /// <param name="prefix">Prefix for every element (optional, default: empty)</param>
-   /// <param name="postfix">Postfix for every element (optional, default: empty)</param>
-   /// <param name="appendNewLine">Append new line, otherwise use the given delimiter (optional, default: false)</param>
-   /// <param name="delimiter">Delimiter if appendNewLine is false (optional, default: "; ")</param>
-   /// <returns>String with lines for all array entries</returns>
-   public static string? BNDump<T>(this T[]? array, string? prefix = "", string? postfix = "", bool appendNewLine = true, string delimiter = "; ")
-   {
-      if (array == null) // || array.Length <= 0)
-         return null;
-
-      StringBuilder sb = new();
-
-      foreach (T element in array)
-      {
-         if (0 < sb.Length)
-         {
-            sb.Append(appendNewLine ? Environment.NewLine : delimiter);
-         }
-
-         sb.Append(prefix);
-         sb.Append(element);
-         sb.Append(postfix);
-      }
-
-      return sb.ToString();
-   }
-*/
 
    #region Private methods
 

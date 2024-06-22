@@ -1,5 +1,7 @@
 ﻿using System.Text.RegularExpressions;
 using BogaNet.Helper;
+using System.Globalization;
+using System;
 
 namespace BogaNet;
 
@@ -144,11 +146,13 @@ public abstract class Constants
    public static Regex REGEX_CREDITCARD => _regexCreditCard ??= new Regex(@"^((\d{4}[- ]?){3}\d{4})$");
 
    private static Regex? _regexUrlWeb;
+
    public static Regex REGEX_URL_WEB => _regexUrlWeb ??= new Regex(@"^(ht|f)tp(s?)\:\/\/[0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*(:(0-9)*)*(\/?)([a-zA-Z0-9\-\.\?\,\'\/\\\+&amp;%\$#_]*)?$");
 
+/*
    private static Regex? _regexInvalidChars;
    public static Regex REGEX_INVALID_CHARS => _regexInvalidChars ??= new Regex(@"[^\w\.@-]");
-
+*/
    private static Regex? _regexAlpha;
    public static Regex REGEX_ALPHANUMERIC => _regexAlpha ??= new Regex("([A-Za-z0-9_]+)");
 
@@ -193,7 +197,64 @@ public abstract class Constants
 
    #endregion
 
+   #region Properties
+
+   /// <summary>
+   /// True if the current platform is Windows.
+   /// </summary>
+   public static bool IsWindows => OperatingSystem.IsWindows();
+
+   /// <summary>
+   /// True if the current platform is Mac.
+   /// </summary>
+   public static bool IsOSX => OperatingSystem.IsMacOS();
+
+   /// <summary>
+   /// True if the current platform is Linux.
+   /// </summary>
+   public static bool IsLinux => OperatingSystem.IsLinux();
+
+   /// <summary>
+   /// True if the current platform is FreeBSD.
+   /// </summary>
+   public static bool IsFreeBSD => OperatingSystem.IsFreeBSD();
+
+   /// <summary>
+   /// True if the current platform is iOS.
+   /// </summary>
+   public static bool IsIOS => OperatingSystem.IsIOS();
+
+   /// <summary>
+   /// True if the current platform is Android.
+   /// </summary>
+   public static bool IsAndroid => OperatingSystem.IsAndroid();
+
+   /// <summary>
+   /// True if the current platform is a web browser.
+   /// </summary>
+   public static bool IsBrowser => OperatingSystem.IsBrowser();
+
+   /// <summary>
+   /// True if the current platform is Unix-based (=Linux, FreeBSD and OSX).
+   /// </summary>
+   public static bool IsUnix => IsLinux || IsFreeBSD || IsOSX;
+
+   /// <summary>
+   /// True if the current platform is PC-based (=Linux, FreeBSD, OSX and Windows).
+   /// </summary>
+   public static bool IsPC => IsLinux || IsWindows;
+
+   /// <summary>
+   /// True if the current platform is mobile-based (=iOS/Android).
+   /// </summary>
+   public static bool IsMobile => IsIOS || IsAndroid;
+
+   #endregion
+
    #region Changable variables
+
+   /// <summary>The current culture of the application./// </summary>
+   public static CultureInfo CurrentCulture = CultureInfo.CurrentCulture;
 
    /// <summary>Company owning the software.</summary>
    public static string COMPANY = "crosstales LLC";
@@ -219,7 +280,7 @@ public abstract class Constants
    #region Properties
 
    /// <summary>URL prefix for files.</summary>
-   public static string PREFIX_FILE => GeneralHelper.isWindows ? "file:///" : "file://";
+   public static string PREFIX_FILE => IsWindows ? "file:///" : "file://";
 
    #endregion
 

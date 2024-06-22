@@ -3,6 +3,7 @@ using System;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.IO;
+using System.Text;
 
 namespace BogaNet.Helper;
 
@@ -104,6 +105,23 @@ public abstract class AESHelper
    }
 
    /// <summary>
+   /// Encrypts a string with AES.
+   /// </summary>
+   /// <param name="data">string to encrypt</param>
+   /// <param name="key">Key for the byte-array as byte-array</param>
+   /// <param name="IV">IV (initial vector) for AES</param>
+   /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
+   /// <returns>Encrypted byte-array</returns>
+   /// <exception cref="Exception"></exception>
+   public static byte[] Encrypt(string data, byte[]? key, byte[]? IV, Encoding? encoding = null)
+   {
+      if (data == null)
+         throw new ArgumentNullException(nameof(data));
+
+      return Encrypt(data.BNToByteArray(encoding), key, IV);
+   }
+
+   /// <summary>
    /// Encrypts a byte-array with AES asynchronously.
    /// </summary>
    /// <param name="dataToEncrypt">byte-array to encrypt</param>
@@ -150,6 +168,20 @@ public abstract class AESHelper
    public static byte[] Decrypt(byte[]? dataToDecrypt, byte[]? key, byte[]? IV)
    {
       return Task.Run(() => DecryptAsync(dataToDecrypt, key, IV)).GetAwaiter().GetResult();
+   }
+
+   /// <summary>
+   /// Decrypts a byte-array with AES to a string.
+   /// </summary>
+   /// <param name="dataToDecrypt">byte-array to decrypt</param>
+   /// <param name="key">Key for the byte-array as byte-array</param>
+   /// <param name="IV">IV (initial vector) for AES</param>
+   /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
+   /// <returns>Decrypted byte-array as string</returns>
+   /// <exception cref="Exception"></exception>
+   public static string DecryptToString(byte[]? dataToDecrypt, byte[]? key, byte[]? IV, Encoding? encoding = null)
+   {
+      return Decrypt(dataToDecrypt, key, IV).BNToString(encoding);
    }
 
    /// <summary>

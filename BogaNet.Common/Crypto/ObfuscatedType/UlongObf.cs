@@ -2,7 +2,7 @@ namespace BogaNet.Crypto.ObfuscatedType;
 
 /// <summary>
 /// Obfuscated ulong implementation. This prevents the value from being "plain" in the memory of the application.
-/// NOTE: This class is not cryptographically secure!
+/// NOTE: this class is not cryptographically secure!
 /// </summary>
 public class UlongObf : ObfuscatedValueType<UlongObf, ulong>
 {

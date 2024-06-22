@@ -129,7 +129,7 @@ public abstract class FileHelper
    /// </summary>
    /// <param name="path">Path to check</param>
    /// <returns>True if the given path is from a Unix-device</returns>
-   public static bool isUnixPath(string? path) //NUnit
+   public static bool IsUnixPath(string? path) //NUnit
    {
       return !string.IsNullOrEmpty(path) && path.StartsWith('/');
    }
@@ -139,7 +139,7 @@ public abstract class FileHelper
    /// </summary>
    /// <param name="path">Path to check</param>
    /// <returns>True if the given path is from a Windows-device</returns>
-   public static bool isWindowsPath(string? path) //NUnit
+   public static bool IsWindowsPath(string? path) //NUnit
    {
       return !string.IsNullOrEmpty(path) && Constants.REGEX_DRIVE_LETTERS.IsMatch(path);
    }
@@ -149,7 +149,7 @@ public abstract class FileHelper
    /// </summary>
    /// <param name="path">Path to check</param>
    /// <returns>True if the given path is UNC</returns>
-   public static bool isUNCPath(string? path) //NUnit
+   public static bool IsUNCPath(string? path) //NUnit
    {
       return !string.IsNullOrEmpty(path) && path.StartsWith(@"\\");
    }
@@ -159,9 +159,9 @@ public abstract class FileHelper
    /// </summary>
    /// <param name="path">Path to check</param>
    /// <returns>True if the given path is an URL</returns>
-   public static bool isURL(string? path) //NUnit
+   public static bool IsURL(string? path) //NUnit
    {
-      return NetworkHelper.isURL(path);
+      return NetworkHelper.IsURL(path);
    }
 
    /// <summary>
@@ -177,7 +177,7 @@ public abstract class FileHelper
       if (string.IsNullOrEmpty(path))
          return path;
 
-      if (isURL(path))
+      if (IsURL(path))
       {
          if (addEndDelimiter && !path.EndsWith(Constants.PATH_DELIMITER_UNIX))
             path += Constants.PATH_DELIMITER_UNIX;
@@ -191,7 +191,7 @@ public abstract class FileHelper
       {
          string result;
 
-         if (isWindowsPath(pathTemp) || isUNCPath(pathTemp))
+         if (IsWindowsPath(pathTemp) || IsUNCPath(pathTemp))
          {
             //if (!isUNCPath(pathTemp))
             result = pathTemp.Replace('/', '\\');
@@ -227,11 +227,11 @@ public abstract class FileHelper
       if (string.IsNullOrEmpty(path))
          return path;
 
-      if (isURL(path))
+      if (IsURL(path))
          return path;
 
-      bool isWin = isWindowsPath(path);
-      bool isUNC = isUNCPath(path);
+      bool isWin = IsWindowsPath(path);
+      bool isUNC = IsUNCPath(path);
 
       string? result = ValidatePath(path, false, true, removeInvalidChars);
 
@@ -295,7 +295,7 @@ public abstract class FileHelper
 
    /// <summary>
    /// Find files inside a path.
-   /// NOTE: for an non-blocking version, consider calling this method from a separate thread
+   /// NOTE: for a non-blocking version, consider calling this method from a separate thread
    /// </summary>
    /// <param name="path">Path to find the files</param>
    /// <param name="isRecursive">Recursive search (optional, default: false)</param>
@@ -350,7 +350,7 @@ public abstract class FileHelper
 
    /// <summary>
    /// Find files inside a path.
-   /// NOTE: for an non-blocking version, consider calling this method from a separate thread
+   /// NOTE: for a non-blocking version, consider calling this method from a separate thread
    /// </summary>
    /// <param name="path">Path to find the files</param>
    /// <param name="isRecursive">Recursive search (optional, default: false)</param>
@@ -376,7 +376,7 @@ public abstract class FileHelper
 
    /// <summary>
    /// Find directories inside a path.
-   /// NOTE: for an non-blocking version, consider calling this method from a separate thread
+   /// NOTE: for a non-blocking version, consider calling this method from a separate thread
    /// </summary>
    /// <param name="path">Path to find the directories</param>
    /// <param name="isRecursive">Recursive search (optional, default: false)</param>
@@ -442,76 +442,23 @@ public abstract class FileHelper
    }
 
    /// <summary>
-   /// Copy or move a directory.
-   /// NOTE: for an non-blocking version, consider calling this method from a separate thread
+   /// Copy or move a file or directory.
+   /// NOTE: for a non-blocking version, consider calling this method from a separate thread
    /// </summary>
-   /// <param name="sourceDir">Source directory path</param>
-   /// <param name="destDir">Destination directory path</param>
-   /// <param name="move">Move directory instead of copy (optional, default: false)</param>
-   /// <param name="moveSafe">Moves a directory in a safe, but slower way (optional, default: true)</param>
+   /// <param name="sourcePath">Source file/directory path</param>
+   /// <param name="destPath">Destination file/directory path</param>
+   /// <param name="move">Move file/directory instead of copy (optional, default: false)</param>
+   /// <param name="moveSafe">Moves a file/directory in a safe, but slower way (optional, default: true)</param>
    /// <returns>True if the operation was successful</returns>
    /// <exception cref="Exception"></exception>
-   public static bool CopyDirectory(string? sourceDir, string? destDir, bool move = false, bool moveSafe = true) //NUnit
+   public static bool Copy(string? sourcePath, string? destPath, bool move = false, bool moveSafe = true)
    {
-      if (string.IsNullOrEmpty(destDir))
-         return false;
-
-      bool success = false;
-
-      try
-      {
-         string? src = ValidatePath(sourceDir);
-         string? dest = ValidatePath(destDir);
-
-         if (src != null && dest != null)
-         {
-            if (!ExistsDirectory(src))
-            {
-               _logger.LogError($"Source directory does not exists: {src}");
-            }
-            else
-            {
-               if (ExistsDirectory(dest))
-               {
-                  _logger.LogInformation($"Overwrite destination directory: {dest}");
-
-                  DeleteDirectory(dest);
-               }
-
-               if (move)
-               {
-                  if (moveSafe)
-                  {
-                     copyAll(new DirectoryInfo(src), new DirectoryInfo(dest));
-
-                     DeleteDirectory(src);
-                  }
-                  else
-                  {
-                     Directory.Move(src, dest); //Directory.Move sometimes fails, therefor the "moveSafe"-option is way better
-                  }
-               }
-               else
-               {
-                  copyAll(new DirectoryInfo(src), new DirectoryInfo(dest));
-               }
-
-               success = true;
-            }
-         }
-      }
-      catch (Exception ex)
-      {
-         _logger.LogError(ex, $"Could not {(move ? "move" : "copy")} directory '{sourceDir}' to '{destDir}'");
-         throw;
-      }
-
-      return success;
+      return IsFile(sourcePath) ? CopyFile(sourcePath, destPath, move, moveSafe) : CopyDirectory(sourcePath, destPath, move, moveSafe);
    }
 
    /// <summary>
    /// Copy or move a file.
-   /// NOTE: for an non-blocking version, consider calling this method from a separate thread
+   /// NOTE: for a non-blocking version, consider calling this method from a separate thread
    /// </summary>
    /// <param name="sourceFile">Source file path</param>
    /// <param name="destFile">Destination file path</param>
@@ -578,8 +525,102 @@ public abstract class FileHelper
    }
 
    /// <summary>
+   /// Copy or move a directory.
+   /// NOTE: for a non-blocking version, consider calling this method from a separate thread
+   /// </summary>
+   /// <param name="sourceDir">Source directory path</param>
+   /// <param name="destDir">Destination directory path</param>
+   /// <param name="move">Move directory instead of copy (optional, default: false)</param>
+   /// <param name="moveSafe">Moves a directory in a safe, but slower way (optional, default: true)</param>
+   /// <returns>True if the operation was successful</returns>
+   /// <exception cref="Exception"></exception>
+   public static bool CopyDirectory(string? sourceDir, string? destDir, bool move = false, bool moveSafe = true) //NUnit
+   {
+      if (string.IsNullOrEmpty(destDir))
+         return false;
+
+      bool success = false;
+
+      try
+      {
+         string? src = ValidatePath(sourceDir);
+         string? dest = ValidatePath(destDir);
+
+         if (src != null && dest != null)
+         {
+            if (!ExistsDirectory(src))
+            {
+               _logger.LogError($"Source directory does not exists: {src}");
+            }
+            else
+            {
+               if (ExistsDirectory(dest))
+               {
+                  _logger.LogInformation($"Overwrite destination directory: {dest}");
+
+                  DeleteDirectory(dest);
+               }
+
+               if (move)
+               {
+                  if (moveSafe)
+                  {
+                     copyAll(new DirectoryInfo(src), new DirectoryInfo(dest));
+
+                     DeleteDirectory(src);
+                  }
+                  else
+                  {
+                     Directory.Move(src, dest); //Directory.Move sometimes fails, therefor the "moveSafe"-option is way better
+                  }
+               }
+               else
+               {
+                  copyAll(new DirectoryInfo(src), new DirectoryInfo(dest));
+               }
+
+               success = true;
+            }
+         }
+      }
+      catch (Exception ex)
+      {
+         _logger.LogError(ex, $"Could not {(move ? "move" : "copy")} directory '{sourceDir}' to '{destDir}'");
+         throw;
+      }
+
+      return success;
+   }
+
+   /// <summary>
+   /// Move a file or directory.
+   /// NOTE: for a non-blocking version, consider calling this method from a separate thread
+   /// </summary>
+   /// <param name="sourcePath">Source file/directory path</param>
+   /// <param name="destPath">Destination file/directory path</param>
+   /// <returns>True if the operation was successful</returns>
+   /// <exception cref="Exception"></exception>
+   public static bool Move(string? sourcePath, string? destPath)
+   {
+      return IsFile(sourcePath) ? MoveFile(sourcePath, destPath) : MoveDirectory(sourcePath, destPath);
+   }
+
+   /// <summary>
+   /// Move a file.
+   /// NOTE: for a non-blocking version, consider calling this method from a separate thread
+   /// </summary>
+   /// <param name="sourceFile">Source file path</param>
+   /// <param name="destFile">Destination file path</param>
+   /// <returns>True if the operation was successful</returns>
+   /// <exception cref="Exception"></exception>
+   public static bool MoveFile(string? sourceFile, string? destFile)
+   {
+      return CopyFile(sourceFile, destFile, true);
+   }
+
+   /// <summary>
    /// Move a directory.
-   /// NOTE: for an non-blocking version, consider calling this method from a separate thread
+   /// NOTE: for a non-blocking version, consider calling this method from a separate thread
    /// </summary>
    /// <param name="sourceDir">Source directory path</param>
    /// <param name="destDir">Destination directory path</param>
@@ -590,17 +631,50 @@ public abstract class FileHelper
       return CopyDirectory(sourceDir, destDir, true);
    }
 
+
    /// <summary>
-   /// Move a file.
-   /// NOTE: for an non-blocking version, consider calling this method from a separate thread
+   /// Renames a file or directory.
    /// </summary>
-   /// <param name="sourceFile">Source file path</param>
-   /// <param name="destFile">Destination file path</param>
-   /// <returns>True if the operation was successful</returns>
+   /// <param name="path">Path to the file/directory</param>
+   /// <param name="newName">New name for the file/directory</param>
+   /// <returns>New path of the file/directory</returns>
    /// <exception cref="Exception"></exception>
-   public static bool MoveFile(string? sourceFile, string? destFile)
+   public static string? Rename(string? path, string? newName)
    {
-      return CopyFile(sourceFile, destFile, true);
+      return IsFile(path) ? RenameFile(path, newName) : RenameDirectory(path, newName);
+   }
+
+   /// <summary>
+   /// Renames a file in a path.
+   /// </summary>
+   /// <param name="path">Path to the file</param>
+   /// <param name="newName">New name for the file</param>
+   /// <returns>New path of the file</returns>
+   /// <exception cref="Exception"></exception>
+   public static string? RenameFile(string? path, string? newName) //NUnit
+   {
+      if (string.IsNullOrEmpty(path) || string.IsNullOrEmpty(newName))
+         return path;
+
+      try
+      {
+         string? dir = Path.GetDirectoryName(path);
+
+         if (dir != null)
+         {
+            string newPath = Path.Combine(dir, newName);
+            File.Move(path, newPath);
+
+            return newPath;
+         }
+      }
+      catch (Exception ex)
+      {
+         _logger.LogError(ex, $"Could not rename file '{path}' to '{newName}'");
+         throw;
+      }
+
+      return null;
    }
 
    /// <summary>
@@ -639,36 +713,14 @@ public abstract class FileHelper
    }
 
    /// <summary>
-   /// Renames a file in a path.
+   /// Delete a file or directory.
    /// </summary>
-   /// <param name="path">Path to the file</param>
-   /// <param name="newName">New name for the file</param>
-   /// <returns>New path of the file</returns>
+   /// <param name="path">Delete file/directory</param>
+   /// <returns>True if the operation was successful</returns>
    /// <exception cref="Exception"></exception>
-   public static string? RenameFile(string? path, string? newName) //NUnit
+   public static bool Delete(string? path)
    {
-      if (string.IsNullOrEmpty(path) || string.IsNullOrEmpty(newName))
-         return path;
-
-      try
-      {
-         string? dir = Path.GetDirectoryName(path);
-
-         if (dir != null)
-         {
-            string newPath = Path.Combine(dir, newName);
-            File.Move(path, newPath);
-
-            return newPath;
-         }
-      }
-      catch (Exception ex)
-      {
-         _logger.LogError(ex, $"Could not rename file '{path}' to '{newName}'");
-         throw;
-      }
-
-      return null;
+      return IsFile(path) ? DeleteFile(path) : DeleteDirectory(path);
    }
 
    /// <summary>
@@ -707,7 +759,7 @@ public abstract class FileHelper
 
    /// <summary>
    /// Delete a directory.
-   /// NOTE: for an non-blocking version, consider calling this method from a separate thread
+   /// NOTE: for a non-blocking version, consider calling this method from a separate thread
    /// </summary>
    /// <param name="dir">Directory to delete</param>
    /// <returns>True if the operation was successful</returns>
@@ -740,85 +792,35 @@ public abstract class FileHelper
       return success;
    }
 
+
    /// <summary>
-   /// Checks if the directory exists.
+   /// Checks if a file or directory exists.
    /// </summary>
-   /// <returns>True if the directory exists</returns>
-   public static bool ExistsFile(string? file) //NUnit
+   /// <param name="path">Path to the file or directory</param>
+   /// <returns>True if the file or directory exists</returns>
+   public static bool Exists(string? path)
    {
-      return File.Exists(file);
+      return IsFile(path) ? ExistsFile(path) : ExistsDirectory(path);
    }
 
    /// <summary>
-   /// Checks if the directory exists.
+   /// Checks if a file exists.
    /// </summary>
+   /// <param name="path">Path to the file</param>
+   /// <returns>True if the file exists</returns>
+   public static bool ExistsFile(string? path) //NUnit
+   {
+      return File.Exists(path);
+   }
+
+   /// <summary>
+   /// Checks if a directory exists.
+   /// </summary>
+   /// <param name="path">Path to the directory</param>
    /// <returns>True if the directory exists</returns>
    public static bool ExistsDirectory(string? path) //NUnit
    {
       return Directory.Exists(path);
-   }
-
-   /// <summary>
-   /// Creates a directory in a given path.
-   /// </summary>
-   /// <param name="path">Path for the directory</param>
-   /// <param name="folderName">New folder</param>
-   /// <exception cref="Exception"></exception>
-   public static string? CreateDirectory(string? path, string? folderName) //NUnit
-   {
-      if (string.IsNullOrEmpty(folderName))
-         return path;
-
-      if (path != null)
-      {
-         try
-         {
-            if (!ExistsDirectory(path))
-            {
-               _logger.LogError($"Path directory does not exists: {path}");
-            }
-            else
-            {
-               string newPath = Path.Combine(path, folderName);
-               Directory.CreateDirectory(newPath);
-               return newPath;
-            }
-         }
-         catch (Exception ex)
-         {
-            _logger.LogError(ex, $"Could not create directory at '{path}' with name '{folderName}'");
-            throw;
-         }
-      }
-
-      return null;
-   }
-
-   /// <summary>
-   /// Creates a directory.
-   /// </summary>
-   /// <param name="path">Path to the directory to create</param>
-   /// <returns>True if the operation was successful</returns>
-   /// <exception cref="Exception"></exception>
-   public static bool CreateDirectory(string? path) //NUnit
-   {
-      if (string.IsNullOrEmpty(path))
-         return false;
-
-      bool success;
-
-      try
-      {
-         Directory.CreateDirectory(path);
-         success = true;
-      }
-      catch (Exception ex)
-      {
-         _logger.LogError(ex, $"Could not create directory '{path}'");
-         throw;
-      }
-
-      return success;
    }
 
    /// <summary>
@@ -858,6 +860,42 @@ public abstract class FileHelper
    }
 
    /// <summary>
+   /// Creates a directory in a given path.
+   /// </summary>
+   /// <param name="path">Path for the directory</param>
+   /// <param name="folderName">New folder</param>
+   /// <exception cref="Exception"></exception>
+   public static string? CreateDirectory(string? path, string? folderName) //NUnit
+   {
+      if (string.IsNullOrEmpty(folderName))
+         return path;
+
+      if (path != null)
+      {
+         try
+         {
+            if (!ExistsDirectory(path))
+            {
+               _logger.LogError($"Path directory does not exists: {path}");
+            }
+            else
+            {
+               string newPath = Path.Combine(path, folderName);
+               Directory.CreateDirectory(newPath);
+               return newPath;
+            }
+         }
+         catch (Exception ex)
+         {
+            _logger.LogError(ex, $"Could not create directory at '{path}' with name '{folderName}'");
+            throw;
+         }
+      }
+
+      return null;
+   }
+
+   /// <summary>
    /// Creates a file.
    /// </summary>
    /// <param name="path">Path to the file to create</param>
@@ -888,12 +926,40 @@ public abstract class FileHelper
    }
 
    /// <summary>
+   /// Creates a directory.
+   /// </summary>
+   /// <param name="path">Path to the directory to create</param>
+   /// <returns>True if the operation was successful</returns>
+   /// <exception cref="Exception"></exception>
+   public static bool CreateDirectory(string? path) //NUnit
+   {
+      if (string.IsNullOrEmpty(path))
+         return false;
+
+      bool success;
+
+      try
+      {
+         Directory.CreateDirectory(path);
+         success = true;
+      }
+      catch (Exception ex)
+      {
+         _logger.LogError(ex, $"Could not create directory '{path}'");
+         throw;
+      }
+
+      return success;
+   }
+
+
+   /// <summary>
    /// Checks if the path is a directory.
    /// </summary>
    /// <param name="path">Path to the directory</param>
    /// <param name="checkForExtensions">Check for extensions (optional, default: true)</param>
    /// <returns>True if the path is a directory</returns>
-   public static bool isDirectory(string? path, bool checkForExtensions = true) //NUnit
+   public static bool IsDirectory(string? path, bool checkForExtensions = true) //NUnit
    {
       if (string.IsNullOrEmpty(path))
          return false;
@@ -919,9 +985,9 @@ public abstract class FileHelper
    /// <param name="path">Path to the file</param>
    /// <param name="checkForExtensions">Check for extensions (optional, default: true)</param>
    /// <returns>True if the path is a file</returns>
-   public static bool isFile(string? path, bool checkForExtensions = true) //NUnit
+   public static bool IsFile(string? path, bool checkForExtensions = true) //NUnit
    {
-      return !string.IsNullOrEmpty(path) && !isDirectory(path, checkForExtensions);
+      return !string.IsNullOrEmpty(path) && !IsDirectory(path, checkForExtensions);
    }
 
    /// <summary>
@@ -929,9 +995,19 @@ public abstract class FileHelper
    /// </summary>
    /// <param name="path">Possible root</param>
    /// <returns>True if the path is the root</returns>
-   public static bool isRoot(string? path) //NUnit
+   public static bool IsRoot(string? path) //NUnit
    {
       return !string.IsNullOrEmpty(path) && (path.Equals("/") || (path.Length is > 1 and < 4 && Constants.REGEX_DRIVE_LETTERS.IsMatch(path)));
+   }
+
+   /// <summary>
+   /// Returns the name for the file or directory.
+   /// </summary>
+   /// <param name="path">Path to the file/directory</param>
+   /// <returns>File name for file/directory path</returns>
+   public static string? GetName(string? path)
+   {
+      return IsFile(path) ? GetFileName(path) : GetDirectoryName(path);
    }
 
    /// <summary>
@@ -958,7 +1034,7 @@ public abstract class FileHelper
 
          if (string.IsNullOrEmpty(fname) || fname == _path)
          {
-            fname = isWindowsPath(_path) ? _path.Substring(_path.BNLastIndexOf(Constants.PATH_DELIMITER_WINDOWS) + 1) : _path.Substring(_path.BNLastIndexOf(Constants.PATH_DELIMITER_UNIX) + 1);
+            fname = IsWindowsPath(_path) ? _path.Substring(_path.BNLastIndexOf(Constants.PATH_DELIMITER_WINDOWS) + 1) : _path.Substring(_path.BNLastIndexOf(Constants.PATH_DELIMITER_UNIX) + 1);
          }
 
          if (removeInvalidChars)
@@ -969,11 +1045,12 @@ public abstract class FileHelper
    }
 
    /// <summary>
-   /// Returns the current directory name for the path.
+   /// Returns the directory name for the path.
    /// </summary>
    /// <param name="path">Path to the directory</param>
-   /// <returns>Current directory name for the path</returns>
-   public static string? GetCurrentDirectoryName(string? path) //NUnit
+   /// <returns>Directory name for the path</returns>
+   /// <exception cref="Exception"></exception>
+   public static string? GetDirectoryName(string? path) //NUnit
    {
       string? _path = ValidatePath(path, false);
       string? dname = _path;
@@ -991,7 +1068,7 @@ public abstract class FileHelper
 
          if (string.IsNullOrEmpty(dname) || dname == _path)
          {
-            dname = isWindowsPath(_path) ? _path.Substring(_path.BNLastIndexOf(Constants.PATH_DELIMITER_WINDOWS) + 1) : _path.Substring(_path.BNLastIndexOf(Constants.PATH_DELIMITER_UNIX) + 1);
+            dname = IsWindowsPath(_path) ? _path.Substring(_path.BNLastIndexOf(Constants.PATH_DELIMITER_WINDOWS) + 1) : _path.Substring(_path.BNLastIndexOf(Constants.PATH_DELIMITER_UNIX) + 1);
 
             if (HasPathInvalidChars(dname))
                dname = string.Join(string.Empty, dname.Split(_invalidPathChars));
@@ -1002,67 +1079,23 @@ public abstract class FileHelper
    }
 
    /// <summary>
-   /// Returns the directory name for the path.
+   /// Returns the size of a file or directory in bytes.
    /// </summary>
-   /// <param name="path">Path to the directory</param>
-   /// <returns>Directory name for the path</returns>
+   /// <param name="path">Path of the file/directory</param>
+   /// <returns>Size of the file/directory</returns>
    /// <exception cref="Exception"></exception>
-   public static string? GetDirectoryName(string? path) //NUnit
+   public static long GetSize(string? path) //NUnit
    {
-      string? dname = path;
-
-      if (!string.IsNullOrEmpty(path))
-      {
-         bool isUNC = isUNCPath(path);
-         bool isWin = isWindowsPath(path);
-
-         try
-         {
-            bool hadEndDelimiter = !string.IsNullOrEmpty(path) && (path.EndsWith(Constants.PATH_DELIMITER_WINDOWS) ||
-                                                                   path.EndsWith(Constants.PATH_DELIMITER_UNIX));
-
-            string? _path = ValidatePath(isWin ? "/" + path : path, !Constants.REGEX_FILE.IsMatch(path));
-
-            if (!isURL(_path))
-               dname = Path.GetDirectoryName(_path);
-
-            if (string.IsNullOrEmpty(dname))
-               dname = _path;
-
-            if (isWin)
-               dname = dname?.Substring(1);
-
-            dname = isWin || isUNC ? dname?.Replace('/', '\\') : dname?.Replace('\\', '/');
-
-            bool hasEndDelimiter = !string.IsNullOrEmpty(dname) && (dname.EndsWith(Constants.PATH_DELIMITER_WINDOWS) ||
-                                                                    dname.EndsWith(Constants.PATH_DELIMITER_UNIX));
-
-            if (hadEndDelimiter && !hasEndDelimiter)
-            {
-               dname = ValidatePath(dname);
-            }
-            else if (!hadEndDelimiter && hasEndDelimiter)
-            {
-               dname = dname?.Substring(0, dname.Length - 1);
-            }
-         }
-         catch (Exception ex)
-         {
-            _logger.LogError(ex, $"Could not get directory name for '{path}'");
-            throw;
-         }
-      }
-
-      return dname;
+      return IsFile(path) ? GetFileSize(path) : GetDirectorySize(path);
    }
 
    /// <summary>
    /// Returns the size of a file in bytes.
    /// </summary>
    /// <param name="path">Path of the file</param>
-   /// <returns>Size for the file</returns>
+   /// <returns>Size of the file</returns>
    /// <exception cref="Exception"></exception>
-   public static long GetFilesize(string? path) //NUnit
+   public static long GetFileSize(string? path) //NUnit
    {
       if (path != null)
       {
@@ -1086,6 +1119,37 @@ public abstract class FileHelper
    }
 
    /// <summary>
+   /// Returns the size of a directory in bytes.
+   /// </summary>
+   /// <param name="path">Path of the directory</param>
+   /// <returns>Size of the directory</returns>
+   /// <exception cref="Exception"></exception>
+   public static long GetDirectorySize(string? path)
+   {
+      if (path != null)
+      {
+         if (ExistsDirectory(path))
+         {
+            try
+            {
+               string[] files = Directory.GetFiles(path, "*.*");
+
+               return files.Select(name => new FileInfo(name)).Select(info => info.Length).Sum();
+            }
+            catch (Exception ex)
+            {
+               _logger.LogError(ex, $"Could not get directory size for '{path}'");
+               throw;
+            }
+         }
+      }
+
+      _logger.LogError($"Directory does not exists: {path}");
+
+      return -1;
+   }
+
+   /// <summary>
    /// Returns the extension of a file.
    /// </summary>
    /// <param name="path">Path to the file</param>
@@ -1093,7 +1157,7 @@ public abstract class FileHelper
    /// <exception cref="Exception"></exception>
    public static string? GetExtension(string? path) //NUnit
    {
-      if (isFile(path, false))
+      if (IsFile(path, false))
       {
          try
          {
@@ -1111,6 +1175,39 @@ public abstract class FileHelper
       _logger.LogError($"File does not exists: {path}");
 
       return null;
+   }
+
+   /// <summary>
+   /// Returns the last write (=modified) timestamp of a file or directory.
+   /// </summary>
+   /// <param name="path">Path to the file/directory</param>
+   /// <returns>Last write timestamp</returns>
+   /// <exception cref="Exception"></exception>
+   public static DateTime GetLastWriteTime(string? path)
+   {
+      return IsFile(path) ? GetLastFileWriteTime(path) : GetLastDirectoryWriteTime(path);
+   }
+
+   /// <summary>
+   /// Returns the last access (=read) timestamp of a file or directory.
+   /// </summary>
+   /// <param name="path">Path to the file/directory</param>
+   /// <returns>Last access timestamp</returns>
+   /// <exception cref="Exception"></exception>
+   public static DateTime GetLastAccessTime(string? path)
+   {
+      return IsFile(path) ? GetLastFileAccessTime(path) : GetLastDirectoryAccessTime(path);
+   }
+
+   /// <summary>
+   /// Returns the creation timestamp of a file or directory.
+   /// </summary>
+   /// <param name="path">Path to the file/directory</param>
+   /// <returns>Creation timestamp</returns>
+   /// <exception cref="Exception"></exception>
+   public static DateTime GetCreationTime(string? path)
+   {
+      return IsFile(path) ? GetFileCreationTime(path) : GetDirectoryCreationTime(path);
    }
 
    /// <summary>
@@ -1530,56 +1627,50 @@ public abstract class FileHelper
    }
 
    /// <summary>
-   /// Shows the location of a path (or file) in OS file explorer.
+   /// Shows the location of a file or directory in OS file explorer.
    /// NOTE: only works on standalone platforms
    /// </summary>
+   /// <param name="path">Path to the file/directory</param>
    /// <returns>True if the operation was successful</returns>
    /// <exception cref="Exception"></exception>
-   public static bool ShowPath(string? path)
+   public static bool Show(string? path)
    {
-      return ShowFile(path);
-   }
+      if (!Constants.IsPC)
+      {
+         _logger.LogWarning("Method is not supported under the current platform!");
+         return false;
+      }
 
-   /// <summary>
-   /// Shows the location of a file (or path) in OS file explorer.
-   /// NOTE: only works on standalone platforms
-   /// </summary>
-   /// <returns>True if the operation was successful</returns>
-   /// <exception cref="Exception"></exception>
-   public static bool ShowFile(string? file)
-   {
       bool success = false;
 
-      string? path;
+      string? usedPath;
 
-      if (string.IsNullOrEmpty(file) || file.Equals("."))
+      if (string.IsNullOrEmpty(path) || path.Equals("."))
       {
-         path = ".";
+         usedPath = ".";
       }
-      /*
-      else if ((BaseHelper.isWindowsPlatform || BaseHelper.isWindowsEditor) && file.Length < 4)
+      else if (Constants.IsWindows && path.Length < 4)
       {
-         path = file; //root directory
+         usedPath = path; //root directory
       }
-      */
       else
       {
-         path = ValidatePath(GetDirectoryName(file));
+         usedPath = ValidatePath(GetDirectoryName(path));
       }
 
       try
       {
-         if (ExistsDirectory(path))
+         if (ExistsDirectory(usedPath))
          {
             using Process process = new();
-            process.StartInfo.Arguments = $"\"{path}\"";
+            process.StartInfo.Arguments = $"\"{usedPath}\"";
 
-            if (GeneralHelper.isWindows)
+            if (Constants.IsWindows)
             {
                process.StartInfo.FileName = "explorer.exe";
                process.StartInfo.CreateNoWindow = true;
             }
-            else if (GeneralHelper.isOSX)
+            else if (Constants.IsOSX)
             {
                process.StartInfo.FileName = "open";
             }
@@ -1595,12 +1686,12 @@ public abstract class FileHelper
 
          else
          {
-            _logger.LogWarning($"Path to file doesn't exist: {path}");
+            _logger.LogWarning($"Path to file doesn't exist: {usedPath}");
          }
       }
       catch (Exception ex)
       {
-         _logger.LogError(ex, $"Could not show file location '{file}'");
+         _logger.LogError(ex, $"Could not show file location '{path}'");
          throw;
       }
 
@@ -1616,6 +1707,12 @@ public abstract class FileHelper
    /// <exception cref="Exception"></exception>
    public static bool OpenFile(string? file)
    {
+      if (!Constants.IsPC)
+      {
+         _logger.LogWarning("Method is not supported under the current platform!");
+         return false;
+      }
+
       bool success = false;
 
       try
@@ -1624,12 +1721,12 @@ public abstract class FileHelper
          {
             using (Process process = new())
             {
-               if (GeneralHelper.isWindows)
+               if (Constants.IsWindows)
                {
                   process.StartInfo.FileName = "explorer";
                   process.StartInfo.Arguments = $"\"{file}\"";
                }
-               else if (GeneralHelper.isOSX)
+               else if (Constants.IsOSX)
                {
                   process.StartInfo.FileName = "open";
                   process.StartInfo.WorkingDirectory = GetDirectoryName(file) + Constants.PATH_DELIMITER_UNIX;

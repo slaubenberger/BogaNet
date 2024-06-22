@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
-using BogaNet.Util;
+using System.Text;
 
 namespace BogaNet.Helper;
 
@@ -23,23 +23,6 @@ public abstract class NetworkHelper
    #region Variables
 
    private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(NetworkHelper));
-
-   #endregion
-
-   #region Properties
-
-/*
-        /// <summary>Checks if an Internet connection is available.</summary>
-        /// <returns>True if an Internet connection is available</returns>
-        public static bool isInternetAvailable
-        {
-            get
-            {
-                throw new NotImplementedException();
-                //return true; //TODO implement captive portal detection!
-            }
-        }
-*/
 
    #endregion
 
@@ -55,7 +38,7 @@ public abstract class NetworkHelper
    {
       return new AuthenticationHeaderValue(
          "Basic",
-         System.Text.Encoding.ASCII.GetBytes($"{username}:{password}").BNToBase64()
+         ArrayHelper.ByteArrayToBase64String(Encoding.ASCII.GetBytes($"{username}:{password}"))
       );
    }
 
@@ -76,7 +59,7 @@ public abstract class NetworkHelper
    /// Sets the global proxy for all network requests to the default.
    /// </summary>
    /// <returns>Used global proxy</returns>
-   public static IWebProxy? SetGloblProxyToDefault()
+   public static IWebProxy? SetGlobalProxyToDefault()
    {
       if (WebRequest.DefaultWebProxy != null)
       {
@@ -95,23 +78,13 @@ public abstract class NetworkHelper
    /// <param name="password">Password for the proxy</param>
    /// <param name="url">Url of the proxy</param>
    /// <returns>Used global proxy</returns>
-   public static IWebProxy SetGloblProxy(string user, string password, string url)
+   public static IWebProxy SetGlobalProxy(string user, string password, string url)
    {
       NetworkCredential credentials = new NetworkCredential(user, password);
 
       WebProxy proxy = new WebProxy(new Uri(url), true, null, credentials);
       HttpClient.DefaultProxy = proxy;
       return proxy;
-   }
-
-   /// <summary>
-   /// Escape the data in an URL (like spaces etc.).
-   /// </summary>
-   /// <param name="url"></param>
-   /// <returns></returns>
-   public static string? EscapeURLString(string? url) //TODO move to extensions?
-   {
-      return url == null ? null : Uri.EscapeDataString(url).Replace("%2F", "/").Replace("%3A", ":");
    }
 
    /// <summary>
@@ -122,7 +95,7 @@ public abstract class NetworkHelper
    /// <exception cref="Exception"></exception>
    public static bool OpenURL(string? url)
    {
-      if (isURL(url))
+      if (IsURL(url))
       {
          openURL(url);
          return true;
@@ -134,7 +107,7 @@ public abstract class NetworkHelper
 
    /// <summary>
    /// HTTPS-certification callback, which overrides the checks for invalid certificates (like dev-certs).
-   /// NOTE: don't use this in production since it breaks the SSL security!
+   /// NOTE: do not use this in production since it breaks the SSL security!
    /// </summary>
    /// <param name="sender">Sender of the callback</param>
    /// <param name="certificate">Certificate to check</param>
@@ -143,6 +116,9 @@ public abstract class NetworkHelper
    /// <returns>True if the validation of the certificate was successful</returns>
    public static bool RemoteCertificateValidationCallback(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
    {
+#if DEBUG
+      _logger.LogWarning("Do not use this in production since it breaks the SSL security!");
+#endif
       bool isOk = true;
 
       // If there are errors in the certificate chain, look at each error to determine the cause.
@@ -167,7 +143,7 @@ public abstract class NetworkHelper
    /// </summary>
    /// <param name="path">File path</param>
    /// <returns>URL of the file path</returns>
-   public static string? GetURLFromFile(string? path) //NUnit
+   public static string? GetURLForFile(string? path) //NUnit
    {
       if (!string.IsNullOrEmpty(path))
       {
@@ -175,10 +151,10 @@ public abstract class NetworkHelper
 
          if (_path != null)
          {
-            if (!isURL(path))
-               return Constants.PREFIX_FILE + EscapeURLString(_path.Replace('\\', '/'));
+            if (!IsURL(path))
+               return Constants.PREFIX_FILE + StringHelper.EscapeURL(_path.Replace('\\', '/'));
 
-            return EscapeURLString(_path.Replace('\\', '/'));
+            return StringHelper.EscapeURL(_path.Replace('\\', '/'));
          }
       }
 
@@ -195,7 +171,7 @@ public abstract class NetworkHelper
    /// <returns>Validated URL</returns>
    public static string? ValidateURL(string? url, bool removeProtocol = false, bool removeWWW = true, bool removeSlash = true) //NUnit
    {
-      if (isURL(url))
+      if (IsURL(url))
       {
          string? result = url?.Trim().Replace('\\', '/');
 
@@ -213,10 +189,10 @@ public abstract class NetworkHelper
                //string? protocol = result?.Substring(0, split + 2);
                string data = result.Substring(split > 1 ? split + 2 : 0);
 
-               return $"{EscapeURLString(data)}";
+               return $"{StringHelper.EscapeURL(data)}";
             }
 
-            return $"{EscapeURLString(result)}";
+            return $"{StringHelper.EscapeURL(result)}";
          }
       }
 
@@ -228,7 +204,7 @@ public abstract class NetworkHelper
    /// </summary>
    /// <param name="url">Input as possible URL</param>
    /// <returns>True if the given path is an URL</returns>
-   public static bool isURL(string? url) //NUnit
+   public static bool IsURL(string? url) //NUnit
    {
       return !string.IsNullOrEmpty(url) &&
              (url.BNStartsWith(Constants.PREFIX_FILE) ||
@@ -242,7 +218,7 @@ public abstract class NetworkHelper
    /// </summary>
    /// <param name="ip">Input as possible IPv4</param>
    /// <returns>True if the given input is an IPv4 address</returns>
-   public static bool isIPv4(string? ip) //NUnit
+   public static bool IsIPv4(string? ip) //NUnit
    {
       return Uri.CheckHostName(ip) == UriHostNameType.IPv4;
    }
@@ -252,7 +228,7 @@ public abstract class NetworkHelper
    /// </summary>
    /// <param name="ip">Input as possible IPv6</param>
    /// <returns>True if the given input is an IPv6 address</returns>
-   public static bool isIPv6(string? ip) //NUnit
+   public static bool IsIPv6(string? ip) //NUnit
    {
       return Uri.CheckHostName(ip) == UriHostNameType.IPv6;
    }
@@ -265,10 +241,10 @@ public abstract class NetworkHelper
    /// <exception cref="Exception"></exception>
    public static string? GetIP(string? host) //NUnit
    {
-      if (host.BNIsIPv4() || host.BNIsIPv6())
+      if (IsIPv4(host) || IsIPv6(host))
          return host;
 
-      string? validHost = ValidateURL(host, isURL(host));
+      string? validHost = ValidateURL(host, IsURL(host));
 
       if (!string.IsNullOrEmpty(validHost))
       {
@@ -407,7 +383,7 @@ public abstract class NetworkHelper
       bool available = false;
 
       // Microsoft check
-      if (!GeneralHelper.isIOS)
+      if (!Constants.IsIOS)
       {
          available = await checkAsync(microsoftUrl, microsoftText, microsoftEquals, windowsDesc);
 
@@ -415,7 +391,7 @@ public abstract class NetworkHelper
       }
 
       // Apple check
-      if (!available && (!GeneralHelper.isIOS || !GeneralHelper.isOSX))
+      if (!available && (!Constants.IsIOS || !Constants.IsOSX))
       {
          available = await checkAsync(appleUrl, appleText, appleEquals, appleDesc);
 

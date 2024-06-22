@@ -61,14 +61,14 @@ public static class Program
    {
       string test = "Grüezi wohl!";
 
-      string base64 = test.BNToBase64();
-      string base32 = test.BNToBase32();
+      string base64 = StringHelper.StringToBase64String(test);
+      string base32 = StringHelper.StringToBase32String(test);
 
       _logger.LogInformation($"Base64: {base64} - {base64.Length}");
       _logger.LogInformation($"Base32: {base32} - {base32.Length}");
 
-      string fromBase64 = base64.BNFromBase64();
-      string fromBase32 = base32.BNFromBase32();
+      string fromBase64 = StringHelper.StringFromBase64String(base64);
+      string fromBase32 = StringHelper.StringFromBase32String(base32);
 
       _logger.LogInformation($"FromBase64: {fromBase64} - {fromBase64.Equals(test)}");
       _logger.LogInformation($"FromBase32: {fromBase32} - {fromBase32.Equals(test)}");
@@ -255,7 +255,7 @@ public static class Program
    private static void testObf()
    {
       //string plain = Helper.CreateString("ハローワールド", 50);
-      string plain = Constants.SIGNS_EXT.BNCreateString(80);
+      string plain = StringHelper.CreateString(Constants.SIGNS_EXT, 80);
       //string plain = Helper.CreateString(Constants.SIGNS, 80);
 
       byte[]? obf = Obfuscator.Obfuscate(plain.BNToByteArray(), 23);

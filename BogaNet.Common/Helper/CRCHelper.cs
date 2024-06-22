@@ -1,5 +1,6 @@
 using Enumerable = System.Linq.Enumerable;
 using System.IO.Hashing;
+using System.Text;
 
 namespace BogaNet.Helper;
 
@@ -9,11 +10,17 @@ namespace BogaNet.Helper;
 /// </summary>
 public abstract class CRCHelper
 {
+   #region Variables
+
    private static byte[] _crc8table = new byte[256];
    private const byte _crc8poly = 0x07;
 
    private static ushort[] _crc16table = new ushort[256];
    private const ushort _crc16poly = 0xA001;
+
+   #endregion
+
+   #region Static block
 
    static CRCHelper()
    {
@@ -62,11 +69,15 @@ public abstract class CRCHelper
       }
    }
 
+   #endregion
+
+   #region Public methods
+
    /// <summary>
-   /// Standard CRC8 implementation.
+   /// Standard CRC8 implementation for byte-array.
    /// </summary>
    /// <param name="bytes">Bytes for the CRC8</param>
-   /// <returns>CRC8</returns>
+   /// <returns>CRC8 as byte</returns>
    public static byte CRC8(params byte[] bytes)
    {
       byte crc = 0;
@@ -82,10 +93,21 @@ public abstract class CRCHelper
    }
 
    /// <summary>
-   /// Standard CRC16 (ARC) implementation.
+   /// Standard CRC8 implementation for string.
+   /// </summary>
+   /// <param name="text">string for the CRC8</param>
+   /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
+   /// <returns>CRC8 as byte</returns>
+   public static byte CRC8(string text, Encoding? encoding = null)
+   {
+      return CRC8(text.BNToByteArray(encoding));
+   }
+
+   /// <summary>
+   /// Standard CRC16 (ARC) implementation for byte-array.
    /// </summary>
    /// <param name="bytes">Bytes for the CRC16</param>
-   /// <returns>CRC16</returns>
+   /// <returns>CRC16 as ushort</returns>
    public static ushort CRC16(byte[] bytes)
    {
       ushort crc = 0;
@@ -99,10 +121,21 @@ public abstract class CRCHelper
    }
 
    /// <summary>
-   /// Standard CRC32 implementation.
+   /// Standard CRC16 (ARC) implementation for string.
+   /// </summary>
+   /// <param name="text">string for the CRC16</param>
+   /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
+   /// <returns>CRC16 as ushort</returns>
+   public static ushort CRC16(string text, Encoding? encoding = null)
+   {
+      return CRC16(text.BNToByteArray(encoding));
+   }
+
+   /// <summary>
+   /// Standard CRC32 implementation for byte-array.
    /// </summary>
    /// <param name="bytes">Bytes for the CRC32</param>
-   /// <returns>CRC32</returns>
+   /// <returns>CRC32 as uint</returns>
    public static uint CRC32(byte[] bytes)
    {
       Crc32 crc32 = new();
@@ -113,10 +146,21 @@ public abstract class CRCHelper
    }
 
    /// <summary>
-   /// Standard CRC64 implementation.
+   /// Standard CRC32 implementation for string.
+   /// </summary>
+   /// <param name="text">string for the CRC32</param>
+   /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
+   /// <returns>CRC32 as uint</returns>
+   public static uint CRC32(string text, Encoding? encoding = null)
+   {
+      return CRC32(text.BNToByteArray(encoding));
+   }
+
+   /// <summary>
+   /// Standard CRC64 implementation for byte-array.
    /// </summary>
    /// <param name="bytes">Bytes for the CRC64</param>
-   /// <returns>CRC64</returns>
+   /// <returns>CRC64 as ulong</returns>
    public static ulong CRC64(byte[] bytes)
    {
       Crc64 crc64 = new();
@@ -125,4 +169,17 @@ public abstract class CRCHelper
 
       return crc64.GetCurrentHashAsUInt64();
    }
+
+   /// <summary>
+   /// Standard CRC64 implementation for string.
+   /// </summary>
+   /// <param name="text">string for the CRC64</param>
+   /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
+   /// <returns>CRC64 as ulong</returns>
+   public static ulong CRC64(string text, Encoding? encoding = null)
+   {
+      return CRC64(text.BNToByteArray(encoding));
+   }
+
+   #endregion
 }

@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Security.Cryptography;
+using System.Text;
 
 namespace BogaNet.Crypto;
 
 /// <summary>
 /// Obfuscator for strings and byte-arrays.
-/// NOTE: This class is not cryptographically secure!
+/// NOTE: this class is not cryptographically secure!
 /// </summary>
 public abstract class Obfuscator
 {
@@ -51,6 +52,21 @@ public abstract class Obfuscator
    }
 
    /// <summary>
+   /// Obfuscate a string.
+   /// </summary>
+   /// <param name="data">string to obfuscate</param>
+   /// <param name="IV">Initial-Vector byte (optional)</param>
+   /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
+   /// <returns>Obfuscated string</returns>
+   public static byte[]? Obfuscate(string data, byte IV = DEFAULT_IV, Encoding? encoding = null)
+   {
+      if (data == null)
+         return null;
+
+      return Obfuscate(data.BNToByteArray(encoding));
+   }
+
+   /// <summary>
    /// De-obfuscate a byte-array.
    /// </summary>
    /// <param name="obfuscatedData">byte-array to de-obfuscate</param>
@@ -74,5 +90,20 @@ public abstract class Obfuscator
       Array.Reverse(result);
 
       return result;
+   }
+
+   /// <summary>
+   /// De-obfuscate a byte-array to a string.
+   /// </summary>
+   /// <param name="obfuscatedData">byte-array to de-obfuscate</param>
+   /// <param name="IV">Initial-Vector byte (optional)</param>
+   /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
+   /// <returns>De-obfuscated byte-array as string</returns>
+   public static string? DeobfuscateToString(byte[]? obfuscatedData, byte IV = DEFAULT_IV, Encoding? encoding = null)
+   {
+      if (obfuscatedData == null)
+         return null;
+
+      return Deobfuscate(obfuscatedData, IV).BNToString(encoding);
    }
 }

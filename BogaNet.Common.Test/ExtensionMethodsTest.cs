@@ -3,26 +3,6 @@
 public class ExtensionMethodsTest
 {
    [Test]
-   public void BNToTitleCaseOk()
-   {
-      //Test: input good
-      const string input = "testing tiTle cASE";
-      string? result = input.BNToTitleCase();
-
-      Assert.That(result, Is.EqualTo("Testing Title Case"));
-   }
-
-   [Test]
-   public void BNToTitleCaseNotOk()
-   {
-      //Test: input empty
-      const string input = "";
-      string? result = input.BNToTitleCase();
-
-      Assert.IsEmpty(result);
-   }
-
-   [Test]
    public void BNReverseOk()
    {
       //Test: input good

@@ -4,6 +4,7 @@ using System;
 using System.Security.Cryptography;
 using System.Net;
 using System.Threading.Tasks;
+using System.Text;
 
 namespace BogaNet.Helper;
 
@@ -222,14 +223,14 @@ public abstract class RSAHelper
    {
       return GetCertificate(await FileHelper.ReadAllBytesAsync(filename), password);
    }
-   
+
    /// <summary>
    /// Encrypts a byte-array with a X509-certificate.
    /// </summary>
    /// <param name="dataToEncrypt">byte-array to encrypt</param>
    /// <param name="cert">X509-certificate</param>
    /// <param name="padding">Padding for the asymmetric encryption (optional, default: OaepSHA256)</param>
-   /// <returns>Encrypted byte-array</returns>
+   /// <returns>Encrypted data as byte-array</returns>
    /// <exception cref="ArgumentNullException"></exception>
    public static byte[]? Encrypt(byte[]? dataToEncrypt, X509Certificate2? cert, RSAEncryptionPadding? padding = null)
    {
@@ -251,12 +252,29 @@ public abstract class RSAHelper
    }
 
    /// <summary>
+   /// Encrypts a string with a X509-certificate.
+   /// </summary>
+   /// <param name="data">string to encrypt</param>
+   /// <param name="cert">X509-certificate</param>
+   /// <param name="padding">Padding for the asymmetric encryption (optional, default: OaepSHA256)</param>
+   /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
+   /// <returns>Encrypted string as byte-array</returns>
+   /// <exception cref="ArgumentNullException"></exception>
+   public static byte[]? Encrypt(string data, X509Certificate2? cert, RSAEncryptionPadding? padding = null, Encoding? encoding = null)
+   {
+      if (data == null)
+         throw new ArgumentNullException(nameof(data));
+
+      return Encrypt(data.BNToByteArray(encoding), cert, padding);
+   }
+
+
+   /// <summary>
    /// Decrypts a byte-array with a X509-certificate.
    /// </summary>
    /// <param name="dataToDecrypt">byte-array to decrypt</param>
    /// <param name="cert">X509-certificate</param>
    /// <param name="padding">Padding for the asymmetric encryption (optional, default: OaepSHA256)</param>
-   /// <returns>Decrypted byte-array</returns>
    /// <returns>Decrypted byte-array</returns>
    /// <exception cref="ArgumentNullException"></exception>
    public static byte[]? Decrypt(byte[] dataToDecrypt, X509Certificate2 cert, RSAEncryptionPadding? padding = null)
@@ -276,6 +294,20 @@ public abstract class RSAHelper
          LoggerExtensions.LogError(_logger, ex, "Decrypt failed!");
          throw;
       }
+   }
+
+   /// <summary>
+   /// Decrypts a byte-array with a X509-certificate to a string.
+   /// </summary>
+   /// <param name="dataToDecrypt">byte-array to decrypt</param>
+   /// <param name="cert">X509-certificate</param>
+   /// <param name="padding">Padding for the asymmetric encryption (optional, default: OaepSHA256)</param>
+   /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
+   /// <returns>Decrypted string</returns>
+   /// <exception cref="ArgumentNullException"></exception>
+   public static string? DecryptToString(byte[] dataToDecrypt, X509Certificate2 cert, RSAEncryptionPadding? padding = null, Encoding? encoding = null)
+   {
+      return Decrypt(dataToDecrypt, cert, padding).BNToString(encoding);
    }
 
 /*

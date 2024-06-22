@@ -4,7 +4,7 @@ namespace BogaNet.Crypto.ObfuscatedType;
 
 /// <summary>
 /// Obfuscated string implementation. This prevents the value from being "plain" in the memory of the application.
-/// NOTE: This class is not cryptographically secure!
+/// NOTE: this class is not cryptographically secure!
 /// </summary>
 public class StringObf
 {
@@ -29,12 +29,12 @@ public class StringObf
       get
       {
          //return AESHelper.Decrypt(secretValue, key, iv).BNToString();
-         return Obfuscator.Deobfuscate(obfValue, obf).BNToString() ?? string.Empty;
+         return Obfuscator.DeobfuscateToString(obfValue, obf) ?? string.Empty;
       }
       set
       {
          //secretValue = AESHelper.Encrypt(value.BNToByteArray(), key, iv);
-         obfValue = Obfuscator.Obfuscate(value.BNToByteArray(), obf);
+         obfValue = Obfuscator.Obfuscate(value, obf);
       }
    }
 

@@ -8,7 +8,7 @@ namespace BogaNet.Avalonia;
 /// <summary>
 /// Extension methods for Avalonia.
 /// </summary>
-public static class ExtensionAvalonia
+public static class AvaloniaExtension
 {
    /// <summary>
    /// Load translation files (CSV) as resources for Localizer.

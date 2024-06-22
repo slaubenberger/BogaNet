@@ -111,34 +111,4 @@ public static class ListExtension
          .Select(x => x.Select(v => v.Value).ToList())
          .ToList();
    }
-   /*
-/// <summary>
-/// Generates a string list with all entries (via BNToString).
-/// </summary>
-/// <param name="list">IList-instance to ToString</param>
-/// <returns>String list with all entries (via BNToString)</returns>
-/// <exception cref="ArgumentNullException"></exception>
-public static string BNToString<T>(this IList<T>? list)
-{
-   if (list == null)
-      throw new ArgumentNullException(nameof(list));
-
-   StringBuilder sb = new();
-
-   sb.Append(list.GetType().Name);
-   sb.Append(":[");
-
-   for (int ii = 0; ii < list.Count; ii++)
-   {
-      sb.Append(list[ii].BNToString());
-
-      if (ii < list.Count - 1)
-         sb.Append(',');
-   }
-
-   sb.Append(']');
-
-   return sb.ToString();
-}
-*/
 }

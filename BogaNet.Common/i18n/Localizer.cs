@@ -19,7 +19,7 @@ public class Localizer : Singleton<Localizer>, ILocalizer
 
    private static readonly ILogger<Localizer> _logger = GlobalLogging.CreateLogger<Localizer>();
 
-   protected CultureInfo _culture = GeneralHelper.CurrentCulture;
+   protected CultureInfo _culture = Constants.CurrentCulture;
    protected const char _separator = ',';
    protected readonly List<CultureInfo> _cultures = new();
    protected readonly Dictionary<string, Dictionary<string, string>> _messages = new();

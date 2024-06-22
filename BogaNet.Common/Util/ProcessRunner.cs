@@ -29,7 +29,7 @@ public class ProcessRunner
    /// <summary>
    /// Indicates if the process is still running.
    /// </summary>
-   public bool isRunning => process != null && !process.HasExited;
+   public bool IsRunning => process != null && !process.HasExited;
 
    /// <summary>
    /// stdout (output-stream) of the process.
@@ -115,7 +115,7 @@ public class ProcessRunner
 
       try
       {
-         if (isRunning)
+         if (IsRunning)
             process?.Kill();
 
          outputList.Clear();
@@ -165,7 +165,7 @@ public class ProcessRunner
    {
       try
       {
-         if (isRunning)
+         if (IsRunning)
             process?.Kill();
       }
       catch (Exception ex)
@@ -187,7 +187,7 @@ public class ProcessRunner
 
       try
       {
-         if (isRunning)
+         if (IsRunning)
          {
             process?.StandardInput.WriteLine(input);
 

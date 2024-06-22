@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Logging;
 using System;
 using System.Security.Cryptography;
+using System.Text;
 
 namespace BogaNet.Helper;
 
@@ -25,11 +26,11 @@ public abstract class HMACHelper
    }
 
    /// <summary>
-   /// Generates a HMAC-value with SHA-256 as byte-array with a given byte-array and secret as input.
+   /// Generates a HMAC-value with SHA256 as byte-array with a given byte-array and secret as input.
    /// </summary>
    /// <param name="input">Data as byte-array</param>
    /// <param name="secret">Shared secret for HMAC</param>
-   /// <returns>HMAC-value with SHA-256 as byte-array</returns>
+   /// <returns>HMAC-value with SHA256 as byte-array</returns>
    /// <exception cref="Exception"></exception>
    public static byte[] HMAC256(byte[]? input, byte[]? secret)
    {
@@ -51,11 +52,26 @@ public abstract class HMACHelper
    }
 
    /// <summary>
-   /// Generates a HMAC-value with SHA-384 as byte-array with a given byte-array and secret as input.
+   /// Generates a HMAC-value with SHA256 as byte-array with a given string and secret as input.
+   /// </summary>
+   /// <param name="input">Data as string</param>
+   /// <param name="secret">Shared secret for HMAC</param>
+   /// <returns>HMAC-value with SHA256 as byte-array</returns>
+   /// <exception cref="Exception"></exception>
+   public static byte[] HMAC256(string? input, byte[]? secret, Encoding? encoding = null)
+   {
+      if (input == null)
+         throw new ArgumentNullException(nameof(input));
+
+      return HMAC256(input.BNToByteArray(encoding), secret);
+   }
+
+   /// <summary>
+   /// Generates a HMAC-value with SHA384 as byte-array with a given byte-array and secret as input.
    /// </summary>
    /// <param name="input">Data as byte-array</param>
    /// <param name="secret">Shared secret for HMAC</param>
-   /// <returns>HMAC-value with SHA-384 as byte-array</returns>
+   /// <returns>HMAC-value with SHA384 as byte-array</returns>
    /// <exception cref="Exception"></exception>
    public static byte[] HMAC384(byte[]? input, byte[]? secret)
    {
@@ -77,11 +93,26 @@ public abstract class HMACHelper
    }
 
    /// <summary>
-   /// Generates a HMAC-value with SHA-512 as byte-array with a given byte-array and secret as input.
+   /// Generates a HMAC-value with SHA384 as byte-array with a given string and secret as input.
+   /// </summary>
+   /// <param name="input">Data as string</param>
+   /// <param name="secret">Shared secret for HMAC</param>
+   /// <returns>HMAC-value with SHA384 as byte-array</returns>
+   /// <exception cref="Exception"></exception>
+   public static byte[] HMAC384(string? input, byte[]? secret, Encoding? encoding = null)
+   {
+      if (input == null)
+         throw new ArgumentNullException(nameof(input));
+
+      return HMAC384(input.BNToByteArray(encoding), secret);
+   }
+
+   /// <summary>
+   /// Generates a HMAC-value with SHA512 as byte-array with a given byte-array and secret as input.
    /// </summary>
    /// <param name="input">Data as byte-array</param>
    /// <param name="secret">Shared secret for HMAC</param>
-   /// <returns>HMAC-value with SHA-512 as byte-array</returns>
+   /// <returns>HMAC-value with SHA512 as byte-array</returns>
    /// <exception cref="Exception"></exception>
    public static byte[] HMAC512(byte[]? input, byte[]? secret)
    {
@@ -100,5 +131,20 @@ public abstract class HMACHelper
          LoggerExtensions.LogError(_logger, ex, "Compute of HMAC failed!");
          throw;
       }
+   }
+
+   /// <summary>
+   /// Generates a HMAC-value with SHA512 as byte-array with a given string and secret as input.
+   /// </summary>
+   /// <param name="input">Data as string</param>
+   /// <param name="secret">Shared secret for HMAC</param>
+   /// <returns>HMAC-value with SHA512 as byte-array</returns>
+   /// <exception cref="Exception"></exception>
+   public static byte[] HMAC512(string? input, byte[]? secret, Encoding? encoding = null)
+   {
+      if (input == null)
+         throw new ArgumentNullException(nameof(input));
+
+      return HMAC512(input.BNToByteArray(encoding), secret);
    }
 }
