@@ -7,6 +7,7 @@ using System;
 using System.Linq;
 using BogaNet.Util;
 using BogaNet.Helper;
+using System.Web;
 
 namespace BogaNet.Helper;
 
@@ -412,7 +413,7 @@ public static class StringHelper
    /// <returns>Normal string</returns>
    public static string DecodeHTML(string input)
    {
-      return System.Web.HttpUtility.HtmlDecode(input);
+      return HttpUtility.HtmlDecode(input);
    }
 
    /// <summary>
@@ -422,7 +423,7 @@ public static class StringHelper
    /// <returns>HTML encoded string</returns>
    public static string EncodeHTML(string input)
    {
-      return System.Web.HttpUtility.HtmlEncode(input);
+      return HttpUtility.HtmlEncode(input);
    }
    
    /// <summary>

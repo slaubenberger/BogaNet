@@ -118,6 +118,21 @@ public abstract class JsonHelper
    }
 
    /// <summary>
+   /// Serialize an object to an JSON byte-array.
+   /// </summary>
+   /// <param name="obj">Object to serialize</param>
+   /// <param name="settings">Serializer settings (optional)</param>
+   /// <returns>Object as JSON byte-array</returns>
+   /// <exception cref="Exception"></exception>
+   public static byte[] SerializeToByteArray(object? obj, JsonSerializerSettings? settings = null)
+   {
+      if (obj == null)
+         throw new ArgumentNullException(nameof(obj));
+
+      return SerializeToString(obj, settings ?? FORMAT_INDENTED).BNToByteArray();
+   }
+
+   /// <summary>
    /// Deserialize a JSON-file to an object.
    /// </summary>
    /// <param name="path">JSON-file of the object</param>
@@ -155,7 +170,7 @@ public abstract class JsonHelper
    /// <summary>
    /// Deserialize a JSON-string to an object.
    /// </summary>
-   /// <param name="jsonAsString">JSON of the object</param>
+   /// <param name="jsonAsString">JSON of the object as string</param>
    /// <param name="settings">Serializer settings (optional)</param>
    /// <returns>Object</returns>
    /// <exception cref="Exception"></exception>
@@ -173,5 +188,21 @@ public abstract class JsonHelper
          _logger.LogError(ex, $"Could not convert JSON: {jsonAsString}");
          throw;
       }
+   }
+
+
+   /// <summary>
+   /// Deserialize a JSON byte-array to an object.
+   /// </summary>
+   /// <param name="data">JSON of the object as byte-array</param>
+   /// <param name="settings">Serializer settings (optional)</param>
+   /// <returns>Object</returns>
+   /// <exception cref="Exception"></exception>
+   public static T? DeserializeFromByteArray<T>(byte[]? data, JsonSerializerSettings? settings = null)
+   {
+      if (data == null)
+         throw new ArgumentNullException(nameof(data));
+
+      return DeserializeFromString<T>(data.BNToString(), settings);
    }
 }

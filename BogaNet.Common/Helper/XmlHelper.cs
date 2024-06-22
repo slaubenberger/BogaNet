@@ -73,7 +73,7 @@ public abstract class XmlHelper
    /// Serialize an object to a XML byte-array.
    /// </summary>
    /// <param name="obj">Object to serialize</param>
-   /// <returns>Object as byte-array</returns>
+   /// <returns>Object as XML byte-array</returns>
    /// <exception cref="Exception"></exception>
    public static byte[] SerializeToByteArray<T>(T? obj)
    {
