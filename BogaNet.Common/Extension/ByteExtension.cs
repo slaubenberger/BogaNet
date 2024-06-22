@@ -5,7 +5,7 @@ namespace BogaNet;
 /// <summary>
 /// Extension methods for byte.
 /// </summary>
-public static class ExtensionByte
+public static class ByteExtension
 {
    /// <summary>
    /// Represents the given byte a binary string.

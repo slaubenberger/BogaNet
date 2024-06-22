@@ -8,7 +8,7 @@ namespace BogaNet;
 /// <summary>
 /// Extension methods for IList.
 /// </summary>
-public static class ExtensionList
+public static class ListExtension
 {
    /// <summary>
    /// Shuffles a List.

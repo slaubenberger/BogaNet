@@ -3,7 +3,7 @@ using System.Globalization;
 
 namespace BogaNet;
 
-public static class ExtensionDateTime
+public static class DateTimeExtension
 {
    /// <summary>
    /// Converts the specified ISO 8601 representation of a date and time to its DateTime equivalent.

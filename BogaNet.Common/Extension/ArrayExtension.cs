@@ -11,9 +11,9 @@ namespace BogaNet;
 /// <summary>
 /// Extension methods for arrays.
 /// </summary>
-public static class ExtensionArray
+public static class ArrayExtension
 {
-   private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(ExtensionArray));
+   private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(ArrayExtension));
 
    /// <summary>
    /// Converts a byte-array to a BNbyte-array.

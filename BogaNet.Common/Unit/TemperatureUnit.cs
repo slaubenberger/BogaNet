@@ -1,13 +1,12 @@
 using Microsoft.Extensions.Logging;
 using System.Numerics;
-using System;
 
 namespace BogaNet.Unit;
 
 /// <summary>
 /// Units for temperatures.
 /// </summary>
-public enum UnitTemperature
+public enum TemperatureUnit
 {
    KELVIN,
    CELSIUS,
@@ -15,11 +14,11 @@ public enum UnitTemperature
 }
 
 /// <summary>
-/// Extension methods for UnitTemperature.
+/// Extension methods for TemperatureUnit.
 /// </summary>
-public static class ExtensionUnitTemperature
+public static class TemperatureUnitExtension
 {
-   private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(ExtensionUnitTemperature));
+   private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(TemperatureUnitExtension));
 
    public static bool IgnoreSameUnit = true;
 
@@ -28,13 +27,13 @@ public static class ExtensionUnitTemperature
    /// <summary>
    /// Converts a value from one unit to another.
    /// </summary>
-   /// <param name="fromUnit">Source unit</param>
-   /// <param name="toUnit">Target unit</param>
+   /// <param name="fromTemperatureUnit">Source unit</param>
+   /// <param name="toTemperatureUnit">Target unit</param>
    /// <param name="inVal">Value of the source unit</param>
    /// <returns>Value in the target unit</returns>
-   public static T Convert<T>(this UnitTemperature fromUnit, UnitTemperature toUnit, T inVal) where T : INumber<T>
+   public static T Convert<T>(this TemperatureUnit fromTemperatureUnit, TemperatureUnit toTemperatureUnit, T inVal) where T : INumber<T>
    {
-      if (IgnoreSameUnit && fromUnit == toUnit)
+      if (IgnoreSameUnit && fromTemperatureUnit == toTemperatureUnit)
          return inVal;
 
       decimal val = System.Convert.ToDecimal(inVal);
@@ -42,36 +41,36 @@ public static class ExtensionUnitTemperature
       decimal fcDiv = 1.8m;
 
       //Convert to Kelvin
-      switch (fromUnit)
+      switch (fromTemperatureUnit)
       {
-         case UnitTemperature.KELVIN:
+         case TemperatureUnit.KELVIN:
             //val = inVal;
             break;
-         case UnitTemperature.CELSIUS:
+         case TemperatureUnit.CELSIUS:
             val = val + FACTOR_CELSIUS_TO_KELVIN;
             break;
-         case UnitTemperature.FAHRENHEIT:
+         case TemperatureUnit.FAHRENHEIT:
             val = ((val - 32) / fcDiv) + FACTOR_CELSIUS_TO_KELVIN;
             break;
          default:
-            _logger.LogWarning($"There is no conversion for the fromUnit: {fromUnit}");
+            _logger.LogWarning($"There is no conversion for the fromUnit: {fromTemperatureUnit}");
             break;
       }
 
       //Convert from Kelvin
-      switch (toUnit)
+      switch (toTemperatureUnit)
       {
-         case UnitTemperature.KELVIN:
+         case TemperatureUnit.KELVIN:
             outVal = val;
             break;
-         case UnitTemperature.CELSIUS:
+         case TemperatureUnit.CELSIUS:
             outVal = val - FACTOR_CELSIUS_TO_KELVIN;
             break;
-         case UnitTemperature.FAHRENHEIT:
+         case TemperatureUnit.FAHRENHEIT:
             outVal = ((val - FACTOR_CELSIUS_TO_KELVIN) * fcDiv) + 32;
             break;
          default:
-            _logger.LogWarning($"There is no conversion for the toUnit: {toUnit}");
+            _logger.LogWarning($"There is no conversion for the toUnit: {toTemperatureUnit}");
             break;
       }
 

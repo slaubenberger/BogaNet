@@ -1,13 +1,12 @@
 using Microsoft.Extensions.Logging;
 using System.Numerics;
-using System;
 
 namespace BogaNet.Unit;
 
 /// <summary>
 /// Units for areas.
 /// </summary>
-public enum UnitArea
+public enum AreaUnit
 {
    M2,
    MM2,
@@ -25,11 +24,11 @@ public enum UnitArea
 }
 
 /// <summary>
-/// Extension methods for UnitArea.
+/// Extension methods for AreaUnit.
 /// </summary>
-public static class ExtensionUnitArea
+public static class AreaUnitExtension
 {
-   private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(ExtensionUnitArea));
+   private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(AreaUnitExtension));
 
    public static bool IgnoreSameUnit = true;
 
@@ -54,103 +53,103 @@ public static class ExtensionUnitArea
    /// <summary>
    /// Converts a value from one unit to another.
    /// </summary>
-   /// <param name="fromUnit">Source unit</param>
-   /// <param name="toUnit">Target unit</param>
+   /// <param name="fromAreaUnit">Source unit</param>
+   /// <param name="toAreaUnit">Target unit</param>
    /// <param name="inVal">Value of the source unit</param>
    /// <returns>Value in the target unit</returns>
-   public static T Convert<T>(this UnitArea fromUnit, UnitArea toUnit, T inVal) where T : INumber<T>
+   public static T Convert<T>(this AreaUnit fromAreaUnit, AreaUnit toAreaUnit, T inVal) where T : INumber<T>
    {
-      if (IgnoreSameUnit && fromUnit == toUnit)
+      if (IgnoreSameUnit && fromAreaUnit == toAreaUnit)
          return inVal;
 
       decimal val = System.Convert.ToDecimal(inVal);
       decimal outVal = 0; // = inVal;
 
       //Convert to m2
-      switch (fromUnit)
+      switch (fromAreaUnit)
       {
-         case UnitArea.M2:
+         case AreaUnit.M2:
             //val = inVal;
             break;
-         case UnitArea.MM2:
+         case AreaUnit.MM2:
             val = val / FACTOR_MM2_TO_M2;
             break;
-         case UnitArea.CM2:
+         case AreaUnit.CM2:
             val = val / FACTOR_CM2_TO_M2;
             break;
-         case UnitArea.AREA:
+         case AreaUnit.AREA:
             val = val * FACTOR_M2_TO_AREA;
             break;
-         case UnitArea.HECTARE:
+         case AreaUnit.HECTARE:
             val = val * FACTOR_M2_TO_HECTARE;
             break;
-         case UnitArea.KM2:
+         case AreaUnit.KM2:
             val = val * FACTOR_M2_TO_KM2;
             break;
-         case UnitArea.INCH2:
+         case AreaUnit.INCH2:
             val = val / FACTOR_INCH2_TO_M2;
             break;
-         case UnitArea.FOOT2:
+         case AreaUnit.FOOT2:
             val = val * FACTOR_FOOT2_TO_M2;
             break;
-         case UnitArea.YARD2:
+         case AreaUnit.YARD2:
             val = val * FACTOR_YARD2_TO_M2;
             break;
-         case UnitArea.PERCH:
+         case AreaUnit.PERCH:
             val = val * FACTOR_PERCH_TO_M2;
             break;
-         case UnitArea.ACRE:
+         case AreaUnit.ACRE:
             val = val * FACTOR_ACRE_TO_M2;
             break;
-         case UnitArea.MILE2:
+         case AreaUnit.MILE2:
             val = val * FACTOR_M2_TO_MILE2;
             break;
          default:
-            _logger.LogWarning($"There is no conversion for the fromUnit: {fromUnit}");
+            _logger.LogWarning($"There is no conversion for the fromUnit: {fromAreaUnit}");
             break;
       }
 
       //Convert from m2
-      switch (toUnit)
+      switch (toAreaUnit)
       {
-         case UnitArea.M2:
+         case AreaUnit.M2:
             outVal = val;
             break;
-         case UnitArea.MM2:
+         case AreaUnit.MM2:
             outVal = val * FACTOR_MM2_TO_M2;
             break;
-         case UnitArea.CM2:
+         case AreaUnit.CM2:
             outVal = val * FACTOR_CM2_TO_M2;
             break;
-         case UnitArea.AREA:
+         case AreaUnit.AREA:
             outVal = val / FACTOR_M2_TO_AREA;
             break;
-         case UnitArea.HECTARE:
+         case AreaUnit.HECTARE:
             outVal = val / FACTOR_M2_TO_HECTARE;
             break;
-         case UnitArea.KM2:
+         case AreaUnit.KM2:
             outVal = val / FACTOR_M2_TO_KM2;
             break;
-         case UnitArea.INCH2:
+         case AreaUnit.INCH2:
             outVal = val * FACTOR_INCH2_TO_M2;
             break;
-         case UnitArea.FOOT2:
+         case AreaUnit.FOOT2:
             outVal = val / FACTOR_FOOT2_TO_M2;
             break;
-         case UnitArea.YARD2:
+         case AreaUnit.YARD2:
             outVal = val / FACTOR_YARD2_TO_M2;
             break;
-         case UnitArea.PERCH:
+         case AreaUnit.PERCH:
             outVal = val / FACTOR_PERCH_TO_M2;
             break;
-         case UnitArea.ACRE:
+         case AreaUnit.ACRE:
             outVal = val / FACTOR_ACRE_TO_M2;
             break;
-         case UnitArea.MILE2:
+         case AreaUnit.MILE2:
             outVal = val / FACTOR_M2_TO_MILE2;
             break;
          default:
-            _logger.LogWarning($"There is no conversion for the toUnit: {toUnit}");
+            _logger.LogWarning($"There is no conversion for the toUnit: {toAreaUnit}");
             break;
       }
 

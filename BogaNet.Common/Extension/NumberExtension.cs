@@ -7,9 +7,9 @@ namespace BogaNet;
 /// <summary>
 /// Extension methods for numbers.
 /// </summary>
-public static class ExtensionNumber
+public static class NumberExtension
 {
-   private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(ExtensionNumber));
+   private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(NumberExtension));
 
    /// <summary>
    /// Clamps a value between min and max.

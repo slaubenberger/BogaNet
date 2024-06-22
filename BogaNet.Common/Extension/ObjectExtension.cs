@@ -8,7 +8,7 @@ namespace BogaNet;
 /// <summary>
 /// Extension methods for objects.
 /// </summary>
-public static class ExtensionObject
+public static class ObjectExtension
 {
    /// <summary>
    /// Searches for a field in an object and returns the value.

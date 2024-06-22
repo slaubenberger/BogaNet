@@ -1,13 +1,12 @@
 using Microsoft.Extensions.Logging;
 using System.Numerics;
-using System;
 
 namespace BogaNet.Unit;
 
 /// <summary>
 /// Units for weight.
 /// </summary>
-public enum UnitWeight
+public enum WeightUnit
 {
    MILLIGRAM,
    GRAM,
@@ -19,11 +18,11 @@ public enum UnitWeight
 }
 
 /// <summary>
-/// Extension methods for UnitWeight.
+/// Extension methods for WeightUnit.
 /// </summary>
-public static class ExtensionUnitWeight
+public static class WeightUnitExtension
 {
-   private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(ExtensionUnitWeight));
+   private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(WeightUnitExtension));
 
    public static bool IgnoreSameUnit = true;
 
@@ -40,67 +39,67 @@ public static class ExtensionUnitWeight
    /// <summary>
    /// Converts a value from one unit to another.
    /// </summary>
-   /// <param name="fromUnit">Source unit</param>
-   /// <param name="toUnit">Target unit</param>
+   /// <param name="fromWeightUnit">Source unit</param>
+   /// <param name="toWeightUnit">Target unit</param>
    /// <param name="inVal">Value of the source unit</param>
    /// <returns>Value in the target unit</returns>
-   public static T Convert<T>(this UnitWeight fromUnit, UnitWeight toUnit, T inVal) where T : INumber<T>
+   public static T Convert<T>(this WeightUnit fromWeightUnit, WeightUnit toWeightUnit, T inVal) where T : INumber<T>
    {
-      if (IgnoreSameUnit && fromUnit == toUnit)
+      if (IgnoreSameUnit && fromWeightUnit == toWeightUnit)
          return inVal;
 
       decimal val = System.Convert.ToDecimal(inVal);
       decimal outVal = 0; // = inVal;
 
       //Convert to kg
-      switch (fromUnit)
+      switch (fromWeightUnit)
       {
-         case UnitWeight.KILOGRAM:
+         case WeightUnit.KILOGRAM:
             //val = inVal;
             break;
-         case UnitWeight.MILLIGRAM:
+         case WeightUnit.MILLIGRAM:
             val = val / FACTOR_MILLIGRAM_TO_KILOGRAM;
             break;
-         case UnitWeight.GRAM:
+         case WeightUnit.GRAM:
             val = val / FACTOR_GRAM_TO_KILOGRAM;
             break;
-         case UnitWeight.OUNCE:
+         case WeightUnit.OUNCE:
             val = val * FACTOR_OUNCE_TO_KILOGRAM;
             break;
-         case UnitWeight.POUND:
+         case WeightUnit.POUND:
             val = val * FACTOR_POUND_TO_KILOGRAM;
             break;
-         case UnitWeight.TON:
+         case WeightUnit.TON:
             val = val * FACTOR_TON_TO_KILOGRAM;
             break;
          default:
-            _logger.LogWarning($"There is no conversion for the fromUnit: {fromUnit}");
+            _logger.LogWarning($"There is no conversion for the fromUnit: {fromWeightUnit}");
             break;
       }
 
       //Convert from kg
-      switch (toUnit)
+      switch (toWeightUnit)
       {
-         case UnitWeight.KILOGRAM:
+         case WeightUnit.KILOGRAM:
             outVal = val;
             break;
-         case UnitWeight.MILLIGRAM:
+         case WeightUnit.MILLIGRAM:
             outVal = val * FACTOR_MILLIGRAM_TO_KILOGRAM;
             break;
-         case UnitWeight.GRAM:
+         case WeightUnit.GRAM:
             outVal = val * FACTOR_GRAM_TO_KILOGRAM;
             break;
-         case UnitWeight.OUNCE:
+         case WeightUnit.OUNCE:
             outVal = val / FACTOR_OUNCE_TO_KILOGRAM;
             break;
-         case UnitWeight.POUND:
+         case WeightUnit.POUND:
             outVal = val / FACTOR_POUND_TO_KILOGRAM;
             break;
-         case UnitWeight.TON:
+         case WeightUnit.TON:
             outVal = val / FACTOR_TON_TO_KILOGRAM;
             break;
          default:
-            _logger.LogWarning($"There is no conversion for the toUnit: {toUnit}");
+            _logger.LogWarning($"There is no conversion for the toUnit: {toWeightUnit}");
             break;
       }
 

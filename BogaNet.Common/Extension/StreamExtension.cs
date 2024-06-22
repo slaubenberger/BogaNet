@@ -7,7 +7,7 @@ namespace BogaNet;
 /// <summary>
 /// Extension methods for Stream.
 /// </summary>
-public static class ExtensionStream
+public static class StreamExtension
 {
    /// <summary>
    /// Reads the full content of a Stream.

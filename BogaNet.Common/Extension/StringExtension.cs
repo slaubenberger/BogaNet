@@ -13,9 +13,9 @@ namespace BogaNet;
 /// <summary>
 /// Extension methods for strings.
 /// </summary>
-public static class ExtensionString
+public static class StringExtension
 {
-   private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(ExtensionString));
+   private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(StringExtension));
    private static readonly Random _rnd = new();
 
    /// <summary>

@@ -1,13 +1,12 @@
 using Microsoft.Extensions.Logging;
 using System.Numerics;
-using System;
 
 namespace BogaNet.Unit;
 
 /// <summary>
 /// Units for lengths.
 /// </summary>
-public enum UnitLength
+public enum LengthUnit
 {
    M,
    MM,
@@ -22,11 +21,11 @@ public enum UnitLength
 }
 
 /// <summary>
-/// Extension methods for UnitLength.
+/// Extension methods for LengthUnit.
 /// </summary>
-public static class ExtensionUnitLength
+public static class LengthUnitExtension
 {
-   private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(ExtensionUnitLength));
+   private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(LengthUnitExtension));
 
    public static bool IgnoreSameUnit = true;
 
@@ -45,85 +44,85 @@ public static class ExtensionUnitLength
    /// <summary>
    /// Converts a value from one unit to another.
    /// </summary>
-   /// <param name="fromUnit">Source unit</param>
-   /// <param name="toUnit">Target unit</param>
+   /// <param name="fromLengthUnit">Source unit</param>
+   /// <param name="toLengthUnit">Target unit</param>
    /// <param name="inVal">Value of the source unit</param>
    /// <returns>Value in the target unit</returns>
-   public static T Convert<T>(this UnitLength fromUnit, UnitLength toUnit, T inVal) where T : INumber<T>
+   public static T Convert<T>(this LengthUnit fromLengthUnit, LengthUnit toLengthUnit, T inVal) where T : INumber<T>
    {
-      if (IgnoreSameUnit && fromUnit == toUnit)
+      if (IgnoreSameUnit && fromLengthUnit == toLengthUnit)
          return inVal;
 
       decimal val = System.Convert.ToDecimal(inVal);
       decimal outVal = 0; // = inVal;
 
       //Convert to m
-      switch (fromUnit)
+      switch (fromLengthUnit)
       {
-         case UnitLength.M:
+         case LengthUnit.M:
             //val = inVal;
             break;
-         case UnitLength.MM:
+         case LengthUnit.MM:
             val = val / FACTOR_MM_TO_M;
             break;
-         case UnitLength.CM:
+         case LengthUnit.CM:
             val = val / FACTOR_CM_TO_M;
             break;
-         case UnitLength.KM:
+         case LengthUnit.KM:
             val = val * FACTOR_M_TO_KM;
             break;
-         case UnitLength.INCH:
+         case LengthUnit.INCH:
             val = val * FACTOR_INCH_TO_M;
             break;
-         case UnitLength.FOOT:
+         case LengthUnit.FOOT:
             val = val * FACTOR_FOOT_TO_M;
             break;
-         case UnitLength.YARD:
+         case LengthUnit.YARD:
             val = val * FACTOR_YARD_TO_M;
             break;
-         case UnitLength.MILE:
+         case LengthUnit.MILE:
             val = val * FACTOR_MILE_TO_M;
             break;
-         case UnitLength.NAUTICAL_MILE:
+         case LengthUnit.NAUTICAL_MILE:
             val = val * FACTOR_NAUTICAL_MILE_TO_M;
             break;
          default:
-            _logger.LogWarning($"There is no conversion for the fromUnit: {fromUnit}");
+            _logger.LogWarning($"There is no conversion for the fromUnit: {fromLengthUnit}");
             break;
       }
 
       //Convert from m
-      switch (toUnit)
+      switch (toLengthUnit)
       {
-         case UnitLength.M:
+         case LengthUnit.M:
             outVal = val;
             break;
-         case UnitLength.MM:
+         case LengthUnit.MM:
             outVal = val * FACTOR_MM_TO_M;
             break;
-         case UnitLength.CM:
+         case LengthUnit.CM:
             outVal = val * FACTOR_CM_TO_M;
             break;
-         case UnitLength.KM:
+         case LengthUnit.KM:
             outVal = val / FACTOR_M_TO_KM;
             break;
-         case UnitLength.INCH:
+         case LengthUnit.INCH:
             outVal = val / FACTOR_INCH_TO_M;
             break;
-         case UnitLength.FOOT:
+         case LengthUnit.FOOT:
             outVal = val / FACTOR_FOOT_TO_M;
             break;
-         case UnitLength.YARD:
+         case LengthUnit.YARD:
             outVal = val / FACTOR_YARD_TO_M;
             break;
-         case UnitLength.MILE:
+         case LengthUnit.MILE:
             outVal = val / FACTOR_MILE_TO_M;
             break;
-         case UnitLength.NAUTICAL_MILE:
+         case LengthUnit.NAUTICAL_MILE:
             outVal = val / FACTOR_NAUTICAL_MILE_TO_M;
             break;
          default:
-            _logger.LogWarning($"There is no conversion for the toUnit: {toUnit}");
+            _logger.LogWarning($"There is no conversion for the toUnit: {toLengthUnit}");
             break;
       }
 

@@ -1,13 +1,12 @@
 using Microsoft.Extensions.Logging;
 using System.Numerics;
-using System;
 
 namespace BogaNet.Unit;
 
 /// <summary>
 /// Units for volumes.
 /// </summary>
-public enum UnitVolume
+public enum VolumeUnit
 {
    LITER,
    MM3,
@@ -22,11 +21,11 @@ public enum UnitVolume
 }
 
 /// <summary>
-/// Extension methods for UnitVolume.
+/// Extension methods for VolumeUnit.
 /// </summary>
-public static class ExtensionUnitVolume
+public static class VolumeUnitExtension
 {
-   private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(ExtensionUnitVolume));
+   private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(VolumeUnitExtension));
 
    public static bool IgnoreSameUnit = true;
 
@@ -44,85 +43,85 @@ public static class ExtensionUnitVolume
    /// <summary>
    /// Converts a value from one unit to another.
    /// </summary>
-   /// <param name="fromUnit">Source unit</param>
-   /// <param name="toUnit">Target unit</param>
+   /// <param name="fromVolumeUnit">Source unit</param>
+   /// <param name="toVolumeUnit">Target unit</param>
    /// <param name="inVal">Value of the source unit</param>
    /// <returns>Value in the target unit</returns>
-   public static T Convert<T>(this UnitVolume fromUnit, UnitVolume toUnit, T inVal) where T : INumber<T>
+   public static T Convert<T>(this VolumeUnit fromVolumeUnit, VolumeUnit toVolumeUnit, T inVal) where T : INumber<T>
    {
-      if (IgnoreSameUnit && fromUnit == toUnit)
+      if (IgnoreSameUnit && fromVolumeUnit == toVolumeUnit)
          return inVal;
 
       decimal val = System.Convert.ToDecimal(inVal);
       decimal outVal = 0; // = inVal;
 
       //Convert to liter
-      switch (fromUnit)
+      switch (fromVolumeUnit)
       {
-         case UnitVolume.LITER:
+         case VolumeUnit.LITER:
             //val = inVal;
             break;
-         case UnitVolume.MM3:
+         case VolumeUnit.MM3:
             val = val / FACTOR_MM3_TO_L;
             break;
-         case UnitVolume.CM3:
+         case VolumeUnit.CM3:
             val = val / FACTOR_CM3_TO_L;
             break;
-         case UnitVolume.M3:
+         case VolumeUnit.M3:
             val = val * FACTOR_L_TO_M3;
             break;
-         case UnitVolume.INCH3:
+         case VolumeUnit.INCH3:
             val = val * FACTOR_INCH3_TO_L;
             break;
-         case UnitVolume.FOOT3:
+         case VolumeUnit.FOOT3:
             val = val * FACTOR_FOOT3_TO_L;
             break;
-         case UnitVolume.PINT:
+         case VolumeUnit.PINT:
             val = val * FACTOR_PINT_TO_L;
             break;
-         case UnitVolume.GALLON:
+         case VolumeUnit.GALLON:
             val = val * FACTOR_GALLON_US_TO_L;
             break;
-         case UnitVolume.BARREL:
+         case VolumeUnit.BARREL:
             val = val * FACTOR_BARREL_TO_L;
             break;
          default:
-            _logger.LogWarning($"There is no conversion for the fromUnit: {fromUnit}");
+            _logger.LogWarning($"There is no conversion for the fromUnit: {fromVolumeUnit}");
             break;
       }
 
       //Convert from m
-      switch (toUnit)
+      switch (toVolumeUnit)
       {
-         case UnitVolume.LITER:
+         case VolumeUnit.LITER:
             outVal = val;
             break;
-         case UnitVolume.MM3:
+         case VolumeUnit.MM3:
             outVal = val * FACTOR_MM3_TO_L;
             break;
-         case UnitVolume.CM3:
+         case VolumeUnit.CM3:
             outVal = val * FACTOR_CM3_TO_L;
             break;
-         case UnitVolume.M3:
+         case VolumeUnit.M3:
             outVal = val / FACTOR_L_TO_M3;
             break;
-         case UnitVolume.INCH3:
+         case VolumeUnit.INCH3:
             outVal = val / FACTOR_INCH3_TO_L;
             break;
-         case UnitVolume.FOOT3:
+         case VolumeUnit.FOOT3:
             outVal = val / FACTOR_FOOT3_TO_L;
             break;
-         case UnitVolume.PINT:
+         case VolumeUnit.PINT:
             outVal = val / FACTOR_PINT_TO_L;
             break;
-         case UnitVolume.GALLON:
+         case VolumeUnit.GALLON:
             outVal = val / FACTOR_GALLON_US_TO_L;
             break;
-         case UnitVolume.BARREL:
+         case VolumeUnit.BARREL:
             outVal = val / FACTOR_BARREL_TO_L;
             break;
          default:
-            _logger.LogWarning($"There is no conversion for the toUnit: {toUnit}");
+            _logger.LogWarning($"There is no conversion for the toUnit: {toVolumeUnit}");
             break;
       }
 
