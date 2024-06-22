@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System;
 using System.IO;
 
-namespace BogaNet.IO;
+namespace BogaNet.Helper;
 
 /// <summary>
 /// Helper-class for XML.

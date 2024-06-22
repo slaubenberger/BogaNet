@@ -1,5 +1,5 @@
 ﻿using System.Text.RegularExpressions;
-using BogaNet.Util;
+using BogaNet.Helper;
 
 namespace BogaNet;
 
@@ -219,7 +219,7 @@ public abstract class Constants
    #region Properties
 
    /// <summary>URL prefix for files.</summary>
-   public static string PREFIX_FILE => Helper.isWindows ? "file:///" : "file://";
+   public static string PREFIX_FILE => GeneralHelper.isWindows ? "file:///" : "file://";
 
    #endregion
 

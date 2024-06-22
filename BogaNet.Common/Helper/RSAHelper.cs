@@ -1,11 +1,11 @@
-using System;
-using System.Security.Cryptography;
 using Microsoft.Extensions.Logging;
 using System.Security.Cryptography.X509Certificates;
-using BogaNet.IO;
-using BogaNet.Util;
+using System;
+using System.Security.Cryptography;
+using System.Net;
+using System.Threading.Tasks;
 
-namespace BogaNet.Crypto;
+namespace BogaNet.Helper;
 
 /// <summary>
 /// Helper for RSA cryptography.
@@ -24,8 +24,8 @@ public abstract class RSAHelper
    public static X509Certificate2 GenerateSelfSignedCertificate(string certName, int keyLength = 2048, string oid = "1.2.840.10045.3.1.7")
    {
       SubjectAlternativeNameBuilder sanBuilder = new();
-      sanBuilder.AddIpAddress(System.Net.IPAddress.Loopback);
-      sanBuilder.AddIpAddress(System.Net.IPAddress.IPv6Loopback);
+      sanBuilder.AddIpAddress(IPAddress.Loopback);
+      sanBuilder.AddIpAddress(IPAddress.IPv6Loopback);
       sanBuilder.AddDnsName("localhost");
       sanBuilder.AddDnsName(Environment.MachineName);
 
@@ -151,9 +151,24 @@ public abstract class RSAHelper
    /// <param name="filename">Name of the file</param>
    /// <param name="cert">X509-certificate</param>
    /// <param name="password">Password for the file (optional, default: none)</param>
-   public static void WritePublicCertificateToFile(string filename, X509Certificate2 cert, string password = "")
+   /// <returns>True if the operation was successful</returns>
+   /// <exception cref="Exception"></exception>
+   public static bool WritePublicCertificateToFile(string filename, X509Certificate2 cert, string password = "")
    {
-      FileHelper.WriteAllBytes(filename, GetPublicCertificate(cert, password));
+      return Task.Run(() => WritePublicCertificateToFileAsync(filename, cert, password)).GetAwaiter().GetResult();
+   }
+
+   /// <summary>
+   /// Writes the public key as X509-certificate to a file asynchronously.
+   /// </summary>
+   /// <param name="filename">Name of the file</param>
+   /// <param name="cert">X509-certificate</param>
+   /// <param name="password">Password for the file (optional, default: none)</param>
+   /// <returns>True if the operation was successful</returns>
+   /// <exception cref="Exception"></exception>
+   public static async Task<bool> WritePublicCertificateToFileAsync(string filename, X509Certificate2 cert, string password = "")
+   {
+      return await FileHelper.WriteAllBytesAsync(filename, GetPublicCertificate(cert, password));
    }
 
    /// <summary>
@@ -163,9 +178,25 @@ public abstract class RSAHelper
    /// <param name="filename">Name of the file for the certificate</param>
    /// <param name="cert">X509-certificate</param>
    /// <param name="password">Password for the file</param>
-   public static void WritePrivateCertificateToFile(string filename, X509Certificate2 cert, string password)
+   /// <returns>True if the operation was successful</returns>
+   /// <exception cref="Exception"></exception>
+   public static bool WritePrivateCertificateToFile(string filename, X509Certificate2 cert, string password)
    {
-      FileHelper.WriteAllBytes(filename, GetPrivateCertificate(cert, password));
+      return Task.Run(() => WritePrivateCertificateToFileAsync(filename, cert, password)).GetAwaiter().GetResult();
+   }
+
+   /// <summary>
+   /// Writes the private and public key as X509-certificate to a file asynchronously.
+   /// NOTE: never share this file with people outside of your organisation!
+   /// </summary>
+   /// <param name="filename">Name of the file for the certificate</param>
+   /// <param name="cert">X509-certificate</param>
+   /// <param name="password">Password for the file</param>
+   /// <returns>True if the operation was successful</returns>
+   /// <exception cref="Exception"></exception>
+   public static async Task<bool> WritePrivateCertificateToFileAsync(string filename, X509Certificate2 cert, string password)
+   {
+      return await FileHelper.WriteAllBytesAsync(filename, GetPrivateCertificate(cert, password));
    }
 
    /// <summary>
@@ -174,12 +205,24 @@ public abstract class RSAHelper
    /// <param name="filename">Name of the file with the certificate</param>
    /// <param name="password">Password for the file</param>
    /// <returns>X509-certificate</returns>
-   /// <exception cref="ArgumentNullException"></exception>
+   /// <exception cref="Exception"></exception>
    public static X509Certificate2 ReadCertificateFromFile(string filename, string password = "")
    {
-      return GetCertificate(FileHelper.ReadAllBytes(filename), password);
+      return Task.Run(() => ReadCertificateFromFileAsync(filename, password)).GetAwaiter().GetResult();
    }
 
+   /// <summary>
+   /// Reads a X509-certificate from a file asynchronously.
+   /// </summary>
+   /// <param name="filename">Name of the file with the certificate</param>
+   /// <param name="password">Password for the file</param>
+   /// <returns>X509-certificate</returns>
+   /// <exception cref="Exception"></exception>
+   public static async Task<X509Certificate2> ReadCertificateFromFileAsync(string filename, string password = "")
+   {
+      return GetCertificate(await FileHelper.ReadAllBytesAsync(filename), password);
+   }
+   
    /// <summary>
    /// Encrypts a byte-array with a X509-certificate.
    /// </summary>
@@ -197,12 +240,12 @@ public abstract class RSAHelper
 
       try
       {
-         using RSA? publicKey = cert.GetRSAPublicKey();
+         using RSA? publicKey = RSACertificateExtensions.GetRSAPublicKey(cert);
          return publicKey?.Encrypt(dataToEncrypt, padding ?? RSAEncryptionPadding.OaepSHA256);
       }
       catch (CryptographicException ex)
       {
-         _logger.LogError(ex, "Encrypt failed!");
+         LoggerExtensions.LogError(_logger, ex, "Encrypt failed!");
          throw;
       }
    }
@@ -225,12 +268,12 @@ public abstract class RSAHelper
 
       try
       {
-         using RSA? privateKey = cert.GetRSAPrivateKey();
+         using RSA? privateKey = RSACertificateExtensions.GetRSAPrivateKey(cert);
          return privateKey?.Decrypt(dataToDecrypt, padding ?? RSAEncryptionPadding.OaepSHA256);
       }
       catch (Exception ex)
       {
-         _logger.LogError(ex, "Decrypt failed!");
+         LoggerExtensions.LogError(_logger, ex, "Decrypt failed!");
          throw;
       }
    }
@@ -271,9 +314,9 @@ public abstract class RSAHelper
             int startFileName = inFile.LastIndexOf("\\") + 1;
             // Change the file's extension to ".enc"
             string outFile = encrFolder + inFile.Substring(startFileName, inFile.LastIndexOf(".") - startFileName) + ".enc";
-            System.IO.Directory.CreateDirectory(encrFolder);
+            IO.Directory.CreateDirectory(encrFolder);
 
-            using (System.IO.FileStream outFs = new System.IO.FileStream(outFile, System.IO.FileMode.Create))
+            using (IO.FileStream outFs = new IO.FileStream(outFile, IO.FileMode.Create))
             {
                outFs.Write(LenK, 0, 4);
                outFs.Write(LenIV, 0, 4);
@@ -294,7 +337,7 @@ public abstract class RSAHelper
                   byte[] data = new byte[blockSizeBytes];
                   int bytesRead = 0;
 
-                  using (System.IO.FileStream inFs = new System.IO.FileStream(inFile, System.IO.FileMode.Open))
+                  using (IO.FileStream inFs = new IO.FileStream(inFile, IO.FileMode.Open))
                   {
                      do
                      {
@@ -339,12 +382,12 @@ public abstract class RSAHelper
 
          // Use FileStream objects to read the encrypted
          // file (inFs) and save the decrypted file (outFs).
-         using (System.IO.FileStream inFs = new System.IO.FileStream(encrFolder + inFile, System.IO.FileMode.Open))
+         using (IO.FileStream inFs = new IO.FileStream(encrFolder + inFile, IO.FileMode.Open))
          {
-            inFs.Seek(0, System.IO.SeekOrigin.Begin);
-            inFs.Seek(0, System.IO.SeekOrigin.Begin);
+            inFs.Seek(0, IO.SeekOrigin.Begin);
+            inFs.Seek(0, IO.SeekOrigin.Begin);
             inFs.Read(LenK, 0, 3);
-            inFs.Seek(4, System.IO.SeekOrigin.Begin);
+            inFs.Seek(4, IO.SeekOrigin.Begin);
             inFs.Read(LenIV, 0, 3);
 
             // Convert the lengths to integer values.
@@ -366,11 +409,11 @@ public abstract class RSAHelper
             // Extract the key and IV
             // starting from index 8
             // after the length values.
-            inFs.Seek(8, System.IO.SeekOrigin.Begin);
+            inFs.Seek(8, IO.SeekOrigin.Begin);
             inFs.Read(KeyEncrypted, 0, lenK);
-            inFs.Seek(8 + lenK, System.IO.SeekOrigin.Begin);
+            inFs.Seek(8 + lenK, IO.SeekOrigin.Begin);
             inFs.Read(IV, 0, lenIV);
-            System.IO.Directory.CreateDirectory(decrFolder);
+            IO.Directory.CreateDirectory(decrFolder);
             // Use RSA
             // to decrypt the Aes key.
             byte[] KeyDecrypted = rsaPrivateKey.Decrypt(KeyEncrypted, RSAEncryptionPadding.Pkcs1);
@@ -382,7 +425,7 @@ public abstract class RSAHelper
                // from the FileSteam of the encrypted
                // file (inFs) into the FileStream
                // for the decrypted file (outFs).
-               using (System.IO.FileStream outFs = new System.IO.FileStream(outFile, System.IO.FileMode.Create))
+               using (IO.FileStream outFs = new IO.FileStream(outFile, IO.FileMode.Create))
                {
                   int count = 0;
 
@@ -395,7 +438,7 @@ public abstract class RSAHelper
 
                   // Start at the beginning
                   // of the cipher text.
-                  inFs.Seek(startC, System.IO.SeekOrigin.Begin);
+                  inFs.Seek(startC, IO.SeekOrigin.Begin);
                   using (CryptoStream outStreamDecrypted = new CryptoStream(outFs, transform, CryptoStreamMode.Write))
                   {
                      do

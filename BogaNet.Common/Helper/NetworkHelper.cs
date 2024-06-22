@@ -13,7 +13,7 @@ using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using BogaNet.Util;
 
-namespace BogaNet.IO;
+namespace BogaNet.Helper;
 
 /// <summary>
 /// Various helper functions for networking.
@@ -407,7 +407,7 @@ public abstract class NetworkHelper
       bool available = false;
 
       // Microsoft check
-      if (!BogaNet.Util.Helper.isIOS)
+      if (!GeneralHelper.isIOS)
       {
          available = await checkAsync(microsoftUrl, microsoftText, microsoftEquals, windowsDesc);
 
@@ -415,7 +415,7 @@ public abstract class NetworkHelper
       }
 
       // Apple check
-      if (!available && (!BogaNet.Util.Helper.isIOS || !BogaNet.Util.Helper.isOSX))
+      if (!available && (!GeneralHelper.isIOS || !GeneralHelper.isOSX))
       {
          available = await checkAsync(appleUrl, appleText, appleEquals, appleDesc);
 
@@ -611,7 +611,7 @@ public class NetworkAdapter
          result.Append(", ");
 
          result.Append("Speed: ");
-         result.Append(Helper.FormatBitrateToHRF(Speed));
+         result.Append(GeneralHelper.FormatBitrateToHRF(Speed));
          result.Append(", ");
       }
 

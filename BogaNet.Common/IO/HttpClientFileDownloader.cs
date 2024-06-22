@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System;
 using System.IO;
 using System.Net.Http;
+using BogaNet.Helper;
 
 namespace BogaNet.IO;
 

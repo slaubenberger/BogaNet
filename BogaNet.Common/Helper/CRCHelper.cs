@@ -1,6 +1,7 @@
 using Enumerable = System.Linq.Enumerable;
+using System.IO.Hashing;
 
-namespace BogaNet.Crypto;
+namespace BogaNet.Helper;
 
 /// <summary>
 /// Helper for CRC checks.
@@ -104,7 +105,7 @@ public abstract class CRCHelper
    /// <returns>CRC32</returns>
    public static uint CRC32(byte[] bytes)
    {
-      System.IO.Hashing.Crc32 crc32 = new();
+      Crc32 crc32 = new();
 
       crc32.Append(bytes);
 
@@ -118,7 +119,7 @@ public abstract class CRCHelper
    /// <returns>CRC64</returns>
    public static ulong CRC64(byte[] bytes)
    {
-      System.IO.Hashing.Crc64 crc64 = new();
+      Crc64 crc64 = new();
 
       crc64.Append(bytes);
 

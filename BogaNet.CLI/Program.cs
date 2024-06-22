@@ -4,7 +4,7 @@ using BogaNet.Crypto;
 using BogaNet.Unit;
 using System.Globalization;
 using BogaNet.i18n;
-using BogaNet.IO;
+using BogaNet.Helper;
 using System.Security.Cryptography.X509Certificates;
 using BogaNet.Util;
 using BogaNet.Crypto.ObfuscatedType;
@@ -133,36 +133,36 @@ public static class Program
    {
       bool useSI = true;
 
-      _logger.LogInformation(Helper.FormatBitrateToHRF(1000, useSI));
-      _logger.LogInformation(Helper.FormatBitrateToHRF((long)Math.Pow(1000, 2), useSI));
-      _logger.LogInformation(Helper.FormatBitrateToHRF((long)Math.Pow(1000, 3), useSI));
-      _logger.LogInformation(Helper.FormatBitrateToHRF((long)Math.Pow(1000, 4), useSI));
-      _logger.LogInformation(Helper.FormatBitrateToHRF((long)Math.Pow(1000, 5), useSI));
-      _logger.LogInformation(Helper.FormatBitrateToHRF((long)Math.Pow(1000, 6), useSI));
-      _logger.LogInformation(Helper.FormatBitrateToHRF(1024, useSI));
-      _logger.LogInformation(Helper.FormatBitrateToHRF((long)Math.Pow(1024, 2), useSI));
-      _logger.LogInformation(Helper.FormatBitrateToHRF((long)Math.Pow(1024, 3), useSI));
-      _logger.LogInformation(Helper.FormatBitrateToHRF((long)Math.Pow(1024, 4), useSI));
-      _logger.LogInformation(Helper.FormatBitrateToHRF((long)Math.Pow(1024, 5), useSI));
-      _logger.LogInformation(Helper.FormatBitrateToHRF((long)Math.Pow(1024, 6), useSI));
+      _logger.LogInformation(GeneralHelper.FormatBitrateToHRF(1000, useSI));
+      _logger.LogInformation(GeneralHelper.FormatBitrateToHRF((long)Math.Pow(1000, 2), useSI));
+      _logger.LogInformation(GeneralHelper.FormatBitrateToHRF((long)Math.Pow(1000, 3), useSI));
+      _logger.LogInformation(GeneralHelper.FormatBitrateToHRF((long)Math.Pow(1000, 4), useSI));
+      _logger.LogInformation(GeneralHelper.FormatBitrateToHRF((long)Math.Pow(1000, 5), useSI));
+      _logger.LogInformation(GeneralHelper.FormatBitrateToHRF((long)Math.Pow(1000, 6), useSI));
+      _logger.LogInformation(GeneralHelper.FormatBitrateToHRF(1024, useSI));
+      _logger.LogInformation(GeneralHelper.FormatBitrateToHRF((long)Math.Pow(1024, 2), useSI));
+      _logger.LogInformation(GeneralHelper.FormatBitrateToHRF((long)Math.Pow(1024, 3), useSI));
+      _logger.LogInformation(GeneralHelper.FormatBitrateToHRF((long)Math.Pow(1024, 4), useSI));
+      _logger.LogInformation(GeneralHelper.FormatBitrateToHRF((long)Math.Pow(1024, 5), useSI));
+      _logger.LogInformation(GeneralHelper.FormatBitrateToHRF((long)Math.Pow(1024, 6), useSI));
    }
 
    private static void testBytesHRF()
    {
       bool useSI = true;
 
-      _logger.LogInformation(Helper.FormatBytesToHRF(1000, useSI));
-      _logger.LogInformation(Helper.FormatBytesToHRF((long)Math.Pow(1000, 2), useSI));
-      _logger.LogInformation(Helper.FormatBytesToHRF((long)Math.Pow(1000, 3), useSI));
-      _logger.LogInformation(Helper.FormatBytesToHRF((long)Math.Pow(1000, 4), useSI));
-      _logger.LogInformation(Helper.FormatBytesToHRF((long)Math.Pow(1000, 5), useSI));
-      _logger.LogInformation(Helper.FormatBytesToHRF((long)Math.Pow(1000, 6), useSI));
-      _logger.LogInformation(Helper.FormatBytesToHRF(1024, useSI));
-      _logger.LogInformation(Helper.FormatBytesToHRF((long)Math.Pow(1024, 2), useSI));
-      _logger.LogInformation(Helper.FormatBytesToHRF((long)Math.Pow(1024, 3), useSI));
-      _logger.LogInformation(Helper.FormatBytesToHRF((long)Math.Pow(1024, 4), useSI));
-      _logger.LogInformation(Helper.FormatBytesToHRF((long)Math.Pow(1024, 5), useSI));
-      _logger.LogInformation(Helper.FormatBytesToHRF((long)Math.Pow(1024, 6), useSI));
+      _logger.LogInformation(GeneralHelper.FormatBytesToHRF(1000, useSI));
+      _logger.LogInformation(GeneralHelper.FormatBytesToHRF((long)Math.Pow(1000, 2), useSI));
+      _logger.LogInformation(GeneralHelper.FormatBytesToHRF((long)Math.Pow(1000, 3), useSI));
+      _logger.LogInformation(GeneralHelper.FormatBytesToHRF((long)Math.Pow(1000, 4), useSI));
+      _logger.LogInformation(GeneralHelper.FormatBytesToHRF((long)Math.Pow(1000, 5), useSI));
+      _logger.LogInformation(GeneralHelper.FormatBytesToHRF((long)Math.Pow(1000, 6), useSI));
+      _logger.LogInformation(GeneralHelper.FormatBytesToHRF(1024, useSI));
+      _logger.LogInformation(GeneralHelper.FormatBytesToHRF((long)Math.Pow(1024, 2), useSI));
+      _logger.LogInformation(GeneralHelper.FormatBytesToHRF((long)Math.Pow(1024, 3), useSI));
+      _logger.LogInformation(GeneralHelper.FormatBytesToHRF((long)Math.Pow(1024, 4), useSI));
+      _logger.LogInformation(GeneralHelper.FormatBytesToHRF((long)Math.Pow(1024, 5), useSI));
+      _logger.LogInformation(GeneralHelper.FormatBytesToHRF((long)Math.Pow(1024, 6), useSI));
    }
 
    private static void testDrive() //yay, what a game :-)

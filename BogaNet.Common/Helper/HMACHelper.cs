@@ -1,9 +1,8 @@
-using System.Security.Cryptography;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Linq;
+using System.Security.Cryptography;
 
-namespace BogaNet.Crypto;
+namespace BogaNet.Helper;
 
 /// <summary>
 /// Helper for HMAC cryptography.
@@ -46,7 +45,7 @@ public abstract class HMACHelper
       }
       catch (Exception ex)
       {
-         _logger.LogError(ex, "Compute of HMAC failed!");
+         LoggerExtensions.LogError(_logger, ex, "Compute of HMAC failed!");
          throw;
       }
    }
@@ -72,7 +71,7 @@ public abstract class HMACHelper
       }
       catch (Exception ex)
       {
-         _logger.LogError(ex, "Compute of HMAC failed!");
+         LoggerExtensions.LogError(_logger, ex, "Compute of HMAC failed!");
          throw;
       }
    }
@@ -98,7 +97,7 @@ public abstract class HMACHelper
       }
       catch (Exception ex)
       {
-         _logger.LogError(ex, "Compute of HMAC failed!");
+         LoggerExtensions.LogError(_logger, ex, "Compute of HMAC failed!");
          throw;
       }
    }

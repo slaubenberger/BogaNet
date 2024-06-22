@@ -8,7 +8,7 @@ using System;
 using System.Linq;
 using System.IO;
 
-namespace BogaNet.IO;
+namespace BogaNet.Helper;
 
 /// <summary>
 /// Various helper functions for filesystem operations.
@@ -1574,12 +1574,12 @@ public abstract class FileHelper
             using Process process = new();
             process.StartInfo.Arguments = $"\"{path}\"";
 
-            if (Helper.isWindows)
+            if (GeneralHelper.isWindows)
             {
                process.StartInfo.FileName = "explorer.exe";
                process.StartInfo.CreateNoWindow = true;
             }
-            else if (Helper.isOSX)
+            else if (GeneralHelper.isOSX)
             {
                process.StartInfo.FileName = "open";
             }
@@ -1624,12 +1624,12 @@ public abstract class FileHelper
          {
             using (Process process = new())
             {
-               if (Helper.isWindows)
+               if (GeneralHelper.isWindows)
                {
                   process.StartInfo.FileName = "explorer";
                   process.StartInfo.Arguments = $"\"{file}\"";
                }
-               else if (Helper.isOSX)
+               else if (GeneralHelper.isOSX)
                {
                   process.StartInfo.FileName = "open";
                   process.StartInfo.WorkingDirectory = GetDirectoryName(file) + Constants.PATH_DELIMITER_UNIX;

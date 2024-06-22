@@ -1,4 +1,4 @@
-﻿using BogaNet.Crypto;
+﻿using BogaNet.Helper;
 
 namespace BogaNet.Test;
 

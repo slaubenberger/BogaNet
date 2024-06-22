@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 using Microsoft.Extensions.Logging;
-using BogaNet.IO;
+using BogaNet.Helper;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.Generic;
@@ -19,7 +19,7 @@ public class Localizer : Singleton<Localizer>, ILocalizer
 
    private static readonly ILogger<Localizer> _logger = GlobalLogging.CreateLogger<Localizer>();
 
-   protected CultureInfo _culture = BogaNet.Util.Helper.CurrentCulture;
+   protected CultureInfo _culture = GeneralHelper.CurrentCulture;
    protected const char _separator = ',';
    protected readonly List<CultureInfo> _cultures = new();
    protected readonly Dictionary<string, Dictionary<string, string>> _messages = new();

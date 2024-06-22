@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 using BogaNet.Util;
-using BogaNet.IO;
+using BogaNet.Helper;
 
 namespace BogaNet;
 

@@ -1,11 +1,10 @@
-﻿using System.Security.Cryptography;
-using BogaNet.IO;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using System;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.IO;
 
-namespace BogaNet.Crypto;
+namespace BogaNet.Helper;
 
 /// <summary>
 /// Helper for AES cryptography.
@@ -135,7 +134,7 @@ public abstract class AESHelper
       }
       catch (Exception ex)
       {
-         _logger.LogError(ex, "Encrypt failed!");
+         LoggerExtensions.LogError(_logger, ex, "Encrypt failed!");
          throw;
       }
    }
@@ -182,7 +181,7 @@ public abstract class AESHelper
       }
       catch (Exception ex)
       {
-         _logger.LogError(ex, "Decrypt failed!");
+         LoggerExtensions.LogError(_logger, ex, "Decrypt failed!");
          throw;
       }
    }

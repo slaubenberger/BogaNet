@@ -6,12 +6,12 @@ using System.Numerics;
 using System;
 using System.Linq;
 
-namespace BogaNet.Util;
+namespace BogaNet.Helper;
 
 /// <summary>
 /// Various helper functions of very general utility.
 /// </summary>
-public abstract class Helper
+public abstract class GeneralHelper
 {
    #region Variables
 

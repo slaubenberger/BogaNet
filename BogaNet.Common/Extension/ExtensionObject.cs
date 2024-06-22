@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 using System.Reflection;
-using BogaNet.IO;
+using BogaNet.Helper;
 
 namespace BogaNet;
 

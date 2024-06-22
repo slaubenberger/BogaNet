@@ -1,8 +1,6 @@
-﻿using System.Security.Cryptography;
+﻿using LoggerExtensions = Microsoft.Extensions.Logging.LoggerExtensions;
 using Microsoft.Extensions.Logging;
-using System;
-
-namespace BogaNet.Crypto;
+namespace BogaNet.Helper;
 
 /// <summary>
 /// Helper for hash computations.
@@ -17,19 +15,19 @@ public abstract class HashHelper
    /// <param name="input">Data as byte-array</param>
    /// <param name="algo">Hash-algorithm</param>
    /// <returns>Hash-value as byte-array</returns>
-   /// <exception cref="Exception"></exception>
-   public static byte[] Hash(byte[]? input, HashAlgorithm? algo)
+   /// <exception cref="System.Exception"></exception>
+   public static byte[] Hash(byte[]? input, System.Security.Cryptography.HashAlgorithm? algo)
    {
       if (input == null || input.Length <= 0)
-         throw new ArgumentNullException(nameof(input));
+         throw new System.ArgumentNullException(nameof(input));
 
       try
       {
          return algo?.ComputeHash(input, 0, input.Length) ?? [];
       }
-      catch (Exception ex)
+      catch (System.Exception ex)
       {
-         _logger.LogError(ex, "Compute of hash failed!");
+         LoggerExtensions.LogError(_logger, ex, "Compute of hash failed!");
          throw;
       }
    }
@@ -39,10 +37,10 @@ public abstract class HashHelper
    /// </summary>
    /// <param name="input">Data as byte-array</param>
    /// <returns>SHA256-value as byte-array</returns>
-   /// <exception cref="Exception"></exception>
+   /// <exception cref="System.Exception"></exception>
    public static byte[] SHA256(byte[]? input)
    {
-      using SHA256 sha256 = System.Security.Cryptography.SHA256.Create();
+      using System.Security.Cryptography.SHA256 sha256 = System.Security.Cryptography.SHA256.Create();
       return Hash(input, sha256);
    }
 
@@ -51,10 +49,10 @@ public abstract class HashHelper
    /// </summary>
    /// <param name="input">Data as byte-array</param>
    /// <returns>SHA384-value as byte-array</returns>
-   /// <exception cref="Exception"></exception>
+   /// <exception cref="System.Exception"></exception>
    public static byte[] SHA384(byte[]? input)
    {
-      using SHA384 sha384 = System.Security.Cryptography.SHA384.Create();
+      using System.Security.Cryptography.SHA384 sha384 = System.Security.Cryptography.SHA384.Create();
       return Hash(input, sha384);
    }
 
@@ -63,10 +61,10 @@ public abstract class HashHelper
    /// </summary>
    /// <param name="input">Data as byte-array</param>
    /// <returns>SHA512-value as byte-array</returns>
-   /// <exception cref="Exception"></exception>
+   /// <exception cref="System.Exception"></exception>
    public static byte[] SHA512(byte[]? input)
    {
-      using SHA512 sha512 = System.Security.Cryptography.SHA512.Create();
+      using System.Security.Cryptography.SHA512 sha512 = System.Security.Cryptography.SHA512.Create();
       return Hash(input, sha512);
    }
 }
