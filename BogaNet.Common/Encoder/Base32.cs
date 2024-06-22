@@ -1,13 +1,16 @@
 using System;
 using Enumerable = System.Linq.Enumerable;
+using System.Text;
 
-namespace BogaNet.Util;
+namespace BogaNet.Encoder;
 
 /// <summary>
 /// Base32 encoder class.
 /// </summary>
 public static class Base32
 {
+   #region Public methods
+
    /// <summary>
    /// Converts a Base32-string to a byte-array.
    /// </summary>
@@ -96,6 +99,43 @@ public static class Base32
       return new string(returnArray);
    }
 
+   /// <summary>
+   /// Converts the value of a string to a Base32-string.
+   /// </summary>
+   /// <param name="str">Input string</param>
+   /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
+   /// <returns>String value as converted Base32-string</returns>
+   public static string? StringToBase32String(string? str, Encoding? encoding = null)
+   {
+      if (str == null)
+         return null;
+
+      Encoding _encoding = encoding ?? Encoding.UTF8;
+
+      return ToBase32String(_encoding.GetBytes(str));
+   }
+
+   /// <summary>
+   /// Converts the value of a Base32-string to a string.
+   /// </summary>
+   /// <param name="str">Input Base32-string</param>
+   /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
+   /// <returns>Base32-string value as converted string</returns>
+   public static string? StringFromBase32String(this string? str, Encoding? encoding = null)
+   {
+      if (str == null)
+         return null;
+
+      Encoding _encoding = encoding ?? Encoding.UTF8;
+
+      byte[]? base32 = FromBase32String(str);
+      return base32 == null ? null : _encoding.GetString(base32);
+   }
+
+   #endregion
+
+   #region Private methods
+
    private static int charToValue(char c)
    {
       int value = c;
@@ -122,4 +162,6 @@ public static class Base32
 
       throw new ArgumentException("Byte is not a Base32 value.", "b");
    }
+
+   #endregion
 }

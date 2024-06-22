@@ -8,6 +8,7 @@ using BogaNet.Helper;
 using System.Security.Cryptography.X509Certificates;
 using BogaNet.Util;
 using BogaNet.Crypto.ObfuscatedType;
+using BogaNet.Encoder;
 
 namespace BogaNet.CLI;
 
@@ -61,14 +62,14 @@ public static class Program
    {
       string test = "Grüezi wohl!";
 
-      string base64 = StringHelper.StringToBase64String(test);
-      string base32 = StringHelper.StringToBase32String(test);
+      string base64 = Base64.StringToBase64String(test);
+      string base32 = Base32.StringToBase32String(test);
 
       _logger.LogInformation($"Base64: {base64} - {base64.Length}");
       _logger.LogInformation($"Base32: {base32} - {base32.Length}");
 
-      string fromBase64 = StringHelper.StringFromBase64String(base64);
-      string fromBase32 = StringHelper.StringFromBase32String(base32);
+      string fromBase64 = Base64.StringFromBase64String(base64);
+      string fromBase32 = Base32.StringFromBase32String(base32);
 
       _logger.LogInformation($"FromBase64: {fromBase64} - {fromBase64.Equals(test)}");
       _logger.LogInformation($"FromBase32: {fromBase32} - {fromBase32.Equals(test)}");

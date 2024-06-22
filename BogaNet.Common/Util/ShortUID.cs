@@ -1,6 +1,7 @@
 using System.Text;
 using System;
 using BogaNet.Helper;
+using BogaNet.Encoder;
 
 namespace BogaNet.Util;
 
@@ -72,7 +73,7 @@ public class ShortUID
    public Guid ToGuid()
    {
       string guidText = Code.Replace("_", "/").Replace("-", "+") + "==";
-      Guid guid = new(StringHelper.ByteArrayFromBase64String(guidText) ?? Array.Empty<byte>());
+      Guid guid = new(Base64.FromBase64String(guidText) ?? Array.Empty<byte>());
 
       return guid;
    }
@@ -116,7 +117,7 @@ public static class ExtensionGuid
    /// <returns>ShortUID-instance</returns>
    public static ShortUID BNToShortUID(this Guid uid)
    {
-      string? guid = ArrayHelper.ByteArrayToBase64String(uid.ToByteArray());
+      string? guid = Base64.ToBase64String(uid.ToByteArray());
       return new ShortUID(guid?.Substring(0, guid.Length - 2).Replace("/", "_").Replace("+", "-") ?? string.Empty);
    }
 }

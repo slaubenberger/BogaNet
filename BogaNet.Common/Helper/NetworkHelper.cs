@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Text;
+using BogaNet.Encoder;
 
 namespace BogaNet.Helper;
 
@@ -38,7 +39,7 @@ public abstract class NetworkHelper
    {
       return new AuthenticationHeaderValue(
          "Basic",
-         ArrayHelper.ByteArrayToBase64String(Encoding.ASCII.GetBytes($"{username}:{password}"))
+         Base64.ToBase64String(Encoding.ASCII.GetBytes($"{username}:{password}"))
       );
    }
 

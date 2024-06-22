@@ -76,26 +76,6 @@ public static class ArrayHelper
    }
 
    /// <summary>
-   /// Converts a byte-array to a Base64-string.
-   /// </summary>
-   /// <param name="data">Input as byte-array</param>
-   /// <returns>Base64-string from the byte-array</returns>
-   public static string? ByteArrayToBase64String(byte[]? data)
-   {
-      return data == null ? null : Convert.ToBase64String(data);
-   }
-
-   /// <summary>
-   /// Converts a byte-array to a Base32-string.
-   /// </summary>
-   /// <param name="data">Input as byte-array</param>
-   /// <returns>Base32-string from the byte-array</returns>
-   public static string? ByteArrayToBase32String(byte[]? data)
-   {
-      return data == null ? null : Base32.ToBase32String(data);
-   }
-
-   /// <summary>
    /// Returns the column of a 2D-array as array.
    /// </summary>
    /// <param name="matrix">Input as 2D-array</param>

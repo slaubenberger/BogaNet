@@ -74,30 +74,6 @@ public static class StringHelper
    }
 
    /// <summary>
-   /// Replaces new lines with a replacement string pattern.
-   /// </summary>
-   /// <param name="str">String-instance</param>
-   /// <param name="replacement">Replacement string pattern (optional, default: "#nl#")</param>
-   /// <param name="newLine">New line string (optional, default: Environment.NewLine)</param>
-   /// <returns>Replaced string without new lines</returns>
-   public static string? RemoveNewLines(string? str, string? replacement = "#nl#", string? newLine = null)
-   {
-      return str?.Replace(string.IsNullOrEmpty(newLine) ? Environment.NewLine : newLine, replacement);
-   }
-
-   /// <summary>
-   /// Replaces a given string pattern with new lines in a string.
-   /// </summary>
-   /// <param name="str">String-instance</param>
-   /// <param name="replacement">Replacement string pattern (optional, default: "#nl#")</param>
-   /// <param name="newLine">New line string (optional, default: Environment.NewLine)</param>
-   /// <returns>Replaced string with new lines</returns>
-   public static string? AddNewLines(string? str, string? replacement = "#nl#", string? newLine = null)
-   {
-      return str?.BNReplace(replacement, string.IsNullOrEmpty(newLine) ? Environment.NewLine : newLine);
-   }
-
-   /// <summary>
    /// Checks if the string is numeric.
    /// </summary>
    /// <param name="str">String-instance</param>
@@ -169,105 +145,7 @@ public static class StringHelper
    {
       return str != null && Constants.REGEX_LINEENDINGS.IsMatch(str);
    }
-/*
-   /// <summary>
-   /// Checks if the string has invalid characters.
-   /// </summary>
-   /// <param name="str">String-instance</param>
-   /// <returns>True if the string has invalid characters</returns>
-   public static bool HasInvalidChars(string? str) //TODO what kind of chars?
-   {
-      return str != null && Constants.REGEX_INVALID_CHARS.IsMatch(str);
-   }
-*/
-
-   /// <summary>
-   /// Converts the value of a string to a Base64-string.
-   /// </summary>
-   /// <param name="str">Input string</param>
-   /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
-   /// <returns>String value as converted Base64-string</returns>
-   public static string? StringToBase64String(string? str, Encoding? encoding = null)
-   {
-      if (str == null)
-         return null;
-
-      Encoding _encoding = encoding ?? Encoding.UTF8;
-
-      return ArrayHelper.ByteArrayToBase64String(_encoding.GetBytes(str));
-   }
-
-   /// <summary>
-   /// Converts the value of a Base64-string to a string.
-   /// </summary>
-   /// <param name="str">Input Base64-string</param>
-   /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
-   /// <returns>Base64-string value as converted string</returns>
-   public static string? StringFromBase64String(this string? str, Encoding? encoding = null)
-   {
-      if (str == null)
-         return null;
-
-      Encoding _encoding = encoding ?? Encoding.UTF8;
-
-      byte[]? base64 = ByteArrayFromBase64String(str);
-      return base64 == null ? null : _encoding.GetString(base64);
-   }
-
-   /// <summary>
-   /// Converts the value of a Base64-string to a byte-array.
-   /// </summary>
-   /// <param name="str">Input Base64-string</param>
-   /// <returns>Base64-Byte-array from the Base64-string</returns>
-   public static byte[]? ByteArrayFromBase64String(string? str)
-   {
-      return str == null ? null : Convert.FromBase64String(str);
-   }
-
-
-   /// <summary>
-   /// Converts the value of a string to a Base32-string.
-   /// </summary>
-   /// <param name="str">Input string</param>
-   /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
-   /// <returns>String value as converted Base32-string</returns>
-   public static string? StringToBase32String(string? str, Encoding? encoding = null)
-   {
-      if (str == null)
-         return null;
-
-      Encoding _encoding = encoding ?? Encoding.UTF8;
-
-      return ArrayHelper.ByteArrayToBase32String(_encoding.GetBytes(str));
-   }
-
-   /// <summary>
-   /// Converts the value of a Base32-string to a string.
-   /// </summary>
-   /// <param name="str">Input Base32-string</param>
-   /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
-   /// <returns>Base32-string value as converted string</returns>
-   public static string? StringFromBase32String(this string? str, Encoding? encoding = null)
-   {
-      if (str == null)
-         return null;
-
-      Encoding _encoding = encoding ?? Encoding.UTF8;
-
-      byte[]? base32 = ByteArrayFromBase32String(str);
-      return base32 == null ? null : _encoding.GetString(base32);
-   }
-
-   /// <summary>
-   /// Converts the value of a Base32-string to a byte-array.
-   /// </summary>
-   /// <param name="str">Input Base32-string</param>
-   /// <returns>Base32-Byte-array from the Base32-string</returns>
-   public static byte[]? ByteArrayFromBase32String(string? str)
-   {
-      return str == null ? null : Base32.FromBase32String(str);
-   }
-
+   
    /// <summary>
    /// Cleans a given text from tags.
    /// </summary>
@@ -297,6 +175,42 @@ public static class StringHelper
    {
       return str != null ? Constants.REGEX_LINEENDINGS.Replace(str, string.Empty).Trim() : null;
    }
+   /*
+   /// <summary>
+   /// Replaces new lines with a replacement string pattern.
+   /// </summary>
+   /// <param name="str">String-instance</param>
+   /// <param name="replacement">Replacement string pattern (optional, default: "#nl#")</param>
+   /// <param name="newLine">New line string (optional, default: Environment.NewLine)</param>
+   /// <returns>Replaced string without new lines</returns>
+   public static string? RemoveNewLines(string? str, string? replacement = "#nl#", string? newLine = null)
+   {
+      return str?.Replace(string.IsNullOrEmpty(newLine) ? Environment.NewLine : newLine, replacement);
+   }
+
+   /// <summary>
+   /// Replaces a given string pattern with new lines in a string.
+   /// </summary>
+   /// <param name="str">String-instance</param>
+   /// <param name="replacement">Replacement string pattern (optional, default: "#nl#")</param>
+   /// <param name="newLine">New line string (optional, default: Environment.NewLine)</param>
+   /// <returns>Replaced string with new lines</returns>
+   public static string? AddNewLines(string? str, string? replacement = "#nl#", string? newLine = null)
+   {
+      return str?.BNReplace(replacement, string.IsNullOrEmpty(newLine) ? Environment.NewLine : newLine);
+   }
+*/
+/*
+   /// <summary>
+   /// Checks if the string has invalid characters.
+   /// </summary>
+   /// <param name="str">String-instance</param>
+   /// <returns>True if the string has invalid characters</returns>
+   public static bool HasInvalidChars(string? str) //TODO what kind of chars?
+   {
+      return str != null && Constants.REGEX_INVALID_CHARS.IsMatch(str);
+   }
+*/
 
    /// <summary>
    /// Creates a fixed length string.
