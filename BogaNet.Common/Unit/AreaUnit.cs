@@ -19,6 +19,7 @@ public enum AreaUnit
    YARD2,
    PERCH,
    ACRE,
+
    MILE2
    //TODO add more exotic areas?
 }
@@ -56,13 +57,14 @@ public static class AreaUnitExtension
    /// <param name="fromAreaUnit">Source unit</param>
    /// <param name="toAreaUnit">Target unit</param>
    /// <param name="inVal">Value of the source unit</param>
-   /// <returns>Value in the target unit</returns>
-   public static T Convert<T>(this AreaUnit fromAreaUnit, AreaUnit toAreaUnit, T inVal) where T : INumber<T>
+   /// <returns>Value as decimal in the target unit</returns>
+   public static decimal Convert<T>(this AreaUnit fromAreaUnit, AreaUnit toAreaUnit, T inVal) where T : INumber<T>
    {
-      if (IgnoreSameUnit && fromAreaUnit == toAreaUnit)
-         return inVal;
+      decimal val = inVal.BNToDecimal();
 
-      decimal val = System.Convert.ToDecimal(inVal);
+      if (IgnoreSameUnit && fromAreaUnit == toAreaUnit)
+         return val;
+
       decimal outVal = 0; // = inVal;
 
       //Convert to m2
@@ -153,6 +155,6 @@ public static class AreaUnitExtension
             break;
       }
 
-      return T.CreateTruncating(outVal);
+      return outVal;
    }
 }

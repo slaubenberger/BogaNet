@@ -34,7 +34,7 @@ public static class WeightUnitExtension
 
    public static decimal FACTOR_MILLIGRAM_TO_KILOGRAM => FACTOR_MILLIGRAM_TO_GRAM * FACTOR_GRAM_TO_KILOGRAM;
 
-   public static decimal FACTOR_OUNCE_TO_KILOGRAM =>  FACTOR_OUNCE_TO_GRAM / FACTOR_GRAM_TO_KILOGRAM;
+   public static decimal FACTOR_OUNCE_TO_KILOGRAM => FACTOR_OUNCE_TO_GRAM / FACTOR_GRAM_TO_KILOGRAM;
 
    /// <summary>
    /// Converts a value from one unit to another.
@@ -42,13 +42,14 @@ public static class WeightUnitExtension
    /// <param name="fromWeightUnit">Source unit</param>
    /// <param name="toWeightUnit">Target unit</param>
    /// <param name="inVal">Value of the source unit</param>
-   /// <returns>Value in the target unit</returns>
-   public static T Convert<T>(this WeightUnit fromWeightUnit, WeightUnit toWeightUnit, T inVal) where T : INumber<T>
+   /// <returns>Value as decimal in the target unit</returns>
+   public static decimal Convert<T>(this WeightUnit fromWeightUnit, WeightUnit toWeightUnit, T inVal) where T : INumber<T>
    {
-      if (IgnoreSameUnit && fromWeightUnit == toWeightUnit)
-         return inVal;
+      decimal val = inVal.BNToDecimal();
 
-      decimal val = System.Convert.ToDecimal(inVal);
+      if (IgnoreSameUnit && fromWeightUnit == toWeightUnit)
+         return val;
+
       decimal outVal = 0; // = inVal;
 
       //Convert to kg
@@ -103,6 +104,6 @@ public static class WeightUnitExtension
             break;
       }
 
-      return T.CreateTruncating(outVal);
+      return outVal;
    }
 }

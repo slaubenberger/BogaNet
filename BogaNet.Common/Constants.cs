@@ -13,16 +13,7 @@ public abstract class Constants
    #region Constant variables
 
    #region Coding
-
-   /// <summary>Factor for kilo bytes.</summary>
-   public const int FACTOR_KB = 1024;
-
-   /// <summary>Factor for mega bytes.</summary>
-   public const int FACTOR_MB = FACTOR_KB * 1024;
-
-   /// <summary>Factor for giga bytes.</summary>
-   public const int FACTOR_GB = FACTOR_MB * 1024;
-
+   
    /// <summary>Float value of 32768.</summary>
    public const float FLOAT_32768 = 32768f;
 
@@ -267,10 +258,9 @@ public abstract class Constants
 
    // Prefixes for URLs and paths
    public const string PREFIX_HTTP = "http://";
-
    public const string PREFIX_HTTPS = "https://";
-   //public const string PREFIX_SMB = "smb://";
-   //public const string PREFIX_FTP = "ftp://";
+   public const string PREFIX_SMB = "smb://";
+   public const string PREFIX_FTP = "ftp://";
 
    /// <summary>Path to the cmd under Windows.</summary>
    public static string CMD_WINDOWS_PATH = @"C:\Windows\system32\cmd.exe";
@@ -284,40 +274,11 @@ public abstract class Constants
 
    #endregion
 
-   #region some old, but interesting Java-stuff :-)
-
-   //TODO convert it when being used or free-time is available...
+   #region some old Java-stuff...
 
    /*
     * factors
     */
-//		//bit
-//		public static final BigDecimal FACTOR_BIT_TO_BYTE = HelperNumber.NUMBER_8; //bit to byte
-//		public static final BigDecimal FACTOR_BIT_TO_KILOBIT = new BigDecimal("10E2");
-//		public static final BigDecimal FACTOR_BIT_TO_MEGABIT = new BigDecimal("10E5");
-//		public static final BigDecimal FACTOR_BIT_TO_GIGABIT = new BigDecimal("10E8");
-//		public static final BigDecimal FACTOR_BIT_TO_TERABIT = new BigDecimal("10E11");
-//		public static final BigDecimal FACTOR_BIT_TO_PETABIT = new BigDecimal("10E14");
-//		public static final BigDecimal FACTOR_BIT_TO_EXABIT = new BigDecimal("10E17");
-//		public static final BigDecimal FACTOR_BIT_TO_KILOBYTE = FACTOR_BIT_TO_BYTE.multiply(FACTOR_BIT_TO_KILOBIT);
-//		public static final BigDecimal FACTOR_BIT_TO_MEGABYTE = FACTOR_BIT_TO_BYTE.multiply(FACTOR_BIT_TO_MEGABIT);
-//		public static final BigDecimal FACTOR_BIT_TO_GIGABYTE = FACTOR_BIT_TO_BYTE.multiply(FACTOR_BIT_TO_GIGABIT);
-//		public static final BigDecimal FACTOR_BIT_TO_TERABYTE = FACTOR_BIT_TO_BYTE.multiply(FACTOR_BIT_TO_TERABIT);
-//		public static final BigDecimal FACTOR_BIT_TO_PETABYTE = FACTOR_BIT_TO_BYTE.multiply(FACTOR_BIT_TO_PETABIT);
-//		public static final BigDecimal FACTOR_BIT_TO_EXABYTE = FACTOR_BIT_TO_BYTE.multiply(FACTOR_BIT_TO_EXABIT);
-//		public static final BigDecimal FACTOR_BIT_TO_KIBIBIT = HelperNumber.NUMBER_1024;
-//		public static final BigDecimal FACTOR_BIT_TO_MEBIBIT = FACTOR_BIT_TO_KIBIBIT.multiply(HelperNumber.NUMBER_1024);
-//		public static final BigDecimal FACTOR_BIT_TO_GIBIBIT = FACTOR_BIT_TO_MEBIBIT.multiply(HelperNumber.NUMBER_1024);
-//		public static final BigDecimal FACTOR_BIT_TO_TEBIBIT = FACTOR_BIT_TO_GIBIBIT.multiply(HelperNumber.NUMBER_1024);
-//		public static final BigDecimal FACTOR_BIT_TO_PEBIBIT = FACTOR_BIT_TO_TEBIBIT.multiply(HelperNumber.NUMBER_1024);
-//		public static final BigDecimal FACTOR_BIT_TO_EXBIBIT = FACTOR_BIT_TO_PEBIBIT.multiply(HelperNumber.NUMBER_1024);
-//		public static final BigDecimal FACTOR_BIT_TO_KIBIBYTE = FACTOR_BIT_TO_BYTE.multiply(FACTOR_BIT_TO_KIBIBIT);
-//		public static final BigDecimal FACTOR_BIT_TO_MEBIBYTE = FACTOR_BIT_TO_BYTE.multiply(FACTOR_BIT_TO_MEBIBIT);
-//		public static final BigDecimal FACTOR_BIT_TO_GIBIBYTE = FACTOR_BIT_TO_BYTE.multiply(FACTOR_BIT_TO_GIBIBIT);
-//		public static final BigDecimal FACTOR_BIT_TO_TEBIBYTE = FACTOR_BIT_TO_BYTE.multiply(FACTOR_BIT_TO_TEBIBIT);
-//		public static final BigDecimal FACTOR_BIT_TO_PEBIBYTE = FACTOR_BIT_TO_BYTE.multiply(FACTOR_BIT_TO_PEBIBIT);
-//		public static final BigDecimal FACTOR_BIT_TO_EXBIBYTE = FACTOR_BIT_TO_BYTE.multiply(FACTOR_BIT_TO_EXBIBIT);
-//		
 //		//time
 //		public static final BigDecimal FACTOR_NANOSECOND_TO_SECOND = new BigDecimal("1000000000"); //nanoseconds to seconds
 //		public static final BigDecimal FACTOR_MICROSECOND_TO_SECOND = HelperNumber.NUMBER_1000000; //microseconds to seconds

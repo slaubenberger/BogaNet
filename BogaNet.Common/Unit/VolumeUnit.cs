@@ -16,6 +16,7 @@ public enum VolumeUnit
    FOOT3,
    PINT,
    GALLON,
+
    BARREL
    //TODO add more exotic volumes?
 }
@@ -46,13 +47,14 @@ public static class VolumeUnitExtension
    /// <param name="fromVolumeUnit">Source unit</param>
    /// <param name="toVolumeUnit">Target unit</param>
    /// <param name="inVal">Value of the source unit</param>
-   /// <returns>Value in the target unit</returns>
-   public static T Convert<T>(this VolumeUnit fromVolumeUnit, VolumeUnit toVolumeUnit, T inVal) where T : INumber<T>
+   /// <returns>Value as decimal in the target unit</returns>
+   public static decimal Convert<T>(this VolumeUnit fromVolumeUnit, VolumeUnit toVolumeUnit, T inVal) where T : INumber<T>
    {
-      if (IgnoreSameUnit && fromVolumeUnit == toVolumeUnit)
-         return inVal;
+      decimal val = inVal.BNToDecimal();
 
-      decimal val = System.Convert.ToDecimal(inVal);
+      if (IgnoreSameUnit && fromVolumeUnit == toVolumeUnit)
+         return val;
+
       decimal outVal = 0; // = inVal;
 
       //Convert to liter
@@ -125,6 +127,6 @@ public static class VolumeUnitExtension
             break;
       }
 
-      return T.CreateTruncating(outVal);
+      return outVal;
    }
 }

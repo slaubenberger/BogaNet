@@ -256,7 +256,7 @@ public static class Program
    private static void testObf()
    {
       //string plain = Helper.CreateString("ハローワールド", 50);
-      string plain = StringHelper.CreateString(Constants.SIGNS_EXT, 80);
+      string plain = StringHelper.CreateString( 80, Constants.SIGNS_EXT);
       //string plain = Helper.CreateString(Constants.SIGNS, 80);
 
       byte[]? obf = Obfuscator.Obfuscate(plain.BNToByteArray(), 23);

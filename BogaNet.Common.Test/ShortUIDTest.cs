@@ -13,6 +13,7 @@ public class ShortUIDTest
       ShortUID suid1 = guid1.BNToShortUID();
       Guid? guid2 = suid1.ToGuid();
 
+      Assert.That(suid1.Code.Length, Is.EqualTo(22));
       Assert.That(guid1, Is.EqualTo(guid2));
 
       suid1 = new ShortUID("4gZaAOk7jkexO8Zjz8anjQ");

@@ -73,7 +73,7 @@ public static class NumberExtension
             break;
       }
 
-      string res = StringHelper.CreateFixedLength(number.ToString("x2", null),2 * pairs, '0', false);
+      string res = StringHelper.CreateFixedLengthString(number.ToString("x2", null), 2 * pairs, '0', false);
 
       return addPrefix ? $"0x{res}" : res;
    }
@@ -136,5 +136,25 @@ public static class NumberExtension
       }
 
       return default;
+   }
+   
+   /// <summary>
+   /// Converts a decimal to the given Number type.
+   /// </summary>
+   /// <param name="number">Given value as decimal</param>
+   /// <returns>Number value from the given decimal.</returns>
+   public static T BNToNumber<T>(this decimal number) where T : INumber<T>
+   {
+      return T.CreateTruncating(number);
+   }
+   
+   /// <summary>
+   /// Converts a Number type to decimal.
+   /// </summary>
+   /// <param name="number">Given value as Number type</param>
+   /// <returns>Decimal value from the given type.</returns>
+   public static decimal BNToDecimal<T>(this T number) where T : INumber<T>
+   {
+      return System.Convert.ToDecimal(number);
    }
 }

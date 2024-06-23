@@ -145,7 +145,7 @@ public static class StringHelper
    {
       return str != null && Constants.REGEX_LINEENDINGS.IsMatch(str);
    }
-   
+
    /// <summary>
    /// Cleans a given text from tags.
    /// </summary>
@@ -213,14 +213,14 @@ public static class StringHelper
 */
 
    /// <summary>
-   /// Creates a fixed length string.
+   /// Creates a fixed length string from a given string.
    /// </summary>
-   /// <param name="str">Input to fix</param>
+   /// <param name="str">Input string to fix length</param>
    /// <param name="length">Length of the string</param>
-   /// <param name="filler">Filler charachter for the string (optional, default ' ')</param>
+   /// <param name="filler">Filler character for the string (optional, default ' ')</param>
    /// <param name="padRight">Right padding - otherwise left padding (optional, default: true)</param>
    /// <returns>Fix length string</returns>
-   public static string CreateFixedLength(string? str, int length, char filler = ' ', bool padRight = true)
+   public static string CreateFixedLengthString(string? str, int length, char filler = ' ', bool padRight = true)
    {
       if (str == null)
          return new string(filler, length);
@@ -237,6 +237,45 @@ public static class StringHelper
       return str.Substring(0, length);
    }
 
+   /// <summary>
+   /// Creates a string of characters with a given length.
+   /// </summary>
+   /// <param name="stringLength">Length of the generated string</param>
+   /// <param name="fillerCharacters">Characters to fill the string (if more than one character is used, the generated string will be a randomized result of all characters)</param>
+   /// <returns>Generated string</returns>
+   public static string CreateString(int stringLength, params char[]? fillerCharacters)
+   {
+      if (fillerCharacters == null)
+         return string.Empty;
+
+      if (fillerCharacters.Length > 1)
+      {
+         char[] chars = new char[stringLength];
+
+         for (int ii = 0; ii < stringLength; ii++)
+         {
+            chars[ii] = fillerCharacters[_rnd.Next(0, fillerCharacters.Length)];
+         }
+
+         return new string(chars);
+      }
+
+      return fillerCharacters.Length == 1 ? new string(fillerCharacters[0], stringLength) : string.Empty;
+   }
+
+   /// <summary>
+   /// Creates a string of characters with a given length.
+   /// </summary>
+   /// <param name="stringLength">Length of the generated string</param>
+   /// <param name="fillerCharacters">Characters to fill the string (if more than one character is used, the generated string will be a randomized result of all characters)</param>
+   /// <returns>Generated string</returns>
+   public static string CreateString(int stringLength, string? fillerCharacters)
+   {
+      if (fillerCharacters == null)
+         return string.Empty;
+
+      return CreateString(stringLength, fillerCharacters.ToCharArray());
+   }
 
    /// <summary>
    /// Split the given text to lines and return it as list.
@@ -282,50 +321,11 @@ public static class StringHelper
    }
 
    /// <summary>
-   /// Creates a string of characters with a given length.
-   /// </summary>
-   /// <param name="generateChars">Characters to generate the string (if more than one character is used, the generated string will be a randomized result of all characters)</param>
-   /// <param name="stringLength">Length of the generated string</param>
-   /// <returns>Generated string</returns>
-   public static string CreateString(string? generateChars, int stringLength)
-   {
-      if (generateChars != null)
-      {
-         if (generateChars.Length > 1)
-         {
-            char[] chars = new char[stringLength];
-
-            for (int ii = 0; ii < stringLength; ii++)
-            {
-               chars[ii] = generateChars[_rnd.Next(0, generateChars.Length)];
-            }
-
-            return new string(chars);
-         }
-
-         return generateChars.Length == 1 ? new string(generateChars[0], stringLength) : string.Empty;
-      }
-
-      return string.Empty;
-   }
-
-   /// <summary>
-   /// Creates a string of characters with a given length.
-   /// </summary>
-   /// <param name="generateChar">Character to generate the string</param>
-   /// <param name="stringLength">Length of the generated string</param>
-   /// <returns>Generated string</returns>
-   public static string CreateString(char? generateChar, int stringLength)
-   {
-      return CreateString(generateChar.ToString(), stringLength);
-   }
-
-   /// <summary>
    /// Decodes a HTML encoded string to a normal string.
    /// </summary>
    /// <param name="input">HTML encoded string</param>
    /// <returns>Normal string</returns>
-   public static string DecodeHTML(string input)
+   public static string DecodeFromHTMLString(string input)
    {
       return HttpUtility.HtmlDecode(input);
    }
@@ -335,17 +335,17 @@ public static class StringHelper
    /// </summary>
    /// <param name="input">Normal string</param>
    /// <returns>HTML encoded string</returns>
-   public static string EncodeHTML(string input)
+   public static string EncodeToHTMLString(string input)
    {
       return HttpUtility.HtmlEncode(input);
    }
-   
+
    /// <summary>
-   /// Escape the data in an URL (like spaces etc.).
+   /// Escape the data string in an URL (like spaces etc.).
    /// </summary>
    /// <param name="url"></param>
    /// <returns>Escaped URL</returns>
-   public static string? EscapeURL(string? url) //TODO move to extensions?
+   public static string? EscapeURL(string? url)
    {
       return url == null ? null : Uri.EscapeDataString(url).Replace("%2F", "/").Replace("%3A", ":");
    }

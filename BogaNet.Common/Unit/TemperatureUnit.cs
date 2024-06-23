@@ -30,13 +30,14 @@ public static class TemperatureUnitExtension
    /// <param name="fromTemperatureUnit">Source unit</param>
    /// <param name="toTemperatureUnit">Target unit</param>
    /// <param name="inVal">Value of the source unit</param>
-   /// <returns>Value in the target unit</returns>
-   public static T Convert<T>(this TemperatureUnit fromTemperatureUnit, TemperatureUnit toTemperatureUnit, T inVal) where T : INumber<T>
+   /// <returns>Value as decimal in the target unit</returns>
+   public static decimal Convert<T>(this TemperatureUnit fromTemperatureUnit, TemperatureUnit toTemperatureUnit, T inVal) where T : INumber<T>
    {
-      if (IgnoreSameUnit && fromTemperatureUnit == toTemperatureUnit)
-         return inVal;
+      decimal val = inVal.BNToDecimal();
 
-      decimal val = System.Convert.ToDecimal(inVal);
+      if (IgnoreSameUnit && fromTemperatureUnit == toTemperatureUnit)
+         return val;
+
       decimal outVal = 0; // = inVal;
       decimal fcDiv = 1.8m;
 
@@ -74,6 +75,6 @@ public static class TemperatureUnitExtension
             break;
       }
 
-      return T.CreateTruncating(outVal);
+      return outVal;
    }
 }
