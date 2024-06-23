@@ -107,7 +107,7 @@ public class ShortUID
 /// <summary>
 /// Extension methods for Guid.
 /// </summary>
-public static class ExtensionGuid
+public static class GuidExtension
 {
    /// <summary>
    /// Converts a Guid to a ShortUID.
