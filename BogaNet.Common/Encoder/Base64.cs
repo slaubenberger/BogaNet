@@ -7,7 +7,7 @@ namespace BogaNet.Encoder;
 /// <summary>
 /// Base64 encoder class.
 /// </summary>
-public static class Base64
+public static class Base64 //NUnit
 {
    #region Public methods
 

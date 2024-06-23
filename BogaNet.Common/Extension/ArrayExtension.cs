@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Logging;
 using System.Numerics;
 using System;
-using System.Linq;
 using BogaNet.Crypto.ObfuscatedType;
 
 namespace BogaNet;

@@ -1,5 +1,4 @@
 using System;
-using Enumerable = System.Linq.Enumerable;
 using System.Text;
 using System.Numerics;
 using BogaNet.Helper;
@@ -9,7 +8,7 @@ namespace BogaNet.Encoder;
 /// <summary>
 /// Base16 (aka Hex) encoder class.
 /// </summary>
-public static class Base16
+public static class Base16 //NUnit
 {
    #region Public methods
 
@@ -182,21 +181,17 @@ public static class Base16
       }
 
       if (isInteger)
-      {
          return T.Parse(base16string.StartsWith("0x") ? base16string.Substring(2) : base16string, System.Globalization.NumberStyles.HexNumber, null);
-      }
-      else
+
+      string hexVal = base16string.StartsWith("0x") ? base16string.Substring(2) : base16string;
+      byte[] data = new byte[hexVal.Length / 2];
+
+      for (int ii = 0; ii < data.Length; ++ii)
       {
-         string hexVal = base16string.StartsWith("0x") ? base16string.Substring(2) : base16string;
-         byte[] data = new byte[hexVal.Length / 2];
-
-         for (int ii = 0; ii < data.Length; ++ii)
-         {
-            data[ii] = Convert.ToByte(hexVal.Substring(ii * 2, 2), 16);
-         }
-
-         return data.BNToNumber<T>();
+         data[ii] = Convert.ToByte(hexVal.Substring(ii * 2, 2), 16);
       }
+
+      return data.BNToNumber<T>();
    }
 
    #endregion

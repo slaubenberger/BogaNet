@@ -7,7 +7,7 @@ namespace BogaNet.Encoder;
 /// <summary>
 /// Base32 encoder class.
 /// </summary>
-public static class Base32
+public static class Base32 //NUnit
 {
    #region Public methods
 

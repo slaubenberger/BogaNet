@@ -9,7 +9,7 @@ public class Base16Test
    [Test]
    public void Base16_Test()
    {
-      string plain = "BogaNet rulez!";
+      string plain = "BogaNet rülez!";
 
       //Byte-array
       string? output = Base16.ToBase16String(plain.BNToByteArray(), true);
@@ -28,7 +28,7 @@ public class Base16Test
       Assert.That(value, Is.EqualTo(value2));
 
       //FP Number
-      decimal valueFP = 123m;
+      decimal valueFP = 123.456m;
       output = Base16.ToBase16String(valueFP, true, true);
       var value2FP = Base16.NumberFromBase16String<decimal>(output);
 
