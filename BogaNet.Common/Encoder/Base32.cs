@@ -105,7 +105,7 @@ public static class Base32
    /// <param name="str">Input string</param>
    /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
    /// <returns>String value as converted Base32-string</returns>
-   public static string? StringToBase32String(string? str, Encoding? encoding = null)
+   public static string? ToBase32String(string? str, Encoding? encoding = null)
    {
       if (str == null)
          return null;

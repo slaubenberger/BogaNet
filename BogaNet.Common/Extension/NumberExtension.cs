@@ -26,60 +26,6 @@ public static class NumberExtension
    }
 
    /// <summary>
-   /// Converts the value of a Number to a Hex-string.
-   /// </summary>
-   /// <param name="number">Given value</param>
-   /// <param name="addPrefix">Add "0x"-as prefix (optional, default: false)</param>
-   /// <returns>Number as converted Hex-string</returns>
-   public static string BNToHex<T>(this T number, bool addPrefix = false) where T : INumber<T>
-   //public unsafe static string BNToHex<T>(this T val, bool addPrefix = false) where T : INumber<T>
-   {
-      Type type = typeof(T);
-      int pairs = 8;
-
-      switch (type)
-      {
-         case Type t when t == typeof(float):
-            pairs = 4;
-            break;
-         case Type t when t == typeof(int):
-            pairs = 4;
-            break;
-         case Type t when t == typeof(uint):
-            pairs = 4;
-            break;
-         case Type t when t == typeof(short):
-            pairs = 2;
-            break;
-         case Type t when t == typeof(ushort):
-            pairs = 2;
-            break;
-         case Type t when t == typeof(char):
-            pairs = 2;
-            break;
-         //TODO needs unsafe...
-/*
-         case Type t when t == typeof(nint):
-            length = sizeof(nint);
-            break;
-         case Type t when t == typeof(nuint):
-            length = sizeof(nint);
-            break;
-*/
-         case Type t when t == typeof(byte):
-            pairs = 1;
-            break;
-         case Type t when t == typeof(sbyte):
-            pairs = 1;
-            break;
-      }
-
-      string res = StringHelper.CreateFixedLengthString(number.ToString("x2", null), 2 * pairs, '0', false);
-
-      return addPrefix ? $"0x{res}" : res;
-   }
-
-   /// <summary>
    /// Converts the value of a Number to a byte-array.
    /// </summary>
    /// <param name="number">Given value</param>

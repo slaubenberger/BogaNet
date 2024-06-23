@@ -190,15 +190,4 @@ public static class ArrayExtension
 
       return default;
    }
-
-   /// <summary>
-   /// Converts a byte-array to a Hex-string.
-   /// </summary>
-   /// <param name="data">Input as byte-array</param>
-   /// <returns>Hex-string from the byte-array</returns>
-   public static string? BNToHex(this byte[]? data)
-   {
-      string hex = string.Empty;
-      return data == null ? null : data.Aggregate(hex, (current, bit) => current + bit.ToString("x2"));
-   }
 }

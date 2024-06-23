@@ -48,7 +48,7 @@ public static class Base64
    /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
    /// <param name="useSave">Use non-standard, but safe version of Base64 for URLs and files</param>
    /// <returns>String value as converted Base64-string</returns>
-   public static string? StringToBase64String(string? str, bool useSave = false, Encoding? encoding = null)
+   public static string? ToBase64String(string? str, bool useSave = false, Encoding? encoding = null)
    {
       if (str == null)
          return null;
@@ -72,8 +72,8 @@ public static class Base64
 
       Encoding _encoding = encoding ?? Encoding.UTF8;
 
-      byte[]? base32 = FromBase64String(str, useSave);
-      return base32 == null ? null : _encoding.GetString(base32);
+      byte[]? base64 = FromBase64String(str, useSave);
+      return base64 == null ? null : _encoding.GetString(base64);
    }
 
    #endregion

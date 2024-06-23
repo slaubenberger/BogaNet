@@ -26,7 +26,8 @@ public static class Program
 
       _logger.LogDebug("Hi there, this is a test app!");
 
-      testNumber();
+      //testNumber();
+      testBase16();
       //testBase32();
       //testDI();
       //testCrc();
@@ -72,12 +73,28 @@ public static class Program
       _logger.LogInformation($"{number} - {numberCopy}");
    }
 
+   private static void testBase16()
+   {
+      string test = "Grüezi wohl!";
+
+      string base16 = Base16.ToBase16String(test, true);
+
+      _logger.LogInformation($"Base16: {base16} - {base16.Length}");
+
+      //base16 = Base16.ToBase16String(255, true);
+      //_logger.LogInformation($"Base16: {base16} - {base16.Length}");
+
+      string fromBase16 = Base16.StringFromBase16String(base16);
+
+      _logger.LogInformation($"FromBase16: {fromBase16} - {fromBase16.Equals(test)}");
+   }
+
    private static void testBase32()
    {
       string test = "Grüezi wohl!";
 
-      string base64 = Base64.StringToBase64String(test);
-      string base32 = Base32.StringToBase32String(test);
+      string base64 = Base64.ToBase64String(test);
+      string base32 = Base32.ToBase32String(test);
 
       _logger.LogInformation($"Base64: {base64} - {base64.Length}");
       _logger.LogInformation($"Base32: {base32} - {base32.Length}");
