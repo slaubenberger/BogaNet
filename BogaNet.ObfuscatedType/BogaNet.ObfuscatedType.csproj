@@ -2,31 +2,31 @@
 
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
-         <Nullable>enable</Nullable>
-        <Version>0.3.0</Version>
+        <Nullable>enable</Nullable>
+        <Version>0.9.0</Version>
         <Company>crosstales LLC</Company>
         <Copyright>© 2024 Stefan Laubenberger</Copyright>
         <Authors>Stefan Laubenberger</Authors>
-        <Description>A library with many little helpers to speed up Avalonia development.</Description>
+        <Description>Various obfuscated types for all value types and strings. This types prevent the values from being "plain" in memory and offers some protection against bad actors (like memory scanners and searchers).</Description>
         <RepositoryUrl>https://github.com/slaubenberger/BogaNet</RepositoryUrl>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageTags>Avalonia Extension Image Text Resources i18n</PackageTags>
-        <PackageReleaseNotes>Extensions for Avalonia added.</PackageReleaseNotes>
+        <PackageTags>Obfuscation Protection</PackageTags>
+        <PackageReleaseNotes>Initial release.</PackageReleaseNotes>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <!-- <PackageIconUrl>https://www.crosstales.com/media/data/BogaNet/logo_boga.png</PackageIconUrl> -->
         <PackageIcon>logo_boga.png</PackageIcon>
         <PackageProjectUrl>https://www.crosstales.com/media/data/BogaNet/api/</PackageProjectUrl>
         <LangVersion>12</LangVersion>
+        <RootNamespace>BogaNet.Obfuscator</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Avalonia" Version="11.0.10" />
-      <PackageReference Include="BogaNet.Common" Version="1.0.0" />
-      <PackageReference Include="BogaNet.i18n" Version="0.9.0" />
+        <PackageReference Include="BogaNet.Common" Version="1.0.0" />
     </ItemGroup>
-    
+
     <ItemGroup>
-        <None Include="README.md" Pack="true" PackagePath="\"/>
         <None Include="../Resources/logo_boga.png" Pack="true" PackagePath="\"/>
+        <None Include="README.md" Pack="true" PackagePath="\"/>
     </ItemGroup>
+
 </Project>

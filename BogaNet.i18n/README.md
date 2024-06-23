@@ -1,5 +1,5 @@
-# BogaNet.Avalonia
-A library with many little helpers to speed up Avalonia development.
+# BogaNet.i18n
+Localizer for C# applications.
 
 ## API:
 [https://www.crosstales.com/media/data/BogaNet/api/](https://www.crosstales.com/media/data/BogaNet/api/annotated.html)

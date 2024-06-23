@@ -1,4 +1,4 @@
-﻿using BogaNet.Crypto.ObfuscatedType;
+﻿using BogaNet.ObfuscatedType;
 
 namespace BogaNet.Test.Crypto;
 

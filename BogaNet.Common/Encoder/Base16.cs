@@ -18,7 +18,7 @@ public static class Base16 //NUnit
    /// <param name="base16string">Data as Base16-string</param>
    /// <returns>Data as byte-array</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static byte[] FromBase16String(string base16string)
+   public static byte[] FromBase16String(string? base16string)
    {
       if (string.IsNullOrEmpty(base16string))
          throw new ArgumentNullException(nameof(base16string));
@@ -33,7 +33,7 @@ public static class Base16 //NUnit
    /// <param name="addPrefix">Add "0x"-as prefix (optional, default: false)</param>
    /// <returns>Data as encoded Base16-string</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static string ToBase16String(byte[] bytes, bool addPrefix = false)
+   public static string ToBase16String(byte[]? bytes, bool addPrefix = false)
    {
       if (bytes == null || bytes.Length == 0)
          throw new ArgumentNullException(nameof(bytes));
@@ -48,8 +48,12 @@ public static class Base16 //NUnit
    /// <param name="addPrefix">Add "0x"-as prefix (optional, default: false)</param>
    /// <param name="useFullLength">Use the full length of the Number type (optional, default: false)</param>
    /// <returns>Number as converted Base16-string</returns>
-   public static string ToBase16String<T>(this T number, bool addPrefix = false, bool useFullLength = false) where T : INumber<T>
+   /// <exception cref="ArgumentNullException"></exception>
+   public static string ToBase16String<T>(this T? number, bool addPrefix = false, bool useFullLength = false) where T : INumber<T>
    {
+      if (number == null)
+         throw new ArgumentNullException(nameof(number));
+
       Type type = typeof(T);
       int pairs = 8;
 

@@ -1,5 +1,5 @@
-# BogaNet.Avalonia
-A library with many little helpers to speed up Avalonia development.
+# BogaNet.Unit
+Various units, like area, bit, byte, length, temperature, volume and weight with easy conversion between different types.
 
 ## API:
 [https://www.crosstales.com/media/data/BogaNet/api/](https://www.crosstales.com/media/data/BogaNet/api/annotated.html)

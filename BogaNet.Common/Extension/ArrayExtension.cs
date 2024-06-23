@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Logging;
 using System.Numerics;
 using System;
-using BogaNet.Crypto.ObfuscatedType;
 
 namespace BogaNet;
 
@@ -12,48 +11,6 @@ namespace BogaNet;
 public static class ArrayExtension
 {
    private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(ArrayExtension));
-
-   /// <summary>
-   /// Converts a byte-array to a BNbyte-array.
-   /// </summary>
-   /// <param name="array">Array-instance to convert</param>
-   /// <returns>Converted BNbyte-array</returns>
-   /// <exception cref="ArgumentNullException"></exception>
-   public static ByteObf[] BNToBNbyteArray(this byte[]? array)
-   {
-      if (array == null)
-         throw new ArgumentNullException(nameof(array));
-
-      ByteObf[] bNbytes = new ByteObf[array.Length];
-
-      for (int ii = 0; ii < array.Length; ii++)
-      {
-         bNbytes[ii] = array[ii];
-      }
-
-      return bNbytes;
-   }
-
-   /// <summary>
-   /// Converts a BNbyte-array to a byte-array.
-   /// </summary>
-   /// <param name="array">Array-instance to convert</param>
-   /// <returns>Converted byte-array</returns>
-   /// <exception cref="ArgumentNullException"></exception>
-   public static byte[] BNToByteArray(this ByteObf[]? array)
-   {
-      if (array == null)
-         throw new ArgumentNullException(nameof(array));
-
-      byte[] bytes = new byte[array.Length];
-
-      for (int ii = 0; ii < array.Length; ii++)
-      {
-         bytes[ii] = array[ii];
-      }
-
-      return bytes;
-   }
 
    /// <summary>
    /// Converts a byte-array to a string.

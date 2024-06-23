@@ -129,7 +129,7 @@ public abstract class JsonHelper
       if (obj == null)
          throw new ArgumentNullException(nameof(obj));
 
-      return SerializeToString(obj, settings ?? FORMAT_INDENTED).BNToByteArray();
+      return SerializeToString(obj, settings ?? FORMAT_INDENTED).BNToByteArray()!;
    }
 
    /// <summary>

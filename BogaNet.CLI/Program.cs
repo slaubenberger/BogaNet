@@ -1,13 +1,12 @@
 ﻿using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
-using BogaNet.Crypto;
 using BogaNet.Unit;
 using System.Globalization;
 using BogaNet.i18n;
 using BogaNet.Helper;
 using System.Security.Cryptography.X509Certificates;
 using BogaNet.Util;
-using BogaNet.Crypto.ObfuscatedType;
+using BogaNet.ObfuscatedType;
 using BogaNet.Encoder;
 
 namespace BogaNet.CLI;
@@ -26,8 +25,8 @@ public static class Program
 
       _logger.LogDebug("Hi there, this is a test app!");
 
-      //testNumber();
-      testBase16();
+      testNumber();
+      //testBase16();
       //testBase32();
       //testDI();
       //testCrc();

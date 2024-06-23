@@ -11,8 +11,8 @@
         <Description>NET 8 version of Boga, a library with many little helpers to speed up C# development.</Description>
         <RepositoryUrl>https://github.com/slaubenberger/BogaNet</RepositoryUrl>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageTags>File Directory Path AES Crypto CRC Hash SHA AES HMAC X509 Obfuscation JSON XML Network IP Ping Captive_Portal_Detection MIME Bytes Extension ShortUID Localizer i18n Singleton DI Base32</PackageTags>
-        <PackageReleaseNotes>DIContainer and Base32 added.</PackageReleaseNotes>
+        <PackageTags>File Directory Path JSON XML Network IP Ping Captive_Portal_Detection MIME Bytes Extension Stopwatch ShortUID Singleton DI Base16 Base32 Base64 Hex</PackageTags>
+        <PackageReleaseNotes>Large refactoring and improvements for v1.0.0.</PackageReleaseNotes>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <!-- <PackageIconUrl>https://www.crosstales.com/media/data/BogaNet/logo_boga.png</PackageIconUrl> -->
         <PackageIcon>logo_boga.png</PackageIcon>
@@ -22,7 +22,6 @@
     <ItemGroup>
       <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-      <PackageReference Include="System.IO.Hashing" Version="8.0.0" />
     </ItemGroup>
 
     <ItemGroup>

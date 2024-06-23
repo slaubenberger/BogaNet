@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using BogaNet.Avalonia.Helper;
 using BogaNet.i18n;
 using System;
+using BogaNet.Helper;
 
 namespace BogaNet.Avalonia;
 
@@ -25,7 +26,7 @@ public static class AvaloniaExtension
 
       foreach (var translation in translationFiles)
       {
-         var contents = ResourceHelper.LoadText(translation).BNSplitToLines().ToArray();
+         var contents = StringHelper.SplitToLines(ResourceHelper.LoadText(translation)).ToArray();
 
          allLines.Add(translation, contents);
       }

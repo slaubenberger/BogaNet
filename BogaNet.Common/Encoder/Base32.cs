@@ -17,7 +17,7 @@ public static class Base32 //NUnit
    /// <param name="base32string">Data as Base32-string</param>
    /// <returns>Data as byte-array</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static byte[] FromBase32String(string base32string)
+   public static byte[] FromBase32String(string? base32string)
    {
       if (string.IsNullOrEmpty(base32string))
          throw new ArgumentNullException(nameof(base32string));
@@ -62,7 +62,7 @@ public static class Base32 //NUnit
    /// <param name="bytes">Data as byte-array</param>
    /// <returns>Data as encoded Base32-string</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static string ToBase32String(byte[] bytes)
+   public static string ToBase32String(byte[]? bytes)
    {
       if (bytes == null || bytes.Length == 0)
          throw new ArgumentNullException(nameof(bytes));

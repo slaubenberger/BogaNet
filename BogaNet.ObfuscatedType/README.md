@@ -1,5 +1,5 @@
-# BogaNet.Avalonia
-A library with many little helpers to speed up Avalonia development.
+# BogaNet.ObfuscatedType
+Various obfuscated types for all value types and strings. This types prevent the values from being "plain" in memory and offers some protection against bad actors (like memory scanners and searchers).
 
 ## API:
 [https://www.crosstales.com/media/data/BogaNet/api/](https://www.crosstales.com/media/data/BogaNet/api/annotated.html)

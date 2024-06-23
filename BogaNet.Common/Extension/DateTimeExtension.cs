@@ -3,6 +3,9 @@ using System.Globalization;
 
 namespace BogaNet;
 
+/// <summary>
+/// Extension methods for DateTime.
+/// </summary>
 public static class DateTimeExtension
 {
    /// <summary>

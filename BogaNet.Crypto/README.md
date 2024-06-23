@@ -1,5 +1,5 @@
-# BogaNet.Avalonia
-A library with many little helpers to speed up Avalonia development.
+# BogaNet.Crypto
+Various helpers for cryptographic functions, like hashing (SHA), asymmetric (AES) and symmetric (RSA) encryption/decryption, HMAC and CRC.
 
 ## API:
 [https://www.crosstales.com/media/data/BogaNet/api/](https://www.crosstales.com/media/data/BogaNet/api/annotated.html)
