@@ -1,6 +1,6 @@
 ﻿using BogaNet.Util;
 
-namespace BogaNet.Test;
+namespace BogaNet.Test.Util;
 
 public class ShortUIDTest
 {

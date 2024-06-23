@@ -1,6 +1,6 @@
 ﻿using BogaNet.Helper;
 
-namespace BogaNet.Test;
+namespace BogaNet.Test.Helper;
 
 public class FileHelperTest
 {

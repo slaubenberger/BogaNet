@@ -1,7 +1,6 @@
-﻿using BogaNet.Crypto;
-using BogaNet.Crypto.ObfuscatedType;
+﻿using BogaNet.Crypto.ObfuscatedType;
 
-namespace BogaNet.Test;
+namespace BogaNet.Test.Crypto;
 
 public class ObfuscatedTypeTest
 {

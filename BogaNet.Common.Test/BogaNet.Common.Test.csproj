@@ -53,4 +53,10 @@
       </None>
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Extension\" />
+      <Folder Include="i18n\" />
+      <Folder Include="IO\" />
+    </ItemGroup>
+
 </Project>

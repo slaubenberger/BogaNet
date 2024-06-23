@@ -47,16 +47,23 @@ public static class Base16
    /// </summary>
    /// <param name="number">Given value</param>
    /// <param name="addPrefix">Add "0x"-as prefix (optional, default: false)</param>
+   /// <param name="useFullLength">Use the full length of the Number type (optional, default: false)</param>
    /// <returns>Number as converted Base16-string</returns>
-   public static string ToBase16String<T>(this T number, bool addPrefix = false) where T : INumber<T>
+   public static string ToBase16String<T>(this T number, bool addPrefix = false, bool useFullLength = false) where T : INumber<T>
    {
       Type type = typeof(T);
       int pairs = 8;
 
+      bool isInteger = true;
+
       switch (type)
       {
+         case Type t when t == typeof(double):
+            isInteger = false;
+            break;
          case Type t when t == typeof(float):
             pairs = 4;
+            isInteger = false;
             break;
          case Type t when t == typeof(int):
             pairs = 4;
@@ -88,9 +95,27 @@ public static class Base16
          case Type t when t == typeof(sbyte):
             pairs = 1;
             break;
+         case Type t when t == typeof(decimal):
+            pairs = 16;
+            isInteger = false;
+            break;
       }
 
-      string res = StringHelper.CreateFixedLengthString(number.ToString("x2", null), 2 * pairs, '0', false);
+      //string hex = number.ToString($"x{pairs}", null);
+      //float number2 = number.BNTO;
+
+      string hex = string.Empty;
+
+      if (isInteger)
+      {
+         hex = $"{number:X}";
+      }
+      else
+      {
+         hex = ToBase16String(number.BNToByteArray());
+      }
+
+      string res = useFullLength ? StringHelper.CreateFixedLengthString(hex, 2 * pairs, '0', false) : hex;
 
       return addPrefix ? $"0x{res}" : res;
    }
@@ -139,7 +164,39 @@ public static class Base16
       if (base16string == null)
          return default;
 
-      return T.Parse(base16string.StartsWith("0x") ? base16string.Substring(2) : base16string, System.Globalization.NumberStyles.HexNumber, null);
+      Type type = typeof(T);
+
+      bool isInteger = true;
+
+      switch (type)
+      {
+         case Type t when t == typeof(double):
+            isInteger = false;
+            break;
+         case Type t when t == typeof(float):
+            isInteger = false;
+            break;
+         case Type t when t == typeof(decimal):
+            isInteger = false;
+            break;
+      }
+
+      if (isInteger)
+      {
+         return T.Parse(base16string.StartsWith("0x") ? base16string.Substring(2) : base16string, System.Globalization.NumberStyles.HexNumber, null);
+      }
+      else
+      {
+         string hexVal = base16string.StartsWith("0x") ? base16string.Substring(2) : base16string;
+         byte[] data = new byte[hexVal.Length / 2];
+
+         for (int ii = 0; ii < data.Length; ++ii)
+         {
+            data[ii] = Convert.ToByte(hexVal.Substring(ii * 2, 2), 16);
+         }
+
+         return data.BNToNumber<T>();
+      }
    }
 
    #endregion

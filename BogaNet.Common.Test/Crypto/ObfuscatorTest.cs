@@ -1,6 +1,6 @@
 ﻿using BogaNet.Crypto;
 
-namespace BogaNet.Test;
+namespace BogaNet.Test.Crypto;
 
 public class ObfuscatorTest
 {

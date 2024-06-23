@@ -1,6 +1,6 @@
 ﻿using BogaNet.Unit;
 
-namespace BogaNet.Test;
+namespace BogaNet.Test.Unit;
 
 public class TemperatureUnitTest
 {
