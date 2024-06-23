@@ -6,7 +6,7 @@ namespace BogaNet.Crypto.ObfuscatedType;
 /// Obfuscated string implementation. This prevents the value from being "plain" in the memory of the application.
 /// NOTE: this class is not cryptographically secure!
 /// </summary>
-public class StringObf
+public class StringObf //NUnit
 {
    #region Variables
 

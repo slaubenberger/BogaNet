@@ -8,7 +8,7 @@ namespace BogaNet.Crypto;
 /// Obfuscator for strings and byte-arrays.
 /// NOTE: this class is not cryptographically secure!
 /// </summary>
-public abstract class Obfuscator
+public abstract class Obfuscator //NUnit
 {
    private const byte DEFAULT_IV = 76;
 

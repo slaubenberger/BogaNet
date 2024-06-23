@@ -31,7 +31,6 @@ public static class Program
       //testBase32();
       //testDI();
       //testCrc();
-      //testObfType();
       //testBitrateHRF();
       //testBytesHRF();
       //testDrive();
@@ -39,7 +38,6 @@ public static class Program
       //testRSA();
       //testLocalizer();
       //testConvert();
-      //testObf();
       //testToString();
 
       Exit(0);
@@ -127,38 +125,6 @@ public static class Program
       var crc2 = CRCHelper.CRC16(input2.BNToByteArray());
 
       _logger.LogInformation($"{crc1} - {crc2}");
-   }
-
-   private static void testObfType()
-   {
-      DecimalObf age = 35;
-      decimal years = 7;
-      age += years;
-
-      decimal res = age;
-
-      _logger.LogInformation($"Age: {age} - {(age.Equals(res))}");
-
-      StringObf text = $"Hello everybody! {DateTime.Now}";
-      string frag = " BYE";
-      text += frag;
-
-      string textB = text;
-
-      _logger.LogInformation($"Text: {text} - {(text.Equals(textB))}");
-
-      CharObf ch = 'A';
-      char ch2 = ch;
-
-      _logger.LogInformation($"Char: {ch} - {(ch.Equals(ch2))}");
-
-      DoubleObf temp = 35.67;
-      double incr = 7.65;
-      temp += incr;
-
-      double res2 = temp;
-
-      _logger.LogInformation($"Temp: {temp} - {(temp.Equals(res2))}");
    }
 
    private static void testBitrateHRF()
@@ -283,20 +249,7 @@ public static class Program
 
       _logger.LogInformation($"{inVal} => {outVal}");
    }
-
-   private static void testObf()
-   {
-      //string plain = Helper.CreateString("ハローワールド", 50);
-      string plain = StringHelper.CreateString(80, Constants.SIGNS_EXT);
-      //string plain = Helper.CreateString(Constants.SIGNS, 80);
-
-      byte[]? obf = Obfuscator.Obfuscate(plain.BNToByteArray(), 23);
-      string? plainAgain = Obfuscator.Deobfuscate(obf, 23).BNToString();
-
-      _logger.LogInformation($"'{plain}'");
-      _logger.LogInformation($"'{obf}'");
-      _logger.LogInformation($"'{plainAgain}' - Equals: {plain.Equals(plainAgain)}");
-   }
+   
 
    private static void testToString()
    {

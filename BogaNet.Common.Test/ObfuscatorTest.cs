@@ -18,8 +18,10 @@ public class ObfuscatorTest
 
       plain = "Another test?!";
 
-      output = Obfuscator.Obfuscate(plain.BNToByteArray(), 123);
-      plain2 = Obfuscator.Deobfuscate(output, 123).BNToString();
+      byte IV = Obfuscator.GenerateIV();
+
+      output = Obfuscator.Obfuscate(plain.BNToByteArray(), IV);
+      plain2 = Obfuscator.Deobfuscate(output, IV).BNToString();
 
       Assert.That(plain, Is.EqualTo(plain2));
 

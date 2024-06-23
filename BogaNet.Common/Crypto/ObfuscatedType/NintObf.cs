@@ -4,7 +4,7 @@ namespace BogaNet.Crypto.ObfuscatedType;
 /// Obfuscated nint implementation. This prevents the value from being "plain" in the memory of the application.
 /// NOTE: this class is not cryptographically secure!
 /// </summary>
-public class NintObf : ObfuscatedValueType<NintObf, nint>
+public class NintObf : ObfuscatedValueType<NintObf, nint> //NUnit
 {
    private static readonly byte _obf = Obfuscator.GenerateIV();
    protected override byte obf { get; } = _obf;
