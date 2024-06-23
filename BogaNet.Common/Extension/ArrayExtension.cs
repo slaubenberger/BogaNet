@@ -161,6 +161,28 @@ public static class ArrayExtension
             return T.CreateTruncating(bytes[offset]);
          case Type t when t == typeof(sbyte):
             return T.CreateTruncating(bytes[offset]);
+         case Type t when t == typeof(decimal):
+            content = new byte[16];
+            Buffer.BlockCopy(bytes, offset, content, 0, 16);
+/*
+            const byte DecimalSignBit = 128;
+
+            decimal result = new(
+               BitConverter.ToInt32(content, 0),
+               BitConverter.ToInt32(content, 4),
+               BitConverter.ToInt32(content, 8),
+               content[offset + 15] == DecimalSignBit,
+               content[offset + 14]);
+*/
+
+            int i1 = BitConverter.ToInt32(content, 0);
+            int i2 = BitConverter.ToInt32(content, 4);
+            int i3 = BitConverter.ToInt32(content, 8);
+            int i4 = BitConverter.ToInt32(content, 12);
+
+            decimal result = new(new int[] { i1, i2, i3, i4 });
+
+            return T.CreateTruncating(result);
          default:
             _logger.LogWarning("Number type is not supported!");
             break;

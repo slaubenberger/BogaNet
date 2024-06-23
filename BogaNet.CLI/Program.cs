@@ -26,7 +26,8 @@ public static class Program
 
       _logger.LogDebug("Hi there, this is a test app!");
 
-      testBase32();
+      testNumber();
+      //testBase32();
       //testDI();
       //testCrc();
       //testObfType();
@@ -56,6 +57,19 @@ public static class Program
 
       NLog.LogManager.Shutdown();
       Environment.Exit(code);
+   }
+
+   private static void testNumber()
+   {
+      decimal number = -1234.56789m;
+
+      byte[] bytes = number.BNToByteArray();
+
+      _logger.LogInformation($"{bytes.Length}");
+
+      decimal numberCopy = bytes.BNToNumber<decimal>();
+
+      _logger.LogInformation($"{number} - {numberCopy}");
    }
 
    private static void testBase32()
@@ -100,11 +114,11 @@ public static class Program
 
    private static void testObfType()
    {
-      UlongObf age = 35;
-      ulong years = 7;
+      DecimalObf age = 35;
+      decimal years = 7;
       age += years;
 
-      ulong res = age;
+      decimal res = age;
 
       _logger.LogInformation($"Age: {age} - {(age.Equals(res))}");
 
@@ -256,7 +270,7 @@ public static class Program
    private static void testObf()
    {
       //string plain = Helper.CreateString("ハローワールド", 50);
-      string plain = StringHelper.CreateString( 80, Constants.SIGNS_EXT);
+      string plain = StringHelper.CreateString(80, Constants.SIGNS_EXT);
       //string plain = Helper.CreateString(Constants.SIGNS, 80);
 
       byte[]? obf = Obfuscator.Obfuscate(plain.BNToByteArray(), 23);

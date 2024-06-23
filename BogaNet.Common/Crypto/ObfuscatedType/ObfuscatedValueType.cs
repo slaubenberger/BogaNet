@@ -84,6 +84,9 @@ public abstract class ObfuscatedValueType<TCustom, TValue> where TValue : INumbe
             case Type t when t == typeof(char):
                char charVal = char.Parse(plainValue);
                return TValue.CreateTruncating(charVal);
+            case Type t when t == typeof(decimal):
+               decimal decVal = decimal.Parse(plainValue);
+               return TValue.CreateTruncating(decVal);
             default:
                _logger.LogWarning("Number type is not supported!");
                break;

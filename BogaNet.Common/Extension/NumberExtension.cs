@@ -1,6 +1,7 @@
 ﻿using System.Numerics;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Linq;
 using BogaNet.Helper;
 
 namespace BogaNet;
@@ -130,6 +131,14 @@ public static class NumberExtension
             sbyte sbyteVal = sbyte.CreateTruncating(number);
             return [sbyteVal];
          */
+         case Type t when t == typeof(decimal):
+            decimal decVal = decimal.CreateTruncating(number);
+
+            int[] int64s = decimal.GetBits(decVal);
+            byte[] bytes = int64s.Take(4).SelectMany(BitConverter.GetBytes).ToArray();
+            //byte[] bytes = int64s.Take(4).SelectMany(BitConverter.GetBytes).Reverse().ToArray();
+
+            return bytes;
          default:
             _logger.LogWarning("Number type is not supported!");
             break;
@@ -137,7 +146,7 @@ public static class NumberExtension
 
       return default;
    }
-   
+
    /// <summary>
    /// Converts a decimal to the given Number type.
    /// </summary>
@@ -147,7 +156,7 @@ public static class NumberExtension
    {
       return T.CreateTruncating(number);
    }
-   
+
    /// <summary>
    /// Converts a Number type to decimal.
    /// </summary>
