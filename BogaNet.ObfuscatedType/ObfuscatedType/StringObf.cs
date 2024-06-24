@@ -11,7 +11,8 @@ public class StringObf //NUnit
 {
    #region Variables
 
-   private static readonly byte obf = Obfuscator.GenerateIV();
+   private static readonly byte _obf = (byte)(Obfuscator.GenerateIV() + 173);
+   private byte obf => (byte)(_obf - 173);
    private byte[]? obfValue;
 
    #endregion

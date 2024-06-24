@@ -51,6 +51,11 @@ public static class Program
 
    private static void testNumber()
    {
+      byte a = 1;
+      byte b = (byte)((a * 300));
+      
+      _logger.LogInformation($"Shift: {BogaNet.Encoder.Base16.ToBase16String(a)} - {BogaNet.Encoder.Base16.ToBase16String(b)}");
+      
       char c = 'Q';
       var cBytes = c.BNToByteArray();
 

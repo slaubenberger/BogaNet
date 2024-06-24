@@ -8,8 +8,8 @@ namespace BogaNet.ObfuscatedType;
 /// </summary>
 public class FloatObf : ObfuscatedValueType<FloatObf, float> //NUnit
 {
-   private static readonly byte _obf = Obfuscator.GenerateIV();
-   protected override byte obf => _obf;
+   private static readonly byte _obf = (byte)(Obfuscator.GenerateIV() + 71);
+   protected override byte obf => (byte)(_obf - 71);
 
    private FloatObf(float value) : base(value)
    {

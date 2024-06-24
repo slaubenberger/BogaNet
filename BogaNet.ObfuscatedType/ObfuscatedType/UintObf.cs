@@ -8,8 +8,8 @@ namespace BogaNet.ObfuscatedType;
 /// </summary>
 public class UintObf : ObfuscatedValueType<UintObf, uint> //NUnit
 {
-   private static readonly byte _obf = Obfuscator.GenerateIV();
-   protected override byte obf => _obf;
+   private static readonly byte _obf = (byte)(Obfuscator.GenerateIV() + 181);
+   protected override byte obf => (byte)(_obf - 181);
 
    private UintObf(uint value) : base(value)
    {

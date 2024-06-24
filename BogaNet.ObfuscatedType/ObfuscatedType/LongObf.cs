@@ -8,8 +8,8 @@ namespace BogaNet.ObfuscatedType;
 /// </summary>
 public class LongObf : ObfuscatedValueType<LongObf, long> //NUnit
 {
-   private static readonly byte _obf = Obfuscator.GenerateIV();
-   protected override byte obf => _obf;
+   private static readonly byte _obf = (byte)(Obfuscator.GenerateIV() + 101);
+   protected override byte obf => (byte)(_obf - 101);
 
    private LongObf(long value) : base(value)
    {
