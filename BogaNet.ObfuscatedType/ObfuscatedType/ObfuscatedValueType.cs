@@ -29,43 +29,11 @@ public abstract class ObfuscatedValueType<TCustom, TValue> where TValue : INumbe
    {
       get
       {
-/*
-         //string? plainValue = Obfuscator.DeobfuscateToString(obfValue, obf, Encoding.ASCII);
-
-         Type type = typeof(TValue);
-
-         if (type == typeof(decimal))
-         {
-            string? plainValue = Obfuscator.DeobfuscateToString(obfValue, obf, Encoding.ASCII);
-            decimal decVal = decimal.Parse(plainValue);
-            return TValue.CreateTruncating(decVal);
-         }
-         else
-         {
-            return Obfuscator.Deobfuscate(obfValue).BNToNumber<TValue>();
-         }
-*/
-         return Obfuscator.Deobfuscate(obfValue).BNToNumber<TValue>();
+         return Obfuscator.Deobfuscate(obfValue, obf).BNToNumber<TValue>()!;
       }
 
       private set
       {
-         /*
-         Type type = typeof(TValue);
-
-         if (type == typeof(decimal))
-         {
-            var tb = value.BNToByteArray();
-            var dec = tb.BNToNumber<decimal>();
-            var asStr = value.ToString();
-            obfValue = Obfuscator.Obfuscate(value.ToString(), obf, Encoding.ASCII);
-         }
-         else
-         {
-            obfValue = Obfuscator.Obfuscate(value.BNToByteArray(), obf);
-         }
-         */
-
          obfValue = Obfuscator.Obfuscate(value.BNToByteArray(), obf);
       }
    }
