@@ -10,7 +10,7 @@ namespace BogaNet.Helper;
 /// <summary>
 /// Helper for AES cryptography.
 /// </summary>
-public abstract class AESHelper
+public abstract class AESHelper //TODO add other algorithms, key&blocksize, padding and mode?
 {
    private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(AESHelper));
 
@@ -33,7 +33,7 @@ public abstract class AESHelper
    /// <returns>Secure key as byte-array</returns>
    public static byte[] GenerateKey(int length = 16)
    {
-      byte[] buffer = new byte[length];
+      byte[] buffer = new byte[length.BNClamp(16, 32)];
       using RandomNumberGenerator rng = RandomNumberGenerator.Create();
       rng.GetBytes(buffer);
       return buffer;
@@ -140,9 +140,14 @@ public abstract class AESHelper
 
       try
       {
-         using Aes algo = Aes.Create();
-         ICryptoTransform encryptor = algo.CreateEncryptor(key, IV);
-
+         using SymmetricAlgorithm algo = Aes.Create();
+         /*
+         algo.KeySize = 256;
+         algo.BlockSize = 128;
+         algo.Padding = PaddingMode.PKCS7;
+         algo.Mode = CipherMode.CFB;
+         */
+         using ICryptoTransform encryptor = algo.CreateEncryptor(key, IV);
          using MemoryStream msEncrypt = new();
          await using CryptoStream csEncrypt = new(msEncrypt, encryptor, CryptoStreamMode.Write);
          await csEncrypt.WriteAsync(dataToEncrypt, 0, dataToEncrypt.Length);
@@ -203,9 +208,14 @@ public abstract class AESHelper
 
       try
       {
-         using Aes algo = Aes.Create();
-         ICryptoTransform decryptor = algo.CreateDecryptor(key, IV);
-
+         using SymmetricAlgorithm algo = Aes.Create();
+         /*
+         algo.KeySize = 256;
+         algo.BlockSize = 128;
+         algo.Padding = PaddingMode.PKCS7;
+         algo.Mode = CipherMode.CFB;
+         */
+         using ICryptoTransform decryptor = algo.CreateDecryptor(key, IV);
          using MemoryStream msDecrypt = new(dataToDecrypt);
          await using CryptoStream csDecrypt = new(msDecrypt, decryptor, CryptoStreamMode.Read);
 

@@ -12,4 +12,5 @@
 * [BogaNet.Crypto](https://www.nuget.org/packages/BogaNet.Crypto/): various helpers for cryptographic functions, like hashing (SHA), asymmetric (RSA) and symmetric (AES) encryption/decryption, HMAC and CRC.
 * [BogaNet.i18n](https://www.nuget.org/packages/BogaNet.i18n/): localizer for C# applications.
 * [BogaNet.ObfuscatedType](https://www.nuget.org/packages/BogaNet.ObfuscatedType/): various obfuscated types for all value types and strings. This types prevent the values from being "plain" in memory and offers some protection against bad actors (like memory scanners and searchers).
+* [BogaNet.SecureType](https://www.nuget.org/packages/BogaNet.SecureType/): various encrypted types for all value types and strings. This types prevent the values from being "plain" in memory and offers high protection against bad actors (like memory scanners and searchers).
 * [BogaNet.Unit](https://www.nuget.org/packages/BogaNet.Unit/): Various units, like area, bit, byte, length, temperature, volume and weight with easy conversion between different types.

@@ -56,7 +56,7 @@ public abstract class HashHelper
    /// <exception cref="Exception"></exception>
    public static byte[] SHA256(params byte[]? bytes)
    {
-      using SHA256 sha256 = System.Security.Cryptography.SHA256.Create();
+      using HashAlgorithm sha256 = System.Security.Cryptography.SHA256.Create();
       return Hash(bytes, sha256);
    }
 
@@ -80,7 +80,7 @@ public abstract class HashHelper
    /// <exception cref="Exception"></exception>
    public static byte[] SHA384(params byte[]? bytes)
    {
-      using SHA384 sha384 = System.Security.Cryptography.SHA384.Create();
+      using HashAlgorithm sha384 = System.Security.Cryptography.SHA384.Create();
       return Hash(bytes, sha384);
    }
 
@@ -104,7 +104,7 @@ public abstract class HashHelper
    /// <exception cref="Exception"></exception>
    public static byte[] SHA512(params byte[]? bytes)
    {
-      using SHA512 sha512 = System.Security.Cryptography.SHA512.Create();
+      using HashAlgorithm sha512 = System.Security.Cryptography.SHA512.Create();
       return Hash(bytes, sha512);
    }
 

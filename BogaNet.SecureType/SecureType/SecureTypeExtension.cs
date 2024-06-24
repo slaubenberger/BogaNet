@@ -1,24 +1,24 @@
 using System;
 
-namespace BogaNet.ObfuscatedType;
+namespace BogaNet.SecureType;
 
 /// <summary>
-/// Extension methods for ObfuscatedType.
+/// Extension methods for SecureType.
 /// </summary>
-public static class ObfuscatedTypeExtension
+public static class SecureTypeExtension
 {
    /// <summary>
-   /// Converts a byte-array to a ByteObf-array.
+   /// Converts a byte-array to a ByteSec-array.
    /// </summary>
    /// <param name="array">Array-instance to convert</param>
-   /// <returns>Converted ByteObf-array</returns>
+   /// <returns>Converted ByteSec-array</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static ByteObf[] BNToByteObfArray(this byte[]? array)
+   public static ByteSec[] BNToByteSecArray(this byte[]? array)
    {
       if (array == null)
          throw new ArgumentNullException(nameof(array));
 
-      ByteObf[] bNbytes = new ByteObf[array.Length];
+      ByteSec[] bNbytes = new ByteSec[array.Length];
 
       for (int ii = 0; ii < array.Length; ii++)
       {
@@ -29,12 +29,12 @@ public static class ObfuscatedTypeExtension
    }
 
    /// <summary>
-   /// Converts a ByteObf-array to a byte-array.
+   /// Converts a ByteSec-array to a byte-array.
    /// </summary>
    /// <param name="array">Array-instance to convert</param>
    /// <returns>Converted byte-array</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static byte[] ToByteArray(this ByteObf[]? array)
+   public static byte[] ToByteArray(this ByteSec[]? array)
    {
       if (array == null)
          throw new ArgumentNullException(nameof(array));

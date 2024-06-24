@@ -6,3 +6,6 @@ Various obfuscated types for all value types and strings. This types prevent the
 
 ## GitHub:
 [https://github.com/slaubenberger/BogaNet/](https://github.com/slaubenberger/BogaNet/)
+
+## Nuget:
+[BogaNet.ObfuscatedType](https://www.nuget.org/packages/BogaNet.ObfuscatedType/)

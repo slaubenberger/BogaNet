@@ -26,23 +26,20 @@ public abstract class HMACHelper
    }
 
    /// <summary>
-   /// Generates a HMAC-value with SHA256 as byte-array with a given byte-array and secret as input.
+   /// Generates a HMAC-value as byte-array with given byte-array and algorithm as input.
    /// </summary>
    /// <param name="bytes">Data as byte-array</param>
-   /// <param name="secret">Shared secret for HMAC</param>
-   /// <returns>HMAC-value with SHA256 as byte-array</returns>
+   /// <param name="algo">HMAC-algorithm</param>
+   /// <returns>HMAC-value as byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static byte[] HMAC256(byte[]? bytes, byte[]? secret)
+   public static byte[] Hash(byte[]? bytes, HMAC? algo)
    {
       if (bytes == null || bytes.Length <= 0)
          throw new ArgumentNullException(nameof(bytes));
-      if (secret == null || secret.Length <= 0)
-         throw new ArgumentNullException(nameof(secret));
 
       try
       {
-         using HMACSHA256 hash = new HMACSHA256(secret);
-         return hash.ComputeHash(bytes);
+         return algo?.ComputeHash(bytes, 0, bytes.Length) ?? [];
       }
       catch (Exception ex)
       {
@@ -52,17 +49,44 @@ public abstract class HMACHelper
    }
 
    /// <summary>
+   /// Generates a HMAC-value as byte-array with a given string and algorithm as input.
+   /// </summary>
+   /// <param name="text">Data as string</param>
+   /// <param name="algo">HMAC-algorithm</param>
+   /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
+   /// <returns>HMAC-value as byte-array</returns>
+   /// <exception cref="Exception"></exception>
+   public static byte[] Hash(string? text, HMAC? algo, Encoding? encoding = null)
+   {
+      return Hash(text.BNToByteArray(encoding), algo);
+   }
+
+   /// <summary>
+   /// Generates a HMAC-value with SHA256 as byte-array with a given byte-array and secret as input.
+   /// </summary>
+   /// <param name="bytes">Data as byte-array</param>
+   /// <param name="secret">Shared secret for HMAC</param>
+   /// <returns>HMAC-value with SHA256 as byte-array</returns>
+   /// <exception cref="Exception"></exception>
+   public static byte[] HMAC256(byte[]? bytes, byte[]? secret)
+   {
+      if (secret == null || secret.Length <= 0)
+         throw new ArgumentNullException(nameof(secret));
+
+      using HMAC hash = new HMACSHA256(secret);
+      return Hash(bytes, hash);
+   }
+
+   /// <summary>
    /// Generates a HMAC-value with SHA256 as byte-array with a given string and secret as input.
    /// </summary>
    /// <param name="text">Data as string</param>
    /// <param name="secret">Shared secret for HMAC</param>
+   /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
    /// <returns>HMAC-value with SHA256 as byte-array</returns>
    /// <exception cref="Exception"></exception>
    public static byte[] HMAC256(string? text, byte[]? secret, Encoding? encoding = null)
    {
-      if (text == null)
-         throw new ArgumentNullException(nameof(text));
-
       return HMAC256(text.BNToByteArray(encoding), secret);
    }
 
@@ -75,21 +99,11 @@ public abstract class HMACHelper
    /// <exception cref="Exception"></exception>
    public static byte[] HMAC384(byte[]? bytes, byte[]? secret)
    {
-      if (bytes == null || bytes.Length <= 0)
-         throw new ArgumentNullException(nameof(bytes));
       if (secret == null || secret.Length <= 0)
          throw new ArgumentNullException(nameof(secret));
 
-      try
-      {
-         using HMACSHA384 hash = new HMACSHA384(secret);
-         return hash.ComputeHash(bytes);
-      }
-      catch (Exception ex)
-      {
-         LoggerExtensions.LogError(_logger, ex, "Compute of HMAC failed!");
-         throw;
-      }
+      using HMAC hash = new HMACSHA384(secret);
+      return Hash(bytes, hash);
    }
 
    /// <summary>
@@ -97,13 +111,11 @@ public abstract class HMACHelper
    /// </summary>
    /// <param name="text">Data as string</param>
    /// <param name="secret">Shared secret for HMAC</param>
+   /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
    /// <returns>HMAC-value with SHA384 as byte-array</returns>
    /// <exception cref="Exception"></exception>
    public static byte[] HMAC384(string? text, byte[]? secret, Encoding? encoding = null)
    {
-      if (text == null)
-         throw new ArgumentNullException(nameof(text));
-
       return HMAC384(text.BNToByteArray(encoding), secret);
    }
 
@@ -116,21 +128,11 @@ public abstract class HMACHelper
    /// <exception cref="Exception"></exception>
    public static byte[] HMAC512(byte[]? bytes, byte[]? secret)
    {
-      if (bytes == null || bytes.Length <= 0)
-         throw new ArgumentNullException(nameof(bytes));
       if (secret == null || secret.Length <= 0)
          throw new ArgumentNullException(nameof(secret));
 
-      try
-      {
-         using HMACSHA512 hash = new HMACSHA512(secret);
-         return hash.ComputeHash(bytes);
-      }
-      catch (Exception ex)
-      {
-         LoggerExtensions.LogError(_logger, ex, "Compute of HMAC failed!");
-         throw;
-      }
+      using HMAC hash = new HMACSHA512(secret);
+      return Hash(bytes, hash);
    }
 
    /// <summary>
@@ -138,13 +140,11 @@ public abstract class HMACHelper
    /// </summary>
    /// <param name="text">Data as string</param>
    /// <param name="secret">Shared secret for HMAC</param>
+   /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
    /// <returns>HMAC-value with SHA512 as byte-array</returns>
    /// <exception cref="Exception"></exception>
    public static byte[] HMAC512(string? text, byte[]? secret, Encoding? encoding = null)
    {
-      if (text == null)
-         throw new ArgumentNullException(nameof(text));
-
       return HMAC512(text.BNToByteArray(encoding), secret);
    }
 }

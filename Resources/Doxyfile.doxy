@@ -953,6 +953,7 @@ INPUT                  = ../BogaNet.Common \
 						 ../BogaNet.Crypto \
 						 ../BogaNet.i18n \
 						 ../BogaNet.ObfuscatedType \
+						 ../BogaNet.SecureType \
 						 ../BogaNet.Unit \
                          ../BogaNet.Avalonia
 

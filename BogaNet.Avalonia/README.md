@@ -6,3 +6,6 @@ A library with many little helpers to speed up Avalonia development.
 
 ## GitHub:
 [https://github.com/slaubenberger/BogaNet/](https://github.com/slaubenberger/BogaNet/)
+
+## Nuget:
+[BogaNet.Avalonia](https://www.nuget.org/packages/BogaNet.Avalonia/)

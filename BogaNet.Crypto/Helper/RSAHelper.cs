@@ -32,7 +32,7 @@ public abstract class RSAHelper
 
       X500DistinguishedName distinguishedName = new($"CN={certName}");
 
-      using RSA rsa = RSA.Create(keyLength);
+      using RSA rsa = RSA.Create(keyLength); //TODO find nearest
       CertificateRequest request = new(distinguishedName, rsa, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
 
       request.CertificateExtensions.Add(new X509KeyUsageExtension(X509KeyUsageFlags.DataEncipherment | X509KeyUsageFlags.KeyEncipherment | X509KeyUsageFlags.DigitalSignature, false));

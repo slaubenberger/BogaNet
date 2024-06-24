@@ -6,3 +6,6 @@ Various helpers for cryptographic functions, like hashing (SHA), asymmetric (AES
 
 ## GitHub:
 [https://github.com/slaubenberger/BogaNet/](https://github.com/slaubenberger/BogaNet/)
+
+## Nuget:
+[BogaNet.Crypto](https://www.nuget.org/packages/BogaNet.Crypto/)

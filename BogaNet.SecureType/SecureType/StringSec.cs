@@ -1,18 +1,19 @@
 using System.Collections.Generic;
-using BogaNet.Util;
+using BogaNet.Helper;
+using BogaNet.ObfuscatedType;
 
-namespace BogaNet.ObfuscatedType;
+namespace BogaNet.SecureType;
 
 /// <summary>
-/// Obfuscated string implementation. This prevents the value from being "plain" in the memory of the application.
-/// NOTE: this class is not cryptographically secure!
+/// Secure string implementation. This prevents the value from being readable in the memory of the application.
 /// </summary>
-public class StringObf //NUnit
+public class StringSec //NUnit
 {
    #region Variables
 
-   private static readonly byte obf = Obfuscator.GenerateIV();
-   private byte[]? obfValue;
+   private static readonly ByteObf[] key = AESHelper.GenerateKey().BNToByteObfArray();
+   private static readonly ByteObf[] iv = AESHelper.GenerateIV().BNToByteObfArray();
+   private byte[] secretValue;
 
    #endregion
 
@@ -20,15 +21,15 @@ public class StringObf //NUnit
 
    private string _value
    {
-      get => Obfuscator.DeobfuscateToString(obfValue, obf) ?? string.Empty;
-      set => obfValue = Obfuscator.Obfuscate(value, obf);
+      get => AESHelper.Decrypt(secretValue, key.ToByteArray(), iv.ToByteArray()).BNToString() ?? string.Empty;
+      set => secretValue = AESHelper.Encrypt(value.BNToByteArray(), key.ToByteArray(), iv.ToByteArray());
    }
 
    #endregion
 
    #region Constructors
 
-   public StringObf(string value)
+   public StringSec(string value)
    {
       _value = value;
    }
@@ -37,12 +38,12 @@ public class StringObf //NUnit
 
    #region Operators
 
-   public static implicit operator StringObf(string value)
+   public static implicit operator StringSec(string value)
    {
-      return new StringObf(value);
+      return new StringSec(value);
    }
 
-   public static implicit operator string(StringObf custom)
+   public static implicit operator string(StringSec custom)
    {
       return custom._value;
    }
@@ -77,7 +78,7 @@ public class StringObf //NUnit
          return _value.Equals(obj);
 
       if (obj.GetType() != GetType()) return false;
-      return equals((StringObf)obj);
+      return equals((StringSec)obj);
    }
 
    public override int GetHashCode()
@@ -89,7 +90,7 @@ public class StringObf //NUnit
 
    #region Private methods
 
-   private bool equals(StringObf other)
+   private bool equals(StringSec other)
    {
       return EqualityComparer<string>.Default.Equals(_value, other._value);
    }

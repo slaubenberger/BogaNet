@@ -2,24 +2,26 @@ using System.Collections.Generic;
 using System.Numerics;
 using System;
 using Microsoft.Extensions.Logging;
+using BogaNet.Helper;
+using BogaNet.ObfuscatedType;
 using System.Text;
-using BogaNet.Util;
 
-namespace BogaNet.ObfuscatedType;
+namespace BogaNet.SecureType;
 
 /// <summary>
-/// Obfuscated implementation for value types.
+/// Secure implementation for value types.
 /// </summary>
 /// <typeparam name="TCustom"></typeparam>
 /// <typeparam name="TValue"></typeparam>
-public abstract class ObfuscatedValueType<TCustom, TValue> where TValue : INumber<TValue>
+public abstract class SecureValueType<TCustom, TValue> where TValue : INumber<TValue>
 {
    #region Variables
 
-   private static readonly ILogger<ObfuscatedValueType<TCustom, TValue>> _logger = GlobalLogging.CreateLogger<ObfuscatedValueType<TCustom, TValue>>();
+   private static readonly ILogger<SecureValueType<TCustom, TValue>> _logger = GlobalLogging.CreateLogger<SecureValueType<TCustom, TValue>>();
 
-   protected abstract byte obf { get; } //= Obfuscator.GenerateIV();
-   private byte[]? obfValue;
+   protected abstract ByteObf[] key { get; }
+   protected abstract ByteObf[] iv { get; }
+   private byte[] secretValue;
 
    #endregion
 
@@ -31,7 +33,7 @@ public abstract class ObfuscatedValueType<TCustom, TValue> where TValue : INumbe
       {
          Type type = typeof(TValue);
 
-         string? plainValue = Obfuscator.DeobfuscateToString(obfValue, obf, Encoding.ASCII);
+         string? plainValue = AESHelper.DecryptToString(secretValue, key.ToByteArray(), iv.ToByteArray(), Encoding.ASCII);
 
          if (plainValue == null)
             return TValue.CreateTruncating(0);
@@ -89,7 +91,7 @@ public abstract class ObfuscatedValueType<TCustom, TValue> where TValue : INumbe
       }
       private set
       {
-         obfValue = Obfuscator.Obfuscate(value.ToString(), obf, Encoding.ASCII);
+         secretValue = AESHelper.Encrypt(value.ToString(), key.ToByteArray(), iv.ToByteArray(), Encoding.ASCII);
       }
    }
 
@@ -97,7 +99,7 @@ public abstract class ObfuscatedValueType<TCustom, TValue> where TValue : INumbe
 
    #region Constructors
 
-   public ObfuscatedValueType(TValue value)
+   public SecureValueType(TValue value)
    {
       _value = value;
    }
@@ -106,42 +108,42 @@ public abstract class ObfuscatedValueType<TCustom, TValue> where TValue : INumbe
 
    #region Operators
 
-   public static bool operator <(ObfuscatedValueType<TCustom, TValue> a, ObfuscatedValueType<TCustom, TValue> b)
+   public static bool operator <(SecureValueType<TCustom, TValue> a, SecureValueType<TCustom, TValue> b)
    {
       return Comparer<TValue>.Default.Compare(a._value, b._value) < 0;
    }
 
-   public static bool operator >(ObfuscatedValueType<TCustom, TValue> a, ObfuscatedValueType<TCustom, TValue> b)
+   public static bool operator >(SecureValueType<TCustom, TValue> a, SecureValueType<TCustom, TValue> b)
    {
       return !(a < b);
    }
 
-   public static bool operator <=(ObfuscatedValueType<TCustom, TValue> a, ObfuscatedValueType<TCustom, TValue> b)
+   public static bool operator <=(SecureValueType<TCustom, TValue> a, SecureValueType<TCustom, TValue> b)
    {
       return (a < b) || (a == b);
    }
 
-   public static bool operator >=(ObfuscatedValueType<TCustom, TValue> a, ObfuscatedValueType<TCustom, TValue> b)
+   public static bool operator >=(SecureValueType<TCustom, TValue> a, SecureValueType<TCustom, TValue> b)
    {
       return (a > b) || (a == b);
    }
 
-   public static bool operator ==(ObfuscatedValueType<TCustom, TValue> a, ObfuscatedValueType<TCustom, TValue> b)
+   public static bool operator ==(SecureValueType<TCustom, TValue> a, SecureValueType<TCustom, TValue> b)
    {
       return a.Equals((object)b);
    }
 
-   public static bool operator !=(ObfuscatedValueType<TCustom, TValue> a, ObfuscatedValueType<TCustom, TValue> b)
+   public static bool operator !=(SecureValueType<TCustom, TValue> a, SecureValueType<TCustom, TValue> b)
    {
       return !(a == b);
    }
 
-   public static TCustom operator +(ObfuscatedValueType<TCustom, TValue> a, ObfuscatedValueType<TCustom, TValue> b)
+   public static TCustom operator +(SecureValueType<TCustom, TValue> a, SecureValueType<TCustom, TValue> b)
    {
       return (dynamic)a._value + b._value;
    }
 
-   public static TCustom operator -(ObfuscatedValueType<TCustom, TValue> a, ObfuscatedValueType<TCustom, TValue> b)
+   public static TCustom operator -(SecureValueType<TCustom, TValue> a, SecureValueType<TCustom, TValue> b)
    {
       return ((dynamic)a._value - b._value);
    }
@@ -164,7 +166,7 @@ public abstract class ObfuscatedValueType<TCustom, TValue> where TValue : INumbe
          return _value.Equals(obj);
 
       if (obj.GetType() != GetType()) return false;
-      return equals((ObfuscatedValueType<TCustom, TValue>)obj);
+      return equals((SecureValueType<TCustom, TValue>)obj);
    }
 
    public override int GetHashCode()
@@ -176,7 +178,7 @@ public abstract class ObfuscatedValueType<TCustom, TValue> where TValue : INumbe
 
    #region Private methods
 
-   protected bool equals(ObfuscatedValueType<TCustom, TValue> other)
+   protected bool equals(SecureValueType<TCustom, TValue> other)
    {
       return EqualityComparer<TValue>.Default.Equals(_value, other._value);
    }

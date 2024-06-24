@@ -6,3 +6,6 @@ Localizer for C# applications.
 
 ## GitHub:
 [https://github.com/slaubenberger/BogaNet/](https://github.com/slaubenberger/BogaNet/)
+
+## Nuget:
+[BogaNet.i18n](https://www.nuget.org/packages/BogaNet.i18n/)
