@@ -37,7 +37,7 @@ public abstract class Constants
    #endregion
 
    #region Time
-
+/*
    public const int MAX_SECOND_VALUE = 59;
    public const int MAX_MINUTE_VALUE = 59;
    public const int MAX_HOUR_VALUE = 23;
@@ -68,7 +68,7 @@ public abstract class Constants
    public const long MILLISECONDS_PER_WEEK = DAYS_PER_WEEK * MILLISECONDS_PER_DAY;
    public const long MILLISECONDS_PER_YEAR = DAYS_PER_YEAR * MILLISECONDS_PER_DAY;
    public const long SECONDS_BETWEEN_1900_AND_1970 = 2208988800L;
-
+*/
    /// <summary>Format for DateTime in ISO8601.</summary>
    public const string FORMAT_DATETIME_ISO8601 = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'";
 
@@ -239,6 +239,12 @@ public abstract class Constants
    /// </summary>
    public static bool IsMobile => IsIOS || IsAndroid;
 
+   // Prefixes for URLs and paths
+   public const string PREFIX_HTTP = "http://";
+   public const string PREFIX_HTTPS = "https://";
+   public const string PREFIX_SMB = "smb://";
+   public const string PREFIX_FTP = "ftp://";
+
    #endregion
 
    #region Changable variables
@@ -254,12 +260,6 @@ public abstract class Constants
 
    /// <summary>URL of the company.</summary>
    public static string COMPANY_EMAIL = "welcome@crosstales.com";
-
-   // Prefixes for URLs and paths
-   public const string PREFIX_HTTP = "http://";
-   public const string PREFIX_HTTPS = "https://";
-   public const string PREFIX_SMB = "smb://";
-   public const string PREFIX_FTP = "ftp://";
 
    /// <summary>Path to the cmd under Windows.</summary>
    public static string CMD_WINDOWS_PATH = @"C:\Windows\system32\cmd.exe";

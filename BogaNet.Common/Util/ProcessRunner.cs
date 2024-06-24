@@ -18,8 +18,8 @@ public class ProcessRunner
 
    private Process? process;
 
-   private readonly List<string> outputList = new();
-   private readonly List<string> errorList = new();
+   private readonly List<string> outputList = [];
+   private readonly List<string> errorList = [];
 
    #endregion
 
@@ -110,8 +110,7 @@ public class ProcessRunner
    /// <exception cref="Exception"></exception>
    public async Task<Process> StartAsync(string command, string? args = null, bool waitForExit = false, Encoding? encoding = null, bool useShellExecute = false, bool createNoWindow = true)
    {
-      if (string.IsNullOrEmpty(command))
-         throw new ArgumentNullException(nameof(command));
+      ArgumentNullException.ThrowIfNull(command);
 
       try
       {
@@ -196,7 +195,7 @@ public class ProcessRunner
       }
       catch (Exception ex)
       {
-         _logger.LogError(ex, $"Could not write the data to the stdin of the process!");
+         _logger.LogError(ex, "Could not write the data to the stdin of the process!");
          throw;
       }
 

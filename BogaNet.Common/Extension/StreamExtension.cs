@@ -28,8 +28,7 @@ public static class StreamExtension
    /// <exception cref="ArgumentNullException"></exception>
    public static async Task<byte[]> BNReadFullyAsync(this Stream? input)
    {
-      if (input == null)
-         throw new ArgumentNullException(nameof(input));
+      ArgumentNullException.ThrowIfNull(input);
 
       using MemoryStream ms = new();
       await input.CopyToAsync(ms);

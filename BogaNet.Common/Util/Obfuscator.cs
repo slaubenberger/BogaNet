@@ -30,10 +30,10 @@ public abstract class Obfuscator //NUnit
    /// <param name="data">byte-array to obfuscate</param>
    /// <param name="IV">Initial-Vector byte (optional)</param>
    /// <returns>Obfuscated byte-array</returns>
-   public static byte[]? Obfuscate(byte[]? data, byte IV = DEFAULT_IV)
+   /// <exception cref="ArgumentNullException"></exception>
+   public static byte[] Obfuscate(byte[]? data, byte IV = DEFAULT_IV)
    {
-      if (data == null)
-         return null;
+      ArgumentNullException.ThrowIfNull(data);
 
       Array.Reverse(data);
 
@@ -58,11 +58,9 @@ public abstract class Obfuscator //NUnit
    /// <param name="IV">Initial-Vector byte (optional)</param>
    /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
    /// <returns>Obfuscated string</returns>
+   /// <exception cref="ArgumentNullException"></exception>
    public static byte[]? Obfuscate(string? data, byte IV = DEFAULT_IV, Encoding? encoding = null)
    {
-      if (data == null)
-         return null;
-
       return Obfuscate(data.BNToByteArray(encoding), IV);
    }
 
@@ -72,10 +70,10 @@ public abstract class Obfuscator //NUnit
    /// <param name="obfuscatedData">byte-array to de-obfuscate</param>
    /// <param name="IV">Initial-Vector byte (optional)</param>
    /// <returns>De-obfuscated byte-array</returns>
-   public static byte[]? Deobfuscate(byte[]? obfuscatedData, byte IV = DEFAULT_IV)
+   /// <exception cref="ArgumentNullException"></exception>
+   public static byte[] Deobfuscate(byte[]? obfuscatedData, byte IV = DEFAULT_IV)
    {
-      if (obfuscatedData == null)
-         return null;
+      ArgumentNullException.ThrowIfNull(obfuscatedData);
 
       byte[] result = new byte[obfuscatedData.Length];
 
@@ -99,11 +97,9 @@ public abstract class Obfuscator //NUnit
    /// <param name="IV">Initial-Vector byte (optional)</param>
    /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
    /// <returns>De-obfuscated byte-array as string</returns>
+   /// <exception cref="ArgumentNullException"></exception>
    public static string? DeobfuscateToString(byte[]? obfuscatedData, byte IV = DEFAULT_IV, Encoding? encoding = null)
    {
-      if (obfuscatedData == null)
-         return null;
-
       return Deobfuscate(obfuscatedData, IV).BNToString(encoding);
    }
 }

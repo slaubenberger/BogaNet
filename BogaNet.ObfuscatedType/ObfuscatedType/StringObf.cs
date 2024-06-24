@@ -28,7 +28,7 @@ public class StringObf //NUnit
 
    #region Constructors
 
-   public StringObf(string value)
+   private StringObf(string value)
    {
       _value = value;
    }

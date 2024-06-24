@@ -96,28 +96,28 @@ public static class LengthUnitExtension
             //val = inVal;
             break;
          case LengthUnit.MM:
-            val = val / FACTOR_MM_TO_M;
+            val /= FACTOR_MM_TO_M;
             break;
          case LengthUnit.CM:
-            val = val / FACTOR_CM_TO_M;
+            val /= FACTOR_CM_TO_M;
             break;
          case LengthUnit.KM:
-            val = val * FACTOR_M_TO_KM;
+            val *= FACTOR_M_TO_KM;
             break;
          case LengthUnit.INCH:
-            val = val * FACTOR_INCH_TO_M;
+            val *= FACTOR_INCH_TO_M;
             break;
          case LengthUnit.FOOT:
-            val = val * FACTOR_FOOT_TO_M;
+            val *= FACTOR_FOOT_TO_M;
             break;
          case LengthUnit.YARD:
-            val = val * FACTOR_YARD_TO_M;
+            val *= FACTOR_YARD_TO_M;
             break;
          case LengthUnit.MILE:
-            val = val * FACTOR_MILE_TO_M;
+            val *= FACTOR_MILE_TO_M;
             break;
          case LengthUnit.NAUTICAL_MILE:
-            val = val * FACTOR_NAUTICAL_MILE_TO_M;
+            val *= FACTOR_NAUTICAL_MILE_TO_M;
             break;
          default:
             _logger.LogWarning($"There is no conversion for the fromUnit: {fromLengthUnit}");

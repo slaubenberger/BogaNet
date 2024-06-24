@@ -9,6 +9,6 @@ public class ArrayExtensionTest
       byte[]? bytes = input.BNToByteArray();
       string? result = bytes.BNToString();
 
-      Assert.That(input, Is.EqualTo(result));
+      Assert.That(result, Is.EqualTo(input));
    }
 }

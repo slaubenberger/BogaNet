@@ -19,10 +19,9 @@ public static class AvaloniaExtension
    /// <exception cref="ArgumentNullException"></exception>
    public static void LoadResources(this Localizer? localizer, params string[] translationFiles)
    {
-      if (localizer == null)
-         throw new ArgumentNullException(nameof(localizer));
+        ArgumentNullException.ThrowIfNull(localizer);
 
-      Dictionary<string, string[]> allLines = new();
+        Dictionary<string, string[]> allLines = new();
 
       foreach (var translation in translationFiles)
       {

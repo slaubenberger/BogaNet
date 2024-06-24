@@ -13,10 +13,8 @@ public class WeightUnitTest
 
       const double valIn = 1234.5678901234;
       decimal val = valIn.BNToDecimal();
-      decimal conv;
 
-      //Console.WriteLine(UnitWeight.TON.Convert(UnitWeight.KILOGRAM, val));
-      conv = WeightUnit.MILLIGRAM.Convert(WeightUnit.POUND, valIn);
+      decimal conv = WeightUnit.MILLIGRAM.Convert(WeightUnit.POUND, valIn);
       Assert.That(val, Is.EqualTo(WeightUnit.POUND.Convert(WeightUnit.MILLIGRAM, conv)));
 
       conv = WeightUnit.GRAM.Convert(WeightUnit.POUND, valIn);

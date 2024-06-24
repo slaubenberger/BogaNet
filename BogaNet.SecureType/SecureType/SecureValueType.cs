@@ -35,7 +35,7 @@ public abstract class SecureValueType<TCustom, TValue> where TValue : INumber<TV
 
    #region Constructors
 
-   public SecureValueType(TValue value)
+   protected SecureValueType(TValue value)
    {
       _value = value;
    }
@@ -56,12 +56,12 @@ public abstract class SecureValueType<TCustom, TValue> where TValue : INumber<TV
 
    public static bool operator <=(SecureValueType<TCustom, TValue> a, SecureValueType<TCustom, TValue> b)
    {
-      return (a < b) || (a == b);
+      return a < b || a == b;
    }
 
    public static bool operator >=(SecureValueType<TCustom, TValue> a, SecureValueType<TCustom, TValue> b)
    {
-      return (a > b) || (a == b);
+      return a > b || a == b;
    }
 
    public static bool operator ==(SecureValueType<TCustom, TValue> a, SecureValueType<TCustom, TValue> b)
@@ -81,7 +81,7 @@ public abstract class SecureValueType<TCustom, TValue> where TValue : INumber<TV
 
    public static TCustom operator -(SecureValueType<TCustom, TValue> a, SecureValueType<TCustom, TValue> b)
    {
-      return ((dynamic)a._value - b._value);
+      return (dynamic)a._value - b._value;
    }
 
    #endregion

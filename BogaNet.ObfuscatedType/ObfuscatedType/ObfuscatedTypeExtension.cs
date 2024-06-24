@@ -35,8 +35,7 @@ public static class ObfuscatedTypeExtension
    /// <exception cref="ArgumentNullException"></exception>
    public static byte[] ToByteArray(this ByteObf[]? array)
    {
-      if (array == null)
-         throw new ArgumentNullException(nameof(array));
+      ArgumentNullException.ThrowIfNull(array);
 
       byte[] bytes = new byte[array.Length];
 

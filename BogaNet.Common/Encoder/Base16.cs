@@ -20,10 +20,9 @@ public static class Base16 //NUnit
    /// <exception cref="ArgumentNullException"></exception>
    public static byte[] FromBase16String(string? base16string)
    {
-      if (string.IsNullOrEmpty(base16string))
-         throw new ArgumentNullException(nameof(base16string));
+      ArgumentNullException.ThrowIfNull(base16string);
 
-      return Convert.FromHexString(base16string.BNStartsWith("0x") ? base16string.Substring(2) : base16string);
+      return Convert.FromHexString(base16string.BNStartsWith("0x") ? base16string[2..] : base16string);
    }
 
    /// <summary>
@@ -35,8 +34,7 @@ public static class Base16 //NUnit
    /// <exception cref="ArgumentNullException"></exception>
    public static string ToBase16String(byte[]? bytes, bool addPrefix = false)
    {
-      if (bytes == null || bytes.Length == 0)
-         throw new ArgumentNullException(nameof(bytes));
+      ArgumentNullException.ThrowIfNull(bytes);
 
       return addPrefix ? $"0x{Convert.ToHexString(bytes)}" : Convert.ToHexString(bytes);
    }
@@ -49,10 +47,9 @@ public static class Base16 //NUnit
    /// <param name="useFullLength">Use the full length of the Number type (optional, default: false)</param>
    /// <returns>Number as converted Base16-string</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static string ToBase16String<T>(this T? number, bool addPrefix = false, bool useFullLength = false) where T : INumber<T>
+   public static string ToBase16String<T>(T? number, bool addPrefix = false, bool useFullLength = false) where T : INumber<T>
    {
-      if (number == null)
-         throw new ArgumentNullException(nameof(number));
+      ArgumentNullException.ThrowIfNull(number);
 
       Type type = typeof(T);
       int pairs = 8;
@@ -109,14 +106,7 @@ public static class Base16 //NUnit
 
       string hex;
 
-      if (isInteger)
-      {
-         hex = $"{number:X}";
-      }
-      else
-      {
-         hex = ToBase16String(number.BNToByteArray());
-      }
+      hex = isInteger ? $"{number:X}" : ToBase16String(number.BNToByteArray());
 
       string res = useFullLength ? StringHelper.CreateFixedLengthString(hex, 2 * pairs, '0', false) : hex;
 
@@ -146,7 +136,7 @@ public static class Base16 //NUnit
    /// <param name="base16string">String as Base16-string</param>
    /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
    /// <returns>Base16-string value as converted string</returns>
-   public static string? StringFromBase16String(this string? base16string, Encoding? encoding = null)
+   public static string? StringFromBase16String(string? base16string, Encoding? encoding = null)
    {
       if (base16string == null)
          return null;
@@ -162,7 +152,7 @@ public static class Base16 //NUnit
    /// </summary>
    /// <param name="base16string">Number as Base16-string</param>
    /// <returns>Base16-string value as converted number</returns>
-   public static T? NumberFromBase16String<T>(this string? base16string) where T : INumber<T>
+   public static T? NumberFromBase16String<T>(string? base16string) where T : INumber<T>
    {
       if (base16string == null)
          return default;
@@ -185,9 +175,9 @@ public static class Base16 //NUnit
       }
 
       if (isInteger)
-         return T.Parse(base16string.BNStartsWith("0x") ? base16string.Substring(2) : base16string, System.Globalization.NumberStyles.HexNumber, null);
+         return T.Parse(base16string.BNStartsWith("0x") ? base16string[2..] : base16string, System.Globalization.NumberStyles.HexNumber, null);
 
-      string hexVal = base16string.BNStartsWith("0x") ? base16string.Substring(2) : base16string;
+      string hexVal = base16string.BNStartsWith("0x") ? base16string[2..] : base16string;
       byte[] data = new byte[hexVal.Length / 2];
 
       for (int ii = 0; ii < data.Length; ++ii)

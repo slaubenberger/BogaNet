@@ -27,8 +27,7 @@ public abstract class ResourceHelper
    {
       if (!resourcePath.BNStartsWith("avares://"))
       {
-         if (ResourceAssembly == null)
-            ResourceAssembly = Assembly.GetEntryAssembly()?.GetName().Name;
+         ResourceAssembly ??= Assembly.GetEntryAssembly()?.GetName().Name;
 
          return $"avares://{resourceAssembly ?? ResourceAssembly}/{resourcePath.TrimStart('/')}";
       }

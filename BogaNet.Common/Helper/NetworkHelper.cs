@@ -81,9 +81,9 @@ public abstract class NetworkHelper
    /// <returns>Used global proxy</returns>
    public static IWebProxy SetGlobalProxy(string user, string password, string url)
    {
-      NetworkCredential credentials = new NetworkCredential(user, password);
+      NetworkCredential credentials = new(user, password);
 
-      WebProxy proxy = new WebProxy(new Uri(url), true, null, credentials);
+      WebProxy proxy = new(new Uri(url), true, null, credentials);
       HttpClient.DefaultProxy = proxy;
       return proxy;
    }
@@ -311,7 +311,7 @@ public abstract class NetworkHelper
    /// <returns>List of network interfaces.</returns>
    public static List<NetworkAdapter> GetNetworkAdapters(bool activeOnly = true)
    {
-      List<NetworkAdapter> adapters = new();
+      List<NetworkAdapter> adapters = [];
 
 #if !BROWSER
       NetworkInterface[] networkInterfaces = activeOnly ? NetworkInterface.GetAllNetworkInterfaces().Where(ni => ni.OperationalStatus == OperationalStatus.Up).ToArray() : NetworkInterface.GetAllNetworkInterfaces();
@@ -429,8 +429,7 @@ public abstract class NetworkHelper
    /// <exception cref="Exception"></exception>
    public static async Task<long> PingAsync(string hostname)
    {
-      if (string.IsNullOrEmpty(hostname))
-         throw new ArgumentNullException(nameof(hostname));
+      ArgumentNullException.ThrowIfNull(hostname);
 
       try
       {

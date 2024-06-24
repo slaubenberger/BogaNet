@@ -39,7 +39,7 @@ public abstract class RSAHelper
 
       request.CertificateExtensions.Add(
          new X509EnhancedKeyUsageExtension(
-            new OidCollection { new(oid) },
+            [new(oid)],
             //new OidCollection { new("1.3.6.1.5.5.7.3.1") },
             false));
 
@@ -136,8 +136,7 @@ public abstract class RSAHelper
    /// <exception cref="ArgumentNullException"></exception>
    public static X509Certificate2 GetCertificate(byte[]? data, string password = "")
    {
-      if (data == null || data.Length <= 0)
-         throw new ArgumentNullException(nameof(data));
+      ArgumentNullException.ThrowIfNull(data);
 
       return new X509Certificate2(data, password);
    }
@@ -230,13 +229,12 @@ public abstract class RSAHelper
    /// <exception cref="ArgumentNullException"></exception>
    public static byte[]? Encrypt(byte[]? dataToEncrypt, X509Certificate2? cert, RSAEncryptionPadding? padding = null)
    {
-      if (dataToEncrypt == null || dataToEncrypt.Length <= 0)
-         throw new ArgumentNullException(nameof(dataToEncrypt));
+      ArgumentNullException.ThrowIfNull(dataToEncrypt);
       ArgumentNullException.ThrowIfNull(cert);
 
       try
       {
-         using RSA? publicKey = RSACertificateExtensions.GetRSAPublicKey(cert);
+         using RSA? publicKey = cert.GetRSAPublicKey();
          return publicKey?.Encrypt(dataToEncrypt, padding ?? RSAEncryptionPadding.OaepSHA256);
       }
       catch (CryptographicException ex)
@@ -273,14 +271,12 @@ public abstract class RSAHelper
    /// <exception cref="ArgumentNullException"></exception>
    public static byte[]? Decrypt(byte[] dataToDecrypt, X509Certificate2 cert, RSAEncryptionPadding? padding = null)
    {
-      if (dataToDecrypt == null || dataToDecrypt.Length <= 0)
-         throw new ArgumentNullException(nameof(dataToDecrypt));
-
+      ArgumentNullException.ThrowIfNull(dataToDecrypt);
       ArgumentNullException.ThrowIfNull(cert);
 
       try
       {
-         using RSA? privateKey = RSACertificateExtensions.GetRSAPrivateKey(cert);
+         using RSA? privateKey = cert.GetRSAPrivateKey();
          return privateKey?.Decrypt(dataToDecrypt, padding ?? RSAEncryptionPadding.OaepSHA256);
       }
       catch (Exception ex)

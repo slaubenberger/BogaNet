@@ -13,9 +13,8 @@ public class VolumeUnitTest
 
       const double valIn = 1234.5678901234;
       decimal val = valIn.BNToDecimal();
-      decimal conv;
 
-      conv = VolumeUnit.LITER.Convert(VolumeUnit.PINT, valIn);
+      decimal conv = VolumeUnit.LITER.Convert(VolumeUnit.PINT, valIn);
       Assert.That(val, Is.EqualTo(VolumeUnit.PINT.Convert(VolumeUnit.LITER, conv)));
 
       conv = VolumeUnit.MM3.Convert(VolumeUnit.PINT, valIn);

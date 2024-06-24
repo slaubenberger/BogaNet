@@ -52,27 +52,29 @@ public abstract class GeneralHelper
       long totalSeconds = Math.Abs(val);
       long calcSeconds = totalSeconds % 60;
 
-      if (val >= 86400)
+      switch (val)
       {
-         long calcDays = totalSeconds / 86400;
-         long calcHours = (totalSeconds -= calcDays * 86400) / 3600;
-         long calcMinutes = (totalSeconds - calcHours * 3600) / 60;
+         case >= 86400:
+         {
+            long calcDays = totalSeconds / 86400;
+            long calcHours = (totalSeconds -= calcDays * 86400) / 3600;
+            long calcMinutes = (totalSeconds - calcHours * 3600) / 60;
 
-         return $"{(wasMinus ? "-" : "")}{calcDays}d {calcHours}:{addLeadingZero(calcMinutes)}:{addLeadingZero(calcSeconds)}";
-      }
+            return $"{(wasMinus ? "-" : "")}{calcDays}d {calcHours}:{addLeadingZero(calcMinutes)}:{addLeadingZero(calcSeconds)}";
+         }
+         case >= 3600:
+         {
+            long calcHours = totalSeconds / 3600;
+            long calcMinutes = (totalSeconds - calcHours * 3600) / 60;
 
-      if (val >= 3600)
-      {
-         long calcHours = totalSeconds / 3600;
-         long calcMinutes = (totalSeconds - calcHours * 3600) / 60;
+            return $"{(wasMinus ? "-" : "")}{calcHours}:{addLeadingZero(calcMinutes)}:{addLeadingZero(calcSeconds)}";
+         }
+         default:
+         {
+            long calcMinutes = totalSeconds / 60;
 
-         return $"{(wasMinus ? "-" : "")}{calcHours}:{addLeadingZero(calcMinutes)}:{addLeadingZero(calcSeconds)}";
-      }
-      else
-      {
-         long calcMinutes = totalSeconds / 60;
-
-         return $"{(wasMinus ? "-" : "")}{calcMinutes}:{addLeadingZero(calcSeconds)}";
+            return $"{(wasMinus ? "-" : "")}{calcMinutes}:{addLeadingZero(calcSeconds)}";
+         }
       }
    }
 
@@ -171,7 +173,7 @@ public abstract class GeneralHelper
             index++;
          }
 
-         return $"{(bits / 1000.0):N2} {siIndex[index]}{unit}";
+         return $"{bits / 1000.0:N2} {siIndex[index]}{unit}";
       }
 
       long absB = bits == long.MinValue ? long.MaxValue : Math.Abs(bits);
@@ -188,7 +190,7 @@ public abstract class GeneralHelper
 
       value *= Math.Sign(bits);
 
-      return $"{(value / 1024f):N2} {binIndex[index]}i{unit}";
+      return $"{value / 1024f:N2} {binIndex[index]}i{unit}";
    }
 
    #endregion

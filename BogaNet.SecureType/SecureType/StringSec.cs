@@ -29,7 +29,7 @@ public class StringSec //NUnit
 
    #region Constructors
 
-   public StringSec(string value)
+   private StringSec(string value)
    {
       _value = value;
    }

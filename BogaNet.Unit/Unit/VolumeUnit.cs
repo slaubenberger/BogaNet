@@ -95,28 +95,28 @@ public static class VolumeUnitExtension
             //val = inVal;
             break;
          case VolumeUnit.MM3:
-            val = val / FACTOR_MM3_TO_L;
+            val /= FACTOR_MM3_TO_L;
             break;
          case VolumeUnit.CM3:
-            val = val / FACTOR_CM3_TO_L;
+            val /= FACTOR_CM3_TO_L;
             break;
          case VolumeUnit.M3:
-            val = val * FACTOR_L_TO_M3;
+            val *= FACTOR_L_TO_M3;
             break;
          case VolumeUnit.INCH3:
-            val = val * FACTOR_INCH3_TO_L;
+            val *= FACTOR_INCH3_TO_L;
             break;
          case VolumeUnit.FOOT3:
-            val = val * FACTOR_FOOT3_TO_L;
+            val *= FACTOR_FOOT3_TO_L;
             break;
          case VolumeUnit.PINT:
-            val = val * FACTOR_PINT_TO_L;
+            val *= FACTOR_PINT_TO_L;
             break;
          case VolumeUnit.GALLON:
-            val = val * FACTOR_GALLON_US_TO_L;
+            val *= FACTOR_GALLON_US_TO_L;
             break;
          case VolumeUnit.BARREL:
-            val = val * FACTOR_BARREL_TO_L;
+            val *= FACTOR_BARREL_TO_L;
             break;
          default:
             _logger.LogWarning($"There is no conversion for the fromUnit: {fromVolumeUnit}");

@@ -78,10 +78,8 @@ public abstract class JsonHelper
    /// <exception cref="Exception"></exception>
    public static async Task<bool> SerializeToFileAsync(object? obj, string? path, JsonSerializerSettings? settings = null)
    {
-      if (obj == null)
-         throw new ArgumentNullException(nameof(obj));
-      if (path == null)
-         throw new ArgumentNullException(nameof(path));
+      ArgumentNullException.ThrowIfNull(obj);
+      ArgumentNullException.ThrowIfNull(path);
 
       try
       {
@@ -103,8 +101,7 @@ public abstract class JsonHelper
    /// <exception cref="Exception"></exception>
    public static string SerializeToString(object? obj, JsonSerializerSettings? settings = null)
    {
-      if (obj == null)
-         throw new ArgumentNullException(nameof(obj));
+      ArgumentNullException.ThrowIfNull(obj);
 
       try
       {
@@ -126,10 +123,9 @@ public abstract class JsonHelper
    /// <exception cref="Exception"></exception>
    public static byte[] SerializeToByteArray(object? obj, JsonSerializerSettings? settings = null)
    {
-      if (obj == null)
-         throw new ArgumentNullException(nameof(obj));
+        ArgumentNullException.ThrowIfNull(obj);
 
-      return SerializeToString(obj, settings ?? FORMAT_INDENTED).BNToByteArray()!;
+        return SerializeToString(obj, settings ?? FORMAT_INDENTED).BNToByteArray()!;
    }
 
    /// <summary>
@@ -153,10 +149,9 @@ public abstract class JsonHelper
    /// <exception cref="Exception"></exception>
    public static async Task<T?> DeserializeFromFileAsync<T>(string? path, JsonSerializerSettings? settings = null)
    {
-      if (path == null)
-         throw new ArgumentNullException(nameof(path));
+        ArgumentNullException.ThrowIfNull(path);
 
-      try
+        try
       {
          return DeserializeFromString<T>(await File.ReadAllTextAsync(path), settings);
       }
@@ -176,8 +171,7 @@ public abstract class JsonHelper
    /// <exception cref="Exception"></exception>
    public static T? DeserializeFromString<T>(string? jsonAsString, JsonSerializerSettings? settings = null)
    {
-      if (string.IsNullOrEmpty(jsonAsString))
-         throw new ArgumentNullException(nameof(jsonAsString));
+      ArgumentNullException.ThrowIfNull(jsonAsString);
 
       try
       {
@@ -200,9 +194,8 @@ public abstract class JsonHelper
    /// <exception cref="Exception"></exception>
    public static T? DeserializeFromByteArray<T>(byte[]? data, JsonSerializerSettings? settings = null)
    {
-      if (data == null)
-         throw new ArgumentNullException(nameof(data));
+        ArgumentNullException.ThrowIfNull(data);
 
-      return DeserializeFromString<T>(data.BNToString(), settings);
+        return DeserializeFromString<T>(data.BNToString(), settings);
    }
 }

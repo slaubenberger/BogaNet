@@ -13,10 +13,8 @@ public class TemperatureUnitTest
 
       const double valIn = 1234.5678901234;
       decimal val = valIn.BNToDecimal();
-      decimal conv;
 
-      //Console.WriteLine(UnitTemperature.FAHRENHEIT.Convert(UnitTemperature.KELVIN, val));
-      conv = TemperatureUnit.KELVIN.Convert(TemperatureUnit.FAHRENHEIT, valIn);
+      decimal conv = TemperatureUnit.KELVIN.Convert(TemperatureUnit.FAHRENHEIT, valIn);
       Assert.That(val, Is.EqualTo(TemperatureUnit.FAHRENHEIT.Convert(TemperatureUnit.KELVIN, conv)));
 
       conv = TemperatureUnit.CELSIUS.Convert(TemperatureUnit.FAHRENHEIT, valIn);

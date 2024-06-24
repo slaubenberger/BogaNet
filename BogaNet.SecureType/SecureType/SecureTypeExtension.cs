@@ -15,10 +15,9 @@ public static class SecureTypeExtension
    /// <exception cref="ArgumentNullException"></exception>
    public static ByteSec[] BNToByteSecArray(this byte[]? array)
    {
-      if (array == null)
-         throw new ArgumentNullException(nameof(array));
+        ArgumentNullException.ThrowIfNull(array);
 
-      ByteSec[] bNbytes = new ByteSec[array.Length];
+        ByteSec[] bNbytes = new ByteSec[array.Length];
 
       for (int ii = 0; ii < array.Length; ii++)
       {
@@ -36,10 +35,9 @@ public static class SecureTypeExtension
    /// <exception cref="ArgumentNullException"></exception>
    public static byte[] ToByteArray(this ByteSec[]? array)
    {
-      if (array == null)
-         throw new ArgumentNullException(nameof(array));
+        ArgumentNullException.ThrowIfNull(array);
 
-      byte[] bytes = new byte[array.Length];
+        byte[] bytes = new byte[array.Length];
 
       for (int ii = 0; ii < array.Length; ii++)
       {

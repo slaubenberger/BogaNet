@@ -13,9 +13,8 @@ public class BitUnitTest
 
       const long valIn = 1027;
       decimal val = valIn.BNToDecimal();
-      decimal conv;
 
-      conv = BitUnit.BIT.Convert(BitUnit.kbit, valIn);
+      decimal conv = BitUnit.BIT.Convert(BitUnit.kbit, valIn);
       Assert.That(val, Is.EqualTo(BitUnit.kbit.Convert(BitUnit.BIT, conv)));
 
       conv = BitUnit.Kibit.Convert(BitUnit.kbit, valIn);

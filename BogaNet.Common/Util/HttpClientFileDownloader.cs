@@ -99,7 +99,7 @@ public class HttpClientFileDownloader
 
          do
          {
-            int bytesRead = await contentStream.ReadAsync(buffer, 0, buffer.Length);
+            int bytesRead = await contentStream.ReadAsync(buffer);
 
             if (bytesRead == 0)
             {
@@ -108,7 +108,7 @@ public class HttpClientFileDownloader
                continue;
             }
 
-            await fileStream.WriteAsync(buffer, 0, bytesRead);
+            await fileStream.WriteAsync(buffer.AsMemory(0, bytesRead));
 
             totalBytesRead += bytesRead;
             readCount += 1;

@@ -24,22 +24,16 @@ public abstract class ObfuscatedValueType<TCustom, TValue> where TValue : INumbe
 
    protected TValue _value
    {
-      get
-      {
-         return Obfuscator.Deobfuscate(obfValue, obf).BNToNumber<TValue>()!;
-      }
+      get => Obfuscator.Deobfuscate(obfValue, obf).BNToNumber<TValue>()!;
 
-      private set
-      {
-         obfValue = Obfuscator.Obfuscate(value.BNToByteArray(), obf);
-      }
+      private set => obfValue = Obfuscator.Obfuscate(value.BNToByteArray(), obf);
    }
 
    #endregion
 
    #region Constructors
 
-   public ObfuscatedValueType(TValue value)
+   protected ObfuscatedValueType(TValue value)
    {
       _value = value;
    }
@@ -60,12 +54,12 @@ public abstract class ObfuscatedValueType<TCustom, TValue> where TValue : INumbe
 
    public static bool operator <=(ObfuscatedValueType<TCustom, TValue> a, ObfuscatedValueType<TCustom, TValue> b)
    {
-      return (a < b) || (a == b);
+      return a < b || a == b;
    }
 
    public static bool operator >=(ObfuscatedValueType<TCustom, TValue> a, ObfuscatedValueType<TCustom, TValue> b)
    {
-      return (a > b) || (a == b);
+      return a > b || a == b;
    }
 
    public static bool operator ==(ObfuscatedValueType<TCustom, TValue> a, ObfuscatedValueType<TCustom, TValue> b)
@@ -85,7 +79,7 @@ public abstract class ObfuscatedValueType<TCustom, TValue> where TValue : INumbe
 
    public static TCustom operator -(ObfuscatedValueType<TCustom, TValue> a, ObfuscatedValueType<TCustom, TValue> b)
    {
-      return ((dynamic)a._value - b._value);
+      return (dynamic)a._value - b._value;
    }
 
    #endregion

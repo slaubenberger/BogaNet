@@ -38,7 +38,7 @@ public static class ByteHelper
    /// <param name="index">The index of the bit to toggle</param>
    /// <returns>The mutated byte value</returns>
    public static byte ToggleBitAtIndex(byte value, byte index) => index > 7 ? throw new IndexOutOfRangeException("Index must be between 0 and 7 inclusive.") : (byte)(value ^ (1 << (7 - index)));
-
+/*
    /// <summary>
    /// Shift the bits of the provided byte array right by the provided distance. Bits will shift across byte
    /// boundaries in the array. Zero will be shifted in from the left. The sign of the byte array isn't considered.
@@ -136,4 +136,5 @@ public static class ByteHelper
    /// <param name="maskIndex"></param>
    /// <returns></returns>
    public static byte MaskRight(byte value, byte maskIndex) => (byte)(value & (0xFF << (maskIndex + 1)));
+   */
 }

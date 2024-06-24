@@ -1163,7 +1163,7 @@ public abstract class FileHelper
          {
             string? ext = Path.GetExtension(path);
 
-            return !string.IsNullOrEmpty(ext) ? ext.Substring(1) : null;
+            return !string.IsNullOrEmpty(ext) ? ext[1..] : null;
          }
          catch (Exception ex)
          {

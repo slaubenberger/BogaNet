@@ -108,9 +108,7 @@ public class Localizer : Singleton<Localizer>, ILocalizer
 
    public virtual string? GetTextWithReplacements(string? key, CultureInfo culture, TextType textType = TextType.LABEL, params string[] replacements)
    {
-      if (string.IsNullOrEmpty(key))
-         throw new ArgumentNullException(nameof(key));
-
+      ArgumentNullException.ThrowIfNull(key);
       ArgumentNullException.ThrowIfNull(replacements);
 
       string? text = GetText(key, culture, textType);
@@ -219,18 +217,16 @@ public class Localizer : Singleton<Localizer>, ILocalizer
                {
                   if (_messages.TryGetValue(key, out Dictionary<string, string>? value))
                   {
-                     var values = value;
-
                      foreach (var translationKvp in translation)
                      {
-                        if (values.ContainsKey(translationKvp.Key))
+                        if (value.ContainsKey(translationKvp.Key))
                         {
-                           _logger.LogInformation($"Duplicate key '{key}' for language '{translationKvp.Key}' found: {values[translationKvp.Key]} => {translationKvp.Value}");
-                           values[translationKvp.Key] = translationKvp.Value;
+                           _logger.LogInformation($"Duplicate key '{key}' for language '{translationKvp.Key}' found: {value[translationKvp.Key]} => {translationKvp.Value}");
+                           value[translationKvp.Key] = translationKvp.Value;
                         }
                         else
                         {
-                           values.Add(translationKvp.Key, translationKvp.Value);
+                           value.Add(translationKvp.Key, translationKvp.Value);
                         }
                      }
                   }
@@ -287,8 +283,7 @@ public class Localizer : Singleton<Localizer>, ILocalizer
 
    protected string? getText(string? key, string culture, TextType textType, bool returnDefault = true)
    {
-      if (string.IsNullOrEmpty(key))
-         throw new ArgumentNullException(nameof(key));
+      ArgumentNullException.ThrowIfNull(key);
 
       string usedKey = key;
 

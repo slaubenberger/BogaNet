@@ -55,7 +55,7 @@ public static class StringHelper
                result.Append(' ');
 
             result.Append(
-               w == 0 ? StringHelper.ToTitleCase(words[_rnd.Next(words.Length)]) : words[_rnd.Next(words.Length)]);
+               w == 0 ? ToTitleCase(words[_rnd.Next(words.Length)]) : words[_rnd.Next(words.Length)]);
          }
 
          result.Append(". ");
@@ -64,7 +64,7 @@ public static class StringHelper
       string text = result.ToString();
 
       if (length > 0 && text.Length > length)
-         text = text.Substring(0, length - 1) + ".";
+         text = text[..(length - 1)] + ".";
 
       return text;
    }
@@ -230,7 +230,7 @@ public static class StringHelper
          return padRight ? $"{str}{fill}" : $"{fill}{str}";
       }
 
-      return str.Substring(0, length);
+      return str[..length];
    }
 
    /// <summary>
@@ -267,10 +267,7 @@ public static class StringHelper
    /// <returns>Generated string</returns>
    public static string CreateString(int stringLength, string? fillerCharacters)
    {
-      if (fillerCharacters == null)
-         return string.Empty;
-
-      return CreateString(stringLength, fillerCharacters.ToCharArray());
+      return fillerCharacters == null ? string.Empty : CreateString(stringLength, fillerCharacters.ToCharArray());
    }
 
    /// <summary>

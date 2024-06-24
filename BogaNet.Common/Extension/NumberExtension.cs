@@ -21,7 +21,7 @@ public static class NumberExtension
    /// <returns>Clamped value</returns>t
    public static T BNClamp<T>(this T number, T min, T max) where T : INumber<T>
    {
-      return number < min ? min : (number > max) ? max : number;
+      return number < min ? min : number > max ? max : number;
    }
 
    /// <summary>

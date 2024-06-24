@@ -13,9 +13,8 @@ public class ByteUnitTest
 
       const long valIn = 1027;
       decimal val = valIn.BNToDecimal();
-      decimal conv;
 
-      conv = ByteUnit.BYTE.Convert(ByteUnit.BYTE, valIn);
+      decimal conv = ByteUnit.BYTE.Convert(ByteUnit.BYTE, valIn);
       Assert.That(val, Is.EqualTo(ByteUnit.BYTE.Convert(ByteUnit.BYTE, conv)));
 
       conv = ByteUnit.BYTE.Convert(ByteUnit.kB, valIn);
@@ -68,11 +67,8 @@ public class ByteUnitTest
 
       const double valIn = 1027;
       decimal val = valIn.BNToDecimal();
-      decimal conv;
 
-      //Console.WriteLine(ByteUnit.BYTE.Convert(BitUnit.kbit, val));
-
-      conv = ByteUnit.BYTE.Convert(BitUnit.kbit, valIn);
+      decimal conv = ByteUnit.BYTE.Convert(BitUnit.kbit, valIn);
       Assert.That(val, Is.EqualTo(BitUnit.kbit.Convert(ByteUnit.BYTE, conv)));
 
       conv = ByteUnit.KiB.Convert(BitUnit.kbit, valIn);

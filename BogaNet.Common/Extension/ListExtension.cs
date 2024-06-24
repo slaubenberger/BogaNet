@@ -18,8 +18,7 @@ public static class ListExtension
    /// <exception cref="ArgumentNullException"></exception>
    public static void BNShuffle<T>(this IList<T>? list, int seed = 0)
    {
-      if (list == null)
-         throw new ArgumentNullException(nameof(list));
+      ArgumentNullException.ThrowIfNull(list);
 
       Random rnd = seed == 0 ? new Random() : new Random(seed);
       int n = list.Count;
@@ -71,8 +70,7 @@ public static class ListExtension
    /// <exception cref="ArgumentNullException"></exception>
    public static List<string> BNToStringList<T>(this IList<T>? list)
    {
-      if (list == null)
-         throw new ArgumentNullException(nameof(list));
+      ArgumentNullException.ThrowIfNull(list);
 
       List<string> result = new(list.Count);
       result.AddRange(list.Select(element => null == element ? "null" : element.BNToString()));

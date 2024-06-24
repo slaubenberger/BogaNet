@@ -62,7 +62,7 @@ public class ShortUID
    /// <returns>ShortUID as byte-array</returns>
    public byte[] ToByteArray()
    {
-      return Code.BNToByteArray(Encoding.ASCII) ?? Array.Empty<byte>();
+      return Code.BNToByteArray(Encoding.ASCII) ?? [];
    }
 
    /// <summary>

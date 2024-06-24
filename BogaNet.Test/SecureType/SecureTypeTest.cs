@@ -14,7 +14,7 @@ public class SecureTypeTest
       age += years;
 
       byte res = age;
-      Assert.True(age.Equals(res));
+      Assert.True(age == res);
    }
 
    [Test]

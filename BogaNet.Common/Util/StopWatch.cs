@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Collections.Generic;
 using System;
+using Enumerable = System.Linq.Enumerable;
 
 namespace BogaNet.Util;
 
@@ -20,7 +21,7 @@ public class StopWatch
    /// <summary>
    /// Recorded points.
    /// </summary>
-   public List<Tuple<object, long>> Points { get; } = new();
+   public List<Tuple<object, long>> Points { get; } = [];
 
    /// <summary>
    /// Recorded points and time as string list.
@@ -29,12 +30,8 @@ public class StopWatch
    {
       get
       {
-         List<string> result = new();
-
-         foreach (var point in Points)
-         {
-            result.Add($"{point.Item1}: {point.Item2}");
-         }
+         List<string> result = [];
+         result.AddRange(Enumerable.Select(Points, point => $"{point.Item1}: {point.Item2}"));
 
          return result;
       }

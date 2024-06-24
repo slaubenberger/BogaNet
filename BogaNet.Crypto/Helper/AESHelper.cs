@@ -115,9 +115,9 @@ public abstract class AESHelper //TODO add other algorithms, key&blocksize, padd
    /// <exception cref="Exception"></exception>
    public static byte[] Encrypt(string textToEncrypt, byte[]? key, byte[]? IV, Encoding? encoding = null)
    {
-        ArgumentNullException.ThrowIfNull(textToEncrypt);
+      ArgumentNullException.ThrowIfNull(textToEncrypt);
 
-        return Encrypt(textToEncrypt.BNToByteArray(encoding), key, IV);
+      return Encrypt(textToEncrypt.BNToByteArray(encoding), key, IV);
    }
 
    /// <summary>
@@ -130,12 +130,9 @@ public abstract class AESHelper //TODO add other algorithms, key&blocksize, padd
    /// <exception cref="Exception"></exception>
    public static async Task<byte[]> EncryptAsync(byte[]? dataToEncrypt, byte[]? key, byte[]? IV)
    {
-      if (dataToEncrypt == null || dataToEncrypt.Length <= 0)
-         throw new ArgumentNullException(nameof(dataToEncrypt));
-      if (key == null || key.Length <= 0)
-         throw new ArgumentNullException(nameof(key));
-      if (IV == null || IV.Length <= 0)
-         throw new ArgumentNullException(nameof(IV));
+      ArgumentNullException.ThrowIfNull(dataToEncrypt);
+      ArgumentNullException.ThrowIfNull(key);
+      ArgumentNullException.ThrowIfNull(IV);
 
       try
       {
@@ -156,7 +153,7 @@ public abstract class AESHelper //TODO add other algorithms, key&blocksize, padd
       }
       catch (Exception ex)
       {
-         LoggerExtensions.LogError(_logger, ex, "Encrypt failed!");
+         _logger.LogError(ex, "Encrypt failed!");
          throw;
       }
    }
@@ -198,12 +195,9 @@ public abstract class AESHelper //TODO add other algorithms, key&blocksize, padd
    /// <exception cref="Exception"></exception>
    public static async Task<byte[]> DecryptAsync(byte[]? dataToDecrypt, byte[]? key, byte[]? IV)
    {
-      if (dataToDecrypt == null || dataToDecrypt.Length <= 0)
-         throw new ArgumentNullException(nameof(dataToDecrypt));
-      if (key == null || key.Length <= 0)
-         throw new ArgumentNullException(nameof(key));
-      if (IV == null || IV.Length <= 0)
-         throw new ArgumentNullException(nameof(IV));
+      ArgumentNullException.ThrowIfNull(dataToDecrypt);
+      ArgumentNullException.ThrowIfNull(key);
+      ArgumentNullException.ThrowIfNull(IV);
 
       try
       {
@@ -222,7 +216,7 @@ public abstract class AESHelper //TODO add other algorithms, key&blocksize, padd
       }
       catch (Exception ex)
       {
-         LoggerExtensions.LogError(_logger, ex, "Decrypt failed!");
+         _logger.LogError(ex, "Decrypt failed!");
          throw;
       }
    }

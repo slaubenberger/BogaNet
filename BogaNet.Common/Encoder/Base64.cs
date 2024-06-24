@@ -19,8 +19,7 @@ public static class Base64 //NUnit
    /// <exception cref="ArgumentNullException"></exception>
    public static byte[] FromBase64String(string? base64string, bool useSave = false)
    {
-      if (string.IsNullOrEmpty(base64string))
-         throw new ArgumentNullException(nameof(base64string));
+      ArgumentNullException.ThrowIfNull(base64string);
 
       return Convert.FromBase64String(useSave ? base64string.Replace("_", "/").Replace("-", "+") : base64string);
    }
@@ -34,8 +33,7 @@ public static class Base64 //NUnit
    /// <exception cref="ArgumentNullException"></exception>
    public static string ToBase64String(byte[]? bytes, bool useSave = false)
    {
-      if (bytes == null || bytes.Length == 0)
-         throw new ArgumentNullException(nameof(bytes));
+      ArgumentNullException.ThrowIfNull(bytes);
 
       return useSave ? Convert.ToBase64String(bytes).Replace("/", "_").Replace("+", "-") : Convert.ToBase64String(bytes);
    }
@@ -64,7 +62,7 @@ public static class Base64 //NUnit
    /// <param name="useSave">Use non-standard, but safe version of Base64 for URLs and files</param>
    /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
    /// <returns>Base64-string value as converted string</returns>
-   public static string? StringFromBase64String(this string? str, bool useSave = false, Encoding? encoding = null)
+   public static string? StringFromBase64String(string? str, bool useSave = false, Encoding? encoding = null)
    {
       if (str == null)
          return null;

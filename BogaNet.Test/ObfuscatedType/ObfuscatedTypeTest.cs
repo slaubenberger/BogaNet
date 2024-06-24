@@ -14,7 +14,7 @@ public class ObfuscatedTypeTest
       age += years;
 
       byte res = age;
-      Assert.True(age.Equals(res));
+      Assert.True(age == res);
    }
 
    [Test]
@@ -23,7 +23,7 @@ public class ObfuscatedTypeTest
       CharObf ch = 'A';
 
       char res = ch;
-      Assert.True(ch.Equals(res));
+      Assert.True(ch == res);
    }
 
    [Test]

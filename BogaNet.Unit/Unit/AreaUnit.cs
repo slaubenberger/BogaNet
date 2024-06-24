@@ -116,37 +116,37 @@ public static class AreaUnitExtension
             //val = inVal;
             break;
          case AreaUnit.MM2:
-            val = val / FACTOR_MM2_TO_M2;
+            val /= FACTOR_MM2_TO_M2;
             break;
          case AreaUnit.CM2:
-            val = val / FACTOR_CM2_TO_M2;
+            val /= FACTOR_CM2_TO_M2;
             break;
          case AreaUnit.AREA:
-            val = val * FACTOR_M2_TO_AREA;
+            val *= FACTOR_M2_TO_AREA;
             break;
          case AreaUnit.HECTARE:
-            val = val * FACTOR_M2_TO_HECTARE;
+            val *= FACTOR_M2_TO_HECTARE;
             break;
          case AreaUnit.KM2:
-            val = val * FACTOR_M2_TO_KM2;
+            val *= FACTOR_M2_TO_KM2;
             break;
          case AreaUnit.INCH2:
-            val = val / FACTOR_INCH2_TO_M2;
+            val /= FACTOR_INCH2_TO_M2;
             break;
          case AreaUnit.FOOT2:
-            val = val * FACTOR_FOOT2_TO_M2;
+            val *= FACTOR_FOOT2_TO_M2;
             break;
          case AreaUnit.YARD2:
-            val = val * FACTOR_YARD2_TO_M2;
+            val *= FACTOR_YARD2_TO_M2;
             break;
          case AreaUnit.PERCH:
-            val = val * FACTOR_PERCH_TO_M2;
+            val *= FACTOR_PERCH_TO_M2;
             break;
          case AreaUnit.ACRE:
-            val = val * FACTOR_ACRE_TO_M2;
+            val *= FACTOR_ACRE_TO_M2;
             break;
          case AreaUnit.MILE2:
-            val = val * FACTOR_M2_TO_MILE2;
+            val *= FACTOR_M2_TO_MILE2;
             break;
          default:
             _logger.LogWarning($"There is no conversion for the fromUnit: {fromAreaUnit}");

@@ -12,10 +12,10 @@ public abstract class CRCHelper
 {
    #region Variables
 
-   private static byte[] _crc8table = new byte[256];
+   private static readonly byte[] _crc8table = new byte[256];
    private const byte _crc8poly = 0x07;
 
-   private static ushort[] _crc16table = new ushort[256];
+   private static readonly ushort[] _crc16table = new ushort[256];
    private const ushort _crc16poly = 0xA001;
 
    #endregion
@@ -44,12 +44,10 @@ public abstract class CRCHelper
       }
 
       //fill table for CRC16
-      ushort value;
-      ushort tempCrc16;
       for (ushort ii = 0; ii < _crc16table.Length; ii++)
       {
-         value = 0;
-         tempCrc16 = ii;
+         ushort value = 0;
+         ushort tempCrc16 = ii;
 
          for (byte yy = 0; yy < 8; yy++)
          {

@@ -55,11 +55,8 @@ public static class DictionaryExtension
    /// <exception cref="ArgumentNullException"></exception>
    public static void BNAddRange<K, V>(this IDictionary<K, V>? dict, IDictionary<K, V>? collection) where K : notnull
    {
-      if (dict == null)
-         throw new ArgumentNullException(nameof(dict));
-
-      if (collection == null)
-         throw new ArgumentNullException(nameof(collection));
+      ArgumentNullException.ThrowIfNull(dict);
+      ArgumentNullException.ThrowIfNull(collection);
 
       foreach (KeyValuePair<K, V> item in collection)
       {

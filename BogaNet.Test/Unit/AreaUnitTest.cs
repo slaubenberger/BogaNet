@@ -13,9 +13,8 @@ public class AreaUnitTest
 
       const double valIn = 1234.5678901234;
       decimal val = valIn.BNToDecimal();
-      decimal conv;
 
-      conv = AreaUnit.M2.Convert(AreaUnit.YARD2, valIn);
+      decimal conv = AreaUnit.M2.Convert(AreaUnit.YARD2, valIn);
       Assert.That(val, Is.EqualTo(AreaUnit.YARD2.Convert(AreaUnit.M2, conv)));
 
       conv = AreaUnit.MM2.Convert(AreaUnit.YARD2, valIn);

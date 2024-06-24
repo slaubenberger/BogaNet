@@ -19,10 +19,9 @@ public static class ArrayHelper
    /// <exception cref="ArgumentNullException"></exception>
    public static float[] ByteArrayToFloatArray(byte[]? array, int count = 0)
    {
-      if (array == null) // || array.Length <= 0)
-         throw new ArgumentNullException(nameof(array));
+        ArgumentNullException.ThrowIfNull(array);
 
-      int _count = count;
+        int _count = count;
 
       if (_count <= 0)
          _count = array.Length;
@@ -48,10 +47,9 @@ public static class ArrayHelper
    /// <exception cref="ArgumentNullException"></exception>
    public static byte[] FloatArrayToByteArray(float[]? array, int count = 0)
    {
-      if (array == null) // || array.Length <= 0)
-         throw new ArgumentNullException(nameof(array));
+        ArgumentNullException.ThrowIfNull(array);
 
-      int _count = count;
+        int _count = count;
 
       if (_count <= 0)
          _count = array.Length;

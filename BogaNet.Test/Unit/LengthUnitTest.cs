@@ -13,9 +13,8 @@ public class LengthUnitTest
 
       const double valIn = 1234.5678901234;
       decimal val = valIn.BNToDecimal();
-      decimal conv;
 
-      conv = LengthUnit.M.Convert(LengthUnit.YARD, valIn);
+      decimal conv = LengthUnit.M.Convert(LengthUnit.YARD, valIn);
       Assert.That(val, Is.EqualTo(LengthUnit.YARD.Convert(LengthUnit.M, conv)));
 
       conv = LengthUnit.MM.Convert(LengthUnit.YARD, valIn);

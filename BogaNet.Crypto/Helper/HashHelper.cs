@@ -21,8 +21,7 @@ public abstract class HashHelper
    /// <exception cref="Exception"></exception>
    public static byte[] Hash(byte[]? bytes, HashAlgorithm? algo)
    {
-      if (bytes == null || bytes.Length <= 0)
-         throw new ArgumentNullException(nameof(bytes));
+      ArgumentNullException.ThrowIfNull(bytes);
 
       try
       {
@@ -30,7 +29,7 @@ public abstract class HashHelper
       }
       catch (Exception ex)
       {
-         LoggerExtensions.LogError(_logger, ex, "Compute of hash failed!");
+         _logger.LogError(ex, "Compute of hash failed!");
          throw;
       }
    }

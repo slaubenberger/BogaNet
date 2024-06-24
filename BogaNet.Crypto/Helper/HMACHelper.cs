@@ -34,8 +34,7 @@ public abstract class HMACHelper
    /// <exception cref="Exception"></exception>
    public static byte[] Hash(byte[]? bytes, HMAC? algo)
    {
-      if (bytes == null || bytes.Length <= 0)
-         throw new ArgumentNullException(nameof(bytes));
+      ArgumentNullException.ThrowIfNull(bytes);
 
       try
       {
@@ -43,7 +42,7 @@ public abstract class HMACHelper
       }
       catch (Exception ex)
       {
-         LoggerExtensions.LogError(_logger, ex, "Compute of HMAC failed!");
+         _logger.LogError(ex, "Compute of HMAC failed!");
          throw;
       }
    }
@@ -70,8 +69,7 @@ public abstract class HMACHelper
    /// <exception cref="Exception"></exception>
    public static byte[] HMAC256(byte[]? bytes, byte[]? secret)
    {
-      if (secret == null || secret.Length <= 0)
-         throw new ArgumentNullException(nameof(secret));
+      ArgumentNullException.ThrowIfNull(secret);
 
       using HMAC hash = new HMACSHA256(secret);
       return Hash(bytes, hash);
@@ -99,8 +97,7 @@ public abstract class HMACHelper
    /// <exception cref="Exception"></exception>
    public static byte[] HMAC384(byte[]? bytes, byte[]? secret)
    {
-      if (secret == null || secret.Length <= 0)
-         throw new ArgumentNullException(nameof(secret));
+      ArgumentNullException.ThrowIfNull(secret);
 
       using HMAC hash = new HMACSHA384(secret);
       return Hash(bytes, hash);
@@ -128,8 +125,7 @@ public abstract class HMACHelper
    /// <exception cref="Exception"></exception>
    public static byte[] HMAC512(byte[]? bytes, byte[]? secret)
    {
-      if (secret == null || secret.Length <= 0)
-         throw new ArgumentNullException(nameof(secret));
+      ArgumentNullException.ThrowIfNull(secret);
 
       using HMAC hash = new HMACSHA512(secret);
       return Hash(bytes, hash);

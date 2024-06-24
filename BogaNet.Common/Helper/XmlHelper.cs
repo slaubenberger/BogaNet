@@ -36,11 +36,8 @@ public abstract class XmlHelper
    /// <exception cref="Exception"></exception>
    public static async Task<bool> SerializeToFileAsync<T>(T? obj, string? filename)
    {
-      if (obj == null)
-         throw new ArgumentNullException(nameof(obj));
-
-      if (filename == null)
-         throw new ArgumentNullException(nameof(filename));
+      ArgumentNullException.ThrowIfNull(obj);
+      ArgumentNullException.ThrowIfNull(filename);
 
       try
       {
@@ -61,8 +58,7 @@ public abstract class XmlHelper
    /// <exception cref="Exception"></exception>
    public static string SerializeToString<T>(T? obj)
    {
-      if (obj == null)
-         throw new ArgumentNullException(nameof(obj));
+      ArgumentNullException.ThrowIfNull(obj);
 
       byte[] result = SerializeToByteArray(obj);
 
@@ -77,8 +73,7 @@ public abstract class XmlHelper
    /// <exception cref="Exception"></exception>
    public static byte[] SerializeToByteArray<T>(T? obj)
    {
-      if (obj == null)
-         throw new ArgumentNullException(nameof(obj));
+      ArgumentNullException.ThrowIfNull(obj);
 
       try
       {
@@ -127,8 +122,7 @@ public abstract class XmlHelper
    /// <exception cref="Exception"></exception>
    public static async Task<T?> DeserializeFromFileAsync<T>(string? filename, bool skipBOM = false)
    {
-      if (filename == null)
-         throw new ArgumentNullException(nameof(filename));
+      ArgumentNullException.ThrowIfNull(filename);
 
       try
       {
@@ -168,8 +162,7 @@ public abstract class XmlHelper
    /// <exception cref="Exception"></exception>
    public static T? DeserializeFromString<T>(string? xmlAsString, bool skipBOM = true)
    {
-      if (string.IsNullOrEmpty(xmlAsString))
-         throw new ArgumentNullException(nameof(xmlAsString));
+      ArgumentNullException.ThrowIfNull(xmlAsString);
 
       try
       {
@@ -202,8 +195,7 @@ public abstract class XmlHelper
    /// <exception cref="Exception"></exception>
    public static T? DeserializeFromByteArray<T>(byte[]? data)
    {
-      if (data == null)
-         throw new ArgumentNullException(nameof(data));
+      ArgumentNullException.ThrowIfNull(data);
 
       try
       {

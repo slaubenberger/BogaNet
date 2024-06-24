@@ -19,8 +19,7 @@ public static class Base32 //NUnit
    /// <exception cref="ArgumentNullException"></exception>
    public static byte[] FromBase32String(string? base32string)
    {
-      if (string.IsNullOrEmpty(base32string))
-         throw new ArgumentNullException(nameof(base32string));
+      ArgumentNullException.ThrowIfNull(base32string);
 
       base32string = base32string.TrimEnd('=');
       int byteCount = base32string.Length * 5 / 8;
@@ -64,8 +63,7 @@ public static class Base32 //NUnit
    /// <exception cref="ArgumentNullException"></exception>
    public static string ToBase32String(byte[]? bytes)
    {
-      if (bytes == null || bytes.Length == 0)
-         throw new ArgumentNullException(nameof(bytes));
+      ArgumentNullException.ThrowIfNull(bytes);
 
       int charCount = (int)Math.Ceiling(bytes.Length / 5d) * 8;
       char[] returnArray = new char[charCount];
@@ -121,7 +119,7 @@ public static class Base32 //NUnit
    /// <param name="str">Input Base32-string</param>
    /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
    /// <returns>Base32-string value as converted string</returns>
-   public static string? StringFromBase32String(this string? str, Encoding? encoding = null)
+   public static string? StringFromBase32String(string? str, Encoding? encoding = null)
    {
       if (str == null)
          return null;
@@ -148,19 +146,18 @@ public static class Base32 //NUnit
          < 56 and > 49 => value - 24,
          //97-122 == lowercase letters
          < 123 and > 96 => value - 97,
-         _ => throw new ArgumentException("Character is not a Base32 character.", "c")
+         _ => throw new ArgumentException("Character is not a Base32 character.", nameof(c))
       };
    }
 
    private static char valueToChar(byte b)
    {
-      if (b < 26)
-         return (char)(b + 65);
-
-      if (b < 32)
-         return (char)(b + 24);
-
-      throw new ArgumentException("Byte is not a Base32 value.", "b");
+      return b switch
+      {
+         < 26 => (char)(b + 65),
+         < 32 => (char)(b + 24),
+         _ => throw new ArgumentException("Byte is not a Base32 value.", nameof(b))
+      };
    }
 
    #endregion

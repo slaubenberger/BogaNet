@@ -30,8 +30,7 @@ public abstract class MimeTypeMap
    /// <exception cref="ArgumentNullException"></exception>
    public static bool TryGetMimeType(string? str, out string? mimeType)
    {
-      if (str == null)
-         throw new ArgumentNullException(nameof(str));
+      ArgumentNullException.ThrowIfNull(str);
 
       int indexQuestionMark = str.IndexOf(QuestionMark, StringComparison.Ordinal);
 

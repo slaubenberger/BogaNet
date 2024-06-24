@@ -20,18 +20,12 @@ public static class ObjectExtension
    /// <exception cref="ArgumentNullException"></exception>
    public static object? BNGetField(this object? obj, string name, BindingFlags flags = BindingFlags.NonPublic | BindingFlags.Instance)
    {
-      if (obj == null)
-         throw new ArgumentNullException(nameof(obj));
-
-      if (string.IsNullOrEmpty(name))
-         throw new ArgumentNullException(nameof(name));
+      ArgumentNullException.ThrowIfNull(obj);
+      ArgumentNullException.ThrowIfNull(name);
 
       FieldInfo? field = obj.GetType().GetField(name, flags);
 
-      if (field != null)
-         return field.GetValue(obj)!;
-
-      return null;
+      return field != null ? field.GetValue(obj)! : null;
    }
 
    /// <summary>
@@ -63,14 +57,9 @@ public static class ObjectExtension
    /// <exception cref="ArgumentNullException"></exception>
    public static void BNSetField(this object? obj, string name, object value, BindingFlags flags = BindingFlags.NonPublic | BindingFlags.Instance)
    {
-      if (obj == null)
-         throw new ArgumentNullException(nameof(obj));
-
-      if (string.IsNullOrEmpty(name))
-         throw new ArgumentNullException(nameof(name));
-
-      if (value == null)
-         throw new ArgumentNullException(nameof(value));
+      ArgumentNullException.ThrowIfNull(obj);
+      ArgumentNullException.ThrowIfNull(name);
+      ArgumentNullException.ThrowIfNull(value);
 
       obj.GetType().GetField(name, flags)?.SetValue(obj, value);
    }
@@ -85,18 +74,12 @@ public static class ObjectExtension
    /// <exception cref="ArgumentNullException"></exception>
    public static object? BNGetProperty(this object? obj, string name, BindingFlags flags = BindingFlags.NonPublic | BindingFlags.Instance)
    {
-      if (obj == null)
-         throw new ArgumentNullException(nameof(obj));
-
-      if (string.IsNullOrEmpty(name))
-         throw new ArgumentNullException(nameof(name));
+      ArgumentNullException.ThrowIfNull(obj);
+      ArgumentNullException.ThrowIfNull(name);
 
       PropertyInfo? property = obj.GetType().GetProperty(name, flags);
 
-      if (property != null)
-         return property.GetValue(obj)!;
-
-      return null;
+      return property != null ? property.GetValue(obj)! : null;
    }
 
    /// <summary>
@@ -128,14 +111,9 @@ public static class ObjectExtension
    /// <exception cref="ArgumentNullException"></exception>
    public static void BNSetProperty(this object? obj, string name, object value, BindingFlags flags = BindingFlags.NonPublic | BindingFlags.Instance)
    {
-      if (obj == null)
-         throw new ArgumentNullException(nameof(obj));
-
-      if (string.IsNullOrEmpty(name))
-         throw new ArgumentNullException(nameof(name));
-
-      if (value == null)
-         throw new ArgumentNullException(nameof(value));
+      ArgumentNullException.ThrowIfNull(obj);
+      ArgumentNullException.ThrowIfNull(name);
+      ArgumentNullException.ThrowIfNull(value);
 
       obj.GetType().GetProperty(name, flags)?.SetValue(obj, value);
    }
