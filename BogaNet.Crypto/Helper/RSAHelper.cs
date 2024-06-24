@@ -75,11 +75,7 @@ public abstract class RSAHelper
          X509Certificate2Collection currentCerts = certCollection.Find(X509FindType.FindByTimeValid, DateTime.Now, false);
          X509Certificate2Collection signingCert = currentCerts.Find(X509FindType.FindBySubjectDistinguishedName, certName, false);
 
-         if (signingCert.Count == 0)
-            return null;
-
-         // Return the first certificate in the collection, has the right name and is current.
-         return signingCert[0];
+         return signingCert.Count == 0 ? null : signingCert[0]; // Return the first certificate in the collection, has the right name and is current.
       }
       finally
       {
@@ -236,8 +232,7 @@ public abstract class RSAHelper
    {
       if (dataToEncrypt == null || dataToEncrypt.Length <= 0)
          throw new ArgumentNullException(nameof(dataToEncrypt));
-      if (cert == null)
-         throw new ArgumentNullException(nameof(cert));
+      ArgumentNullException.ThrowIfNull(cert);
 
       try
       {
@@ -262,8 +257,7 @@ public abstract class RSAHelper
    /// <exception cref="ArgumentNullException"></exception>
    public static byte[]? Encrypt(string textToEncrypt, X509Certificate2? cert, RSAEncryptionPadding? padding = null, Encoding? encoding = null)
    {
-      if (textToEncrypt == null)
-         throw new ArgumentNullException(nameof(textToEncrypt));
+      ArgumentNullException.ThrowIfNull(textToEncrypt);
 
       return Encrypt(textToEncrypt.BNToByteArray(encoding), cert, padding);
    }
@@ -281,8 +275,8 @@ public abstract class RSAHelper
    {
       if (dataToDecrypt == null || dataToDecrypt.Length <= 0)
          throw new ArgumentNullException(nameof(dataToDecrypt));
-      if (cert == null)
-         throw new ArgumentNullException(nameof(cert));
+
+      ArgumentNullException.ThrowIfNull(cert);
 
       try
       {

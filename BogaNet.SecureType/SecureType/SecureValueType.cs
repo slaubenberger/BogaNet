@@ -1,10 +1,7 @@
 using System.Collections.Generic;
 using System.Numerics;
-using System;
-using Microsoft.Extensions.Logging;
 using BogaNet.Helper;
 using BogaNet.ObfuscatedType;
-using System.Text;
 
 namespace BogaNet.SecureType;
 
@@ -17,11 +14,11 @@ public abstract class SecureValueType<TCustom, TValue> where TValue : INumber<TV
 {
    #region Variables
 
-   private static readonly ILogger<SecureValueType<TCustom, TValue>> _logger = GlobalLogging.CreateLogger<SecureValueType<TCustom, TValue>>();
+   //private static readonly ILogger<SecureValueType<TCustom, TValue>> _logger = GlobalLogging.CreateLogger<SecureValueType<TCustom, TValue>>();
 
    protected abstract ByteObf[] key { get; }
    protected abstract ByteObf[] iv { get; }
-   private byte[] secretValue;
+   private byte[]? secretValue;
 
    #endregion
 
@@ -29,15 +26,9 @@ public abstract class SecureValueType<TCustom, TValue> where TValue : INumber<TV
 
    protected TValue _value
    {
-      get
-      {
-         return AESHelper.Decrypt(secretValue, key.ToByteArray(), iv.ToByteArray()).BNToNumber<TValue>()!;
-       }
+      get => AESHelper.Decrypt(secretValue, key.ToByteArray(), iv.ToByteArray()).BNToNumber<TValue>()!;
 
-      private set
-      {
-         secretValue = AESHelper.Encrypt(value.BNToByteArray(), key.ToByteArray(), iv.ToByteArray());
-      }
+      private set => secretValue = AESHelper.Encrypt(value.BNToByteArray(), key.ToByteArray(), iv.ToByteArray());
    }
 
    #endregion
@@ -75,7 +66,7 @@ public abstract class SecureValueType<TCustom, TValue> where TValue : INumber<TV
 
    public static bool operator ==(SecureValueType<TCustom, TValue> a, SecureValueType<TCustom, TValue> b)
    {
-      return a.Equals((object)b);
+      return a.Equals(b);
    }
 
    public static bool operator !=(SecureValueType<TCustom, TValue> a, SecureValueType<TCustom, TValue> b)
@@ -110,8 +101,7 @@ public abstract class SecureValueType<TCustom, TValue> where TValue : INumber<TV
       if (obj.GetType() == typeof(TValue))
          return _value.Equals(obj);
 
-      if (obj.GetType() != GetType()) return false;
-      return equals((SecureValueType<TCustom, TValue>)obj);
+      return obj.GetType() == GetType() && equals((SecureValueType<TCustom, TValue>)obj);
    }
 
    public override int GetHashCode()

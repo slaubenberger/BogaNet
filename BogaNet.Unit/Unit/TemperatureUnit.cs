@@ -10,7 +10,7 @@ public enum TemperatureUnit
 {
    KELVIN,
    CELSIUS,
-   FAHRENHEIT,
+   FAHRENHEIT
 }
 
 /// <summary>
@@ -22,7 +22,10 @@ public static class TemperatureUnitExtension
 
    public static bool IgnoreSameUnit = true;
 
-   public const decimal FACTOR_CELSIUS_TO_KELVIN = -Constants.ABSOLUTE_ZERO; //Celsius to Kelvin
+   /// <summary>
+   /// Celsius to Kelvin.
+   /// </summary>
+   public const decimal FACTOR_CELSIUS_TO_KELVIN = -Constants.ABSOLUTE_ZERO;
 
    /// <summary>
    /// Converts a value from one unit to another.
@@ -39,7 +42,7 @@ public static class TemperatureUnitExtension
          return val;
 
       decimal outVal = 0; // = inVal;
-      decimal fcDiv = 1.8m;
+      const decimal fcDiv = 1.8m;
 
       //Convert to Kelvin
       switch (fromTemperatureUnit)
@@ -48,7 +51,7 @@ public static class TemperatureUnitExtension
             //val = inVal;
             break;
          case TemperatureUnit.CELSIUS:
-            val = val + FACTOR_CELSIUS_TO_KELVIN;
+            val += FACTOR_CELSIUS_TO_KELVIN;
             break;
          case TemperatureUnit.FAHRENHEIT:
             val = ((val - 32) / fcDiv) + FACTOR_CELSIUS_TO_KELVIN;

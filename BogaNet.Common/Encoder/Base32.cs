@@ -28,11 +28,11 @@ public static class Base32 //NUnit
 
       byte currentByte = 0;
       byte bitsRemaining = 8;
-      int mask = 0;
       int arrayIndex = 0;
 
       foreach (int cValue in Enumerable.Select(base32string, charToValue))
       {
+         int mask;
          if (bitsRemaining > 5)
          {
             mask = cValue << (bitsRemaining - 5);

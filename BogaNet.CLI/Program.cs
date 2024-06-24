@@ -64,12 +64,12 @@ public static class Program
       sbyte sNew = sBytes.BNToNumber<sbyte>();
 
       _logger.LogInformation($"{s} - {sNew}");
-      
+
       decimal number = -1234.56789m;
 
-      byte[] bytes = number.BNToByteArray();
+      byte[]? bytes = number.BNToByteArray();
 
-      _logger.LogInformation($"{bytes.Length}");
+      _logger.LogInformation($"{bytes?.Length}");
 
       decimal numberCopy = bytes.BNToNumber<decimal>();
 

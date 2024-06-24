@@ -32,40 +32,40 @@ public static class ByteUnitExtension
 
    public static bool IgnoreSameUnit = true;
 
-   /// <summary>Factor bytes to kibibyte.</summary>
+   /// <summary>Bytes to kibibyte.</summary>
    public const decimal FACTOR_BYTES_TO_KiB = 1024;
 
-   /// <summary>Factor bytes to mebibyte.</summary>
+   /// <summary>Bytes to mebibyte.</summary>
    public const decimal FACTOR_BYTES_TO_MiB = FACTOR_BYTES_TO_KiB * 1024;
 
-   /// <summary>Factor bytes to gibibyte.</summary>
+   /// <summary>Bytes to gibibyte.</summary>
    public const decimal FACTOR_BYTES_TO_GiB = FACTOR_BYTES_TO_MiB * 1024;
 
-   /// <summary>Factor bytes to tebibyte.</summary>
+   /// <summary>Bytes to tebibyte.</summary>
    public const decimal FACTOR_BYTES_TO_TiB = FACTOR_BYTES_TO_GiB * 1024;
 
-   /// <summary>Factor bytes to pebibyte.</summary>
+   /// <summary>Bytes to pebibyte.</summary>
    public const decimal FACTOR_BYTES_TO_PiB = FACTOR_BYTES_TO_TiB * 1024;
 
-   /// <summary>Factor bytes to exbibyte.</summary>
+   /// <summary>Bytes to exbibyte.</summary>
    public const decimal FACTOR_BYTES_TO_EiB = FACTOR_BYTES_TO_PiB * 1024;
 
-   /// <summary>Factor bytes to kilobyte.</summary>
+   /// <summary>Bytes to kilobyte.</summary>
    public const decimal FACTOR_BYTES_TO_kB = 1000;
 
-   /// <summary>Factor bytes to megabyte.</summary>
+   /// <summary>Bytes to megabyte.</summary>
    public const decimal FACTOR_BYTES_TO_MB = FACTOR_BYTES_TO_kB * 1000;
 
-   /// <summary>Factor bytes to gigabyte.</summary>
+   /// <summary>Bytes to gigabyte.</summary>
    public const decimal FACTOR_BYTES_TO_GB = FACTOR_BYTES_TO_MB * 1000;
 
-   /// <summary>Factor bytes to terabyte.</summary>
+   /// <summary>Bytes to terabyte.</summary>
    public const decimal FACTOR_BYTES_TO_TB = FACTOR_BYTES_TO_GB * 1000;
 
-   /// <summary>Factor bytes to petabyte.</summary>
+   /// <summary>Bytes to petabyte.</summary>
    public const decimal FACTOR_BYTES_TO_PB = FACTOR_BYTES_TO_TB * 1000;
 
-   /// <summary>Factor bytes to exabyte.</summary>
+   /// <summary>Bytes to exabyte.</summary>
    public const decimal FACTOR_BYTES_TO_EB = FACTOR_BYTES_TO_PB * 1000;
 
    /// <summary>

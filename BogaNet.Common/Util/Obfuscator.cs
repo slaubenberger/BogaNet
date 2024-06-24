@@ -58,7 +58,7 @@ public abstract class Obfuscator //NUnit
    /// <param name="IV">Initial-Vector byte (optional)</param>
    /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
    /// <returns>Obfuscated string</returns>
-   public static byte[]? Obfuscate(string data, byte IV = DEFAULT_IV, Encoding? encoding = null)
+   public static byte[]? Obfuscate(string? data, byte IV = DEFAULT_IV, Encoding? encoding = null)
    {
       if (data == null)
          return null;

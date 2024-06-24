@@ -558,12 +558,12 @@ public class FileHelperTest
       Assert.False(string.IsNullOrEmpty(fname));
 
       Console.WriteLine(fname);
-      
+
       fname = FileHelper.GetFileName(testFileName);
       Assert.That(fname, Is.EqualTo(testFileName));
 
       Console.WriteLine(fname);
-      
+
       fname = FileHelper.GetFileName(testFilePathWin);
       Assert.That(fname, Is.EqualTo(testFileName));
 
@@ -597,19 +597,16 @@ public class FileHelperTest
       fname = FileHelper.GetFileName("*" + testFileName);
       Assert.That(fname, Is.EqualTo(testFileName));
    }
+
    [Test]
    public void GetDirectoryName_Test()
    {
       string? fname = FileHelper.GetDirectoryName(testTempPath);
       Assert.False(string.IsNullOrEmpty(fname));
 
-      Console.WriteLine(fname);
-      
       fname = FileHelper.GetDirectoryName(testDirectoryWin);
       Assert.That(fname, Is.EqualTo(testDirectoryName));
 
-      Console.WriteLine(fname);
-      
       fname = FileHelper.GetDirectoryName(testDirectoryUnix);
       Assert.That(fname, Is.EqualTo(testDirectoryName));
 

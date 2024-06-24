@@ -23,7 +23,7 @@ public class SecureTypeTest
       CharSec ch = 'A';
 
       char res = ch;
-      Assert.True(ch.Equals(res));
+      Assert.True(ch == res);
    }
 
    [Test]
@@ -34,7 +34,7 @@ public class SecureTypeTest
       age += years;
 
       decimal res = age;
-      Assert.True(age.Equals(res));
+      Assert.True(age == res);
    }
 
    [Test]
@@ -67,7 +67,7 @@ public class SecureTypeTest
       age += years;
 
       int res = age;
-      Assert.True(age.Equals(res));
+      Assert.True(age == res);
    }
 
    [Test]
@@ -78,7 +78,7 @@ public class SecureTypeTest
       age += years;
 
       long res = age;
-      Assert.True(age.Equals(res));
+      Assert.True(age == res);
    }
 
    [Test]
@@ -89,7 +89,7 @@ public class SecureTypeTest
       age += years;
 
       nint res = age;
-      Assert.True(age.Equals(res));
+      Assert.True(age == res);
    }
 
    [Test]
@@ -100,7 +100,7 @@ public class SecureTypeTest
       age += years;
 
       nuint res = age;
-      Assert.True(age.Equals(res));
+      Assert.True(age == res);
    }
 
    [Test]
@@ -111,7 +111,7 @@ public class SecureTypeTest
       age += years;
 
       sbyte res = age;
-      Assert.True(age.Equals(res));
+      Assert.True(age == res);
    }
 
    [Test]
@@ -122,7 +122,7 @@ public class SecureTypeTest
       age += years;
 
       short res = age;
-      Assert.True(age.Equals(res));
+      Assert.True(age == res);
    }
 
    [Test]
@@ -145,7 +145,7 @@ public class SecureTypeTest
       age += years;
 
       uint res = age;
-      Assert.True(age.Equals(res));
+      Assert.True(age == res);
    }
 
    [Test]
@@ -156,7 +156,7 @@ public class SecureTypeTest
       age += years;
 
       ulong res = age;
-      Assert.True(age.Equals(res));
+      Assert.True(age == res);
    }
 
    [Test]
@@ -167,7 +167,7 @@ public class SecureTypeTest
       age += years;
 
       ushort res = age;
-      Assert.True(age.Equals(res));
+      Assert.True(age == res);
    }
 
    #endregion

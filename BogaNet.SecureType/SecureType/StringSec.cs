@@ -13,7 +13,7 @@ public class StringSec //NUnit
 
    private static readonly ByteObf[] key = AESHelper.GenerateKey().BNToByteObfArray();
    private static readonly ByteObf[] iv = AESHelper.GenerateIV().BNToByteObfArray();
-   private byte[] secretValue;
+   private byte[]? secretValue;
 
    #endregion
 
@@ -77,8 +77,7 @@ public class StringSec //NUnit
       if (obj.GetType() == typeof(string))
          return _value.Equals(obj);
 
-      if (obj.GetType() != GetType()) return false;
-      return equals((StringSec)obj);
+      return obj.GetType() == GetType() && equals((StringSec)obj);
    }
 
    public override int GetHashCode()

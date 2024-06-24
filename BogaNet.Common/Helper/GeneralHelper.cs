@@ -1,10 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
-using System.Globalization;
-using System.Reflection;
-using System.Text;
-using System.Numerics;
+﻿using System.Numerics;
 using System;
-using System.Linq;
 
 namespace BogaNet.Helper;
 
@@ -15,9 +10,7 @@ public abstract class GeneralHelper
 {
    #region Variables
 
-   private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(Helper));
-
-   private static readonly Random _rnd = new();
+   //private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(Helper));
 
    #endregion
 

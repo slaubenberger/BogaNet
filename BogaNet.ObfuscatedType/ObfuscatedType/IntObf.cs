@@ -9,7 +9,7 @@ namespace BogaNet.ObfuscatedType;
 public class IntObf : ObfuscatedValueType<IntObf, int> //NUnit
 {
    private static readonly byte _obf = Obfuscator.GenerateIV();
-   protected override byte obf { get; } = _obf;
+   protected override byte obf => _obf;
 
    private IntObf(int value) : base(value)
    {

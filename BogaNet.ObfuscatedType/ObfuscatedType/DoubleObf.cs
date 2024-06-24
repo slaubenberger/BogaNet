@@ -9,7 +9,7 @@ namespace BogaNet.ObfuscatedType;
 public class DoubleObf : ObfuscatedValueType<DoubleObf, double> //NUnit
 {
    private static readonly byte _obf = Obfuscator.GenerateIV();
-   protected override byte obf { get; } = _obf;
+   protected override byte obf => _obf;
 
    private DoubleObf(double value) : base(value)
    {

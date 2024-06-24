@@ -76,8 +76,7 @@ public class StringObf //NUnit
       if (obj.GetType() == typeof(string))
          return _value.Equals(obj);
 
-      if (obj.GetType() != GetType()) return false;
-      return equals((StringObf)obj);
+      return obj.GetType() == GetType() && equals((StringObf)obj);
    }
 
    public override int GetHashCode()

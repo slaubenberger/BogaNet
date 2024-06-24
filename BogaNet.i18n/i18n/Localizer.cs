@@ -21,7 +21,7 @@ public class Localizer : Singleton<Localizer>, ILocalizer
 
    protected CultureInfo _culture = Constants.CurrentCulture;
    protected const char _separator = ',';
-   protected readonly List<CultureInfo> _cultures = new();
+   protected readonly List<CultureInfo> _cultures = [];
    protected readonly Dictionary<string, Dictionary<string, string>> _messages = new();
 
    #endregion
@@ -51,7 +51,7 @@ public class Localizer : Singleton<Localizer>, ILocalizer
       {
          if (_cultures.Count == 0)
          {
-            List<string> culturesString = new();
+            List<string> culturesString = [];
 
             foreach (KeyValuePair<string, string> cultureKvp in _messages.SelectMany(translationKvp => translationKvp.Value.Where(cultureKvp => !culturesString.Contains(cultureKvp.Key))))
             {
@@ -68,10 +68,10 @@ public class Localizer : Singleton<Localizer>, ILocalizer
       }
    }
 
-   public virtual List<string> MissingTranslations { get; } = new();
-   public virtual List<string> MissingCountries { get; } = new();
-   public virtual List<string> RemovedTranslations { get; } = new();
-   public virtual List<string> AddedTranslations { get; } = new();
+   public virtual List<string> MissingTranslations { get; } = [];
+   public virtual List<string> MissingCountries { get; } = [];
+   public virtual List<string> RemovedTranslations { get; } = [];
+   public virtual List<string> AddedTranslations { get; } = [];
 
    #endregion
 
@@ -110,8 +110,8 @@ public class Localizer : Singleton<Localizer>, ILocalizer
    {
       if (string.IsNullOrEmpty(key))
          throw new ArgumentNullException(nameof(key));
-      if (replacements == null)
-         throw new ArgumentNullException(nameof(replacements));
+
+      ArgumentNullException.ThrowIfNull(replacements);
 
       string? text = GetText(key, culture, textType);
 
@@ -217,9 +217,9 @@ public class Localizer : Singleton<Localizer>, ILocalizer
 
                if (translation != null && key != null)
                {
-                  if (_messages.ContainsKey(key))
+                  if (_messages.TryGetValue(key, out Dictionary<string, string>? value))
                   {
-                     var values = _messages[key];
+                     var values = value;
 
                      foreach (var translationKvp in translation)
                      {
@@ -311,7 +311,7 @@ public class Localizer : Singleton<Localizer>, ILocalizer
 
          if (culture.Length > 2)
          {
-            string newLang = culture.Substring(0, 2);
+            string newLang = culture[..2];
             _logger.LogDebug($"No translation found for key '{usedKey}' in '{culture}' - try to use '{newLang}'.");
 
             string id = $"{usedKey},{culture}";

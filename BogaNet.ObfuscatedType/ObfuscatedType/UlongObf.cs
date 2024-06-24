@@ -9,7 +9,7 @@ namespace BogaNet.ObfuscatedType;
 public class UlongObf : ObfuscatedValueType<UlongObf, ulong> //NUnit
 {
    private static readonly byte _obf = Obfuscator.GenerateIV();
-   protected override byte obf { get; } = _obf;
+   protected override byte obf => _obf;
 
    private UlongObf(ulong value) : base(value)
    {

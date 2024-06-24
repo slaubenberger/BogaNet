@@ -1,5 +1,4 @@
 ﻿using System.Text.RegularExpressions;
-using BogaNet.Helper;
 using System.Globalization;
 using System;
 
@@ -13,7 +12,7 @@ public abstract class Constants
    #region Constant variables
 
    #region Coding
-   
+
    /// <summary>Float value of 32768.</summary>
    public const float FLOAT_32768 = 32768f;
 

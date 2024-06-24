@@ -9,7 +9,7 @@ namespace BogaNet.Util;
 /// <typeparam name="T"></typeparam>
 public class Singleton<T> where T : class
 {
-   private static object mutex = new object();
+   private static object mutex = new();
    private static T? instance;
 
    public static T? Instance

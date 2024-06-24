@@ -19,7 +19,6 @@ public enum AreaUnit
    YARD2,
    PERCH,
    ACRE,
-
    MILE2
    //TODO add more exotic areas?
 }
@@ -33,22 +32,65 @@ public static class AreaUnitExtension
 
    public static bool IgnoreSameUnit = true;
 
-   public const decimal FACTOR_MM2_TO_CM2 = 100; //millimeters^2 to centimeters^2
-   public const decimal FACTOR_CM2_TO_M2 = 10000; //centimeters^2 to meters^2
-   public const decimal FACTOR_M2_TO_AREA = 100; //meters^2 to area
-   public const decimal FACTOR_AREA_TO_HECTARE = 100; //area to hectare
-   public const decimal FACTOR_HECTARE_TO_KM2 = 100; //hectare to kilometers^2
-   public const decimal FACTOR_INCH_TO_CM2 = 6.4516m; //square inch to centimeters^2
-   public const decimal FACTOR_FOOT2_TO_M2 = 0.09290304m; //square foot to meters^2
-   public const decimal FACTOR_YARD2_TO_M2 = 0.83612736m; //square yard to meters^2
-   public const decimal FACTOR_PERCH_TO_M2 = 25.2928526m; //square perch/rod to meters^2
-   public const decimal FACTOR_ACRE_TO_M2 = 4046.8564224m; //acre to meters^2
-   public const decimal FACTOR_MILE2_TO_KM2 = 2.5899881103m; //square mile (terrestrial) to kilometers^2
+   private const decimal FACTOR_MM2_TO_CM2 = 100; //millimeters² to centimeters²
+   private const decimal FACTOR_AREA_TO_HECTARE = 100; //area to hectare
+   private const decimal FACTOR_HECTARE_TO_KM2 = 100; //hectare to kilometers²
+   private const decimal FACTOR_INCH_TO_CM2 = 6.4516m; //inch² to centimeters²
+   private const decimal FACTOR_MILE2_TO_KM2 = 2.5899881103m; //mile² (terrestrial) to kilometers²
 
+   /// <summary>
+   /// Centimeter² to meters².
+   /// </summary>
+   public const decimal FACTOR_CM2_TO_M2 = 10000;
+
+   /// <summary>
+   /// Meter² to areas.
+   /// </summary>
+   public const decimal FACTOR_M2_TO_AREA = 100;
+
+   /// <summary>
+   /// Foot² to meters².
+   /// </summary>
+   public const decimal FACTOR_FOOT2_TO_M2 = 0.09290304m;
+
+   /// <summary>
+   /// Yard² to meters².
+   /// </summary>
+   public const decimal FACTOR_YARD2_TO_M2 = 0.83612736m;
+
+   /// <summary>
+   /// Perch/rod² to meters².
+   /// </summary>
+   public const decimal FACTOR_PERCH_TO_M2 = 25.2928526m;
+
+   /// <summary>
+   /// Acre to meters².
+   /// </summary>
+   public const decimal FACTOR_ACRE_TO_M2 = 4046.8564224m;
+
+   /// <summary>
+   /// Millimeter² to meters².
+   /// </summary>
    public static decimal FACTOR_MM2_TO_M2 => FACTOR_MM2_TO_CM2 * FACTOR_CM2_TO_M2;
+
+   /// <summary>
+   /// Meter² to hectares.
+   /// </summary>
    public static decimal FACTOR_M2_TO_HECTARE => FACTOR_M2_TO_AREA * FACTOR_AREA_TO_HECTARE;
+
+   /// <summary>
+   /// Meter² to kilometers².
+   /// </summary>
    public static decimal FACTOR_M2_TO_KM2 => FACTOR_M2_TO_AREA * FACTOR_AREA_TO_HECTARE * FACTOR_HECTARE_TO_KM2;
+
+   /// <summary>
+   /// Inch² to meters².
+   /// </summary>
    public static decimal FACTOR_INCH2_TO_M2 => FACTOR_INCH_TO_CM2 * FACTOR_CM2_TO_M2;
+
+   /// <summary>
+   /// Meter² to miles².
+   /// </summary>
    public static decimal FACTOR_M2_TO_MILE2 => FACTOR_M2_TO_KM2 * FACTOR_MILE2_TO_KM2;
 
    /// <summary>
@@ -67,7 +109,7 @@ public static class AreaUnitExtension
 
       decimal outVal = 0; // = inVal;
 
-      //Convert to m2
+      //Convert to m²
       switch (fromAreaUnit)
       {
          case AreaUnit.M2:
@@ -111,7 +153,7 @@ public static class AreaUnitExtension
             break;
       }
 
-      //Convert from m2
+      //Convert from m²
       switch (toAreaUnit)
       {
          case AreaUnit.M2:

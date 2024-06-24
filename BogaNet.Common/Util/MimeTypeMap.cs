@@ -71,10 +71,9 @@ public abstract class MimeTypeMap
    /// <param name="throwErrorIfNotFound">if set to <c>true</c>, throws error if extension's not found</param>
    /// <returns>The extension</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static string? GetExtension(string? mimeType, bool throwErrorIfNotFound = true)
+   public static string GetExtension(string? mimeType, bool throwErrorIfNotFound = true)
    {
-      if (mimeType == null)
-         throw new ArgumentNullException(nameof(mimeType));
+      ArgumentNullException.ThrowIfNull(mimeType);
 
       if (mimeType.StartsWith(Dot))
          throw new ArgumentException("Requested mime type is not valid: " + mimeType);

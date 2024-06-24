@@ -26,14 +26,32 @@ public static class WeightUnitExtension
 
    public static bool IgnoreSameUnit = true;
 
-   public const decimal FACTOR_MILLIGRAM_TO_GRAM = 1000; //milligram to gram
-   public const decimal FACTOR_GRAM_TO_KILOGRAM = 1000; //gram to kilogram
-   public const decimal FACTOR_OUNCE_TO_GRAM = 28.34952m; //ounce to gram
-   public const decimal FACTOR_POUND_TO_KILOGRAM = 0.453592m; //pound to kilogram
-   public const decimal FACTOR_TON_TO_KILOGRAM = 907.1847m; //ton to kilogram
+   private const decimal FACTOR_MILLIGRAM_TO_GRAM = 1000; //milligram to gram
+   private const decimal FACTOR_OUNCE_TO_GRAM = 28.34952m; //ounce to gram
 
+   /// <summary>
+   /// Gram to kilograms.
+   /// </summary>
+   public const decimal FACTOR_GRAM_TO_KILOGRAM = 1000;
+
+   /// <summary>
+   /// Pound to kilograms.
+   /// </summary>
+   public const decimal FACTOR_POUND_TO_KILOGRAM = 0.453592m;
+
+   /// <summary>
+   /// Ton to kilograms.
+   /// </summary>
+   public const decimal FACTOR_TON_TO_KILOGRAM = 907.1847m;
+
+   /// <summary>
+   /// Milligram to kilograms.
+   /// </summary>
    public static decimal FACTOR_MILLIGRAM_TO_KILOGRAM => FACTOR_MILLIGRAM_TO_GRAM * FACTOR_GRAM_TO_KILOGRAM;
 
+   /// <summary>
+   /// Ounce to kilograms.
+   /// </summary>
    public static decimal FACTOR_OUNCE_TO_KILOGRAM => FACTOR_OUNCE_TO_GRAM / FACTOR_GRAM_TO_KILOGRAM;
 
    /// <summary>
@@ -59,19 +77,19 @@ public static class WeightUnitExtension
             //val = inVal;
             break;
          case WeightUnit.MILLIGRAM:
-            val = val / FACTOR_MILLIGRAM_TO_KILOGRAM;
+            val /= FACTOR_MILLIGRAM_TO_KILOGRAM;
             break;
          case WeightUnit.GRAM:
-            val = val / FACTOR_GRAM_TO_KILOGRAM;
+            val /= FACTOR_GRAM_TO_KILOGRAM;
             break;
          case WeightUnit.OUNCE:
-            val = val * FACTOR_OUNCE_TO_KILOGRAM;
+            val *= FACTOR_OUNCE_TO_KILOGRAM;
             break;
          case WeightUnit.POUND:
-            val = val * FACTOR_POUND_TO_KILOGRAM;
+            val *= FACTOR_POUND_TO_KILOGRAM;
             break;
          case WeightUnit.TON:
-            val = val * FACTOR_TON_TO_KILOGRAM;
+            val *= FACTOR_TON_TO_KILOGRAM;
             break;
          default:
             _logger.LogWarning($"There is no conversion for the fromUnit: {fromWeightUnit}");

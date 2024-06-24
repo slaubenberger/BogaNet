@@ -72,7 +72,7 @@ public class ShortUID
    public Guid ToGuid()
    {
       string guidText = Code + "==";
-      Guid guid = new(Base64.FromBase64String(guidText, true) ?? Array.Empty<byte>());
+      Guid guid = new(Base64.FromBase64String(guidText, true));
 
       return guid;
    }

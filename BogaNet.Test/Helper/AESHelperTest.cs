@@ -19,7 +19,7 @@ public class AESHelperTest
       byte[] key = HashHelper.SHA256(keyPlain.BNToByteArray());
 
       var output = AESHelper.Encrypt(plain.BNToByteArray(), key, IV);
-      string plain2 = AESHelper.Decrypt(output, key, IV).BNToString();
+      string? plain2 = AESHelper.Decrypt(output, key, IV).BNToString();
 
       Assert.That(plain, Is.EqualTo(plain2));
    }

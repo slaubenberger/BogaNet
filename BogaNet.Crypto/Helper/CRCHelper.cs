@@ -81,12 +81,10 @@ public abstract class CRCHelper
    public static byte CRC8(params byte[]? bytes)
    {
       byte crc = 0;
+
       if (bytes != null && bytes.Length > 0)
       {
-         foreach (byte b in bytes)
-         {
-            crc = _crc8table[crc ^ b];
-         }
+         crc = Enumerable.Aggregate(bytes, crc, (current, b) => _crc8table[current ^ b]);
       }
 
       return crc;

@@ -1,5 +1,4 @@
 using System;
-using Enumerable = System.Linq.Enumerable;
 using System.Text;
 
 namespace BogaNet.Encoder;

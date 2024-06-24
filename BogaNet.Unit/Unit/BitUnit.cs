@@ -32,40 +32,40 @@ public static class BitUnitExtension
 
    public static bool IgnoreSameUnit = true;
 
-   /// <summary>Factor bit to kibibit.</summary>
+   /// <summary>Bit to kibibit.</summary>
    public const decimal FACTOR_BIT_TO_Kibit = 1024;
 
-   /// <summary>Factor bit to mebibit.</summary>
+   /// <summary>Bit to mebibit.</summary>
    public const decimal FACTOR_BIT_TO_Mibit = FACTOR_BIT_TO_Kibit * 1024;
 
-   /// <summary>Factor bit to gibibit.</summary>
+   /// <summary>Bit to gibibit.</summary>
    public const decimal FACTOR_BIT_TO_Gibit = FACTOR_BIT_TO_Mibit * 1024;
 
-   /// <summary>Factor bit to tebibit.</summary>
+   /// <summary>Bit to tebibit.</summary>
    public const decimal FACTOR_BIT_TO_Tibit = FACTOR_BIT_TO_Gibit * 1024;
 
-   /// <summary>Factor bit to pebibit.</summary>
+   /// <summary>Bit to pebibit.</summary>
    public const decimal FACTOR_BIT_TO_Pibit = FACTOR_BIT_TO_Tibit * 1024;
 
-   /// <summary>Factor bit to exbibit.</summary>
+   /// <summary>Bit to exbibit.</summary>
    public const decimal FACTOR_BIT_TO_Eibit = FACTOR_BIT_TO_Pibit * 1024;
 
-   /// <summary>Factor bit to kilobit.</summary>
+   /// <summary>Bit to kilobit.</summary>
    public const decimal FACTOR_BIT_TO_kbit = 1000;
 
-   /// <summary>Factor bit to megabit.</summary>
+   /// <summary>Bit to megabit.</summary>
    public const decimal FACTOR_BIT_TO_Mbit = FACTOR_BIT_TO_kbit * 1000;
 
-   /// <summary>Factor bit to gigabit.</summary>
+   /// <summary>Bit to gigabit.</summary>
    public const decimal FACTOR_BIT_TO_Gbit = FACTOR_BIT_TO_Mbit * 1000;
 
-   /// <summary>Factor bytes to terabit.</summary>
+   /// <summary>Bytes to terabit.</summary>
    public const decimal FACTOR_BIT_TO_Tbit = FACTOR_BIT_TO_Gbit * 1000;
 
-   /// <summary>Factor bit to petabit.</summary>
+   /// <summary>Bit to petabit.</summary>
    public const decimal FACTOR_BIT_TO_Pbit = FACTOR_BIT_TO_Tbit * 1000;
 
-   /// <summary>Factor bit to exabit.</summary>
+   /// <summary>Bit to exabit.</summary>
    public const decimal FACTOR_BIT_TO_Ebit = FACTOR_BIT_TO_Pbit * 1000;
 
    /// <summary>

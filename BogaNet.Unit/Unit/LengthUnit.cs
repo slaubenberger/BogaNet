@@ -30,16 +30,47 @@ public static class LengthUnitExtension
 
    public static bool IgnoreSameUnit = true;
 
-   public const decimal FACTOR_INCH_TO_CM = 2.54m; //inch to centimeters
-   public const decimal FACTOR_FOOT_TO_M = 0.3048m; //foot to meters
-   public const decimal FACTOR_YARD_TO_M = 0.9144m; //yard to meters
-   public const decimal FACTOR_MILE_TO_M = 1609.344m; //mile (terrestrial) to meters
-   public const decimal FACTOR_NAUTICAL_MILE_TO_M = 1852m; //nautical mile to meters
-   public const decimal FACTOR_MM_TO_CM = 10; //millimeters to centimeters
-   public const decimal FACTOR_CM_TO_M = 100; //centimeters to meters
+   private const decimal FACTOR_INCH_TO_CM = 2.54m; //inch to centimeters
+   private const decimal FACTOR_MM_TO_CM = 10; //millimeters to centimeters
+
+   /// <summary>
+   /// Foot to meters.
+   /// </summary>
+   public const decimal FACTOR_FOOT_TO_M = 0.3048m;
+
+   /// <summary>
+   /// Yard to meters.
+   /// </summary>
+   public const decimal FACTOR_YARD_TO_M = 0.9144m;
+
+   /// <summary>
+   /// Mile (terrestrial) to meters.
+   /// </summary>
+   public const decimal FACTOR_MILE_TO_M = 1609.344m;
+
+   /// <summary>
+   /// Nautical mile to meters.
+   /// </summary>
+   public const decimal FACTOR_NAUTICAL_MILE_TO_M = 1852m;
+
+   /// <summary>
+   /// Centimeter to meters.
+   /// </summary>
+   public const decimal FACTOR_CM_TO_M = 100;
+
+   /// <summary>
+   /// Meter to kilometers.
+   /// </summary>
    public const decimal FACTOR_M_TO_KM = 1000; //meters to kilometers
 
+   /// <summary>
+   /// Millimeter to meters.
+   /// </summary>
    public static decimal FACTOR_MM_TO_M => FACTOR_MM_TO_CM * FACTOR_CM_TO_M;
+
+   /// <summary>
+   /// Inch to meters.
+   /// </summary>
    public static decimal FACTOR_INCH_TO_M => FACTOR_INCH_TO_CM / FACTOR_CM_TO_M;
 
    /// <summary>

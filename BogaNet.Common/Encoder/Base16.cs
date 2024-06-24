@@ -23,7 +23,7 @@ public static class Base16 //NUnit
       if (string.IsNullOrEmpty(base16string))
          throw new ArgumentNullException(nameof(base16string));
 
-      return Convert.FromHexString(base16string.StartsWith("0x") ? base16string.Substring(2) : base16string);
+      return Convert.FromHexString(base16string.BNStartsWith("0x") ? base16string.Substring(2) : base16string);
    }
 
    /// <summary>
@@ -107,7 +107,7 @@ public static class Base16 //NUnit
       //string hex = number.ToString($"x{pairs}", null);
       //float number2 = number.BNTO;
 
-      string hex = string.Empty;
+      string hex;
 
       if (isInteger)
       {
@@ -185,9 +185,9 @@ public static class Base16 //NUnit
       }
 
       if (isInteger)
-         return T.Parse(base16string.StartsWith("0x") ? base16string.Substring(2) : base16string, System.Globalization.NumberStyles.HexNumber, null);
+         return T.Parse(base16string.BNStartsWith("0x") ? base16string.Substring(2) : base16string, System.Globalization.NumberStyles.HexNumber, null);
 
-      string hexVal = base16string.StartsWith("0x") ? base16string.Substring(2) : base16string;
+      string hexVal = base16string.BNStartsWith("0x") ? base16string.Substring(2) : base16string;
       byte[] data = new byte[hexVal.Length / 2];
 
       for (int ii = 0; ii < data.Length; ++ii)

@@ -1,8 +1,5 @@
 using System.Collections.Generic;
 using System.Numerics;
-using System;
-using Microsoft.Extensions.Logging;
-using System.Text;
 using BogaNet.Util;
 
 namespace BogaNet.ObfuscatedType;
@@ -16,7 +13,7 @@ public abstract class ObfuscatedValueType<TCustom, TValue> where TValue : INumbe
 {
    #region Variables
 
-   private static readonly ILogger<ObfuscatedValueType<TCustom, TValue>> _logger = GlobalLogging.CreateLogger<ObfuscatedValueType<TCustom, TValue>>();
+   //private static readonly ILogger<ObfuscatedValueType<TCustom, TValue>> _logger = GlobalLogging.CreateLogger<ObfuscatedValueType<TCustom, TValue>>();
 
    protected abstract byte obf { get; } //= Obfuscator.GenerateIV();
    private byte[]? obfValue;
@@ -73,7 +70,7 @@ public abstract class ObfuscatedValueType<TCustom, TValue> where TValue : INumbe
 
    public static bool operator ==(ObfuscatedValueType<TCustom, TValue> a, ObfuscatedValueType<TCustom, TValue> b)
    {
-      return a.Equals((object)b);
+      return a.Equals(b);
    }
 
    public static bool operator !=(ObfuscatedValueType<TCustom, TValue> a, ObfuscatedValueType<TCustom, TValue> b)
@@ -108,8 +105,7 @@ public abstract class ObfuscatedValueType<TCustom, TValue> where TValue : INumbe
       if (obj.GetType() == typeof(TValue))
          return _value.Equals(obj);
 
-      if (obj.GetType() != GetType()) return false;
-      return equals((ObfuscatedValueType<TCustom, TValue>)obj);
+      return obj.GetType() == GetType() && equals((ObfuscatedValueType<TCustom, TValue>)obj);
    }
 
    public override int GetHashCode()

@@ -115,10 +115,9 @@ public abstract class AESHelper //TODO add other algorithms, key&blocksize, padd
    /// <exception cref="Exception"></exception>
    public static byte[] Encrypt(string textToEncrypt, byte[]? key, byte[]? IV, Encoding? encoding = null)
    {
-      if (textToEncrypt == null)
-         throw new ArgumentNullException(nameof(textToEncrypt));
+        ArgumentNullException.ThrowIfNull(textToEncrypt);
 
-      return Encrypt(textToEncrypt.BNToByteArray(encoding), key, IV);
+        return Encrypt(textToEncrypt.BNToByteArray(encoding), key, IV);
    }
 
    /// <summary>
@@ -150,7 +149,7 @@ public abstract class AESHelper //TODO add other algorithms, key&blocksize, padd
          using ICryptoTransform encryptor = algo.CreateEncryptor(key, IV);
          using MemoryStream msEncrypt = new();
          await using CryptoStream csEncrypt = new(msEncrypt, encryptor, CryptoStreamMode.Write);
-         await csEncrypt.WriteAsync(dataToEncrypt, 0, dataToEncrypt.Length);
+         await csEncrypt.WriteAsync(dataToEncrypt);
          await csEncrypt.FlushFinalBlockAsync();
 
          return msEncrypt.ToArray();

@@ -1,7 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Linq;
-using BogaNet.Util;
 
 namespace BogaNet.Helper;
 
@@ -10,7 +8,7 @@ namespace BogaNet.Helper;
 /// </summary>
 public static class ArrayHelper
 {
-   private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(ArrayHelper));
+   //private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(ArrayHelper));
 
    /// <summary>
    /// Converts a byte-array to a float-array.

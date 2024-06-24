@@ -18,7 +18,7 @@ public class ObfuscatorTest
          //Console.WriteLine($"{IVgen} - {BogaNet.Encoder.Base16.ToBase16String(testStr.BNToByteArray())} - Obf: {BogaNet.Encoder.Base16.ToBase16String(text2)}");
          //Console.WriteLine($"{testStr} - {text3}");
 
-         Assert.True(testStr.Equals(text3));
+         Assert.That(testStr, Is.EqualTo(text3));
 
          decimal dec = 35.8m;
 
@@ -52,7 +52,7 @@ public class ObfuscatorTest
       output = Obfuscator.Obfuscate(plain.BNToByteArray(), 10);
       plain2 = Obfuscator.Deobfuscate(output, 11).BNToString();
 
-      Assert.False(plain == plain2);
+      Assert.That(plain == plain2, Is.False);
    }
 
    #endregion
