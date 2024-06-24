@@ -128,7 +128,7 @@ public class ObfuscatedTypeTest
    [Test]
    public void String_Test()
    {
-      StringObf text = $"Hello everybody! {DateTime.Now}";
+      StringObf text = $"Hellö everybödy! {DateTime.Now}";
       string frag = " BYE";
       text += frag;
 

@@ -63,7 +63,7 @@ public abstract class Obfuscator //NUnit
       if (data == null)
          return null;
 
-      return Obfuscate(data.BNToByteArray(encoding));
+      return Obfuscate(data.BNToByteArray(encoding), IV);
    }
 
    /// <summary>
