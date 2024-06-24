@@ -72,18 +72,17 @@ public static class NumberExtension
          case Type t when t == typeof(byte):
             byte byteVal = byte.CreateTruncating(number);
             return [byteVal];
-         /*
          case Type t when t == typeof(sbyte):
             sbyte sbyteVal = sbyte.CreateTruncating(number);
-            return [sbyteVal];
-         */
+            return [(byte)sbyteVal];
+         case Type t when t == typeof(char):
+            ushort charVal = ushort.CreateTruncating(number);
+            return BitConverter.GetBytes(charVal);
          case Type t when t == typeof(decimal):
             decimal decVal = decimal.CreateTruncating(number);
-
             int[] int64s = decimal.GetBits(decVal);
             byte[] bytes = int64s.Take(4).SelectMany(BitConverter.GetBytes).ToArray();
             //byte[] bytes = int64s.Take(4).SelectMany(BitConverter.GetBytes).Reverse().ToArray();
-
             return bytes;
          default:
             _logger.LogWarning("Number type is not supported!");

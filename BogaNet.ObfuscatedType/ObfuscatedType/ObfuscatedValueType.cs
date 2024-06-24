@@ -29,6 +29,7 @@ public abstract class ObfuscatedValueType<TCustom, TValue> where TValue : INumbe
    {
       get
       {
+/*
          //string? plainValue = Obfuscator.DeobfuscateToString(obfValue, obf, Encoding.ASCII);
 
          Type type = typeof(TValue);
@@ -43,10 +44,13 @@ public abstract class ObfuscatedValueType<TCustom, TValue> where TValue : INumbe
          {
             return Obfuscator.Deobfuscate(obfValue).BNToNumber<TValue>();
          }
+*/
+         return Obfuscator.Deobfuscate(obfValue).BNToNumber<TValue>();
       }
 
       private set
       {
+         /*
          Type type = typeof(TValue);
 
          if (type == typeof(decimal))
@@ -60,6 +64,9 @@ public abstract class ObfuscatedValueType<TCustom, TValue> where TValue : INumbe
          {
             obfValue = Obfuscator.Obfuscate(value.BNToByteArray(), obf);
          }
+         */
+
+         obfValue = Obfuscator.Obfuscate(value.BNToByteArray(), obf);
       }
    }
 

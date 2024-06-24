@@ -1,13 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
-using BogaNet.Unit;
-using System.Globalization;
-using BogaNet.i18n;
-using BogaNet.Helper;
-using System.Security.Cryptography.X509Certificates;
-using BogaNet.Util;
-using BogaNet.ObfuscatedType;
-using BogaNet.Encoder;
 
 namespace BogaNet.CLI;
 
@@ -59,6 +51,20 @@ public static class Program
 
    private static void testNumber()
    {
+      char c = 'Q';
+      var cBytes = c.BNToByteArray();
+
+      char cNew = cBytes.BNToNumber<char>();
+
+      _logger.LogInformation($"{c} - {cNew}");
+
+      sbyte s = -123;
+      var sBytes = s.BNToByteArray();
+
+      sbyte sNew = sBytes.BNToNumber<sbyte>();
+
+      _logger.LogInformation($"{s} - {sNew}");
+      
       decimal number = -1234.56789m;
 
       byte[] bytes = number.BNToByteArray();
@@ -69,7 +75,7 @@ public static class Program
 
       _logger.LogInformation($"{number} - {numberCopy}");
    }
-
+/*
    private static void testBase16()
    {
       string test = "Grüezi wohl!";
@@ -172,11 +178,10 @@ public static class Program
       _logger.LogInformation("CPD: " + NetworkHelper.CheckInternetAvailability());
 
       _logger.LogInformation("Ping: " + NetworkHelper.Ping("crosstales.com"));
-/*
+
       _logger.LogInformation("Public IP: " + NetworkHelper.GetPublicIP());
 
       _logger.LogInformation("Network adapters: " + NetworkHelper.GetNetworkAdapters().BNDump(false));
-*/
    }
 
    private static void testRSA()
@@ -248,7 +253,7 @@ public static class Program
 
       _logger.LogInformation($"{inVal} => {outVal}");
    }
-   
+
 
    private static void testToString()
    {
@@ -267,6 +272,7 @@ public static class Program
 
       _logger.LogInformation(tm.BNToString());
    }
+   */
 }
 
 public class TestModel

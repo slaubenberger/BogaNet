@@ -31,6 +31,8 @@ public abstract class SecureValueType<TCustom, TValue> where TValue : INumber<TV
    {
       get
       {
+         return AESHelper.Decrypt(secretValue, key.ToByteArray(), iv.ToByteArray()).BNToNumber<TValue>();
+         /*
          Type type = typeof(TValue);
 
          string? plainValue = AESHelper.DecryptToString(secretValue, key.ToByteArray(), iv.ToByteArray(), Encoding.ASCII);
@@ -88,10 +90,22 @@ public abstract class SecureValueType<TCustom, TValue> where TValue : INumber<TV
          }
 
          return TValue.CreateTruncating(0);
+         */
       }
+
       private set
       {
-         secretValue = AESHelper.Encrypt(value.ToString(), key.ToByteArray(), iv.ToByteArray(), Encoding.ASCII);
+         Type type = typeof(TValue);
+
+         if (type == typeof(char))
+         {
+           
+            var b = value.BNToByteArray();
+            int a = 5;
+         }
+
+         secretValue = AESHelper.Encrypt(value.BNToByteArray(), key.ToByteArray(), iv.ToByteArray());
+         //secretValue = AESHelper.Encrypt(value.ToString(), key.ToByteArray(), iv.ToByteArray(), Encoding.ASCII);
       }
    }
 

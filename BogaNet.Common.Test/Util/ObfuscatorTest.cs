@@ -11,36 +11,24 @@ public class ObfuscatorTest
    {
       for (byte IVgen = 0; IVgen < byte.MaxValue; IVgen++)
       {
-         /*
          string testStr = "abc";
          var text2 = Obfuscator.Obfuscate(testStr, IVgen);
          var text3 = Obfuscator.DeobfuscateToString(text2, IVgen);
 
-         Console.WriteLine($"{IVgen} - {BogaNet.Encoder.Base16.ToBase16String(testStr.BNToByteArray())} - Obf: {BogaNet.Encoder.Base16.ToBase16String(text2)}");
-         Console.WriteLine($"{testStr} - {text3}");
+         //Console.WriteLine($"{IVgen} - {BogaNet.Encoder.Base16.ToBase16String(testStr.BNToByteArray())} - Obf: {BogaNet.Encoder.Base16.ToBase16String(text2)}");
+         //Console.WriteLine($"{testStr} - {text3}");
 
          Assert.True(testStr.Equals(text3));
-*/
-         
+
          decimal dec = 35.8m;
-         var t = dec.ToString();
-         //var text2 = Obfuscator.Obfuscate(t, IVgen);
-         //var text3 = Obfuscator.DeobfuscateToString(text2, IVgen);
-         
-         var text2 = Obfuscator.Obfuscate(dec.BNToByteArray(), IVgen);
 
-         var text3 = Obfuscator.Deobfuscate(text2, IVgen);
+         var decBytes = Obfuscator.Obfuscate(dec.BNToByteArray(), IVgen);
+         var decEncBytes = Obfuscator.Deobfuscate(decBytes, IVgen);
 
-         Console.WriteLine($"{IVgen} - {BogaNet.Encoder.Base16.ToBase16String(dec.BNToByteArray())} - {BogaNet.Encoder.Base16.ToBase16String(text2)}");
+         //Console.WriteLine($"{IVgen} - {BogaNet.Encoder.Base16.ToBase16String(dec.BNToByteArray())} - {BogaNet.Encoder.Base16.ToBase16String(decBytes)}");
 
-         //decimal decVal = decimal.Parse(text3);
-         //Assert.True(t.Equals(text3));
-         
-         decimal decVal = text3.BNToNumber<decimal>();
-         
-         
+         decimal decVal = decEncBytes.BNToNumber<decimal>();
          Assert.True(dec.Equals(decVal));
-         
       }
 
       string plain = "BogaNet rulez!";
