@@ -25,4 +25,8 @@
       <ProjectReference Include="..\BogaNet.Crypto\BogaNet.Crypto.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Helper\" />
+    </ItemGroup>
+
 </Project>

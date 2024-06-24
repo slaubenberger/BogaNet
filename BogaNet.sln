@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BogaNet.Common", "BogaNet.Common\BogaNet.Common.csproj", "{761B0B59-DC54-4A07-B5A9-E0BD5BC6D448}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BogaNet.Common.Test", "BogaNet.Common.Test\BogaNet.Common.Test.csproj", "{6B1F0E29-1B62-4E3D-A017-C4004B643DAC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BogaNet.Test", "BogaNet.Test\BogaNet.Test.csproj", "{6B1F0E29-1B62-4E3D-A017-C4004B643DAC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BogaNet.CLI", "BogaNet.CLI\BogaNet.CLI.csproj", "{8CE41FAB-3A14-47C3-9182-8EDD7C1E183E}"
 EndProject
@@ -17,14 +17,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BogaNet.ObfuscatedType", "BogaNet.ObfuscatedType\BogaNet.ObfuscatedType.csproj", "{D376486B-9CCD-4EB9-B42C-DEA551950D46}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BogaNet.SecureType", "BogaNet.SecureType\BogaNet.SecureType.csproj", "{3450DE3F-7375-4EEE-9D12-59894AA7FF4D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BogaNet.Crypto.Test", "BogaNet.Crypto.Test\BogaNet.Crypto.Test.csproj", "{B747829D-5BD0-4A71-87DD-7257520CEE85}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BogaNet.ObfuscatedType.Test", "BogaNet.ObfuscatedType.Test\BogaNet.ObfuscatedType.Test.csproj", "{053745DE-A3CE-4DC1-A373-DD95DA085C2B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BogaNet.SecureType.Test", "BogaNet.SecureType.Test\BogaNet.SecureType.Test.csproj", "{E3CF61FE-B19B-4AC7-8ACA-94BB8B867ACE}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BogaNet.Unit.Test", "BogaNet.Unit.Test\BogaNet.Unit.Test.csproj", "{DE901DD9-09F8-4788-9C80-9AFF0E7FE585}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -68,22 +60,6 @@ Global
 		{3450DE3F-7375-4EEE-9D12-59894AA7FF4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3450DE3F-7375-4EEE-9D12-59894AA7FF4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3450DE3F-7375-4EEE-9D12-59894AA7FF4D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B747829D-5BD0-4A71-87DD-7257520CEE85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B747829D-5BD0-4A71-87DD-7257520CEE85}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B747829D-5BD0-4A71-87DD-7257520CEE85}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B747829D-5BD0-4A71-87DD-7257520CEE85}.Release|Any CPU.Build.0 = Release|Any CPU
-		{053745DE-A3CE-4DC1-A373-DD95DA085C2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{053745DE-A3CE-4DC1-A373-DD95DA085C2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{053745DE-A3CE-4DC1-A373-DD95DA085C2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{053745DE-A3CE-4DC1-A373-DD95DA085C2B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E3CF61FE-B19B-4AC7-8ACA-94BB8B867ACE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E3CF61FE-B19B-4AC7-8ACA-94BB8B867ACE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E3CF61FE-B19B-4AC7-8ACA-94BB8B867ACE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E3CF61FE-B19B-4AC7-8ACA-94BB8B867ACE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DE901DD9-09F8-4788-9C80-9AFF0E7FE585}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DE901DD9-09F8-4788-9C80-9AFF0E7FE585}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DE901DD9-09F8-4788-9C80-9AFF0E7FE585}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DE901DD9-09F8-4788-9C80-9AFF0E7FE585}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection

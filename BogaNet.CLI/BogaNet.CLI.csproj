@@ -12,23 +12,23 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="NLog.Web.AspNetCore" Version="5.3.11" />
+        <PackageReference Include="NLog.Web.AspNetCore" Version="5.3.11"/>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\BogaNet.Common\BogaNet.Common.csproj" />
+        <ProjectReference Include="..\BogaNet.Common\BogaNet.Common.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="nlog.config">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Translation.csv">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\Translation_de.csv">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
+        <None Update="nlog.config">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Resources\Translation.csv">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Resources\Translation_de.csv">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
 </Project>

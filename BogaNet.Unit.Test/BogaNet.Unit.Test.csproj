@@ -22,6 +22,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\BogaNet.Common\BogaNet.Common.csproj" />
       <ProjectReference Include="..\BogaNet.Unit\BogaNet.Unit.csproj" />
     </ItemGroup>
 
