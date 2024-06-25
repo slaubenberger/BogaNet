@@ -9,7 +9,7 @@ Secure types for:
 * [char](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/char)
 * [string](https://learn.microsoft.com/en-us/dotnet/api/system.string?view=net-8.0)
 
-```cs
+```csharp
 DoubleSec age = 35.8;
 double years = 7;
 age += years;
