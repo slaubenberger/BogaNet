@@ -9,7 +9,7 @@ using System.IO;
 namespace BogaNet.Helper;
 
 /// <summary>
-/// Helper-class for XML.
+/// Helper for XML operations.
 /// </summary>
 public abstract class XmlHelper
 {

@@ -7,7 +7,7 @@ using System.IO;
 namespace BogaNet.Helper;
 
 /// <summary>
-/// Helper-class for JSON. Extends https://www.newtonsoft.com/json
+/// Helper for JSON operations. Extends https://www.newtonsoft.com/json
 /// </summary>
 public abstract class JsonHelper
 {
