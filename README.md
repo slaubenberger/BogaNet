@@ -2,6 +2,13 @@
 .NET 8 version of Boga, a library with many little helpers to speed up C# development.
 
 
+## BogaNet.Avalonia
+A library with many little helpers to speed up Avalonia development.
+
+### Main classes
+* [ImageHelper](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_avalonia_1_1_helper_1_1_image_helper.html): Helper for images in Avalonia.
+* [ResourceHelper](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_avalonia_1_1_helper_1_1_resource_helper.html): Helper for resources in Avalonia.
+
 ## API:
 [https://www.crosstales.com/media/data/BogaNet/api/](https://www.crosstales.com/media/data/BogaNet/api/annotated.html)
 
