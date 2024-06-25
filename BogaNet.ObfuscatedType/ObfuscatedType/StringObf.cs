@@ -11,18 +11,22 @@ public class StringObf //NUnit
 {
    #region Variables
 
-   private static readonly byte _obf = (byte)(Obfuscator.GenerateIV() + 173);
-   private byte obf => (byte)(_obf - 173);
-   private byte[]? obfValue;
+   private static readonly byte _shift = Obfuscator.GenerateIV();
+   private readonly byte _offset;
+   private readonly byte _iv;
+   private byte[]? _obfValue;
 
    #endregion
 
    #region Properties
 
+   private byte _obfOffset => (byte)(_offset - _shift);
+   private byte _obf => (byte)(_iv - _obfOffset);
+
    private string _value
    {
-      get => Obfuscator.DeobfuscateToString(obfValue, obf) ?? string.Empty;
-      set => obfValue = Obfuscator.Obfuscate(value, obf);
+      get => Obfuscator.DeobfuscateToString(_obfValue, _obf) ?? string.Empty;
+      set => _obfValue = Obfuscator.Obfuscate(value, _obf);
    }
 
    #endregion
@@ -31,6 +35,8 @@ public class StringObf //NUnit
 
    private StringObf(string value)
    {
+      _offset = (byte)(Obfuscator.GenerateIV() + _shift);
+      _iv = (byte)(Obfuscator.GenerateIV() + _obfOffset);
       _value = value;
    }
 

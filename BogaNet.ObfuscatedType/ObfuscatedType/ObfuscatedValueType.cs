@@ -13,20 +13,23 @@ public abstract class ObfuscatedValueType<TCustom, TValue> where TValue : INumbe
 {
    #region Variables
 
-   //private static readonly ILogger<ObfuscatedValueType<TCustom, TValue>> _logger = GlobalLogging.CreateLogger<ObfuscatedValueType<TCustom, TValue>>();
-
-   protected abstract byte obf { get; } //= Obfuscator.GenerateIV();
-   private byte[]? obfValue;
+   private static readonly byte _shift = Obfuscator.GenerateIV();
+   private readonly byte _offset;
+   private readonly byte _iv;
+   private byte[]? _obfValue;
 
    #endregion
 
    #region Properties
 
+   private byte _obfOffset => (byte)(_offset - _shift);
+   protected byte _obf => (byte)(_iv - _obfOffset);
+
    protected TValue _value
    {
-      get => Obfuscator.Deobfuscate(obfValue, obf).BNToNumber<TValue>()!;
+      get => Obfuscator.Deobfuscate(_obfValue, _obf).BNToNumber<TValue>()!;
 
-      private set => obfValue = Obfuscator.Obfuscate(value.BNToByteArray(), obf);
+      private set => _obfValue = Obfuscator.Obfuscate(value.BNToByteArray(), _obf);
    }
 
    #endregion
@@ -35,6 +38,8 @@ public abstract class ObfuscatedValueType<TCustom, TValue> where TValue : INumbe
 
    protected ObfuscatedValueType(TValue value)
    {
+      _offset = (byte)(Obfuscator.GenerateIV() + _shift);
+      _iv = (byte)(Obfuscator.GenerateIV() + _obfOffset);
       _value = value;
    }
 

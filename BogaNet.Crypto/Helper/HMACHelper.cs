@@ -19,10 +19,7 @@ public abstract class HMACHelper
    /// <returns>Secure secret as byte-array</returns>
    public static byte[] GenerateSecret(int length = 16)
    {
-      byte[] buffer = new byte[length];
-      using RandomNumberGenerator rng = RandomNumberGenerator.Create();
-      rng.GetBytes(buffer);
-      return buffer;
+      return RandomNumberGenerator.GetBytes(length);
    }
 
    /// <summary>

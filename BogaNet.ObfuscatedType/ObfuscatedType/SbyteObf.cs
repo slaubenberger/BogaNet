@@ -8,9 +8,6 @@ namespace BogaNet.ObfuscatedType;
 /// </summary>
 public class SbyteObf : ObfuscatedValueType<SbyteObf, sbyte> //NUnit
 {
-   private static readonly byte _obf = (byte)(Obfuscator.GenerateIV() + 137);
-   protected override byte obf => (byte)(_obf - 137);
-
    private SbyteObf(sbyte value) : base(value)
    {
    }

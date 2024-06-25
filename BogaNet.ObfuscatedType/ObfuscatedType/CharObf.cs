@@ -8,9 +8,6 @@ namespace BogaNet.ObfuscatedType;
 /// </summary>
 public class CharObf : ObfuscatedValueType<ByteObf, char> //NUnit
 {
-   private static readonly byte _obf = (byte)(Obfuscator.GenerateIV() + 17);
-   protected override byte obf => (byte)(_obf - 17);
-
    private CharObf(char value) : base(value)
    {
    }

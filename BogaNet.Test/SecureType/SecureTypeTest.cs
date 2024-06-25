@@ -18,6 +18,15 @@ public class SecureTypeTest
    }
 
    [Test]
+   public void Bool_Test()
+   {
+      BoolSec isOk = true;
+
+      bool res = isOk;
+      Assert.True(isOk == res);
+   }
+
+   [Test]
    public void Char_Test()
    {
       CharSec ch = 'A';

@@ -8,9 +8,6 @@ namespace BogaNet.ObfuscatedType;
 /// </summary>
 public class NintObf : ObfuscatedValueType<NintObf, nint> //NUnit
 {
-   private static readonly byte _obf = (byte)(Obfuscator.GenerateIV() + 107);
-   protected override byte obf => (byte)(_obf - 107);
-
    private NintObf(nint value) : base(value)
    {
    }

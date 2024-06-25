@@ -8,9 +8,6 @@ namespace BogaNet.ObfuscatedType;
 /// </summary>
 public class DecimalObf : ObfuscatedValueType<DecimalObf, decimal> //NUnit
 {
-   private static readonly byte _obf = (byte)(Obfuscator.GenerateIV() + 37);
-   protected override byte obf => (byte)(_obf - 37);
-
    private DecimalObf(decimal value) : base(value)
    {
    }

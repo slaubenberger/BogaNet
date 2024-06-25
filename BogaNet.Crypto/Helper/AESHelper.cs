@@ -17,13 +17,11 @@ public abstract class AESHelper //TODO add other algorithms, key&blocksize, padd
    /// <summary>
    /// Generates a secure IV for AES.
    /// </summary>
+   /// <param name="length">Length of the IV (optional, default: 16)</param>
    /// <returns>IV as byte-array</returns>
-   public static byte[] GenerateIV()
+   public static byte[] GenerateIV(int length = 16)
    {
-      byte[] buffer = new byte[16];
-      using RandomNumberGenerator rng = RandomNumberGenerator.Create();
-      rng.GetBytes(buffer);
-      return buffer;
+      return RandomNumberGenerator.GetBytes(length);
    }
 
    /// <summary>
@@ -33,10 +31,7 @@ public abstract class AESHelper //TODO add other algorithms, key&blocksize, padd
    /// <returns>Secure key as byte-array</returns>
    public static byte[] GenerateKey(int length = 16)
    {
-      byte[] buffer = new byte[length.BNClamp(16, 32)];
-      using RandomNumberGenerator rng = RandomNumberGenerator.Create();
-      rng.GetBytes(buffer);
-      return buffer;
+      return RandomNumberGenerator.GetBytes(length);
    }
 
    /// <summary>

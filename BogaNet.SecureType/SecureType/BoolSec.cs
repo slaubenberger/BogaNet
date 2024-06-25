@@ -12,8 +12,8 @@ public class BoolSec //NUnit
 {
    #region Variables
 
-   private static readonly ByteObf[] key = AESHelper.GenerateKey().BNToByteObfArray();
-   private static readonly ByteObf[] iv = AESHelper.GenerateIV().BNToByteObfArray();
+   private readonly ByteObf[] key = AESHelper.GenerateKey().BNToByteObfArray();
+   private readonly ByteObf[] iv = AESHelper.GenerateIV().BNToByteObfArray();
    private byte[]? secretValue;
 
    #endregion

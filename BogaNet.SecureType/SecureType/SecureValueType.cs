@@ -14,15 +14,17 @@ public abstract class SecureValueType<TCustom, TValue> where TValue : INumber<TV
 {
    #region Variables
 
-   //private static readonly ILogger<SecureValueType<TCustom, TValue>> _logger = GlobalLogging.CreateLogger<SecureValueType<TCustom, TValue>>();
-
-   protected abstract ByteObf[] key { get; }
-   protected abstract ByteObf[] iv { get; }
+   private readonly ByteObf[] _key = AESHelper.GenerateKey().BNToByteObfArray();
+   private readonly ByteObf[] _iv = AESHelper.GenerateIV().BNToByteObfArray();
    private byte[]? secretValue;
 
    #endregion
 
    #region Properties
+
+   protected ByteObf[] key => _key;
+
+   protected ByteObf[] iv => _iv;
 
    protected TValue _value
    {

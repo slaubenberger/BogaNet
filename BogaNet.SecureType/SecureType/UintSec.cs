@@ -8,12 +8,6 @@ namespace BogaNet.SecureType;
 /// </summary>
 public class UintSec : SecureValueType<UintSec, uint> //NUnit
 {
-   private readonly ByteObf[] _key = AESHelper.GenerateKey().BNToByteObfArray();
-   private readonly ByteObf[] _iv = AESHelper.GenerateIV().BNToByteObfArray();
-
-   protected override ByteObf[] key => _key;
-   protected override ByteObf[] iv => _iv;
-
    private UintSec(uint value) : base(value)
    {
    }

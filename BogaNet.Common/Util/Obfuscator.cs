@@ -18,10 +18,7 @@ public abstract class Obfuscator //NUnit
    /// <returns>IV as byte</returns>
    public static byte GenerateIV()
    {
-      byte[] buffer = new byte[1];
-      using RandomNumberGenerator rng = RandomNumberGenerator.Create();
-      rng.GetBytes(buffer);
-      return buffer[0];
+      return RandomNumberGenerator.GetBytes(1)[0];
    }
 
    /// <summary>
@@ -43,7 +40,7 @@ public abstract class Obfuscator //NUnit
       for (int ii = 0; ii < data.Length; ii++)
       {
          byte currentByte = data[ii];
-         lastByte = ii == 0 ? (byte)(currentByte + IV) : (byte)(currentByte + lastByte + IV);
+         lastByte = ii == 0 ? (byte)(currentByte + IV) : (byte)(currentByte + lastByte); // + IV); //TODO unsure if + IV is worse
 
          result[ii] = lastByte;
       }
@@ -80,7 +77,7 @@ public abstract class Obfuscator //NUnit
       for (int ii = obfuscatedData.Length - 1; ii >= 0; ii--)
       {
          byte currentByte = obfuscatedData[ii];
-         byte lastByte = ii == 0 ? (byte)(currentByte - IV) : (byte)(currentByte - obfuscatedData[ii - 1] - IV);
+         byte lastByte = ii == 0 ? (byte)(currentByte - IV) : (byte)(currentByte - obfuscatedData[ii - 1]); // - IV); //TODO unsure if + IV is worse
 
          result[ii] = lastByte;
       }

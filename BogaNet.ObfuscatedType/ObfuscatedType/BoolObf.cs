@@ -12,18 +12,22 @@ public class BoolObf //NUnit
 {
    #region Variables
 
-   private static readonly byte _obf = (byte)(Obfuscator.GenerateIV() + 223);
-   private byte obf => (byte)(_obf - 223);
-   private byte[]? obfValue;
+   private static readonly byte _shift = Obfuscator.GenerateIV();
+   private readonly byte _offset;
+   private readonly byte _iv;
+   private byte[]? _obfValue;
 
    #endregion
 
    #region Properties
 
+   private byte _obfOffset => (byte)(_offset - _shift);
+   private byte _obf => (byte)(_iv - _obfOffset);
+
    private bool _value
    {
-      get => BitConverter.ToBoolean(Obfuscator.Deobfuscate(obfValue, obf));
-      set => obfValue = Obfuscator.Obfuscate(BitConverter.GetBytes(value), obf);
+      get => BitConverter.ToBoolean(Obfuscator.Deobfuscate(_obfValue, _obf));
+      set => _obfValue = Obfuscator.Obfuscate(BitConverter.GetBytes(value), _obf);
    }
 
    #endregion
@@ -32,6 +36,8 @@ public class BoolObf //NUnit
 
    private BoolObf(bool value)
    {
+      _offset = (byte)(Obfuscator.GenerateIV() + _shift);
+      _iv = (byte)(Obfuscator.GenerateIV() + _obfOffset);
       _value = value;
    }
 

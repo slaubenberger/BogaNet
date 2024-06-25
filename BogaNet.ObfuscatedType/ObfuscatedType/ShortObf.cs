@@ -8,9 +8,6 @@ namespace BogaNet.ObfuscatedType;
 /// </summary>
 public class ShortObf : ObfuscatedValueType<ShortObf, short> //NUnit
 {
-   private static readonly byte _obf = (byte)(Obfuscator.GenerateIV() + 157);
-   protected override byte obf => (byte)(_obf - 157);
-
    private ShortObf(short value) : base(value)
    {
    }
