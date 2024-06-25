@@ -56,6 +56,10 @@
       <None Update="Testfiles\README.md">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
+      <None Update="README.md">
+        <Pack>true</Pack>
+        <PackagePath>/</PackagePath>
+      </None>
     </ItemGroup>
 
     <ItemGroup>

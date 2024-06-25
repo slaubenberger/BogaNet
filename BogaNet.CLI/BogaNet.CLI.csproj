@@ -29,6 +29,10 @@
         <None Update="Resources\Translation_de.csv">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
+        <None Update="README.md">
+          <Pack>true</Pack>
+          <PackagePath>/</PackagePath>
+        </None>
     </ItemGroup>
 
 </Project>
