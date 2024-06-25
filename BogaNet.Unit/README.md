@@ -1,6 +1,7 @@
 # BogaNet.Unit
 Various units, like area, bit, byte, length, temperature, volume and weight with easy conversion between different types.
 
+## Units and example code
 ```csharp
 decimal yard2 = AreaUnit.M2.Convert(AreaUnit.YARD2, 12); //Meter² to yards²
 decimal kbit = BitUnit.BIT.Convert(BitUnit.kbit, 1200); //Bit to kbit

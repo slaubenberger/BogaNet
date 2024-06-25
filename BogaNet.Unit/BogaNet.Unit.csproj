@@ -14,19 +14,19 @@
         <PackageReleaseNotes>Common updated.</PackageReleaseNotes>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <!-- <PackageIconUrl>https://www.crosstales.com/media/data/BogaNet/logo_boga.png</PackageIconUrl> -->
-        <PackageIcon>logo_boga.png</PackageIcon>
+        <PackageIcon>logo_boga_unit.png</PackageIcon>
         <PackageProjectUrl>https://www.crosstales.com/media/data/BogaNet/api/</PackageProjectUrl>
         <LangVersion>12</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="BogaNet.Common" Version="1.0.1">
+        <PackageReference Include="BogaNet.Common" Version="1.0.2">
             <!--<PrivateAssets>all</PrivateAssets>-->
         </PackageReference>
     </ItemGroup>
 
     <ItemGroup>
-        <None Include="../Resources/logo_boga.png" Pack="true" PackagePath="\"/>
+        <None Include="../Resources/logo_boga_unit.png" Pack="true" PackagePath="\"/>
         <None Include="README.md" Pack="true" PackagePath="\"/>
     </ItemGroup>
 </Project>

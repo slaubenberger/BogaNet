@@ -64,13 +64,74 @@ Console.WriteLine(loc.GetText("GreetingText"));
 ### Nuget:
 [BogaNet.i18n](https://www.nuget.org/packages/BogaNet.i18n/)
 
+## BogaNet.ObfuscatedType
+Various obfuscated types for all value types and strings. This types prevent the values from being "plain" in memory and offers some protection against bad actors (like memory scanners and searchers).
 
+### Main classes and example code
+Obfuscated types for:
+* [Integral numeric types](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/integral-numeric-types)
+* [Floating-point numeric types](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/floating-point-numeric-types)
+* [bool](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool)
+* [char](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/char)
+* [string](https://learn.microsoft.com/en-us/dotnet/api/system.string?view=net-8.0)
 
+```csharp
+DoubleObf age = 35.8;
+double years = 7;
+age += years;
 
+Console.WriteLine(age.ToString());
 
+StringObf text = "Hello Wörld!";
+string frag = " byebye!";
+text += frag;
 
+Console.WriteLine(text);
+```
 
-## Nuget-packages:
-* [BogaNet.ObfuscatedType](https://www.nuget.org/packages/BogaNet.ObfuscatedType/): various obfuscated types for all value types and strings. This types prevent the values from being "plain" in memory and offers some protection against bad actors (like memory scanners and searchers).
-* [BogaNet.SecureType](https://www.nuget.org/packages/BogaNet.SecureType/): various encrypted types for all value types and strings. This types prevent the values from being "plain" in memory and offers high protection against bad actors (like memory scanners and searchers).
-* [BogaNet.Unit](https://www.nuget.org/packages/BogaNet.Unit/): Various units, like area, bit, byte, length, temperature, volume and weight with easy conversion between different types.
+### Nuget:
+[BogaNet.ObfuscatedType](https://www.nuget.org/packages/BogaNet.ObfuscatedType/)
+
+## BogaNet.SecureType
+Various encrypted types for all value types and strings. This types prevent the values from being "plain" in memory and offers high protection against bad actors (like memory scanners and searchers).
+
+### Main classes and example code
+Secure types for:
+* [Integral numeric types](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/integral-numeric-types)
+* [Floating-point numeric types](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/floating-point-numeric-types)
+* [bool](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool)
+* [char](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/char)
+* [string](https://learn.microsoft.com/en-us/dotnet/api/system.string?view=net-8.0)
+
+```csharp
+DoubleSec age = 35.8;
+double years = 7;
+age += years;
+
+Console.WriteLine(age.ToString());
+
+StringSec text = "Hello Wörld!";
+string frag = " byebye!";
+text += frag;
+
+Console.WriteLine(text);
+```
+### Nuget:
+[BogaNet.SecureType](https://www.nuget.org/packages/BogaNet.SecureType/)
+
+## BogaNet.Unit
+Various units, like area, bit, byte, length, temperature, volume and weight with easy conversion between different types.
+
+### Units and example code
+```csharp
+decimal yard2 = AreaUnit.M2.Convert(AreaUnit.YARD2, 12); //Meter² to yards²
+decimal kbit = BitUnit.BIT.Convert(BitUnit.kbit, 1200); //Bit to kbit
+decimal kB = ByteUnit.BYTE.Convert(ByteUnit.kB, 1976); //Byte to kB
+decimal meter = LengthUnit.YARD.Convert(LengthUnit.M, 9); //Yard to meter
+decimal kelvin = TemperatureUnit.FAHRENHEIT.Convert(TemperatureUnit.KELVIN, 7800); //Fahrenheit to Kelvin
+decimal pint = VolumeUnit.LITER.Convert(VolumeUnit.PINT, 5); //Liter to pint
+decimal conv = WeightUnit.GRAM.Convert(WeightUnit.POUND, 150); //Gram to pound
+```
+
+### Nuget:
+[BogaNet.Unit](https://www.nuget.org/packages/BogaNet.Unit/)

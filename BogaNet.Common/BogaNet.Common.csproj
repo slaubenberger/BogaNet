@@ -15,7 +15,7 @@
         <PackageReleaseNotes>Code doc and Obfuscator improved.</PackageReleaseNotes>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <!-- <PackageIconUrl>https://www.crosstales.com/media/data/BogaNet/logo_boga.png</PackageIconUrl> -->
-        <PackageIcon>logo_boga.png</PackageIcon>
+        <PackageIcon>logo_boga_common.png</PackageIcon>
         <PackageProjectUrl>https://www.crosstales.com/media/data/BogaNet/api/</PackageProjectUrl>
     </PropertyGroup>
 
@@ -26,6 +26,6 @@
 
     <ItemGroup>
         <None Include="README.md" Pack="true" PackagePath="\"/>
-        <None Include="../Resources/logo_boga.png" Pack="true" PackagePath="\"/>
+        <None Include="../Resources/logo_boga_common.png" Pack="true" PackagePath="\"/>
     </ItemGroup>
 </Project>
