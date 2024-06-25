@@ -4,7 +4,7 @@ Localizer for C# applications.
 ## Main class and example code
 * [Localizer](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1i18n_1_1_localizer.html): i18n localizer.
 
-```
+```cs
 var loc = Localizer.Instance;
 loc.LoadFiles("./Resources/Translation.csv", "./Resources/Translation_de.csv"); //load the translation files
 loc.Culture = new CultureInfo("en"); //set the culture to English
