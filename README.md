@@ -1,6 +1,9 @@
 # BogaNet
 .NET 8 version of Boga, a collection of tools to make C# development a joyride.
 
+## API:
+[https://www.crosstales.com/media/data/BogaNet/api/](https://www.crosstales.com/media/data/BogaNet/api/annotated.html)
+
 ## BogaNet.Avalonia
 A library with many little helpers to speed up Avalonia development.
 
@@ -48,11 +51,6 @@ Various helpers for cryptographic functions, like hashing (SHA), asymmetric (AES
 
 
 
-
-
-
-## API:
-[https://www.crosstales.com/media/data/BogaNet/api/](https://www.crosstales.com/media/data/BogaNet/api/annotated.html)
 
 
 ## Nuget-packages:

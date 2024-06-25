@@ -11,7 +11,7 @@ using BogaNet.Util;
 namespace BogaNet.i18n;
 
 /// <summary>
-/// i18n localizer
+/// i18n localizer.
 /// </summary>
 public class Localizer : Singleton<Localizer>, ILocalizer
 {
