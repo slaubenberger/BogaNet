@@ -9,7 +9,7 @@ using System.Text;
 namespace BogaNet.Helper;
 
 /// <summary>
-/// Helper for RSA cryptography.
+/// Helper for RSA cryptography and X509 certificates.
 /// </summary>
 public abstract class RSAHelper
 {

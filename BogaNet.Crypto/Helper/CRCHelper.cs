@@ -5,7 +5,7 @@ using System.Text;
 namespace BogaNet.Helper;
 
 /// <summary>
-/// Helper for CRC checks.
+/// Helper for CRC checks with CRC8, CRC16, CRC32 and CRC64.
 /// NOTE: never use CRC for integrity checks, use hashes instead!
 /// </summary>
 public abstract class CRCHelper

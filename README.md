@@ -1,7 +1,6 @@
 # BogaNet
 .NET 8 version of Boga, a collection of tools to make C# development a joyride.
 
-
 ## BogaNet.Avalonia
 A library with many little helpers to speed up Avalonia development.
 
@@ -12,10 +11,10 @@ A library with many little helpers to speed up Avalonia development.
 ### Nuget:
 [BogaNet.Avalonia](https://www.nuget.org/packages/BogaNet.Avalonia/)
 
-# BogaNet.Common
+## BogaNet.Common
 A library with many little helpers to speed up C# development.
 
-## Main classes and functions
+### Main classes
 * [Base16](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_encoder_1_1_base16.html): Base16 (aka Hex) encoder.
 * [Base32](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_encoder_1_1_base32.html): Base32 encoder.
 * [Base64](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_encoder_1_1_base64.html): Base64 encoder.
@@ -30,8 +29,26 @@ A library with many little helpers to speed up C# development.
 
 There are also many powerful extensions for arrays, bytes, dictionaries, lists, numbers and strings.
 
-## Nuget:
+### Nuget:
 [BogaNet.Common](https://www.nuget.org/packages/BogaNet.Common/)
+
+## BogaNet.Crypto
+Various helpers for cryptographic functions, like hashing (SHA), asymmetric (AES) and symmetric (RSA) encryption/decryption, HMAC and CRC.
+
+### Main classes
+* [AESHelper](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_helper_1_1_a_e_s_helper.html): Helper for AES cryptography.
+* [CRCHelper](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_helper_1_1_c_r_c_helper.html): Helper for CRC checks with CRC8, CRC16, CRC32 and CRC64.
+* [HashHelper](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_helper_1_1_hash_helper.html): Helper for hash computations. It contains ready-to-use Implementations of SHA256, SHA384 and SHA512.
+* [HMACHelper](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_helper_1_1_h_m_a_c_helper.html): Helper for HMAC cryptography. It contains ready-to-use Implementations of HMAC256, HMAC384 and HMAC512.
+* [RSAHelper](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_helper_1_1_r_s_a_helper.html): Helper for RSA cryptography and X509 certificates.
+
+### Nuget:
+[BogaNet.Crypto](https://www.nuget.org/packages/BogaNet.Crypto/)
+
+
+
+
+
 
 
 ## API:
@@ -39,7 +56,6 @@ There are also many powerful extensions for arrays, bytes, dictionaries, lists, 
 
 
 ## Nuget-packages:
-* [BogaNet.Crypto](https://www.nuget.org/packages/BogaNet.Crypto/): various helpers for cryptographic functions, like hashing (SHA), asymmetric (RSA) and symmetric (AES) encryption/decryption, HMAC and CRC.
 * [BogaNet.i18n](https://www.nuget.org/packages/BogaNet.i18n/): localizer for C# applications.
 * [BogaNet.ObfuscatedType](https://www.nuget.org/packages/BogaNet.ObfuscatedType/): various obfuscated types for all value types and strings. This types prevent the values from being "plain" in memory and offers some protection against bad actors (like memory scanners and searchers).
 * [BogaNet.SecureType](https://www.nuget.org/packages/BogaNet.SecureType/): various encrypted types for all value types and strings. This types prevent the values from being "plain" in memory and offers high protection against bad actors (like memory scanners and searchers).

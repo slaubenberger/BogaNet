@@ -6,7 +6,7 @@ using System.Text;
 namespace BogaNet.Helper;
 
 /// <summary>
-/// Helper for hash computations.
+/// Helper for hash computations. It contains ready-to-use Implementations of SHA256, SHA384 and SHA512.
 /// </summary>
 public abstract class HashHelper
 {
