@@ -1,6 +1,6 @@
 ﻿using BogaNet.SecureType;
 
-namespace BogaNet.Test.Crypto;
+namespace BogaNet.Test.SecureType;
 
 public class SecureTypeTest
 {

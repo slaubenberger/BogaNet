@@ -1,6 +1,6 @@
 ﻿using BogaNet.ObfuscatedType;
 
-namespace BogaNet.Test.Crypto;
+namespace BogaNet.Test.ObfuscatedType;
 
 public class ObfuscatedTypeTest
 {
@@ -15,6 +15,15 @@ public class ObfuscatedTypeTest
 
       byte res = age;
       Assert.True(age == res);
+   }
+
+   [Test]
+   public void Bool_Test()
+   {
+      BoolObf isOk = true;
+
+      bool res = isOk;
+      Assert.True(isOk == res);
    }
 
    [Test]

@@ -48,13 +48,29 @@ Various helpers for cryptographic functions, like hashing (SHA), asymmetric (AES
 ### Nuget:
 [BogaNet.Crypto](https://www.nuget.org/packages/BogaNet.Crypto/)
 
+## BogaNet.i18n
+Localizer for C# applications.
+
+### Main class and example code
+* [Localizer](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1i18n_1_1_localizer.html): i18n localizer.
+
+```cs
+var loc = Localizer.Instance;
+loc.LoadFiles("./Resources/Translation.csv", "./Resources/Translation_de.csv"); //load the translation files
+loc.Culture = new CultureInfo("en"); //set the culture to English
+Console.WriteLine(loc.GetText("GreetingText"));
+```
+
+### Nuget:
+[BogaNet.i18n](https://www.nuget.org/packages/BogaNet.i18n/)
+
+
 
 
 
 
 
 ## Nuget-packages:
-* [BogaNet.i18n](https://www.nuget.org/packages/BogaNet.i18n/): localizer for C# applications.
 * [BogaNet.ObfuscatedType](https://www.nuget.org/packages/BogaNet.ObfuscatedType/): various obfuscated types for all value types and strings. This types prevent the values from being "plain" in memory and offers some protection against bad actors (like memory scanners and searchers).
 * [BogaNet.SecureType](https://www.nuget.org/packages/BogaNet.SecureType/): various encrypted types for all value types and strings. This types prevent the values from being "plain" in memory and offers high protection against bad actors (like memory scanners and searchers).
 * [BogaNet.Unit](https://www.nuget.org/packages/BogaNet.Unit/): Various units, like area, bit, byte, length, temperature, volume and weight with easy conversion between different types.
