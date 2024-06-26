@@ -48,7 +48,7 @@ PROJECT_NAME           = BogaNet
 # could be handy for archiving the generated documentation or if some version
 # control system is used.
 
-PROJECT_NUMBER         = 1.0.2
+PROJECT_NUMBER         = 1.0.3
 
 # Using the PROJECT_BRIEF tag one can provide an optional one line description
 # for a project that appears at the top of each page and should give viewer a
@@ -953,6 +953,7 @@ INPUT                  = ../BogaNet.Common \
                          ../BogaNet.Crypto \
                          ../BogaNet.i18n \
                          ../BogaNet.ObfuscatedType \
+                         ../BogaNet.Prefs \
                          ../BogaNet.SecureType \
                          ../BogaNet.Unit \
                          ../BogaNet.Avalonia

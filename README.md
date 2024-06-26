@@ -67,6 +67,18 @@ Console.WriteLine(loc.GetText("GreetingText"));
 ## BogaNet.ObfuscatedType
 Various obfuscated types for all value types and strings. This types prevent the values from being "plain" in memory and offers some protection against bad actors (like memory scanners and searchers).
 
+### Important note
+This types are fast and lightweight, but not cryptographically secure! Use it for less sensitive data, like:
+* Username
+* First and last names
+* Email addresses
+* Mailing addresses
+* Phone numbers
+* Social media profile names
+* Highscores
+
+For sensitive data, like passwords etc., it is **strongly recommended** to use [BogaNet.SecureType](https://www.nuget.org/packages/BogaNet.SecureType/) instead.
+
 ### Main classes and example code
 Obfuscated types for:
 * [Integral numeric types](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/integral-numeric-types)
@@ -92,8 +104,46 @@ Console.WriteLine(text);
 ### Nuget:
 [BogaNet.ObfuscatedType](https://www.nuget.org/packages/BogaNet.ObfuscatedType/)
 
+## BogaNet.Prefs
+Handles preferences/settings for C# applications. It supports all values types, strings, DateTime and object.
+Furthermore, it allows to store the data in obfuscated form to prevent it from being easily read.
+The data is automatically stored at application exit.
+
+### Main class and example code
+* [Preferences](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_prefs_1_1_preferences.html): Preferences for the application..
+
+```csharp
+string textObf = "Hello obfuscated wörld!";
+string keyObf = "textObf";
+
+Preferences.Set(keyObf, textObf, true); //save text in obfuscated form
+Console.WriteLine(GetString(keyObf, true));
+
+double number = 12.345;
+string keyNumber = "number";
+
+Preferences.Set(keyNumber, number);
+Console.WriteLine(Preferences.GetNumber<double>(keyNumber).ToString());
+```
+
+### Nuget:
+[BogaNet.Prefs](https://www.nuget.org/packages/BogaNet.Prefs/)
+
 ## BogaNet.SecureType
 Various encrypted types for all value types and strings. This types prevent the values from being "plain" in memory and offers high protection against bad actors (like memory scanners and searchers).
+
+### Important note
+This types are performance and memory intense compared to the original C# types, but are cryptographically secure! Use it for sensitive data, like:
+* Passwords
+* Bank account/routing numbers
+* Social security numbers (SSN)
+* Drivers license numbers
+* Passport ID
+* Federal tax ID
+* Employer identification numbers (EIN) 
+* Health insurance policy/member numbers
+
+For less sensitive data, like usernames etc., consider using [BogaNet.ObfuscatedType](https://www.nuget.org/packages/BogaNet.ObfuscatedType/).
 
 ### Main classes and example code
 Secure types for:

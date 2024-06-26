@@ -17,7 +17,8 @@ public static class Program
 
       _logger.LogDebug("Hi there, this is a test app!");
 
-      testNumber();
+      testPrefs();
+      //testNumber();
       //testBase16();
       //testBase32();
       //testDI();
@@ -49,13 +50,46 @@ public static class Program
       Environment.Exit(code);
    }
 
+   private static void testPrefs()
+   {
+      string text = "Hello wörld!";
+      string key = "text";
+
+      BogaNet.Prefs.Preferences.Set(key, text);
+      Console.WriteLine(BogaNet.Prefs.Preferences.GetString(key));
+
+      string textObf = "Hello obfuscated wörld!";
+      string keyObf = "textObf";
+
+      BogaNet.Prefs.Preferences.Set(keyObf, textObf, true);
+      Console.WriteLine(BogaNet.Prefs.Preferences.GetString(keyObf, true));
+
+      double number = 12.345;
+      string keyNumber = "number";
+
+      BogaNet.Prefs.Preferences.Set(keyNumber, number);
+      Console.WriteLine(BogaNet.Prefs.Preferences.GetNumber<double>(keyNumber).ToString());
+
+      bool boolean = true;
+      string keyBool = "boolean";
+
+      BogaNet.Prefs.Preferences.Set(keyBool, boolean);
+      _logger.LogInformation(BogaNet.Prefs.Preferences.GetBool(keyBool).ToString());
+
+      DateTime date = DateTime.Now;
+      string keyDate = "date";
+
+      //BogaNet.Prefs.Preferences.Set(keyDate, date);
+      _logger.LogInformation(BogaNet.Prefs.Preferences.GetDate(keyDate).ToString());
+   }
+
    private static void testNumber()
    {
       byte a = 1;
       byte b = (byte)((a * 300));
-      
+
       _logger.LogInformation($"Shift: {BogaNet.Encoder.Base16.ToBase16String(a)} - {BogaNet.Encoder.Base16.ToBase16String(b)}");
-      
+
       char c = 'Q';
       var cBytes = c.BNToByteArray();
 

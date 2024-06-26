@@ -3,7 +3,7 @@
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
-        <Version>0.9.3</Version>
+        <Version>0.9.4</Version>
         <Company>crosstales LLC</Company>
         <Copyright>© 2024 Stefan Laubenberger</Copyright>
         <Authors>Stefan Laubenberger</Authors>
@@ -11,10 +11,10 @@
         <RepositoryUrl>https://github.com/slaubenberger/BogaNet</RepositoryUrl>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageTags>AES Crypto CRC CRC8 CRC16 CRC32 CRC64 RSA PKI Certificate X509 Hash SHA SHA256 SHA384 SHA512 HMAC HMAC256 HMAC384 HMAC512</PackageTags>
-        <PackageReleaseNotes>AES, SHA und HMAC improved.</PackageReleaseNotes>
+        <PackageReleaseNotes>Logo updated.</PackageReleaseNotes>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <!-- <PackageIconUrl>https://www.crosstales.com/media/data/BogaNet/logo_boga.png</PackageIconUrl> -->
-        <PackageIcon>logo_boga_crypto.png</PackageIcon>
+        <PackageIcon>logo_boga_crypto.jpg</PackageIcon>
         <PackageProjectUrl>https://www.crosstales.com/media/data/BogaNet/api/</PackageProjectUrl>
         <LangVersion>12</LangVersion>
     </PropertyGroup>
@@ -29,7 +29,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <None Include="../Resources/logo_boga_crypto.png" Pack="true" PackagePath="\"/>
+        <None Include="../Resources/logo_boga_crypto.jpg" Pack="true" PackagePath="\"/>
         <None Include="README.md" Pack="true" PackagePath="\"/>
     </ItemGroup>
 

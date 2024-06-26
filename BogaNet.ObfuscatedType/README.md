@@ -3,6 +3,7 @@ Various obfuscated types for all value types and strings. This types prevent the
 
 ## Important note
 This types are fast and lightweight, but not cryptographically secure! Use it for less sensitive data, like:
+* Username
 * First and last names
 * Email addresses
 * Mailing addresses

@@ -1,5 +1,5 @@
 # BogaNet.i18n
-Localizer for C# applications.
+Localizer/translator for C# applications.
 
 ## Main class and example code
 * [Localizer](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1i18n_1_1_localizer.html): i18n localizer.

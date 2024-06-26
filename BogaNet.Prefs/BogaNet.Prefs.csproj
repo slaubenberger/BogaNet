@@ -3,18 +3,18 @@
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
-        <Version>0.9.3</Version>
+        <Version>0.9.0</Version>
         <Company>crosstales LLC</Company>
         <Copyright>© 2024 Stefan Laubenberger</Copyright>
         <Authors>Stefan Laubenberger</Authors>
-        <Description>Various units, like area, bit, byte, length, temperature, volume and weight with easy conversion between different types.</Description>
+        <Description>Handles preferences for C# applications. It supports all values types, strings, DateTime and object.</Description>
         <RepositoryUrl>https://github.com/slaubenberger/BogaNet</RepositoryUrl>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageTags>Units Area Bit Byte Length Temperature Volume Weight</PackageTags>
-        <PackageReleaseNotes>Logo updated.</PackageReleaseNotes>
+        <PackageTags>Preference Option Setting</PackageTags>
+        <PackageReleaseNotes>Initial release.</PackageReleaseNotes>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <!-- <PackageIconUrl>https://www.crosstales.com/media/data/BogaNet/logo_boga.png</PackageIconUrl> -->
-        <PackageIcon>logo_boga_unit.jpg</PackageIcon>
+        <PackageIcon>logo_boga_prefs.jpg</PackageIcon>
         <PackageProjectUrl>https://www.crosstales.com/media/data/BogaNet/api/</PackageProjectUrl>
         <LangVersion>12</LangVersion>
     </PropertyGroup>
@@ -26,7 +26,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <None Include="../Resources/logo_boga_unit.jpg" Pack="true" PackagePath="\"/>
+        <None Include="../Resources/logo_boga_prefs.jpg" Pack="true" PackagePath="\"/>
         <None Include="README.md" Pack="true" PackagePath="\"/>
     </ItemGroup>
+
 </Project>
