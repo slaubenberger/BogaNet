@@ -20,7 +20,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="BogaNet.Common" Version="1.0.2">
+        <PackageReference Include="BogaNet.Common" Version="1.0.3">
             <!--<PrivateAssets>all</PrivateAssets>-->
         </PackageReference>
         <PackageReference Include="System.IO.Hashing" Version="8.0.0">

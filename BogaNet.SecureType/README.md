@@ -1,5 +1,5 @@
 # BogaNet.SecureType
-Various encrypted types for all value types and strings. This types prevent the values from being "plain" in memory and offers high protection against bad actors (like memory scanners and searchers).
+AES encrypted types for all value types and strings. This types prevent the values from being "plain" in memory and offers high protection against bad actors (like memory scanners and searchers).
 
 ## Important note
 This types are performance and memory intense compared to the original C# types, but are cryptographically secure! Use it for sensitive data, like:

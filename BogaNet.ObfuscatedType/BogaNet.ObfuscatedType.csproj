@@ -7,7 +7,7 @@
         <Company>crosstales LLC</Company>
         <Copyright>© 2024 Stefan Laubenberger</Copyright>
         <Authors>Stefan Laubenberger</Authors>
-        <Description>Various obfuscated types for all value types and strings. This types prevent the values from being "plain" in memory and offers some protection against bad actors (like memory scanners and searchers).</Description>
+        <Description>Obfuscated types for all value types and strings. This types prevent the values from being "plain" in memory and offers some protection against bad actors (like memory scanners and searchers).</Description>
         <RepositoryUrl>https://github.com/slaubenberger/BogaNet</RepositoryUrl>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageTags>Obfuscation Protection</PackageTags>
@@ -20,7 +20,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="BogaNet.Common" Version="1.0.2">
+        <PackageReference Include="BogaNet.Common" Version="1.0.3">
             <!--<PrivateAssets>all</PrivateAssets>-->
         </PackageReference>
     </ItemGroup>

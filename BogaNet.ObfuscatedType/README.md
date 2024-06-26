@@ -1,5 +1,5 @@
 # BogaNet.ObfuscatedType
-Various obfuscated types for all value types and strings. This types prevent the values from being "plain" in memory and offers some protection against bad actors (like memory scanners and searchers).
+Obfuscated types for all value types and strings. This types prevent the values from being "plain" in memory and offers some protection against bad actors (like memory scanners and searchers).
 
 ## Important note
 This types are fast and lightweight, but not cryptographically secure! Use it for less sensitive data, like:

@@ -17,7 +17,7 @@ public static class Program
 
       _logger.LogDebug("Hi there, this is a test app!");
 
-      testPrefs();
+      //testPrefs();
       //testNumber();
       //testBase16();
       //testBase32();
@@ -49,7 +49,7 @@ public static class Program
       NLog.LogManager.Shutdown();
       Environment.Exit(code);
    }
-
+/*
    private static void testPrefs()
    {
       string text = "Hello wörld!";
@@ -82,7 +82,7 @@ public static class Program
       //BogaNet.Prefs.Preferences.Set(keyDate, date);
       _logger.LogInformation(BogaNet.Prefs.Preferences.GetDate(keyDate).ToString());
    }
-
+*/
    private static void testNumber()
    {
       byte a = 1;

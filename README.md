@@ -5,7 +5,7 @@
 [https://www.crosstales.com/media/data/BogaNet/api/](https://www.crosstales.com/media/data/BogaNet/api/annotated.html)
 
 ## BogaNet.Avalonia
-A library with many little helpers to speed up Avalonia development.
+Little helpers to speed up Avalonia development.
 
 ### Main classes
 * [ImageHelper](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_avalonia_1_1_helper_1_1_image_helper.html): Helper for images in Avalonia.
@@ -15,7 +15,7 @@ A library with many little helpers to speed up Avalonia development.
 [BogaNet.Avalonia](https://www.nuget.org/packages/BogaNet.Avalonia/)
 
 ## BogaNet.Common
-A library with many little helpers to speed up C# development.
+Main library for all BogaNet-packages filled with useful helpers to speed up C# development.
 
 ### Main classes
 * [Base16](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_encoder_1_1_base16.html): Base16 (aka Hex) encoder.

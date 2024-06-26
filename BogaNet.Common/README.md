@@ -1,5 +1,5 @@
 # BogaNet.Common
-A library with many little helpers to speed up C# development.
+Main library for all BogaNet-packages filled with useful helpers to speed up C# development.
 
 ## Main classes
 * [Base16](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_encoder_1_1_base16.html): Base16 (aka Hex) encoder.
