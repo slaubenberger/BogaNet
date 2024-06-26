@@ -1,6 +1,17 @@
 # BogaNet.ObfuscatedType
 Various obfuscated types for all value types and strings. This types prevent the values from being "plain" in memory and offers some protection against bad actors (like memory scanners and searchers).
 
+## Important note
+This types are fast and lightweight, but not cryptographically secure! Use it for less sensitive data, like:
+* First and last names
+* Email addresses
+* Mailing addresses
+* Phone numbers
+* Social media profile names
+* Highscores
+
+For sensitive data, like passwords etc., it is **strongly recommended** to use [BogaNet.SecureType](https://www.nuget.org/packages/BogaNet.SecureType/) instead.
+
 ## Main classes and example code
 Obfuscated types for:
 * [Integral numeric types](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/integral-numeric-types)

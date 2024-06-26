@@ -1,6 +1,19 @@
 # BogaNet.SecureType
 Various encrypted types for all value types and strings. This types prevent the values from being "plain" in memory and offers high protection against bad actors (like memory scanners and searchers).
 
+## Important note
+This types are performance and memory intense compared to the original C# types, but are cryptographically secure! Use it for sensitive data, like:
+* Passwords
+* Bank account/routing numbers
+* Social security numbers (SSN)
+* Drivers license numbers
+* Passport ID
+* Federal tax ID
+* Employer identification numbers (EIN) 
+* Health insurance policy/member numbers
+
+For less sensitive data, like usernames etc., consider using [BogaNet.ObfuscatedType](https://www.nuget.org/packages/BogaNet.ObfuscatedType/).
+
 ## Main classes and example code
 Secure types for:
 * [Integral numeric types](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/integral-numeric-types)
