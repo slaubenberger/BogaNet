@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System.Threading.Tasks;
 using System;
 using System.IO;
+using Newtonsoft.Json.Converters;
 
 namespace BogaNet.Helper;
 
@@ -20,14 +21,14 @@ public abstract class JsonHelper
       new()
       {
          Formatting = Formatting.None,
-         DateParseHandling = DateParseHandling.DateTime,
+         //DateParseHandling = DateParseHandling.DateTime,
          DateTimeZoneHandling = DateTimeZoneHandling.Utc,
          DateFormatHandling = DateFormatHandling.IsoDateFormat,
          FloatFormatHandling = FloatFormatHandling.String,
          NullValueHandling = NullValueHandling.Ignore,
          FloatParseHandling = FloatParseHandling.Double,
          MissingMemberHandling = MissingMemberHandling.Ignore,
-         Converters = [new Newtonsoft.Json.Converters.StringEnumConverter()]
+         Converters = [new StringEnumConverter()]
          //StringEscapeHandling = StringEscapeHandling.Default,
          //ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
          //ConstructorHandling = ConstructorHandling.Default,
@@ -45,14 +46,14 @@ public abstract class JsonHelper
       new()
       {
          Formatting = Formatting.Indented,
-         DateParseHandling = DateParseHandling.DateTime,
+         //DateParseHandling = DateParseHandling.DateTime,
          DateTimeZoneHandling = DateTimeZoneHandling.Utc,
          DateFormatHandling = DateFormatHandling.IsoDateFormat,
          FloatFormatHandling = FloatFormatHandling.String,
          NullValueHandling = NullValueHandling.Ignore,
          FloatParseHandling = FloatParseHandling.Double,
          MissingMemberHandling = MissingMemberHandling.Ignore,
-         Converters = [new Newtonsoft.Json.Converters.StringEnumConverter()]
+         Converters = [new StringEnumConverter()]
       };
 
    /// <summary>

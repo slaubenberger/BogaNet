@@ -13,25 +13,25 @@ public static class ArrayHelper
    /// <summary>
    /// Converts a byte-array to a float-array.
    /// </summary>
-   /// <param name="array">Array-instance to convert</param>
-   /// <param name="count">Number of bytes to convert (optional)</param>
+   /// <param name="bytes">Byte-array to convert</param>
+   /// <param name="count">Number of bytes to convert (optional, default: 0 = all)</param>
    /// <returns>Converted float-array</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static float[] ByteArrayToFloatArray(byte[]? array, int count = 0)
+   public static float[] ByteArrayToFloatArray(byte[]? bytes, int count = 0)
    {
-        ArgumentNullException.ThrowIfNull(array);
+      ArgumentNullException.ThrowIfNull(bytes);
 
-        int _count = count;
+      int _count = count;
 
       if (_count <= 0)
-         _count = array.Length;
+         _count = bytes.Length;
 
       float[] floats = new float[_count / 2];
 
       int ii = 0;
       for (int zz = 0; zz < _count; zz += 2)
       {
-         floats[ii] = bytesToFloat(array[zz], array[zz + 1]);
+         floats[ii] = bytesToFloat(bytes[zz], bytes[zz + 1]);
          ii++;
       }
 
@@ -41,15 +41,15 @@ public static class ArrayHelper
    /// <summary>
    /// Converts a float-array to a byte-array.
    /// </summary>
-   /// <param name="array">Array-instance to convert</param>
-   /// <param name="count">Number of floats to convert (optional)</param>
+   /// <param name="array">Float-array to convert</param>
+   /// <param name="count">Number of floats to convert (optional, default: 0 = all)</param>
    /// <returns>Converted byte-array</returns>
    /// <exception cref="ArgumentNullException"></exception>
    public static byte[] FloatArrayToByteArray(float[]? array, int count = 0)
    {
-        ArgumentNullException.ThrowIfNull(array);
+      ArgumentNullException.ThrowIfNull(array);
 
-        int _count = count;
+      int _count = count;
 
       if (_count <= 0)
          _count = array.Length;
@@ -66,6 +66,54 @@ public static class ArrayHelper
          bytes[byteIndex + 1] = (byte)((outsample >> 8) & 0xff);
 
          byteIndex += 2;
+      }
+
+      return bytes;
+   }
+
+   /// <summary>
+   /// Converts a byte-array to a sbyte-array.
+   /// </summary>
+   /// <param name="bytes">Byte-array to convert</param>
+   /// <param name="count">Number of bytes to convert (optional, default: 0 = all)</param>
+   /// <returns>Converted sbyte-array</returns>
+   /// <exception cref="ArgumentNullException"></exception>
+   public static sbyte[] ByteArrayToSByteArray(byte[] bytes, int count = 0)
+   {
+      int _count = count;
+
+      if (_count <= 0)
+         _count = bytes.Length;
+
+      sbyte[] sbytes = new sbyte[_count];
+
+      for (int ii = 0; ii < _count; ii++)
+      {
+         sbytes[ii] = Convert.ToSByte(bytes[ii] - 127);
+      }
+
+      return sbytes;
+   }
+
+   /// <summary>
+   /// Converts a sbyte-array to a byte-array.
+   /// </summary>
+   /// <param name="sbytes">SByte-array to convert</param>
+   /// <param name="count">Number of sbytes to convert (optional, default: 0 = all)</param>
+   /// <returns>Converted byte-array</returns>
+   /// <exception cref="ArgumentNullException"></exception>
+   public static byte[] SByteArrayToByteArray(sbyte[] sbytes, int count = 0)
+   {
+      int _count = count;
+
+      if (_count <= 0)
+         _count = sbytes.Length;
+
+      byte[] bytes = new byte[_count];
+
+      for (int ii = 0; ii < _count; ii++)
+      {
+         bytes[ii] = Convert.ToByte(sbytes[ii] + 127);
       }
 
       return bytes;

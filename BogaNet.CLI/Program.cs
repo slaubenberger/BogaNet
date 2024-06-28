@@ -17,6 +17,7 @@ public static class Program
 
       _logger.LogDebug("Hi there, this is a test app!");
 
+      testObf();
       //testPrefs();
       //testNumber();
       //testBase16();
@@ -49,6 +50,17 @@ public static class Program
       NLog.LogManager.Shutdown();
       Environment.Exit(code);
    }
+
+   private static void testObf()
+   {
+      string abc = "Hallo, ich bin Stefan, olé!";
+      string obf = BogaNet.Encoder.Base64.ToBase64String(BogaNet.Util.Obfuscator.Obfuscate(abc, 1));
+
+      string plain = BogaNet.Util.Obfuscator.DeobfuscateToString(BogaNet.Encoder.Base64.FromBase64String(obf), 1);
+      _logger.LogInformation(obf);
+      _logger.LogInformation(plain);
+   }
+
 /*
    private static void testPrefs()
    {
@@ -76,11 +88,12 @@ public static class Program
       BogaNet.Prefs.Preferences.Set(keyBool, boolean);
       _logger.LogInformation(BogaNet.Prefs.Preferences.GetBool(keyBool).ToString());
 
-      DateTime date = DateTime.Now;
+      DateTime date = DateTime.UtcNow;
       string keyDate = "date";
 
-      //BogaNet.Prefs.Preferences.Set(keyDate, date);
-      _logger.LogInformation(BogaNet.Prefs.Preferences.GetDate(keyDate).ToString());
+      //BogaNet.Prefs.Preferences.Set(keyDate, date, false);
+      _logger.LogInformation(date.BNConvertToTimeZone().ToString());
+      _logger.LogInformation(BogaNet.Prefs.Preferences.GetDate(keyDate, false, null).ToString());
    }
 */
    private static void testNumber()

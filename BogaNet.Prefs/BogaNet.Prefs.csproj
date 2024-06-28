@@ -3,14 +3,14 @@
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
-        <Version>0.9.0</Version>
+        <Version>0.9.1</Version>
         <Company>crosstales LLC</Company>
         <Copyright>© 2024 Stefan Laubenberger</Copyright>
         <Authors>Stefan Laubenberger</Authors>
         <Description>Handles preferences for C# applications. It supports all values types, strings, DateTime and object.</Description>
         <RepositoryUrl>https://github.com/slaubenberger/BogaNet</RepositoryUrl>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageTags>Preference Option Setting</PackageTags>
+        <PackageTags>Preference Option Setting Config</PackageTags>
         <PackageReleaseNotes>Initial release.</PackageReleaseNotes>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <!-- <PackageIconUrl>https://www.crosstales.com/media/data/BogaNet/logo_boga.png</PackageIconUrl> -->
@@ -23,6 +23,7 @@
         <PackageReference Include="BogaNet.Common" Version="1.0.3">
             <!--<PrivateAssets>all</PrivateAssets>-->
         </PackageReference>
+        <PackageReference Include="BogaNet.ObfuscatedType" Version="0.9.4" />
     </ItemGroup>
 
     <ItemGroup>

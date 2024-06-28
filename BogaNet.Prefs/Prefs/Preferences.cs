@@ -1,5 +1,4 @@
 ﻿using BogaNet.Helper;
-using System.Globalization;
 using System.Numerics;
 using Microsoft.Extensions.Logging;
 using System;
@@ -9,13 +8,13 @@ namespace BogaNet.Prefs;
 /// <summary>
 /// Preferences for the application.
 /// </summary>
-public static class Preferences //TODO add support for web and mobile?
+public static class Preferences //TODO add support for web and mobile (Avalonia) ?
 {
    #region Variables
 
    private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(Preferences));
 
-   private static PreferencesContainer _container = new();
+   private static readonly PreferencesContainer _container = new();
 
    #endregion
 
@@ -54,18 +53,18 @@ public static class Preferences //TODO add support for web and mobile?
    /// Delete all preferences, including the file.
    /// </summary>
    /// <param name="filepath">Preference file to delete</param>
-   public static void DeleteAll(string filepath = "")
+   public static void Delete(string filepath = "")
    {
-      _container.DeleteAll(filepath);
+      _container.Delete(filepath);
    }
 
    /// <summary>
-   /// Delete a key/value from the preferences.
+   /// Removes a key/value from the preferences.
    /// </summary>
    /// <param name="key">Key (and value) to delete</param>
-   public static void Delete(string key)
+   public static void Remove(string key)
    {
-      _container.Delete(key);
+      _container.Remove(key);
    }
 
    /// <summary>
@@ -73,9 +72,9 @@ public static class Preferences //TODO add support for web and mobile?
    /// </summary>
    /// <param name="key">Key to check</param>
    /// <returns>True if the key exists in the preferences</returns>
-   public static bool HasKey(string key)
+   public static bool ContainsKey(string key)
    {
-      return _container.HasKey(key);
+      return _container.ContainsKey(key);
    }
 
    #region Getter
@@ -86,7 +85,7 @@ public static class Preferences //TODO add support for web and mobile?
    /// <returns>String for the key</returns>
    public static string? GetString(string key, bool obfuscated = false)
    {
-      return _container.Get(key, obfuscated);
+      return _container.Get(key, obfuscated)?.ToString();
    }
 
    /// <summary>Get an object for a key.</summary>
@@ -169,18 +168,21 @@ public static class Preferences //TODO add support for web and mobile?
    /// <returns>Bool for the key</returns>
    public static bool GetBool(string key, bool obfuscated = false)
    {
-      return "true".Equals(GetString(key, obfuscated)!.ToLower());
+      string? result = GetString(key, obfuscated);
+      return result != null && "true".Equals(result.ToLower());
    }
 
    /// <summary>Get a DateTime for a key.</summary>
    /// <param name="key">Key for the DateTime.</param>
    /// <param name="obfuscated">Obfuscate value in the preferences (optional, default: false)</param>
+   /// <param name="usedTZ">Time zone of the date (optional, default: local)</param>
    /// <returns>DateTime for the key</returns>
-   public static DateTime GetDate(string key, bool obfuscated = false)
+   public static DateTime GetDate(string key, bool obfuscated = false, TimeZoneInfo? usedTZ = null)
    {
-      DateTime.TryParseExact(GetString(key, obfuscated), Constants.FORMAT_DATETIME_ISO8601, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal, out DateTime result);
+      string? date = GetString(key, obfuscated);
+      DateTime.TryParse(date, out DateTime dt);
 
-      return result;
+      return dt; //.BNConvertUtcToTimeZone(usedTZ);
    }
 
    #endregion
@@ -212,7 +214,7 @@ public static class Preferences //TODO add support for web and mobile?
    /// <param name="obfuscated">Obfuscate value in the preferences (optional, default: false)</param>
    public static void Set<T>(string key, T value, bool obfuscated = false) where T : INumber<T>
    {
-      Set(key, value.ToString(), obfuscated);
+      _container.Set(key, value, obfuscated);
    }
 
    /// <summary>Set a bool for a key.</summary>
@@ -221,7 +223,7 @@ public static class Preferences //TODO add support for web and mobile?
    /// <param name="obfuscated">Obfuscate value in the preferences (optional, default: false)</param>
    public static void Set(string key, bool value, bool obfuscated = false)
    {
-      Set(key, value ? "true" : "false", obfuscated);
+      _container.Set(key, value, obfuscated);
    }
 
    /// <summary>Set a DateTime for a key.</summary>
@@ -230,8 +232,7 @@ public static class Preferences //TODO add support for web and mobile?
    /// <param name="obfuscated">Obfuscate value in the preferences (optional, default: false)</param>
    public static void Set(string key, DateTime value, bool obfuscated = false)
    {
-      string? dt = value.ToUniversalTime().ToString(Constants.FORMAT_DATETIME_ISO8601, CultureInfo.InvariantCulture);
-
+      string dt = JsonHelper.SerializeToString(value).Replace("\"", "");
       Set(key, dt, obfuscated);
    }
 

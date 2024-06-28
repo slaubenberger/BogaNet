@@ -17,6 +17,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\BogaNet.Common\BogaNet.Common.csproj"/>
+        <!--<ProjectReference Include="..\BogaNet.Prefs\BogaNet.Prefs.csproj" />-->
     </ItemGroup>
 
     <ItemGroup>

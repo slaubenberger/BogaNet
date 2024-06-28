@@ -3,6 +3,7 @@ using BogaNet.Util;
 using System.Text;
 using BogaNet.Encoder;
 using System.Collections.Generic;
+using BogaNet.ObfuscatedType;
 
 namespace BogaNet.Prefs;
 
@@ -13,11 +14,19 @@ public class PreferencesContainer
 {
    #region Variables
 
-   private string _file = "BNConfig.json";
-   private Dictionary<string, string?>? _preferences = [];
+   private string _file = "BNPrefs.json";
+   private Dictionary<string, object?>? _preferences = [];
 
    #endregion
 
+   #region Properties
+
+   /// <summary>
+   /// IV for the obfuscated data.
+   /// </summary>
+   public ByteObf IV { get; set; } = 181;
+
+   #endregion
 
    #region Public methods
 
@@ -30,10 +39,10 @@ public class PreferencesContainer
       if (!string.IsNullOrEmpty(filepath))
          _file = filepath;
 
-      Dictionary<string, string?>? prefs = null;
+      Dictionary<string, object?>? prefs = null;
 
       if (FileHelper.Exists(_file))
-         prefs = JsonHelper.DeserializeFromFile<Dictionary<string, string?>>(_file);
+         prefs = JsonHelper.DeserializeFromFile<Dictionary<string, object?>>(_file);
 
       if (prefs != null)
          _preferences = prefs;
@@ -55,7 +64,7 @@ public class PreferencesContainer
    /// Delete all preferences, including the file.
    /// </summary>
    /// <param name="filepath">Preference file to delete</param>
-   public void DeleteAll(string filepath = "")
+   public void Delete(string filepath = "")
    {
       if (!string.IsNullOrEmpty(filepath))
          _file = filepath;
@@ -67,12 +76,12 @@ public class PreferencesContainer
    }
 
    /// <summary>
-   /// Delete a key/value from the preferences.
+   /// Removes a key/value from the preferences.
    /// </summary>
    /// <param name="key">Key (and value) to delete</param>
-   public void Delete(string key)
+   public void Remove(string key)
    {
-      if (HasKey(key))
+      if (ContainsKey(key))
          _preferences?.Remove(key);
    }
 
@@ -81,39 +90,34 @@ public class PreferencesContainer
    /// </summary>
    /// <param name="key">Key to check</param>
    /// <returns>True if the key exists in the preferences</returns>
-   public bool HasKey(string key)
+   public bool ContainsKey(string key)
    {
       return _preferences != null && _preferences.ContainsKey(key);
    }
 
-   /// <summary>Get a string for a key.</summary>
-   /// <param name="key">Key for the string</param>
+   /// <summary>Get an object for a key.</summary>
+   /// <param name="key">Key for the object</param>
    /// <param name="obfuscated">Obfuscate value in the preferences (optional, default: false)</param>
-   /// <returns>String for the key</returns>
-   public string? Get(string key, bool obfuscated)
+   /// <returns>Object for the key</returns>
+   public object? Get(string key, bool obfuscated)
    {
-      if (HasKey(key))
-      {
-         if (obfuscated)
-            return Obfuscator.DeobfuscateToString(Base64.FromBase64String(_preferences![key], true));
-
-         return _preferences![key];
-      }
+      if (ContainsKey(key))
+         return obfuscated ? Obfuscator.DeobfuscateToString(Base64.FromBase64String(_preferences![key]?.ToString(), true), IV) : _preferences![key];
 
       return null;
    }
 
-   /// <summary>Set a string for a key.</summary>
+   /// <summary>Set an object for a key.</summary>
    /// <param name="key">Key for the string</param>
-   /// <param name="value">String for the preferences</param>
+   /// <param name="value">Object for the preferences</param>
    /// <param name="obfuscated">Obfuscate value in the preferences (optional, default: false)</param>
-   public void Set(string key, string? value, bool obfuscated)
+   public void Set(string key, object? value, bool obfuscated)
    {
-      if (HasKey(key))
+      if (ContainsKey(key))
       {
          if (obfuscated)
          {
-            _preferences![key] = Base64.ToBase64String(Obfuscator.Obfuscate(value), true);
+            _preferences![key] = Base64.ToBase64String(Obfuscator.Obfuscate(value?.ToString(), IV), true);
          }
          else
          {
@@ -123,16 +127,7 @@ public class PreferencesContainer
       else
       {
          if (_preferences != null)
-         {
-            if (obfuscated)
-            {
-               _preferences.Add(key, Base64.ToBase64String(Obfuscator.Obfuscate(value), true));
-            }
-            else
-            {
-               _preferences.Add(key, value);
-            }
-         }
+            _preferences.Add(key, obfuscated ? Base64.ToBase64String(Obfuscator.Obfuscate(value?.ToString(), IV), true) : value);
       }
    }
 
@@ -145,7 +140,7 @@ public class PreferencesContainer
 
       if (_preferences != null)
       {
-         foreach (KeyValuePair<string, string?> kvp in _preferences)
+         foreach (KeyValuePair<string, object?> kvp in _preferences)
          {
             sb.Append($"{kvp.Key}='{kvp.Value}', ");
          }
