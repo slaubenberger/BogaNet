@@ -151,4 +151,30 @@ public static class ArrayExtension
 
       return default;
    }
+
+   /// <summary>
+   /// Reverses an array.
+   /// </summary>
+   /// <param name="array">Array-instance</param>
+   /// <returns>Reversed array</returns>
+   public static void BNReverse(this object[]? array)
+   {
+      if (array == null)
+         return;
+
+      Array.Reverse(array);
+   }
+
+   /// <summary>
+   /// Reverses an array.
+   /// </summary>
+   /// <param name="array">Array-instance</param>
+   /// <returns>Reversed array</returns>
+   public static void BNReverse<T>(this T[]? array) where T : INumber<T>
+   {
+      if (array == null)
+         return;
+
+      Array.Reverse(array);
+   }
 }

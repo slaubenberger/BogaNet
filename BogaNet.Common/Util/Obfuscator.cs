@@ -32,7 +32,7 @@ public abstract class Obfuscator //NUnit
    {
       ArgumentNullException.ThrowIfNull(data);
 
-      Array.Reverse(data);
+      data.BNReverse();
 
       byte[] result = new byte[data.Length];
       byte lastByte = 0;
@@ -83,7 +83,7 @@ public abstract class Obfuscator //NUnit
          result[ii] = lastByte;
       }
 
-      Array.Reverse(result);
+      result.BNReverse();
 
       return result;
    }

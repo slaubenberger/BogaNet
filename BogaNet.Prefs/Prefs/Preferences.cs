@@ -182,7 +182,7 @@ public static class Preferences //TODO add support for web and mobile (Avalonia)
       string? date = GetString(key, obfuscated);
       DateTime.TryParse(date, out DateTime dt);
 
-      return dt; //.BNConvertUtcToTimeZone(usedTZ);
+      return dt; //.BNConvertUtcToTimeZone(usedTZ); //TODO enable after BN update!
    }
 
    #endregion

@@ -20,7 +20,7 @@ public static class StringExtension
          return str;
 
       char[] charArray = str.ToCharArray();
-      Array.Reverse(charArray);
+      charArray.BNReverse();
 
       return new string(charArray);
    }
