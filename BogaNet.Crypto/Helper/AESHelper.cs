@@ -21,7 +21,7 @@ public abstract class AESHelper //TODO add other algorithms, key&blocksize, padd
    /// <returns>IV as byte-array</returns>
    public static byte[] GenerateIV(int length = 16)
    {
-      return RandomNumberGenerator.GetBytes(length);
+      return RandomNumberGenerator.GetBytes(length.BNClamp(16, 256));
    }
 
    /// <summary>
@@ -31,7 +31,7 @@ public abstract class AESHelper //TODO add other algorithms, key&blocksize, padd
    /// <returns>Secure key as byte-array</returns>
    public static byte[] GenerateKey(int length = 16)
    {
-      return RandomNumberGenerator.GetBytes(length);
+      return RandomNumberGenerator.GetBytes(length.BNClamp(16, 256));
    }
 
    /// <summary>

@@ -9,6 +9,17 @@ using System.Text;
 namespace BogaNet.Helper;
 
 /// <summary>
+/// Possible RSA key lengths.
+/// </summary>
+public enum RSAKeyLength
+{
+   _512 = 512,
+   _1024 = 1024,
+   _2048 = 2048,
+   _4096 = 4096
+}
+
+/// <summary>
 /// Helper for RSA cryptography and X509 certificates.
 /// </summary>
 public abstract class RSAHelper
@@ -22,7 +33,7 @@ public abstract class RSAHelper
    /// <param name="keyLength">Key length of the certificate (optional, default: 2048)</param>
    /// <param name="oid">OID for the certificate (optional, default: "1.2.840.10045.3.1.7"</param>
    /// <returns>X509-certificate</returns>
-   public static X509Certificate2 GenerateSelfSignedCertificate(string certName, int keyLength = 2048, string oid = "1.2.840.10045.3.1.7")
+   public static X509Certificate2 GenerateSelfSignedCertificate(string certName, RSAKeyLength keyLength = RSAKeyLength._2048, string oid = "1.2.840.10045.3.1.7")
    {
       SubjectAlternativeNameBuilder sanBuilder = new();
       sanBuilder.AddIpAddress(IPAddress.Loopback);
@@ -32,7 +43,7 @@ public abstract class RSAHelper
 
       X500DistinguishedName distinguishedName = new($"CN={certName}");
 
-      using RSA rsa = RSA.Create(keyLength); //TODO find nearest
+      using RSA rsa = RSA.Create((int)keyLength);
       CertificateRequest request = new(distinguishedName, rsa, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
 
       request.CertificateExtensions.Add(new X509KeyUsageExtension(X509KeyUsageFlags.DataEncipherment | X509KeyUsageFlags.KeyEncipherment | X509KeyUsageFlags.DigitalSignature, false));
