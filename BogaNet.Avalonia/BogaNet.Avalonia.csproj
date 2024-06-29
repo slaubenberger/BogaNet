@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
-         <Nullable>enable</Nullable>
+        <Nullable>enable</Nullable>
         <Version>0.3.4</Version>
         <Company>crosstales LLC</Company>
         <Copyright>© 2024 Stefan Laubenberger</Copyright>
@@ -20,19 +20,24 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Avalonia" Version="11.0.10">
-          <PrivateAssets>all</PrivateAssets>
-      </PackageReference>
-        <PackageReference Include="BogaNet.Common" Version="1.0.3">
+        <PackageReference Include="Avalonia" Version="11.0.10">
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
-      <PackageReference Include="BogaNet.i18n" Version="0.9.3">
-          <PrivateAssets>all</PrivateAssets>
-      </PackageReference>
+<!--        <PackageReference Include="BogaNet.Common" Version="1.0.3">-->
+<!--            <PrivateAssets>all</PrivateAssets>-->
+<!--        </PackageReference>-->
+<!--        <PackageReference Include="BogaNet.i18n" Version="0.9.3">-->
+<!--            <PrivateAssets>all</PrivateAssets>-->
+<!--        </PackageReference>-->
     </ItemGroup>
-    
+
     <ItemGroup>
         <None Include="README.md" Pack="true" PackagePath="\"/>
         <None Include="../Resources/logo_boga_avalonia.jpg" Pack="true" PackagePath="\"/>
+    </ItemGroup>
+    
+    <ItemGroup>
+      <ProjectReference Include="..\BogaNet.Common\BogaNet.Common.csproj" />
+      <ProjectReference Include="..\BogaNet.i18n\BogaNet.i18n.csproj" />
     </ItemGroup>
 </Project>

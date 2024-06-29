@@ -20,9 +20,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="BogaNet.Common" Version="1.0.3">
-            <PrivateAssets>all</PrivateAssets>
-        </PackageReference>
+<!--        <PackageReference Include="BogaNet.Common" Version="1.0.3">-->
+<!--            <PrivateAssets>all</PrivateAssets>-->
+<!--        </PackageReference>-->
         <PackageReference Include="System.IO.Hashing" Version="8.0.0">
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
@@ -31,6 +31,10 @@
     <ItemGroup>
         <None Include="../Resources/logo_boga_crypto.jpg" Pack="true" PackagePath="\"/>
         <None Include="README.md" Pack="true" PackagePath="\"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\BogaNet.Common\BogaNet.Common.csproj" />
     </ItemGroup>
 
 </Project>
