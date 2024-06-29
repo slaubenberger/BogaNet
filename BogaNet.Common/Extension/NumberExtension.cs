@@ -122,7 +122,6 @@ public static class NumberExtension
       return T.CreateTruncating(number);
    }
 
-
    /// <summary>
    /// Converts a ushort to the given Number type.
    /// </summary>

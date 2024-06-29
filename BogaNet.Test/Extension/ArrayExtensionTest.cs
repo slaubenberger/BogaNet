@@ -18,22 +18,23 @@ public class ArrayExtensionTest
       Assert.That(result, Is.EqualTo(input));
    }
 
+/*
    [Test]
    public void BNToStringLength_Test()
    {
       string input = "crosstales LLC";
       byte[]? bytes = input.BNToByteArray();
-      string? result = bytes.BNToString(0, 4);
+      string? result = bytes.BNToString(null,0, 4);
 
       Assert.That(result, Is.EqualTo(input.Substring(0, 4)));
 
       input = "こんにちは";
       bytes = input.BNToByteArray();
-      result = bytes.BNToString(0, 3); //3 bytes are one char
+      result = bytes.BNToString(null,0, 3); //3 bytes are one char
 
       Assert.That(result, Is.EqualTo(input.Substring(0, 1)));
    }
-
+*/
    [Test]
    public void BNToNumber_Test()
    {
@@ -102,5 +103,15 @@ public class ArrayExtensionTest
       bytes = ulNumber.BNToByteArray();
       ulong ulRes = bytes.BNToNumber<ulong>();
       Assert.That(ulRes, Is.EqualTo(ulNumber));
+   }
+
+   [Test]
+   public void BNToObject_Test()
+   {
+      DateTime input = DateTime.Now;
+      byte[]? bytes = input.BNToByteArray();
+      DateTime? result = bytes.BNToObject<DateTime>().BNConvertToTimeZone(TimeZoneInfo.Local);
+
+      Assert.That(result, Is.EqualTo(input));
    }
 }

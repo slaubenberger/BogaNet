@@ -1,6 +1,4 @@
-﻿using System;
-using System.Text;
-using System.Reflection;
+﻿using System.Text;
 using BogaNet.Helper;
 
 namespace BogaNet;
@@ -11,111 +9,13 @@ namespace BogaNet;
 public static class ObjectExtension
 {
    /// <summary>
-   /// Searches for a field in an object and returns the value.
+   /// Converts an object to a byte-array (as JSON).
    /// </summary>
-   /// <param name="obj">Object-instance</param>
-   /// <param name="name">Name of the field</param>
-   /// <param name="flags">Binding flags for the field (optional, default: NonPublic/Instance)</param>
-   /// <returns>Value of the field</returns>
-   /// <exception cref="ArgumentNullException"></exception>
-   public static object? BNGetField(this object? obj, string name, BindingFlags flags = BindingFlags.NonPublic | BindingFlags.Instance)
+   /// <param name="obj">Given object</param>
+   /// <returns>Byte-array with the object</returns>
+   public static byte[]? BNToByteArray(this object? obj)
    {
-      ArgumentNullException.ThrowIfNull(obj);
-      ArgumentNullException.ThrowIfNull(name);
-
-      FieldInfo? field = obj.GetType().GetField(name, flags);
-
-      return field != null ? field.GetValue(obj)! : null;
-   }
-
-   /// <summary>
-   /// Searches for a field in an object and returns the value.
-   /// </summary>
-   /// <typeparam name="T">Type of the field</typeparam>
-   /// <param name="obj">Object-instance</param>
-   /// <param name="name">Name of the field</param>
-   /// <param name="flags">Binding flags for the field (optional, default: NonPublic/Instance)</param>
-   /// <returns>Value of the field</returns>
-   /// <exception cref="ArgumentNullException"></exception>
-   public static T? BNGetField<T>(this object? obj, string name, BindingFlags flags = BindingFlags.NonPublic | BindingFlags.Instance)
-   {
-      object? field = BNGetField(obj, name, flags);
-
-      if (field != null)
-         return (T)field;
-
-      return default;
-   }
-
-   /// <summary>
-   /// Sets the value of a field in an object.
-   /// </summary>
-   /// <param name="obj">Object-instance</param>
-   /// <param name="name">Name of the field</param>
-   /// <param name="value">Value as object</param>
-   /// <param name="flags">Binding flags for the property (optional, default: NonPublic/Instance)</param>
-   /// <exception cref="ArgumentNullException"></exception>
-   public static void BNSetField(this object? obj, string name, object value, BindingFlags flags = BindingFlags.NonPublic | BindingFlags.Instance)
-   {
-      ArgumentNullException.ThrowIfNull(obj);
-      ArgumentNullException.ThrowIfNull(name);
-      ArgumentNullException.ThrowIfNull(value);
-
-      obj.GetType().GetField(name, flags)?.SetValue(obj, value);
-   }
-
-   /// <summary>
-   /// Searches for a property in an object and returns the value.
-   /// </summary>
-   /// <param name="obj">Object-instance</param>
-   /// <param name="name">Name of the property</param>
-   /// <param name="flags">Binding flags for the property (optional, default: NonPublic/Instance)</param>
-   /// <returns>Value of the property</returns>
-   /// <exception cref="ArgumentNullException"></exception>
-   public static object? BNGetProperty(this object? obj, string name, BindingFlags flags = BindingFlags.NonPublic | BindingFlags.Instance)
-   {
-      ArgumentNullException.ThrowIfNull(obj);
-      ArgumentNullException.ThrowIfNull(name);
-
-      PropertyInfo? property = obj.GetType().GetProperty(name, flags);
-
-      return property != null ? property.GetValue(obj)! : null;
-   }
-
-   /// <summary>
-   /// Searches for a property in an object and returns the value.
-   /// </summary>
-   /// <typeparam name="T">Type of the property</typeparam>
-   /// <param name="obj">Object-instance</param>
-   /// <param name="name">Name of the property</param>
-   /// <param name="flags">Binding flags for the property (optional, default: NonPublic/Instance)</param>
-   /// <returns>Value of the property</returns>
-   /// <exception cref="ArgumentNullException"></exception>
-   public static T? BNGetProperty<T>(this object? obj, string name, BindingFlags flags = BindingFlags.NonPublic | BindingFlags.Instance)
-   {
-      var property = BNGetProperty(obj, name, flags);
-
-      if (property != null)
-         return (T)property;
-
-      return default;
-   }
-
-   /// <summary>
-   /// Sets the value of a property in an object.
-   /// </summary>
-   /// <param name="obj">Object-instance</param>
-   /// <param name="name">Name of the property</param>
-   /// <param name="value">Value as object</param>
-   /// <param name="flags">Binding flags for the property (optional, default: NonPublic/Instance)</param>
-   /// <exception cref="ArgumentNullException"></exception>
-   public static void BNSetProperty(this object? obj, string name, object value, BindingFlags flags = BindingFlags.NonPublic | BindingFlags.Instance)
-   {
-      ArgumentNullException.ThrowIfNull(obj);
-      ArgumentNullException.ThrowIfNull(name);
-      ArgumentNullException.ThrowIfNull(value);
-
-      obj.GetType().GetProperty(name, flags)?.SetValue(obj, value);
+      return JsonHelper.SerializeToString(obj, JsonHelper.FORMAT_NONE).BNToByteArray();
    }
 
    /// <summary>

@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using System.Numerics;
 using System;
+using BogaNet.Helper;
 
 namespace BogaNet;
 
@@ -27,26 +28,29 @@ public static class ArrayExtension //NUnit
 
       return _encoding.GetString(bytes);
    }
-
+/*
    /// <summary>
    /// Converts a byte-array to a string.
    /// </summary>
    /// <param name="bytes">Byte-array</param>
-   /// <param name="offset">Offset inside the byte-array</param>
-   /// <param name="length">Number of bytes</param>
    /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
+   /// <param name="offset">Offset inside the byte-array (optional, default: 0)</param>
+   /// <param name="length">Number of bytes (optional, default: 0 = all)</param>
    /// <returns>String from the byte-array</returns>
-   public static string? BNToString(this byte[]? bytes, int offset, int length, Encoding? encoding = null)
+   public static string? BNToString(this byte[]? bytes, Encoding? encoding = null, int offset = 0, int length = 0)
    {
       if (bytes == null)
          return null;
 
-      byte[] content = new byte[length];
-      Buffer.BlockCopy(bytes, offset, content, 0, length);
+      int off = offset > 0 ? offset : 0;
+      int len = length > 0 ? length : bytes.Length;
+
+      byte[] content = new byte[len];
+      Buffer.BlockCopy(bytes, off, content, 0, len);
       string? res = content.BNToString(encoding);
       return res?.Trim('\0');
    }
-
+*/
    /// <summary>
    /// Converts a byte-array to a Number.
    /// </summary>
@@ -58,56 +62,58 @@ public static class ArrayExtension //NUnit
       if (bytes == null || bytes.Length == 0)
          return default;
 
+      int off = offset > 0 ? offset : 0;
+
       Type type = typeof(T);
       byte[] content;
 
       switch (type)
       {
          case Type tByte when tByte == typeof(byte):
-            return T.CreateTruncating(bytes[offset]);
+            return T.CreateTruncating(bytes[off]);
          case Type tSbyte when tSbyte == typeof(sbyte):
             //return T.CreateTruncating(BogaNet.Helper.ArrayHelper.ByteArrayToSByteArray(bytes)[offset]);
-            return T.CreateTruncating(bytes[offset]);
+            return T.CreateTruncating(bytes[off]);
          case Type tShort when tShort == typeof(short) && isByteArrayValidForNumber(bytes, 2, type):
             content = new byte[2];
-            Buffer.BlockCopy(bytes, offset, content, 0, 2);
+            Buffer.BlockCopy(bytes, off, content, 0, 2);
             return T.CreateTruncating(BitConverter.ToInt16(content, 0));
          case Type tUshort when tUshort == typeof(ushort) && isByteArrayValidForNumber(bytes, 2, type):
             content = new byte[2];
-            Buffer.BlockCopy(bytes, offset, content, 0, 2);
+            Buffer.BlockCopy(bytes, off, content, 0, 2);
             return T.CreateTruncating(BitConverter.ToUInt16(content, 0));
          case Type tChar when tChar == typeof(char) && isByteArrayValidForNumber(bytes, 2, type):
             content = new byte[2];
-            Buffer.BlockCopy(bytes, offset, content, 0, 2);
+            Buffer.BlockCopy(bytes, off, content, 0, 2);
             return T.CreateTruncating(BitConverter.ToChar(content, 0));
          case Type tFloat when tFloat == typeof(float) && isByteArrayValidForNumber(bytes, 4, type):
             content = new byte[4];
-            Buffer.BlockCopy(bytes, offset, content, 0, 4);
+            Buffer.BlockCopy(bytes, off, content, 0, 4);
             return T.CreateTruncating(BitConverter.ToSingle(content, 0));
          case Type tInt when tInt == typeof(int) && isByteArrayValidForNumber(bytes, 4, type):
             content = new byte[4];
-            Buffer.BlockCopy(bytes, offset, content, 0, 4);
+            Buffer.BlockCopy(bytes, off, content, 0, 4);
             return T.CreateTruncating(BitConverter.ToInt32(content, 0));
          case Type tUint when tUint == typeof(uint) && isByteArrayValidForNumber(bytes, 4, type):
             content = new byte[4];
-            Buffer.BlockCopy(bytes, offset, content, 0, 4);
+            Buffer.BlockCopy(bytes, off, content, 0, 4);
             return T.CreateTruncating(BitConverter.ToUInt32(content, 0));
          case Type tDouble when tDouble == typeof(double) && isByteArrayValidForNumber(bytes, 8, type):
             content = new byte[8];
-            Buffer.BlockCopy(bytes, offset, content, 0, 8);
+            Buffer.BlockCopy(bytes, off, content, 0, 8);
             return T.CreateTruncating(BitConverter.ToDouble(content, 0));
          case Type tLong when tLong == typeof(long) && isByteArrayValidForNumber(bytes, 8, type):
             content = new byte[8];
-            Buffer.BlockCopy(bytes, offset, content, 0, 8);
+            Buffer.BlockCopy(bytes, off, content, 0, 8);
             return T.CreateTruncating(BitConverter.ToInt64(content, 0));
          case Type tUlong when tUlong == typeof(ulong) && isByteArrayValidForNumber(bytes, 8, type):
             content = new byte[8];
-            Buffer.BlockCopy(bytes, offset, content, 0, 8);
+            Buffer.BlockCopy(bytes, off, content, 0, 8);
             return T.CreateTruncating(BitConverter.ToUInt64(content, 0));
          case Type tDecimal when tDecimal == typeof(decimal) && isByteArrayValidForNumber(bytes, 16, type):
          {
             content = new byte[16];
-            Buffer.BlockCopy(bytes, offset, content, 0, 16);
+            Buffer.BlockCopy(bytes, off, content, 0, 16);
             int i1 = BitConverter.ToInt32(content, 0);
             int i2 = BitConverter.ToInt32(content, 4);
             int i3 = BitConverter.ToInt32(content, 8);
@@ -123,6 +129,16 @@ public static class ArrayExtension //NUnit
       }
 
       return default;
+   }
+
+   /// <summary>
+   /// Converts a byte-array (as JSON) to an object.
+   /// </summary>
+   /// <param name="bytes">Byte-array</param>
+   /// <returns>Object from the byte-array</returns>
+   public static T? BNToObject<T>(this byte[]? bytes)
+   {
+      return JsonHelper.DeserializeFromString<T>(bytes.BNToString(), JsonHelper.FORMAT_NONE);
    }
 
    /// <summary>
