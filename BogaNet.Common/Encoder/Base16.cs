@@ -2,6 +2,7 @@ using System;
 using System.Text;
 using System.Numerics;
 using BogaNet.Helper;
+using Microsoft.Extensions.Logging;
 
 namespace BogaNet.Encoder;
 
@@ -10,6 +11,8 @@ namespace BogaNet.Encoder;
 /// </summary>
 public static class Base16 //NUnit
 {
+   private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(Base16));
+
    #region Public methods
 
    /// <summary>
@@ -22,7 +25,24 @@ public static class Base16 //NUnit
    {
       ArgumentNullException.ThrowIfNull(base16string);
 
-      return Convert.FromHexString(base16string.BNStartsWith("0x") ? base16string[2..] : base16string);
+      int diff = base16string.Length % 2;
+
+      if (diff != 0)
+      {
+         _logger.LogWarning("Input was not a multiple of 2 - filling the missing position with a leading zero.");
+         base16string = $"0{base16string}";
+      }
+
+      string hexVal = base16string.BNStartsWith("0x") ? base16string[2..] : base16string;
+      byte[] data = new byte[hexVal.Length / 2];
+
+      for (int ii = 0; ii < data.Length; ii++)
+      {
+         data[ii] = Convert.ToByte(hexVal.Substring(ii * 2, 2), 16);
+      }
+
+      return data;
+      //return Convert.FromHexString(base16string.BNStartsWith("0x") ? base16string[2..] : base16string);
    }
 
    /// <summary>
@@ -106,7 +126,8 @@ public static class Base16 //NUnit
 
       string hex;
 
-      hex = isInteger ? $"{number:X}" : ToBase16String(number.BNToByteArray());
+      //hex = isInteger ? $"{number:X}" : ToBase16String(number.BNToByteArray());
+      hex = ToBase16String(number.BNToByteArray());
 
       string res = useFullLength ? StringHelper.CreateFixedLengthString(hex, 2 * pairs, '0', false) : hex;
 
@@ -130,6 +151,7 @@ public static class Base16 //NUnit
       return ToBase16String(_encoding.GetBytes(str), addPrefix);
    }
 
+/*
    /// <summary>
    /// Converts the value of a Base16-string to a string.
    /// </summary>
@@ -180,13 +202,14 @@ public static class Base16 //NUnit
       string hexVal = base16string.BNStartsWith("0x") ? base16string[2..] : base16string;
       byte[] data = new byte[hexVal.Length / 2];
 
-      for (int ii = 0; ii < data.Length; ++ii)
+      for (int ii = 0; ii < data.Length; ii++)
       {
          data[ii] = Convert.ToByte(hexVal.Substring(ii * 2, 2), 16);
       }
 
       return data.BNToNumber<T>();
    }
+*/
 
    #endregion
 }

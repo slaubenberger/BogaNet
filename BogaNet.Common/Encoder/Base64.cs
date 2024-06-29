@@ -54,7 +54,7 @@ public static class Base64 //NUnit
 
       return ToBase64String(_encoding.GetBytes(str), useSave);
    }
-
+/*
    /// <summary>
    /// Converts the value of a Base64-string to a string.
    /// </summary>
@@ -72,6 +72,6 @@ public static class Base64 //NUnit
       byte[]? base64 = FromBase64String(str, useSave);
       return base64 == null ? null : _encoding.GetString(base64);
    }
-
+*/
    #endregion
 }

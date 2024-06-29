@@ -13,12 +13,12 @@ public class Base64Test
 
       //Byte-array
       string? output = Base64.ToBase64String(plain.BNToByteArray());
-      string? plain2 = Base64.StringFromBase64String(output);
+      string? plain2 = Base64.FromBase64String(output).BNToString();
       Assert.That(plain, Is.EqualTo(plain2));
 
       //String
       output = Base64.ToBase64String(plain);
-      plain2 = Base64.StringFromBase64String(output);
+      plain2 = Base64.FromBase64String(output).BNToString();
       Assert.That(plain, Is.EqualTo(plain2));
    }
 

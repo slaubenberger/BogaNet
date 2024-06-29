@@ -37,7 +37,7 @@ public static class Base2 //NUnit
 
       byte[] bytes = new byte[numOfBytes];
 
-      for (int ii = 0; ii < numOfBytes; ++ii)
+      for (int ii = 0; ii < numOfBytes; ii++)
       {
          bytes[ii] = Convert.ToByte(base2string.Substring(8 * ii, 8), 2);
       }
@@ -138,7 +138,7 @@ public static class Base2 //NUnit
 
       return ToBase2String(_encoding.GetBytes(str));
    }
-
+/*
    /// <summary>
    /// Converts the value of a Base2-string to a string.
    /// </summary>
@@ -168,6 +168,6 @@ public static class Base2 //NUnit
 
       return FromBase2String(base2string).BNToNumber<T>();
    }
-
+*/
    #endregion
 }

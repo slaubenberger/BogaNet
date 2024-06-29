@@ -112,7 +112,7 @@ public static class Base32 //NUnit
 
       return ToBase32String(_encoding.GetBytes(str));
    }
-
+/*
    /// <summary>
    /// Converts the value of a Base32-string to a string.
    /// </summary>
@@ -129,7 +129,7 @@ public static class Base32 //NUnit
       byte[]? base32 = FromBase32String(str);
       return base32 == null ? null : _encoding.GetString(base32);
    }
-
+*/
    #endregion
 
    #region Private methods

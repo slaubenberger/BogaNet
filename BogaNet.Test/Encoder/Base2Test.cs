@@ -13,24 +13,24 @@ public class Base2Test
 
       //Byte-array
       string? output = Base2.ToBase2String(plain.BNToByteArray());
-      string? plain2 = Base2.StringFromBase2String(output);
+      string? plain2 = Base2.FromBase2String(output).BNToString();
       Assert.That(plain, Is.EqualTo(plain2));
 
       //String
       output = Base2.ToBase2String(plain);
-      plain2 = Base2.StringFromBase2String(output);
+      plain2 = Base2.FromBase2String(output).BNToString();
       Assert.That(plain, Is.EqualTo(plain2));
 
       //Integer Number
       long value = 123;
       output = Base2.ToBase2String(value);
-      var value2 = Base2.NumberFromBase2String<long>(output);
+      var value2 = Base2.FromBase2String(output).BNToNumber<long>();
       Assert.That(value, Is.EqualTo(value2));
 
       //FP Number
       decimal valueFP = 123.456m;
       output = Base2.ToBase2String(valueFP);
-      var value2FP = Base2.NumberFromBase2String<decimal>(output);
+      var value2FP = Base2.FromBase2String(output).BNToNumber<decimal>();
 
       Assert.That(valueFP, Is.EqualTo(value2FP));
    }
@@ -105,7 +105,7 @@ public class Base2Test
       Assert.That(result, Is.EqualTo(expected));
 
       string str = "1110001"; //113 without leading 0
-      byte number = Base2.NumberFromBase2String<byte>(str);
+      byte number = Base2.FromBase2String(str).BNToNumber<byte>();
 
       Assert.That(number, Is.EqualTo(113));
    }

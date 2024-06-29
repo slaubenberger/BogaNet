@@ -13,7 +13,7 @@ public class ObfuscatorTest
       {
          string testStr = "abc";
          var text2 = Obfuscator.Obfuscate(testStr, IVgen);
-         var text3 = Obfuscator.DeobfuscateToString(text2, IVgen);
+         var text3 = Obfuscator.Deobfuscate(text2, IVgen).BNToString();
 
          //Console.WriteLine($"{IVgen} - {BogaNet.Encoder.Base16.ToBase16String(testStr.BNToByteArray())} - Obf: {BogaNet.Encoder.Base16.ToBase16String(text2)}");
          //Console.WriteLine($"{testStr} - {text3}");

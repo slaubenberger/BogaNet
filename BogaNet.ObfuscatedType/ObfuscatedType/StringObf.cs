@@ -25,7 +25,7 @@ public class StringObf //NUnit
 
    private string _value
    {
-      get => Obfuscator.DeobfuscateToString(_obfValue, _obf) ?? string.Empty;
+      get => Obfuscator.Deobfuscate(_obfValue, _obf).BNToString() ?? string.Empty;
       set => _obfValue = Obfuscator.Obfuscate(value, _obf);
    }
 

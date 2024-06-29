@@ -87,7 +87,7 @@ public abstract class Obfuscator //NUnit
 
       return result;
    }
-
+/*
    /// <summary>
    /// De-obfuscate a byte-array to a string.
    /// </summary>
@@ -100,4 +100,5 @@ public abstract class Obfuscator //NUnit
    {
       return Deobfuscate(obfuscatedData, IV).BNToString(encoding);
    }
+*/
 }

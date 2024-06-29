@@ -296,7 +296,7 @@ public abstract class RSAHelper
          throw;
       }
    }
-
+/*
    /// <summary>
    /// Decrypts a byte-array with a X509-certificate to a string.
    /// </summary>
@@ -310,7 +310,7 @@ public abstract class RSAHelper
    {
       return Decrypt(dataToDecrypt, cert, padding).BNToString(encoding);
    }
-
+*/
 /*
    // Encrypt a file using a public key.
    private static void EncryptFile(string inFile, RSA rsaPublicKey)

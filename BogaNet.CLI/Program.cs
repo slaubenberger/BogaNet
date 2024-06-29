@@ -56,7 +56,7 @@ public static class Program
       string abc = "Hallo, ich bin Stefan, olé!";
       string obf = BogaNet.Encoder.Base64.ToBase64String(BogaNet.Util.Obfuscator.Obfuscate(abc, 1));
 
-      string plain = BogaNet.Util.Obfuscator.DeobfuscateToString(BogaNet.Encoder.Base64.FromBase64String(obf), 1);
+      string plain = BogaNet.Util.Obfuscator.Deobfuscate(BogaNet.Encoder.Base64.FromBase64String(obf), 1).BNToString();
       _logger.LogInformation(obf);
       _logger.LogInformation(plain);
    }

@@ -165,7 +165,7 @@ public abstract class AESHelper //TODO add other algorithms, key&blocksize, padd
    {
       return Task.Run(() => DecryptAsync(dataToDecrypt, key, IV)).GetAwaiter().GetResult();
    }
-
+/*
    /// <summary>
    /// Decrypts a byte-array with AES to a string.
    /// </summary>
@@ -179,7 +179,7 @@ public abstract class AESHelper //TODO add other algorithms, key&blocksize, padd
    {
       return Decrypt(dataToDecrypt, key, IV).BNToString(encoding);
    }
-
+*/
    /// <summary>
    /// Decrypts a byte-array with AES asynchronously.
    /// </summary>

@@ -102,7 +102,7 @@ public class PreferencesContainer
    public object? Get(string key, bool obfuscated)
    {
       if (ContainsKey(key))
-         return obfuscated ? Obfuscator.DeobfuscateToString(Base64.FromBase64String(_preferences![key]?.ToString(), true), IV) : _preferences![key];
+         return obfuscated ? Obfuscator.Deobfuscate(Base64.FromBase64String(_preferences![key]?.ToString(), true), IV).BNToString() : _preferences![key];
 
       return null;
    }
