@@ -33,6 +33,11 @@ public class Base16Test
       var value2FP = Base16.NumberFromBase16String<decimal>(output);
 
       Assert.That(valueFP, Is.EqualTo(value2FP));
+
+      string str = "7B8"; //1976 without leading 0
+      short number = Base16.NumberFromBase16String<short>(str);
+
+      Assert.That(number, Is.EqualTo(1976));
    }
 
    #endregion

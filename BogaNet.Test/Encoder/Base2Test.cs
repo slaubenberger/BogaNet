@@ -34,7 +34,7 @@ public class Base2Test
 
       Assert.That(valueFP, Is.EqualTo(value2FP));
    }
-   
+
    [Test]
    public void Base2_Ext_Test()
    {
@@ -103,6 +103,11 @@ public class Base2Test
       result = Base2.ToBase2String(input);
 
       Assert.That(result, Is.EqualTo(expected));
+
+      string str = "1110001"; //113 without leading 0
+      byte number = Base2.NumberFromBase2String<byte>(str);
+
+      Assert.That(number, Is.EqualTo(113));
    }
 
    #endregion

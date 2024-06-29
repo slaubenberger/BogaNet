@@ -2,7 +2,7 @@ using System;
 using System.Text;
 using System.Numerics;
 using BogaNet.Helper;
-using Microsoft.Extensions.Primitives;
+using Microsoft.Extensions.Logging;
 
 namespace BogaNet.Encoder;
 
@@ -11,6 +11,8 @@ namespace BogaNet.Encoder;
 /// </summary>
 public static class Base2 //NUnit
 {
+   private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(Base2));
+
    #region Public methods
 
    /// <summary>
@@ -26,7 +28,10 @@ public static class Base2 //NUnit
       int diff = base2string.Length % 8;
 
       if (diff != 0)
-         base2string = StringHelper.CreateString(diff, "0") + base2string;
+      {
+         _logger.LogWarning("Input was not a multiple of 8 - filling the missing positions with leading zeros.");
+         base2string = $"{StringHelper.CreateString(8 - diff, "0")}{base2string}";
+      }
 
       int numOfBytes = base2string.Length / 8;
 
