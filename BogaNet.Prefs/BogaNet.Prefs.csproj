@@ -21,7 +21,7 @@
 
     <ItemGroup>
         <PackageReference Include="BogaNet.Common" Version="1.0.4">
-            <!--<PrivateAssets>all</PrivateAssets>-->
+            <PrivateAssets>all</PrivateAssets>
         </PackageReference>
         <PackageReference Include="BogaNet.ObfuscatedType" Version="0.9.4" />
     </ItemGroup>

@@ -21,13 +21,13 @@
 
     <ItemGroup>
       <PackageReference Include="Avalonia" Version="11.0.10">
-          <!--<PrivateAssets>all</PrivateAssets>-->
+          <PrivateAssets>all</PrivateAssets>
       </PackageReference>
         <PackageReference Include="BogaNet.Common" Version="1.0.3">
-            <!--<PrivateAssets>all</PrivateAssets>-->
+            <PrivateAssets>all</PrivateAssets>
         </PackageReference>
       <PackageReference Include="BogaNet.i18n" Version="0.9.3">
-          <!--<PrivateAssets>all</PrivateAssets>-->
+          <PrivateAssets>all</PrivateAssets>
       </PackageReference>
     </ItemGroup>
     

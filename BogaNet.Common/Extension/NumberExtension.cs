@@ -74,6 +74,7 @@ public static class NumberExtension
          case Type t when t == typeof(sbyte):
             sbyte sbyteVal = sbyte.CreateTruncating(number);
             return [(byte)sbyteVal];
+         //return [Convert.ToByte(sbyteVal + 127)];
          case Type t when t == typeof(char):
             ushort charVal = ushort.CreateTruncating(number);
             return BitConverter.GetBytes(charVal);
@@ -92,11 +93,142 @@ public static class NumberExtension
    }
 
    /// <summary>
+   /// Converts a byte to the given Number type.
+   /// </summary>
+   /// <param name="number">Given value as byte</param>
+   /// <returns>Number value from the given byte.</returns>
+   public static T BNToNumber<T>(this byte number) where T : INumber<T>
+   {
+      return T.CreateTruncating(number);
+   }
+
+   /// <summary>
+   /// Converts a sbyte to the given Number type.
+   /// </summary>
+   /// <param name="number">Given value as sbyte</param>
+   /// <returns>Number value from the given sbyte.</returns>
+   public static T BNToNumber<T>(this sbyte number) where T : INumber<T>
+   {
+      return T.CreateTruncating(number);
+   }
+
+   /// <summary>
+   /// Converts a short to the given Number type.
+   /// </summary>
+   /// <param name="number">Given value as short</param>
+   /// <returns>Number value from the given short.</returns>
+   public static T BNToNumber<T>(this short number) where T : INumber<T>
+   {
+      return T.CreateTruncating(number);
+   }
+
+
+   /// <summary>
+   /// Converts a ushort to the given Number type.
+   /// </summary>
+   /// <param name="number">Given value as ushort</param>
+   /// <returns>Number value from the given ushort.</returns>
+   public static T BNToNumber<T>(this ushort number) where T : INumber<T>
+   {
+      return T.CreateTruncating(number);
+   }
+
+   /// <summary>
+   /// Converts a char to the given Number type.
+   /// </summary>
+   /// <param name="number">Given value as char</param>
+   /// <returns>Number value from the given char.</returns>
+   public static T BNToNumber<T>(this char number) where T : INumber<T>
+   {
+      return T.CreateTruncating(number);
+   }
+
+   /// <summary>
+   /// Converts a float to the given Number type.
+   /// </summary>
+   /// <param name="number">Given value as float</param>
+   /// <returns>Number value from the given float.</returns>
+   public static T BNToNumber<T>(this float number) where T : INumber<T>
+   {
+      return T.CreateTruncating(number);
+   }
+
+   /// <summary>
+   /// Converts a int to the given Number type.
+   /// </summary>
+   /// <param name="number">Given value as int</param>
+   /// <returns>Number value from the given int.</returns>
+   public static T BNToNumber<T>(this int number) where T : INumber<T>
+   {
+      return T.CreateTruncating(number);
+   }
+
+   /// <summary>
+   /// Converts a uint to the given Number type.
+   /// </summary>
+   /// <param name="number">Given value as uint</param>
+   /// <returns>Number value from the given uint.</returns>
+   public static T BNToNumber<T>(this uint number) where T : INumber<T>
+   {
+      return T.CreateTruncating(number);
+   }
+
+   /// <summary>
+   /// Converts a double to the given Number type.
+   /// </summary>
+   /// <param name="number">Given value as double</param>
+   /// <returns>Number value from the given double.</returns>
+   public static T BNToNumber<T>(this double number) where T : INumber<T>
+   {
+      return T.CreateTruncating(number);
+   }
+
+   /// <summary>
+   /// Converts a long to the given Number type.
+   /// </summary>
+   /// <param name="number">Given value as long</param>
+   /// <returns>Number value from the given long.</returns>
+   public static T BNToNumber<T>(this long number) where T : INumber<T>
+   {
+      return T.CreateTruncating(number);
+   }
+
+   /// <summary>
+   /// Converts a ulong to the given Number type.
+   /// </summary>
+   /// <param name="number">Given value as ulong</param>
+   /// <returns>Number value from the given ulong.</returns>
+   public static T BNToNumber<T>(this ulong number) where T : INumber<T>
+   {
+      return T.CreateTruncating(number);
+   }
+
+   /// <summary>
    /// Converts a decimal to the given Number type.
    /// </summary>
    /// <param name="number">Given value as decimal</param>
    /// <returns>Number value from the given decimal.</returns>
    public static T BNToNumber<T>(this decimal number) where T : INumber<T>
+   {
+      return T.CreateTruncating(number);
+   }
+
+   /// <summary>
+   /// Converts a nint to the given Number type.
+   /// </summary>
+   /// <param name="number">Given value as nint</param>
+   /// <returns>Number value from the given nint.</returns>
+   public static T BNToNumber<T>(this nint number) where T : INumber<T>
+   {
+      return T.CreateTruncating(number);
+   }
+
+   /// <summary>
+   /// Converts a nuint to the given Number type.
+   /// </summary>
+   /// <param name="number">Given value as nuint</param>
+   /// <returns>Number value from the given nuint.</returns>
+   public static T BNToNumber<T>(this nuint number) where T : INumber<T>
    {
       return T.CreateTruncating(number);
    }

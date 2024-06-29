@@ -8,7 +8,7 @@ namespace BogaNet;
 /// <summary>
 /// Extension methods for arrays.
 /// </summary>
-public static class ArrayExtension
+public static class ArrayExtension //NUnit
 {
    private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(ArrayExtension));
 
@@ -33,7 +33,7 @@ public static class ArrayExtension
    /// </summary>
    /// <param name="bytes">Byte-array</param>
    /// <param name="offset">Offset inside the byte-array</param>
-   /// <param name="length">Length of the string</param>
+   /// <param name="length">Number of bytes</param>
    /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
    /// <returns>String from the byte-array</returns>
    public static string? BNToString(this byte[]? bytes, int offset, int length, Encoding? encoding = null)
@@ -54,109 +54,82 @@ public static class ArrayExtension
    /// <param name="offset">Offset inside the byte-array (optional, default: 0)</param>
    /// <returns>Number from the byte-array</returns>
    public static T? BNToNumber<T>(this byte[]? bytes, int offset = 0) where T : INumber<T>
-   //public unsafe static T BNToNumber<T>(this byte[]? bytes, int offset = 0) where T : INumber<T>
    {
-      if (bytes == null)
+      if (bytes == null || bytes.Length == 0)
          return default;
 
       Type type = typeof(T);
       byte[] content;
 
-      if (type is Type t1 && t1 == typeof(double))
+      switch (type)
       {
-         content = new byte[8];
-         Buffer.BlockCopy(bytes, offset, content, 0, 8);
-         return T.CreateTruncating(BitConverter.ToDouble(content, 0));
-      }
-      else if (type is Type t2 && t2 == typeof(float))
-      {
-         content = new byte[4];
-         Buffer.BlockCopy(bytes, offset, content, 0, 4);
-         return T.CreateTruncating(BitConverter.ToSingle(content, 0));
-      }
-      else if (type is Type t3 && t3 == typeof(long))
-      {
-         content = new byte[8];
-         Buffer.BlockCopy(bytes, offset, content, 0, 8);
-         return T.CreateTruncating(BitConverter.ToInt64(content, 0));
-      }
-      else if (type is Type t4 && t4 == typeof(ulong))
-      {
-         content = new byte[8];
-         Buffer.BlockCopy(bytes, offset, content, 0, 8);
-         return T.CreateTruncating(BitConverter.ToUInt64(content, 0));
-      }
-      else if (type is Type t5 && t5 == typeof(int))
-      {
-         content = new byte[4];
-         Buffer.BlockCopy(bytes, offset, content, 0, 4);
-         return T.CreateTruncating(BitConverter.ToInt32(content, 0));
-      }
-      else if (type is Type t6 && t6 == typeof(uint))
-      {
-         content = new byte[4];
-         Buffer.BlockCopy(bytes, offset, content, 0, 4);
-         return T.CreateTruncating(BitConverter.ToUInt32(content, 0));
-      }
-      else if (type is Type t7 && t7 == typeof(short))
-      {
-         content = new byte[2];
-         Buffer.BlockCopy(bytes, offset, content, 0, 2);
-         return T.CreateTruncating(BitConverter.ToInt16(content, 0));
-      }
-      else if (type is Type t8 && t8 == typeof(ushort))
-      {
-         content = new byte[2];
-         Buffer.BlockCopy(bytes, offset, content, 0, 2);
-         return T.CreateTruncating(BitConverter.ToUInt16(content, 0));
-      }
-      else if (type is Type t9 && t9 == typeof(char))
-      {
-         content = new byte[2];
-         Buffer.BlockCopy(bytes, offset, content, 0, 2);
-         return T.CreateTruncating(BitConverter.ToChar(content, 0));
-      }
-      //TODO needs unsafe...
-      /*
-         case Type t when t == typeof(nint):
-            int sizeInt = sizeof(nint);
-            content = new byte[sizeInt];
-            Buffer.BlockCopy(bytes, offset, content, 0, sizeInt);
+         case Type tByte when tByte == typeof(byte):
+            return T.CreateTruncating(bytes[offset]);
+         case Type tSbyte when tSbyte == typeof(sbyte):
+            //return T.CreateTruncating(BogaNet.Helper.ArrayHelper.ByteArrayToSByteArray(bytes)[offset]);
+            return T.CreateTruncating(bytes[offset]);
+         case Type tShort when tShort == typeof(short) && isByteArrayValidForNumber(bytes, 2, type):
+            content = new byte[2];
+            Buffer.BlockCopy(bytes, offset, content, 0, 2);
+            return T.CreateTruncating(BitConverter.ToInt16(content, 0));
+         case Type tUshort when tUshort == typeof(ushort) && isByteArrayValidForNumber(bytes, 2, type):
+            content = new byte[2];
+            Buffer.BlockCopy(bytes, offset, content, 0, 2);
             return T.CreateTruncating(BitConverter.ToUInt16(content, 0));
-         case Type t when t == typeof(nuint):
-            int size = sizeof(nuint);
-            content = new byte[size];
-            Buffer.BlockCopy(bytes, offset, content, 0, size);
-            return T.CreateTruncating(BitConverter.ToUInt16(content, 0));
-         */
-      else if (type is Type t10 && t10 == typeof(byte))
-         return T.CreateTruncating(bytes[offset]);
-      else if (type is Type t11 && t11 == typeof(sbyte))
-         return T.CreateTruncating(bytes[offset]);
-      else if (type is Type t12 && t12 == typeof(decimal))
-      {
-         content = new byte[16];
-         Buffer.BlockCopy(bytes, offset, content, 0, 16);
-         int i1 = BitConverter.ToInt32(content, 0);
-         int i2 = BitConverter.ToInt32(content, 4);
-         int i3 = BitConverter.ToInt32(content, 8);
-         int i4 = BitConverter.ToInt32(content, 12);
+         case Type tChar when tChar == typeof(char) && isByteArrayValidForNumber(bytes, 2, type):
+            content = new byte[2];
+            Buffer.BlockCopy(bytes, offset, content, 0, 2);
+            return T.CreateTruncating(BitConverter.ToChar(content, 0));
+         case Type tFloat when tFloat == typeof(float) && isByteArrayValidForNumber(bytes, 4, type):
+            content = new byte[4];
+            Buffer.BlockCopy(bytes, offset, content, 0, 4);
+            return T.CreateTruncating(BitConverter.ToSingle(content, 0));
+         case Type tInt when tInt == typeof(int) && isByteArrayValidForNumber(bytes, 4, type):
+            content = new byte[4];
+            Buffer.BlockCopy(bytes, offset, content, 0, 4);
+            return T.CreateTruncating(BitConverter.ToInt32(content, 0));
+         case Type tUint when tUint == typeof(uint) && isByteArrayValidForNumber(bytes, 4, type):
+            content = new byte[4];
+            Buffer.BlockCopy(bytes, offset, content, 0, 4);
+            return T.CreateTruncating(BitConverter.ToUInt32(content, 0));
+         case Type tDouble when tDouble == typeof(double) && isByteArrayValidForNumber(bytes, 8, type):
+            content = new byte[8];
+            Buffer.BlockCopy(bytes, offset, content, 0, 8);
+            return T.CreateTruncating(BitConverter.ToDouble(content, 0));
+         case Type tLong when tLong == typeof(long) && isByteArrayValidForNumber(bytes, 8, type):
+            content = new byte[8];
+            Buffer.BlockCopy(bytes, offset, content, 0, 8);
+            return T.CreateTruncating(BitConverter.ToInt64(content, 0));
+         case Type tUlong when tUlong == typeof(ulong) && isByteArrayValidForNumber(bytes, 8, type):
+            content = new byte[8];
+            Buffer.BlockCopy(bytes, offset, content, 0, 8);
+            return T.CreateTruncating(BitConverter.ToUInt64(content, 0));
+         case Type tDecimal when tDecimal == typeof(decimal) && isByteArrayValidForNumber(bytes, 16, type):
+         {
+            content = new byte[16];
+            Buffer.BlockCopy(bytes, offset, content, 0, 16);
+            int i1 = BitConverter.ToInt32(content, 0);
+            int i2 = BitConverter.ToInt32(content, 4);
+            int i3 = BitConverter.ToInt32(content, 8);
+            int i4 = BitConverter.ToInt32(content, 12);
 
-         decimal result = new(new[] { i1, i2, i3, i4 });
+            decimal result = new(new[] { i1, i2, i3, i4 });
 
-         return T.CreateTruncating(result);
+            return T.CreateTruncating(result);
+         }
+         default:
+            _logger.LogError($"Number type {type} is not supported!");
+            break;
       }
-      else
-         _logger.LogWarning("Number type is not supported!");
 
       return default;
    }
 
    /// <summary>
-   /// Reverses an array.
+   /// Reverses an object array.
    /// </summary>
    /// <param name="array">Array-instance</param>
-   /// <returns>Reversed array</returns>
+   /// <returns>Reversed object array</returns>
    public static void BNReverse(this object[]? array)
    {
       if (array == null)
@@ -166,10 +139,10 @@ public static class ArrayExtension
    }
 
    /// <summary>
-   /// Reverses an array.
+   /// Reverses a Number type array.
    /// </summary>
-   /// <param name="array">Array-instance</param>
-   /// <returns>Reversed array</returns>
+   /// <param name="array">Number type array-instance</param>
+   /// <returns>Reversed Number type array</returns>
    public static void BNReverse<T>(this T[]? array) where T : INumber<T>
    {
       if (array == null)
@@ -177,4 +150,19 @@ public static class ArrayExtension
 
       Array.Reverse(array);
    }
+
+   #region Private methods
+
+   private static bool isByteArrayValidForNumber(byte[] bytes, int length, Type type)
+   {
+      if (bytes.Length < length)
+      {
+         _logger.LogError($"Byte array is to short for a valid number type {type}!");
+         return false;
+      }
+
+      return true;
+   }
+
+   #endregion
 }
