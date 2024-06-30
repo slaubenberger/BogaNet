@@ -555,8 +555,8 @@ public class Base16Test
    {
       string code = "414243";
       string bVal = "ABC";
-      string bCode = Base16.ToBase16String(bVal);
-      string bRes = Base16.FromBase16String(code).BNToString();
+      string? bCode = Base16.ToBase16String(bVal);
+      string? bRes = Base16.FromBase16String(code).BNToString();
       Assert.That(bCode, Is.EqualTo(code));
       Assert.That(bRes, Is.EqualTo(bVal));
 
@@ -572,17 +572,6 @@ public class Base16Test
       bVal = "ABC";
       bRes = Base16.FromBase16String(code).BNToString();
       Assert.That(bRes, Is.EqualTo(bVal));
-   }
-
-   [Test]
-   public void Base16_Test()
-   {
-      string plain = "BogaNet rülez!";
-
-      //String
-      string? output = Base16.ToBase16String(plain);
-      string? plain2 = Base16.FromBase16String(output).BNToString();
-      Assert.That(plain2, Is.EqualTo(plain));
    }
 
    #endregion

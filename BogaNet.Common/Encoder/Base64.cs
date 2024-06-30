@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Text;
 
 namespace BogaNet.Encoder;
@@ -35,6 +36,7 @@ public static class Base64 //NUnit
    {
       ArgumentNullException.ThrowIfNull(bytes);
 
+      //bytes.BNReverse();
       return useSave ? Convert.ToBase64String(bytes).Replace("/", "_").Replace("+", "-") : Convert.ToBase64String(bytes);
    }
 
@@ -52,26 +54,10 @@ public static class Base64 //NUnit
 
       Encoding _encoding = encoding ?? Encoding.UTF8;
 
-      return ToBase64String(str.BNToByteArray(encoding), useSave);
+      var bytes = str.BNToByteArray(encoding);
+      //bytes.BNReverse();
+      return ToBase64String(bytes, useSave);
    }
-/*
-   /// <summary>
-   /// Converts the value of a Base64-string to a string.
-   /// </summary>
-   /// <param name="str">Input Base64-string</param>
-   /// <param name="useSave">Use non-standard, but safe version of Base64 for URLs and files</param>
-   /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
-   /// <returns>Base64-string value as converted string</returns>
-   public static string? StringFromBase64String(string? str, bool useSave = false, Encoding? encoding = null)
-   {
-      if (str == null)
-         return null;
 
-      Encoding _encoding = encoding ?? Encoding.UTF8;
-
-      byte[]? base64 = FromBase64String(str, useSave);
-      return base64 == null ? null : _encoding.GetString(base64);
-   }
-*/
    #endregion
 }

@@ -61,7 +61,7 @@ public static class Base32 //NUnit
    /// <param name="bytes">Data as byte-array</param>
    /// <returns>Data as encoded Base32-string</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static string ToBase32String(byte[]? bytes)
+   public static string ToBase32String(params byte[]? bytes)
    {
       ArgumentNullException.ThrowIfNull(bytes);
 
@@ -94,6 +94,7 @@ public static class Base32 //NUnit
          while (arrayIndex != charCount) returnArray[arrayIndex++] = '='; //padding
       }
 
+      //returnArray.BNReverse();
       return new string(returnArray);
    }
 
@@ -110,24 +111,7 @@ public static class Base32 //NUnit
 
       return ToBase32String(str.BNToByteArray(encoding));
    }
-/*
-   /// <summary>
-   /// Converts the value of a Base32-string to a string.
-   /// </summary>
-   /// <param name="str">Input Base32-string</param>
-   /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
-   /// <returns>Base32-string value as converted string</returns>
-   public static string? StringFromBase32String(string? str, Encoding? encoding = null)
-   {
-      if (str == null)
-         return null;
 
-      Encoding _encoding = encoding ?? Encoding.UTF8;
-
-      byte[]? base32 = FromBase32String(str);
-      return base32 == null ? null : _encoding.GetString(base32);
-   }
-*/
    #endregion
 
    #region Private methods

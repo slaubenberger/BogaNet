@@ -13,7 +13,7 @@ public class AESHelperTest
       string plain = "BogaNet rulez!";
 
       string initVector = "SL$2OIjLS$2aIj76";
-      byte[] IV = initVector.BNToByteArray(System.Text.Encoding.ASCII);
+      byte[]? IV = initVector.BNToByteArray(System.Text.Encoding.ASCII);
 
       string keyPlain = "abce1235";
       byte[] key = HashHelper.SHA256(keyPlain.BNToByteArray());

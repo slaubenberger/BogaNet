@@ -35,7 +35,7 @@ public static class Base16 //NUnit
 
       string hexVal = base16string.BNStartsWith("0x") ? base16string[2..] : base16string;
 
-      //remove leading 00
+      //remove leading zeros
       if (hexVal.Length > 2)
       {
          do
@@ -51,19 +51,6 @@ public static class Base16 //NUnit
          } while (true);
       }
 
-      /*
-      byte[] data = new byte[hexVal.Length / 2];
-      int len = data.Length;
-
-      for (int ii = 0; ii < len; ii++)
-      //for (int ii = len - 1; ii >= 0; ii--)
-      {
-         data[len - ii - 1] = Convert.ToByte(hexVal.Substring(ii * 2, 2), 16);
-      //   data[ii] = Convert.ToByte(hexVal.Substring(ii * 2, 2), 16);
-      }
-
-      return data;
-      */
       return Convert.FromHexString(hexVal);
    }
 
@@ -169,66 +156,6 @@ public static class Base16 //NUnit
 
       return ToBase16String(str.BNToByteArray(encoding), addPrefix);
    }
-
-/*
-   /// <summary>
-   /// Converts the value of a Base16-string to a string.
-   /// </summary>
-   /// <param name="base16string">String as Base16-string</param>
-   /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
-   /// <returns>Base16-string value as converted string</returns>
-   public static string? StringFromBase16String(string? base16string, Encoding? encoding = null)
-   {
-      if (base16string == null)
-         return null;
-
-      Encoding _encoding = encoding ?? Encoding.UTF8;
-
-      byte[]? base16 = FromBase16String(base16string);
-      return base16 == null ? null : _encoding.GetString(base16);
-   }
-
-   /// <summary>
-   /// Converts value of a Base16-string to a Number.
-   /// </summary>
-   /// <param name="base16string">Number as Base16-string</param>
-   /// <returns>Base16-string value as converted number</returns>
-   public static T? NumberFromBase16String<T>(string? base16string) where T : INumber<T>
-   {
-      if (base16string == null)
-         return default;
-
-      Type type = typeof(T);
-
-      bool isInteger = true;
-
-      switch (type)
-      {
-         case Type t when t == typeof(double):
-            isInteger = false;
-            break;
-         case Type t when t == typeof(float):
-            isInteger = false;
-            break;
-         case Type t when t == typeof(decimal):
-            isInteger = false;
-            break;
-      }
-
-      if (isInteger)
-         return T.Parse(base16string.BNStartsWith("0x") ? base16string[2..] : base16string, System.Globalization.NumberStyles.HexNumber, null);
-
-      string hexVal = base16string.BNStartsWith("0x") ? base16string[2..] : base16string;
-      byte[] data = new byte[hexVal.Length / 2];
-
-      for (int ii = 0; ii < data.Length; ii++)
-      {
-         data[ii] = Convert.ToByte(hexVal.Substring(ii * 2, 2), 16);
-      }
-
-      return data.BNToNumber<T>();
-   }
-*/
 
    #endregion
 }

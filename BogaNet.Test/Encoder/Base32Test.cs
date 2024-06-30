@@ -14,12 +14,16 @@ public class Base32Test
       //Byte-array
       string? output = Base32.ToBase32String(plain.BNToByteArray());
       string? plain2 = Base32.FromBase32String(output).BNToString();
-      Assert.That(plain, Is.EqualTo(plain2));
+      Assert.That(plain2, Is.EqualTo(plain));
 
       //String
       output = Base32.ToBase32String(plain);
       plain2 = Base32.FromBase32String(output).BNToString();
-      Assert.That(plain, Is.EqualTo(plain2));
+      Assert.That(plain2, Is.EqualTo(plain));
+
+      output = "IJXWOYKOMV2CA4WDXRWGK6RB";
+      plain2 = Base32.FromBase32String(output).BNToString();
+      Assert.That(plain2, Is.EqualTo(plain));
    }
 
    #endregion

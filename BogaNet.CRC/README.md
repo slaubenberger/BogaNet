@@ -1,5 +1,5 @@
-# BogaNet.Crypto
-Various helpers for cryptographic functions, like hashing (SHA), asymmetric (AES) and symmetric (RSA) encryption/decryption, and HMAC.
+# BogaNet.CRC
+Various helpers for cyclic redundancy checks (CRC), namely CRC8, CRC16, CRC32 and CRC64.
 
 ## Main classes
 * [AESHelper](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_helper_1_1_a_e_s_helper.html): Helper for AES cryptography.
@@ -9,7 +9,7 @@ Various helpers for cryptographic functions, like hashing (SHA), asymmetric (AES
 * [RSAHelper](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_helper_1_1_r_s_a_helper.html): Helper for RSA cryptography and X509 certificates.
 
 ## Nuget:
-[BogaNet.Crypto](https://www.nuget.org/packages/BogaNet.Crypto/)
+[BogaNet.CRC](https://www.nuget.org/packages/BogaNet.CRC/)
 
 ## API:
 [https://www.crosstales.com/media/data/BogaNet/api/](https://www.crosstales.com/media/data/BogaNet/api/annotated.html)

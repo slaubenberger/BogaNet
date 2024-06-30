@@ -7,107 +7,579 @@ public class Base2Test
    #region Tests
 
    [Test]
-   public void Base2_Test()
+   public void Base2_Byte_Test()
    {
-      string plain = "BogaNet rülez!";
+      string code = "00000001";
+      byte bVal = 1;
+      string bCode = Base2.ToBase2String(bVal);
+      byte bRes = Base2.FromBase2String(code).BNToNumber<byte>();
+      Assert.That(bCode, Is.EqualTo(code));
+      Assert.That(bRes, Is.EqualTo(bVal));
 
-      //Byte-array
-      string? output = Base2.ToBase2String(plain.BNToByteArray());
-      string? plain2 = Base2.FromBase2String(output).BNToString();
-      Assert.That(plain, Is.EqualTo(plain2));
+      code = "00000000";
+      bVal = byte.MinValue;
+      bCode = Base2.ToBase2String(bVal);
+      bRes = Base2.FromBase2String(code).BNToNumber<byte>();
+      Assert.That(bCode, Is.EqualTo(code));
+      Assert.That(bRes, Is.EqualTo(bVal));
 
-      //String
-      output = Base2.ToBase2String(plain);
-      plain2 = Base2.FromBase2String(output).BNToString();
-      Assert.That(plain, Is.EqualTo(plain2));
+      code = "11111111";
+      bVal = byte.MaxValue;
+      bCode = Base2.ToBase2String(bVal);
+      bRes = Base2.FromBase2String(code).BNToNumber<byte>();
+      Assert.That(bCode, Is.EqualTo(code));
+      Assert.That(bRes, Is.EqualTo(bVal));
 
-      //Integer Number
-      long value = 123;
-      output = Base2.ToBase2String(value);
-      var value2 = Base2.FromBase2String(output).BNToNumber<long>();
-      Assert.That(value, Is.EqualTo(value2));
+      code = "01111011";
+      bVal = 123;
+      bCode = Base2.ToBase2String(bVal);
+      bRes = Base2.FromBase2String(code).BNToNumber<byte>();
+      Assert.That(bCode, Is.EqualTo(code));
+      Assert.That(bRes, Is.EqualTo(bVal));
 
-      //FP Number
-      decimal valueFP = 123.456m;
-      output = Base2.ToBase2String(valueFP);
-      var value2FP = Base2.FromBase2String(output).BNToNumber<decimal>();
+      //short test
+      code = "1";
+      bVal = 1;
+      bRes = Base2.FromBase2String(code).BNToNumber<byte>();
+      Assert.That(bRes, Is.EqualTo(bVal));
 
-      Assert.That(valueFP, Is.EqualTo(value2FP));
+      //overflow test
+      code = "001111011";
+      bVal = 123;
+      bRes = Base2.FromBase2String(code).BNToNumber<byte>();
+      Assert.That(bRes, Is.EqualTo(bVal));
    }
 
    [Test]
-   public void Base2_Ext_Test()
+   public void Base2_SByte_Test()
    {
-      byte input = 0;
-      string expected = "00000000";
-      string? result = Base2.ToBase2String(input);
+      string code = "00000001";
+      sbyte bVal = 1;
+      string bCode = Base2.ToBase2String(bVal);
+      sbyte bRes = Base2.FromBase2String(code).BNToNumber<sbyte>();
+      Assert.That(bCode, Is.EqualTo(code));
+      Assert.That(bRes, Is.EqualTo(bVal));
 
-      Assert.That(result, Is.EqualTo(expected));
+      code = "10000000";
+      bVal = sbyte.MinValue;
+      bCode = Base2.ToBase2String(bVal);
+      bRes = Base2.FromBase2String(code).BNToNumber<sbyte>();
+      Assert.That(bCode, Is.EqualTo(code));
+      Assert.That(bRes, Is.EqualTo(bVal));
 
-      input = 1;
-      expected = "00000001";
-      result = Base2.ToBase2String(input);
+      code = "01111111";
+      bVal = sbyte.MaxValue;
+      bCode = Base2.ToBase2String(bVal);
+      bRes = Base2.FromBase2String(code).BNToNumber<sbyte>();
+      Assert.That(bCode, Is.EqualTo(code));
+      Assert.That(bRes, Is.EqualTo(bVal));
 
-      Assert.That(result, Is.EqualTo(expected));
+      code = "01111011";
+      bVal = 123;
+      bCode = Base2.ToBase2String(bVal);
+      bRes = Base2.FromBase2String(code).BNToNumber<sbyte>();
+      Assert.That(bCode, Is.EqualTo(code));
+      Assert.That(bRes, Is.EqualTo(bVal));
 
-      input = 2;
-      expected = "00000010";
-      result = Base2.ToBase2String(input);
+      //short test
+      code = "1";
+      bVal = 1;
+      bRes = Base2.FromBase2String(code).BNToNumber<sbyte>();
+      Assert.That(bRes, Is.EqualTo(bVal));
 
-      Assert.That(result, Is.EqualTo(expected));
+      //overflow test
+      code = "001111011";
+      bVal = 123;
+      bRes = Base2.FromBase2String(code).BNToNumber<sbyte>();
+      Assert.That(bRes, Is.EqualTo(bVal));
+   }
 
-      input = 4;
-      expected = "00000100";
-      result = Base2.ToBase2String(input);
+   [Test]
+   public void Base2_Short_Test()
+   {
+      string code = "0000000000000001";
+      short bVal = 1;
+      string bCode = Base2.ToBase2String(bVal);
+      short bRes = Base2.FromBase2String(code).BNToNumber<short>();
+      Assert.That(bCode, Is.EqualTo(code));
+      Assert.That(bRes, Is.EqualTo(bVal));
 
-      Assert.That(result, Is.EqualTo(expected));
+      code = "1000000000000000";
+      bVal = short.MinValue;
+      bCode = Base2.ToBase2String(bVal);
+      bRes = Base2.FromBase2String(code).BNToNumber<short>();
+      Assert.That(bCode, Is.EqualTo(code));
+      Assert.That(bRes, Is.EqualTo(bVal));
 
-      input = 8;
-      expected = "00001000";
-      result = Base2.ToBase2String(input);
+      code = "0111111111111111";
+      bVal = short.MaxValue;
+      bCode = Base2.ToBase2String(bVal);
+      bRes = Base2.FromBase2String(code).BNToNumber<short>();
+      Assert.That(bCode, Is.EqualTo(code));
+      Assert.That(bRes, Is.EqualTo(bVal));
 
-      Assert.That(result, Is.EqualTo(expected));
+      code = "0011000000111001";
+      bVal = 12345;
+      bCode = Base2.ToBase2String(bVal);
+      bRes = Base2.FromBase2String(code).BNToNumber<short>();
+      Assert.That(bCode, Is.EqualTo(code));
+      Assert.That(bRes, Is.EqualTo(bVal));
 
-      input = 16;
-      expected = "00010000";
-      result = Base2.ToBase2String(input);
+      code = "1100111111000111";
+      bVal = -12345;
+      bCode = Base2.ToBase2String(bVal);
+      bRes = Base2.FromBase2String(code).BNToNumber<short>();
+      Assert.That(bCode, Is.EqualTo(code));
+      Assert.That(bRes, Is.EqualTo(bVal));
 
-      Assert.That(result, Is.EqualTo(expected));
+      //short test
+      code = "1";
+      bVal = 1;
+      bRes = Base2.FromBase2String(code).BNToNumber<short>();
+      Assert.That(bRes, Is.EqualTo(bVal));
 
-      input = 32;
-      expected = "00100000";
-      result = Base2.ToBase2String(input);
+      //overflow test
+      code = "00011000000111001";
+      bVal = 12345;
+      bRes = Base2.FromBase2String(code).BNToNumber<short>();
+      Assert.That(bRes, Is.EqualTo(bVal));
+   }
 
-      Assert.That(result, Is.EqualTo(expected));
+   [Test]
+   public void Base2_UShort_Test()
+   {
+      string code = "0000000000000001";
+      ushort bVal = 1;
+      string bCode = Base2.ToBase2String(bVal);
+      ushort bRes = Base2.FromBase2String(code).BNToNumber<ushort>();
+      Assert.That(bCode, Is.EqualTo(code));
+      Assert.That(bRes, Is.EqualTo(bVal));
 
-      input = 64;
-      expected = "01000000";
-      result = Base2.ToBase2String(input);
+      code = "0000000000000000";
+      bVal = ushort.MinValue;
+      bCode = Base2.ToBase2String(bVal);
+      bRes = Base2.FromBase2String(code).BNToNumber<ushort>();
+      Assert.That(bCode, Is.EqualTo(code));
+      Assert.That(bRes, Is.EqualTo(bVal));
 
-      Assert.That(result, Is.EqualTo(expected));
+      code = "1111111111111111";
+      bVal = ushort.MaxValue;
+      bCode = Base2.ToBase2String(bVal);
+      bRes = Base2.FromBase2String(code).BNToNumber<ushort>();
+      Assert.That(bCode, Is.EqualTo(code));
+      Assert.That(bRes, Is.EqualTo(bVal));
 
-      input = 128;
-      expected = "10000000";
-      result = Base2.ToBase2String(input);
+      code = "0011000000111001";
+      bVal = 12345;
+      bCode = Base2.ToBase2String(bVal);
+      bRes = Base2.FromBase2String(code).BNToNumber<ushort>();
+      Assert.That(bCode, Is.EqualTo(code));
+      Assert.That(bRes, Is.EqualTo(bVal));
 
-      Assert.That(result, Is.EqualTo(expected));
+      //short test
+      code = "1";
+      bVal = 1;
+      bRes = Base2.FromBase2String(code).BNToNumber<ushort>();
+      Assert.That(bRes, Is.EqualTo(bVal));
 
-      input = 255;
-      expected = "11111111";
-      result = Base2.ToBase2String(input);
+      //overflow test
+      code = "00011000000111001";
+      bVal = 12345;
+      bRes = Base2.FromBase2String(code).BNToNumber<ushort>();
+      Assert.That(bRes, Is.EqualTo(bVal));
+   }
 
-      Assert.That(result, Is.EqualTo(expected));
+   [Test]
+   public void Base2_Char_Test()
+   {
+      string code = "0000000001000001";
+      char bVal = 'A';
+      string bCode = Base2.ToBase2String(bVal);
+      ushort bRes = Base2.FromBase2String(code).BNToNumber<char>();
+      Assert.That(bCode, Is.EqualTo(code));
+      Assert.That(bRes, Is.EqualTo(bVal));
 
-      input = 113;
-      expected = "01110001";
-      result = Base2.ToBase2String(input);
+      code = "0000000000000000";
+      bVal = char.MinValue;
+      bCode = Base2.ToBase2String(bVal);
+      bRes = Base2.FromBase2String(code).BNToNumber<char>();
+      Assert.That(bCode, Is.EqualTo(code));
+      Assert.That(bRes, Is.EqualTo(bVal));
 
-      Assert.That(result, Is.EqualTo(expected));
+      code = "1111111111111111";
+      bVal = char.MaxValue;
+      bCode = Base2.ToBase2String(bVal);
+      bRes = Base2.FromBase2String(code).BNToNumber<char>();
+      Assert.That(bCode, Is.EqualTo(code));
+      Assert.That(bRes, Is.EqualTo(bVal));
 
-      string str = "1110001"; //113 without leading 0
-      byte number = Base2.FromBase2String(str).BNToNumber<byte>();
+      code = "0011000001010011";
+      bVal = 'こ';
+      bCode = Base2.ToBase2String(bVal);
+      var bTemp = Base2.FromBase2String(code);
+      bRes = bTemp.BNToNumber<char>();
+      Assert.That(bCode, Is.EqualTo(code));
+      Assert.That(bRes, Is.EqualTo(bVal));
 
-      Assert.That(number, Is.EqualTo(113));
+      //short test
+      code = "1000001";
+      bVal = 'A';
+      bRes = Base2.FromBase2String(code).BNToNumber<char>();
+      Assert.That(bRes, Is.EqualTo(bVal));
+
+      //overflow test
+      code = "00000000001000001";
+      bVal = 'A';
+      bTemp = Base2.FromBase2String(code);
+      bRes = bTemp.BNToNumber<char>();
+      Assert.That(bRes, Is.EqualTo(bVal));
+   }
+
+   [Test]
+   public void Base2_Float_Test()
+   {
+      string code = "00111111100000000000000000000000";
+      float bVal = 1;
+      string bCode = Base2.ToBase2String(bVal);
+      float bRes = Base2.FromBase2String(code).BNToNumber<float>();
+      Assert.That(bCode, Is.EqualTo(code));
+      Assert.That(bRes, Is.EqualTo(bVal));
+
+      code = "11111111011111111111111111111111";
+      bVal = float.MinValue;
+      bCode = Base2.ToBase2String(bVal);
+      bRes = Base2.FromBase2String(code).BNToNumber<float>();
+      Assert.That(bCode, Is.EqualTo(code));
+      Assert.That(bRes, Is.EqualTo(bVal));
+
+      code = "01111111011111111111111111111111";
+      bVal = float.MaxValue;
+      bCode = Base2.ToBase2String(bVal);
+      bRes = Base2.FromBase2String(code).BNToNumber<float>();
+      Assert.That(bCode, Is.EqualTo(code));
+      Assert.That(bRes, Is.EqualTo(bVal));
+
+      code = "01000000010010010000111111011011";
+      bVal = Math.PI.BNToNumber<float>();
+      bCode = Base2.ToBase2String(bVal);
+      bRes = Base2.FromBase2String(code).BNToNumber<float>();
+      Assert.That(bCode, Is.EqualTo(code));
+      Assert.That(bRes, Is.EqualTo(bVal));
+
+      //short test
+      code = "0";
+      bVal = 0;
+      bRes = Base2.FromBase2String(code).BNToNumber<float>();
+      Assert.That(bRes, Is.EqualTo(bVal));
+
+      //overflow test
+      code = "000000000";
+      bVal = 0;
+      bRes = Base2.FromBase2String(code).BNToNumber<float>();
+      Assert.That(bRes, Is.EqualTo(bVal));
+   }
+
+   [Test]
+   public void Base2_Int_Test()
+   {
+      string code = "00000000000000000000000000000001";
+      int bVal = 1;
+      string bCode = Base2.ToBase2String(bVal);
+      int bRes = Base2.FromBase2String(code).BNToNumber<int>();
+      Assert.That(bCode, Is.EqualTo(code));
+      Assert.That(bRes, Is.EqualTo(bVal));
+
+      code = "10000000000000000000000000000000";
+      bVal = int.MinValue;
+      bCode = Base2.ToBase2String(bVal);
+      bRes = Base2.FromBase2String(code).BNToNumber<int>();
+      Assert.That(bCode, Is.EqualTo(code));
+      Assert.That(bRes, Is.EqualTo(bVal));
+
+      code = "01111111111111111111111111111111";
+      bVal = int.MaxValue;
+      bCode = Base2.ToBase2String(bVal);
+      bRes = Base2.FromBase2String(code).BNToNumber<int>();
+      Assert.That(bCode, Is.EqualTo(code));
+      Assert.That(bRes, Is.EqualTo(bVal));
+
+      code = "01001001100101100000001011010010";
+      bVal = 1234567890;
+      bCode = Base2.ToBase2String(bVal);
+      bRes = Base2.FromBase2String(code).BNToNumber<int>();
+      Assert.That(bCode, Is.EqualTo(code));
+      Assert.That(bRes, Is.EqualTo(bVal));
+
+      code = "10110110011010011111110100101110";
+      bVal = -1234567890;
+      bCode = Base2.ToBase2String(bVal);
+      bRes = Base2.FromBase2String(code).BNToNumber<int>();
+      Assert.That(bCode, Is.EqualTo(code));
+      Assert.That(bRes, Is.EqualTo(bVal));
+
+      //short test
+      code = "1";
+      bVal = 1;
+      bRes = Base2.FromBase2String(code).BNToNumber<int>();
+      Assert.That(bRes, Is.EqualTo(bVal));
+
+      //overflow test
+      code = "01001001100101100000001011010010";
+      bVal = 1234567890;
+      bRes = Base2.FromBase2String(code).BNToNumber<int>();
+      Assert.That(bRes, Is.EqualTo(bVal));
+   }
+
+   [Test]
+   public void Base2_UInt_Test()
+   {
+      string code = "00000000000000000000000000000001";
+      uint bVal = 1;
+      string bCode = Base2.ToBase2String(bVal);
+      uint bRes = Base2.FromBase2String(code).BNToNumber<uint>();
+      Assert.That(bCode, Is.EqualTo(code));
+      Assert.That(bRes, Is.EqualTo(bVal));
+
+      code = "00000000000000000000000000000000";
+      bVal = uint.MinValue;
+      bCode = Base2.ToBase2String(bVal);
+      bRes = Base2.FromBase2String(code).BNToNumber<uint>();
+      Assert.That(bCode, Is.EqualTo(code));
+      Assert.That(bRes, Is.EqualTo(bVal));
+
+      code = "11111111111111111111111111111111";
+      bVal = uint.MaxValue;
+      bCode = Base2.ToBase2String(bVal);
+      bRes = Base2.FromBase2String(code).BNToNumber<uint>();
+      Assert.That(bCode, Is.EqualTo(code));
+      Assert.That(bRes, Is.EqualTo(bVal));
+
+      code = "01001001100101100000001011010010";
+      bVal = 1234567890;
+      bCode = Base2.ToBase2String(bVal);
+      bRes = Base2.FromBase2String(code).BNToNumber<uint>();
+      Assert.That(bCode, Is.EqualTo(code));
+      Assert.That(bRes, Is.EqualTo(bVal));
+
+      //short test
+      code = "1";
+      bVal = 1;
+      bRes = Base2.FromBase2String(code).BNToNumber<uint>();
+      Assert.That(bRes, Is.EqualTo(bVal));
+
+      //overflow test
+      code = "001001001100101100000001011010010";
+      bVal = 1234567890;
+      bRes = Base2.FromBase2String(code).BNToNumber<uint>();
+      Assert.That(bRes, Is.EqualTo(bVal));
+   }
+
+
+   [Test]
+   public void Base2_Double_Test()
+   {
+      string code = "0011111111110000000000000000000000000000000000000000000000000000";
+      double bVal = 1;
+      string bCode = Base2.ToBase2String(bVal);
+      double bRes = Base2.FromBase2String(code).BNToNumber<double>();
+      Assert.That(bCode, Is.EqualTo(code));
+      Assert.That(bRes, Is.EqualTo(bVal));
+
+      code = "1111111111101111111111111111111111111111111111111111111111111111";
+      bVal = double.MinValue;
+      bCode = Base2.ToBase2String(bVal);
+      bRes = Base2.FromBase2String(code).BNToNumber<double>();
+      Assert.That(bCode, Is.EqualTo(code));
+      Assert.That(bRes, Is.EqualTo(bVal));
+
+      code = "0111111111101111111111111111111111111111111111111111111111111111";
+      bVal = double.MaxValue;
+      bCode = Base2.ToBase2String(bVal);
+      bRes = Base2.FromBase2String(code).BNToNumber<double>();
+      Assert.That(bCode, Is.EqualTo(code));
+      Assert.That(bRes, Is.EqualTo(bVal));
+
+      code = "0100000000001001001000011111101101010100010001000010110100011000";
+      bVal = Math.PI;
+      bCode = Base2.ToBase2String(bVal);
+      bRes = Base2.FromBase2String(code).BNToNumber<double>();
+      Assert.That(bCode, Is.EqualTo(code));
+      Assert.That(bRes, Is.EqualTo(bVal));
+
+      //short test
+      code = "0";
+      bVal = 0;
+      bRes = Base2.FromBase2String(code).BNToNumber<double>();
+      Assert.That(bRes, Is.EqualTo(bVal));
+
+      //overflow test
+      code = "000000000";
+      bVal = 0;
+      bRes = Base2.FromBase2String(code).BNToNumber<double>();
+      Assert.That(bRes, Is.EqualTo(bVal));
+   }
+
+   [Test]
+   public void Base2_Long_Test()
+   {
+      string code = "0000000000000000000000000000000000000000000000000000000000000001";
+      long bVal = 1;
+      string bCode = Base2.ToBase2String(bVal);
+      long bRes = Base2.FromBase2String(code).BNToNumber<long>();
+      Assert.That(bCode, Is.EqualTo(code));
+      Assert.That(bRes, Is.EqualTo(bVal));
+
+      code = "1000000000000000000000000000000000000000000000000000000000000000";
+      bVal = long.MinValue;
+      bCode = Base2.ToBase2String(bVal);
+      bRes = Base2.FromBase2String(code).BNToNumber<long>();
+      Assert.That(bCode, Is.EqualTo(code));
+      Assert.That(bRes, Is.EqualTo(bVal));
+
+      code = "0111111111111111111111111111111111111111111111111111111111111111";
+      bVal = long.MaxValue;
+      bCode = Base2.ToBase2String(bVal);
+      bRes = Base2.FromBase2String(code).BNToNumber<long>();
+      Assert.That(bCode, Is.EqualTo(code));
+      Assert.That(bRes, Is.EqualTo(bVal));
+
+      code = "0001000100100010000100001111010001111101111010011000000100010101";
+      bVal = 1234567890123456789;
+      bCode = Base2.ToBase2String(bVal);
+      bRes = Base2.FromBase2String(code).BNToNumber<long>();
+      Assert.That(bCode, Is.EqualTo(code));
+      Assert.That(bRes, Is.EqualTo(bVal));
+
+      code = "1110111011011101111011110000101110000010000101100111111011101011";
+      bVal = -1234567890123456789;
+      bCode = Base2.ToBase2String(bVal);
+      bRes = Base2.FromBase2String(code).BNToNumber<long>();
+      Assert.That(bCode, Is.EqualTo(code));
+      Assert.That(bRes, Is.EqualTo(bVal));
+
+      //short test
+      code = "0";
+      bVal = 0;
+      bRes = Base2.FromBase2String(code).BNToNumber<long>();
+      Assert.That(bRes, Is.EqualTo(bVal));
+
+      //overflow test
+      code = "00001000100100010000100001111010001111101111010011000000100010101";
+      bVal = 1234567890123456789;
+      bRes = Base2.FromBase2String(code).BNToNumber<long>();
+      Assert.That(bRes, Is.EqualTo(bVal));
+   }
+
+   [Test]
+   public void Base2_ULong_Test()
+   {
+      string code = "0000000000000000000000000000000000000000000000000000000000000001";
+      ulong bVal = 1;
+      string bCode = Base2.ToBase2String(bVal);
+      ulong bRes = Base2.FromBase2String(code).BNToNumber<ulong>();
+      Assert.That(bCode, Is.EqualTo(code));
+      Assert.That(bRes, Is.EqualTo(bVal));
+
+      code = "0000000000000000000000000000000000000000000000000000000000000000";
+      bVal = ulong.MinValue;
+      bCode = Base2.ToBase2String(bVal);
+      bRes = Base2.FromBase2String(code).BNToNumber<ulong>();
+      Assert.That(bCode, Is.EqualTo(code));
+      Assert.That(bRes, Is.EqualTo(bVal));
+
+      code = "1111111111111111111111111111111111111111111111111111111111111111";
+      bVal = ulong.MaxValue;
+      bCode = Base2.ToBase2String(bVal);
+      bRes = Base2.FromBase2String(code).BNToNumber<ulong>();
+      Assert.That(bCode, Is.EqualTo(code));
+      Assert.That(bRes, Is.EqualTo(bVal));
+
+      code = "1010101101010100101010011000110011101011000111110000101011010010";
+      bVal = 12345678901234567890;
+      bCode = Base2.ToBase2String(bVal);
+      bRes = Base2.FromBase2String(code).BNToNumber<ulong>();
+      Assert.That(bCode, Is.EqualTo(code));
+      Assert.That(bRes, Is.EqualTo(bVal));
+
+      //short test
+      code = "1";
+      bVal = 1;
+      bRes = Base2.FromBase2String(code).BNToNumber<ulong>();
+      Assert.That(bRes, Is.EqualTo(bVal));
+
+      //overflow test
+      code = "01010101101010100101010011000110011101011000111110000101011010010";
+      bVal = 12345678901234567890;
+      bRes = Base2.FromBase2String(code).BNToNumber<ulong>();
+      Assert.That(bRes, Is.EqualTo(bVal));
+   }
+
+   [Test]
+   public void Base2_Decimal_Test()
+   {
+      string code = "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001";
+      decimal bVal = 1;
+      string bCode = Base2.ToBase2String(bVal);
+      decimal bRes = Base2.FromBase2String(code).BNToNumber<decimal>();
+      Assert.That(bCode, Is.EqualTo(code));
+      Assert.That(bRes, Is.EqualTo(bVal));
+
+      code = "10000000000000000000000000000000111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111";
+      bVal = decimal.MinValue;
+      bCode = Base2.ToBase2String(bVal);
+      bRes = Base2.FromBase2String(code).BNToNumber<decimal>();
+      Assert.That(bCode, Is.EqualTo(code));
+      Assert.That(bRes, Is.EqualTo(bVal));
+
+      code = "00000000000000000000000000000000111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111";
+      bVal = decimal.MaxValue;
+      bCode = Base2.ToBase2String(bVal);
+      bRes = Base2.FromBase2String(code).BNToNumber<decimal>();
+      Assert.That(bCode, Is.EqualTo(code));
+      Assert.That(bRes, Is.EqualTo(bVal));
+
+      code = "00000000000011000000000000000000000000000000000000000000000000000000000000000000000000010111100010111010010101110101010010001101";
+      bVal = Constants.FACTOR_GOLDEN_RATIO_A_TO_B;
+      bCode = Base2.ToBase2String(bVal);
+      bRes = Base2.FromBase2String(code).BNToNumber<decimal>();
+      Assert.That(bCode, Is.EqualTo(code));
+      Assert.That(bRes, Is.EqualTo(bVal));
+
+      //short test
+      code = "0";
+      bVal = 0;
+      bRes = Base2.FromBase2String(code).BNToNumber<decimal>();
+      Assert.That(bRes, Is.EqualTo(bVal));
+
+      //overflow test
+      code = "000000000000011000000000000000000000000000000000000000000000000000000000000000000000000010111100010111010010101110101010010001101";
+      bVal = Constants.FACTOR_GOLDEN_RATIO_A_TO_B;
+      bRes = Base2.FromBase2String(code).BNToNumber<decimal>();
+      Assert.That(bRes, Is.EqualTo(bVal));
+   }
+
+   [Test]
+   public void Base2_String_Test()
+   {
+      string code = "010000010100001001000011";
+      string bVal = "ABC";
+      string? bCode = Base2.ToBase2String(bVal);
+      string? bRes = Base2.FromBase2String(code).BNToString();
+      Assert.That(bCode, Is.EqualTo(code));
+      Assert.That(bRes, Is.EqualTo(bVal));
+
+      code = "010000100110111101100111011000010100111001100101011101000010000001110010110000111011110001101100011001010111101000100001";
+      bVal = "BogaNet rülez!";
+      bCode = Base2.ToBase2String(bVal);
+      bRes = Base2.FromBase2String(code).BNToString();
+      Assert.That(bCode, Is.EqualTo(code));
+      Assert.That(bRes, Is.EqualTo(bVal));
+
+      //overflow test
+      code = "0010000010100001001000011";
+      bVal = "ABC";
+      bRes = Base2.FromBase2String(code).BNToString();
+      Assert.That(bRes, Is.EqualTo(bVal));
    }
 
    #endregion

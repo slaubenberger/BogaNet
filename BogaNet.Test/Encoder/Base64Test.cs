@@ -10,16 +10,21 @@ public class Base64Test
    public void Base64_Test()
    {
       string plain = "BogaNet rülez!";
-
+      //plain = "Hello world!";
       //Byte-array
       string? output = Base64.ToBase64String(plain.BNToByteArray());
       string? plain2 = Base64.FromBase64String(output).BNToString();
-      Assert.That(plain, Is.EqualTo(plain2));
+      Assert.That(plain2, Is.EqualTo(plain));
 
       //String
       output = Base64.ToBase64String(plain);
+      byte[] bytes = Base64.FromBase64String(output);
+      plain2 = bytes.BNToString();
+      Assert.That(plain2, Is.EqualTo(plain));
+
+      output = "Qm9nYU5ldCByw7xsZXoh";
       plain2 = Base64.FromBase64String(output).BNToString();
-      Assert.That(plain, Is.EqualTo(plain2));
+      Assert.That(plain2, Is.EqualTo(plain));
    }
 
    #endregion
