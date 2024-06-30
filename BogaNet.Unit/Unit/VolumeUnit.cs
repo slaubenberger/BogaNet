@@ -14,10 +14,15 @@ public enum VolumeUnit
    M3,
    INCH3,
    FOOT3,
-   PINT,
-   GALLON,
+   YARD3,
+   PINT_US,
+   GALLON_US,
    BARREL,
-   CUP
+   CUP_US,
+   TABLESPOON_US,
+   TEASPOON_US,
+
+   QUART_US
    //TODO add more exotic volumes?
 }
 
@@ -53,12 +58,17 @@ public static class VolumeUnitExtension
    public const decimal FACTOR_FOOT3_TO_L = 28.316864592m;
 
    /// <summary>
-   /// Pint to liters.
+   /// Yard³ to liters.
    /// </summary>
-   public const decimal FACTOR_PINT_TO_L = 0.473176473m;
+   public const decimal FACTOR_YARD3_TO_L = 764.5549m;
 
    /// <summary>
-   /// Gallon to liters.
+   /// Pint (US) to liters.
+   /// </summary>
+   public const decimal FACTOR_PINT_US_TO_L = 0.473176473m;
+
+   /// <summary>
+   /// Gallon (US) to liters.
    /// </summary>
    public const decimal FACTOR_GALLON_US_TO_L = 3.785411784m;
 
@@ -68,9 +78,24 @@ public static class VolumeUnitExtension
    public const decimal FACTOR_BARREL_TO_L = 158.987294928m;
 
    /// <summary>
-   /// Barrel to liters.
+   /// Cup (US) to liters.
    /// </summary>
-   public const decimal FACTOR_CUP_TO_L = 0.2841306m;
+   public const decimal FACTOR_CUP_US_TO_L = 0.24m;
+
+   /// <summary>
+   /// Tablespoon (US) to liters.
+   /// </summary>
+   public const decimal FACTOR_TABLESPOON_US_TO_L = 0.01478676m;
+
+   /// <summary>
+   /// Teaspoon (US) to liters.
+   /// </summary>
+   public const decimal FACTOR_TEASPOON_US_TO_L = 0.004928922m;
+
+   /// <summary>
+   /// Quart (US) to liters.
+   /// </summary>
+   public const decimal FACTOR_QUART_US_TO_L = 0.946353m;
 
    /// <summary>
    /// Millimeter³ to liters.
@@ -114,17 +139,29 @@ public static class VolumeUnitExtension
          case VolumeUnit.FOOT3:
             val *= FACTOR_FOOT3_TO_L;
             break;
-         case VolumeUnit.PINT:
-            val *= FACTOR_PINT_TO_L;
+         case VolumeUnit.YARD3:
+            val *= FACTOR_YARD3_TO_L;
             break;
-         case VolumeUnit.GALLON:
+         case VolumeUnit.PINT_US:
+            val *= FACTOR_PINT_US_TO_L;
+            break;
+         case VolumeUnit.GALLON_US:
             val *= FACTOR_GALLON_US_TO_L;
             break;
          case VolumeUnit.BARREL:
             val *= FACTOR_BARREL_TO_L;
             break;
-         case VolumeUnit.CUP:
-            val *= FACTOR_CUP_TO_L;
+         case VolumeUnit.CUP_US:
+            val *= FACTOR_CUP_US_TO_L;
+            break;
+         case VolumeUnit.TABLESPOON_US:
+            val *= FACTOR_TABLESPOON_US_TO_L;
+            break;
+         case VolumeUnit.TEASPOON_US:
+            val *= FACTOR_TEASPOON_US_TO_L;
+            break;
+         case VolumeUnit.QUART_US:
+            val *= FACTOR_QUART_US_TO_L;
             break;
          default:
             _logger.LogWarning($"There is no conversion for the fromUnit: {fromVolumeUnit}");
@@ -152,17 +189,29 @@ public static class VolumeUnitExtension
          case VolumeUnit.FOOT3:
             outVal = val / FACTOR_FOOT3_TO_L;
             break;
-         case VolumeUnit.PINT:
-            outVal = val / FACTOR_PINT_TO_L;
+         case VolumeUnit.YARD3:
+            outVal = val / FACTOR_YARD3_TO_L;
             break;
-         case VolumeUnit.GALLON:
+         case VolumeUnit.PINT_US:
+            outVal = val / FACTOR_PINT_US_TO_L;
+            break;
+         case VolumeUnit.GALLON_US:
             outVal = val / FACTOR_GALLON_US_TO_L;
             break;
          case VolumeUnit.BARREL:
             outVal = val / FACTOR_BARREL_TO_L;
             break;
-         case VolumeUnit.CUP:
-            outVal = val / FACTOR_CUP_TO_L;
+         case VolumeUnit.CUP_US:
+            outVal = val / FACTOR_CUP_US_TO_L;
+            break;
+         case VolumeUnit.TABLESPOON_US:
+            outVal = val / FACTOR_TABLESPOON_US_TO_L;
+            break;
+         case VolumeUnit.TEASPOON_US:
+            outVal = val / FACTOR_TEASPOON_US_TO_L;
+            break;
+         case VolumeUnit.QUART_US:
+            outVal = val / FACTOR_QUART_US_TO_L;
             break;
          default:
             _logger.LogWarning($"There is no conversion for the toUnit: {toVolumeUnit}");

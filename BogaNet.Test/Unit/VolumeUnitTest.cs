@@ -12,37 +12,82 @@ public class VolumeUnitTest
       VolumeUnitExtension.IgnoreSameUnit = false;
 
       const double valIn = 1234.5678901234;
-      decimal val = valIn.BNToDecimal();
+      decimal refValue = valIn.BNToDecimal();
+      decimal tRef = 2609.1066664749411579472168727m;
+      decimal conv = VolumeUnit.LITER.Convert(VolumeUnit.PINT_US, valIn);
+      Assert.That(conv, Is.EqualTo(tRef));
+      decimal res = VolumeUnit.PINT_US.Convert(VolumeUnit.LITER, conv);
+      Assert.That(res, Is.EqualTo(refValue));
 
-      decimal conv = VolumeUnit.LITER.Convert(VolumeUnit.PINT, valIn);
-      Assert.That(val, Is.EqualTo(VolumeUnit.PINT.Convert(VolumeUnit.LITER, conv)));
+      conv = VolumeUnit.MM3.Convert(VolumeUnit.PINT_US, valIn);
+      res = VolumeUnit.PINT_US.Convert(VolumeUnit.MM3, conv);
+      Assert.That(res, Is.EqualTo(refValue));
 
-      conv = VolumeUnit.MM3.Convert(VolumeUnit.PINT, valIn);
-      Assert.That(val, Is.EqualTo(VolumeUnit.PINT.Convert(VolumeUnit.MM3, conv)));
+      conv = VolumeUnit.CM3.Convert(VolumeUnit.PINT_US, valIn);
+      res = VolumeUnit.PINT_US.Convert(VolumeUnit.CM3, conv);
+      Assert.That(res, Is.EqualTo(refValue));
 
-      conv = VolumeUnit.CM3.Convert(VolumeUnit.PINT, valIn);
-      Assert.That(val, Is.EqualTo(VolumeUnit.PINT.Convert(VolumeUnit.CM3, conv)));
+      conv = VolumeUnit.M3.Convert(VolumeUnit.PINT_US, valIn);
+      res = VolumeUnit.PINT_US.Convert(VolumeUnit.M3, conv);
+      Assert.That(res, Is.EqualTo(refValue));
 
-      conv = VolumeUnit.M3.Convert(VolumeUnit.PINT, valIn);
-      Assert.That(val, Is.EqualTo(VolumeUnit.PINT.Convert(VolumeUnit.M3, conv)));
+      conv = VolumeUnit.INCH3.Convert(VolumeUnit.PINT_US, valIn);
+      tRef = 42.755597926351515151515151515m;
+      Assert.That(conv, Is.EqualTo(tRef));
+      res = VolumeUnit.PINT_US.Convert(VolumeUnit.INCH3, conv);
+      Assert.That(res, Is.EqualTo(refValue));
 
-      conv = VolumeUnit.INCH3.Convert(VolumeUnit.PINT, valIn);
-      Assert.That(val, Is.EqualTo(VolumeUnit.PINT.Convert(VolumeUnit.INCH3, conv)));
+      conv = VolumeUnit.FOOT3.Convert(VolumeUnit.PINT_US, valIn);
+      tRef = 73881.720180655414730759024868m;
+      Assert.That(conv, Is.EqualTo(tRef));
+      res = VolumeUnit.PINT_US.Convert(VolumeUnit.FOOT3, conv);
+      Assert.That(res, Is.EqualTo(refValue));
 
-      conv = VolumeUnit.FOOT3.Convert(VolumeUnit.PINT, valIn);
-      Assert.That(val, Is.EqualTo(VolumeUnit.PINT.Convert(VolumeUnit.FOOT3, conv)));
+      conv = VolumeUnit.YARD3.Convert(VolumeUnit.PINT_US, valIn);
+      tRef = 1994805.2864760819895202186014m;
+      Assert.That(conv, Is.EqualTo(tRef));
+      res = VolumeUnit.PINT_US.Convert(VolumeUnit.YARD3, conv);
+      Assert.That(res, Is.EqualTo(refValue));
 
-      conv = VolumeUnit.PINT.Convert(VolumeUnit.PINT, valIn);
-      Assert.That(val, Is.EqualTo(VolumeUnit.PINT.Convert(VolumeUnit.PINT, conv)));
+      conv = VolumeUnit.PINT_US.Convert(VolumeUnit.PINT_US, valIn);
+      res = VolumeUnit.PINT_US.Convert(VolumeUnit.PINT_US, conv);
+      Assert.That(res, Is.EqualTo(refValue));
 
-      conv = VolumeUnit.GALLON.Convert(VolumeUnit.PINT, valIn);
-      Assert.That(val, Is.EqualTo(VolumeUnit.PINT.Convert(VolumeUnit.GALLON, conv)));
+      conv = VolumeUnit.GALLON_US.Convert(VolumeUnit.PINT_US, valIn);
+      tRef = 9876.5431209872m;
+      Assert.That(conv, Is.EqualTo(tRef));
+      res = VolumeUnit.PINT_US.Convert(VolumeUnit.GALLON_US, conv);
+      Assert.That(res, Is.EqualTo(refValue));
 
-      conv = VolumeUnit.BARREL.Convert(VolumeUnit.PINT, valIn);
-      Assert.That(val, Is.EqualTo(VolumeUnit.PINT.Convert(VolumeUnit.BARREL, conv)));
+      conv = VolumeUnit.BARREL.Convert(VolumeUnit.PINT_US, valIn);
+      tRef = 414814.8110814624m;
+      Assert.That(conv, Is.EqualTo(tRef));
+      res = VolumeUnit.PINT_US.Convert(VolumeUnit.BARREL, conv);
+      Assert.That(res, Is.EqualTo(refValue));
 
-      conv = VolumeUnit.CUP.Convert(VolumeUnit.PINT, valIn);
-      Assert.That(val, Is.EqualTo(VolumeUnit.PINT.Convert(VolumeUnit.CUP, conv)));
+      conv = VolumeUnit.CUP_US.Convert(VolumeUnit.PINT_US, valIn);
+      tRef = 626.18559995398587790733204945m;
+      Assert.That(conv, Is.EqualTo(tRef));
+      res = VolumeUnit.PINT_US.Convert(VolumeUnit.CUP_US, conv);
+      Assert.That(res, Is.EqualTo(refValue));
+
+      conv = VolumeUnit.TABLESPOON_US.Convert(VolumeUnit.PINT_US, valIn);
+      tRef = 38.580234091565000916687588565m;
+      Assert.That(conv, Is.EqualTo(tRef));
+      res = VolumeUnit.PINT_US.Convert(VolumeUnit.TABLESPOON_US, conv);
+      Assert.That(res, Is.EqualTo(refValue));
+
+      conv = VolumeUnit.TEASPOON_US.Convert(VolumeUnit.PINT_US, valIn);
+      tRef = 12.860083248734999922111512083m;
+      Assert.That(conv, Is.EqualTo(tRef));
+      res = VolumeUnit.PINT_US.Convert(VolumeUnit.TEASPOON_US, conv);
+      Assert.That(res, Is.EqualTo(refValue));
+
+      conv = VolumeUnit.QUART_US.Convert(VolumeUnit.PINT_US, valIn);
+      tRef = 2469.1359211385599896468225291m;
+      Assert.That(conv, Is.EqualTo(tRef));
+      res = VolumeUnit.PINT_US.Convert(VolumeUnit.QUART_US, conv);
+      Assert.That(res, Is.EqualTo(refValue));
    }
 
    #endregion
