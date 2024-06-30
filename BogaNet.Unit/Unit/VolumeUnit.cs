@@ -11,6 +11,10 @@ public enum VolumeUnit
    LITER,
    MM3,
    CM3, //aka "milli liter"
+   CENTILITER,
+   DECILITER,
+   DECALITER,
+   HECTOLITER,
    M3,
    INCH3,
    FOOT3,
@@ -38,14 +42,34 @@ public static class VolumeUnitExtension
    private const decimal FACTOR_MM3_TO_CM3 = 1000; //millimeters^3 to centimeters^3
 
    /// <summary>
-   /// Liter to meters³.
+   /// Meter³ to liters.
    /// </summary>
-   public const decimal FACTOR_L_TO_M3 = 1000;
+   public const decimal FACTOR_M3_TO_L = 1000m;
 
    /// <summary>
    /// Centimeter³ (aka milliliter) to liters.
    /// </summary>
-   public const decimal FACTOR_CM3_TO_L = 1000;
+   public const decimal FACTOR_CM3_TO_L = 0.001m;
+
+   /// <summary>
+   /// Centiliter to liters.
+   /// </summary>
+   public const decimal FACTOR_CENTILITER_TO_L = 0.01m;
+
+   /// <summary>
+   /// Deciliter to liters.
+   /// </summary>
+   public const decimal FACTOR_DECILITER_TO_L = 0.1m;
+
+   /// <summary>
+   /// Decaliter to liters.
+   /// </summary>
+   public const decimal FACTOR_DECALITER_TO_L = 10;
+
+   /// <summary>
+   /// Hectoliter to liters.
+   /// </summary>
+   public const decimal FACTOR_HECTOLITER_TO_L = 100;
 
    /// <summary>
    /// Inch³ to liters.
@@ -100,7 +124,7 @@ public static class VolumeUnitExtension
    /// <summary>
    /// Millimeter³ to liters.
    /// </summary>
-   public static decimal FACTOR_MM3_TO_L => FACTOR_MM3_TO_CM3 * FACTOR_CM3_TO_L;
+   public static decimal FACTOR_MM3_TO_L => FACTOR_MM3_TO_CM3 / FACTOR_CM3_TO_L;
 
    /// <summary>
    /// Converts a value from one unit to another.
@@ -128,10 +152,22 @@ public static class VolumeUnitExtension
             val /= FACTOR_MM3_TO_L;
             break;
          case VolumeUnit.CM3:
-            val /= FACTOR_CM3_TO_L;
+            val *= FACTOR_CM3_TO_L;
+            break;
+         case VolumeUnit.CENTILITER:
+            val *= FACTOR_CENTILITER_TO_L;
+            break;
+         case VolumeUnit.DECILITER:
+            val *= FACTOR_DECILITER_TO_L;
+            break;
+         case VolumeUnit.DECALITER:
+            val *= FACTOR_DECALITER_TO_L;
+            break;
+         case VolumeUnit.HECTOLITER:
+            val *= FACTOR_HECTOLITER_TO_L;
             break;
          case VolumeUnit.M3:
-            val *= FACTOR_L_TO_M3;
+            val *= FACTOR_M3_TO_L;
             break;
          case VolumeUnit.INCH3:
             val *= FACTOR_INCH3_TO_L;
@@ -178,10 +214,22 @@ public static class VolumeUnitExtension
             outVal = val * FACTOR_MM3_TO_L;
             break;
          case VolumeUnit.CM3:
-            outVal = val * FACTOR_CM3_TO_L;
+            outVal = val / FACTOR_CM3_TO_L;
+            break;
+         case VolumeUnit.CENTILITER:
+            outVal = val / FACTOR_CENTILITER_TO_L;
+            break;
+         case VolumeUnit.DECILITER:
+            outVal = val / FACTOR_DECILITER_TO_L;
+            break;
+         case VolumeUnit.DECALITER:
+            outVal = val / FACTOR_DECALITER_TO_L;
+            break;
+         case VolumeUnit.HECTOLITER:
+            outVal = val / FACTOR_HECTOLITER_TO_L;
             break;
          case VolumeUnit.M3:
-            outVal = val / FACTOR_L_TO_M3;
+            outVal = val / FACTOR_M3_TO_L;
             break;
          case VolumeUnit.INCH3:
             outVal = val / FACTOR_INCH3_TO_L;

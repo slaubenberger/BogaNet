@@ -59,9 +59,9 @@ public static class LengthUnitExtension
    public const decimal FACTOR_CM_TO_M = 100;
 
    /// <summary>
-   /// Meter to kilometers.
+   /// Kilometers to meters.
    /// </summary>
-   public const decimal FACTOR_M_TO_KM = 1000; //meters to kilometers
+   public const decimal FACTOR_KM_TO_M = 0.001m;
 
    /// <summary>
    /// Millimeter to meters.
@@ -102,7 +102,7 @@ public static class LengthUnitExtension
             val /= FACTOR_CM_TO_M;
             break;
          case LengthUnit.KM:
-            val *= FACTOR_M_TO_KM;
+            val /= FACTOR_KM_TO_M;
             break;
          case LengthUnit.INCH:
             val *= FACTOR_INCH_TO_M;
@@ -137,7 +137,7 @@ public static class LengthUnitExtension
             outVal = val * FACTOR_CM_TO_M;
             break;
          case LengthUnit.KM:
-            outVal = val / FACTOR_M_TO_KM;
+            outVal = val * FACTOR_KM_TO_M;
             break;
          case LengthUnit.INCH:
             outVal = val / FACTOR_INCH_TO_M;

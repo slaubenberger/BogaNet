@@ -44,9 +44,9 @@ public static class AreaUnitExtension
    public const decimal FACTOR_CM2_TO_M2 = 10000;
 
    /// <summary>
-   /// Meter² to areas.
+   /// Area to meters².
    /// </summary>
-   public const decimal FACTOR_M2_TO_AREA = 100;
+   public const decimal FACTOR_AREA_TO_M2 = 0.01m;
 
    /// <summary>
    /// Foot² to meters².
@@ -76,12 +76,12 @@ public static class AreaUnitExtension
    /// <summary>
    /// Meter² to hectares.
    /// </summary>
-   public static decimal FACTOR_M2_TO_HECTARE => FACTOR_M2_TO_AREA * FACTOR_AREA_TO_HECTARE;
+   public static decimal FACTOR_M2_TO_HECTARE => FACTOR_AREA_TO_M2 * FACTOR_AREA_TO_HECTARE;
 
    /// <summary>
    /// Meter² to kilometers².
    /// </summary>
-   public static decimal FACTOR_M2_TO_KM2 => FACTOR_M2_TO_AREA * FACTOR_AREA_TO_HECTARE * FACTOR_HECTARE_TO_KM2;
+   public static decimal FACTOR_M2_TO_KM2 => FACTOR_AREA_TO_M2 * FACTOR_AREA_TO_HECTARE * FACTOR_HECTARE_TO_KM2;
 
    /// <summary>
    /// Inch² to meters².
@@ -122,7 +122,7 @@ public static class AreaUnitExtension
             val /= FACTOR_CM2_TO_M2;
             break;
          case AreaUnit.AREA:
-            val *= FACTOR_M2_TO_AREA;
+            val /= FACTOR_AREA_TO_M2;
             break;
          case AreaUnit.HECTARE:
             val *= FACTOR_M2_TO_HECTARE;
@@ -166,7 +166,7 @@ public static class AreaUnitExtension
             outVal = val * FACTOR_CM2_TO_M2;
             break;
          case AreaUnit.AREA:
-            outVal = val / FACTOR_M2_TO_AREA;
+            outVal = val * FACTOR_AREA_TO_M2;
             break;
          case AreaUnit.HECTARE:
             outVal = val / FACTOR_M2_TO_HECTARE;

@@ -20,14 +20,44 @@ public class VolumeUnitTest
       Assert.That(res, Is.EqualTo(refValue));
 
       conv = VolumeUnit.MM3.Convert(VolumeUnit.PINT_US, valIn);
+      tRef = 0.0026091066664749411579472169m;
+      Assert.That(conv, Is.EqualTo(tRef));
       res = VolumeUnit.PINT_US.Convert(VolumeUnit.MM3, conv);
       Assert.That(res, Is.EqualTo(refValue));
 
       conv = VolumeUnit.CM3.Convert(VolumeUnit.PINT_US, valIn);
+      tRef = 2.6091066664749411579472168727m;
+      Assert.That(conv, Is.EqualTo(tRef));
       res = VolumeUnit.PINT_US.Convert(VolumeUnit.CM3, conv);
       Assert.That(res, Is.EqualTo(refValue));
 
+      conv = VolumeUnit.CENTILITER.Convert(VolumeUnit.PINT_US, valIn);
+      tRef = 26.091066664749411579472168727m;
+      Assert.That(conv, Is.EqualTo(tRef));
+      res = VolumeUnit.PINT_US.Convert(VolumeUnit.CENTILITER, conv);
+      Assert.That(res, Is.EqualTo(refValue));
+
+      conv = VolumeUnit.DECILITER.Convert(VolumeUnit.PINT_US, valIn);
+      tRef = 260.91066664749411579472168727m;
+      Assert.That(conv, Is.EqualTo(tRef));
+      res = VolumeUnit.PINT_US.Convert(VolumeUnit.DECILITER, conv);
+      Assert.That(res, Is.EqualTo(refValue));
+
+      conv = VolumeUnit.DECALITER.Convert(VolumeUnit.PINT_US, valIn);
+      tRef = 26091.066664749411579472168727m;
+      Assert.That(conv, Is.EqualTo(tRef));
+      res = VolumeUnit.PINT_US.Convert(VolumeUnit.DECALITER, conv);
+      Assert.That(res, Is.EqualTo(refValue));
+
+      conv = VolumeUnit.HECTOLITER.Convert(VolumeUnit.PINT_US, valIn);
+      tRef = 260910.66664749411579472168727m;
+      Assert.That(conv, Is.EqualTo(tRef));
+      res = VolumeUnit.PINT_US.Convert(VolumeUnit.HECTOLITER, conv);
+      Assert.That(res, Is.EqualTo(refValue));
+
       conv = VolumeUnit.M3.Convert(VolumeUnit.PINT_US, valIn);
+      tRef = 2609106.6664749411579472168727m;
+      Assert.That(conv, Is.EqualTo(tRef));
       res = VolumeUnit.PINT_US.Convert(VolumeUnit.M3, conv);
       Assert.That(res, Is.EqualTo(refValue));
 
