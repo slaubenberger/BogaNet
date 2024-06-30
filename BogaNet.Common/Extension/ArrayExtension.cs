@@ -28,6 +28,7 @@ public static class ArrayExtension //NUnit
 
       return _encoding.GetString(bytes);
    }
+
 /*
    /// <summary>
    /// Converts a byte-array to a string.
@@ -51,6 +52,19 @@ public static class ArrayExtension //NUnit
       return res?.Trim('\0');
    }
 */
+   private static byte[] readNumberData(int len, int off, byte[] bytes)
+   {
+      byte[] data = new byte[len];
+      int dstOff = Math.Clamp(len - bytes.Length, 0, len);
+      int length = Math.Clamp(bytes.Length, 1, len);
+      Buffer.BlockCopy(bytes, off, data, dstOff, length);
+
+      if (BitConverter.IsLittleEndian)
+         data.BNReverse();
+
+      return data;
+   }
+
    /// <summary>
    /// Converts a byte-array to a Number.
    /// </summary>
@@ -62,58 +76,47 @@ public static class ArrayExtension //NUnit
       if (bytes == null || bytes.Length == 0)
          return default;
 
-      int off = offset > 0 ? offset : 0;
 
       Type type = typeof(T);
       byte[] content;
-
+      int off = offset > 0 ? offset : 0;
       switch (type)
       {
          case Type tByte when tByte == typeof(byte):
             return T.CreateTruncating(bytes[off]);
          case Type tSbyte when tSbyte == typeof(sbyte):
-            //return T.CreateTruncating(BogaNet.Helper.ArrayHelper.ByteArrayToSByteArray(bytes)[offset]);
             return T.CreateTruncating(bytes[off]);
-         case Type tShort when tShort == typeof(short) && isByteArrayValidForNumber(bytes, 2, type):
-            content = new byte[2];
-            Buffer.BlockCopy(bytes, off, content, 0, 2);
-            return T.CreateTruncating(BitConverter.ToInt16(content, 0));
-         case Type tUshort when tUshort == typeof(ushort) && isByteArrayValidForNumber(bytes, 2, type):
-            content = new byte[2];
-            Buffer.BlockCopy(bytes, off, content, 0, 2);
-            return T.CreateTruncating(BitConverter.ToUInt16(content, 0));
-         case Type tChar when tChar == typeof(char) && isByteArrayValidForNumber(bytes, 2, type):
-            content = new byte[2];
-            Buffer.BlockCopy(bytes, off, content, 0, 2);
-            return T.CreateTruncating(BitConverter.ToChar(content, 0));
-         case Type tFloat when tFloat == typeof(float) && isByteArrayValidForNumber(bytes, 4, type):
-            content = new byte[4];
-            Buffer.BlockCopy(bytes, off, content, 0, 4);
-            return T.CreateTruncating(BitConverter.ToSingle(content, 0));
-         case Type tInt when tInt == typeof(int) && isByteArrayValidForNumber(bytes, 4, type):
-            content = new byte[4];
-            Buffer.BlockCopy(bytes, off, content, 0, 4);
-            return T.CreateTruncating(BitConverter.ToInt32(content, 0));
-         case Type tUint when tUint == typeof(uint) && isByteArrayValidForNumber(bytes, 4, type):
-            content = new byte[4];
-            Buffer.BlockCopy(bytes, off, content, 0, 4);
-            return T.CreateTruncating(BitConverter.ToUInt32(content, 0));
-         case Type tDouble when tDouble == typeof(double) && isByteArrayValidForNumber(bytes, 8, type):
-            content = new byte[8];
-            Buffer.BlockCopy(bytes, off, content, 0, 8);
-            return T.CreateTruncating(BitConverter.ToDouble(content, 0));
-         case Type tLong when tLong == typeof(long) && isByteArrayValidForNumber(bytes, 8, type):
-            content = new byte[8];
-            Buffer.BlockCopy(bytes, off, content, 0, 8);
-            return T.CreateTruncating(BitConverter.ToInt64(content, 0));
-         case Type tUlong when tUlong == typeof(ulong) && isByteArrayValidForNumber(bytes, 8, type):
-            content = new byte[8];
-            Buffer.BlockCopy(bytes, off, content, 0, 8);
-            return T.CreateTruncating(BitConverter.ToUInt64(content, 0));
-         case Type tDecimal when tDecimal == typeof(decimal) && isByteArrayValidForNumber(bytes, 16, type):
+         case Type tShort when tShort == typeof(short):
+            content = readNumberData(2, off, bytes);
+            return T.CreateTruncating(BitConverter.ToInt16(content));
+         case Type tUshort when tUshort == typeof(ushort):
+            content = readNumberData(2, off, bytes);
+            return T.CreateTruncating(BitConverter.ToUInt16(content));
+         case Type tChar when tChar == typeof(char):
+            content = readNumberData(2, off, bytes);
+            return T.CreateTruncating(BitConverter.ToChar(content));
+         case Type tFloat when tFloat == typeof(float):
+            content = readNumberData(4, off, bytes);
+            return T.CreateTruncating(BitConverter.ToSingle(content));
+         case Type tInt when tInt == typeof(int):
+            content = readNumberData(4, off, bytes);
+            return T.CreateTruncating(BitConverter.ToInt32(content));
+         case Type tUint when tUint == typeof(uint):
+            content = readNumberData(4, off, bytes);
+            return T.CreateTruncating(BitConverter.ToUInt32(content));
+         case Type tDouble when tDouble == typeof(double):
+            content = readNumberData(8, off, bytes);
+            return T.CreateTruncating(BitConverter.ToDouble(content));
+         case Type tLong when tLong == typeof(long):
+            content = readNumberData(8, off, bytes);
+            return T.CreateTruncating(BitConverter.ToInt64(content));
+         case Type tUlong when tUlong == typeof(ulong):
+            content = readNumberData(8, off, bytes);
+            return T.CreateTruncating(BitConverter.ToUInt64(content));
+         case Type tDecimal when tDecimal == typeof(decimal):
          {
             content = new byte[16];
-            Buffer.BlockCopy(bytes, off, content, 0, 16);
+            Buffer.BlockCopy(bytes, off, content, 16 - bytes.Length, bytes.Length);
             int i1 = BitConverter.ToInt32(content, 0);
             int i2 = BitConverter.ToInt32(content, 4);
             int i3 = BitConverter.ToInt32(content, 8);
@@ -169,6 +172,7 @@ public static class ArrayExtension //NUnit
 
    #region Private methods
 
+/*
    private static bool isByteArrayValidForNumber(byte[] bytes, int length, Type type)
    {
       if (bytes.Length < length)
@@ -179,6 +183,7 @@ public static class ArrayExtension //NUnit
 
       return true;
    }
+*/
 
    #endregion
 }

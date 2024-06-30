@@ -36,73 +36,267 @@ public class ArrayExtensionTest
    }
 */
    [Test]
-   public void BNToNumber_Test()
+   public void BNToNumber_Byte_Test()
    {
-      //byte
-      byte bNumber = byte.MaxValue;
+      byte bNumber = byte.MinValue;
       byte[]? bytes = bNumber.BNToByteArray();
       byte bRes = bytes.BNToNumber<byte>();
       Assert.That(bRes, Is.EqualTo(bNumber));
 
-      //sbyte
-      sbyte sbNumber = sbyte.MinValue;
-      bytes = sbNumber.BNToByteArray();
-      sbyte sbRes = bytes.BNToNumber<sbyte>();
-      Assert.That(sbRes, Is.EqualTo(sbNumber));
+      bNumber = 113;
+      bytes = bNumber.BNToByteArray();
+      bRes = bytes.BNToNumber<byte>();
+      Assert.That(bRes, Is.EqualTo(bNumber));
 
-      //short
-      short shortNumber = short.MinValue;
-      bytes = shortNumber.BNToByteArray();
-      short shortRes = bytes.BNToNumber<short>();
-      Assert.That(shortRes, Is.EqualTo(shortNumber));
+      bNumber = byte.MaxValue;
+      bytes = bNumber.BNToByteArray();
+      bRes = bytes.BNToNumber<byte>();
+      Assert.That(bRes, Is.EqualTo(bNumber));
 
-      //ushort
-      ushort ushortNumber = ushort.MaxValue;
-      bytes = ushortNumber.BNToByteArray();
-      ushort ushortRes = bytes.BNToNumber<ushort>();
-      Assert.That(ushortRes, Is.EqualTo(ushortNumber));
+      //overflow test
+      bytes = ulong.MaxValue.BNToByteArray();
+      bRes = bytes.BNToNumber<byte>();
+      Assert.That(bRes, Is.EqualTo(bNumber));
+   }
 
-      //char
-      char aChar = 'C';
+   [Test]
+   public void BNToNumber_SByte_Test()
+   {
+      sbyte bNumber = sbyte.MaxValue;
+      byte[]? bytes = bNumber.BNToByteArray();
+      sbyte bRes = bytes.BNToNumber<sbyte>();
+      Assert.That(bRes, Is.EqualTo(bNumber));
+
+      bNumber = -113;
+      bytes = bNumber.BNToByteArray();
+      bRes = bytes.BNToNumber<sbyte>();
+      Assert.That(bRes, Is.EqualTo(bNumber));
+
+      bNumber = sbyte.MinValue;
+      bytes = bNumber.BNToByteArray();
+      bRes = bytes.BNToNumber<sbyte>();
+      Assert.That(bRes, Is.EqualTo(bNumber));
+
+      //overflow test
+      bytes = long.MinValue.BNToByteArray();
+      bRes = bytes.BNToNumber<sbyte>();
+      Assert.That(bRes, Is.EqualTo(bNumber));
+   }
+
+   [Test]
+   public void BNToNumber_Short_Test()
+   {
+      short bNumber = short.MaxValue;
+      byte[]? bytes = bNumber.BNToByteArray();
+      short bRes = bytes.BNToNumber<short>();
+      Assert.That(bRes, Is.EqualTo(bNumber));
+
+      bNumber = -12345;
+      bytes = bNumber.BNToByteArray();
+      bRes = bytes.BNToNumber<short>();
+      Assert.That(bRes, Is.EqualTo(bNumber));
+
+      bNumber = short.MinValue;
+      bytes = bNumber.BNToByteArray();
+      bRes = bytes.BNToNumber<short>();
+      Assert.That(bRes, Is.EqualTo(bNumber));
+
+      //overflow test
+      bytes = long.MinValue.BNToByteArray();
+      bRes = bytes.BNToNumber<short>();
+      Assert.That(bRes, Is.EqualTo(bNumber));
+   }
+
+   [Test]
+   public void BNToNumber_UShort_Test()
+   {
+      ushort bNumber = ushort.MinValue;
+      byte[]? bytes = bNumber.BNToByteArray();
+      ushort bRes = bytes.BNToNumber<ushort>();
+      Assert.That(bRes, Is.EqualTo(bNumber));
+
+      bNumber = 12345;
+      bytes = bNumber.BNToByteArray();
+      bRes = bytes.BNToNumber<ushort>();
+      Assert.That(bRes, Is.EqualTo(bNumber));
+
+      bNumber = ushort.MaxValue;
+      bytes = bNumber.BNToByteArray();
+      bRes = bytes.BNToNumber<ushort>();
+      Assert.That(bRes, Is.EqualTo(bNumber));
+
+      //overflow test
+      bytes = ulong.MaxValue.BNToByteArray();
+      bRes = bytes.BNToNumber<ushort>();
+      Assert.That(bRes, Is.EqualTo(bNumber));
+   }
+
+   [Test]
+   public void BNToNumber_Char_Test()
+   {
+      char aChar = char.MinValue;
+      byte[]? bytes = aChar.BNToByteArray();
+      char bRes = bytes.BNToNumber<char>();
+      Assert.That(bRes, Is.EqualTo(aChar));
+
+      aChar = 'B';
       bytes = aChar.BNToByteArray();
-      char aCharRes = bytes.BNToNumber<char>();
-      Assert.That(aCharRes, Is.EqualTo(aChar));
+      bRes = bytes.BNToNumber<char>();
+      Assert.That(bRes, Is.EqualTo(aChar));
 
-      //float
-      float fpNumber = Math.PI.BNToNumber<float>();
-      bytes = fpNumber.BNToByteArray();
-      float fpRes = bytes.BNToNumber<float>();
-      Assert.That(fpRes, Is.EqualTo(fpNumber));
+      aChar = char.MaxValue;
+      bytes = aChar.BNToByteArray();
+      bRes = bytes.BNToNumber<char>();
+      Assert.That(bRes, Is.EqualTo(aChar));
 
-      //int
-      int intNumber = int.MinValue;
-      bytes = intNumber.BNToByteArray();
-      int intRes = bytes.BNToNumber<int>();
-      Assert.That(intRes, Is.EqualTo(intNumber));
+      //overflow test
+      bytes = ulong.MaxValue.BNToByteArray();
+      bRes = bytes.BNToNumber<char>();
+      Assert.That(bRes, Is.EqualTo(aChar));
+   }
 
-      //uint
-      uint uintNumber = uint.MaxValue;
-      bytes = uintNumber.BNToByteArray();
-      uint uintRes = bytes.BNToNumber<uint>();
-      Assert.That(uintRes, Is.EqualTo(uintNumber));
+   [Test]
+   public void BNToNumber_Float_Test()
+   {
+      float bNumber = float.MaxValue;
+      byte[]? bytes = bNumber.BNToByteArray();
+      float bRes = bytes.BNToNumber<float>();
+      Assert.That(bRes, Is.EqualTo(bNumber));
 
-      //double
-      double dpNumber = Math.PI;
-      bytes = dpNumber.BNToByteArray();
-      double dpRes = bytes.BNToNumber<double>();
-      Assert.That(dpRes, Is.EqualTo(dpNumber));
+      bNumber = Math.PI.BNToNumber<float>();
+      bytes = bNumber.BNToByteArray();
+      bRes = bytes.BNToNumber<float>();
+      Assert.That(bRes, Is.EqualTo(bNumber));
 
-      //long
-      long lNumber = long.MinValue;
-      bytes = lNumber.BNToByteArray();
-      long longRes = bytes.BNToNumber<long>();
-      Assert.That(longRes, Is.EqualTo(lNumber));
+      bNumber = float.MinValue;
+      bytes = bNumber.BNToByteArray();
+      bRes = bytes.BNToNumber<float>();
+      Assert.That(bRes, Is.EqualTo(bNumber));
+   }
 
-      //ulong
-      ulong ulNumber = ulong.MaxValue;
-      bytes = ulNumber.BNToByteArray();
-      ulong ulRes = bytes.BNToNumber<ulong>();
-      Assert.That(ulRes, Is.EqualTo(ulNumber));
+
+   [Test]
+   public void BNToNumber_Int_Test()
+   {
+      int bNumber = int.MaxValue;
+      byte[]? bytes = bNumber.BNToByteArray();
+      int bRes = bytes.BNToNumber<int>();
+      Assert.That(bRes, Is.EqualTo(bNumber));
+
+      bNumber = -1234567890;
+      bytes = bNumber.BNToByteArray();
+      bRes = bytes.BNToNumber<int>();
+      Assert.That(bRes, Is.EqualTo(bNumber));
+
+      bNumber = int.MinValue;
+      bytes = bNumber.BNToByteArray();
+      bRes = bytes.BNToNumber<int>();
+      Assert.That(bRes, Is.EqualTo(bNumber));
+
+      //overflow test
+      bytes = long.MinValue.BNToByteArray();
+      bRes = bytes.BNToNumber<int>();
+      Assert.That(bRes, Is.EqualTo(bNumber));
+   }
+
+   [Test]
+   public void BNToNumber_UInt_Test()
+   {
+      uint bNumber = uint.MinValue;
+      byte[]? bytes = bNumber.BNToByteArray();
+      uint bRes = bytes.BNToNumber<uint>();
+      Assert.That(bRes, Is.EqualTo(bNumber));
+
+      bNumber = 1234567890;
+      bytes = bNumber.BNToByteArray();
+      bRes = bytes.BNToNumber<uint>();
+      Assert.That(bRes, Is.EqualTo(bNumber));
+
+      bNumber = uint.MaxValue;
+      bytes = bNumber.BNToByteArray();
+      bRes = bytes.BNToNumber<uint>();
+      Assert.That(bRes, Is.EqualTo(bNumber));
+
+      //overflow test
+      bytes = ulong.MaxValue.BNToByteArray();
+      bRes = bytes.BNToNumber<uint>();
+      Assert.That(bRes, Is.EqualTo(bNumber));
+   }
+
+   [Test]
+   public void BNToNumber_Double_Test()
+   {
+      double bNumber = double.MaxValue;
+      byte[]? bytes = bNumber.BNToByteArray();
+      double bRes = bytes.BNToNumber<double>();
+      Assert.That(bRes, Is.EqualTo(bNumber));
+
+      bNumber = Math.PI;
+      bytes = bNumber.BNToByteArray();
+      bRes = bytes.BNToNumber<double>();
+      Assert.That(bRes, Is.EqualTo(bNumber));
+
+      bNumber = double.MinValue;
+      bytes = bNumber.BNToByteArray();
+      bRes = bytes.BNToNumber<double>();
+      Assert.That(bRes, Is.EqualTo(bNumber));
+   }
+
+   [Test]
+   public void BNToNumber_Long_Test()
+   {
+      long bNumber = long.MaxValue;
+      byte[]? bytes = bNumber.BNToByteArray();
+      long bRes = bytes.BNToNumber<long>();
+      Assert.That(bRes, Is.EqualTo(bNumber));
+
+      bNumber = -1234567890123456789;
+      bytes = bNumber.BNToByteArray();
+      bRes = bytes.BNToNumber<long>();
+      Assert.That(bRes, Is.EqualTo(bNumber));
+
+      bNumber = long.MinValue;
+      bytes = bNumber.BNToByteArray();
+      bRes = bytes.BNToNumber<long>();
+      Assert.That(bRes, Is.EqualTo(bNumber));
+   }
+
+   [Test]
+   public void BNToNumber_ULong_Test()
+   {
+      ulong bNumber = ulong.MinValue;
+      byte[]? bytes = bNumber.BNToByteArray();
+      ulong bRes = bytes.BNToNumber<ulong>();
+      Assert.That(bRes, Is.EqualTo(bNumber));
+
+      bNumber = 12345678901234567890;
+      bytes = bNumber.BNToByteArray();
+      bRes = bytes.BNToNumber<ulong>();
+      Assert.That(bRes, Is.EqualTo(bNumber));
+
+      bNumber = ulong.MaxValue;
+      bytes = bNumber.BNToByteArray();
+      bRes = bytes.BNToNumber<ulong>();
+      Assert.That(bRes, Is.EqualTo(bNumber));
+   }
+
+   [Test]
+   public void BNToNumber_Decimal_Test()
+   {
+      decimal bNumber = decimal.MinValue;
+      byte[]? bytes = bNumber.BNToByteArray();
+      decimal bRes = bytes.BNToNumber<decimal>();
+      Assert.That(bRes, Is.EqualTo(bNumber));
+
+      bNumber = 12345678901234567890123456789m;
+      bytes = bNumber.BNToByteArray();
+      bRes = bytes.BNToNumber<decimal>();
+      Assert.That(bRes, Is.EqualTo(bNumber));
+
+      bNumber = decimal.MaxValue;
+      bytes = bNumber.BNToByteArray();
+      bRes = bytes.BNToNumber<decimal>();
+      Assert.That(bRes, Is.EqualTo(bNumber));
    }
 
    [Test]

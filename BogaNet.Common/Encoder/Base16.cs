@@ -34,15 +34,18 @@ public static class Base16 //NUnit
       }
 
       string hexVal = base16string.BNStartsWith("0x") ? base16string[2..] : base16string;
+      
       byte[] data = new byte[hexVal.Length / 2];
-
-      for (int ii = 0; ii < data.Length; ii++)
+      
+      //for (int ii = 0; ii < data.Length; ii++)
+      for (int ii = data.Length - 1; ii >= 0; ii--)
       {
          data[ii] = Convert.ToByte(hexVal.Substring(ii * 2, 2), 16);
       }
 
       return data;
-      //return Convert.FromHexString(base16string.BNStartsWith("0x") ? base16string[2..] : base16string);
+      
+      return Convert.FromHexString(hexVal);
    }
 
    /// <summary>
@@ -124,10 +127,14 @@ public static class Base16 //NUnit
       //string hex = number.ToString($"x{pairs}", null);
       //float number2 = number.BNTO;
 
-      string hex;
-
       //hex = isInteger ? $"{number:X}" : ToBase16String(number.BNToByteArray());
-      hex = ToBase16String(number.BNToByteArray());
+
+      var bytes = number.BNToByteArray();
+
+      //if (isInteger)
+        // bytes.BNReverse();
+
+      string hex = ToBase16String(bytes);
 
       string res = useFullLength ? StringHelper.CreateFixedLengthString(hex, 2 * pairs, '0', false) : hex;
 

@@ -7,6 +7,69 @@ public class Base16Test
    #region Tests
 
    [Test]
+   public void Base16_Byte_Test()
+   {
+      string code = "01";
+      byte bVal = 1;
+      string bCode = Base16.ToBase16String(bVal);
+      byte bRes = Base16.FromBase16String(code).BNToNumber<byte>();
+
+      Assert.That(bRes, Is.EqualTo(bVal));
+
+      code = "7B";
+      bVal = 123;
+      bCode = Base16.ToBase16String(bVal);
+      bRes = Base16.FromBase16String(code).BNToNumber<byte>();
+
+      Assert.That(bRes, Is.EqualTo(bVal));
+   }
+
+   [Test]
+   public void Base16_Int_Test()
+   {
+
+      
+      
+      string code = "01";
+      int bVal = 1;
+      string bCode = Base16.ToBase16String(bVal);
+      var bytes = Base16.FromBase16String(code);
+      int bRes = bytes.BNToNumber<int>();
+
+
+      var test = bVal.BNToByteArray();
+      
+      Assert.That(bRes, Is.EqualTo(bVal));
+
+      code = "007B";
+      bVal = 123;
+      bCode = Base16.ToBase16String(bVal);
+      bytes = Base16.FromBase16String(code);
+      bRes = bytes.BNToNumber<int>();
+
+      Assert.That(bRes, Is.EqualTo(bVal));
+      
+      code = "FFFFFF85";
+      bVal = -123;
+      bCode = Base16.ToBase16String(bVal);
+      bytes = Base16.FromBase16String(code);
+      bRes = bytes.BNToNumber<int>();
+
+      Assert.That(bRes, Is.EqualTo(bVal));
+   }
+   
+   [Test]
+   public void Base16_String_Test()
+   {
+      string code = "414243";
+      string bVal = "ABC";
+      string bCode = Base16.ToBase16String(bVal);
+      string bRes = Base16.FromBase16String(code).BNToString();
+
+      Assert.That(bRes, Is.EqualTo(bVal));
+   }
+   
+   [Test]
    public void Base16_Test()
    {
       string plain = "BogaNet rülez!";
@@ -39,8 +102,8 @@ public class Base16Test
       Assert.That(decRes, Is.EqualTo(decValue));
 
       string hexi = Base16.ToBase16String((short)1);
-      string str = "7B8"; //1976 without leading 0
-       //str = hexi;
+      string str = "07B8"; //1976 without leading 0
+      //str = hexi;
       var sRes = Base16.FromBase16String(str).BNToNumber<short>();
       Assert.That(sRes, Is.EqualTo(1976));
    }
