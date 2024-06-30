@@ -52,18 +52,6 @@ public static class ArrayExtension //NUnit
       return res?.Trim('\0');
    }
 */
-   private static byte[] readNumberData(int len, int off, byte[] bytes)
-   {
-      byte[] data = new byte[len];
-      int dstOff = Math.Clamp(len - bytes.Length, 0, len);
-      int length = Math.Clamp(bytes.Length, 1, len);
-      Buffer.BlockCopy(bytes, off, data, dstOff, length);
-
-      if (BitConverter.IsLittleEndian)
-         data.BNReverse();
-
-      return data;
-   }
 
    /// <summary>
    /// Converts a byte-array to a Number.
@@ -169,6 +157,19 @@ public static class ArrayExtension //NUnit
    }
 
    #region Private methods
+
+   private static byte[] readNumberData(int len, int off, byte[] bytes)
+   {
+      byte[] data = new byte[len];
+      int dstOff = Math.Clamp(len - bytes.Length, 0, len);
+      int length = Math.Clamp(bytes.Length, 1, len);
+      Buffer.BlockCopy(bytes, off, data, dstOff, length);
+
+      if (BitConverter.IsLittleEndian)
+         data.BNReverse();
+
+      return data;
+   }
 
 /*
    private static bool isByteArrayValidForNumber(byte[] bytes, int length, Type type)

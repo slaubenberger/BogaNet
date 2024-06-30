@@ -11,7 +11,7 @@ namespace BogaNet;
 public static class NumberExtension
 {
    private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(NumberExtension));
-
+/*
    /// <summary>
    /// Clamps a value between min and max.
    /// </summary>
@@ -23,7 +23,7 @@ public static class NumberExtension
    {
       return number < min ? min : number > max ? max : number;
    }
-
+*/
    /// <summary>
    /// Converts the value of a Number to a byte-array.
    /// </summary>

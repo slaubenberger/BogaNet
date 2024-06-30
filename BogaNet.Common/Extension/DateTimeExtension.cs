@@ -6,7 +6,7 @@ namespace BogaNet;
 /// <summary>
 /// Extension methods for DateTime.
 /// </summary>
-public static class DateTimeExtension
+public static class DateTimeExtension //NUnit
 {
    /// <summary>
    /// Converts the specified ISO 8601 representation of a date and time to its DateTime equivalent.

@@ -124,9 +124,9 @@ public abstract class JsonHelper
    /// <exception cref="Exception"></exception>
    public static byte[] SerializeToByteArray(object? obj, JsonSerializerSettings? settings = null)
    {
-        ArgumentNullException.ThrowIfNull(obj);
+      ArgumentNullException.ThrowIfNull(obj);
 
-        return SerializeToString(obj, settings ?? FORMAT_INDENTED).BNToByteArray()!;
+      return SerializeToString(obj, settings ?? FORMAT_INDENTED).BNToByteArray()!;
    }
 
    /// <summary>
@@ -150,9 +150,9 @@ public abstract class JsonHelper
    /// <exception cref="Exception"></exception>
    public static async Task<T?> DeserializeFromFileAsync<T>(string? path, JsonSerializerSettings? settings = null)
    {
-        ArgumentNullException.ThrowIfNull(path);
+      ArgumentNullException.ThrowIfNull(path);
 
-        try
+      try
       {
          return DeserializeFromString<T>(await File.ReadAllTextAsync(path), settings);
       }
@@ -195,8 +195,8 @@ public abstract class JsonHelper
    /// <exception cref="Exception"></exception>
    public static T? DeserializeFromByteArray<T>(byte[]? data, JsonSerializerSettings? settings = null)
    {
-        ArgumentNullException.ThrowIfNull(data);
+      ArgumentNullException.ThrowIfNull(data);
 
-        return DeserializeFromString<T>(data.BNToString(), settings);
+      return DeserializeFromString<T>(data.BNToString(), settings);
    }
 }

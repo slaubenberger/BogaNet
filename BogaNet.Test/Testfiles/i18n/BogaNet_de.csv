@@ -1,0 +1,6 @@
+key,de
+Greeting,"Hallöchen zusammen!"
+Name,"Name:"
+Name_Tooltip,"Gib deinen Namen ein um Zugang zur Applikation zu erhalten."
+Name_Placeholder,"Gib deinen Namen hier ein..."
+ReplaceMe,"Hallo, ich bin {0}, deine grossartige Bibliothek für {1}!"

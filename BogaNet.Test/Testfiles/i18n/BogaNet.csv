@@ -1,0 +1,6 @@
+key,en
+Greeting,"Hi there!"
+Name,"Name:"
+Name_Tooltip,"Enter your name to access the application."
+Name_Placeholder,"Enter your name here..."
+ReplaceMe,"Hello, I'm {0}, your awesome library for {1}!"
