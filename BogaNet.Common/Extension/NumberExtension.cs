@@ -102,7 +102,7 @@ public static class NumberExtension
             break;
       }
 
-      if (BitConverter.IsLittleEndian && type != typeof(decimal))
+      if (BitConverter.IsLittleEndian)
          bytes.BNReverse();
 
       return bytes;

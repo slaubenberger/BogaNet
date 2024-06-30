@@ -52,7 +52,7 @@ public static class Base64 //NUnit
 
       Encoding _encoding = encoding ?? Encoding.UTF8;
 
-      return ToBase64String(_encoding.GetBytes(str), useSave);
+      return ToBase64String(str.BNToByteArray(encoding), useSave);
    }
 /*
    /// <summary>

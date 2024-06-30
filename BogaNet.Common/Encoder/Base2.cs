@@ -75,51 +75,6 @@ public static class Base2 //NUnit
    {
       ArgumentNullException.ThrowIfNull(number);
 
-      Type type = typeof(T);
-      int pairs = 8;
-
-      switch (type)
-      {
-         case Type t when t == typeof(double):
-            break;
-         case Type t when t == typeof(float):
-            pairs = 4;
-            break;
-         case Type t when t == typeof(int):
-            pairs = 4;
-            break;
-         case Type t when t == typeof(uint):
-            pairs = 4;
-            break;
-         case Type t when t == typeof(short):
-            pairs = 2;
-            break;
-         case Type t when t == typeof(ushort):
-            pairs = 2;
-            break;
-         case Type t when t == typeof(char):
-            pairs = 2;
-            break;
-         //TODO needs unsafe...
-/*
-         case Type t when t == typeof(nint):
-            length = sizeof(nint);
-            break;
-         case Type t when t == typeof(nuint):
-            length = sizeof(nint);
-            break;
-*/
-         case Type t when t == typeof(byte):
-            pairs = 1;
-            break;
-         case Type t when t == typeof(sbyte):
-            pairs = 1;
-            break;
-         case Type t when t == typeof(decimal):
-            pairs = 16;
-            break;
-      }
-
       return ToBase2String(number.BNToByteArray());
    }
 
@@ -134,9 +89,7 @@ public static class Base2 //NUnit
       if (str == null)
          return null;
 
-      Encoding _encoding = encoding ?? Encoding.UTF8;
-
-      return ToBase2String(_encoding.GetBytes(str));
+      return ToBase2String(str.BNToByteArray(encoding));
    }
 /*
    /// <summary>

@@ -39,7 +39,7 @@ public abstract class NetworkHelper
    {
       return new AuthenticationHeaderValue(
          "Basic",
-         Base64.ToBase64String(Encoding.ASCII.GetBytes($"{username}:{password}"))
+         Base64.ToBase64String($"{username}:{password}", false, Encoding.ASCII)
       );
    }
 

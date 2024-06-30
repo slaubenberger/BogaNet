@@ -76,7 +76,6 @@ public static class ArrayExtension //NUnit
       if (bytes == null || bytes.Length == 0)
          return default;
 
-
       Type type = typeof(T);
       byte[] content;
       int off = offset > 0 ? offset : 0;
@@ -115,8 +114,7 @@ public static class ArrayExtension //NUnit
             return T.CreateTruncating(BitConverter.ToUInt64(content));
          case Type tDecimal when tDecimal == typeof(decimal):
          {
-            content = new byte[16];
-            Buffer.BlockCopy(bytes, off, content, 16 - bytes.Length, bytes.Length);
+            content = readNumberData(16, off, bytes);
             int i1 = BitConverter.ToInt32(content, 0);
             int i2 = BitConverter.ToInt32(content, 4);
             int i3 = BitConverter.ToInt32(content, 8);

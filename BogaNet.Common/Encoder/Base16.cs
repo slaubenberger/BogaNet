@@ -34,17 +34,36 @@ public static class Base16 //NUnit
       }
 
       string hexVal = base16string.BNStartsWith("0x") ? base16string[2..] : base16string;
-      
-      byte[] data = new byte[hexVal.Length / 2];
-      
-      //for (int ii = 0; ii < data.Length; ii++)
-      for (int ii = data.Length - 1; ii >= 0; ii--)
+
+      //remove leading 00
+      if (hexVal.Length > 2)
       {
-         data[ii] = Convert.ToByte(hexVal.Substring(ii * 2, 2), 16);
+         do
+         {
+            if (hexVal.StartsWith("00") && hexVal.Length > 2)
+            {
+               hexVal = hexVal.Substring(2);
+            }
+            else
+            {
+               break;
+            }
+         } while (true);
+      }
+
+      /*
+      byte[] data = new byte[hexVal.Length / 2];
+      int len = data.Length;
+
+      for (int ii = 0; ii < len; ii++)
+      //for (int ii = len - 1; ii >= 0; ii--)
+      {
+         data[len - ii - 1] = Convert.ToByte(hexVal.Substring(ii * 2, 2), 16);
+      //   data[ii] = Convert.ToByte(hexVal.Substring(ii * 2, 2), 16);
       }
 
       return data;
-      
+      */
       return Convert.FromHexString(hexVal);
    }
 
@@ -77,22 +96,13 @@ public static class Base16 //NUnit
       Type type = typeof(T);
       int pairs = 8;
 
-      bool isInteger = true;
-
       switch (type)
       {
-         case Type t when t == typeof(double):
-            isInteger = false;
+         case Type t when t == typeof(byte):
+            pairs = 1;
             break;
-         case Type t when t == typeof(float):
-            pairs = 4;
-            isInteger = false;
-            break;
-         case Type t when t == typeof(int):
-            pairs = 4;
-            break;
-         case Type t when t == typeof(uint):
-            pairs = 4;
+         case Type t when t == typeof(sbyte):
+            pairs = 1;
             break;
          case Type t when t == typeof(short):
             pairs = 2;
@@ -103,7 +113,25 @@ public static class Base16 //NUnit
          case Type t when t == typeof(char):
             pairs = 2;
             break;
-         //TODO needs unsafe...
+         case Type t when t == typeof(float):
+            pairs = 4;
+            break;
+         case Type t when t == typeof(int):
+            pairs = 4;
+            break;
+         case Type t when t == typeof(uint):
+            pairs = 4;
+            break;
+         case Type t when t == typeof(double):
+            pairs = 8;
+            break;
+         case Type t when t == typeof(long):
+            pairs = 8;
+            break;
+         case Type t when t == typeof(ulong):
+            pairs = 8;
+            break;
+          //TODO needs unsafe...
 /*
          case Type t when t == typeof(nint):
             length = sizeof(nint);
@@ -112,30 +140,16 @@ public static class Base16 //NUnit
             length = sizeof(nint);
             break;
 */
-         case Type t when t == typeof(byte):
-            pairs = 1;
-            break;
-         case Type t when t == typeof(sbyte):
-            pairs = 1;
-            break;
          case Type t when t == typeof(decimal):
             pairs = 16;
-            isInteger = false;
+            break;
+         default:
+            _logger.LogWarning($"Number type {type} is not supported!");
             break;
       }
 
-      //string hex = number.ToString($"x{pairs}", null);
-      //float number2 = number.BNTO;
-
-      //hex = isInteger ? $"{number:X}" : ToBase16String(number.BNToByteArray());
-
-      var bytes = number.BNToByteArray();
-
-      //if (isInteger)
-        // bytes.BNReverse();
-
+      byte[] bytes = number.BNToByteArray();
       string hex = ToBase16String(bytes);
-
       string res = useFullLength ? StringHelper.CreateFixedLengthString(hex, 2 * pairs, '0', false) : hex;
 
       return addPrefix ? $"0x{res}" : res;
@@ -153,9 +167,7 @@ public static class Base16 //NUnit
       if (str == null)
          return null;
 
-      Encoding _encoding = encoding ?? Encoding.UTF8;
-
-      return ToBase16String(_encoding.GetBytes(str), addPrefix);
+      return ToBase16String(str.BNToByteArray(encoding), addPrefix);
    }
 
 /*

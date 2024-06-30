@@ -108,9 +108,7 @@ public static class Base32 //NUnit
       if (str == null)
          return null;
 
-      Encoding _encoding = encoding ?? Encoding.UTF8;
-
-      return ToBase32String(_encoding.GetBytes(str));
+      return ToBase32String(str.BNToByteArray(encoding));
    }
 /*
    /// <summary>
