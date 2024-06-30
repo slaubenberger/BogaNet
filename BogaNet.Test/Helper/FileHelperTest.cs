@@ -245,10 +245,10 @@ public class FileHelperTest
       Assert.That(result.Length, Is.EqualTo(1)); //README.md
 
       result = FileHelper.GetFilesForName(testDirectory, true);
-      Assert.That(result.Length, Is.EqualTo(7)); //7 files
+      Assert.That(result.Length, Is.EqualTo(9)); //9 files
 
       result = FileHelper.GetFilesForName(testDirectory, true, "*");
-      Assert.That(result.Length, Is.EqualTo(7)); //7 files
+      Assert.That(result.Length, Is.EqualTo(9)); //9 files
 
       result = FileHelper.GetFilesForName(testDirectory, true, "logo_");
       Assert.That(result.Length, Is.EqualTo(2)); //2 files
@@ -257,10 +257,10 @@ public class FileHelperTest
       Assert.That(result.Length, Is.EqualTo(0));
 
       result = FileHelper.GetFilesForName(testDirectory, true, null);
-      Assert.That(result.Length, Is.EqualTo(7)); //7 files
+      Assert.That(result.Length, Is.EqualTo(9)); //9 files
 
       result = FileHelper.GetFilesForName(testDirectory, true, []);
-      Assert.That(result.Length, Is.EqualTo(7)); //7 files
+      Assert.That(result.Length, Is.EqualTo(9)); //9 files
 
       result = FileHelper.GetFilesForName("");
       Assert.That(result.Length, Is.EqualTo(0));
@@ -276,10 +276,10 @@ public class FileHelperTest
       Assert.That(result.Length, Is.EqualTo(1)); //README.md
 
       result = FileHelper.GetFiles(testDirectory, true);
-      Assert.That(result.Length, Is.EqualTo(7)); //7 files
+      Assert.That(result.Length, Is.EqualTo(9)); //9 files
 
       result = FileHelper.GetFiles(testDirectory, true, "*");
-      Assert.That(result.Length, Is.EqualTo(7)); //7 files
+      Assert.That(result.Length, Is.EqualTo(9)); //9 files
 
       result = FileHelper.GetFiles(testDirectory, true, "png");
       Assert.That(result.Length, Is.EqualTo(2)); //2 files
@@ -288,10 +288,10 @@ public class FileHelperTest
       Assert.That(result.Length, Is.EqualTo(0));
 
       result = FileHelper.GetFiles(testDirectory, true, null);
-      Assert.That(result.Length, Is.EqualTo(7)); //7 files
+      Assert.That(result.Length, Is.EqualTo(9)); //9 files
 
       result = FileHelper.GetFiles(testDirectory, true, []);
-      Assert.That(result.Length, Is.EqualTo(7)); //7 files
+      Assert.That(result.Length, Is.EqualTo(9)); //9 files
 
       result = FileHelper.GetFiles("");
       Assert.That(result.Length, Is.EqualTo(0));
@@ -304,10 +304,10 @@ public class FileHelperTest
    public void GetDirectories_Test()
    {
       string[] result = FileHelper.GetDirectories(testDirectory);
-      Assert.That(result.Length, Is.EqualTo(3));
+      Assert.That(result.Length, Is.EqualTo(4));
 
       result = FileHelper.GetDirectories(testDirectory, true);
-      Assert.That(result.Length, Is.EqualTo(6));
+      Assert.That(result.Length, Is.EqualTo(7));
 
       result = FileHelper.GetDirectories("");
       Assert.That(result.Length, Is.EqualTo(0));

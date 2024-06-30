@@ -40,6 +40,9 @@ public class VolumeUnitTest
 
       conv = VolumeUnit.BARREL.Convert(VolumeUnit.PINT, valIn);
       Assert.That(val, Is.EqualTo(VolumeUnit.PINT.Convert(VolumeUnit.BARREL, conv)));
+
+      conv = VolumeUnit.CUP.Convert(VolumeUnit.PINT, valIn);
+      Assert.That(val, Is.EqualTo(VolumeUnit.PINT.Convert(VolumeUnit.CUP, conv)));
    }
 
    #endregion

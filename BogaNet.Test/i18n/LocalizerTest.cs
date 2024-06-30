@@ -29,6 +29,12 @@ public class LocalizerTest
       text = Localizer.Instance.GetText(key);
       refText = "Hallöchen zusammen!";
       Assert.That(text, Is.EqualTo(refText));
+
+      //invalid key
+      key = "InvalidKey";
+      text = Localizer.Instance.GetText(key);
+      refText = "???InvalidKey???";
+      Assert.That(text, Is.EqualTo(refText));
    }
 
    [Test]
@@ -37,8 +43,8 @@ public class LocalizerTest
       Localizer.Instance.Culture = new CultureInfo("en");
 
       string key = "ReplaceMe";
-      string text = Localizer.Instance.GetTextWithReplacements(key, TextType.TOOLTIP, "BogaNet", ".NET 8");
-      string refText = "I'm BogaNet, your awesome library for .NET 8!";
+      string text = Localizer.Instance.GetTextWithReplacements(key, TextType.LABEL, "BogaNet", ".NET 8");
+      string refText = "Hello, I'm BogaNet, your awesome library for .NET 8!";
       Assert.That(text, Is.EqualTo(refText));
    }
 

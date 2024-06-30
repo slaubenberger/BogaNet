@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 using BogaNet.Util;
+using System.Text.RegularExpressions;
 
 namespace BogaNet.i18n;
 
@@ -20,9 +21,9 @@ public class Localizer : Singleton<Localizer>, ILocalizer
    private static readonly ILogger<Localizer> _logger = GlobalLogging.CreateLogger<Localizer>();
 
    protected CultureInfo _culture = Constants.CurrentCulture;
-   protected const char _separator = ',';
    protected readonly List<CultureInfo> _cultures = [];
    protected readonly Dictionary<string, Dictionary<string, string>> _messages = new();
+   private static readonly Regex _splitRegex = new(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
 
    #endregion
 
@@ -91,22 +92,22 @@ public class Localizer : Singleton<Localizer>, ILocalizer
 
    #region Public methods
 
-   public virtual string? GetText(string? key, TextType textType = TextType.LABEL)
+   public virtual string? GetText(string? key, TextType textType = TextType.LABEL) //NUnit
    {
       return GetText(key, Culture, textType);
    }
 
-   public virtual string? GetText(string? key, CultureInfo culture, TextType textType = TextType.LABEL)
+   public virtual string? GetText(string? key, CultureInfo culture, TextType textType = TextType.LABEL) //NUnit
    {
       return getText(key, culture.ToString(), textType);
    }
 
-   public virtual string? GetTextWithReplacements(string? key, TextType textType = TextType.LABEL, params string[] replacements)
+   public virtual string? GetTextWithReplacements(string? key, TextType textType = TextType.LABEL, params string[] replacements) //NUnit
    {
       return GetTextWithReplacements(key, Culture, textType, replacements);
    }
 
-   public virtual string? GetTextWithReplacements(string? key, CultureInfo culture, TextType textType = TextType.LABEL, params string[] replacements)
+   public virtual string? GetTextWithReplacements(string? key, CultureInfo culture, TextType textType = TextType.LABEL, params string[] replacements) //NUnit
    {
       ArgumentNullException.ThrowIfNull(key);
       ArgumentNullException.ThrowIfNull(replacements);
@@ -174,7 +175,7 @@ public class Localizer : Singleton<Localizer>, ILocalizer
 
          if (lines.Length > 1)
          {
-            string[] columns = lines[0].Split(_separator);
+            string[] columns = _splitRegex.Split(lines[0]);
             CultureInfo? language;
             Dictionary<int, CultureInfo> supportedCultures = new();
 
@@ -189,7 +190,8 @@ public class Localizer : Singleton<Localizer>, ILocalizer
             // process all messages and add them to the corresponding languages
             for (int ii = 1; ii < lines.Length; ii++)
             {
-               string?[] cols = lines[ii].Split(_separator);
+               string[] cols = _splitRegex.Split(lines[ii]);
+
                string? key = null;
                Dictionary<string, string>? translation = null;
 
@@ -353,7 +355,7 @@ public class Localizer : Singleton<Localizer>, ILocalizer
       sb.Append("key");
       foreach (var language in SupportedCultures)
       {
-         sb.Append(_separator);
+         sb.Append(',');
          sb.Append(language);
       }
 
@@ -366,7 +368,7 @@ public class Localizer : Singleton<Localizer>, ILocalizer
          foreach (var language in SupportedCultures)
          {
             //preserve the same order as in the header
-            sb.Append(_separator);
+            sb.Append(',');
             sb.Append('"');
             sb.Append(getText(translation.Key, language.ToString(), TextType.LABEL, false));
             sb.Append('"');

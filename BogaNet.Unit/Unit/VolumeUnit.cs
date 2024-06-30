@@ -16,8 +16,8 @@ public enum VolumeUnit
    FOOT3,
    PINT,
    GALLON,
-
-   BARREL
+   BARREL,
+   CUP
    //TODO add more exotic volumes?
 }
 
@@ -66,6 +66,11 @@ public static class VolumeUnitExtension
    /// Barrel to liters.
    /// </summary>
    public const decimal FACTOR_BARREL_TO_L = 158.987294928m;
+
+   /// <summary>
+   /// Barrel to liters.
+   /// </summary>
+   public const decimal FACTOR_CUP_TO_L = 0.2841306m;
 
    /// <summary>
    /// Millimeter³ to liters.
@@ -118,12 +123,15 @@ public static class VolumeUnitExtension
          case VolumeUnit.BARREL:
             val *= FACTOR_BARREL_TO_L;
             break;
+         case VolumeUnit.CUP:
+            val *= FACTOR_CUP_TO_L;
+            break;
          default:
             _logger.LogWarning($"There is no conversion for the fromUnit: {fromVolumeUnit}");
             break;
       }
 
-      //Convert from m
+      //Convert from liter
       switch (toVolumeUnit)
       {
          case VolumeUnit.LITER:
@@ -152,6 +160,9 @@ public static class VolumeUnitExtension
             break;
          case VolumeUnit.BARREL:
             outVal = val / FACTOR_BARREL_TO_L;
+            break;
+         case VolumeUnit.CUP:
+            outVal = val / FACTOR_CUP_TO_L;
             break;
          default:
             _logger.LogWarning($"There is no conversion for the toUnit: {toVolumeUnit}");
