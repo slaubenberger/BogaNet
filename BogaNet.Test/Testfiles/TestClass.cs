@@ -5,7 +5,7 @@ namespace BogaNet.Test.Testfiles;
 /// <summary>
 /// Dummy class to simulate an actual object for NUnit tests.
 /// </summary>
-public class TestModel
+public class TestClass : ITestClass
 {
    #region Variables
 
@@ -29,11 +29,11 @@ public class TestModel
 
    #region Constructors
 
-   public TestModel()
+   public TestClass()
    {
    }
 
-   public TestModel(string privateString)
+   public TestClass(string privateString)
    {
       _privateString = privateString;
    }
@@ -66,12 +66,12 @@ public class TestModel
       if (obj == null || GetType() != obj.GetType())
          return false;
 
-      TestModel testModel = (TestModel)obj;
+      TestClass testClass = (TestClass)obj;
 
-      return PublicString.Equals(testModel.PublicString) &&
-             _privateString.Equals(testModel._privateString) &&
-             PublicProp.Equals(testModel.PublicProp) &&
-             privateProp.Equals(testModel.privateProp);
+      return PublicString.Equals(testClass.PublicString) &&
+             _privateString.Equals(testClass._privateString) &&
+             PublicProp.Equals(testClass.PublicProp) &&
+             privateProp.Equals(testClass.privateProp);
    }
 
    public override int GetHashCode()

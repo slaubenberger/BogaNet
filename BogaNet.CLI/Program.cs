@@ -58,17 +58,7 @@ public static class Program
    #region Private methods
 
 /*
-   private static void testDI()
-   {
-      BogaNet.Util.DIContainer.Bind<ILocalizer, Localizer>(Localizer.Instance);
-      BogaNet.Util.DIContainer.Bind<ILocalizer, Localizer>(Localizer.Instance);
 
-      _logger.LogInformation($"{BogaNet.Util.DIContainer.Resolve<ILocalizer>()}");
-
-      BogaNet.Util.DIContainer.Unbind<ILocalizer>();
-
-      _logger.LogInformation($"{BogaNet.Util.DIContainer.Resolve<ILocalizer>()}");
-   }
 
    private static void testCrc()
    {

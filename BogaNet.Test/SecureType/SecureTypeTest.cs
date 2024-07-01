@@ -183,9 +183,9 @@ public class SecureTypeTest
    [Test]
    public void Object_Test()
    {
-      TestModel refObj = new();
-      ObjectSec<TestModel> obj = refObj;
-      TestModel tm = obj;
+      TestClass refObj = new();
+      ObjectSec<TestClass> obj = refObj;
+      TestClass tm = obj;
       Assert.True(obj.Equals(refObj));
       Assert.True(tm.Equals(refObj));
    }

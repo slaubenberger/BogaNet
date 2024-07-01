@@ -32,18 +32,18 @@ public class PreferencesTest
    [Test]
    public void Preferences_Object_Test()
    {
-      TestModel refValue = new();
+      TestClass refValue = new();
       refValue.PublicString = "Hello";
       refValue.PublicProp = "Wörld";
       string key = "object";
       Preferences.Instance.Set(key, refValue);
-      TestModel testModel = Preferences.Instance.GetObject<TestModel>(key);
-      Assert.That(testModel, Is.EqualTo(refValue));
+      TestClass testClass = Preferences.Instance.GetObject<TestClass>(key);
+      Assert.That(testClass, Is.EqualTo(refValue));
 
       string keyObf = "objectObf";
       Preferences.Instance.Set(keyObf, refValue, true);
-      testModel = Preferences.Instance.GetObject<TestModel>(keyObf, true);
-      Assert.That(testModel, Is.EqualTo(refValue));
+      testClass = Preferences.Instance.GetObject<TestClass>(keyObf, true);
+      Assert.That(testClass, Is.EqualTo(refValue));
    }
 
    [Test]

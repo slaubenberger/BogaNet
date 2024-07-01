@@ -183,9 +183,9 @@ public class ObfuscatedTypeTest
    [Test]
    public void Object_Test()
    {
-      TestModel refObj = new();
-      ObjectObf<TestModel> obj = refObj;
-      TestModel tm = obj;
+      TestClass refObj = new();
+      ObjectObf<TestClass> obj = refObj;
+      TestClass tm = obj;
       Assert.True(obj.Equals(refObj));
       Assert.True(tm.Equals(refObj));
    }
