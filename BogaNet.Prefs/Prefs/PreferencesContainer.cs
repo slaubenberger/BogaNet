@@ -11,7 +11,7 @@ namespace BogaNet.Prefs;
 /// <summary>
 /// Container for the application preferences.
 /// </summary>
-public class PreferencesContainer : IPreferencesContainer
+public class PreferencesContainer : IPreferencesContainer //NUnit
 {
    #region Variables
 

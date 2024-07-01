@@ -28,9 +28,11 @@
 
     <ItemGroup>
       <ProjectReference Include="..\BogaNet.Common\BogaNet.Common.csproj" />
+      <ProjectReference Include="..\BogaNet.CRC\BogaNet.CRC.csproj" />
       <ProjectReference Include="..\BogaNet.Crypto\BogaNet.Crypto.csproj" />
       <ProjectReference Include="..\BogaNet.i18n\BogaNet.i18n.csproj" />
       <ProjectReference Include="..\BogaNet.ObfuscatedType\BogaNet.ObfuscatedType.csproj" />
+      <ProjectReference Include="..\BogaNet.Prefs\BogaNet.Prefs.csproj" />
       <ProjectReference Include="..\BogaNet.SecureType\BogaNet.SecureType.csproj" />
       <ProjectReference Include="..\BogaNet.Unit\BogaNet.Unit.csproj" />
     </ItemGroup>

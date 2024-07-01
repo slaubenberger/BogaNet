@@ -18,7 +18,7 @@ public class Singleton<T> where T : class
 
    #region Public methods
 
-   public static T? Instance
+   public static T Instance
    {
       get
       {

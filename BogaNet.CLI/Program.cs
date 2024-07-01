@@ -58,40 +58,6 @@ public static class Program
    #region Private methods
 
 /*
-   private static void testPrefs()
-   {
-      string text = "Hello wörld!";
-      string key = "text";
-
-      BogaNet.Prefs.Preferences.Set(key, text);
-      Console.WriteLine(BogaNet.Prefs.Preferences.GetString(key));
-
-      string textObf = "Hello obfuscated wörld!";
-      string keyObf = "textObf";
-
-      BogaNet.Prefs.Preferences.Set(keyObf, textObf, true);
-      Console.WriteLine(BogaNet.Prefs.Preferences.GetString(keyObf, true));
-
-      double number = 12.345;
-      string keyNumber = "number";
-
-      BogaNet.Prefs.Preferences.Set(keyNumber, number);
-      Console.WriteLine(BogaNet.Prefs.Preferences.GetNumber<double>(keyNumber).ToString());
-
-      bool boolean = true;
-      string keyBool = "boolean";
-
-      BogaNet.Prefs.Preferences.Set(keyBool, boolean);
-      _logger.LogInformation(BogaNet.Prefs.Preferences.GetBool(keyBool).ToString());
-
-      DateTime date = DateTime.UtcNow;
-      string keyDate = "date";
-
-      //BogaNet.Prefs.Preferences.Set(keyDate, date, false);
-      _logger.LogInformation(date.BNConvertToTimeZone().ToString());
-      _logger.LogInformation(BogaNet.Prefs.Preferences.GetDate(keyDate, false, null).ToString());
-   }
-
    private static void testDI()
    {
       BogaNet.Util.DIContainer.Bind<ILocalizer, Localizer>(Localizer.Instance);
@@ -193,17 +159,3 @@ public static class Program
 
    #endregion
 }
-/*
-public class TestModel
-{
-   public string PublicString = "PublicString";
-   public static string PublicStaticString = "PublicStaticString";
-   private string privateString = "privateString";
-   private static string privateStaticString = "privateStaticString";
-
-   public string PublicProp => "PublicProp";
-   public static string PublicStaticProp => "PublicStaticProp";
-   private string privateProp => "privateProp";
-   private static string privateStaticProp => "privateStaticProp";
-}
-*/

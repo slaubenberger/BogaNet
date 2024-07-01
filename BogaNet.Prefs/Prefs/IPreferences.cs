@@ -9,6 +9,11 @@ namespace BogaNet.Prefs;
 public interface IPreferences
 {
    /// <summary>
+   /// Store the data automatically at application exit.
+   /// </summary>
+   bool AutoSave { get; set; }
+
+   /// <summary>
    /// Load the preference file.
    /// </summary>
    /// <param name="filepath">Preference file to load</param>
