@@ -3,25 +3,26 @@ using System.Numerics;
 using Microsoft.Extensions.Logging;
 using System;
 using BogaNet.Extension;
+using BogaNet.Util;
 
 namespace BogaNet.Prefs;
 
 /// <summary>
 /// Preferences for the application.
 /// </summary>
-public static class Preferences //TODO add support for web and mobile (Avalonia) ?
+public class Preferences : Singleton<Preferences>, IPreferences //TODO add support for web and mobile (Avalonia) ?
 {
    #region Variables
 
-   private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(Preferences));
+   private static readonly ILogger<Preferences> _logger = GlobalLogging.CreateLogger<Preferences>();
 
-   private static readonly PreferencesContainer _container = new();
+   protected PreferencesContainer _container = new();
 
    #endregion
 
-   #region Static block
+   #region Constructor
 
-   static Preferences()
+   private Preferences()
    {
       Load();
 
@@ -32,77 +33,44 @@ public static class Preferences //TODO add support for web and mobile (Avalonia)
 
    #region Public methods
 
-   /// <summary>
-   /// Load the preference file.
-   /// </summary>
-   /// <param name="filepath">Preference file to load</param>
-   public static void Load(string filepath = "")
+   public virtual void Load(string filepath = "")
    {
       _container.Load(filepath);
    }
 
-   /// <summary>
-   /// Save the preference file.
-   /// </summary>
-   /// <param name="filepath">Preference file to save</param>
-   public static void Save(string filepath = "")
+   public virtual void Save(string filepath = "")
    {
       _container.Save(filepath);
    }
 
-   /// <summary>
-   /// Delete all preferences, including the file.
-   /// </summary>
-   /// <param name="filepath">Preference file to delete</param>
-   public static void Delete(string filepath = "")
+   public virtual void Delete(string filepath = "")
    {
       _container.Delete(filepath);
    }
 
-   /// <summary>
-   /// Removes a key/value from the preferences.
-   /// </summary>
-   /// <param name="key">Key (and value) to delete</param>
-   public static void Remove(string key)
+   public virtual void Remove(string key)
    {
       _container.Remove(key);
    }
 
-   /// <summary>
-   /// Checks if a given key exists in the preferences.
-   /// </summary>
-   /// <param name="key">Key to check</param>
-   /// <returns>True if the key exists in the preferences</returns>
-   public static bool ContainsKey(string key)
+   public virtual bool ContainsKey(string key)
    {
       return _container.ContainsKey(key);
    }
 
    #region Getter
 
-   /// <summary>Get a string for a key.</summary>
-   /// <param name="key">Key for the string</param>
-   /// <param name="obfuscated">Obfuscate value in the preferences (optional, default: false)</param>
-   /// <returns>String for the key</returns>
-   public static string? GetString(string key, bool obfuscated = false)
+   public virtual string? GetString(string key, bool obfuscated = false)
    {
       return _container.Get(key, obfuscated)?.ToString();
    }
 
-   /// <summary>Get an object for a key.</summary>
-   /// <param name="key">Key for the object</param>
-   /// <param name="obfuscated">Obfuscate value in the preferences (optional, default: false)</param>
-   /// <returns>Object for the key</returns>
-   public static T GetObject<T>(string key, bool obfuscated = false)
+   public virtual T GetObject<T>(string key, bool obfuscated = false)
    {
       return JsonHelper.DeserializeFromString<T>(GetString(key, obfuscated))!;
    }
 
-   /// <summary>Get a number for a key.</summary>
-   /// <param name="key">Key for the number</param>
-   /// <param name="obfuscated">Obfuscate value in the preferences (optional, default: false)</param>
-   /// <returns>Number for the key</returns>
-   public static T GetNumber<T>(string key, bool obfuscated = false) where T : INumber<T>
+   public virtual T GetNumber<T>(string key, bool obfuscated = false) where T : INumber<T>
    {
       if (string.IsNullOrEmpty(key))
          throw new ArgumentNullException(nameof(key));
@@ -163,22 +131,13 @@ public static class Preferences //TODO add support for web and mobile (Avalonia)
       return T.CreateTruncating(0);
    }
 
-   /// <summary>Get a bool for a key.</summary>
-   /// <param name="key">Key for the bol.</param>
-   /// <param name="obfuscated">Obfuscate value in the preferences (optional, default: false)</param>
-   /// <returns>Bool for the key</returns>
-   public static bool GetBool(string key, bool obfuscated = false)
+   public virtual bool GetBool(string key, bool obfuscated = false)
    {
       string? result = GetString(key, obfuscated);
       return result != null && "true".Equals(result.ToLower());
    }
 
-   /// <summary>Get a DateTime for a key.</summary>
-   /// <param name="key">Key for the DateTime.</param>
-   /// <param name="obfuscated">Obfuscate value in the preferences (optional, default: false)</param>
-   /// <param name="usedTZ">Time zone of the date (optional, default: local)</param>
-   /// <returns>DateTime for the key</returns>
-   public static DateTime GetDate(string key, bool obfuscated = false, TimeZoneInfo? usedTZ = null)
+   public virtual DateTime GetDate(string key, bool obfuscated = false, TimeZoneInfo? usedTZ = null)
    {
       string? date = GetString(key, obfuscated);
       DateTime.TryParse(date, out DateTime dt);
@@ -191,47 +150,27 @@ public static class Preferences //TODO add support for web and mobile (Avalonia)
 
    #region Setter
 
-   /// <summary>Set a string for a key.</summary>
-   /// <param name="key">Key for the string</param>
-   /// <param name="value">String for the preferences</param>
-   /// <param name="obfuscated">Obfuscate value in the preferences (optional, default: false)</param>
-   public static void Set(string key, string? value, bool obfuscated = false)
+   public virtual void Set(string key, string? value, bool obfuscated = false)
    {
       _container.Set(key, value, obfuscated);
    }
 
-   /// <summary>Set an object for a key.</summary>
-   /// <param name="key">Key for the object</param>
-   /// <param name="value">Object for the preferences</param>
-   /// <param name="obfuscated">Obfuscate value in the preferences (optional, default: false)</param>
-   public static void Set(string key, object value, bool obfuscated = false)
+   public virtual void Set(string key, object value, bool obfuscated = false)
    {
       Set(key, JsonHelper.SerializeToString(value), obfuscated);
    }
 
-   /// <summary>Set a number for a key.</summary>
-   /// <param name="key">Key for the number</param>
-   /// <param name="value">Number for the preferences</param>
-   /// <param name="obfuscated">Obfuscate value in the preferences (optional, default: false)</param>
-   public static void Set<T>(string key, T value, bool obfuscated = false) where T : INumber<T>
+   public virtual void Set<T>(string key, T value, bool obfuscated = false) where T : INumber<T>
    {
       _container.Set(key, value, obfuscated);
    }
 
-   /// <summary>Set a bool for a key.</summary>
-   /// <param name="key">Key for the bool</param>
-   /// <param name="value">Bool for the preferences</param>
-   /// <param name="obfuscated">Obfuscate value in the preferences (optional, default: false)</param>
-   public static void Set(string key, bool value, bool obfuscated = false)
+   public virtual void Set(string key, bool value, bool obfuscated = false)
    {
       _container.Set(key, value, obfuscated);
    }
 
-   /// <summary>Set a DateTime for a key.</summary>
-   /// <param name="key">Key for the DateTime</param>
-   /// <param name="value">DateTime for the preferences</param>
-   /// <param name="obfuscated">Obfuscate value in the preferences (optional, default: false)</param>
-   public static void Set(string key, DateTime value, bool obfuscated = false)
+   public virtual void Set(string key, DateTime value, bool obfuscated = false)
    {
       string dt = JsonHelper.SerializeToString(value).Replace("\"", "");
       Set(key, dt, obfuscated);
@@ -243,7 +182,7 @@ public static class Preferences //TODO add support for web and mobile (Avalonia)
 
    #region Private methods
 
-   private static void AppDomain_ProcessExit(object? sender, EventArgs e)
+   private void AppDomain_ProcessExit(object? sender, EventArgs e)
    {
       Save();
    }

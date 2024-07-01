@@ -124,6 +124,11 @@ public class Localizer : Singleton<Localizer>, ILocalizer
       return text;
    }
 
+   public bool ContainsKey(string key)
+   {
+      return _messages.ContainsKey(key);
+   }
+
    public virtual void Add(string key, CultureInfo culture, string value)
    {
       string lang = culture.ToString();
@@ -150,10 +155,8 @@ public class Localizer : Singleton<Localizer>, ILocalizer
    {
       _messages.Remove(key);
 
-      if (_messages.Count == 0)
-
-         if (!RemovedTranslations.Contains(key))
-            RemovedTranslations.Add(key);
+      if (!RemovedTranslations.Contains(key))
+         RemovedTranslations.Add(key);
 
       hasChanged();
    }

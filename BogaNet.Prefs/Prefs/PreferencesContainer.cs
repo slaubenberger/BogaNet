@@ -11,12 +11,12 @@ namespace BogaNet.Prefs;
 /// <summary>
 /// Container for the application preferences.
 /// </summary>
-public class PreferencesContainer
+public class PreferencesContainer : IPreferencesContainer
 {
    #region Variables
 
-   private string _file = "BNPrefs.json";
-   private Dictionary<string, object?>? _preferences = [];
+   protected string _file = "BNPrefs.json";
+   protected Dictionary<string, object?>? _preferences = [];
 
    #endregion
 
@@ -25,17 +25,13 @@ public class PreferencesContainer
    /// <summary>
    /// IV for the obfuscated data.
    /// </summary>
-   public ByteObf IV { get; set; } = 181;
+   public virtual ByteObf IV { get; set; } = 139;
 
    #endregion
 
    #region Public methods
 
-   /// <summary>
-   /// Load the preference file.
-   /// </summary>
-   /// <param name="filepath">Preference file to load</param>
-   public void Load(string filepath = "")
+   public virtual void Load(string filepath = "")
    {
       if (!string.IsNullOrEmpty(filepath))
          _file = filepath;
@@ -49,11 +45,7 @@ public class PreferencesContainer
          _preferences = prefs;
    }
 
-   /// <summary>
-   /// Save the preference file.
-   /// </summary>
-   /// <param name="filepath">Preference file to save</param>
-   public void Save(string filepath = "")
+   public virtual void Save(string filepath = "")
    {
       if (!string.IsNullOrEmpty(filepath))
          _file = filepath;
@@ -61,11 +53,7 @@ public class PreferencesContainer
       JsonHelper.SerializeToFile(_preferences, _file);
    }
 
-   /// <summary>
-   /// Delete all preferences, including the file.
-   /// </summary>
-   /// <param name="filepath">Preference file to delete</param>
-   public void Delete(string filepath = "")
+   public virtual void Delete(string filepath = "")
    {
       if (!string.IsNullOrEmpty(filepath))
          _file = filepath;
@@ -76,31 +64,18 @@ public class PreferencesContainer
          FileHelper.Delete(_file);
    }
 
-   /// <summary>
-   /// Removes a key/value from the preferences.
-   /// </summary>
-   /// <param name="key">Key (and value) to delete</param>
-   public void Remove(string key)
+   public virtual void Remove(string key)
    {
       if (ContainsKey(key))
          _preferences?.Remove(key);
    }
 
-   /// <summary>
-   /// Checks if a given key exists in the preferences.
-   /// </summary>
-   /// <param name="key">Key to check</param>
-   /// <returns>True if the key exists in the preferences</returns>
-   public bool ContainsKey(string key)
+   public virtual bool ContainsKey(string key)
    {
       return _preferences != null && _preferences.ContainsKey(key);
    }
 
-   /// <summary>Get an object for a key.</summary>
-   /// <param name="key">Key for the object</param>
-   /// <param name="obfuscated">Obfuscate value in the preferences (optional, default: false)</param>
-   /// <returns>Object for the key</returns>
-   public object? Get(string key, bool obfuscated)
+   public virtual object? Get(string key, bool obfuscated)
    {
       if (ContainsKey(key))
          return obfuscated ? Obfuscator.Deobfuscate(Base64.FromBase64String(_preferences![key]?.ToString(), true), IV).BNToString() : _preferences![key];
@@ -108,11 +83,7 @@ public class PreferencesContainer
       return null;
    }
 
-   /// <summary>Set an object for a key.</summary>
-   /// <param name="key">Key for the string</param>
-   /// <param name="value">Object for the preferences</param>
-   /// <param name="obfuscated">Obfuscate value in the preferences (optional, default: false)</param>
-   public void Set(string key, object? value, bool obfuscated)
+   public virtual void Set(string key, object? value, bool obfuscated)
    {
       if (ContainsKey(key))
       {

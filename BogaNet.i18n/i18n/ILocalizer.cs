@@ -6,7 +6,7 @@ using System;
 namespace BogaNet.i18n;
 
 /// <summary>
-/// Interface for localizers.
+/// Interface for localizers of the application.
 /// </summary>
 public interface ILocalizer
 {
@@ -88,6 +88,13 @@ public interface ILocalizer
 
    //void Load(Dictionary<string, string[]> dataDict);
 
+   /// <summary>
+   /// Checks if a given key exists in the localizer.
+   /// </summary>
+   /// <param name="key">Key to check</param>
+   /// <returns>True if the key exists in the localizer</returns>
+   public bool ContainsKey(string key);
+   
    /// <summary>
    /// Adds a translated text.
    /// </summary>

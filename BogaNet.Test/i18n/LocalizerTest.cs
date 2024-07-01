@@ -38,6 +38,30 @@ public class LocalizerTest
    }
 
    [Test]
+   public void Localizer_Add_Remove_Test()
+   {
+      Localizer.Instance.Culture = new CultureInfo("en");
+
+      //add new key/value
+      string newKey = "GreetingNew";
+      string refText = "Hello world!";
+      Localizer.Instance.Add(newKey, new CultureInfo("en"), refText);
+
+      string text = Localizer.Instance.GetText(newKey);
+      Assert.That(text, Is.EqualTo(refText));
+
+      Localizer.Instance.Culture = new CultureInfo("de");
+      text = Localizer.Instance.GetText(newKey);
+      Assert.That(text, Is.EqualTo(refText));
+
+      //remove new key/value
+      Localizer.Instance.Remove(newKey);
+      refText = $"???{newKey}???";
+      text = Localizer.Instance.GetText(newKey);
+      Assert.That(text, Is.EqualTo(refText));
+   }
+
+   [Test]
    public void Localizer_Replace_Test()
    {
       Localizer.Instance.Culture = new CultureInfo("en");
