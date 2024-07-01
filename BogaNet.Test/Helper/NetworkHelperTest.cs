@@ -4,6 +4,8 @@ namespace BogaNet.Test.Helper;
 
 public class NetworkHelperTest
 {
+   //TODO improve tests
+
    #region Variables
 
    private static readonly string testUrl = Constants.COMPANY_URL;

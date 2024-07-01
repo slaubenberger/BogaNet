@@ -4,6 +4,8 @@ namespace BogaNet.Test.Extension;
 
 public class StringExtensionTest
 {
+   //TODO improve tests
+
    [Test]
    public void BNReverseOk()
    {

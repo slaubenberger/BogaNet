@@ -3,6 +3,7 @@ using BogaNet.Extension;
 
 public class ArrayHelperTest
 {
+   //TODO improve tests
    [Test]
    public void BNReverseOk()
    {

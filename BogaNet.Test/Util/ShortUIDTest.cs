@@ -11,9 +11,9 @@ public class ShortUIDTest
    {
       Guid refGuid = Guid.NewGuid();
       ShortUID suid1 = refGuid.BNToShortUID();
-      
+
       Assert.That(suid1.Code.Length, Is.EqualTo(22));
-      
+
       Guid? resGuid = suid1.ToGuid();
       Assert.That(resGuid, Is.EqualTo(refGuid));
 

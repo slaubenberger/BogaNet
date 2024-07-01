@@ -3,23 +3,25 @@ using BogaNet.Extension;
 
 namespace BogaNet.Test.Helper;
 
-public class HashHelperTest
+public class HMACHelperTest
 {
    //TODO improve tests
+
    #region Tests
 
    [Test]
-   public void HashHelper_Test()
+   public void HMACHelper_Test()
    {
       string plain = "BogaNet rulez!";
+      byte[] secret = HMACHelper.GenerateSecret();
 
-      byte[] h1 = HashHelper.SHA256(plain);
-      byte[] h2 = HashHelper.SHA256(plain);
+      byte[] h1 = HMACHelper.HMAC256(plain, secret);
+      byte[] h2 = HMACHelper.HMAC256(plain, secret);
 
       Assert.That(h1, Is.EqualTo(h2));
 
       plain = "BogaNet ruleZ!";
-      h2 = HashHelper.SHA256(plain);
+      h2 = HMACHelper.HMAC256(plain, secret);
 
       Assert.That(h1 == h2, Is.False);
    }

@@ -5,6 +5,7 @@ namespace BogaNet.Test.Helper;
 
 public class AESHelperTest
 {
+   //TODO improve tests
    #region Tests
 
    [Test]
@@ -15,7 +16,7 @@ public class AESHelperTest
       string initVector = "SL$2OIjLS$2aIj76";
       byte[]? IV = initVector.BNToByteArray(System.Text.Encoding.ASCII);
 
-      string keyPlain = "abce1235";
+      string keyPlain = "abc123";
       byte[] key = HashHelper.SHA256(keyPlain.BNToByteArray());
 
       var output = AESHelper.Encrypt(plain.BNToByteArray(), key, IV);

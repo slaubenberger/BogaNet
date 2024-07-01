@@ -4,6 +4,8 @@ namespace BogaNet.Test.Helper;
 
 public class StringHelperTest
 {
+   //TODO improve tests
+
    [Test]
    public void ToTitleCaseOk()
    {

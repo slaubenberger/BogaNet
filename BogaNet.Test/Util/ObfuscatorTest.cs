@@ -5,6 +5,8 @@ namespace BogaNet.Test.Util;
 
 public class ObfuscatorTest
 {
+   //TODO improve tests
+
    #region Tests
 
    [Test]
