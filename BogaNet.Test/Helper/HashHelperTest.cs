@@ -1,11 +1,10 @@
 ﻿using BogaNet.Helper;
-using BogaNet.Extension;
+using BogaNet.Encoder;
 
 namespace BogaNet.Test.Helper;
 
 public class HashHelperTest
 {
-   //TODO improve tests
    #region Tests
 
    [Test]
@@ -22,6 +21,11 @@ public class HashHelperTest
       h2 = HashHelper.SHA256(plain);
 
       Assert.That(h1 == h2, Is.False);
+
+      string base64 = Base64.ToBase64String(h1);
+      string refValue = "8kNcJBdM1xzVVuYg9mdDkaItGCWPf+6v+DBwS0ppm6o=";
+
+      Assert.That(base64, Is.EqualTo(refValue));
    }
 
    #endregion

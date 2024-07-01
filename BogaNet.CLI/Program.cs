@@ -1,6 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using BogaNet.Extension;
+using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
-using BogaNet.Extension;
 
 namespace BogaNet.CLI;
 
@@ -19,21 +19,10 @@ public static class Program
       GlobalLogging.LoggerFactory = new NLogLoggerFactory();
 
       _logger.LogDebug("Hi there, this is a test app!");
-      
-      //testPrefs();
-      //testNumber();
-      //testBase16();
-      //testBase32();
-      //testDI();
-      //testCrc();
+
+      testNetwork();
       //testBitrateHRF();
       //testBytesHRF();
-      //testDrive();
-      //testNetwork();
-      //testRSA();
-      //testLocalizer();
-      //testConvert();
-      //testToString();
 
       Exit(0);
    }
@@ -59,17 +48,6 @@ public static class Program
 
 /*
 
-
-   private static void testCrc()
-   {
-      string input1 = "Hallo Welt";
-      string input2 = "Hallp Welt";
-
-      var crc1 = CRCHelper.CRC16(input1.BNToByteArray());
-      var crc2 = CRCHelper.CRC16(input2.BNToByteArray());
-
-      _logger.LogInformation($"{crc1} - {crc2}");
-   }
    private static void testRSA()
    {
       string text = "Hello there!";
@@ -92,8 +70,6 @@ public static class Program
       _logger.LogInformation($"{text} - {result}");
    }
 */
-
-
 
 
 /*
@@ -134,7 +110,7 @@ public static class Program
       _logger.LogInformation(BogaNet.Helper.GeneralHelper.FormatBytesToHRF((long)Math.Pow(1024, 6), useSI));
    }
 */
-/*
+
    private static void testNetwork()
    {
       _logger.LogInformation("CPD: " + BogaNet.Helper.NetworkHelper.CheckInternetAvailability());
@@ -145,7 +121,6 @@ public static class Program
 
       _logger.LogInformation("Network adapters: " + BogaNet.Helper.NetworkHelper.GetNetworkAdapters().BNDump(false));
    }
-*/
 
    #endregion
 }
