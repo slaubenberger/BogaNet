@@ -7,7 +7,7 @@ namespace BogaNet.Unit;
 /// <summary>
 /// Units for volumes.
 /// </summary>
-public enum VolumeUnit
+public enum VolumeUnit //NUnit
 {
    LITER,
    MM3,

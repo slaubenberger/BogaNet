@@ -7,7 +7,7 @@ namespace BogaNet.Unit;
 /// <summary>
 /// Units for areas.
 /// </summary>
-public enum AreaUnit
+public enum AreaUnit //NUnit
 {
    M2,
    MM2,

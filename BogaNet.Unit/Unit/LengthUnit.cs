@@ -7,19 +7,20 @@ namespace BogaNet.Unit;
 /// <summary>
 /// Units for lengths.
 /// </summary>
-public enum LengthUnit
+public enum LengthUnit //NUnit
 {
    M,
    MM,
    CM,
+   DECIMETER,
+   DECAMETER,
+   HECTOMETER,
    KM,
    INCH,
    FOOT,
    YARD,
    MILE,
-
    NAUTICAL_MILE
-   //TODO add more exotic lengths?
 }
 
 /// <summary>
@@ -33,8 +34,40 @@ public static class LengthUnitExtension
 
    public static bool IgnoreSameUnit = true;
 
-   private const decimal FACTOR_INCH_TO_CM = 2.54m; //inch to centimeters
-   private const decimal FACTOR_MM_TO_CM = 10; //millimeters to centimeters
+   /// <summary>
+   /// Millimeter to meters.
+   /// </summary>
+   public const decimal FACTOR_MM_TO_M = 0.001m;
+
+   /// <summary>
+   /// Centimeter to meters.
+   /// </summary>
+   public const decimal FACTOR_CM_TO_M = 0.01m;
+
+   /// <summary>
+   /// Decimeter to meters.
+   /// </summary>
+   public const decimal FACTOR_DECIMETER_TO_M = 0.1m;
+
+   /// <summary>
+   /// Decameter to meters.
+   /// </summary>
+   public const decimal FACTOR_DECAMETER_TO_M = 10m;
+
+   /// <summary>
+   /// Hectometer to meters.
+   /// </summary>
+   public const decimal FACTOR_HECTOMETER_TO_M = 100m;
+
+   /// <summary>
+   /// Kilometers to meters.
+   /// </summary>
+   public const decimal FACTOR_KM_TO_M = 1000m;
+
+   /// <summary>
+   /// Inch to meters.
+   /// </summary>
+   public const decimal FACTOR_INCH_TO_M = 0.0254m;
 
    /// <summary>
    /// Foot to meters.
@@ -55,26 +88,6 @@ public static class LengthUnitExtension
    /// Nautical mile to meters.
    /// </summary>
    public const decimal FACTOR_NAUTICAL_MILE_TO_M = 1852m;
-
-   /// <summary>
-   /// Centimeter to meters.
-   /// </summary>
-   public const decimal FACTOR_CM_TO_M = 100;
-
-   /// <summary>
-   /// Kilometers to meters.
-   /// </summary>
-   public const decimal FACTOR_KM_TO_M = 0.001m;
-
-   /// <summary>
-   /// Millimeter to meters.
-   /// </summary>
-   public static decimal FACTOR_MM_TO_M => FACTOR_MM_TO_CM * FACTOR_CM_TO_M;
-
-   /// <summary>
-   /// Inch to meters.
-   /// </summary>
-   public static decimal FACTOR_INCH_TO_M => FACTOR_INCH_TO_CM / FACTOR_CM_TO_M;
 
    #endregion
 
@@ -103,13 +116,22 @@ public static class LengthUnitExtension
             //val = inVal;
             break;
          case LengthUnit.MM:
-            val /= FACTOR_MM_TO_M;
+            val *= FACTOR_MM_TO_M;
             break;
          case LengthUnit.CM:
-            val /= FACTOR_CM_TO_M;
+            val *= FACTOR_CM_TO_M;
+            break;
+         case LengthUnit.DECIMETER:
+            val *= FACTOR_DECIMETER_TO_M;
+            break;
+         case LengthUnit.DECAMETER:
+            val *= FACTOR_DECAMETER_TO_M;
+            break;
+         case LengthUnit.HECTOMETER:
+            val *= FACTOR_HECTOMETER_TO_M;
             break;
          case LengthUnit.KM:
-            val /= FACTOR_KM_TO_M;
+            val *= FACTOR_KM_TO_M;
             break;
          case LengthUnit.INCH:
             val *= FACTOR_INCH_TO_M;
@@ -138,13 +160,22 @@ public static class LengthUnitExtension
             outVal = val;
             break;
          case LengthUnit.MM:
-            outVal = val * FACTOR_MM_TO_M;
+            outVal = val / FACTOR_MM_TO_M;
             break;
          case LengthUnit.CM:
-            outVal = val * FACTOR_CM_TO_M;
+            outVal = val / FACTOR_CM_TO_M;
+            break;
+         case LengthUnit.DECIMETER:
+            outVal = val / FACTOR_DECIMETER_TO_M;
+            break;
+         case LengthUnit.DECAMETER:
+            outVal = val / FACTOR_DECAMETER_TO_M;
+            break;
+         case LengthUnit.HECTOMETER:
+            outVal = val / FACTOR_HECTOMETER_TO_M;
             break;
          case LengthUnit.KM:
-            outVal = val * FACTOR_KM_TO_M;
+            outVal = val / FACTOR_KM_TO_M;
             break;
          case LengthUnit.INCH:
             outVal = val / FACTOR_INCH_TO_M;

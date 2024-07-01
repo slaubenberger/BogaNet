@@ -7,7 +7,7 @@ namespace BogaNet.Unit;
 /// <summary>
 /// Units for bits.
 /// </summary>
-public enum BitUnit
+public enum BitUnit //NUnit
 {
    BIT,
    kbit,

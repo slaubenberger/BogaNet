@@ -7,7 +7,7 @@ namespace BogaNet.Unit;
 /// <summary>
 /// Units for weight.
 /// </summary>
-public enum WeightUnit
+public enum WeightUnit //NUnit
 {
    KILOGRAM,
    MILLIGRAM,
@@ -18,9 +18,7 @@ public enum WeightUnit
    OUNCE,
    POUND,
    TON,
-
    STONE
-   //TODO add more exotic weights?
 }
 
 /// <summary>
