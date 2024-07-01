@@ -9,16 +9,17 @@ public class ShortUIDTest
    [Test]
    public void ShortUID_Test()
    {
-      Guid guid1 = Guid.NewGuid();
-      ShortUID suid1 = guid1.BNToShortUID();
-      Guid? guid2 = suid1.ToGuid();
-
+      Guid refGuid = Guid.NewGuid();
+      ShortUID suid1 = refGuid.BNToShortUID();
+      
       Assert.That(suid1.Code.Length, Is.EqualTo(22));
-      Assert.That(guid1, Is.EqualTo(guid2));
+      
+      Guid? resGuid = suid1.ToGuid();
+      Assert.That(resGuid, Is.EqualTo(refGuid));
 
       suid1 = new ShortUID("4gZaAOk7jkexO8Zjz8anjQ");
-      guid1 = suid1.ToGuid();
-      ShortUID suid2 = guid1.BNToShortUID();
+      refGuid = suid1.ToGuid();
+      ShortUID suid2 = refGuid.BNToShortUID();
 
       Assert.That(suid1, Is.EqualTo(suid2));
 

@@ -19,9 +19,7 @@ public enum AreaUnit
    YARD2,
    PERCH, //aka rod
    ACRE,
-
    MILE2
-   //TODO add more exotic areas?
 }
 
 /// <summary>

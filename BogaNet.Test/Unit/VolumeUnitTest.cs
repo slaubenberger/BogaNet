@@ -5,13 +5,13 @@ namespace BogaNet.Test.Unit;
 public class VolumeUnitTest
 {
    #region Tests
-   
+
    [OneTimeSetUp]
    public static void Init()
    {
       TemperatureUnitExtension.IgnoreSameUnit = false;
    }
-   
+
    [Test]
    public void VolumeUnit_Convert_Test()
    {

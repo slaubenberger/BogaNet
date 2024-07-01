@@ -174,7 +174,6 @@ public class ArrayExtensionTest
       Assert.That(bRes, Is.EqualTo(bNumber));
    }
 
-
    [Test]
    public void BNToNumber_Int_Test()
    {

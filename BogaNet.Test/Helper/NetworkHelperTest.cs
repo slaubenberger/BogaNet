@@ -143,15 +143,4 @@ public class NetworkHelperTest
    }
 
    #endregion
-
-   /*
-         #region Cleanup
-
-         [TearDown]
-         public void CleanUp()
-         {
-         }
-
-         #endregion
-   */
 }

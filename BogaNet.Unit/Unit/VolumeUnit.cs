@@ -10,7 +10,7 @@ public enum VolumeUnit
 {
    LITER,
    MM3,
-   CM3, //aka "milli liter"
+   CM3, //aka "milliliter"
    CENTILITER,
    DECILITER,
    DECALITER,
@@ -25,9 +25,7 @@ public enum VolumeUnit
    CUP_US,
    TABLESPOON_US,
    TEASPOON_US,
-
    QUART_US
-   //TODO add more exotic volumes?
 }
 
 /// <summary>

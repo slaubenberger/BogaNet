@@ -19,7 +19,7 @@ public class HashHelperTest
       plain = "BogaNet ruleZ!";
       h2 = HashHelper.SHA256(plain.BNToByteArray());
 
-      Assert.False(h1 == h2);
+      Assert.That(h1 == h2, Is.False);
    }
 
    #endregion

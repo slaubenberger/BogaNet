@@ -9,50 +9,48 @@ public class ObfuscatorTest
    [Test]
    public void Obfuscator_Test()
    {
+      string plain;
+
       for (byte IVgen = 0; IVgen < byte.MaxValue; IVgen++)
       {
-         string testStr = "abc";
-         var text2 = Obfuscator.Obfuscate(testStr, IVgen);
+         plain = "abc";
+         var text2 = Obfuscator.Obfuscate(plain, IVgen);
          var text3 = Obfuscator.Deobfuscate(text2, IVgen).BNToString();
 
-         //Console.WriteLine($"{IVgen} - {BogaNet.Encoder.Base16.ToBase16String(testStr.BNToByteArray())} - Obf: {BogaNet.Encoder.Base16.ToBase16String(text2)}");
-         //Console.WriteLine($"{testStr} - {text3}");
-
-         Assert.That(testStr, Is.EqualTo(text3));
+         Assert.That(text3, Is.EqualTo(plain));
 
          decimal dec = 35.8m;
 
          var decBytes = Obfuscator.Obfuscate(dec.BNToByteArray(), IVgen);
          var decEncBytes = Obfuscator.Deobfuscate(decBytes, IVgen);
 
-         //Console.WriteLine($"{IVgen} - {BogaNet.Encoder.Base16.ToBase16String(dec.BNToByteArray())} - {BogaNet.Encoder.Base16.ToBase16String(decBytes)}");
-
          decimal decVal = decEncBytes.BNToNumber<decimal>();
-         Assert.True(dec.Equals(decVal));
+         Assert.That(decVal, Is.EqualTo(dec));
       }
 
-      string plain = "BogaNet rulez!";
+      plain = "BogaNet rülez!";
 
       var output = Obfuscator.Obfuscate(plain.BNToByteArray());
-      var plain2 = Obfuscator.Deobfuscate(output).BNToString();
+      var res = Obfuscator.Deobfuscate(output).BNToString();
 
-      Assert.That(plain, Is.EqualTo(plain2));
+      Assert.That(res, Is.EqualTo(plain));
 
       plain = "Another test?!";
 
       byte IV = Obfuscator.GenerateIV();
 
       output = Obfuscator.Obfuscate(plain.BNToByteArray(), IV);
-      plain2 = Obfuscator.Deobfuscate(output, IV).BNToString();
+      res = Obfuscator.Deobfuscate(output, IV).BNToString();
 
-      Assert.That(plain, Is.EqualTo(plain2));
+      Assert.That(res, Is.EqualTo(plain));
 
+      //wrong IV test
       plain = "And another test?!";
 
       output = Obfuscator.Obfuscate(plain.BNToByteArray(), 10);
-      plain2 = Obfuscator.Deobfuscate(output, 11).BNToString();
+      res = Obfuscator.Deobfuscate(output, 11).BNToString();
 
-      Assert.That(plain == plain2, Is.False);
+      Assert.That(plain == res, Is.False);
    }
 
    #endregion
