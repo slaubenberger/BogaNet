@@ -2,7 +2,7 @@
 Localizer/translator for C# applications.
 
 ## Main class and example code
-* [Localizer](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1i18n_1_1_localizer.html): i18n localizer.
+* [Localizer](https://www.crosstales.com/media/data/BogaNet/api/class_localizer.html): i18n localizer.
 
 ```csharp
 Localizer.Instance.LoadFiles("./Resources/Translation.csv", "./Resources/Translation_de.csv"); //load the translation files
