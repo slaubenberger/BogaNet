@@ -36,11 +36,10 @@ There are also many powerful extensions for arrays, bytes, dictionaries, lists, 
 [BogaNet.Common](https://www.nuget.org/packages/BogaNet.Common/)
 
 ## BogaNet.Crypto
-Various helpers for cryptographic functions, like hashing (SHA), asymmetric (AES) and symmetric (RSA) encryption/decryption, HMAC and CRC.
+Various helpers for cryptographic functions, like hashing (SHA), asymmetric (AES) and symmetric (RSA) encryption/decryption, and HMAC.
 
 ### Main classes
 * [AESHelper](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_helper_1_1_a_e_s_helper.html): Helper for AES cryptography.
-* [CRCHelper](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_helper_1_1_c_r_c_helper.html): Helper for CRC checks with CRC8, CRC16, CRC32 and CRC64.
 * [HashHelper](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_helper_1_1_hash_helper.html): Helper for hash computations. It contains ready-to-use Implementations of SHA256, SHA384 and SHA512.
 * [HMACHelper](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_helper_1_1_h_m_a_c_helper.html): Helper for HMAC cryptography. It contains ready-to-use Implementations of HMAC256, HMAC384 and HMAC512.
 * [RSAHelper](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_helper_1_1_r_s_a_helper.html): Helper for RSA cryptography and X509 certificates.
@@ -54,11 +53,10 @@ Localizer for C# applications.
 ### Main class and example code
 * [Localizer](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1i18n_1_1_localizer.html): i18n localizer.
 
-```cs
-var loc = Localizer.Instance;
-loc.LoadFiles("./Resources/Translation.csv", "./Resources/Translation_de.csv"); //load the translation files
-loc.Culture = new CultureInfo("en"); //set the culture to English
-Console.WriteLine(loc.GetText("GreetingText"));
+```csharp
+Localizer.Instance.LoadFiles("./Resources/Translation.csv", "./Resources/Translation_de.csv"); //load the translation files
+Localizer.Instance.Culture = new CultureInfo("en"); //set the culture to English
+Console.WriteLine(Localizer.Instance.GetText("GreetingText"));
 ```
 
 ### Nuget:
@@ -111,20 +109,20 @@ Furthermore, it allows to store the data in obfuscated form to prevent it from b
 The data is automatically stored at application exit.
 
 ### Main class and example code
-* [Preferences](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_prefs_1_1_preferences.html): Preferences for the application..
+* [Preferences](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_prefs_1_1_preferences.html): Preferences for the application.
 
 ```csharp
 string textObf = "Hello obfuscated wörld!";
 string keyObf = "textObf";
 
-Preferences.Set(keyObf, textObf, true); //save text in obfuscated form
-Console.WriteLine(GetString(keyObf, true));
+Preferences.Instance.Set(keyObf, textObf, true); //save text in obfuscated form
+Console.WriteLine(Preferences.Instance.GetString(keyObf, true));
 
 double number = 12.345;
 string keyNumber = "number";
 
-Preferences.Set(keyNumber, number);
-Console.WriteLine(Preferences.GetNumber<double>(keyNumber).ToString());
+Preferences.Instance.Set(keyNumber, number);
+Console.WriteLine(Preferences.Instance.GetNumber<double>(keyNumber).ToString());
 ```
 
 ### Nuget:
@@ -181,8 +179,8 @@ decimal kbit = BitUnit.BIT.Convert(BitUnit.kbit, 1200); //Bit to kbit
 decimal kB = ByteUnit.BYTE.Convert(ByteUnit.kB, 1976); //Byte to kB
 decimal meter = LengthUnit.YARD.Convert(LengthUnit.M, 9); //Yard to meter
 decimal kelvin = TemperatureUnit.FAHRENHEIT.Convert(TemperatureUnit.KELVIN, 7800); //Fahrenheit to Kelvin
-decimal pint = VolumeUnit.LITER.Convert(VolumeUnit.PINT, 5); //Liter to pint
-decimal conv = WeightUnit.GRAM.Convert(WeightUnit.POUND, 150); //Gram to pound
+decimal pint = VolumeUnit.LITER.Convert(VolumeUnit.PINT_US, 5); //Liter to pint
+decimal pound = WeightUnit.GRAM.Convert(WeightUnit.POUND, 150); //Gram to pound
 ```
 
 ### Nuget:

@@ -10,8 +10,8 @@
         <Description>Various helpers for cryptographic functions, like hashing (SHA), asymmetric (RSA) and symmetric (AES) encryption/decryption, HMAC and CRC.</Description>
         <RepositoryUrl>https://github.com/slaubenberger/BogaNet</RepositoryUrl>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageTags>AES Crypto CRC CRC8 CRC16 CRC32 CRC64 RSA PKI Certificate X509 Hash SHA SHA256 SHA384 SHA512 HMAC HMAC256 HMAC384 HMAC512</PackageTags>
-        <PackageReleaseNotes>Logo updated.</PackageReleaseNotes>
+        <PackageTags>AES Crypto RSA PKI Certificate X509 Hash SHA SHA256 SHA384 SHA512 HMAC HMAC256 HMAC384 HMAC512</PackageTags>
+        <PackageReleaseNotes>NUnit test for all classes.</PackageReleaseNotes>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <!-- <PackageIconUrl>https://www.crosstales.com/media/data/BogaNet/logo_boga.png</PackageIconUrl> -->
         <PackageIcon>logo_boga_crypto.jpg</PackageIcon>

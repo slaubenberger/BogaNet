@@ -3,15 +3,15 @@
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
-        <Version>0.9.3</Version>
+        <Version>1.1.0</Version>
         <Company>crosstales LLC</Company>
         <Copyright>© 2024 Stefan Laubenberger</Copyright>
         <Authors>Stefan Laubenberger</Authors>
-        <Description>AES encrypted types for all value types and strings. This types prevent the values from being "plain" in memory and offers high protection against bad actors (like memory scanners and searchers).</Description>
+        <Description>AES encrypted types for all value types, strings and objects. This types prevent the values from being "plain" in memory and offers high protection against bad actors (like memory scanners and searchers).</Description>
         <RepositoryUrl>https://github.com/slaubenberger/BogaNet</RepositoryUrl>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageTags>AES Security Secure Protection</PackageTags>
-        <PackageReleaseNotes>Logo updated.</PackageReleaseNotes>
+        <PackageReleaseNotes>NUnit test for all classes.</PackageReleaseNotes>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <!-- <PackageIconUrl>https://www.crosstales.com/media/data/BogaNet/logo_boga.png</PackageIconUrl> -->
         <PackageIcon>logo_boga_secret.jpg</PackageIcon>

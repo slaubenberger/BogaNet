@@ -8,8 +8,8 @@ decimal kbit = BitUnit.BIT.Convert(BitUnit.kbit, 1200); //Bit to kbit
 decimal kB = ByteUnit.BYTE.Convert(ByteUnit.kB, 1976); //Byte to kB
 decimal meter = LengthUnit.YARD.Convert(LengthUnit.M, 9); //Yard to meter
 decimal kelvin = TemperatureUnit.FAHRENHEIT.Convert(TemperatureUnit.KELVIN, 7800); //Fahrenheit to Kelvin
-decimal pint = VolumeUnit.LITER.Convert(VolumeUnit.PINT, 5); //Liter to pint
-decimal conv = WeightUnit.GRAM.Convert(WeightUnit.POUND, 150); //Gram to pound
+decimal pint = VolumeUnit.LITER.Convert(VolumeUnit.PINT_US, 5); //Liter to pint
+decimal pound = WeightUnit.GRAM.Convert(WeightUnit.POUND, 150); //Gram to pound
 ```
 
 ## Nuget:

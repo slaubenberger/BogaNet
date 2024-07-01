@@ -4,20 +4,20 @@ Furthermore, it allows to store the data in obfuscated form to prevent it from b
 The data is automatically stored at application exit.
 
 ## Main class and example code
-* [Preferences](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_prefs_1_1_preferences.html): Preferences for the application..
+* [Preferences](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_prefs_1_1_preferences.html): Preferences for the application.
 
 ```csharp
 string textObf = "Hello obfuscated wörld!";
 string keyObf = "textObf";
 
-Preferences.Set(keyObf, textObf, true); //save text in obfuscated form
-Console.WriteLine(GetString(keyObf, true));
+Preferences.Instance.Set(keyObf, textObf, true); //save text in obfuscated form
+Console.WriteLine(Preferences.Instance.GetString(keyObf, true));
 
 double number = 12.345;
 string keyNumber = "number";
 
-Preferences.Set(keyNumber, number);
-Console.WriteLine(Preferences.GetNumber<double>(keyNumber).ToString());
+Preferences.Instance.Set(keyNumber, number);
+Console.WriteLine(Preferences.Instance.GetNumber<double>(keyNumber).ToString());
 ```
 
 ## Nuget:
