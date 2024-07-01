@@ -20,7 +20,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="BogaNet.Common" Version="1.1.0" />
+<!--        <PackageReference Include="BogaNet.Common" Version="1.1.0" />-->
         <PackageReference Include="System.IO.Hashing" Version="8.0.0" />
     </ItemGroup>
 
@@ -29,7 +29,7 @@
         <None Include="README.md" Pack="true" PackagePath="\"/>
     </ItemGroup>
 
-    <!--    <ItemGroup>-->
-    <!--        <ProjectReference Include="..\BogaNet.Common\BogaNet.Common.csproj" />-->
-    <!--    </ItemGroup>-->
+    <ItemGroup>
+        <ProjectReference Include="..\BogaNet.Common\BogaNet.Common.csproj"/>
+    </ItemGroup>
 </Project>

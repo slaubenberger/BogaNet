@@ -19,19 +19,19 @@
         <LangVersion>12</LangVersion>
     </PropertyGroup>
 
-    <ItemGroup>
-        <PackageReference Include="BogaNet.Common" Version="1.1.0" />
-        <PackageReference Include="BogaNet.ObfuscatedType" Version="1.1.0" />
-    </ItemGroup>
+<!--    <ItemGroup>-->
+<!--        <PackageReference Include="BogaNet.Common" Version="1.1.0" />-->
+<!--        <PackageReference Include="BogaNet.ObfuscatedType" Version="1.1.0" />-->
+<!--    </ItemGroup>-->
 
     <ItemGroup>
         <None Include="../Resources/logo_boga_prefs.jpg" Pack="true" PackagePath="\"/>
         <None Include="README.md" Pack="true" PackagePath="\"/>
     </ItemGroup>
 
-<!--    <ItemGroup>-->
-<!--        <ProjectReference Include="..\BogaNet.Common\BogaNet.Common.csproj"/>-->
-<!--        <ProjectReference Include="..\BogaNet.ObfuscatedType\BogaNet.ObfuscatedType.csproj"/>-->
-<!--    </ItemGroup>-->
+    <ItemGroup>
+        <ProjectReference Include="..\BogaNet.Common\BogaNet.Common.csproj"/>
+        <ProjectReference Include="..\BogaNet.ObfuscatedType\BogaNet.ObfuscatedType.csproj"/>
+    </ItemGroup>
 
 </Project>

@@ -24,12 +24,12 @@
         <None Include="README.md" Pack="true" PackagePath="\"/>
     </ItemGroup>
 
-    <ItemGroup>
-      <PackageReference Include="BogaNet.Common" Version="1.1.0" />
-    </ItemGroup>
-
 <!--    <ItemGroup>-->
-<!--      <ProjectReference Include="..\BogaNet.Common\BogaNet.Common.csproj" />-->
+<!--      <PackageReference Include="BogaNet.Common" Version="1.1.0" />-->
 <!--    </ItemGroup>-->
+
+    <ItemGroup>
+        <ProjectReference Include="..\BogaNet.Common\BogaNet.Common.csproj"/>
+    </ItemGroup>
 
 </Project>
