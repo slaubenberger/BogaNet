@@ -1,13 +1,14 @@
 using Microsoft.Extensions.Logging;
 using System.Numerics;
 using BogaNet.Extension;
+using System;
 
 namespace BogaNet.Unit;
 
 /// <summary>
 /// Units for temperatures.
 /// </summary>
-public enum TemperatureUnit
+public enum TemperatureUnit //NUnit
 {
    KELVIN,
    CELSIUS,
@@ -67,6 +68,8 @@ public static class TemperatureUnitExtension
             _logger.LogWarning($"There is no conversion for the fromUnit: {fromTemperatureUnit}");
             break;
       }
+
+      val = Math.Max(val, 0); //limit to absolute zero
 
       //Convert from Kelvin
       switch (toTemperatureUnit)
