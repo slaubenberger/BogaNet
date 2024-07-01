@@ -8,8 +8,8 @@
 Little helpers to speed up Avalonia development.
 
 ### Main classes
-* [ImageHelper](https://www.crosstales.com/media/data/BogaNet/api/class_image_helper.html): Helper for images in Avalonia.
-* [ResourceHelper](https://www.crosstales.com/media/data/BogaNet/api/class_resource_helper.html): Helper for resources in Avalonia.
+* [ImageHelper](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_avalonia_1_1_helper_1_1_image_helper.html): Helper for images in Avalonia.
+* [ResourceHelper](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_avalonia_1_1_helper_1_1_resource_helper.html): Helper for resources in Avalonia.
 
 ### Nuget:
 [BogaNet.Avalonia](https://www.nuget.org/packages/BogaNet.Avalonia/)
@@ -18,18 +18,18 @@ Little helpers to speed up Avalonia development.
 Main library for all BogaNet-packages filled with useful helpers to speed up C# development.
 
 ### Main classes
-* [Base2](https://www.crosstales.com/media/data/BogaNet/api/class_base2.html): Base2 (aka binary) encoder.
-* [Base16](https://www.crosstales.com/media/data/BogaNet/api/class_base16.html): Base16 (aka Hex) encoder.
-* [Base32](https://www.crosstales.com/media/data/BogaNet/api/class_base32.html): Base32 encoder.
-* [Base64](https://www.crosstales.com/media/data/BogaNet/api/class_base64.html): Base64 encoder.
-* [FileHelper](https://www.crosstales.com/media/data/BogaNet/api/class_file_helper.html): Various helper functions for filesystem operations.
-* [JsonHelper](https://www.crosstales.com/media/data/BogaNet/api/class_json_helper.html): Helper for JSON operations.
-* [NetworkHelper](https://www.crosstales.com/media/data/BogaNet/api/class_network_helper.html): Various helper functions for networking.
-* [Obfuscator](https://www.crosstales.com/media/data/BogaNet/api/class_obfuscator.html): Obfuscator for strings and byte-arrays.
-* [ProcessRunner](https://www.crosstales.com/media/data/BogaNet/api/class_process_runner.html): Executes applications and commands.
-* [ShortUID](https://www.crosstales.com/media/data/BogaNet/api/class_short_u_i_d.html): Short Guid implementation with a length of 22 characters (instead 36 of the normal Guid).
-* [StringHelper](https://www.crosstales.com/media/data/BogaNet/api/class_string_helper.html): Helper methods for strings.
-* [XmlHelper](https://www.crosstales.com/media/data/BogaNet/api/class_xml_helper.html): Helper for XML operations.
+* [Base2](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_encoder_1_1_base2.html): Base2 (aka binary) encoder.
+* [Base16](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_encoder_1_1_base16.html): Base16 (aka Hex) encoder.
+* [Base32](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_encoder_1_1_base32.html): Base32 encoder.
+* [Base64](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_encoder_1_1_base64.html): Base64 encoder.
+* [FileHelper](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_helper_1_1_file_helper.html): Various helper functions for filesystem operations.
+* [JsonHelper](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_helper_1_1_json_helper.html): Helper for JSON operations.
+* [NetworkHelper](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_helper_1_1_network_helper.html): Various helper functions for networking.
+* [Obfuscator](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_util_1_1_obfuscator.html): Obfuscator for strings and byte-arrays.
+* [ProcessRunner](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_util_1_1_process_runner.html): Executes applications and commands.
+* [ShortUID](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_util_1_1_short_u_i_d.html): Short Guid implementation with a length of 22 characters (instead 36 of the normal Guid).
+* [StringHelper](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_helper_1_1_string_helper.html): Helper methods for strings.
+* [XmlHelper](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_helper_1_1_xml_helper.html): Helper for XML operations.
 
 There are also many powerful extensions for arrays, bytes, dictionaries, lists, numbers and strings.
 
@@ -40,10 +40,10 @@ There are also many powerful extensions for arrays, bytes, dictionaries, lists, 
 Various helpers for cyclic redundancy checks (CRC), namely CRC8, CRC16, CRC32 and CRC64.
 
 ### Main classes
-* [CRC8](https://www.crosstales.com/media/data/BogaNet/api/class_c_r_c8.html): Implementation of CRC with 8bit (byte).
-* [CRC16](https://www.crosstales.com/media/data/BogaNet/api/class_c_r_c16.html): Implementation of CRC with 16bit (ushort).
-* [CRC32](https://www.crosstales.com/media/data/BogaNet/api/class_c_r_c32.html): Implementation of CRC with 32bit (uint).
-* [CRC64](https://www.crosstales.com/media/data/BogaNet/api/class_c_r_c64.html): Implementation of CRC with 64bit (ulong).
+* [CRC8](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_c_r_c_1_1_c_r_c8.html): Implementation of CRC with 8bit (byte).
+* [CRC16](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_c_r_c_1_1_c_r_c16.html): Implementation of CRC with 16bit (ushort).
+* [CRC32](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_c_r_c_1_1_c_r_c32.html): Implementation of CRC with 32bit (uint).
+* [CRC64](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_c_r_c_1_1_c_r_c64.html): Implementation of CRC with 64bit (ulong).
 
 ### Nuget:
 [BogaNet.CRC](https://www.nuget.org/packages/BogaNet.CRC/)
@@ -52,10 +52,10 @@ Various helpers for cyclic redundancy checks (CRC), namely CRC8, CRC16, CRC32 an
 Various helpers for cryptographic functions, like hashing (SHA), asymmetric (AES) and symmetric (RSA) encryption/decryption, and HMAC.
 
 ### Main classes
-* [AESHelper](https://www.crosstales.com/media/data/BogaNet/api/class_a_e_s_helper.html): Helper for AES cryptography.
-* [HashHelper](https://www.crosstales.com/media/data/BogaNet/api/class_hash_helper.html): Helper for hash computations. It contains ready-to-use Implementations of SHA256, SHA384 and SHA512.
-* [HMACHelper](https://www.crosstales.com/media/data/BogaNet/api/class_h_m_a_c_helper.html): Helper for HMAC cryptography. It contains ready-to-use Implementations of HMAC256, HMAC384 and HMAC512.
-* [RSAHelper](https://www.crosstales.com/media/data/BogaNet/api/class_r_s_a_helper.html): Helper for RSA cryptography and X509 certificates.
+* [AESHelper](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_helper_1_1_a_e_s_helper.html): Helper for AES cryptography.
+* [HashHelper](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_helper_1_1_hash_helper.html): Helper for hash computations. It contains ready-to-use Implementations of SHA256, SHA384 and SHA512.
+* [HMACHelper](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_helper_1_1_h_m_a_c_helper.html): Helper for HMAC cryptography. It contains ready-to-use Implementations of HMAC256, HMAC384 and HMAC512.
+* [RSAHelper](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_helper_1_1_r_s_a_helper.html): Helper for RSA cryptography and X509 certificates.
 
 ### Nuget:
 [BogaNet.Crypto](https://www.nuget.org/packages/BogaNet.Crypto/)
@@ -64,7 +64,7 @@ Various helpers for cryptographic functions, like hashing (SHA), asymmetric (AES
 Localizer for C# applications.
 
 ### Main class and example code
-* [Localizer](https://www.crosstales.com/media/data/BogaNet/api/class_localizer.html): i18n localizer.
+* [Localizer](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1i18n_1_1_localizer.html): i18n localizer.
 
 ```csharp
 Localizer.Instance.LoadFiles("./Resources/Translation.csv", "./Resources/Translation_de.csv"); //load the translation files
@@ -97,7 +97,7 @@ Obfuscated types for:
 * [bool](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool)
 * [char](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/char)
 * [string](https://learn.microsoft.com/en-us/dotnet/api/system.string?view=net-8.0)
-* all objects (currently only as storage container)
+* all **objects** (acts currently only as storage container)
 
 ```csharp
 DoubleObf age = 35.8;
@@ -122,7 +122,7 @@ Furthermore, it allows to store the data in obfuscated form to prevent it from b
 The data is automatically stored at application exit.
 
 ### Main class and example code
-* [Preferences](https://www.crosstales.com/media/data/BogaNet/api/class_preferences.html): Preferences for the application.
+* [Preferences](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_prefs_1_1_preferences.html): Preferences for the application.
 
 ```csharp
 string textObf = "Hello obfuscated wörld!";
@@ -164,7 +164,7 @@ Secure types for:
 * [bool](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool)
 * [char](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/char)
 * [string](https://learn.microsoft.com/en-us/dotnet/api/system.string?view=net-8.0)
-* all objects (currently only as storage container)
+* all **objects** (acts currently only as storage container)
 
 ```csharp
 DoubleSec age = 35.8;

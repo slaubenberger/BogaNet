@@ -20,7 +20,7 @@ Obfuscated types for:
 * [bool](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool)
 * [char](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/char)
 * [string](https://learn.microsoft.com/en-us/dotnet/api/system.string?view=net-8.0)
-* all objects (currently only as storage container)
+* all **objects** (acts currently only as storage container)
 
 ```csharp
 DoubleObf age = 35.8;

@@ -4,7 +4,7 @@ Furthermore, it allows to store the data in obfuscated form to prevent it from b
 The data is automatically stored at application exit.
 
 ## Main class and example code
-* [Preferences](https://www.crosstales.com/media/data/BogaNet/api/class_preferences.html): Preferences for the application.
+* [Preferences](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_prefs_1_1_preferences.html): Preferences for the application.
 
 ```csharp
 string textObf = "Hello obfuscated wörld!";
