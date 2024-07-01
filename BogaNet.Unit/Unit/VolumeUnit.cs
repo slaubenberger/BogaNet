@@ -41,9 +41,9 @@ public static class VolumeUnitExtension
    public static bool IgnoreSameUnit = true;
 
    /// <summary>
-   /// Meter³ to liters.
+   /// Millimeter³ to liters.
    /// </summary>
-   public const decimal FACTOR_M3_TO_L = 1000m;
+   public const decimal FACTOR_MM3_TO_L = 0.000001m;
 
    /// <summary>
    /// Centimeter³ (aka milliliter) to liters.
@@ -69,6 +69,11 @@ public static class VolumeUnitExtension
    /// Hectoliter to liters.
    /// </summary>
    public const decimal FACTOR_HECTOLITER_TO_L = 100;
+
+   /// <summary>
+   /// Meter³ to liters.
+   /// </summary>
+   public const decimal FACTOR_M3_TO_L = 1000m;
 
    /// <summary>
    /// Inch³ to liters.
@@ -119,11 +124,6 @@ public static class VolumeUnitExtension
    /// Quart (US) to liters.
    /// </summary>
    public const decimal FACTOR_QUART_US_TO_L = 0.946353m;
-
-   /// <summary>
-   /// Millimeter³ to liters.
-   /// </summary>
-   public const decimal FACTOR_MM3_TO_L = 0.000001m;
 
    #endregion
 

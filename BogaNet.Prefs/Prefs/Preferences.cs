@@ -22,7 +22,7 @@ public class Preferences : Singleton<Preferences>, IPreferences //NUnit //TODO a
 
    #region Properties
 
-   public virtual bool AutoSave { get; set; } = true;
+   public virtual bool AutoSaveOnExit { get; set; } = true;
 
    #endregion
 
@@ -190,7 +190,7 @@ public class Preferences : Singleton<Preferences>, IPreferences //NUnit //TODO a
 
    private void AppDomain_ProcessExit(object? sender, EventArgs e)
    {
-      if (AutoSave)
+      if (AutoSaveOnExit)
          Save();
    }
 

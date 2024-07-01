@@ -11,7 +11,7 @@ public interface IPreferences
    /// <summary>
    /// Store the data automatically at application exit.
    /// </summary>
-   bool AutoSave { get; set; }
+   bool AutoSaveOnExit { get; set; }
 
    /// <summary>
    /// Load the preference file.

@@ -8,7 +8,7 @@ public class PreferencesTest
    [OneTimeSetUp]
    public static void Init()
    {
-      Preferences.Instance.AutoSave = false;
+      Preferences.Instance.AutoSaveOnExit = false;
    }
 
    #region Tests
