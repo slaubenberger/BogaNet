@@ -8,7 +8,7 @@ public class VolumeUnitTest
    [OneTimeSetUp]
    public static void Init()
    {
-      TemperatureUnitExtension.IgnoreSameUnit = false;
+      VolumeUnitExtension.IgnoreSameUnit = false;
    }
 
    #region Tests

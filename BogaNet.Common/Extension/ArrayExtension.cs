@@ -28,7 +28,7 @@ public static class ArrayExtension //NUnit
 
       return _encoding.GetString(bytes);
    }
-   
+
    /// <summary>
    /// Converts a byte-array to a Number.
    /// </summary>
@@ -45,38 +45,38 @@ public static class ArrayExtension //NUnit
       int off = offset > 0 ? offset : 0;
       switch (type)
       {
-         case Type tByte when tByte == typeof(byte):
+         case Type when type == typeof(byte):
             return T.CreateTruncating(bytes[off]);
-         case Type tSbyte when tSbyte == typeof(sbyte):
+         case Type when type == typeof(sbyte):
             return T.CreateTruncating(bytes[off]);
-         case Type tShort when tShort == typeof(short):
+         case Type when type == typeof(short):
             content = readNumberData(2, off, bytes);
             return T.CreateTruncating(BitConverter.ToInt16(content));
-         case Type tUshort when tUshort == typeof(ushort):
+         case Type when type == typeof(ushort):
             content = readNumberData(2, off, bytes);
             return T.CreateTruncating(BitConverter.ToUInt16(content));
-         case Type tChar when tChar == typeof(char):
+         case Type when type == typeof(char):
             content = readNumberData(2, off, bytes);
             return T.CreateTruncating(BitConverter.ToChar(content));
-         case Type tFloat when tFloat == typeof(float):
+         case Type when type == typeof(float):
             content = readNumberData(4, off, bytes);
             return T.CreateTruncating(BitConverter.ToSingle(content));
-         case Type tInt when tInt == typeof(int):
+         case Type when type == typeof(int):
             content = readNumberData(4, off, bytes);
             return T.CreateTruncating(BitConverter.ToInt32(content));
-         case Type tUint when tUint == typeof(uint):
+         case Type when type == typeof(uint):
             content = readNumberData(4, off, bytes);
             return T.CreateTruncating(BitConverter.ToUInt32(content));
-         case Type tDouble when tDouble == typeof(double):
+         case Type when type == typeof(double):
             content = readNumberData(8, off, bytes);
             return T.CreateTruncating(BitConverter.ToDouble(content));
-         case Type tLong when tLong == typeof(long):
+         case Type when type == typeof(long):
             content = readNumberData(8, off, bytes);
             return T.CreateTruncating(BitConverter.ToInt64(content));
-         case Type tUlong when tUlong == typeof(ulong):
+         case Type when type == typeof(ulong):
             content = readNumberData(8, off, bytes);
             return T.CreateTruncating(BitConverter.ToUInt64(content));
-         case Type tDecimal when tDecimal == typeof(decimal):
+         case Type when type == typeof(decimal):
          {
             content = readNumberData(16, off, bytes);
             int i1 = BitConverter.ToInt32(content, 0);

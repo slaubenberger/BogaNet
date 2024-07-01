@@ -94,7 +94,7 @@ public interface ILocalizer
    /// <param name="key">Key to check</param>
    /// <returns>True if the key exists in the localizer</returns>
    public bool ContainsKey(string key);
-   
+
    /// <summary>
    /// Adds a translated text.
    /// </summary>

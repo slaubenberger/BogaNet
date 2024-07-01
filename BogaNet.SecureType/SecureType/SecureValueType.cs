@@ -15,23 +15,21 @@ public abstract class SecureValueType<TCustom, TValue> where TValue : INumber<TV
 {
    #region Variables
 
-   private readonly ByteObf[] _key = AESHelper.GenerateKey().BNToByteObfArray();
-   private readonly ByteObf[] _iv = AESHelper.GenerateIV().BNToByteObfArray();
-   private byte[]? secretValue;
+   private byte[]? _secretValue;
 
    #endregion
 
    #region Properties
 
-   protected ByteObf[] key => _key;
+   protected ByteObf[] key { get; } = AESHelper.GenerateKey().BNToByteObfArray();
 
-   protected ByteObf[] iv => _iv;
+   protected ByteObf[] iv { get; } = AESHelper.GenerateIV().BNToByteObfArray();
 
    protected TValue _value
    {
-      get => AESHelper.Decrypt(secretValue, key.ToByteArray(), iv.ToByteArray()).BNToNumber<TValue>()!;
+      get => AESHelper.Decrypt(_secretValue, key.ToByteArray(), iv.ToByteArray()).BNToNumber<TValue>()!;
 
-      private set => secretValue = AESHelper.Encrypt(value.BNToByteArray(), key.ToByteArray(), iv.ToByteArray());
+      private set => _secretValue = AESHelper.Encrypt(value.BNToByteArray(), key.ToByteArray(), iv.ToByteArray());
    }
 
    #endregion

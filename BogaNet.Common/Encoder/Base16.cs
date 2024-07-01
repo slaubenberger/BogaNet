@@ -43,7 +43,7 @@ public static class Base16 //NUnit
          {
             if (hexVal.StartsWith("00") && hexVal.Length > 2)
             {
-               hexVal = hexVal.Substring(2);
+               hexVal = hexVal[2..];
             }
             else
             {
@@ -86,37 +86,37 @@ public static class Base16 //NUnit
 
       switch (type)
       {
-         case Type t when t == typeof(byte):
+         case Type when type == typeof(byte):
             pairs = 1;
             break;
-         case Type t when t == typeof(sbyte):
+         case Type when type == typeof(sbyte):
             pairs = 1;
             break;
-         case Type t when t == typeof(short):
+         case Type when type == typeof(short):
             pairs = 2;
             break;
-         case Type t when t == typeof(ushort):
+         case Type when type == typeof(ushort):
             pairs = 2;
             break;
-         case Type t when t == typeof(char):
+         case Type when type == typeof(char):
             pairs = 2;
             break;
-         case Type t when t == typeof(float):
+         case Type when type == typeof(float):
             pairs = 4;
             break;
-         case Type t when t == typeof(int):
+         case Type when type == typeof(int):
             pairs = 4;
             break;
-         case Type t when t == typeof(uint):
+         case Type when type == typeof(uint):
             pairs = 4;
             break;
-         case Type t when t == typeof(double):
+         case Type when type == typeof(double):
             pairs = 8;
             break;
-         case Type t when t == typeof(long):
+         case Type when type == typeof(long):
             pairs = 8;
             break;
-         case Type t when t == typeof(ulong):
+         case Type when type == typeof(ulong):
             pairs = 8;
             break;
           //TODO needs unsafe...
@@ -128,7 +128,7 @@ public static class Base16 //NUnit
             length = sizeof(nint);
             break;
 */
-         case Type t when t == typeof(decimal):
+         case Type when type == typeof(decimal):
             pairs = 16;
             break;
          default:
@@ -136,7 +136,7 @@ public static class Base16 //NUnit
             break;
       }
 
-      byte[] bytes = number.BNToByteArray();
+      byte[]? bytes = number.BNToByteArray();
       string hex = ToBase16String(bytes);
       string res = useFullLength ? StringHelper.CreateFixedLengthString(hex, 2 * pairs, '0', false) : hex;
 
@@ -152,10 +152,7 @@ public static class Base16 //NUnit
    /// <returns>String value as converted Base16-string</returns>
    public static string? ToBase16String(string? str, bool addPrefix = false, Encoding? encoding = null)
    {
-      if (str == null)
-         return null;
-
-      return ToBase16String(str.BNToByteArray(encoding), addPrefix);
+      return str == null ? null : ToBase16String(str.BNToByteArray(encoding), addPrefix);
    }
 
    #endregion

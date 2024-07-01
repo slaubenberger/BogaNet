@@ -11,7 +11,7 @@ public class DateTimeExtensionTest
 
       DateTime dtLocal = dtUtc.BNConvertToTimeZone();
 
-      if (TimeZoneInfo.Local != TimeZoneInfo.Utc)
+      if (TimeZoneInfo.Local.Equals(TimeZoneInfo.Utc))
          Assert.That(dtLocal, !Is.EqualTo(dtUtc));
 
       DateTime dtUtc2 = dtUtc.BNConvertTimeZoneToUtc();

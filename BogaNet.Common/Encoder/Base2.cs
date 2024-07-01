@@ -41,13 +41,13 @@ public static class Base2 //NUnit
          {
             if (base2string.Length % 8 != 0)
             {
-               base2string = base2string.Substring(1);
+               base2string = base2string[1..];
             }
             else
             {
                if (base2string.StartsWith("0000000") && base2string.Length > 8)
                {
-                  base2string = base2string.Substring(8);
+                  base2string = base2string[8..];
                }
                else
                {
@@ -110,10 +110,7 @@ public static class Base2 //NUnit
    /// <returns>String value as converted Base2-string</returns>
    public static string? ToBase2String(string? str, Encoding? encoding = null)
    {
-      if (str == null)
-         return null;
-
-      return ToBase2String(str.BNToByteArray(encoding));
+      return str == null ? null : ToBase2String(str.BNToByteArray(encoding));
    }
 
    #endregion

@@ -16,13 +16,13 @@ public class PreferencesTest
    [Test]
    public void Preferences_String_Test()
    {
-      string refText = "Hello wörld!";
-      string key = "text";
+      const string refText = "Hello wörld!";
+      const string key = "text";
       Preferences.Instance.Set(key, refText);
-      string text = Preferences.Instance.GetString(key);
+      string? text = Preferences.Instance.GetString(key);
       Assert.That(text, Is.EqualTo(refText));
 
-      string refTextObf = "Hello obfuscated wörld!";
+      const string refTextObf = "Hello obfuscated wörld!";
       string keyObf = "textObf";
       Preferences.Instance.Set(keyObf, refTextObf, true);
       text = Preferences.Instance.GetString(keyObf, true);
@@ -32,15 +32,17 @@ public class PreferencesTest
    [Test]
    public void Preferences_Object_Test()
    {
-      TestClass refValue = new();
-      refValue.PublicString = "Hello";
-      refValue.PublicProp = "Wörld";
-      string key = "object";
+      TestClass refValue = new()
+      {
+         PublicString = "Hello",
+         PublicProp = "Wörld"
+      };
+      const string key = "object";
       Preferences.Instance.Set(key, refValue);
       TestClass testClass = Preferences.Instance.GetObject<TestClass>(key);
       Assert.That(testClass, Is.EqualTo(refValue));
 
-      string keyObf = "objectObf";
+      const string keyObf = "objectObf";
       Preferences.Instance.Set(keyObf, refValue, true);
       testClass = Preferences.Instance.GetObject<TestClass>(keyObf, true);
       Assert.That(testClass, Is.EqualTo(refValue));
@@ -49,14 +51,14 @@ public class PreferencesTest
    [Test]
    public void Preferences_Number_Test()
    {
-      double refVal = 12.345;
-      string key = "number";
+      const double refVal = 12.345;
+      const string key = "number";
       Preferences.Instance.Set(key, refVal);
       double number = Preferences.Instance.GetNumber<double>(key);
       Assert.That(number, Is.EqualTo(refVal));
 
-      double refObf = 54.321;
-      string keyObf = "numberObf";
+      const double refObf = 54.321;
+      const string keyObf = "numberObf";
       Preferences.Instance.Set(keyObf, refObf, true);
       number = Preferences.Instance.GetNumber<double>(keyObf, true);
       Assert.That(number, Is.EqualTo(refObf));
@@ -65,13 +67,13 @@ public class PreferencesTest
    [Test]
    public void Preferences_Bool_Test()
    {
-      bool refVal = true;
-      string key = "bool";
+      const bool refVal = true;
+      const string key = "bool";
       Preferences.Instance.Set(key, refVal);
       bool boolean = Preferences.Instance.GetBool(key);
       Assert.That(boolean, Is.EqualTo(refVal));
 
-      string keyObf = "boolObf";
+      const string keyObf = "boolObf";
       Preferences.Instance.Set(keyObf, refVal, true);
       boolean = Preferences.Instance.GetBool(keyObf, true);
       Assert.That(boolean, Is.EqualTo(refVal));
@@ -81,12 +83,12 @@ public class PreferencesTest
    public void Preferences_DateTimeUtc_Test()
    {
       DateTime refVal = DateTime.UtcNow;
-      string key = "date";
+      const string key = "date";
       Preferences.Instance.Set(key, refVal);
       DateTime dt = Preferences.Instance.GetDate(key, false, TimeZoneInfo.Utc);
       Assert.That(dt, Is.EqualTo(refVal));
 
-      string keyObf = "dateObf";
+      const string keyObf = "dateObf";
       Preferences.Instance.Set(keyObf, refVal, true);
       dt = Preferences.Instance.GetDate(keyObf, true, TimeZoneInfo.Utc);
       Assert.That(dt, Is.EqualTo(refVal));
@@ -96,12 +98,12 @@ public class PreferencesTest
    public void Preferences_DateTime_Test()
    {
       DateTime refVal = DateTime.Now;
-      string key = "date";
+      const string key = "date";
       Preferences.Instance.Set(key, refVal);
       DateTime dt = Preferences.Instance.GetDate(key);
       Assert.That(dt, Is.EqualTo(refVal));
 
-      string keyObf = "dateObf";
+      const string keyObf = "dateObf";
       Preferences.Instance.Set(keyObf, refVal, true);
       dt = Preferences.Instance.GetDate(keyObf, true);
       Assert.That(dt, Is.EqualTo(refVal));

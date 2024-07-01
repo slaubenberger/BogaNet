@@ -1,5 +1,3 @@
-using BogaNet.Util;
-
 namespace BogaNet.ObfuscatedType;
 
 /// <summary>

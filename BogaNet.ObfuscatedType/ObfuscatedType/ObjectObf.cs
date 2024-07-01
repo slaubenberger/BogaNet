@@ -8,7 +8,7 @@ namespace BogaNet.ObfuscatedType;
 /// Obfuscated object implementation. This prevents the object from being "plain" in the memory of the application.
 /// NOTE: this class is not cryptographically secure!
 /// </summary>
-public class ObjectObf<T> //NUnit
+public class ObjectObf<T> where T : class //NUnit
 {
    //TODO the usage should be improved if possible, currently it's more like a storage container for objects...
 
@@ -28,7 +28,7 @@ public class ObjectObf<T> //NUnit
 
    private T _value
    {
-      get => Obfuscator.Deobfuscate(_obfValue, _obf).BNToObject<T>() ?? default;
+      get => (Obfuscator.Deobfuscate(_obfValue, _obf).BNToObject<T>() ?? default)!;
       set => _obfValue = Obfuscator.Obfuscate(value.BNToByteArray(), _obf);
    }
 
@@ -75,7 +75,7 @@ public class ObjectObf<T> //NUnit
 
    public override string ToString()
    {
-      return _value.ToString();
+      return _value.ToString()!;
    }
 
    public override bool Equals(object? obj)

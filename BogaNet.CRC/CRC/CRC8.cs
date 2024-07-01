@@ -8,7 +8,7 @@ namespace BogaNet.CRC;
 /// Implementation of CRC8.
 /// NOTE: never use CRC for integrity checks, use hashes instead!
 /// </summary>
-public abstract class CRC8
+public abstract class CRC8 //NUnit
 {
    #region Variables
 

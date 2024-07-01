@@ -333,7 +333,7 @@ public abstract class NetworkHelper
          IPInterfaceProperties ipInterfaceProperties = networkInterface.GetIPProperties();
          UnicastIPAddressInformation? unicastAddressIP =
             ipInterfaceProperties.UnicastAddresses.FirstOrDefault(ua =>
-               ua.Address?.AddressFamily == AddressFamily.InterNetwork);
+               ua.Address.AddressFamily == AddressFamily.InterNetwork);
 
          IPAddress gateway = ipInterfaceProperties.GatewayAddresses.Select(g => g.Address)
             .FirstOrDefault(a => a != null)!;

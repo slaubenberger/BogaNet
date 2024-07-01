@@ -1,12 +1,4 @@
-﻿using BogaNet.Helper;
-using BogaNet.Util;
-using System.Text;
-using BogaNet.Encoder;
-using System.Collections.Generic;
-using BogaNet.Extension;
-using BogaNet.ObfuscatedType;
-
-namespace BogaNet.Prefs;
+﻿namespace BogaNet.Prefs;
 
 /// <summary>
 /// Interface for containers of the application preferences.

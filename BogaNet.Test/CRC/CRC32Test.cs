@@ -9,7 +9,7 @@ public class CRC32Test
    [Test]
    public void CRC32_Test()
    {
-      string plain = "BogaNet rulez!";
+      const string plain = "BogaNet rulez!";
       const uint refValue = 903012262;
 
       uint crc = CRC32.CalcCRC32(plain);

@@ -22,7 +22,7 @@ public class ObfuscatorTest
 
          Assert.That(text3, Is.EqualTo(plain));
 
-         decimal dec = 35.8m;
+         const decimal dec = 35.8m;
 
          var decBytes = Obfuscator.Obfuscate(dec.BNToByteArray(), IVgen);
          var decEncBytes = Obfuscator.Deobfuscate(decBytes, IVgen);

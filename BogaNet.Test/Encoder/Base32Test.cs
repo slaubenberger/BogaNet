@@ -10,7 +10,7 @@ public class Base32Test
    [Test]
    public void Base32_Test()
    {
-      string plain = "BogaNet rülez!";
+      const string plain = "BogaNet rülez!";
 
       //Byte-array
       string? output = Base32.ToBase32String(plain.BNToByteArray());

@@ -98,8 +98,7 @@ public class PreferencesContainer : IPreferencesContainer //NUnit
       }
       else
       {
-         if (_preferences != null)
-            _preferences.Add(key, obfuscated ? Base64.ToBase64String(Obfuscator.Obfuscate(value?.ToString(), IV), true) : value);
+         _preferences?.Add(key, obfuscated ? Base64.ToBase64String(Obfuscator.Obfuscate(value?.ToString(), IV), true) : value);
       }
    }
 
@@ -108,7 +107,7 @@ public class PreferencesContainer : IPreferencesContainer //NUnit
       var sb = new StringBuilder();
 
       sb.Append(GetType().Name);
-      sb.Append("[");
+      sb.Append('[');
 
       if (_preferences != null)
       {
@@ -119,7 +118,7 @@ public class PreferencesContainer : IPreferencesContainer //NUnit
       }
 
       sb.Remove(sb.Length, 2); //remove last delimiter
-      sb.Append("]");
+      sb.Append(']');
 
       return sb.ToString();
    }

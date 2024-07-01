@@ -107,10 +107,7 @@ public static class Base32 //NUnit
    /// <returns>String value as converted Base32-string</returns>
    public static string? ToBase32String(string? str, Encoding? encoding = null)
    {
-      if (str == null)
-         return null;
-
-      return ToBase32String(str.BNToByteArray(encoding));
+      return str == null ? null : ToBase32String(str.BNToByteArray(encoding));
    }
 
    #endregion

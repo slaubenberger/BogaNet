@@ -8,7 +8,7 @@ namespace BogaNet.SecureType;
 /// <summary>
 /// Secure object implementation. This prevents the object from being readable in the memory of the application.
 /// </summary>
-public class ObjectSec<T> //NUnit
+public class ObjectSec<T> where T : class //NUnit
 {
    //TODO the usage should be improved if possible, currently it's more like a storage container for objects...
 
@@ -24,7 +24,7 @@ public class ObjectSec<T> //NUnit
 
    private T _value
    {
-      get => AESHelper.Decrypt(secretValue, key.ToByteArray(), iv.ToByteArray()).BNToObject<T>() ?? default;
+      get => (AESHelper.Decrypt(secretValue, key.ToByteArray(), iv.ToByteArray()).BNToObject<T>() ?? default)!;
       set => secretValue = AESHelper.Encrypt(value.BNToByteArray(), key.ToByteArray(), iv.ToByteArray());
    }
 
@@ -69,7 +69,7 @@ public class ObjectSec<T> //NUnit
 
    public override string ToString()
    {
-      return _value.ToString();
+      return _value.ToString()!;
    }
 
    public override bool Equals(object? obj)

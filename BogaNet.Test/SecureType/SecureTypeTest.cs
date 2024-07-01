@@ -55,7 +55,7 @@ public class SecureTypeTest
       age += years;
 
       double res = age;
-      Assert.True(age.Equals(res));
+      Assert.True(age == res);
    }
 
    [Test]
@@ -66,7 +66,7 @@ public class SecureTypeTest
       age += years;
 
       float res = age;
-      Assert.True(age.Equals(res));
+      Assert.True(age == res);
    }
 
    [Test]
@@ -189,5 +189,6 @@ public class SecureTypeTest
       Assert.True(obj.Equals(refObj));
       Assert.True(tm.Equals(refObj));
    }
+
    #endregion
 }

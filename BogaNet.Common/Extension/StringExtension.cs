@@ -10,6 +10,7 @@ namespace BogaNet.Extension;
 public static class StringExtension
 {
    #region Public methods
+
    /// <summary>
    /// Reverses a string.
    /// </summary>
@@ -197,6 +198,7 @@ public static class StringExtension
 
       return string.IsNullOrEmpty(toCheck) ? 0 : str.IndexOf(toCheck, comp);
    }
+
 /*
    /// <summary>
    /// Returns the index of the first occurence of a given string.
@@ -229,6 +231,6 @@ public static class StringExtension
 
       return _encoding.GetBytes(str);
    }
-   
+
    #endregion
 }

@@ -8,7 +8,7 @@ namespace BogaNet.CRC;
 /// Implementation of CRC32.
 /// NOTE: never use CRC for integrity checks, use hashes instead!
 /// </summary>
-public abstract class CRC32
+public abstract class CRC32 //NUnit
 {
    #region Public methods
 

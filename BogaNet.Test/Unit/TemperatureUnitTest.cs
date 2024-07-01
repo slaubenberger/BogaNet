@@ -34,7 +34,7 @@ public class TemperatureUnitTest
       conv = TemperatureUnit.FAHRENHEIT.Convert(TemperatureUnit.KELVIN, valIn);
       tRef = 941.2532722907777777777777778m;
       Assert.That(conv, Is.EqualTo(tRef));
-      res = Decimal.Round(TemperatureUnit.KELVIN.Convert(TemperatureUnit.FAHRENHEIT, conv), 10);
+      res = decimal.Round(TemperatureUnit.KELVIN.Convert(TemperatureUnit.FAHRENHEIT, conv), 10);
       Assert.That(res, Is.EqualTo(refValue));
 
       //Test it with impossible minus temperature

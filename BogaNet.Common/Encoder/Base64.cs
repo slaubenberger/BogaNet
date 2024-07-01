@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using System.Text;
 using BogaNet.Extension;
 
@@ -53,9 +52,7 @@ public static class Base64 //NUnit
       if (str == null)
          return null;
 
-      Encoding _encoding = encoding ?? Encoding.UTF8;
-
-      var bytes = str.BNToByteArray(encoding);
+      byte[]? bytes = str.BNToByteArray(encoding);
       //bytes.BNReverse();
       return ToBase64String(bytes, useSave);
    }

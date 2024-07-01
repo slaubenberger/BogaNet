@@ -10,7 +10,7 @@ public class Base64Test
    [Test]
    public void Base64_Test()
    {
-      string plain = "BogaNet rülez!";
+      const string plain = "BogaNet rülez!";
       //plain = "Hello world!";
       //Byte-array
       string? output = Base64.ToBase64String(plain.BNToByteArray());

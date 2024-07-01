@@ -25,63 +25,63 @@ public static class NumberExtension
          return null;
 
       Type type = typeof(T);
-      byte[] bytes = null;
+      byte[]? bytes = null;
 
       switch (type)
       {
-         case Type tByte when tByte == typeof(byte):
+         case Type when type == typeof(byte):
             byte byteVal = byte.CreateTruncating(number);
             bytes = [byteVal];
             break;
-         case Type tSByte when tSByte == typeof(sbyte):
+         case Type when type == typeof(sbyte):
             sbyte sbyteVal = sbyte.CreateTruncating(number);
             bytes = [(byte)sbyteVal];
             break;
-         case Type tShort when tShort == typeof(short):
+         case Type when type == typeof(short):
             short shortVal = short.CreateTruncating(number);
             bytes = BitConverter.GetBytes(shortVal);
             break;
-         case Type tUshort when tUshort == typeof(ushort):
+         case Type when type == typeof(ushort):
             ushort ushortVal = ushort.CreateTruncating(number);
             bytes = BitConverter.GetBytes(ushortVal);
             break;
-         case Type tChar when tChar == typeof(char):
+         case Type when type == typeof(char):
             ushort charVal = ushort.CreateTruncating(number);
             bytes = BitConverter.GetBytes(charVal);
             break;
-         case Type tFloat when tFloat == typeof(float):
+         case Type when type == typeof(float):
             float floatVal = float.CreateTruncating(number);
             bytes = BitConverter.GetBytes(floatVal);
             break;
-         case Type tInt when tInt == typeof(int):
+         case Type when type == typeof(int):
             int intVal = int.CreateTruncating(number);
             bytes = BitConverter.GetBytes(intVal);
             break;
-         case Type tUint when tUint == typeof(uint):
+         case Type when type == typeof(uint):
             uint uintVal = uint.CreateTruncating(number);
             bytes = BitConverter.GetBytes(uintVal);
             break;
-         case Type tDouble when tDouble == typeof(double):
+         case Type when type == typeof(double):
             double doubleVal = double.CreateTruncating(number);
             bytes = BitConverter.GetBytes(doubleVal);
             break;
-         case Type tLong when tLong == typeof(long):
+         case Type when type == typeof(long):
             long longVal = long.CreateTruncating(number);
             bytes = BitConverter.GetBytes(longVal);
             break;
-         case Type tUlong when tUlong == typeof(ulong):
+         case Type when type == typeof(ulong):
             ulong ulongVal = ulong.CreateTruncating(number);
             bytes = BitConverter.GetBytes(ulongVal);
             break;
-         case Type tNint when tNint == typeof(nint):
+         case Type when type == typeof(nint):
             nint nintVal = nint.CreateTruncating(number);
             bytes = BitConverter.GetBytes(nintVal);
             break;
-         case Type tNuint when tNuint == typeof(nuint):
+         case Type when type == typeof(nuint):
             nint nuintVal = nint.CreateTruncating(number);
             bytes = BitConverter.GetBytes(nuintVal);
             break;
-         case Type tDecimal when tDecimal == typeof(decimal):
+         case Type when type == typeof(decimal):
             decimal decVal = decimal.CreateTruncating(number);
             int[] int64s = decimal.GetBits(decVal);
             bytes = int64s.Take(4).SelectMany(BitConverter.GetBytes).ToArray();

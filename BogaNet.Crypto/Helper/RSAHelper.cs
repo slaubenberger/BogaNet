@@ -53,7 +53,7 @@ public abstract class RSAHelper
 
       request.CertificateExtensions.Add(
          new X509EnhancedKeyUsageExtension(
-            [new(oid)],
+            [new Oid(oid)],
             //new OidCollection { new("1.3.6.1.5.5.7.3.1") },
             false));
 
@@ -124,9 +124,9 @@ public abstract class RSAHelper
    /// <param name="cert">X509-certificate</param>
    /// <param name="password">Password for the file (optional, default: none)</param>
    /// <returns>X509-certificate as byte-array</returns>
-   public static byte[] GetPublicCertificate(X509Certificate2 cert, string password = "")
+   public static X509Certificate2 GetPublicCertificate(X509Certificate2 cert, string? password = null)
    {
-      return cert.Export(X509ContentType.Cert, password);
+      return GetCertificate(cert.Export(X509ContentType.Cert, password));
    }
 
    /// <summary>
@@ -135,10 +135,10 @@ public abstract class RSAHelper
    /// </summary>
    /// <param name="cert">X509-certificate</param>
    /// <param name="password">Password for the file (optional, default: none)</param>
-   /// <returns>X509-certificate as byte-array</returns>
-   public static byte[] GetPrivateCertificate(X509Certificate2 cert, string password = "")
+   /// <returns>X509-certificate</returns>
+   public static X509Certificate2 GetPrivateCertificate(X509Certificate2 cert, string? password = null)
    {
-      return cert.Export(X509ContentType.Pfx, password);
+      return GetCertificate(cert.Export(X509ContentType.Pfx, password), password);
    }
 
    /// <summary>
@@ -148,7 +148,7 @@ public abstract class RSAHelper
    /// <param name="password">Password for the file</param>
    /// <returns>X509-certificate</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static X509Certificate2 GetCertificate(byte[]? data, string password = "")
+   public static X509Certificate2 GetCertificate(byte[]? data, string? password = null)
    {
       ArgumentNullException.ThrowIfNull(data);
 
@@ -163,7 +163,7 @@ public abstract class RSAHelper
    /// <param name="password">Password for the file (optional, default: none)</param>
    /// <returns>True if the operation was successful</returns>
    /// <exception cref="Exception"></exception>
-   public static bool WritePublicCertificateToFile(string filename, X509Certificate2 cert, string password = "")
+   public static bool WritePublicCertificateToFile(string filename, X509Certificate2 cert, string? password = null)
    {
       return Task.Run(() => WritePublicCertificateToFileAsync(filename, cert, password)).GetAwaiter().GetResult();
    }
@@ -176,9 +176,9 @@ public abstract class RSAHelper
    /// <param name="password">Password for the file (optional, default: none)</param>
    /// <returns>True if the operation was successful</returns>
    /// <exception cref="Exception"></exception>
-   public static async Task<bool> WritePublicCertificateToFileAsync(string filename, X509Certificate2 cert, string password = "")
+   public static async Task<bool> WritePublicCertificateToFileAsync(string filename, X509Certificate2 cert, string? password = null)
    {
-      return await FileHelper.WriteAllBytesAsync(filename, GetPublicCertificate(cert, password));
+      return await FileHelper.WriteAllBytesAsync(filename, cert.Export(X509ContentType.Cert, password));
    }
 
    /// <summary>
@@ -206,7 +206,7 @@ public abstract class RSAHelper
    /// <exception cref="Exception"></exception>
    public static async Task<bool> WritePrivateCertificateToFileAsync(string filename, X509Certificate2 cert, string password)
    {
-      return await FileHelper.WriteAllBytesAsync(filename, GetPrivateCertificate(cert, password));
+      return await FileHelper.WriteAllBytesAsync(filename, cert.Export(X509ContentType.Pfx, password));
    }
 
    /// <summary>
@@ -216,7 +216,7 @@ public abstract class RSAHelper
    /// <param name="password">Password for the file</param>
    /// <returns>X509-certificate</returns>
    /// <exception cref="Exception"></exception>
-   public static X509Certificate2 ReadCertificateFromFile(string filename, string password = "")
+   public static X509Certificate2 ReadCertificateFromFile(string filename, string? password = null)
    {
       return Task.Run(() => ReadCertificateFromFileAsync(filename, password)).GetAwaiter().GetResult();
    }
@@ -228,7 +228,7 @@ public abstract class RSAHelper
    /// <param name="password">Password for the file</param>
    /// <returns>X509-certificate</returns>
    /// <exception cref="Exception"></exception>
-   public static async Task<X509Certificate2> ReadCertificateFromFileAsync(string filename, string password = "")
+   public static async Task<X509Certificate2> ReadCertificateFromFileAsync(string filename, string? password = null)
    {
       return GetCertificate(await FileHelper.ReadAllBytesAsync(filename), password);
    }
@@ -253,7 +253,7 @@ public abstract class RSAHelper
       }
       catch (CryptographicException ex)
       {
-         LoggerExtensions.LogError(_logger, ex, "Encrypt failed!");
+         _logger.LogError(ex, "Encrypt failed!");
          throw;
       }
    }
@@ -267,7 +267,7 @@ public abstract class RSAHelper
    /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
    /// <returns>Encrypted string as byte-array</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static byte[]? Encrypt(string textToEncrypt, X509Certificate2? cert, RSAEncryptionPadding? padding = null, Encoding? encoding = null)
+   public static byte[]? Encrypt(string? textToEncrypt, X509Certificate2? cert, RSAEncryptionPadding? padding = null, Encoding? encoding = null)
    {
       ArgumentNullException.ThrowIfNull(textToEncrypt);
 
@@ -282,7 +282,7 @@ public abstract class RSAHelper
    /// <param name="padding">Padding for the asymmetric encryption (optional, default: OaepSHA256)</param>
    /// <returns>Decrypted byte-array</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static byte[]? Decrypt(byte[] dataToDecrypt, X509Certificate2 cert, RSAEncryptionPadding? padding = null)
+   public static byte[]? Decrypt(byte[]? dataToDecrypt, X509Certificate2 cert, RSAEncryptionPadding? padding = null)
    {
       ArgumentNullException.ThrowIfNull(dataToDecrypt);
       ArgumentNullException.ThrowIfNull(cert);
@@ -294,7 +294,7 @@ public abstract class RSAHelper
       }
       catch (Exception ex)
       {
-         LoggerExtensions.LogError(_logger, ex, "Decrypt failed!");
+         _logger.LogError(ex, "Decrypt failed!");
          throw;
       }
    }

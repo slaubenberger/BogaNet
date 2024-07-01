@@ -54,7 +54,7 @@ public class AreaUnitTest
       conv = AreaUnit.INCH2.Convert(AreaUnit.YARD2, valIn);
       tRef = 0.9525986806507716049382716049m;
       Assert.That(conv, Is.EqualTo(tRef));
-      Assert.That(refValue, Is.EqualTo(Decimal.Round(AreaUnit.YARD2.Convert(AreaUnit.INCH2, conv), 10)));
+      Assert.That(refValue, Is.EqualTo(decimal.Round(AreaUnit.YARD2.Convert(AreaUnit.INCH2, conv), 10)));
 
       conv = AreaUnit.FOOT2.Convert(AreaUnit.YARD2, valIn);
       tRef = 137.17421001371111111111111111m;

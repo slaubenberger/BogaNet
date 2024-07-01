@@ -55,7 +55,7 @@ public class ObfuscatedTypeTest
       age += years;
 
       double res = age;
-      Assert.True(age.Equals(res));
+      Assert.True(age == res);
    }
 
    [Test]
@@ -66,7 +66,7 @@ public class ObfuscatedTypeTest
       age += years;
 
       float res = age;
-      Assert.True(age.Equals(res));
+      Assert.True(age == res);
    }
 
    [Test]

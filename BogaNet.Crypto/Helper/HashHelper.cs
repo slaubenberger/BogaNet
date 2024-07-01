@@ -9,7 +9,7 @@ namespace BogaNet.Helper;
 /// <summary>
 /// Helper for hash computations. It contains ready-to-use Implementations of SHA256, SHA384 and SHA512.
 /// </summary>
-public abstract class HashHelper
+public abstract class HashHelper //NUnit
 {
    private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(HashHelper));
 

@@ -118,6 +118,6 @@ public static class GuidExtension
    public static ShortUID BNToShortUID(this Guid uid)
    {
       string? guid = Base64.ToBase64String(uid.ToByteArray(), true);
-      return new ShortUID(guid?.Substring(0, guid.Length - 2) ?? string.Empty);
+      return new ShortUID(guid.Substring(0, guid.Length - 2) ?? string.Empty);
    }
 }

@@ -1,13 +1,10 @@
-using BogaNet.Helper;
-using BogaNet.ObfuscatedType;
-
 namespace BogaNet.SecureType;
 
 /// <summary>
 /// Secure decimal implementation. This prevents the value from being readable in the memory of the application.
 /// </summary>
 public class DecimalSec : SecureValueType<DecimalSec, decimal> //NUnit
-{ 
+{
    private DecimalSec(decimal value) : base(value)
    {
    }

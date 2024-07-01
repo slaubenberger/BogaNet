@@ -13,10 +13,10 @@ public class AESHelperTest
    {
       const string plain = "BogaNet rulez!";
 
-      string initVector = "SL$2OIjLS$2aIj76";
+      const string initVector = "SL$2OIjLS$2aIj76";
       byte[]? IV = initVector.BNToByteArray(System.Text.Encoding.ASCII);
 
-      string keyPlain = "abc123";
+      const string keyPlain = "abc123";
       byte[] key = HashHelper.SHA256(keyPlain.BNToByteArray());
 
       var output = AESHelper.Encrypt(plain.BNToByteArray(), key, IV);

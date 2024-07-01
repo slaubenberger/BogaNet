@@ -46,31 +46,16 @@ public static class Program
 
    #region Private methods
 
-/*
-
-   private static void testRSA()
+   private static void testNetwork()
    {
-      string text = "Hello there!";
+      _logger.LogInformation("CPD: " + BogaNet.Helper.NetworkHelper.CheckInternetAvailability());
 
-      var cert = RSAHelper.GenerateSelfSignedCertificate("BogaTest");
+      _logger.LogInformation("Ping: " + BogaNet.Helper.NetworkHelper.Ping("crosstales.com"));
 
-      var certPrivateFile = BogaNet.Helper.FileHelper.TempFile;
-      RSAHelper.WritePrivateCertificateToFile(certPrivateFile, cert, "W3NeedASaf3rPassw0rd");
-      var certPrivate = RSAHelper.ReadCertificateFromFile(certPrivateFile, "W3NeedASaf3rPassw0rd");
+      _logger.LogInformation("Public IP: " + BogaNet.Helper.NetworkHelper.GetPublicIP());
 
-      var certPublicFile = BogaNet.Helper.FileHelper.TempFile;
-      RSAHelper.WritePublicCertificateToFile(certPublicFile, cert);
-      var certPublic = RSAHelper.ReadCertificateFromFile(certPublicFile);
-
-      var enc = RSAHelper.Encrypt(text.BNToByteArray(), certPublic);
-      var dec = RSAHelper.Decrypt(enc, certPrivate);
-
-      string result = dec.BNToString();
-
-      _logger.LogInformation($"{text} - {result}");
+      _logger.LogInformation("Network adapters: " + BogaNet.Helper.NetworkHelper.GetNetworkAdapters().BNDump(false));
    }
-*/
-
 
 /*
    private static void testBitrateHRF()
@@ -110,17 +95,6 @@ public static class Program
       _logger.LogInformation(BogaNet.Helper.GeneralHelper.FormatBytesToHRF((long)Math.Pow(1024, 6), useSI));
    }
 */
-
-   private static void testNetwork()
-   {
-      _logger.LogInformation("CPD: " + BogaNet.Helper.NetworkHelper.CheckInternetAvailability());
-
-      _logger.LogInformation("Ping: " + BogaNet.Helper.NetworkHelper.Ping("crosstales.com"));
-
-      _logger.LogInformation("Public IP: " + BogaNet.Helper.NetworkHelper.GetPublicIP());
-
-      _logger.LogInformation("Network adapters: " + BogaNet.Helper.NetworkHelper.GetNetworkAdapters().BNDump(false));
-   }
 
    #endregion
 }

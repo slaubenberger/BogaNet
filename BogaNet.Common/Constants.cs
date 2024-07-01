@@ -7,7 +7,7 @@ namespace BogaNet;
 /// <summary>
 /// Collected constants of very general utility.
 /// </summary>
-public abstract class Constants
+public abstract partial class Constants
 {
    #region Constant variables
 
@@ -37,6 +37,7 @@ public abstract class Constants
    #endregion
 
    #region Time
+
 /*
    public const int MAX_SECOND_VALUE = 59;
    public const int MAX_MINUTE_VALUE = 59;
@@ -127,56 +128,56 @@ public abstract class Constants
    #region Regex
 
    private static Regex? _regexLineEndings;
-   public static Regex REGEX_LINEENDINGS => _regexLineEndings ??= new Regex(@"[\u000A\u000B\u000C\u000D\u2028\u2029\u0085]+");
+   public static Regex REGEX_LINEENDINGS => _regexLineEndings ??= lineEndingRegex();
 
    private static Regex? _regexEmail;
-   public static Regex REGEX_EMAIL => _regexEmail ??= new Regex(@"^(?("")("".+?""@)|(([0-9a-zA-Z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-zA-Z])@))(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,6}))$");
+   public static Regex REGEX_EMAIL => _regexEmail ??= emailRegex();
 
    private static Regex? _regexCreditCard;
-   public static Regex REGEX_CREDITCARD => _regexCreditCard ??= new Regex(@"^((\d{4}[- ]?){3}\d{4})$");
+   public static Regex REGEX_CREDITCARD => _regexCreditCard ??= creditcardRegex();
 
    private static Regex? _regexUrlWeb;
 
-   public static Regex REGEX_URL_WEB => _regexUrlWeb ??= new Regex(@"^(ht|f)tp(s?)\:\/\/[0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*(:(0-9)*)*(\/?)([a-zA-Z0-9\-\.\?\,\'\/\\\+&amp;%\$#_]*)?$");
+   public static Regex REGEX_URL_WEB => _regexUrlWeb ??= urlRegex();
 
 /*
    private static Regex? _regexInvalidChars;
    public static Regex REGEX_INVALID_CHARS => _regexInvalidChars ??= new Regex(@"[^\w\.@-]");
 */
    private static Regex? _regexAlpha;
-   public static Regex REGEX_ALPHANUMERIC => _regexAlpha ??= new Regex("([A-Za-z0-9_]+)");
+   public static Regex REGEX_ALPHANUMERIC => _regexAlpha ??= alphanumericRegex();
 
    private static Regex? _regexCleanSpace;
-   public static Regex REGEX_CLEAN_SPACES => _regexCleanSpace ??= new Regex(@"\s+");
+   public static Regex REGEX_CLEAN_SPACES => _regexCleanSpace ??= cleanSpaceRegex();
 
    private static Regex? _regexCleanTags;
-   public static Regex REGEX_CLEAN_TAGS => _regexCleanTags ??= new Regex("<.*?>");
+   public static Regex REGEX_CLEAN_TAGS => _regexCleanTags ??= claenTagsRegex();
 
    private static Regex? _regexDriveLetters;
-   public static Regex REGEX_DRIVE_LETTERS => _regexDriveLetters ??= new Regex("^[a-zA-Z]:");
+   public static Regex REGEX_DRIVE_LETTERS => _regexDriveLetters ??= driveRegex();
 
    private static Regex? _regexFile;
 
    //public static Regex REGEX_FILE => _regexFile ?? (_regexFile = new Regex(@"^\.[\w]+$"));
-   public static Regex REGEX_FILE => _regexFile ??= new Regex(@"^.*\.[\w]+$");
+   public static Regex REGEX_FILE => _regexFile ??= fileRegex();
 
    private static Regex? _regexUnsignedInteger;
-   public static Regex REGEX_UNSIGNED_INTEGER => _regexUnsignedInteger ??= new Regex("([0-9]+)");
+   public static Regex REGEX_UNSIGNED_INTEGER => _regexUnsignedInteger ??= uintRegex();
 
    private static Regex? _regexStartOfLine;
-   public static Regex REGEX_START_OF_LINE => _regexStartOfLine ??= new Regex(@"^\s*");
+   public static Regex REGEX_START_OF_LINE => _regexStartOfLine ??= startLineRegex();
 
    private static Regex? _regexEndOfLine;
-   public static Regex REGEX_END_OF_LINE => _regexEndOfLine ??= new Regex(@"\s*$");
+   public static Regex REGEX_END_OF_LINE => _regexEndOfLine ??= endLineRegex();
 
    private static Regex? _regexSpace;
-   public static Regex REGEX_SPACE => _regexSpace ??= new Regex(@"\s*");
+   public static Regex REGEX_SPACE => _regexSpace ??= spaceRegex();
 
    private static Regex? _regexDomain;
-   public static Regex REGEX_DOMAIN => _regexDomain ??= new Regex(@"^([\-\w]+\.)+[a-zA-Z]{2,4}$");
+   public static Regex REGEX_DOMAIN => _regexDomain ??= domainRegex();
 
    private static Regex? _regexUUID;
-   public static Regex REGEX_UUID => _regexUUID ??= new Regex("[({]?[a-fA-F0-9]{8}[-]?([a-fA-F0-9]{4}[-]?){3}[a-fA-F0-9]{12}[})]?");
+   public static Regex REGEX_UUID => _regexUUID ??= uuidRegex();
 
    //public static readonly Regex asciiOnlyRegex = new Regex(@"[^\u0000-\u00FF]+");
    //public static readonly Regex REGEX_REALNUMBER = new Regex(@"([-+]?[0-9]*\.?[0-9]+)");
@@ -271,6 +272,51 @@ public abstract class Constants
    /// <summary>URL prefix for files.</summary>
    public static string PREFIX_FILE => IsWindows ? "file:///" : "file://";
 
+   [GeneratedRegex(@"[\u000A\u000B\u000C\u000D\u2028\u2029\u0085]+")]
+   private static partial Regex lineEndingRegex();
+
+   [GeneratedRegex(@"^(?("")("".+?""@)|(([0-9a-zA-Z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-zA-Z])@))(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,6}))$")]
+   private static partial Regex emailRegex();
+
+   [GeneratedRegex(@"^((\d{4}[- ]?){3}\d{4})$")]
+   private static partial Regex creditcardRegex();
+
+   [GeneratedRegex(@"^(ht|f)tp(s?)\:\/\/[0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*(:(0-9)*)*(\/?)([a-zA-Z0-9\-\.\?\,\'\/\\\+&amp;%\$#_]*)?$")]
+   private static partial Regex urlRegex();
+
+   [GeneratedRegex("([A-Za-z0-9_]+)")]
+   private static partial Regex alphanumericRegex();
+
+   [GeneratedRegex(@"\s+")]
+   private static partial Regex cleanSpaceRegex();
+
+   [GeneratedRegex("<.*?>")]
+   private static partial Regex claenTagsRegex();
+
+   [GeneratedRegex("^[a-zA-Z]:")]
+   private static partial Regex driveRegex();
+
+   [GeneratedRegex(@"^.*\.[\w]+$")]
+   private static partial Regex fileRegex();
+
+   [GeneratedRegex("([0-9]+)")]
+   private static partial Regex uintRegex();
+
+   [GeneratedRegex(@"^\s*")]
+   private static partial Regex startLineRegex();
+
+   [GeneratedRegex(@"\s*$")]
+   private static partial Regex endLineRegex();
+
+   [GeneratedRegex(@"\s*")]
+   private static partial Regex spaceRegex();
+
+   [GeneratedRegex(@"^([\-\w]+\.)+[a-zA-Z]{2,4}$")]
+   private static partial Regex domainRegex();
+
+   [GeneratedRegex("[({]?[a-fA-F0-9]{8}[-]?([a-fA-F0-9]{4}[-]?){3}[a-fA-F0-9]{12}[})]?")]
+   private static partial Regex uuidRegex();
+
    #endregion
 
    #region some old Java-stuff...
@@ -278,16 +324,16 @@ public abstract class Constants
    /*
     * factors
     */
-//		//time
-//		public static final BigDecimal FACTOR_NANOSECOND_TO_SECOND = new BigDecimal("1000000000"); //nanoseconds to seconds
-//		public static final BigDecimal FACTOR_MICROSECOND_TO_SECOND = HelperNumber.NUMBER_1000000; //microseconds to seconds
-//		public static final BigDecimal FACTOR_MILLISECOND_TO_SECOND = HelperNumber.NUMBER_1000; //milliseconds to seconds
-//		public static final BigDecimal FACTOR_SECOND_TO_MINUTE = new BigDecimal("60"); //seconds to minutes
-//		public static final BigDecimal FACTOR_MINUTE_TO_HOUR = new BigDecimal("60"); //minutes to hours
-//		public static final BigDecimal FACTOR_HOUR_TO_DAY = new BigDecimal("24"); //hours to days
-//		public static final BigDecimal FACTOR_DAY_TO_WEEK = new BigDecimal("7"); //days to weeks
-//		public static final BigDecimal FACTOR_DAY_TO_MONTH = new BigDecimal("30"); //days to months
-//		public static final BigDecimal FACTOR_DAY_TO_YEAR = new BigDecimal("365"); //days to years
+   //		//time
+   //		public static final BigDecimal FACTOR_NANOSECOND_TO_SECOND = new BigDecimal("1000000000"); //nanoseconds to seconds
+   //		public static final BigDecimal FACTOR_MICROSECOND_TO_SECOND = HelperNumber.NUMBER_1000000; //microseconds to seconds
+   //		public static final BigDecimal FACTOR_MILLISECOND_TO_SECOND = HelperNumber.NUMBER_1000; //milliseconds to seconds
+   //		public static final BigDecimal FACTOR_SECOND_TO_MINUTE = new BigDecimal("60"); //seconds to minutes
+   //		public static final BigDecimal FACTOR_MINUTE_TO_HOUR = new BigDecimal("60"); //minutes to hours
+   //		public static final BigDecimal FACTOR_HOUR_TO_DAY = new BigDecimal("24"); //hours to days
+   //		public static final BigDecimal FACTOR_DAY_TO_WEEK = new BigDecimal("7"); //days to weeks
+   //		public static final BigDecimal FACTOR_DAY_TO_MONTH = new BigDecimal("30"); //days to months
+   //		public static final BigDecimal FACTOR_DAY_TO_YEAR = new BigDecimal("365"); //days to years
 
    #endregion
 }

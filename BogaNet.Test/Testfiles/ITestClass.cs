@@ -1,5 +1,3 @@
-using BogaNet.Extension;
-
 namespace BogaNet.Test.Testfiles;
 
 /// <summary>

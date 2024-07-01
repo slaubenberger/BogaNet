@@ -20,7 +20,7 @@ public class ByteUnitTest
       decimal refValue = valIn.BNToDecimal();
 
       decimal conv = ByteUnit.BYTE.Convert(ByteUnit.BYTE, valIn);
-      decimal tRef = 1027m;
+      const decimal tRef = 1027m;
       Assert.That(conv, Is.EqualTo(tRef));
       decimal res = ByteUnit.BYTE.Convert(ByteUnit.BYTE, conv);
       Assert.That(res, Is.EqualTo(refValue));
@@ -89,7 +89,7 @@ public class ByteUnitTest
       decimal refValue = valIn.BNToDecimal();
 
       decimal conv = ByteUnit.BYTE.Convert(BitUnit.kbit, valIn);
-      decimal tRef = 8.216m;
+      const decimal tRef = 8.216m;
       Assert.That(conv, Is.EqualTo(tRef));
       decimal res = BitUnit.kbit.Convert(ByteUnit.BYTE, conv);
       Assert.That(res, Is.EqualTo(refValue));

@@ -15,7 +15,7 @@ namespace BogaNet.i18n;
 /// <summary>
 /// i18n localizer for the application.
 /// </summary>
-public class Localizer : Singleton<Localizer>, ILocalizer
+public partial class Localizer : Singleton<Localizer>, ILocalizer //NUnit
 {
    #region Variables
 
@@ -24,7 +24,7 @@ public class Localizer : Singleton<Localizer>, ILocalizer
    protected CultureInfo _culture = Constants.CurrentCulture;
    protected readonly List<CultureInfo> _cultures = [];
    protected readonly Dictionary<string, Dictionary<string, string>> _messages = new();
-   private static readonly Regex _splitRegex = new(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
+   private static readonly Regex _splitRegex = csvRegex();
 
    #endregion
 
@@ -399,5 +399,8 @@ public class Localizer : Singleton<Localizer>, ILocalizer
       return this.BNToString();
    }
 
-   #endregion
+    [GeneratedRegex(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)")]
+    private static partial Regex csvRegex();
+
+    #endregion
 }

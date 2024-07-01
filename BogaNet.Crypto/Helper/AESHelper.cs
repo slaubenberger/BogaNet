@@ -11,7 +11,7 @@ namespace BogaNet.Helper;
 /// <summary>
 /// Helper for AES cryptography.
 /// </summary>
-public abstract class AESHelper //TODO add other algorithms, key&blocksize, padding and mode?
+public abstract class AESHelper //NUnit //TODO add other algorithms, key&blocksize, padding and mode?
 {
    private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(AESHelper));
 

@@ -20,7 +20,7 @@ public class BitUnitTest
       decimal refValue = valIn.BNToDecimal();
 
       decimal conv = BitUnit.BIT.Convert(BitUnit.kbit, valIn);
-      decimal tRef = 1.027m;
+      const decimal tRef = 1.027m;
       Assert.That(conv, Is.EqualTo(tRef));
       decimal res = BitUnit.kbit.Convert(BitUnit.BIT, conv);
       Assert.That(res, Is.EqualTo(refValue));

@@ -59,7 +59,7 @@ public abstract class Obfuscator //NUnit
    /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
    /// <returns>Obfuscated string</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static byte[]? Obfuscate(string? data, byte IV = DEFAULT_IV, Encoding? encoding = null)
+   public static byte[] Obfuscate(string? data, byte IV = DEFAULT_IV, Encoding? encoding = null)
    {
       return Obfuscate(data.BNToByteArray(encoding), IV);
    }
