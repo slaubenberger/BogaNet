@@ -11,8 +11,8 @@ public class Singleton<T> where T : class
 {
    #region Variables
 
-   private static object mutex = new();
-   private static T? instance;
+   private static object _mutex = new();
+   private static T? _instance;
 
    #endregion
 
@@ -22,11 +22,11 @@ public class Singleton<T> where T : class
    {
       get
       {
-         if (instance == null)
+         if (_instance == null)
          {
-            lock (mutex)
+            lock (_mutex)
             {
-               if (instance == null)
+               if (_instance == null)
                {
                   ConstructorInfo? ci = typeof(T).GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, Type.EmptyTypes, null);
                   if (ci == null)
@@ -34,12 +34,12 @@ public class Singleton<T> where T : class
                      throw new InvalidOperationException("Class must contain a private constructor");
                   }
 
-                  instance = (T)ci.Invoke(null);
+                  _instance = (T)ci.Invoke(null);
                }
             }
          }
 
-         return instance;
+         return _instance;
       }
    }
 

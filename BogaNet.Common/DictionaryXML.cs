@@ -15,12 +15,12 @@ public class DictionaryXML<TKey, TVal> : Dictionary<TKey, TVal>, IXmlSerializabl
    #region Variables
 
    //private const string DictionaryNodeName = "Dictionary";
-   private const string ItemNodeName = "Item";
-   private const string KeyNodeName = "Key";
-   private const string ValueNodeName = "Value";
+   private const string ITEM_NODE_NAME = "Item";
+   private const string KEY_NODE_NAME = "Key";
+   private const string VALUE_NODE_NAME = "Value";
 
-   private XmlSerializer? keySerializer;
-   private XmlSerializer? valueSerializer;
+   private XmlSerializer? _keySerializer;
+   private XmlSerializer? _valueSerializer;
 
    #endregion
 
@@ -89,11 +89,11 @@ public class DictionaryXML<TKey, TVal> : Dictionary<TKey, TVal>, IXmlSerializabl
    {
       foreach (KeyValuePair<TKey, TVal> kvp in this)
       {
-         writer.WriteStartElement(ItemNodeName);
-         writer.WriteStartElement(KeyNodeName);
+         writer.WriteStartElement(ITEM_NODE_NAME);
+         writer.WriteStartElement(KEY_NODE_NAME);
          KeySerializer.Serialize(writer, kvp.Key);
          writer.WriteEndElement();
-         writer.WriteStartElement(ValueNodeName);
+         writer.WriteStartElement(VALUE_NODE_NAME);
          ValueSerializer.Serialize(writer, kvp.Value);
          writer.WriteEndElement();
          writer.WriteEndElement();
@@ -110,13 +110,13 @@ public class DictionaryXML<TKey, TVal> : Dictionary<TKey, TVal>, IXmlSerializabl
 
       while (reader.NodeType != System.Xml.XmlNodeType.EndElement)
       {
-         reader.ReadStartElement(ItemNodeName);
-         reader.ReadStartElement(KeyNodeName);
+         reader.ReadStartElement(ITEM_NODE_NAME);
+         reader.ReadStartElement(KEY_NODE_NAME);
          if (KeySerializer != null)
          {
             TKey key = (TKey)KeySerializer.Deserialize(reader)!;
             reader.ReadEndElement();
-            reader.ReadStartElement(ValueNodeName);
+            reader.ReadStartElement(VALUE_NODE_NAME);
             TVal value = (TVal)ValueSerializer.Deserialize(reader)!;
             reader.ReadEndElement();
             reader.ReadEndElement();
@@ -138,9 +138,9 @@ public class DictionaryXML<TKey, TVal> : Dictionary<TKey, TVal>, IXmlSerializabl
 
    #region Private Properties
 
-   private XmlSerializer ValueSerializer => valueSerializer ??= new XmlSerializer(typeof(TVal));
+   private XmlSerializer ValueSerializer => _valueSerializer ??= new XmlSerializer(typeof(TVal));
 
-   private XmlSerializer KeySerializer => keySerializer ??= new XmlSerializer(typeof(TKey));
+   private XmlSerializer KeySerializer => _keySerializer ??= new XmlSerializer(typeof(TKey));
 
    #endregion
 }

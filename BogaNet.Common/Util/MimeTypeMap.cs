@@ -12,9 +12,9 @@ public abstract class MimeTypeMap
 {
    #region Variables
 
-   private const string Dot = ".";
-   private const string QuestionMark = "?";
-   private const string DefaultMimeType = "application/octet-stream";
+   private const string DOT = ".";
+   private const string QUESTION_MARK = "?";
+   private const string DEFAULT_TYPE = "application/octet-stream";
    private static readonly Lazy<IDictionary<string, string>> _mappings = new(buildMappings);
 
    #endregion
@@ -32,21 +32,21 @@ public abstract class MimeTypeMap
    {
       ArgumentNullException.ThrowIfNull(str);
 
-      int indexQuestionMark = str.IndexOf(QuestionMark, StringComparison.Ordinal);
+      int indexQuestionMark = str.IndexOf(QUESTION_MARK, StringComparison.Ordinal);
 
       if (indexQuestionMark != -1)
       {
          str = str.Remove(indexQuestionMark);
       }
 
-      if (!str.StartsWith(Dot))
+      if (!str.StartsWith(DOT))
       {
-         int index = str.LastIndexOf(Dot);
+         int index = str.LastIndexOf(DOT);
 
          if (index != -1 && str.Length > index + 1)
             str = str.Substring(index + 1);
 
-         str = Dot + str;
+         str = DOT + str;
       }
 
       return _mappings.Value.TryGetValue(str, out mimeType);
@@ -60,7 +60,7 @@ public abstract class MimeTypeMap
    /// <exception cref="ArgumentNullException"></exception>
    public static string? GetMimeType(string? str)
    {
-      return TryGetMimeType(str, out string? result) ? result : DefaultMimeType;
+      return TryGetMimeType(str, out string? result) ? result : DEFAULT_TYPE;
    }
 
    /// <summary>
@@ -74,7 +74,7 @@ public abstract class MimeTypeMap
    {
       ArgumentNullException.ThrowIfNull(mimeType);
 
-      if (mimeType.StartsWith(Dot))
+      if (mimeType.StartsWith(DOT))
          throw new ArgumentException("Requested mime type is not valid: " + mimeType);
 
       if (_mappings.Value.TryGetValue(mimeType, out string? extension))

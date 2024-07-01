@@ -16,10 +16,9 @@ public class ProcessRunner
 
    private static readonly ILogger<ProcessRunner> _logger = GlobalLogging.CreateLogger<ProcessRunner>();
 
-   private Process? process;
-
-   private readonly List<string> outputList = [];
-   private readonly List<string> errorList = [];
+   private Process? _process;
+   private readonly List<string> _outputList = [];
+   private readonly List<string> _errorList = [];
 
    #endregion
 
@@ -28,17 +27,17 @@ public class ProcessRunner
    /// <summary>
    /// Indicates if the process is still running.
    /// </summary>
-   public bool IsRunning => process != null && !process.HasExited;
+   public bool IsRunning => _process != null && !_process.HasExited;
 
    /// <summary>
    /// stdout (output-stream) of the process.
    /// </summary>
-   public string[] Output => outputList.ToArray();
+   public string[] Output => _outputList.ToArray();
 
    /// <summary>
    /// stderr (error-stream) of the process.
    /// </summary>
-   public string[] Error => errorList.ToArray();
+   public string[] Error => _errorList.ToArray();
 
    #endregion
 
@@ -114,12 +113,12 @@ public class ProcessRunner
       try
       {
          if (IsRunning)
-            process?.Kill();
+            _process?.Kill();
 
-         outputList.Clear();
-         errorList.Clear();
+         _outputList.Clear();
+         _errorList.Clear();
 
-         process = new Process();
+         _process = new Process();
          var psi = new ProcessStartInfo(command);
 
          if (args != null)
@@ -129,24 +128,24 @@ public class ProcessRunner
          psi.CreateNoWindow = createNoWindow;
          psi.StandardErrorEncoding = psi.StandardOutputEncoding = psi.StandardInputEncoding = encoding ?? Encoding.Latin1;
          psi.RedirectStandardOutput = psi.RedirectStandardError = psi.RedirectStandardInput = true;
-         process.StartInfo = psi;
+         _process.StartInfo = psi;
 
-         process.OutputDataReceived += outputReceived;
-         process.ErrorDataReceived += errorReceived;
+         _process.OutputDataReceived += outputReceived;
+         _process.ErrorDataReceived += errorReceived;
 
-         process.Start();
+         _process.Start();
 
-         process.BeginOutputReadLine();
-         process.BeginErrorReadLine();
+         _process.BeginOutputReadLine();
+         _process.BeginErrorReadLine();
          /*
          if (waitTime > 0)
              process.WaitForExit(waitTime * 1000);
          */
 
          if (waitForExit)
-            await process.WaitForExitAsync();
+            await _process.WaitForExitAsync();
 
-         return process;
+         return _process;
       }
       catch (Exception ex)
       {
@@ -164,7 +163,7 @@ public class ProcessRunner
       try
       {
          if (IsRunning)
-            process?.Kill();
+            _process?.Kill();
       }
       catch (Exception ex)
       {
@@ -187,7 +186,7 @@ public class ProcessRunner
       {
          if (IsRunning)
          {
-            process?.StandardInput.WriteLine(input);
+            _process?.StandardInput.WriteLine(input);
 
             result = true;
          }
@@ -209,7 +208,7 @@ public class ProcessRunner
    {
       if (e.Data != null)
       {
-         outputList.Add(e.Data);
+         _outputList.Add(e.Data);
          OnOutputReceived?.Invoke(e.Data);
       }
    }
@@ -218,7 +217,7 @@ public class ProcessRunner
    {
       if (e.Data != null)
       {
-         errorList.Add(e.Data);
+         _errorList.Add(e.Data);
          OnErrorReceived?.Invoke(e.Data);
       }
    }

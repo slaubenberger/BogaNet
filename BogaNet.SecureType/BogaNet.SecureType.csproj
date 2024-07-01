@@ -26,7 +26,7 @@
 <!--    </ItemGroup>-->
 
     <ItemGroup>
-        <None Include="../Resources/logo_boga_secret.jpg" Pack="true" PackagePath="\"/>
+        <None Include="../Resources/logos/logo_boga_secret.jpg" Pack="true" PackagePath="\"/>
         <None Include="README.md" Pack="true" PackagePath="\"/>
     </ItemGroup>
 

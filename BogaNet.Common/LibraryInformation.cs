@@ -1,4 +1,7 @@
-﻿namespace BogaNet;
+﻿using System.Reflection;
+using System.Diagnostics;
+
+namespace BogaNet;
 
 /// <summary>
 /// Information about the BogaNet library.
@@ -7,8 +10,8 @@ public abstract class LibraryInformation
 {
    #region Variables
 
-   private static readonly System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
-   private static readonly System.Diagnostics.FileVersionInfo fvi = System.Diagnostics.FileVersionInfo.GetVersionInfo(assembly.Location);
+   private static readonly Assembly _assembly = Assembly.GetExecutingAssembly();
+   private static readonly FileVersionInfo _fvi = FileVersionInfo.GetVersionInfo(_assembly.Location);
 
    #endregion
 
@@ -21,7 +24,7 @@ public abstract class LibraryInformation
    {
       get
       {
-         string? version = fvi.ProductVersion;
+         string? version = _fvi.ProductVersion;
 
          return version != null && version.Contains('+') ? version.Substring(0, version.IndexOf('+')) : version;
       }
@@ -30,17 +33,17 @@ public abstract class LibraryInformation
    /// <summary>
    /// Name of the library.
    /// </summary>
-   public static string? Name => fvi.ProductName;
+   public static string? Name => _fvi.ProductName;
 
    /// <summary>
    /// Company of the library.
    /// </summary>
-   public static string? Company => fvi.CompanyName;
+   public static string? Company => _fvi.CompanyName;
 
    /// <summary>
    /// Copyright of the library.
    /// </summary>
-   public static string? Copyright => fvi.LegalCopyright;
+   public static string? Copyright => _fvi.LegalCopyright;
 
    #endregion
 }

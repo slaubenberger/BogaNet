@@ -55,9 +55,7 @@ public abstract class CRC8 //NUnit
       byte crc = 0;
 
       if (bytes != null && bytes.Length > 0)
-      {
          crc = Enumerable.Aggregate(bytes, crc, (current, b) => _crc8table[current ^ b]);
-      }
 
       return crc;
    }

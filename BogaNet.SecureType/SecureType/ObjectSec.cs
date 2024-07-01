@@ -14,9 +14,9 @@ public class ObjectSec<T> where T : class //NUnit
 
    #region Variables
 
-   private readonly ByteObf[] key = AESHelper.GenerateKey().BNToByteObfArray();
-   private readonly ByteObf[] iv = AESHelper.GenerateIV().BNToByteObfArray();
-   private byte[]? secretValue;
+   private readonly ByteObf[] _key = AESHelper.GenerateKey().BNToByteObfArray();
+   private readonly ByteObf[] _iv = AESHelper.GenerateIV().BNToByteObfArray();
+   private byte[]? _secretValue;
 
    #endregion
 
@@ -24,8 +24,8 @@ public class ObjectSec<T> where T : class //NUnit
 
    private T _value
    {
-      get => (AESHelper.Decrypt(secretValue, key.ToByteArray(), iv.ToByteArray()).BNToObject<T>() ?? default)!;
-      set => secretValue = AESHelper.Encrypt(value.BNToByteArray(), key.ToByteArray(), iv.ToByteArray());
+      get => (AESHelper.Decrypt(_secretValue, _key.ToByteArray(), _iv.ToByteArray()).BNToObject<T>() ?? default)!;
+      set => _secretValue = AESHelper.Encrypt(value.BNToByteArray(), _key.ToByteArray(), _iv.ToByteArray());
    }
 
    #endregion

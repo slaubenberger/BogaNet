@@ -12,9 +12,9 @@ public class StringSec //NUnit
 {
    #region Variables
 
-   private readonly ByteObf[] key = AESHelper.GenerateKey().BNToByteObfArray();
-   private readonly ByteObf[] iv = AESHelper.GenerateIV().BNToByteObfArray();
-   private byte[]? secretValue;
+   private readonly ByteObf[] _key = AESHelper.GenerateKey().BNToByteObfArray();
+   private readonly ByteObf[] _iv = AESHelper.GenerateIV().BNToByteObfArray();
+   private byte[]? _secretValue;
 
    #endregion
 
@@ -22,8 +22,8 @@ public class StringSec //NUnit
 
    private string _value
    {
-      get => AESHelper.Decrypt(secretValue, key.ToByteArray(), iv.ToByteArray()).BNToString() ?? string.Empty;
-      set => secretValue = AESHelper.Encrypt(value.BNToByteArray(), key.ToByteArray(), iv.ToByteArray());
+      get => AESHelper.Decrypt(_secretValue, _key.ToByteArray(), _iv.ToByteArray()).BNToString() ?? string.Empty;
+      set => _secretValue = AESHelper.Encrypt(value.BNToByteArray(), _key.ToByteArray(), _iv.ToByteArray());
    }
 
    #endregion

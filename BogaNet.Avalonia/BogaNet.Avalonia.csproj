@@ -29,7 +29,7 @@
 
     <ItemGroup>
         <None Include="README.md" Pack="true" PackagePath="\"/>
-        <None Include="../Resources/logo_boga_avalonia.jpg" Pack="true" PackagePath="\"/>
+        <None Include="../Resources/logos/logo_boga_avalonia.jpg" Pack="true" PackagePath="\"/>
     </ItemGroup>
 
     <ItemGroup>

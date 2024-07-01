@@ -7,33 +7,33 @@ public class FileHelperTest
 {
    #region Variables
 
-   private static readonly string testTempPath = FileHelper.TempPath;
-   private static readonly string testTempFile = FileHelper.TempFile;
+   private static readonly string _testTempPath = FileHelper.TempPath;
+   private static readonly string _testTempFile = FileHelper.TempFile;
 
-   private static readonly string testDirectory = $"{FileHelper.CurrentDirectory}Testfiles/";
-   private static readonly string testFile = $"{testDirectory}Images/logo_ct.png";
+   private static readonly string _testDirectory = $"{FileHelper.CurrentDirectory}Testfiles/";
+   private static readonly string _testFile = $"{_testDirectory}Images/logo_ct.png";
 
-   private const string testDirectoryName = "crosstales LLC";
-   private const string testDirectoryWin = $@"C:\Windows\System64\{testDirectoryName}";
-   private const string testDirectoryUnix = $"/usr/bin/{testDirectoryName}";
-   private const string testDirectoryUrl = $"https://crosstales.com/media/{testDirectoryName}";
-   private const string testDirectoryUNC = $@"\\MyComputer\MyShare\{testDirectoryName}";
+   private const string _testDirectoryName = "crosstales LLC";
+   private const string _testDirectoryWin = $@"C:\Windows\System64\{_testDirectoryName}";
+   private const string _testDirectoryUnix = $"/usr/bin/{_testDirectoryName}";
+   private const string _testDirectoryUrl = $"https://crosstales.com/media/{_testDirectoryName}";
+   private const string _testDirectoryUNC = $@"\\MyComputer\MyShare\{_testDirectoryName}";
 
-   private const string testDirectoryWinNotok = $@"C:\Windows/System64\{testDirectoryName}";
-   private const string testDirectoryUnixNotok = $@"/usr\bin/{testDirectoryName}";
-   private const string testDirectoryUrlNotok = $@"https:/\crosstales.com\media/{testDirectoryName}";
-   private const string testDirectoryUNCNotok = $@"\\MyComputer/MyShare/{testDirectoryName}";
+   private const string _testDirectoryWinNotok = $@"C:\Windows/System64\{_testDirectoryName}";
+   private const string _testDirectoryUnixNotok = $@"/usr\bin/{_testDirectoryName}";
+   private const string _testDirectoryUrlNotok = $@"https:/\crosstales.com\media/{_testDirectoryName}";
+   private const string _testDirectoryUNCNotok = $@"\\MyComputer/MyShare/{_testDirectoryName}";
 
-   private const string testFileName = "1st ct.logo.png";
-   private const string testFilePathWin = $"{testDirectoryWin}\\{testFileName}";
-   private const string testFilePathUnix = $"{testDirectoryUnix}/{testFileName}";
-   private const string testFilePathUrl = $"{testDirectoryUrl}/{testFileName}";
-   private const string testFilePathUNC = $"{testDirectoryUNC}\\{testFileName}";
+   private const string _testFileName = "1st ct.logo.png";
+   private const string _testFilePathWin = $"{_testDirectoryWin}\\{_testFileName}";
+   private const string _testFilePathUnix = $"{_testDirectoryUnix}/{_testFileName}";
+   private const string _testFilePathUrl = $"{_testDirectoryUrl}/{_testFileName}";
+   private const string _testFilePathUNC = $"{_testDirectoryUNC}\\{_testFileName}";
 
-   private const string testFilePathWinNotok = $"{testDirectoryWinNotok}\\{testFileName}";
-   private const string testFilePathUnixNotok = $"{testDirectoryUnixNotok}/{testFileName}";
-   private const string testFilePathUrlNotok = $"{testDirectoryUrlNotok}/{testFileName}";
-   private const string testFilePathUNCNotok = $"{testDirectoryUNC}\\{testFileName}";
+   private const string _testFilePathWinNotok = $"{_testDirectoryWinNotok}\\{_testFileName}";
+   private const string _testFilePathUnixNotok = $"{_testDirectoryUnixNotok}/{_testFileName}";
+   private const string _testFilePathUrlNotok = $"{_testDirectoryUrlNotok}/{_testFileName}";
+   private const string _testFilePathUNCNotok = $"{_testDirectoryUNC}\\{_testFileName}";
 
    #endregion
 
@@ -42,13 +42,13 @@ public class FileHelperTest
    [Test]
    public void isUnixPath_Test()
    {
-      Assert.False(FileHelper.IsUnixPath(testDirectoryWin));
+      Assert.False(FileHelper.IsUnixPath(_testDirectoryWin));
 
-      Assert.True(FileHelper.IsUnixPath(testDirectoryUnix));
+      Assert.True(FileHelper.IsUnixPath(_testDirectoryUnix));
 
-      Assert.False(FileHelper.IsUnixPath(testDirectoryUrl));
+      Assert.False(FileHelper.IsUnixPath(_testDirectoryUrl));
 
-      Assert.False(FileHelper.IsUnixPath(testDirectoryUNC));
+      Assert.False(FileHelper.IsUnixPath(_testDirectoryUNC));
 
       Assert.False(FileHelper.IsUnixPath(""));
 
@@ -58,13 +58,13 @@ public class FileHelperTest
    [Test]
    public void isWindowsPath_Test()
    {
-      Assert.True(FileHelper.IsWindowsPath(testDirectoryWin));
+      Assert.True(FileHelper.IsWindowsPath(_testDirectoryWin));
 
-      Assert.False(FileHelper.IsWindowsPath(testDirectoryUnix));
+      Assert.False(FileHelper.IsWindowsPath(_testDirectoryUnix));
 
-      Assert.False(FileHelper.IsWindowsPath(testDirectoryUrl));
+      Assert.False(FileHelper.IsWindowsPath(_testDirectoryUrl));
 
-      Assert.False(FileHelper.IsWindowsPath(testDirectoryUNC));
+      Assert.False(FileHelper.IsWindowsPath(_testDirectoryUNC));
 
       Assert.False(FileHelper.IsWindowsPath(""));
 
@@ -74,13 +74,13 @@ public class FileHelperTest
    [Test]
    public void isUNCPath_Test()
    {
-      Assert.False(FileHelper.IsUNCPath(testDirectoryWin));
+      Assert.False(FileHelper.IsUNCPath(_testDirectoryWin));
 
-      Assert.False(FileHelper.IsUNCPath(testDirectoryUnix));
+      Assert.False(FileHelper.IsUNCPath(_testDirectoryUnix));
 
-      Assert.False(FileHelper.IsUNCPath(testDirectoryUrl));
+      Assert.False(FileHelper.IsUNCPath(_testDirectoryUrl));
 
-      Assert.True(FileHelper.IsUNCPath(testDirectoryUNC));
+      Assert.True(FileHelper.IsUNCPath(_testDirectoryUNC));
 
       Assert.False(FileHelper.IsUNCPath(""));
 
@@ -90,13 +90,13 @@ public class FileHelperTest
    [Test]
    public void isURL_Test()
    {
-      Assert.False(FileHelper.IsURL(testDirectoryWin));
+      Assert.False(FileHelper.IsURL(_testDirectoryWin));
 
-      Assert.False(FileHelper.IsURL(testDirectoryUnix));
+      Assert.False(FileHelper.IsURL(_testDirectoryUnix));
 
-      Assert.True(FileHelper.IsURL(testDirectoryUrl));
+      Assert.True(FileHelper.IsURL(_testDirectoryUrl));
 
-      Assert.False(FileHelper.IsURL(testDirectoryUNC));
+      Assert.False(FileHelper.IsURL(_testDirectoryUNC));
 
       Assert.False(FileHelper.IsURL(""));
 
@@ -106,8 +106,8 @@ public class FileHelperTest
    [Test]
    public void ValidatePath_Test()
    {
-      string? path = FileHelper.ValidatePath(testTempPath);
-      Assert.That(path, Is.EqualTo(testTempPath));
+      string? path = FileHelper.ValidatePath(_testTempPath);
+      Assert.That(path, Is.EqualTo(_testTempPath));
 
       //Assert.That(FileHelper.ValidatePath("D:/Builds"), Is.EqualTo(@"D:\Builds\"));
 
@@ -115,36 +115,36 @@ public class FileHelperTest
       //Assert.That(path, Is.EqualTo(testDirectory));
 
 
-      string tempDir = testTempPath + testDirectoryName;
+      string tempDir = _testTempPath + _testDirectoryName;
 
       FileHelper.CreateDirectory(tempDir);
       path = FileHelper.ValidatePath(tempDir, false);
       Assert.That(path, Is.EqualTo(tempDir));
       FileHelper.DeleteDirectory(tempDir);
 
-      path = FileHelper.ValidatePath(testDirectoryWin, false);
-      Assert.That(path, Is.EqualTo(testDirectoryWin));
+      path = FileHelper.ValidatePath(_testDirectoryWin, false);
+      Assert.That(path, Is.EqualTo(_testDirectoryWin));
 
-      path = FileHelper.ValidatePath(testDirectoryUnix, false);
-      Assert.That(path, Is.EqualTo(testDirectoryUnix));
+      path = FileHelper.ValidatePath(_testDirectoryUnix, false);
+      Assert.That(path, Is.EqualTo(_testDirectoryUnix));
 
-      path = FileHelper.ValidatePath(testDirectoryUrl, false);
-      Assert.That(path, Is.EqualTo(testDirectoryUrl));
+      path = FileHelper.ValidatePath(_testDirectoryUrl, false);
+      Assert.That(path, Is.EqualTo(_testDirectoryUrl));
 
-      path = FileHelper.ValidatePath(testDirectoryUNC, false);
-      Assert.That(path, Is.EqualTo(testDirectoryUNC));
+      path = FileHelper.ValidatePath(_testDirectoryUNC, false);
+      Assert.That(path, Is.EqualTo(_testDirectoryUNC));
 
-      path = FileHelper.ValidatePath(testDirectoryWinNotok, false);
-      Assert.That(path, Is.EqualTo(testDirectoryWin));
+      path = FileHelper.ValidatePath(_testDirectoryWinNotok, false);
+      Assert.That(path, Is.EqualTo(_testDirectoryWin));
 
-      path = FileHelper.ValidatePath(testDirectoryUnixNotok, false);
-      Assert.That(path, Is.EqualTo(testDirectoryUnix));
+      path = FileHelper.ValidatePath(_testDirectoryUnixNotok, false);
+      Assert.That(path, Is.EqualTo(_testDirectoryUnix));
 
-      path = FileHelper.ValidatePath(testDirectoryUrlNotok, false);
-      Assert.That(path, Is.EqualTo(testDirectoryUrl));
+      path = FileHelper.ValidatePath(_testDirectoryUrlNotok, false);
+      Assert.That(path, Is.EqualTo(_testDirectoryUrl));
 
-      path = FileHelper.ValidatePath(testDirectoryUNCNotok, false);
-      Assert.That(path, Is.EqualTo(testDirectoryUNC));
+      path = FileHelper.ValidatePath(_testDirectoryUNCNotok, false);
+      Assert.That(path, Is.EqualTo(_testDirectoryUNC));
 
       path = FileHelper.ValidatePath("");
       Assert.True(path == "");
@@ -152,39 +152,39 @@ public class FileHelperTest
       path = FileHelper.ValidatePath(null);
       Assert.True(path == null);
 
-      path = FileHelper.ValidatePath(testDirectoryWin + "*", false);
-      Assert.That(path, Is.EqualTo(testDirectoryWin));
+      path = FileHelper.ValidatePath(_testDirectoryWin + "*", false);
+      Assert.That(path, Is.EqualTo(_testDirectoryWin));
    }
 
    [Test]
    public void ValidateFile_Test()
    {
-      string? path = FileHelper.ValidateFile(testTempFile);
-      Assert.That(path, Is.EqualTo(testTempFile));
+      string? path = FileHelper.ValidateFile(_testTempFile);
+      Assert.That(path, Is.EqualTo(_testTempFile));
 
-      path = FileHelper.ValidateFile(testFilePathWin);
-      Assert.That(path, Is.EqualTo(testFilePathWin));
+      path = FileHelper.ValidateFile(_testFilePathWin);
+      Assert.That(path, Is.EqualTo(_testFilePathWin));
 
-      path = FileHelper.ValidateFile(testFilePathUnix);
-      Assert.That(path, Is.EqualTo(testFilePathUnix));
+      path = FileHelper.ValidateFile(_testFilePathUnix);
+      Assert.That(path, Is.EqualTo(_testFilePathUnix));
 
-      path = FileHelper.ValidateFile(testFilePathUrl);
-      Assert.That(path, Is.EqualTo(testFilePathUrl));
+      path = FileHelper.ValidateFile(_testFilePathUrl);
+      Assert.That(path, Is.EqualTo(_testFilePathUrl));
 
-      path = FileHelper.ValidateFile(testFilePathUNC);
-      Assert.That(path, Is.EqualTo(testFilePathUNC));
+      path = FileHelper.ValidateFile(_testFilePathUNC);
+      Assert.That(path, Is.EqualTo(_testFilePathUNC));
 
-      path = FileHelper.ValidateFile(testFilePathWinNotok);
-      Assert.That(path, Is.EqualTo(testFilePathWin));
+      path = FileHelper.ValidateFile(_testFilePathWinNotok);
+      Assert.That(path, Is.EqualTo(_testFilePathWin));
 
-      path = FileHelper.ValidateFile(testFilePathUnixNotok);
-      Assert.That(path, Is.EqualTo(testFilePathUnix));
+      path = FileHelper.ValidateFile(_testFilePathUnixNotok);
+      Assert.That(path, Is.EqualTo(_testFilePathUnix));
 
-      path = FileHelper.ValidateFile(testFilePathUrlNotok);
-      Assert.That(path, Is.EqualTo(testFilePathUrl));
+      path = FileHelper.ValidateFile(_testFilePathUrlNotok);
+      Assert.That(path, Is.EqualTo(_testFilePathUrl));
 
-      path = FileHelper.ValidateFile(testFilePathUNCNotok);
-      Assert.That(path, Is.EqualTo(testFilePathUNC));
+      path = FileHelper.ValidateFile(_testFilePathUNCNotok);
+      Assert.That(path, Is.EqualTo(_testFilePathUNC));
 
       path = FileHelper.ValidateFile("");
       Assert.True(path == "");
@@ -192,75 +192,75 @@ public class FileHelperTest
       path = FileHelper.ValidateFile(null);
       Assert.True(path == null);
 
-      path = FileHelper.ValidateFile(testFilePathWin + "*");
-      Assert.That(path, Is.EqualTo(testFilePathWin));
+      path = FileHelper.ValidateFile(_testFilePathWin + "*");
+      Assert.That(path, Is.EqualTo(_testFilePathWin));
 
-      path = FileHelper.ValidateFile(testFilePathWin + ".");
-      Assert.That(path, Is.EqualTo(testFilePathWin));
+      path = FileHelper.ValidateFile(_testFilePathWin + ".");
+      Assert.That(path, Is.EqualTo(_testFilePathWin));
    }
 
    [Test]
    public void HasPathInvalidChars_Test()
    {
-      Assert.False(FileHelper.HasPathInvalidChars(testTempPath));
+      Assert.False(FileHelper.HasPathInvalidChars(_testTempPath));
 
-      Assert.False(FileHelper.HasPathInvalidChars(testDirectoryWin));
-      Assert.False(FileHelper.HasPathInvalidChars(testDirectoryUnix));
-      Assert.False(FileHelper.HasPathInvalidChars(testDirectoryUrl));
-      Assert.False(FileHelper.HasPathInvalidChars(testDirectoryUNC));
+      Assert.False(FileHelper.HasPathInvalidChars(_testDirectoryWin));
+      Assert.False(FileHelper.HasPathInvalidChars(_testDirectoryUnix));
+      Assert.False(FileHelper.HasPathInvalidChars(_testDirectoryUrl));
+      Assert.False(FileHelper.HasPathInvalidChars(_testDirectoryUNC));
 
       Assert.False(FileHelper.HasPathInvalidChars(""));
       Assert.True(FileHelper.HasPathInvalidChars("", false));
       Assert.False(FileHelper.HasPathInvalidChars(null));
       Assert.True(FileHelper.HasPathInvalidChars(null, false));
 
-      Assert.True(FileHelper.HasPathInvalidChars(testTempPath + "*"));
+      Assert.True(FileHelper.HasPathInvalidChars(_testTempPath + "*"));
    }
 
    [Test]
    public void HasFileInvalidChars_Test()
    {
-      Assert.False(FileHelper.HasFileInvalidChars(testTempFile));
+      Assert.False(FileHelper.HasFileInvalidChars(_testTempFile));
 
-      Assert.False(FileHelper.HasFileInvalidChars(testFilePathWin));
-      Assert.False(FileHelper.HasFileInvalidChars(testFilePathUnix));
-      Assert.False(FileHelper.HasFileInvalidChars(testFilePathUrl));
+      Assert.False(FileHelper.HasFileInvalidChars(_testFilePathWin));
+      Assert.False(FileHelper.HasFileInvalidChars(_testFilePathUnix));
+      Assert.False(FileHelper.HasFileInvalidChars(_testFilePathUrl));
 //         Assert.False(FileHelper.HasFileInvalidChars(testFilePathUNC));
 
-      Assert.False(FileHelper.HasFileInvalidChars(testFileName));
+      Assert.False(FileHelper.HasFileInvalidChars(_testFileName));
 
       Assert.False(FileHelper.HasFileInvalidChars(""));
       Assert.True(FileHelper.HasFileInvalidChars("", false));
       Assert.False(FileHelper.HasFileInvalidChars(null));
       Assert.True(FileHelper.HasFileInvalidChars(null, false));
 
-      Assert.False(FileHelper.HasFileInvalidChars("*" + testFileName)); //System.IO.Path.GetFileName corrects the path
+      Assert.False(FileHelper.HasFileInvalidChars("*" + _testFileName)); //System.IO.Path.GetFileName corrects the path
 
-      Assert.True(FileHelper.HasFileInvalidChars(testFileName + "."));
+      Assert.True(FileHelper.HasFileInvalidChars(_testFileName + "."));
    }
 
    [Test]
    public void GetFilesForName_Test()
    {
-      string[] result = FileHelper.GetFilesForName(testDirectory);
+      string[] result = FileHelper.GetFilesForName(_testDirectory);
       Assert.That(result.Length, Is.EqualTo(1)); //README.md
 
-      result = FileHelper.GetFilesForName(testDirectory, true);
+      result = FileHelper.GetFilesForName(_testDirectory, true);
       Assert.That(result.Length, Is.EqualTo(9)); //9 files
 
-      result = FileHelper.GetFilesForName(testDirectory, true, "*");
+      result = FileHelper.GetFilesForName(_testDirectory, true, "*");
       Assert.That(result.Length, Is.EqualTo(9)); //9 files
 
-      result = FileHelper.GetFilesForName(testDirectory, true, "logo_");
+      result = FileHelper.GetFilesForName(_testDirectory, true, "logo_");
       Assert.That(result.Length, Is.EqualTo(2)); //2 files
 
-      result = FileHelper.GetFilesForName(testDirectory, true, "MUUUUUUH");
+      result = FileHelper.GetFilesForName(_testDirectory, true, "MUUUUUUH");
       Assert.That(result.Length, Is.EqualTo(0));
 
-      result = FileHelper.GetFilesForName(testDirectory, true, null);
+      result = FileHelper.GetFilesForName(_testDirectory, true, null);
       Assert.That(result.Length, Is.EqualTo(9)); //9 files
 
-      result = FileHelper.GetFilesForName(testDirectory, true, []);
+      result = FileHelper.GetFilesForName(_testDirectory, true, []);
       Assert.That(result.Length, Is.EqualTo(9)); //9 files
 
       result = FileHelper.GetFilesForName("");
@@ -273,25 +273,25 @@ public class FileHelperTest
    [Test]
    public void GetFiles_Test()
    {
-      string[] result = FileHelper.GetFiles(testDirectory);
+      string[] result = FileHelper.GetFiles(_testDirectory);
       Assert.That(result.Length, Is.EqualTo(1)); //README.md
 
-      result = FileHelper.GetFiles(testDirectory, true);
+      result = FileHelper.GetFiles(_testDirectory, true);
       Assert.That(result.Length, Is.EqualTo(9)); //9 files
 
-      result = FileHelper.GetFiles(testDirectory, true, "*");
+      result = FileHelper.GetFiles(_testDirectory, true, "*");
       Assert.That(result.Length, Is.EqualTo(9)); //9 files
 
-      result = FileHelper.GetFiles(testDirectory, true, "png");
+      result = FileHelper.GetFiles(_testDirectory, true, "png");
       Assert.That(result.Length, Is.EqualTo(2)); //2 files
 
-      result = FileHelper.GetFiles(testDirectory, true, "MUUUUUUH");
+      result = FileHelper.GetFiles(_testDirectory, true, "MUUUUUUH");
       Assert.That(result.Length, Is.EqualTo(0));
 
-      result = FileHelper.GetFiles(testDirectory, true, null);
+      result = FileHelper.GetFiles(_testDirectory, true, null);
       Assert.That(result.Length, Is.EqualTo(9)); //9 files
 
-      result = FileHelper.GetFiles(testDirectory, true, []);
+      result = FileHelper.GetFiles(_testDirectory, true, []);
       Assert.That(result.Length, Is.EqualTo(9)); //9 files
 
       result = FileHelper.GetFiles("");
@@ -304,10 +304,10 @@ public class FileHelperTest
    [Test]
    public void GetDirectories_Test()
    {
-      string[] result = FileHelper.GetDirectories(testDirectory);
+      string[] result = FileHelper.GetDirectories(_testDirectory);
       Assert.That(result.Length, Is.EqualTo(4));
 
-      result = FileHelper.GetDirectories(testDirectory, true);
+      result = FileHelper.GetDirectories(_testDirectory, true);
       Assert.That(result.Length, Is.EqualTo(7));
 
       result = FileHelper.GetDirectories("");
@@ -327,13 +327,13 @@ public class FileHelperTest
    [Test]
    public void CopyDirectory_Test()
    {
-      string? newPath = FileHelper.Combine(testTempPath, FileHelper.GetDirectoryName(testDirectory));
+      string? newPath = FileHelper.Combine(_testTempPath, FileHelper.GetDirectoryName(_testDirectory));
 
-      Assert.True(FileHelper.CopyDirectory(testDirectory, newPath));
+      Assert.True(FileHelper.CopyDirectory(_testDirectory, newPath));
 
       Assert.True(FileHelper.ExistsDirectory(newPath));
 
-      string? movePath = FileHelper.CreateDirectory(testTempPath, "BN_TEST");
+      string? movePath = FileHelper.CreateDirectory(_testTempPath, "BN_TEST");
 
       Assert.True(FileHelper.CopyDirectory(newPath, movePath, true));
 
@@ -341,8 +341,8 @@ public class FileHelperTest
 
       Assert.False(FileHelper.CopyDirectory("", newPath));
       Assert.False(FileHelper.CopyDirectory(null, newPath));
-      Assert.False(FileHelper.CopyDirectory(testDirectory, ""));
-      Assert.False(FileHelper.CopyDirectory(testDirectory, null));
+      Assert.False(FileHelper.CopyDirectory(_testDirectory, ""));
+      Assert.False(FileHelper.CopyDirectory(_testDirectory, null));
       /*
       Assert.False(FileHelper.CopyDirectory(testDirectory, "Y:UELI"));
       Assert.False(FileHelper.CopyDirectory("UELI", newPath));
@@ -370,9 +370,9 @@ public class FileHelperTest
    [Test]
    public void CopyFile_Test()
    {
-      string? newPath = FileHelper.Combine(testTempPath, FileHelper.GetFileName(testFile));
+      string? newPath = FileHelper.Combine(_testTempPath, FileHelper.GetFileName(_testFile));
 
-      Assert.True(FileHelper.CopyFile(testFile, newPath));
+      Assert.True(FileHelper.CopyFile(_testFile, newPath));
 
       Assert.True(FileHelper.ExistsFile(newPath));
 
@@ -380,8 +380,8 @@ public class FileHelperTest
 
       Assert.False(FileHelper.CopyFile("", newPath));
       Assert.False(FileHelper.CopyFile(null, newPath));
-      Assert.False(FileHelper.CopyFile(testFile, ""));
-      Assert.False(FileHelper.CopyFile(testFile, null));
+      Assert.False(FileHelper.CopyFile(_testFile, ""));
+      Assert.False(FileHelper.CopyFile(_testFile, null));
    }
 
    [Test]
@@ -439,9 +439,9 @@ public class FileHelperTest
    public void ExistsFile_Test()
    {
       Assert.True(FileHelper.ExistsFile(FileHelper.TempFile));
-      Assert.True(FileHelper.ExistsFile(testFile));
+      Assert.True(FileHelper.ExistsFile(_testFile));
 
-      Assert.False(FileHelper.ExistsFile(testFilePathWin));
+      Assert.False(FileHelper.ExistsFile(_testFilePathWin));
 
       Assert.False(FileHelper.ExistsFile(""));
       Assert.False(FileHelper.ExistsFile(null));
@@ -451,9 +451,9 @@ public class FileHelperTest
    public void ExistsDirectory_Test()
    {
       Assert.True(FileHelper.ExistsDirectory(FileHelper.TempPath));
-      Assert.True(FileHelper.ExistsDirectory(testDirectory));
+      Assert.True(FileHelper.ExistsDirectory(_testDirectory));
 
-      Assert.False(FileHelper.ExistsDirectory(testDirectoryWin));
+      Assert.False(FileHelper.ExistsDirectory(_testDirectoryWin));
 
       Assert.False(FileHelper.ExistsDirectory(""));
       Assert.False(FileHelper.ExistsDirectory(null));
@@ -555,36 +555,36 @@ public class FileHelperTest
    [Test]
    public void GetFileName_Test()
    {
-      string? fname = FileHelper.GetFileName(testTempFile);
+      string? fname = FileHelper.GetFileName(_testTempFile);
       Assert.False(string.IsNullOrEmpty(fname));
 
       Console.WriteLine(fname);
 
-      fname = FileHelper.GetFileName(testFileName);
-      Assert.That(fname, Is.EqualTo(testFileName));
+      fname = FileHelper.GetFileName(_testFileName);
+      Assert.That(fname, Is.EqualTo(_testFileName));
 
       Console.WriteLine(fname);
 
-      fname = FileHelper.GetFileName(testFilePathWin);
-      Assert.That(fname, Is.EqualTo(testFileName));
+      fname = FileHelper.GetFileName(_testFilePathWin);
+      Assert.That(fname, Is.EqualTo(_testFileName));
 
-      fname = FileHelper.GetFileName(testFilePathUnix);
-      Assert.That(fname, Is.EqualTo(testFileName));
+      fname = FileHelper.GetFileName(_testFilePathUnix);
+      Assert.That(fname, Is.EqualTo(_testFileName));
 
-      fname = FileHelper.GetFileName(testFilePathUrl);
-      Assert.That(fname, Is.EqualTo(testFileName));
+      fname = FileHelper.GetFileName(_testFilePathUrl);
+      Assert.That(fname, Is.EqualTo(_testFileName));
 /*
          fname = FileHelper.GetFileName(testFilePathUNC);
          Assert.That(fname, Is.EqualTo(testFileName));
 */
-      fname = FileHelper.GetFileName(testFilePathWinNotok);
-      Assert.That(fname, Is.EqualTo(testFileName));
+      fname = FileHelper.GetFileName(_testFilePathWinNotok);
+      Assert.That(fname, Is.EqualTo(_testFileName));
 
-      fname = FileHelper.GetFileName(testFilePathUnixNotok);
-      Assert.That(fname, Is.EqualTo(testFileName));
+      fname = FileHelper.GetFileName(_testFilePathUnixNotok);
+      Assert.That(fname, Is.EqualTo(_testFileName));
 
-      fname = FileHelper.GetFileName(testFilePathUrlNotok);
-      Assert.That(fname, Is.EqualTo(testFileName));
+      fname = FileHelper.GetFileName(_testFilePathUrlNotok);
+      Assert.That(fname, Is.EqualTo(_testFileName));
 /*
          fname = FileHelper.GetFileName(testFilePathUNCNotok);
          Assert.That(fname, Is.EqualTo(testFileName));
@@ -595,33 +595,33 @@ public class FileHelperTest
       fname = FileHelper.GetFileName(null);
       Assert.True(fname == null);
 
-      fname = FileHelper.GetFileName("*" + testFileName);
-      Assert.That(fname, Is.EqualTo(testFileName));
+      fname = FileHelper.GetFileName("*" + _testFileName);
+      Assert.That(fname, Is.EqualTo(_testFileName));
    }
 
    [Test]
    public void GetDirectoryName_Test()
    {
-      string? fname = FileHelper.GetDirectoryName(testTempPath);
+      string? fname = FileHelper.GetDirectoryName(_testTempPath);
       Assert.False(string.IsNullOrEmpty(fname));
 
-      fname = FileHelper.GetDirectoryName(testDirectoryWin);
-      Assert.That(fname, Is.EqualTo(testDirectoryName));
+      fname = FileHelper.GetDirectoryName(_testDirectoryWin);
+      Assert.That(fname, Is.EqualTo(_testDirectoryName));
 
-      fname = FileHelper.GetDirectoryName(testDirectoryUnix);
-      Assert.That(fname, Is.EqualTo(testDirectoryName));
+      fname = FileHelper.GetDirectoryName(_testDirectoryUnix);
+      Assert.That(fname, Is.EqualTo(_testDirectoryName));
 
-      fname = FileHelper.GetDirectoryName(testDirectoryUrl);
-      Assert.That(fname, Is.EqualTo(testDirectoryName));
+      fname = FileHelper.GetDirectoryName(_testDirectoryUrl);
+      Assert.That(fname, Is.EqualTo(_testDirectoryName));
 
-      fname = FileHelper.GetDirectoryName(testDirectoryWinNotok);
-      Assert.That(fname, Is.EqualTo(testDirectoryName));
+      fname = FileHelper.GetDirectoryName(_testDirectoryWinNotok);
+      Assert.That(fname, Is.EqualTo(_testDirectoryName));
 
-      fname = FileHelper.GetDirectoryName(testDirectoryUnixNotok);
-      Assert.That(fname, Is.EqualTo(testDirectoryName));
+      fname = FileHelper.GetDirectoryName(_testDirectoryUnixNotok);
+      Assert.That(fname, Is.EqualTo(_testDirectoryName));
 
-      fname = FileHelper.GetDirectoryName(testDirectoryUrlNotok);
-      Assert.That(fname, Is.EqualTo(testDirectoryName));
+      fname = FileHelper.GetDirectoryName(_testDirectoryUrlNotok);
+      Assert.That(fname, Is.EqualTo(_testDirectoryName));
 
       fname = FileHelper.GetDirectoryName("");
       Assert.True(fname == "");
@@ -635,7 +635,7 @@ public class FileHelperTest
    {
       Assert.That(FileHelper.GetFileSize(FileHelper.TempFile), Is.GreaterThanOrEqualTo(0));
 
-      Assert.That(FileHelper.GetFileSize(testFileName), Is.EqualTo(-1));
+      Assert.That(FileHelper.GetFileSize(_testFileName), Is.EqualTo(-1));
 
       Assert.That(FileHelper.GetFileSize(FileHelper.TempPath), Is.EqualTo(-1));
       Assert.That(FileHelper.GetFileSize(""), Is.EqualTo(-1));
@@ -647,7 +647,7 @@ public class FileHelperTest
    {
       Assert.That(FileHelper.GetExtension(FileHelper.TempFile), Is.EqualTo("tmp"));
 
-      Assert.That(FileHelper.GetExtension(testFileName), Is.EqualTo("png"));
+      Assert.That(FileHelper.GetExtension(_testFileName), Is.EqualTo("png"));
 
       Assert.That(FileHelper.GetExtension("ct_logo"), Is.EqualTo(null));
 
@@ -661,7 +661,7 @@ public class FileHelperTest
    {
       Assert.That(FileHelper.GetLastFileWriteTime(FileHelper.TempFile), Is.GreaterThanOrEqualTo(System.DateTime.Today));
 
-      Assert.That(FileHelper.GetLastFileWriteTime(testFileName), Is.EqualTo(System.DateTime.MinValue));
+      Assert.That(FileHelper.GetLastFileWriteTime(_testFileName), Is.EqualTo(System.DateTime.MinValue));
 
       Assert.That(FileHelper.GetLastFileWriteTime(FileHelper.TempPath), Is.EqualTo(System.DateTime.MinValue));
       Assert.That(FileHelper.GetLastFileWriteTime(""), Is.EqualTo(System.DateTime.MinValue));
@@ -673,7 +673,7 @@ public class FileHelperTest
    {
       Assert.That(FileHelper.GetLastFileAccessTime(FileHelper.TempFile), Is.GreaterThanOrEqualTo(System.DateTime.Today));
 
-      Assert.That(FileHelper.GetLastFileAccessTime(testFileName), Is.EqualTo(System.DateTime.MinValue));
+      Assert.That(FileHelper.GetLastFileAccessTime(_testFileName), Is.EqualTo(System.DateTime.MinValue));
 
       Assert.That(FileHelper.GetLastFileAccessTime(FileHelper.TempPath), Is.EqualTo(System.DateTime.MinValue));
       Assert.That(FileHelper.GetLastFileAccessTime(""), Is.EqualTo(System.DateTime.MinValue));
@@ -685,7 +685,7 @@ public class FileHelperTest
    {
       Assert.That(FileHelper.GetFileCreationTime(FileHelper.TempFile), Is.GreaterThanOrEqualTo(System.DateTime.Today));
 
-      Assert.That(FileHelper.GetFileCreationTime(testFileName), Is.EqualTo(System.DateTime.MinValue));
+      Assert.That(FileHelper.GetFileCreationTime(_testFileName), Is.EqualTo(System.DateTime.MinValue));
 
       Assert.That(FileHelper.GetFileCreationTime(FileHelper.TempPath), Is.EqualTo(System.DateTime.MinValue));
       Assert.That(FileHelper.GetFileCreationTime(""), Is.EqualTo(System.DateTime.MinValue));
@@ -785,7 +785,7 @@ public class FileHelperTest
    [TearDown]
    public void CleanUp()
    {
-      string? movePath = FileHelper.CreateDirectory(testTempPath, "CT_TEST");
+      string? movePath = FileHelper.CreateDirectory(_testTempPath, "CT_TEST");
 
       FileHelper.DeleteDirectory(movePath);
    }

@@ -12,9 +12,9 @@ public class BoolSec //NUnit
 {
    #region Variables
 
-   private readonly ByteObf[] key = AESHelper.GenerateKey().BNToByteObfArray();
-   private readonly ByteObf[] iv = AESHelper.GenerateIV().BNToByteObfArray();
-   private byte[]? secretValue;
+   private readonly ByteObf[] _key = AESHelper.GenerateKey().BNToByteObfArray();
+   private readonly ByteObf[] _iv = AESHelper.GenerateIV().BNToByteObfArray();
+   private byte[]? _secretValue;
 
    #endregion
 
@@ -22,8 +22,8 @@ public class BoolSec //NUnit
 
    private bool _value
    {
-      get => BitConverter.ToBoolean(AESHelper.Decrypt(secretValue, key.ToByteArray(), iv.ToByteArray()));
-      set => secretValue = AESHelper.Encrypt(BitConverter.GetBytes(value), key.ToByteArray(), iv.ToByteArray());
+      get => BitConverter.ToBoolean(AESHelper.Decrypt(_secretValue, _key.ToByteArray(), _iv.ToByteArray()));
+      set => _secretValue = AESHelper.Encrypt(BitConverter.GetBytes(value), _key.ToByteArray(), _iv.ToByteArray());
    }
 
    #endregion

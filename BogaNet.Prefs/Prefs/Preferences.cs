@@ -32,7 +32,7 @@ public class Preferences : Singleton<Preferences>, IPreferences //NUnit //TODO a
    {
       Load();
 
-      AppDomain.CurrentDomain.ProcessExit += AppDomain_ProcessExit;
+      AppDomain.CurrentDomain.ProcessExit += cb_exit;
    }
 
    #endregion
@@ -190,7 +190,7 @@ public class Preferences : Singleton<Preferences>, IPreferences //NUnit //TODO a
 
    #region Private methods
 
-   private void AppDomain_ProcessExit(object? sender, EventArgs e)
+   private void cb_exit(object? sender, EventArgs e)
    {
       if (AutoSaveOnExit)
          Save();

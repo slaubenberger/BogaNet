@@ -8,15 +8,15 @@ public class NetworkHelperTest
 
    #region Variables
 
-   private static readonly string testUrl = Constants.COMPANY_URL;
-   private const string ipCT = "207.154.226.218"; //this may change
-   private const string ipLocalhost = "127.0.0.1";
-   private const string ipValid = "207.154.226";
-   private const string ipWrong1 = "256.154.226.218";
-   private const string ipWrong2 = "-1.154.226.218";
-   private const string ipWrong3 = "207.154.226.218.218";
-   private const string ipV6 = "2345:0425:2CA1:0000:0000:0567:5673:23b5";
-   private const string ipV6Complex = "2345:425:2CA1:0000:0000:567:5673:23b5/64";
+   private static readonly string _testUrl = Constants.COMPANY_URL;
+   private const string _ipCT = "207.154.226.218"; //this may change
+   private const string _ipLocalhost = "127.0.0.1";
+   private const string _ipValid = "207.154.226";
+   private const string _ipWrong1 = "256.154.226.218";
+   private const string _ipWrong2 = "-1.154.226.218";
+   private const string _ipWrong3 = "207.154.226.218.218";
+   private const string _ipV6 = "2345:0425:2CA1:0000:0000:0567:5673:23b5";
+   private const string _ipV6Complex = "2345:425:2CA1:0000:0000:567:5673:23b5/64";
 
    #endregion
 
@@ -30,8 +30,8 @@ public class NetworkHelperTest
       string? url = NetworkHelper.GetURLForFile(file);
       Assert.That(url, Is.EqualTo($"{Constants.PREFIX_FILE}{file.Replace('\\', '/')}"));
 
-      url = NetworkHelper.GetURLForFile(testUrl);
-      Assert.That(url, Is.EqualTo(testUrl));
+      url = NetworkHelper.GetURLForFile(_testUrl);
+      Assert.That(url, Is.EqualTo(_testUrl));
 
       url = NetworkHelper.GetURLForFile("");
       Assert.That(url, Is.EqualTo(""));
@@ -65,8 +65,8 @@ public class NetworkHelperTest
       url = NetworkHelper.ValidateURL(inUrl);
       Assert.That(url, Is.EqualTo(outUrl));
 
-      url = NetworkHelper.ValidateURL(ipCT);
-      Assert.That(url, Is.EqualTo(ipCT));
+      url = NetworkHelper.ValidateURL(_ipCT);
+      Assert.That(url, Is.EqualTo(_ipCT));
 
       url = NetworkHelper.ValidateURL("");
       Assert.That(url, Is.EqualTo(""));
@@ -86,7 +86,7 @@ public class NetworkHelperTest
    {
       string file = FileHelper.TempFile;
 
-      Assert.True(NetworkHelper.IsURL(testUrl));
+      Assert.True(NetworkHelper.IsURL(_testUrl));
 
       Assert.False(NetworkHelper.IsURL(file));
       Assert.False(NetworkHelper.IsURL(""));
@@ -97,14 +97,14 @@ public class NetworkHelperTest
    [Test]
    public void isIPv4_Test()
    {
-      Assert.True(NetworkHelper.IsIPv4(ipCT));
-      Assert.True(NetworkHelper.IsIPv4(ipLocalhost));
-      Assert.True(NetworkHelper.IsIPv4(ipValid));
+      Assert.True(NetworkHelper.IsIPv4(_ipCT));
+      Assert.True(NetworkHelper.IsIPv4(_ipLocalhost));
+      Assert.True(NetworkHelper.IsIPv4(_ipValid));
 
-      Assert.False(NetworkHelper.IsIPv4(ipWrong1));
-      Assert.False(NetworkHelper.IsIPv4(ipWrong2));
-      Assert.False(NetworkHelper.IsIPv4(ipWrong3));
-      Assert.False(NetworkHelper.IsIPv4(testUrl));
+      Assert.False(NetworkHelper.IsIPv4(_ipWrong1));
+      Assert.False(NetworkHelper.IsIPv4(_ipWrong2));
+      Assert.False(NetworkHelper.IsIPv4(_ipWrong3));
+      Assert.False(NetworkHelper.IsIPv4(_testUrl));
       Assert.False(NetworkHelper.IsIPv4("ueli"));
       Assert.False(NetworkHelper.IsIPv4(""));
       Assert.False(NetworkHelper.IsIPv4(null));
@@ -113,16 +113,16 @@ public class NetworkHelperTest
    [Test]
    public void isIPv6_Test()
    {
-      Assert.True(NetworkHelper.IsIPv6(ipV6));
-      Assert.True(NetworkHelper.IsIPv6(ipV6Complex));
+      Assert.True(NetworkHelper.IsIPv6(_ipV6));
+      Assert.True(NetworkHelper.IsIPv6(_ipV6Complex));
 
-      Assert.False(NetworkHelper.IsIPv6(ipCT));
-      Assert.False(NetworkHelper.IsIPv6(ipLocalhost));
-      Assert.False(NetworkHelper.IsIPv6(ipWrong1));
-      Assert.False(NetworkHelper.IsIPv6(ipWrong2));
-      Assert.False(NetworkHelper.IsIPv6(ipWrong3));
-      Assert.False(NetworkHelper.IsIPv6(ipValid));
-      Assert.False(NetworkHelper.IsIPv6(testUrl));
+      Assert.False(NetworkHelper.IsIPv6(_ipCT));
+      Assert.False(NetworkHelper.IsIPv6(_ipLocalhost));
+      Assert.False(NetworkHelper.IsIPv6(_ipWrong1));
+      Assert.False(NetworkHelper.IsIPv6(_ipWrong2));
+      Assert.False(NetworkHelper.IsIPv6(_ipWrong3));
+      Assert.False(NetworkHelper.IsIPv6(_ipValid));
+      Assert.False(NetworkHelper.IsIPv6(_testUrl));
       Assert.False(NetworkHelper.IsIPv6("ueli"));
       Assert.False(NetworkHelper.IsIPv6(""));
       Assert.False(NetworkHelper.IsIPv6(null));
@@ -131,11 +131,11 @@ public class NetworkHelperTest
    [Test]
    public void GetIP_Test()
    {
-      string? ip = NetworkHelper.GetIP(testUrl);
-      Assert.That(ip, Is.EqualTo(ipCT));
+      string? ip = NetworkHelper.GetIP(_testUrl);
+      Assert.That(ip, Is.EqualTo(_ipCT));
 
       ip = NetworkHelper.GetIP("localhost");
-      Assert.That(ip, Is.EqualTo(ipLocalhost));
+      Assert.That(ip, Is.EqualTo(_ipLocalhost));
 
       ip = NetworkHelper.GetIP("");
       Assert.That(ip, Is.EqualTo(""));
