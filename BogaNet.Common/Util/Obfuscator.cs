@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Security.Cryptography;
 using System.Text;
+using BogaNet.Extension;
 
 namespace BogaNet.Util;
 
@@ -11,6 +12,8 @@ namespace BogaNet.Util;
 public abstract class Obfuscator //NUnit
 {
    private const byte DEFAULT_IV = 76;
+
+   #region Public methods
 
    /// <summary>
    /// Generates a secure IV for the obfuscation.
@@ -87,6 +90,7 @@ public abstract class Obfuscator //NUnit
 
       return result;
    }
+
 /*
    /// <summary>
    /// De-obfuscate a byte-array to a string.
@@ -101,4 +105,6 @@ public abstract class Obfuscator //NUnit
       return Deobfuscate(obfuscatedData, IV).BNToString(encoding);
    }
 */
+
+   #endregion
 }

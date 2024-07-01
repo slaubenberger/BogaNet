@@ -23,7 +23,6 @@ public class ProcessRunner
 
    #endregion
 
-
    #region Properties
 
    /// <summary>
@@ -79,7 +78,7 @@ public class ProcessRunner
 
    #endregion
 
-   #region Public-Methoden
+   #region Public methods
 
    /// <summary>
    /// Starts a process with arguments.

@@ -4,13 +4,15 @@ using BogaNet.i18n;
 using System;
 using BogaNet.Helper;
 
-namespace BogaNet.Avalonia;
+namespace BogaNet.Avalonia.Extension;
 
 /// <summary>
 /// Extension methods for Avalonia.
 /// </summary>
 public static class AvaloniaExtension
 {
+   #region Public methods
+
    /// <summary>
    /// Load translation files (CSV) as resources for Localizer.
    /// </summary>
@@ -19,9 +21,9 @@ public static class AvaloniaExtension
    /// <exception cref="ArgumentNullException"></exception>
    public static void LoadResources(this Localizer? localizer, params string[] translationFiles)
    {
-        ArgumentNullException.ThrowIfNull(localizer);
+      ArgumentNullException.ThrowIfNull(localizer);
 
-        Dictionary<string, string[]> allLines = new();
+      Dictionary<string, string[]> allLines = new();
 
       foreach (var translation in translationFiles)
       {
@@ -32,4 +34,6 @@ public static class AvaloniaExtension
 
       localizer.Load(allLines);
    }
+
+   #endregion
 }

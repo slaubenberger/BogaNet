@@ -1,4 +1,5 @@
 ﻿namespace BogaNet.Test.Helper;
+using BogaNet.Extension;
 
 public class ArrayHelperTest
 {

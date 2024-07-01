@@ -13,7 +13,13 @@ namespace BogaNet.Helper;
 /// </summary>
 public abstract class XmlHelper
 {
+   #region Variables
+
    private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(XmlHelper));
+
+   #endregion
+
+   #region Public methods
 
    /// <summary>
    /// Serialize an object to a XML-file.
@@ -215,4 +221,6 @@ public abstract class XmlHelper
 
       return default;
    }
+
+   #endregion
 }

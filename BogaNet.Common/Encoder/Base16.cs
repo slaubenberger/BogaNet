@@ -1,6 +1,7 @@
 using System;
 using System.Text;
 using System.Numerics;
+using BogaNet.Extension;
 using BogaNet.Helper;
 using Microsoft.Extensions.Logging;
 

@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Logging;
 using System.Numerics;
+using BogaNet.Extension;
 
 namespace BogaNet.Unit;
 
@@ -18,6 +19,8 @@ public enum TemperatureUnit
 /// </summary>
 public static class TemperatureUnitExtension
 {
+   #region Variables
+
    private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(TemperatureUnitExtension));
 
    public static bool IgnoreSameUnit = true;
@@ -26,6 +29,10 @@ public static class TemperatureUnitExtension
    /// Celsius to Kelvin.
    /// </summary>
    public const decimal FACTOR_CELSIUS_TO_KELVIN = -Constants.ABSOLUTE_ZERO;
+
+   #endregion
+
+   #region Public methods
 
    /// <summary>
    /// Converts a value from one unit to another.
@@ -80,4 +87,6 @@ public static class TemperatureUnitExtension
 
       return outVal;
    }
+
+   #endregion
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using BogaNet.Extension;
 using BogaNet.Helper;
 using BogaNet.ObfuscatedType;
 

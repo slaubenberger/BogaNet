@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
+using BogaNet.Extension;
 
 namespace BogaNet.CLI;
 
@@ -10,6 +11,8 @@ namespace BogaNet.CLI;
 public static class Program
 {
    private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(Program));
+
+   #region Public methods
 
    public static void Main(string[] args)
    {
@@ -50,6 +53,10 @@ public static class Program
       NLog.LogManager.Shutdown();
       Environment.Exit(code);
    }
+
+   #endregion
+
+   #region Private methods
 
    private static void testObf()
    {
@@ -325,6 +332,8 @@ public static class Program
       _logger.LogInformation(tm.BNToString());
    }
    */
+
+   #endregion
 }
 
 public class TestModel

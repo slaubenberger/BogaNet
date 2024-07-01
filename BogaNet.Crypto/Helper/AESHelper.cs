@@ -4,6 +4,7 @@ using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.IO;
 using System.Text;
+using BogaNet.Extension;
 
 namespace BogaNet.Helper;
 
@@ -13,6 +14,8 @@ namespace BogaNet.Helper;
 public abstract class AESHelper //TODO add other algorithms, key&blocksize, padding and mode?
 {
    private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(AESHelper));
+
+   #region Public methods
 
    /// <summary>
    /// Generates a secure IV for AES.
@@ -165,6 +168,7 @@ public abstract class AESHelper //TODO add other algorithms, key&blocksize, padd
    {
       return Task.Run(() => DecryptAsync(dataToDecrypt, key, IV)).GetAwaiter().GetResult();
    }
+
 /*
    /// <summary>
    /// Decrypts a byte-array with AES to a string.
@@ -215,4 +219,6 @@ public abstract class AESHelper //TODO add other algorithms, key&blocksize, padd
          throw;
       }
    }
+
+   #endregion
 }

@@ -24,7 +24,6 @@ public class DictionaryXML<TKey, TVal> : Dictionary<TKey, TVal>, IXmlSerializabl
 
    #endregion
 
-
    #region Constructors
 
    public DictionaryXML()
@@ -59,7 +58,6 @@ public class DictionaryXML<TKey, TVal> : Dictionary<TKey, TVal>, IXmlSerializabl
 
    #endregion
 
-
    #region ISerializable Members
 
    protected DictionaryXML(SerializationInfo info, StreamingContext context)
@@ -84,7 +82,6 @@ public class DictionaryXML<TKey, TVal> : Dictionary<TKey, TVal>, IXmlSerializabl
    }
 
    #endregion
-
 
    #region IXmlSerializable Members
 
@@ -138,7 +135,6 @@ public class DictionaryXML<TKey, TVal> : Dictionary<TKey, TVal>, IXmlSerializabl
    }
 
    #endregion
-
 
    #region Private Properties
 

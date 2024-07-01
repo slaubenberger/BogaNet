@@ -3,6 +3,7 @@ using BogaNet.Util;
 using System.Text;
 using BogaNet.Encoder;
 using System.Collections.Generic;
+using BogaNet.Extension;
 using BogaNet.ObfuscatedType;
 
 namespace BogaNet.Prefs;

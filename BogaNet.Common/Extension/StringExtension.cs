@@ -2,13 +2,14 @@
 using System;
 using System.Linq;
 
-namespace BogaNet;
+namespace BogaNet.Extension;
 
 /// <summary>
 /// Extension methods for strings.
 /// </summary>
 public static class StringExtension
 {
+   #region Public methods
    /// <summary>
    /// Reverses a string.
    /// </summary>
@@ -108,19 +109,16 @@ public static class StringExtension
    /// </summary>
    /// <param name="str">String-instance</param>
    /// <param name="searchTerms">Search terms separated by the given split-character</param>
-   /// <param name="splitChar">Split-character (optional, default: ' ')</param>
    /// <returns>True if the string contains any parts of the given string</returns>
-   public static bool BNContainsAny(this string? str, string? searchTerms, char splitChar = ' ')
+   public static bool BNContainsAny(this string? str, params string[]? searchTerms)
    {
       if (str == null)
          return false;
 
-      if (string.IsNullOrEmpty(searchTerms))
-         return true;
+      if (searchTerms == null)
+         return false;
 
-      char[] split = [splitChar];
-
-      return searchTerms.Split(split, StringSplitOptions.RemoveEmptyEntries).Any(searchTerm => str.BNContains(searchTerm));
+      return searchTerms.Any(searchTerm => str.BNContains(searchTerm));
    }
 
    /// <summary>
@@ -128,19 +126,16 @@ public static class StringExtension
    /// </summary>
    /// <param name="str">String-instance</param>
    /// <param name="searchTerms">Search terms separated by the given split-character</param>
-   /// <param name="splitChar">Split-character (optional, default: ' ')</param>
    /// <returns>True if the string contains all parts of the given string</returns>
-   public static bool BNContainsAll(this string? str, string? searchTerms, char splitChar = ' ')
+   public static bool BNContainsAll(this string? str, params string[]? searchTerms)
    {
       if (str == null)
          return false;
 
-      if (string.IsNullOrEmpty(searchTerms))
-         return true;
+      if (searchTerms == null)
+         return false;
 
-      char[] split = [splitChar];
-
-      return searchTerms.Split(split, StringSplitOptions.RemoveEmptyEntries).All(searchTerm => str.BNContains(searchTerm));
+      return searchTerms.All(searchTerm => str.BNContains(searchTerm));
    }
 
    /// <summary>
@@ -202,7 +197,7 @@ public static class StringExtension
 
       return string.IsNullOrEmpty(toCheck) ? 0 : str.IndexOf(toCheck, comp);
    }
-
+/*
    /// <summary>
    /// Returns the index of the first occurence of a given string.
    /// </summary>
@@ -218,7 +213,7 @@ public static class StringExtension
 
       return string.IsNullOrEmpty(toCheck) ? 0 : str.IndexOf(toCheck, startIndex, comp);
    }
-
+*/
    /// <summary>
    /// Converts the value of a string to a byte-array.
    /// </summary>
@@ -234,4 +229,6 @@ public static class StringExtension
 
       return _encoding.GetBytes(str);
    }
+   
+   #endregion
 }

@@ -13,6 +13,7 @@ using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Text;
 using BogaNet.Encoder;
+using BogaNet.Extension;
 
 namespace BogaNet.Helper;
 
@@ -528,7 +529,6 @@ public class NetworkAdapter
    public OperationalStatus Status { get; private set; }
 
    #endregion
-
 
    #region Constructor
 

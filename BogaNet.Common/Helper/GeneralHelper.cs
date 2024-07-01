@@ -1,5 +1,6 @@
 ﻿using System.Numerics;
 using System;
+using BogaNet.Extension;
 
 namespace BogaNet.Helper;
 
@@ -84,7 +85,7 @@ public abstract class GeneralHelper
    /// <param name="name">Name for the argument</param>
    /// <param name="args">Arguments to search for (optional)</param>
    /// <returns>Argument for a name from the command line</returns>
-   public static string? GetCLIArgument(string? name, string[]? args = null)
+   public static string? GetCLIArgument(string? name, params string[]? args)
    {
       if (!string.IsNullOrEmpty(name))
       {
@@ -145,7 +146,6 @@ public abstract class GeneralHelper
             return result.ToString();
          }
    */
-
    #endregion
 
    #region Private methods

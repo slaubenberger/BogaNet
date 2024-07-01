@@ -1,5 +1,6 @@
 using Enumerable = System.Linq.Enumerable;
 using System.Text;
+using BogaNet.Extension;
 
 namespace BogaNet.CRC;
 

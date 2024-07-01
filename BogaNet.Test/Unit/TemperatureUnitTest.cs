@@ -1,16 +1,17 @@
 ﻿using BogaNet.Unit;
+using BogaNet.Extension;
 
 namespace BogaNet.Test.Unit;
 
 public class TemperatureUnitTest
 {
-   #region Tests
-
    [OneTimeSetUp]
    public static void Init()
    {
       TemperatureUnitExtension.IgnoreSameUnit = false;
    }
+
+   #region Tests
 
    [Test]
    public void UnitTemperature_Convert_Test()

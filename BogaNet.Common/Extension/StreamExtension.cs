@@ -2,13 +2,15 @@
 using System;
 using System.IO;
 
-namespace BogaNet;
+namespace BogaNet.Extension;
 
 /// <summary>
 /// Extension methods for Stream.
 /// </summary>
 public static class StreamExtension
 {
+   #region Public methods
+
    /// <summary>
    /// Reads the full content of a Stream.
    /// </summary>
@@ -34,4 +36,6 @@ public static class StreamExtension
       await input.CopyToAsync(ms);
       return ms.ToArray();
    }
+
+   #endregion
 }

@@ -5,6 +5,7 @@ using System.Security.Cryptography;
 using System.Net;
 using System.Threading.Tasks;
 using System.Text;
+using BogaNet.Extension;
 
 namespace BogaNet.Helper;
 
@@ -25,6 +26,8 @@ public enum RSAKeyLength
 public abstract class RSAHelper
 {
    private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(RSAHelper));
+
+   #region Public methods
 
    /// <summary>
    /// Generates a self-signed X509-certificate.
@@ -271,7 +274,6 @@ public abstract class RSAHelper
       return Encrypt(textToEncrypt.BNToByteArray(encoding), cert, padding);
    }
 
-
    /// <summary>
    /// Decrypts a byte-array with a X509-certificate.
    /// </summary>
@@ -494,4 +496,6 @@ public abstract class RSAHelper
 
    }
    */
+
+   #endregion
 }

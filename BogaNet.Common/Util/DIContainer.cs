@@ -10,6 +10,8 @@ public static class DIContainer
 {
    private static readonly Dictionary<Type, object?> _container = new();
 
+   #region Public methods
+
    /// <summary>
    /// Bind an instance to a given Type.
    /// </summary>
@@ -54,4 +56,6 @@ public static class DIContainer
    {
       return _container.ContainsKey(typeof(TType));
    }
+
+   #endregion
 }

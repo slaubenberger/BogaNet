@@ -1,6 +1,7 @@
 using System.Text;
 using System;
 using BogaNet.Encoder;
+using BogaNet.Extension;
 
 namespace BogaNet.Util;
 

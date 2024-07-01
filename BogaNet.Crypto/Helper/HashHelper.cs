@@ -2,6 +2,7 @@
 using System;
 using System.Security.Cryptography;
 using System.Text;
+using BogaNet.Extension;
 
 namespace BogaNet.Helper;
 
@@ -11,6 +12,8 @@ namespace BogaNet.Helper;
 public abstract class HashHelper
 {
    private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(HashHelper));
+
+   #region Public methods
 
    /// <summary>
    /// Generates a hash-value as byte-array with a given byte-array and algorithm as input.
@@ -118,4 +121,6 @@ public abstract class HashHelper
    {
       return SHA512(text.BNToByteArray(encoding));
    }
+
+   #endregion
 }

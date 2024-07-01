@@ -9,8 +9,14 @@ namespace BogaNet.Util;
 /// <typeparam name="T"></typeparam>
 public class Singleton<T> where T : class
 {
+   #region Variables
+
    private static object mutex = new();
    private static T? instance;
+
+   #endregion
+
+   #region Public methods
 
    public static T? Instance
    {
@@ -36,4 +42,6 @@ public class Singleton<T> where T : class
          return instance;
       }
    }
+
+   #endregion
 }

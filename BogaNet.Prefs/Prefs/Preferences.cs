@@ -2,6 +2,7 @@
 using System.Numerics;
 using Microsoft.Extensions.Logging;
 using System;
+using BogaNet.Extension;
 
 namespace BogaNet.Prefs;
 

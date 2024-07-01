@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Logging;
 using System.Numerics;
+using BogaNet.Extension;
 
 namespace BogaNet.Unit;
 
@@ -27,6 +28,8 @@ public enum AreaUnit
 /// </summary>
 public static class AreaUnitExtension
 {
+   #region Variables
+
    private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(AreaUnitExtension));
 
    public static bool IgnoreSameUnit = true;
@@ -85,6 +88,10 @@ public static class AreaUnitExtension
    /// Miles² to meters².
    /// </summary>
    public const decimal FACTOR_MILE2_TO_M2 = 2589988.1103m;
+
+   #endregion
+
+   #region Public methods
 
    /// <summary>
    /// Converts a value from one unit to another.
@@ -192,4 +199,6 @@ public static class AreaUnitExtension
 
       return outVal;
    }
+
+   #endregion
 }

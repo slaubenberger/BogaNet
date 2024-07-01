@@ -2,6 +2,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Security.Cryptography;
 using System.Text;
+using BogaNet.Extension;
 
 namespace BogaNet.Helper;
 
@@ -11,6 +12,8 @@ namespace BogaNet.Helper;
 public abstract class HMACHelper
 {
    private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(HMACHelper));
+
+   #region Public methods
 
    /// <summary>
    /// Generates a secure secret for HMAC.
@@ -140,4 +143,6 @@ public abstract class HMACHelper
    {
       return HMAC512(text.BNToByteArray(encoding), secret);
    }
+
+   #endregion
 }

@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Logging;
 using System.Numerics;
+using BogaNet.Extension;
 
 namespace BogaNet.Unit;
 
@@ -26,6 +27,8 @@ public enum LengthUnit
 /// </summary>
 public static class LengthUnitExtension
 {
+   #region Variables
+
    private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(LengthUnitExtension));
 
    public static bool IgnoreSameUnit = true;
@@ -72,6 +75,10 @@ public static class LengthUnitExtension
    /// Inch to meters.
    /// </summary>
    public static decimal FACTOR_INCH_TO_M => FACTOR_INCH_TO_CM / FACTOR_CM_TO_M;
+
+   #endregion
+
+   #region Public methods
 
    /// <summary>
    /// Converts a value from one unit to another.
@@ -161,4 +168,6 @@ public static class LengthUnitExtension
 
       return outVal;
    }
+
+   #endregion
 }

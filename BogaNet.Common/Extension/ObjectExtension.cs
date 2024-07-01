@@ -1,13 +1,15 @@
 ﻿using System.Text;
 using BogaNet.Helper;
 
-namespace BogaNet;
+namespace BogaNet.Extension;
 
 /// <summary>
 /// Extension methods for objects.
 /// </summary>
 public static class ObjectExtension
 {
+   #region Public methods
+
    /// <summary>
    /// Converts an object to a byte-array (as JSON).
    /// </summary>
@@ -37,4 +39,6 @@ public static class ObjectExtension
 
       return sb.ToString();
    }
+
+   #endregion
 }

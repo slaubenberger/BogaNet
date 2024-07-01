@@ -4,5 +4,6 @@ public enum TextType
 {
    LABEL,
    TOOLTIP,
-   PLACEHOLDER
+   PLACEHOLDER,
+   URL
 }

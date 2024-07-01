@@ -1,13 +1,15 @@
 using System;
 using System.Globalization;
 
-namespace BogaNet;
+namespace BogaNet.Extension;
 
 /// <summary>
 /// Extension methods for DateTime.
 /// </summary>
 public static class DateTimeExtension //NUnit
 {
+   #region Public methods
+
    /// <summary>
    /// Converts the specified ISO 8601 representation of a date and time to its DateTime equivalent.
    /// </summary>
@@ -49,4 +51,6 @@ public static class DateTimeExtension //NUnit
    {
       return date.Kind == DateTimeKind.Utc ? TimeZoneInfo.ConvertTimeFromUtc(date, toTZ ?? TimeZoneInfo.Local) : TimeZoneInfo.ConvertTime(date, toTZ ?? TimeZoneInfo.Local);
    }
+
+   #endregion
 }

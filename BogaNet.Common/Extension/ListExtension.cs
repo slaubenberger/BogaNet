@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 
-namespace BogaNet;
+namespace BogaNet.Extension;
 
 /// <summary>
 /// Extension methods for IList.
 /// </summary>
 public static class ListExtension
 {
+   #region Public methods
+
    /// <summary>
    /// Shuffles a List.
    /// </summary>
@@ -109,4 +111,6 @@ public static class ListExtension
          .Select(x => x.Select(v => v.Value).ToList())
          .ToList();
    }
+
+   #endregion
 }

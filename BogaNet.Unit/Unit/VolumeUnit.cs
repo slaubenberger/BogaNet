@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Logging;
 using System.Numerics;
+using BogaNet.Extension;
 
 namespace BogaNet.Unit;
 
@@ -33,6 +34,8 @@ public enum VolumeUnit
 /// </summary>
 public static class VolumeUnitExtension
 {
+   #region Variables
+
    private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(VolumeUnitExtension));
 
    public static bool IgnoreSameUnit = true;
@@ -121,6 +124,10 @@ public static class VolumeUnitExtension
    /// Millimeter³ to liters.
    /// </summary>
    public const decimal FACTOR_MM3_TO_L = 0.000001m;
+
+   #endregion
+
+   #region Public methods
 
    /// <summary>
    /// Converts a value from one unit to another.
@@ -264,4 +271,6 @@ public static class VolumeUnitExtension
 
       return outVal;
    }
+
+   #endregion
 }

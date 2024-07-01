@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 
-namespace BogaNet;
+namespace BogaNet.Extension;
 
 /// <summary>
 /// Extension methods for numbers.
@@ -11,19 +11,9 @@ namespace BogaNet;
 public static class NumberExtension
 {
    private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(NumberExtension));
-/*
-   /// <summary>
-   /// Clamps a value between min and max.
-   /// </summary>
-   /// <param name="number">Given value</param>
-   /// <param name="min">Min value</param>
-   /// <param name="max">Max value</param>
-   /// <returns>Clamped value</returns>t
-   public static T BNClamp<T>(this T number, T min, T max) where T : INumber<T>
-   {
-      return number < min ? min : number > max ? max : number;
-   }
-*/
+
+   #region Public methods
+
    /// <summary>
    /// Converts the value of a Number to a byte-array.
    /// </summary>
@@ -257,4 +247,20 @@ public static class NumberExtension
    {
       return System.Convert.ToDecimal(number);
    }
+
+   /*
+   /// <summary>
+   /// Clamps a value between min and max.
+   /// </summary>
+   /// <param name="number">Given value</param>
+   /// <param name="min">Min value</param>
+   /// <param name="max">Max value</param>
+   /// <returns>Clamped value</returns>t
+   public static T BNClamp<T>(this T number, T min, T max) where T : INumber<T>
+   {
+      return number < min ? min : number > max ? max : number;
+   }
+*/
+
+   #endregion
 }

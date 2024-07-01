@@ -1,4 +1,6 @@
-﻿namespace BogaNet.Test.Extension;
+﻿using BogaNet.Extension;
+
+namespace BogaNet.Test.Extension;
 
 public class ArrayExtensionTest
 {

@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System.Threading.Tasks;
 using System;
 using System.IO;
+using BogaNet.Extension;
 using Newtonsoft.Json.Converters;
 
 namespace BogaNet.Helper;
@@ -12,7 +13,13 @@ namespace BogaNet.Helper;
 /// </summary>
 public abstract class JsonHelper
 {
+   #region Variables
+
    private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(JsonHelper));
+
+   #endregion
+
+   #region Properties
 
    /// <summary>
    /// Format for JSON as single line.
@@ -55,6 +62,10 @@ public abstract class JsonHelper
          MissingMemberHandling = MissingMemberHandling.Ignore,
          Converters = [new StringEnumConverter()]
       };
+
+   #endregion
+
+   #region Public methods
 
    /// <summary>
    /// Serialize an object to an JSON-file.
@@ -199,4 +210,6 @@ public abstract class JsonHelper
 
       return DeserializeFromString<T>(data.BNToString(), settings);
    }
+
+   #endregion
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Text;
 using System.Numerics;
+using BogaNet.Extension;
 using BogaNet.Helper;
 using Microsoft.Extensions.Logging;
 
@@ -30,7 +31,7 @@ public static class Base2 //NUnit
       if (diff != 0)
       {
          _logger.LogWarning("Input was not a multiple of 8 - filling the missing positions with leading zeros.");
-         base2string = $"{StringHelper.CreateString(8 - diff, "0")}{base2string}";
+         base2string = $"{StringHelper.CreateString(8 - diff, '0')}{base2string}";
       }
 
       //remove leading zeros

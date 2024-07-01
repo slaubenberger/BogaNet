@@ -1,16 +1,17 @@
 ﻿using BogaNet.Unit;
+using BogaNet.Extension;
 
 namespace BogaNet.Test.Unit;
 
 public class WeightUnitTest
 {
-   #region Tests
-
    [OneTimeSetUp]
    public static void Init()
    {
       WeightUnitExtension.IgnoreSameUnit = false;
    }
+
+   #region Tests
 
    [Test]
    public void WeightUnit_Convert_Test()

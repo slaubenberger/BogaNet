@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Logging;
 using System.Numerics;
+using BogaNet.Extension;
 
 namespace BogaNet.Unit;
 
@@ -22,6 +23,8 @@ public enum WeightUnit
 /// </summary>
 public static class WeightUnitExtension
 {
+   #region Variables
+
    private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(WeightUnitExtension));
 
    public static bool IgnoreSameUnit = true;
@@ -53,6 +56,10 @@ public static class WeightUnitExtension
    /// Ounce to kilograms.
    /// </summary>
    public static decimal FACTOR_OUNCE_TO_KILOGRAM => FACTOR_OUNCE_TO_GRAM / FACTOR_GRAM_TO_KILOGRAM;
+
+   #endregion
+
+   #region Public methods
 
    /// <summary>
    /// Converts a value from one unit to another.
@@ -124,4 +131,6 @@ public static class WeightUnitExtension
 
       return outVal;
    }
+
+   #endregion
 }

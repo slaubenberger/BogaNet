@@ -1,16 +1,17 @@
 ﻿using BogaNet.Unit;
+using BogaNet.Extension;
 
 namespace BogaNet.Test.Unit;
 
 public class LengthUnitTest
 {
-   #region Tests
-
    [OneTimeSetUp]
    public static void Init()
    {
       LengthUnitExtension.IgnoreSameUnit = false;
    }
+
+   #region Tests
 
    [Test]
    public void LengthUnit_Convert_Test()

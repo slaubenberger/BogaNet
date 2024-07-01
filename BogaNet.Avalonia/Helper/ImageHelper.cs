@@ -4,10 +4,9 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
+using Microsoft.Extensions.Logging;
 
 namespace BogaNet.Avalonia.Helper;
-
-using Microsoft.Extensions.Logging;
 
 /// <summary>
 /// Helper for images in Avalonia.
@@ -15,6 +14,8 @@ using Microsoft.Extensions.Logging;
 public abstract class ImageHelper
 {
    private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(ImageHelper));
+
+   #region Public methods
 
    /// <summary>
    /// Loads an image from a given resource path.
@@ -47,4 +48,6 @@ public abstract class ImageHelper
          return null;
       }
    }
+
+   #endregion
 }

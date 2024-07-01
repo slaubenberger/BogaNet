@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System;
 using System.Web;
+using BogaNet.Extension;
 
 namespace BogaNet.Helper;
 
@@ -12,8 +13,14 @@ namespace BogaNet.Helper;
 /// </summary>
 public static class StringHelper
 {
+   #region Variables
+
    private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(StringHelper));
    private static readonly Random _rnd = new();
+
+   #endregion
+
+   #region Public methods
 
    /// <summary>
    /// Converts a string to title case (first letter uppercase).
@@ -171,42 +178,6 @@ public static class StringHelper
    {
       return str != null ? Constants.REGEX_LINEENDINGS.Replace(str, string.Empty).Trim() : null;
    }
-   /*
-   /// <summary>
-   /// Replaces new lines with a replacement string pattern.
-   /// </summary>
-   /// <param name="str">String-instance</param>
-   /// <param name="replacement">Replacement string pattern (optional, default: "#nl#")</param>
-   /// <param name="newLine">New line string (optional, default: Environment.NewLine)</param>
-   /// <returns>Replaced string without new lines</returns>
-   public static string? RemoveNewLines(string? str, string? replacement = "#nl#", string? newLine = null)
-   {
-      return str?.Replace(string.IsNullOrEmpty(newLine) ? Environment.NewLine : newLine, replacement);
-   }
-
-   /// <summary>
-   /// Replaces a given string pattern with new lines in a string.
-   /// </summary>
-   /// <param name="str">String-instance</param>
-   /// <param name="replacement">Replacement string pattern (optional, default: "#nl#")</param>
-   /// <param name="newLine">New line string (optional, default: Environment.NewLine)</param>
-   /// <returns>Replaced string with new lines</returns>
-   public static string? AddNewLines(string? str, string? replacement = "#nl#", string? newLine = null)
-   {
-      return str?.BNReplace(replacement, string.IsNullOrEmpty(newLine) ? Environment.NewLine : newLine);
-   }
-*/
-/*
-   /// <summary>
-   /// Checks if the string has invalid characters.
-   /// </summary>
-   /// <param name="str">String-instance</param>
-   /// <returns>True if the string has invalid characters</returns>
-   public static bool HasInvalidChars(string? str) //TODO what kind of chars?
-   {
-      return str != null && Constants.REGEX_INVALID_CHARS.IsMatch(str);
-   }
-*/
 
    /// <summary>
    /// Creates a fixed length string from a given string.
@@ -257,17 +228,6 @@ public static class StringHelper
       }
 
       return fillerCharacters.Length == 1 ? new string(fillerCharacters[0], stringLength) : string.Empty;
-   }
-
-   /// <summary>
-   /// Creates a string of characters with a given length.
-   /// </summary>
-   /// <param name="stringLength">Length of the generated string</param>
-   /// <param name="fillerCharacters">Characters to fill the string (if more than one character is used, the generated string will be a randomized result of all characters)</param>
-   /// <returns>Generated string</returns>
-   public static string CreateString(int stringLength, string? fillerCharacters)
-   {
-      return fillerCharacters == null ? string.Empty : CreateString(stringLength, fillerCharacters.ToCharArray());
    }
 
    /// <summary>
@@ -342,4 +302,54 @@ public static class StringHelper
    {
       return url == null ? null : Uri.EscapeDataString(url).Replace("%2F", "/").Replace("%3A", ":");
    }
+/*
+   /// <summary>
+   /// Creates a string of characters with a given length.
+   /// </summary>
+   /// <param name="stringLength">Length of the generated string</param>
+   /// <param name="fillerCharacters">Characters to fill the string (if more than one character is used, the generated string will be a randomized result of all characters)</param>
+   /// <returns>Generated string</returns>
+   public static string CreateString(int stringLength, string? fillerCharacters)
+   {
+      return fillerCharacters == null ? string.Empty : CreateString(stringLength, fillerCharacters.ToCharArray());
+   }
+*/
+   /*
+ /// <summary>
+ /// Replaces new lines with a replacement string pattern.
+ /// </summary>
+ /// <param name="str">String-instance</param>
+ /// <param name="replacement">Replacement string pattern (optional, default: "#nl#")</param>
+ /// <param name="newLine">New line string (optional, default: Environment.NewLine)</param>
+ /// <returns>Replaced string without new lines</returns>
+ public static string? RemoveNewLines(string? str, string? replacement = "#nl#", string? newLine = null)
+ {
+    return str?.Replace(string.IsNullOrEmpty(newLine) ? Environment.NewLine : newLine, replacement);
+ }
+
+ /// <summary>
+ /// Replaces a given string pattern with new lines in a string.
+ /// </summary>
+ /// <param name="str">String-instance</param>
+ /// <param name="replacement">Replacement string pattern (optional, default: "#nl#")</param>
+ /// <param name="newLine">New line string (optional, default: Environment.NewLine)</param>
+ /// <returns>Replaced string with new lines</returns>
+ public static string? AddNewLines(string? str, string? replacement = "#nl#", string? newLine = null)
+ {
+    return str?.BNReplace(replacement, string.IsNullOrEmpty(newLine) ? Environment.NewLine : newLine);
+ }
+*/
+/*
+   /// <summary>
+   /// Checks if the string has invalid characters.
+   /// </summary>
+   /// <param name="str">String-instance</param>
+   /// <returns>True if the string has invalid characters</returns>
+   public static bool HasInvalidChars(string? str) //TODO what kind of chars?
+   {
+      return str != null && Constants.REGEX_INVALID_CHARS.IsMatch(str);
+   }
+*/
+
+   #endregion
 }

@@ -10,6 +10,8 @@ public static class ArrayHelper
 {
    //private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(ArrayHelper));
 
+   #region Public methods
+
    /// <summary>
    /// Converts a byte-array to a float-array.
    /// </summary>
@@ -140,6 +142,8 @@ public static class ArrayHelper
    {
       return matrix != null ? Enumerable.Range(0, matrix.GetLength(1)).Select(x => matrix[rowNumber, x]).ToArray() : default;
    }
+
+   #endregion
 
    #region Private methods
 

@@ -8,6 +8,7 @@ using System;
 using System.Linq;
 using BogaNet.Util;
 using System.Text.RegularExpressions;
+using BogaNet.Extension;
 
 namespace BogaNet.i18n;
 
@@ -296,6 +297,9 @@ public class Localizer : Singleton<Localizer>, ILocalizer
             break;
          case TextType.PLACEHOLDER:
             usedKey += "_Placeholder";
+            break;
+         case TextType.URL:
+            usedKey += "_Url";
             break;
       }
 

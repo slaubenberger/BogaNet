@@ -2,6 +2,7 @@ using System.Reflection;
 using System;
 using System.IO;
 using Avalonia.Platform;
+using BogaNet.Extension;
 
 namespace BogaNet.Avalonia.Helper;
 
@@ -12,10 +13,16 @@ public abstract class ResourceHelper
 {
    //private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(ResourceHelper));
 
+   #region Properties
+
    /// <summary>
    /// Main assembly containing the resources
    /// </summary>
    public static string? ResourceAssembly { get; set; }
+
+   #endregion
+
+   #region Public methods
 
    /// <summary>
    /// Validates a given resource path.
@@ -60,4 +67,6 @@ public abstract class ResourceHelper
       using BufferedStream streamReader = new(AssetLoader.Open(fileUri));
       return streamReader.BNReadFully();
    }
+
+   #endregion
 }

@@ -3,7 +3,7 @@ using System.Text;
 using System.Collections.Generic;
 using System;
 
-namespace BogaNet;
+namespace BogaNet.Extension;
 
 /// <summary>
 /// Extension methods for IDictionary.
@@ -11,6 +11,8 @@ namespace BogaNet;
 public static class DictionaryExtension
 {
    private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(DictionaryExtension));
+
+   #region Public methods
 
    /// <summary>
    /// Dumps a dictionary to a string.
@@ -85,4 +87,6 @@ public static class DictionaryExtension
 
       return xmlDict;
    }
+
+   #endregion
 }

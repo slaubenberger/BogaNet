@@ -1,16 +1,17 @@
 ﻿using BogaNet.Unit;
+using BogaNet.Extension;
 
 namespace BogaNet.Test.Unit;
 
 public class ByteUnitTest
 {
-   #region Tests
-
    [OneTimeSetUp]
    public static void Init()
    {
       ByteUnitExtension.IgnoreSameUnit = false;
    }
+
+   #region Tests
 
    [Test]
    public void ByteUnit_Convert_Test()

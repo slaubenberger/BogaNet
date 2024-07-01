@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Numerics;
+using BogaNet.Extension;
 using BogaNet.Helper;
 using BogaNet.ObfuscatedType;
 

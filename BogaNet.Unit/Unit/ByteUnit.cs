@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Logging;
 using System.Numerics;
+using BogaNet.Extension;
 
 namespace BogaNet.Unit;
 
@@ -28,6 +29,8 @@ public enum ByteUnit
 /// </summary>
 public static class ByteUnitExtension
 {
+   #region Variables
+
    private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(ByteUnitExtension));
 
    public static bool IgnoreSameUnit = true;
@@ -67,6 +70,10 @@ public static class ByteUnitExtension
 
    /// <summary>exabyte to bytes.</summary>
    public const decimal FACTOR_EB_TO_BYTES = FACTOR_PB_TO_BYTES * 1000;
+
+   #endregion
+
+   #region Public methods
 
    /// <summary>
    /// Converts a value from one unit to another.
@@ -195,4 +202,6 @@ public static class ByteUnitExtension
 
       return BitUnit.BIT.Convert(toBitUnit, bits);
    }
+
+   #endregion
 }
