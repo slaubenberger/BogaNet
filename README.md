@@ -65,7 +65,7 @@ Console.WriteLine(loc.GetText("GreetingText"));
 [BogaNet.i18n](https://www.nuget.org/packages/BogaNet.i18n/)
 
 ## BogaNet.ObfuscatedType
-Various obfuscated types for all value types and strings. This types prevent the values from being "plain" in memory and offers some protection against bad actors (like memory scanners and searchers).
+Various obfuscated types for all value types, strings and objects. This types prevent the values from being "plain" in memory and offers some protection against bad actors (like memory scanners and searchers).
 
 ### Important note
 This types are fast and lightweight, but not cryptographically secure! Use it for less sensitive data, like:
@@ -86,6 +86,7 @@ Obfuscated types for:
 * [bool](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool)
 * [char](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/char)
 * [string](https://learn.microsoft.com/en-us/dotnet/api/system.string?view=net-8.0)
+* all objects (currently only as storage container)
 
 ```csharp
 DoubleObf age = 35.8;
@@ -130,7 +131,7 @@ Console.WriteLine(Preferences.GetNumber<double>(keyNumber).ToString());
 [BogaNet.Prefs](https://www.nuget.org/packages/BogaNet.Prefs/)
 
 ## BogaNet.SecureType
-Various encrypted types for all value types and strings. This types prevent the values from being "plain" in memory and offers high protection against bad actors (like memory scanners and searchers).
+Various encrypted types for all value types, strings and objects. This types prevent the values from being "plain" in memory and offers high protection against bad actors (like memory scanners and searchers).
 
 ### Important note
 This types are performance and memory intense compared to the original C# types, but are cryptographically secure! Use it for sensitive data, like:
@@ -152,6 +153,7 @@ Secure types for:
 * [bool](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool)
 * [char](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/char)
 * [string](https://learn.microsoft.com/en-us/dotnet/api/system.string?view=net-8.0)
+* all objects (currently only as storage container)
 
 ```csharp
 DoubleSec age = 35.8;

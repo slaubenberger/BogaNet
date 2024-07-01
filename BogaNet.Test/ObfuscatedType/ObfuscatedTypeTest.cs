@@ -1,4 +1,5 @@
 ﻿using BogaNet.ObfuscatedType;
+using BogaNet.Test.Testfiles;
 
 namespace BogaNet.Test.ObfuscatedType;
 
@@ -177,6 +178,16 @@ public class ObfuscatedTypeTest
 
       ushort res = age;
       Assert.True(age == res);
+   }
+
+   [Test]
+   public void Object_Test()
+   {
+      TestModel refObj = new();
+      ObjectObf<TestModel> obj = refObj;
+      TestModel tm = obj;
+      Assert.True(obj.Equals(refObj));
+      Assert.True(tm.Equals(refObj));
    }
 
    #endregion

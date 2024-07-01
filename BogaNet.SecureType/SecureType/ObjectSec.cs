@@ -6,10 +6,12 @@ using BogaNet.ObfuscatedType;
 namespace BogaNet.SecureType;
 
 /// <summary>
-/// Secure string implementation. This prevents the string from being readable in the memory of the application.
+/// Secure object implementation. This prevents the object from being readable in the memory of the application.
 /// </summary>
-public class StringSec //NUnit
+public class ObjectSec<T> //NUnit
 {
+   //TODO the usage should be improved if possible, currently it's more like a storage container for objects...
+
    #region Variables
 
    private readonly ByteObf[] key = AESHelper.GenerateKey().BNToByteObfArray();
@@ -20,9 +22,9 @@ public class StringSec //NUnit
 
    #region Properties
 
-   private string _value
+   private T _value
    {
-      get => AESHelper.Decrypt(secretValue, key.ToByteArray(), iv.ToByteArray()).BNToString() ?? string.Empty;
+      get => AESHelper.Decrypt(secretValue, key.ToByteArray(), iv.ToByteArray()).BNToObject<T>() ?? default;
       set => secretValue = AESHelper.Encrypt(value.BNToByteArray(), key.ToByteArray(), iv.ToByteArray());
    }
 
@@ -30,7 +32,7 @@ public class StringSec //NUnit
 
    #region Constructors
 
-   private StringSec(string value)
+   private ObjectSec(T value)
    {
       _value = value;
    }
@@ -39,12 +41,12 @@ public class StringSec //NUnit
 
    #region Operators
 
-   public static implicit operator StringSec(string value)
+   public static implicit operator ObjectSec<T>(T value)
    {
-      return new StringSec(value);
+      return new ObjectSec<T>(value);
    }
 
-   public static implicit operator string(StringSec custom)
+   public static implicit operator T(ObjectSec<T> custom)
    {
       return custom._value;
    }
@@ -67,7 +69,7 @@ public class StringSec //NUnit
 
    public override string ToString()
    {
-      return _value;
+      return _value.ToString();
    }
 
    public override bool Equals(object? obj)
@@ -75,24 +77,24 @@ public class StringSec //NUnit
       if (ReferenceEquals(null, obj)) return false;
       if (ReferenceEquals(this, obj)) return true;
 
-      if (obj.GetType() == typeof(string))
+      if (obj.GetType() == typeof(T))
          return _value.Equals(obj);
 
-      return obj.GetType() == GetType() && equals((StringSec)obj);
+      return obj.GetType() == GetType() && equals((ObjectSec<T>)obj);
    }
 
    public override int GetHashCode()
    {
-      return EqualityComparer<string>.Default.GetHashCode(_value);
+      return EqualityComparer<T>.Default.GetHashCode(_value);
    }
 
    #endregion
 
    #region Private methods
 
-   private bool equals(StringSec other)
+   private bool equals(ObjectSec<T> other)
    {
-      return EqualityComparer<string>.Default.Equals(_value, other._value);
+      return EqualityComparer<T>.Default.Equals(_value, other._value);
    }
 
    #endregion

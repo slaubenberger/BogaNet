@@ -1,4 +1,5 @@
 ﻿using BogaNet.SecureType;
+using BogaNet.Test.Testfiles;
 
 namespace BogaNet.Test.SecureType;
 
@@ -179,5 +180,14 @@ public class SecureTypeTest
       Assert.True(age == res);
    }
 
+   [Test]
+   public void Object_Test()
+   {
+      TestModel refObj = new();
+      ObjectSec<TestModel> obj = refObj;
+      TestModel tm = obj;
+      Assert.True(obj.Equals(refObj));
+      Assert.True(tm.Equals(refObj));
+   }
    #endregion
 }

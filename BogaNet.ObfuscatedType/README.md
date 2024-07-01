@@ -1,5 +1,5 @@
 # BogaNet.ObfuscatedType
-Obfuscated types for all value types and strings. This types prevent the values from being "plain" in memory and offers some protection against bad actors (like memory scanners and searchers).
+Obfuscated types for all value types, strings and objects. This types prevent the values from being "plain" in memory and offers some protection against bad actors (like memory scanners and searchers).
 
 ## Important note
 This types are fast and lightweight, but not cryptographically secure! Use it for less sensitive data, like:
@@ -20,6 +20,7 @@ Obfuscated types for:
 * [bool](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool)
 * [char](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/char)
 * [string](https://learn.microsoft.com/en-us/dotnet/api/system.string?view=net-8.0)
+* all objects (currently only as storage container)
 
 ```csharp
 DoubleObf age = 35.8;
