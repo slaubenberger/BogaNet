@@ -32,41 +32,41 @@ public static class BitUnitExtension
 
    public static bool IgnoreSameUnit = true;
 
-   /// <summary>Bit to kibibit.</summary>
-   public const decimal FACTOR_BIT_TO_Kibit = 1024;
+   /// <summary>kibibit to Bit.</summary>
+   public const decimal FACTOR_Kibit_TO_BIT = 1024;
 
-   /// <summary>Bit to mebibit.</summary>
-   public const decimal FACTOR_BIT_TO_Mibit = FACTOR_BIT_TO_Kibit * 1024;
+   /// <summary>mebibit to Bit.</summary>
+   public const decimal FACTOR_Mibit_TO_BIT = FACTOR_Kibit_TO_BIT * 1024;
 
-   /// <summary>Bit to gibibit.</summary>
-   public const decimal FACTOR_BIT_TO_Gibit = FACTOR_BIT_TO_Mibit * 1024;
+   /// <summary>gibibit to Bit.</summary>
+   public const decimal FACTOR_Gibit_TO_BIT = FACTOR_Mibit_TO_BIT * 1024;
 
-   /// <summary>Bit to tebibit.</summary>
-   public const decimal FACTOR_BIT_TO_Tibit = FACTOR_BIT_TO_Gibit * 1024;
+   /// <summary>tebibit to Bit.</summary>
+   public const decimal FACTOR_Tibit_TO_BIT = FACTOR_Gibit_TO_BIT * 1024;
 
-   /// <summary>Bit to pebibit.</summary>
-   public const decimal FACTOR_BIT_TO_Pibit = FACTOR_BIT_TO_Tibit * 1024;
+   /// <summary>pebibit to Bit.</summary>
+   public const decimal FACTOR_Pibit_TO_BIT = FACTOR_Tibit_TO_BIT * 1024;
 
-   /// <summary>Bit to exbibit.</summary>
-   public const decimal FACTOR_BIT_TO_Eibit = FACTOR_BIT_TO_Pibit * 1024;
+   /// <summary>exbibit to Bit.</summary>
+   public const decimal FACTOR_Eibit_TO_BIT = FACTOR_Pibit_TO_BIT * 1024;
 
-   /// <summary>Bit to kilobit.</summary>
-   public const decimal FACTOR_BIT_TO_kbit = 1000;
+   /// <summary>kilobit to Bit.</summary>
+   public const decimal FACTOR_kbit_TO_BIT = 1000;
 
-   /// <summary>Bit to megabit.</summary>
-   public const decimal FACTOR_BIT_TO_Mbit = FACTOR_BIT_TO_kbit * 1000;
+   /// <summary>megabit to Bit.</summary>
+   public const decimal FACTOR_Mbit_TO_BIT = FACTOR_kbit_TO_BIT * 1000;
 
-   /// <summary>Bit to gigabit.</summary>
-   public const decimal FACTOR_BIT_TO_Gbit = FACTOR_BIT_TO_Mbit * 1000;
+   /// <summary>gigabit to Bit.</summary>
+   public const decimal FACTOR_Gbit_TO_BIT = FACTOR_Mbit_TO_BIT * 1000;
 
-   /// <summary>Bytes to terabit.</summary>
-   public const decimal FACTOR_BIT_TO_Tbit = FACTOR_BIT_TO_Gbit * 1000;
+   /// <summary>terabit to Bit.</summary>
+   public const decimal FACTOR_Tbit_TO_BIT = FACTOR_Gbit_TO_BIT * 1000;
 
-   /// <summary>Bit to petabit.</summary>
-   public const decimal FACTOR_BIT_TO_Pbit = FACTOR_BIT_TO_Tbit * 1000;
+   /// <summary>petabit to Bit.</summary>
+   public const decimal FACTOR_Pbit_TO_BIT = FACTOR_Tbit_TO_BIT * 1000;
 
-   /// <summary>Bit to exabit.</summary>
-   public const decimal FACTOR_BIT_TO_Ebit = FACTOR_BIT_TO_Pbit * 1000;
+   /// <summary>exabit to Bit.</summary>
+   public const decimal FACTOR_Ebit_TO_BIT = FACTOR_Pbit_TO_BIT * 1000;
 
    /// <summary>
    /// Converts a value from one unit to another.
@@ -91,40 +91,40 @@ public static class BitUnitExtension
             //val = inVal;
             break;
          case BitUnit.Kibit:
-            val *= FACTOR_BIT_TO_Kibit;
+            val *= FACTOR_Kibit_TO_BIT;
             break;
          case BitUnit.Mibit:
-            val *= FACTOR_BIT_TO_Mibit;
+            val *= FACTOR_Mibit_TO_BIT;
             break;
          case BitUnit.Gibit:
-            val *= FACTOR_BIT_TO_Gibit;
+            val *= FACTOR_Gibit_TO_BIT;
             break;
          case BitUnit.Tibit:
-            val *= FACTOR_BIT_TO_Tibit;
+            val *= FACTOR_Tibit_TO_BIT;
             break;
          case BitUnit.Pibit:
-            val *= FACTOR_BIT_TO_Pibit;
+            val *= FACTOR_Pibit_TO_BIT;
             break;
          case BitUnit.Eibit:
-            val *= FACTOR_BIT_TO_Eibit;
+            val *= FACTOR_Eibit_TO_BIT;
             break;
          case BitUnit.kbit:
-            val *= FACTOR_BIT_TO_kbit;
+            val *= FACTOR_kbit_TO_BIT;
             break;
          case BitUnit.Mbit:
-            val *= FACTOR_BIT_TO_Mbit;
+            val *= FACTOR_Mbit_TO_BIT;
             break;
          case BitUnit.Gbit:
-            val *= FACTOR_BIT_TO_Gbit;
+            val *= FACTOR_Gbit_TO_BIT;
             break;
          case BitUnit.Tbit:
-            val *= FACTOR_BIT_TO_Tbit;
+            val *= FACTOR_Tbit_TO_BIT;
             break;
          case BitUnit.Pbit:
-            val *= FACTOR_BIT_TO_Pbit;
+            val *= FACTOR_Pbit_TO_BIT;
             break;
          case BitUnit.Ebit:
-            val *= FACTOR_BIT_TO_Ebit;
+            val *= FACTOR_Ebit_TO_BIT;
             break;
          default:
             _logger.LogWarning($"There is no conversion for the fromUnit: {fromBitUnit}");
@@ -138,40 +138,40 @@ public static class BitUnitExtension
             outVal = val;
             break;
          case BitUnit.Kibit:
-            outVal = val / FACTOR_BIT_TO_Kibit;
+            outVal = val / FACTOR_Kibit_TO_BIT;
             break;
          case BitUnit.Mibit:
-            outVal = val / FACTOR_BIT_TO_Mibit;
+            outVal = val / FACTOR_Mibit_TO_BIT;
             break;
          case BitUnit.Gibit:
-            outVal = val / FACTOR_BIT_TO_Gibit;
+            outVal = val / FACTOR_Gibit_TO_BIT;
             break;
          case BitUnit.Tibit:
-            outVal = val / FACTOR_BIT_TO_Tibit;
+            outVal = val / FACTOR_Tibit_TO_BIT;
             break;
          case BitUnit.Pibit:
-            outVal = val / FACTOR_BIT_TO_Pibit;
+            outVal = val / FACTOR_Pibit_TO_BIT;
             break;
          case BitUnit.Eibit:
-            outVal = val / FACTOR_BIT_TO_Eibit;
+            outVal = val / FACTOR_Eibit_TO_BIT;
             break;
          case BitUnit.kbit:
-            outVal = val / FACTOR_BIT_TO_kbit;
+            outVal = val / FACTOR_kbit_TO_BIT;
             break;
          case BitUnit.Mbit:
-            outVal = val / FACTOR_BIT_TO_Mbit;
+            outVal = val / FACTOR_Mbit_TO_BIT;
             break;
          case BitUnit.Gbit:
-            outVal = val / FACTOR_BIT_TO_Gbit;
+            outVal = val / FACTOR_Gbit_TO_BIT;
             break;
          case BitUnit.Tbit:
-            outVal = val / FACTOR_BIT_TO_Tbit;
+            outVal = val / FACTOR_Tbit_TO_BIT;
             break;
          case BitUnit.Pbit:
-            outVal = val / FACTOR_BIT_TO_Pbit;
+            outVal = val / FACTOR_Pbit_TO_BIT;
             break;
          case BitUnit.Ebit:
-            outVal = val / FACTOR_BIT_TO_Ebit;
+            outVal = val / FACTOR_Ebit_TO_BIT;
             break;
          default:
             _logger.LogWarning($"There is no conversion for the toUnit: {toBitUnit}");

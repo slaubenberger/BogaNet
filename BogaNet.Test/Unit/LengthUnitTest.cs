@@ -6,40 +6,53 @@ public class LengthUnitTest
 {
    #region Tests
 
+   [OneTimeSetUp]
+   public static void Init()
+   {
+      LengthUnitExtension.IgnoreSameUnit = false;
+   }
+
    [Test]
    public void LengthUnit_Convert_Test()
    {
-      LengthUnitExtension.IgnoreSameUnit = false;
-
       const double valIn = 1234.5678901234;
-      decimal val = valIn.BNToDecimal();
+      decimal refValue = valIn.BNToDecimal();
 
       decimal conv = LengthUnit.M.Convert(LengthUnit.YARD, valIn);
-      Assert.That(val, Is.EqualTo(LengthUnit.YARD.Convert(LengthUnit.M, conv)));
+      decimal res = LengthUnit.YARD.Convert(LengthUnit.M, conv);
+      Assert.That(res, Is.EqualTo(refValue));
 
       conv = LengthUnit.MM.Convert(LengthUnit.YARD, valIn);
-      Assert.That(val, Is.EqualTo(LengthUnit.YARD.Convert(LengthUnit.MM, conv)));
+      res = LengthUnit.YARD.Convert(LengthUnit.MM, conv);
+      Assert.That(res, Is.EqualTo(refValue));
 
       conv = LengthUnit.CM.Convert(LengthUnit.YARD, valIn);
-      Assert.That(val, Is.EqualTo(LengthUnit.YARD.Convert(LengthUnit.CM, conv)));
+      res = LengthUnit.YARD.Convert(LengthUnit.CM, conv);
+      Assert.That(res, Is.EqualTo(refValue));
 
       conv = LengthUnit.KM.Convert(LengthUnit.YARD, valIn);
-      Assert.That(val, Is.EqualTo(LengthUnit.YARD.Convert(LengthUnit.KM, conv)));
+      res = LengthUnit.YARD.Convert(LengthUnit.KM, conv);
+      Assert.That(res, Is.EqualTo(refValue));
 
       conv = LengthUnit.INCH.Convert(LengthUnit.YARD, valIn);
-      Assert.That(val, Is.EqualTo(LengthUnit.YARD.Convert(LengthUnit.INCH, conv)));
+      res = LengthUnit.YARD.Convert(LengthUnit.INCH, conv);
+      Assert.That(res, Is.EqualTo(refValue));
 
       conv = LengthUnit.FOOT.Convert(LengthUnit.YARD, valIn);
-      Assert.That(val, Is.EqualTo(LengthUnit.YARD.Convert(LengthUnit.FOOT, conv)));
+      res = LengthUnit.YARD.Convert(LengthUnit.FOOT, conv);
+      Assert.That(res, Is.EqualTo(refValue));
 
       conv = LengthUnit.YARD.Convert(LengthUnit.YARD, valIn);
-      Assert.That(val, Is.EqualTo(LengthUnit.YARD.Convert(LengthUnit.YARD, conv)));
+      res = LengthUnit.YARD.Convert(LengthUnit.YARD, conv);
+      Assert.That(res, Is.EqualTo(refValue));
 
       conv = LengthUnit.MILE.Convert(LengthUnit.YARD, valIn);
-      Assert.That(val, Is.EqualTo(LengthUnit.YARD.Convert(LengthUnit.MILE, conv)));
+      res = LengthUnit.YARD.Convert(LengthUnit.MILE, conv);
+      Assert.That(res, Is.EqualTo(refValue));
 
       conv = LengthUnit.NAUTICAL_MILE.Convert(LengthUnit.YARD, valIn);
-      Assert.That(val, Is.EqualTo(LengthUnit.YARD.Convert(LengthUnit.NAUTICAL_MILE, conv)));
+      res = LengthUnit.YARD.Convert(LengthUnit.NAUTICAL_MILE, conv);
+      Assert.That(res, Is.EqualTo(refValue));
    }
 
    #endregion

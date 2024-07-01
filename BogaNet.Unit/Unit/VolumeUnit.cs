@@ -39,8 +39,6 @@ public static class VolumeUnitExtension
 
    public static bool IgnoreSameUnit = true;
 
-   private const decimal FACTOR_MM3_TO_CM3 = 1000; //millimeters^3 to centimeters^3
-
    /// <summary>
    /// Meter³ to liters.
    /// </summary>
@@ -124,7 +122,7 @@ public static class VolumeUnitExtension
    /// <summary>
    /// Millimeter³ to liters.
    /// </summary>
-   public static decimal FACTOR_MM3_TO_L => FACTOR_MM3_TO_CM3 / FACTOR_CM3_TO_L;
+   public const decimal FACTOR_MM3_TO_L = 0.000001m;
 
    /// <summary>
    /// Converts a value from one unit to another.
@@ -149,7 +147,7 @@ public static class VolumeUnitExtension
             //val = inVal;
             break;
          case VolumeUnit.MM3:
-            val /= FACTOR_MM3_TO_L;
+            val *= FACTOR_MM3_TO_L;
             break;
          case VolumeUnit.CM3:
             val *= FACTOR_CM3_TO_L;
@@ -211,7 +209,7 @@ public static class VolumeUnitExtension
             outVal = val;
             break;
          case VolumeUnit.MM3:
-            outVal = val * FACTOR_MM3_TO_L;
+            outVal = val / FACTOR_MM3_TO_L;
             break;
          case VolumeUnit.CM3:
             outVal = val / FACTOR_CM3_TO_L;

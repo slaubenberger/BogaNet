@@ -17,8 +17,9 @@ public enum AreaUnit
    INCH2,
    FOOT2,
    YARD2,
-   PERCH,
+   PERCH, //aka rod
    ACRE,
+
    MILE2
    //TODO add more exotic areas?
 }
@@ -32,21 +33,15 @@ public static class AreaUnitExtension
 
    public static bool IgnoreSameUnit = true;
 
-   private const decimal FACTOR_MM2_TO_CM2 = 100; //millimeters² to centimeters²
-   private const decimal FACTOR_AREA_TO_HECTARE = 100; //area to hectare
-   private const decimal FACTOR_HECTARE_TO_KM2 = 100; //hectare to kilometers²
-   private const decimal FACTOR_INCH_TO_CM2 = 6.4516m; //inch² to centimeters²
-   private const decimal FACTOR_MILE2_TO_KM2 = 2.5899881103m; //mile² (terrestrial) to kilometers²
-
    /// <summary>
    /// Centimeter² to meters².
    /// </summary>
-   public const decimal FACTOR_CM2_TO_M2 = 10000;
+   public const decimal FACTOR_CM2_TO_M2 = 0.0001m;
 
    /// <summary>
    /// Area to meters².
    /// </summary>
-   public const decimal FACTOR_AREA_TO_M2 = 0.01m;
+   public const decimal FACTOR_AREA_TO_M2 = 100;
 
    /// <summary>
    /// Foot² to meters².
@@ -69,29 +64,29 @@ public static class AreaUnitExtension
    public const decimal FACTOR_ACRE_TO_M2 = 4046.8564224m;
 
    /// <summary>
+   /// Hectare to meters².
+   /// </summary>
+   public const decimal FACTOR_HECTARE_TO_M2 = 10000;
+
+   /// <summary>
    /// Millimeter² to meters².
    /// </summary>
-   public static decimal FACTOR_MM2_TO_M2 => FACTOR_MM2_TO_CM2 * FACTOR_CM2_TO_M2;
-
-   /// <summary>
-   /// Meter² to hectares.
-   /// </summary>
-   public static decimal FACTOR_M2_TO_HECTARE => FACTOR_AREA_TO_M2 * FACTOR_AREA_TO_HECTARE;
-
-   /// <summary>
-   /// Meter² to kilometers².
-   /// </summary>
-   public static decimal FACTOR_M2_TO_KM2 => FACTOR_AREA_TO_M2 * FACTOR_AREA_TO_HECTARE * FACTOR_HECTARE_TO_KM2;
+   public const decimal FACTOR_MM2_TO_M2 = 0.000001m;
 
    /// <summary>
    /// Inch² to meters².
    /// </summary>
-   public static decimal FACTOR_INCH2_TO_M2 => FACTOR_INCH_TO_CM2 * FACTOR_CM2_TO_M2;
+   public const decimal FACTOR_INCH2_TO_M2 = 0.00064516m;
 
    /// <summary>
-   /// Meter² to miles².
+   /// Kilometer² to meters².
    /// </summary>
-   public static decimal FACTOR_M2_TO_MILE2 => FACTOR_M2_TO_KM2 * FACTOR_MILE2_TO_KM2;
+   public const decimal FACTOR_KM2_TO_M2 = 1000000m;
+
+   /// <summary>
+   /// Miles² to meters².
+   /// </summary>
+   public const decimal FACTOR_MILE2_TO_M2 = 2589988.1103m;
 
    /// <summary>
    /// Converts a value from one unit to another.
@@ -116,22 +111,22 @@ public static class AreaUnitExtension
             //val = inVal;
             break;
          case AreaUnit.MM2:
-            val /= FACTOR_MM2_TO_M2;
+            val *= FACTOR_MM2_TO_M2;
             break;
          case AreaUnit.CM2:
-            val /= FACTOR_CM2_TO_M2;
+            val *= FACTOR_CM2_TO_M2;
             break;
          case AreaUnit.AREA:
-            val /= FACTOR_AREA_TO_M2;
+            val *= FACTOR_AREA_TO_M2;
             break;
          case AreaUnit.HECTARE:
-            val *= FACTOR_M2_TO_HECTARE;
+            val *= FACTOR_HECTARE_TO_M2;
             break;
          case AreaUnit.KM2:
-            val *= FACTOR_M2_TO_KM2;
+            val *= FACTOR_KM2_TO_M2;
             break;
          case AreaUnit.INCH2:
-            val /= FACTOR_INCH2_TO_M2;
+            val *= FACTOR_INCH2_TO_M2;
             break;
          case AreaUnit.FOOT2:
             val *= FACTOR_FOOT2_TO_M2;
@@ -146,7 +141,7 @@ public static class AreaUnitExtension
             val *= FACTOR_ACRE_TO_M2;
             break;
          case AreaUnit.MILE2:
-            val *= FACTOR_M2_TO_MILE2;
+            val *= FACTOR_MILE2_TO_M2;
             break;
          default:
             _logger.LogWarning($"There is no conversion for the fromUnit: {fromAreaUnit}");
@@ -160,22 +155,22 @@ public static class AreaUnitExtension
             outVal = val;
             break;
          case AreaUnit.MM2:
-            outVal = val * FACTOR_MM2_TO_M2;
+            outVal = val / FACTOR_MM2_TO_M2;
             break;
          case AreaUnit.CM2:
-            outVal = val * FACTOR_CM2_TO_M2;
+            outVal = val / FACTOR_CM2_TO_M2;
             break;
          case AreaUnit.AREA:
-            outVal = val * FACTOR_AREA_TO_M2;
+            outVal = val / FACTOR_AREA_TO_M2;
             break;
          case AreaUnit.HECTARE:
-            outVal = val / FACTOR_M2_TO_HECTARE;
+            outVal = val / FACTOR_HECTARE_TO_M2;
             break;
          case AreaUnit.KM2:
-            outVal = val / FACTOR_M2_TO_KM2;
+            outVal = val / FACTOR_KM2_TO_M2;
             break;
          case AreaUnit.INCH2:
-            outVal = val * FACTOR_INCH2_TO_M2;
+            outVal = val / FACTOR_INCH2_TO_M2;
             break;
          case AreaUnit.FOOT2:
             outVal = val / FACTOR_FOOT2_TO_M2;
@@ -190,7 +185,7 @@ public static class AreaUnitExtension
             outVal = val / FACTOR_ACRE_TO_M2;
             break;
          case AreaUnit.MILE2:
-            outVal = val / FACTOR_M2_TO_MILE2;
+            outVal = val / FACTOR_MILE2_TO_M2;
             break;
          default:
             _logger.LogWarning($"There is no conversion for the toUnit: {toAreaUnit}");

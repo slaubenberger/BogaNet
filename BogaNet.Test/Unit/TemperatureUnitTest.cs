@@ -6,22 +6,29 @@ public class TemperatureUnitTest
 {
    #region Tests
 
+   [OneTimeSetUp]
+   public static void Init()
+   {
+      TemperatureUnitExtension.IgnoreSameUnit = false;
+   }
+
    [Test]
    public void UnitTemperature_Convert_Test()
    {
-      TemperatureUnitExtension.IgnoreSameUnit = false;
-
       const double valIn = 1234.5678901234;
-      decimal val = valIn.BNToDecimal();
+      decimal refValue = valIn.BNToDecimal();
 
       decimal conv = TemperatureUnit.KELVIN.Convert(TemperatureUnit.FAHRENHEIT, valIn);
-      Assert.That(val, Is.EqualTo(TemperatureUnit.FAHRENHEIT.Convert(TemperatureUnit.KELVIN, conv)));
+      decimal res = TemperatureUnit.FAHRENHEIT.Convert(TemperatureUnit.KELVIN, conv);
+      Assert.That(res, Is.EqualTo(refValue));
 
       conv = TemperatureUnit.CELSIUS.Convert(TemperatureUnit.FAHRENHEIT, valIn);
-      Assert.That(val, Is.EqualTo(TemperatureUnit.FAHRENHEIT.Convert(TemperatureUnit.CELSIUS, conv)));
+      res = TemperatureUnit.FAHRENHEIT.Convert(TemperatureUnit.CELSIUS, conv);
+      Assert.That(res, Is.EqualTo(refValue));
 
       conv = TemperatureUnit.FAHRENHEIT.Convert(TemperatureUnit.KELVIN, valIn);
-      Assert.That(val, Is.EqualTo(Decimal.Round(TemperatureUnit.KELVIN.Convert(TemperatureUnit.FAHRENHEIT, conv), 10)));
+      res = Decimal.Round(TemperatureUnit.KELVIN.Convert(TemperatureUnit.FAHRENHEIT, conv), 10);
+      Assert.That(res, Is.EqualTo(refValue));
    }
 
    #endregion

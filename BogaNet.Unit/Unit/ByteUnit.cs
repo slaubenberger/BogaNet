@@ -32,41 +32,41 @@ public static class ByteUnitExtension
 
    public static bool IgnoreSameUnit = true;
 
-   /// <summary>Bytes to kibibyte.</summary>
-   public const decimal FACTOR_BYTES_TO_KiB = 1024;
+   /// <summary>kibibyte to bytes.</summary>
+   public const decimal FACTOR_KiB_TO_BYTES = 1024;
 
-   /// <summary>Bytes to mebibyte.</summary>
-   public const decimal FACTOR_BYTES_TO_MiB = FACTOR_BYTES_TO_KiB * 1024;
+   /// <summary>mebibyte to bytes.</summary>
+   public const decimal FACTOR_MiB_TO_BYTES = FACTOR_KiB_TO_BYTES * 1024;
 
-   /// <summary>Bytes to gibibyte.</summary>
-   public const decimal FACTOR_BYTES_TO_GiB = FACTOR_BYTES_TO_MiB * 1024;
+   /// <summary>gibibyte to bytes.</summary>
+   public const decimal FACTOR_GiB_TO_BYTES = FACTOR_MiB_TO_BYTES * 1024;
 
-   /// <summary>Bytes to tebibyte.</summary>
-   public const decimal FACTOR_BYTES_TO_TiB = FACTOR_BYTES_TO_GiB * 1024;
+   /// <summary>tebibyte to bytes.</summary>
+   public const decimal FACTOR_TiB_TO_BYTES = FACTOR_GiB_TO_BYTES * 1024;
 
-   /// <summary>Bytes to pebibyte.</summary>
-   public const decimal FACTOR_BYTES_TO_PiB = FACTOR_BYTES_TO_TiB * 1024;
+   /// <summary>pebibyte to bytes.</summary>
+   public const decimal FACTOR_PiB_TO_BYTES = FACTOR_TiB_TO_BYTES * 1024;
 
-   /// <summary>Bytes to exbibyte.</summary>
-   public const decimal FACTOR_BYTES_TO_EiB = FACTOR_BYTES_TO_PiB * 1024;
+   /// <summary>exbibyte to bytes.</summary>
+   public const decimal FACTOR_EiB_TO_BYTES = FACTOR_PiB_TO_BYTES * 1024;
 
-   /// <summary>Bytes to kilobyte.</summary>
-   public const decimal FACTOR_BYTES_TO_kB = 1000;
+   /// <summary>kilobyte to bytes.</summary>
+   public const decimal FACTOR_kB_TO_BYTES = 1000;
 
-   /// <summary>Bytes to megabyte.</summary>
-   public const decimal FACTOR_BYTES_TO_MB = FACTOR_BYTES_TO_kB * 1000;
+   /// <summary>megabyte to bytes.</summary>
+   public const decimal FACTOR_MB_TO_BYTES = FACTOR_kB_TO_BYTES * 1000;
 
-   /// <summary>Bytes to gigabyte.</summary>
-   public const decimal FACTOR_BYTES_TO_GB = FACTOR_BYTES_TO_MB * 1000;
+   /// <summary>gigabyte to bytes.</summary>
+   public const decimal FACTOR_GB_TO_BYTES = FACTOR_MB_TO_BYTES * 1000;
 
-   /// <summary>Bytes to terabyte.</summary>
-   public const decimal FACTOR_BYTES_TO_TB = FACTOR_BYTES_TO_GB * 1000;
+   /// <summary>terabyte to bytes.</summary>
+   public const decimal FACTOR_TB_TO_BYTES = FACTOR_GB_TO_BYTES * 1000;
 
-   /// <summary>Bytes to petabyte.</summary>
-   public const decimal FACTOR_BYTES_TO_PB = FACTOR_BYTES_TO_TB * 1000;
+   /// <summary>petabyte to bytes.</summary>
+   public const decimal FACTOR_PB_TO_BYTES = FACTOR_TB_TO_BYTES * 1000;
 
-   /// <summary>Bytes to exabyte.</summary>
-   public const decimal FACTOR_BYTES_TO_EB = FACTOR_BYTES_TO_PB * 1000;
+   /// <summary>exabyte to bytes.</summary>
+   public const decimal FACTOR_EB_TO_BYTES = FACTOR_PB_TO_BYTES * 1000;
 
    /// <summary>
    /// Converts a value from one unit to another.
@@ -91,40 +91,40 @@ public static class ByteUnitExtension
             //val = inVal;
             break;
          case ByteUnit.KiB:
-            val *= FACTOR_BYTES_TO_KiB;
+            val *= FACTOR_KiB_TO_BYTES;
             break;
          case ByteUnit.MiB:
-            val *= FACTOR_BYTES_TO_MiB;
+            val *= FACTOR_MiB_TO_BYTES;
             break;
          case ByteUnit.GiB:
-            val *= FACTOR_BYTES_TO_GiB;
+            val *= FACTOR_GiB_TO_BYTES;
             break;
          case ByteUnit.TiB:
-            val *= FACTOR_BYTES_TO_TiB;
+            val *= FACTOR_TiB_TO_BYTES;
             break;
          case ByteUnit.PiB:
-            val *= FACTOR_BYTES_TO_PiB;
+            val *= FACTOR_PiB_TO_BYTES;
             break;
          case ByteUnit.EiB:
-            val *= FACTOR_BYTES_TO_EiB;
+            val *= FACTOR_EiB_TO_BYTES;
             break;
          case ByteUnit.kB:
-            val *= FACTOR_BYTES_TO_kB;
+            val *= FACTOR_kB_TO_BYTES;
             break;
          case ByteUnit.MB:
-            val *= FACTOR_BYTES_TO_MB;
+            val *= FACTOR_MB_TO_BYTES;
             break;
          case ByteUnit.GB:
-            val *= FACTOR_BYTES_TO_GB;
+            val *= FACTOR_GB_TO_BYTES;
             break;
          case ByteUnit.TB:
-            val *= FACTOR_BYTES_TO_TB;
+            val *= FACTOR_TB_TO_BYTES;
             break;
          case ByteUnit.PB:
-            val *= FACTOR_BYTES_TO_PB;
+            val *= FACTOR_PB_TO_BYTES;
             break;
          case ByteUnit.EB:
-            val *= FACTOR_BYTES_TO_EB;
+            val *= FACTOR_EB_TO_BYTES;
             break;
          default:
             _logger.LogWarning($"There is no conversion for the fromUnit: {fromByteUnit}");
@@ -138,40 +138,40 @@ public static class ByteUnitExtension
             outVal = val;
             break;
          case ByteUnit.KiB:
-            outVal = val / FACTOR_BYTES_TO_KiB;
+            outVal = val / FACTOR_KiB_TO_BYTES;
             break;
          case ByteUnit.MiB:
-            outVal = val / FACTOR_BYTES_TO_MiB;
+            outVal = val / FACTOR_MiB_TO_BYTES;
             break;
          case ByteUnit.GiB:
-            outVal = val / FACTOR_BYTES_TO_GiB;
+            outVal = val / FACTOR_GiB_TO_BYTES;
             break;
          case ByteUnit.TiB:
-            outVal = val / FACTOR_BYTES_TO_TiB;
+            outVal = val / FACTOR_TiB_TO_BYTES;
             break;
          case ByteUnit.PiB:
-            outVal = val / FACTOR_BYTES_TO_PiB;
+            outVal = val / FACTOR_PiB_TO_BYTES;
             break;
          case ByteUnit.EiB:
-            outVal = val / FACTOR_BYTES_TO_EiB;
+            outVal = val / FACTOR_EiB_TO_BYTES;
             break;
          case ByteUnit.kB:
-            outVal = val / FACTOR_BYTES_TO_kB;
+            outVal = val / FACTOR_kB_TO_BYTES;
             break;
          case ByteUnit.MB:
-            outVal = val / FACTOR_BYTES_TO_MB;
+            outVal = val / FACTOR_MB_TO_BYTES;
             break;
          case ByteUnit.GB:
-            outVal = val / FACTOR_BYTES_TO_GB;
+            outVal = val / FACTOR_GB_TO_BYTES;
             break;
          case ByteUnit.TB:
-            outVal = val / FACTOR_BYTES_TO_TB;
+            outVal = val / FACTOR_TB_TO_BYTES;
             break;
          case ByteUnit.PB:
-            outVal = val / FACTOR_BYTES_TO_PB;
+            outVal = val / FACTOR_PB_TO_BYTES;
             break;
          case ByteUnit.EB:
-            outVal = val / FACTOR_BYTES_TO_EB;
+            outVal = val / FACTOR_EB_TO_BYTES;
             break;
          default:
             _logger.LogWarning($"There is no conversion for the toUnit: {toByteUnit}");

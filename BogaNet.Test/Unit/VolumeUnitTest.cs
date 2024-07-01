@@ -5,16 +5,21 @@ namespace BogaNet.Test.Unit;
 public class VolumeUnitTest
 {
    #region Tests
-
+   
+   [OneTimeSetUp]
+   public static void Init()
+   {
+      TemperatureUnitExtension.IgnoreSameUnit = false;
+   }
+   
    [Test]
    public void VolumeUnit_Convert_Test()
    {
-      VolumeUnitExtension.IgnoreSameUnit = false;
-
       const double valIn = 1234.5678901234;
       decimal refValue = valIn.BNToDecimal();
-      decimal tRef = 2609.1066664749411579472168727m;
+
       decimal conv = VolumeUnit.LITER.Convert(VolumeUnit.PINT_US, valIn);
+      decimal tRef = 2609.1066664749411579472168727m;
       Assert.That(conv, Is.EqualTo(tRef));
       decimal res = VolumeUnit.PINT_US.Convert(VolumeUnit.LITER, conv);
       Assert.That(res, Is.EqualTo(refValue));
