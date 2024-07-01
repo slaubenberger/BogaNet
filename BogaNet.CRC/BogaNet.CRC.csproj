@@ -14,27 +14,22 @@
         <PackageReleaseNotes>Initial release.</PackageReleaseNotes>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <!-- <PackageIconUrl>https://www.crosstales.com/media/data/BogaNet/logo_boga.png</PackageIconUrl> -->
-        <PackageIcon>logo_boga_crypto.jpg</PackageIcon>
+        <PackageIcon>logo_boga_crc.jpg</PackageIcon>
         <PackageProjectUrl>https://www.crosstales.com/media/data/BogaNet/api/</PackageProjectUrl>
         <LangVersion>12</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>
-        <!--        <PackageReference Include="BogaNet.Common" Version="1.0.3">-->
-        <!--            <PrivateAssets>all</PrivateAssets>-->
-        <!--        </PackageReference>-->
-        <PackageReference Include="System.IO.Hashing" Version="8.0.0">
-<!--            <PrivateAssets>all</PrivateAssets>-->
-        </PackageReference>
+        <PackageReference Include="BogaNet.Common" Version="1.1.0" />
+        <PackageReference Include="System.IO.Hashing" Version="8.0.0" />
     </ItemGroup>
 
     <ItemGroup>
-        <None Include="../Resources/logo_boga_crypto.jpg" Pack="true" PackagePath="\"/>
+        <None Include="../Resources/logo_boga_crc.jpg" Pack="true" PackagePath="\"/>
         <None Include="README.md" Pack="true" PackagePath="\"/>
     </ItemGroup>
 
-    <ItemGroup>
-        <ProjectReference Include="..\BogaNet.Common\BogaNet.Common.csproj" />
-    </ItemGroup>
-
+    <!--    <ItemGroup>-->
+    <!--        <ProjectReference Include="..\BogaNet.Common\BogaNet.Common.csproj" />-->
+    <!--    </ItemGroup>-->
 </Project>
