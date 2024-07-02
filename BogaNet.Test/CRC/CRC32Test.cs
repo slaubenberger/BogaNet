@@ -12,7 +12,7 @@ public class CRC32Test
       const string plain = "BogaNet rulez!";
       const uint refValue = 903012262;
 
-      uint crc = CRC32.CalcCRC32(plain);
+      uint crc = CRC32.CalcCRC(plain);
 
       Assert.That(crc, Is.EqualTo(refValue));
    }

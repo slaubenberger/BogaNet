@@ -1,6 +1,9 @@
 using Enumerable = System.Linq.Enumerable;
 using System.Text;
 using BogaNet.Extension;
+using System.Threading.Tasks;
+using BogaNet.Helper;
+using System;
 
 namespace BogaNet.CRC;
 
@@ -46,11 +49,11 @@ public abstract class CRC8 //NUnit
    #region Public methods
 
    /// <summary>
-   /// Standard CRC8 implementation for byte-array.
+   /// Calculate the CRC8 for a byte-array.
    /// </summary>
    /// <param name="bytes">Bytes for the CRC8</param>
    /// <returns>CRC8 as byte</returns>
-   public static byte CalcCRC8(params byte[]? bytes)
+   public static byte CalcCRC(params byte[]? bytes)
    {
       byte crc = 0;
 
@@ -61,14 +64,36 @@ public abstract class CRC8 //NUnit
    }
 
    /// <summary>
-   /// Standard CRC8 implementation for string.
+   /// Calculate the CRC8 for a string.
    /// </summary>
    /// <param name="text">string for the CRC8</param>
    /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
    /// <returns>CRC8 as byte</returns>
-   public static byte CalcCRC8(string text, Encoding? encoding = null)
+   public static byte CalcCRC(string text, Encoding? encoding = null)
    {
-      return CalcCRC8(text.BNToByteArray(encoding));
+      return CalcCRC(text.BNToByteArray(encoding));
+   }
+
+   /// <summary>
+   /// Calculate the CRC8 for a file.
+   /// </summary>
+   /// <param name="file">File to crc</param>
+   /// <returns>CRC8 as byte</returns>
+   /// <exception cref="Exception"></exception>
+   public static byte CalcCRCFile(string? file)
+   {
+      return Task.Run(() => CalcCRCFileAsync(file)).GetAwaiter().GetResult();
+   }
+
+   /// <summary>
+   /// /// Calculate the CRC8 for a file asynchronously.
+   /// </summary>
+   /// <param name="file">File to crc</param>
+   /// <returns>CRC8 as byte</returns>
+   /// <exception cref="Exception"></exception>
+   public static async Task<byte> CalcCRCFileAsync(string? file)
+   {
+      return CalcCRC(await FileHelper.ReadAllBytesAsync(file));
    }
 
    #endregion

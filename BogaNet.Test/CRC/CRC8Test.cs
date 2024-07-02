@@ -12,7 +12,7 @@ public class CRC8Test
       const string plain = "BogaNet rulez!";
       const byte refValue = 109;
 
-      byte crc = CRC8.CalcCRC8(plain);
+      byte crc = CRC8.CalcCRC(plain);
 
       Assert.That(crc, Is.EqualTo(refValue));
    }

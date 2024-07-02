@@ -12,7 +12,7 @@ public class CRC16Test
       const string plain = "BogaNet rulez!";
       const ushort refValue = 5090;
 
-      ushort crc = CRC16.CalcCRC16(plain);
+      ushort crc = CRC16.CalcCRC(plain);
 
       Assert.That(crc, Is.EqualTo(refValue));
    }

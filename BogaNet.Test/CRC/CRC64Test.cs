@@ -12,7 +12,7 @@ public class CRC64Test
       const string plain = "BogaNet rulez!";
       const ulong refValue = 18056882464249972536;
 
-      ulong crc = CRC64.CalcCRC64(plain);
+      ulong crc = CRC64.CalcCRC(plain);
 
       Assert.That(crc, Is.EqualTo(refValue));
    }
