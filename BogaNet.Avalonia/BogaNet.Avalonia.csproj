@@ -3,7 +3,7 @@
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
-        <Version>0.4.1</Version>
+        <Version>0.4.2</Version>
         <Company>crosstales LLC</Company>
         <Copyright>© 2024 Stefan Laubenberger</Copyright>
         <Authors>Stefan Laubenberger</Authors>
@@ -11,7 +11,7 @@
         <RepositoryUrl>https://github.com/slaubenberger/BogaNet</RepositoryUrl>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageTags>Avalonia Extension Image Text Resources i18n</PackageTags>
-        <PackageReleaseNotes>Logo updated.</PackageReleaseNotes>
+        <PackageReleaseNotes>Namespaces unified.</PackageReleaseNotes>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <!-- <PackageIconUrl>https://www.crosstales.com/media/data/BogaNet/logo_boga.png</PackageIconUrl> -->
         <PackageIcon>logo_boga_avalonia.jpg</PackageIcon>
@@ -36,4 +36,5 @@
         <ProjectReference Include="..\BogaNet.Common\BogaNet.Common.csproj"/>
         <ProjectReference Include="..\BogaNet.i18n\BogaNet.i18n.csproj"/>
     </ItemGroup>
+    
 </Project>
