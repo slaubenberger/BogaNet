@@ -232,5 +232,21 @@ public static class StringExtension
       return _encoding.GetBytes(str);
    }
 
+   /// <summary>
+   /// Converts a byte-array to a string.
+   /// </summary>
+   /// <param name="bytes">Input string as byte-array</param>
+   /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
+   /// <returns>String from the byte-array</returns>
+   public static string? BNToString(this byte[]? bytes, Encoding? encoding = null)
+   {
+      if (bytes == null)
+         return null;
+
+      Encoding _encoding = encoding ?? Encoding.UTF8;
+
+      return _encoding.GetString(bytes);
+   }
+
    #endregion
 }

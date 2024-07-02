@@ -126,7 +126,7 @@ public abstract class RSAHelper
    /// <returns>X509-certificate as byte-array</returns>
    public static X509Certificate2 GetPublicCertificate(X509Certificate2 cert, string? password = null)
    {
-      return GetCertificate(cert.Export(X509ContentType.Cert, password));
+      return GetCertificate(cert.BNToByteArray(password));
    }
 
    /// <summary>
@@ -138,14 +138,14 @@ public abstract class RSAHelper
    /// <returns>X509-certificate</returns>
    public static X509Certificate2 GetPrivateCertificate(X509Certificate2 cert, string? password = null)
    {
-      return GetCertificate(cert.Export(X509ContentType.Pfx, password), password);
+      return GetCertificate(cert.BNToByteArray(password, X509ContentType.Pfx));
    }
 
    /// <summary>
    /// Gets a X509-certificate from a byte-array.
    /// </summary>
    /// <param name="data">X509-certificate as byte-array</param>
-   /// <param name="password">Password for the file</param>
+   /// <param name="password">Password for the certificate</param>
    /// <returns>X509-certificate</returns>
    /// <exception cref="ArgumentNullException"></exception>
    public static X509Certificate2 GetCertificate(byte[]? data, string? password = null)
@@ -178,7 +178,7 @@ public abstract class RSAHelper
    /// <exception cref="Exception"></exception>
    public static async Task<bool> WritePublicCertificateToFileAsync(string filename, X509Certificate2 cert, string? password = null)
    {
-      return await FileHelper.WriteAllBytesAsync(filename, cert.Export(X509ContentType.Cert, password));
+      return await FileHelper.WriteAllBytesAsync(filename, cert.BNToByteArray(password));
    }
 
    /// <summary>
@@ -206,7 +206,7 @@ public abstract class RSAHelper
    /// <exception cref="Exception"></exception>
    public static async Task<bool> WritePrivateCertificateToFileAsync(string filename, X509Certificate2 cert, string password)
    {
-      return await FileHelper.WriteAllBytesAsync(filename, cert.Export(X509ContentType.Pfx, password));
+      return await FileHelper.WriteAllBytesAsync(filename, cert.BNToByteArray(password, X509ContentType.Pfx));
    }
 
    /// <summary>

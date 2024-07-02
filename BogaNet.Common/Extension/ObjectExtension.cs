@@ -21,6 +21,16 @@ public static class ObjectExtension
    }
 
    /// <summary>
+   /// Converts a byte-array (as JSON) to an object.
+   /// </summary>
+   /// <param name="bytes">Byte-array</param>
+   /// <returns>Object from the byte-array</returns>
+   public static T? BNToObject<T>(this byte[]? bytes)
+   {
+      return JsonHelper.DeserializeFromString<T>(bytes.BNToString(), JsonHelper.FORMAT_NONE);
+   }
+
+   /// <summary>
    /// Adds a generic ToString-method to objects.
    /// </summary>
    /// <param name="obj">Object for the generic ToString</param>

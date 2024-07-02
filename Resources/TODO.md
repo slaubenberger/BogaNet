@@ -1,10 +1,7 @@
 # TODO
-* make regex of CSV-split public
-* move all type related extensions together
-* extensions for X509 (from/to bytes)
 * RSA for file
 * add even more and detailed NUnit tests
-* make ObjectObf and ObjectSec more useful, but how?
+* make ObjectObf and ObjectSec more useful, but how exactly?
 
 # Ideas
 * Pressure unit

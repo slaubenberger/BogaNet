@@ -174,6 +174,10 @@ public abstract partial class Constants
    /// </summary>
    public static readonly Regex REGEX_END_OF_LINE = endLineRegex();
 
+   /// <summary>
+   /// Regex to split CSV lines into columns (separated by commas).
+   /// </summary>
+   public static readonly Regex CSV_SPLIT = csvRegex();
 
    //public static readonly Regex REGEX_FILE = fileRegex();
    //public static readonly Regex REGEX_SPACE = spaceRegex();
@@ -315,6 +319,9 @@ public abstract partial class Constants
 
    [GeneratedRegex("[({]?[a-fA-F0-9]{8}[-]?([a-fA-F0-9]{4}[-]?){3}[a-fA-F0-9]{12}[})]?")]
    private static partial Regex uuidRegex();
+   
+   [GeneratedRegex(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)")]
+   private static partial Regex csvRegex();
 /*
    [GeneratedRegex(@"^.*\.[\w]+$")]
    private static partial Regex fileRegex();

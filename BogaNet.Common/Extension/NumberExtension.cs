@@ -99,6 +99,73 @@ public static class NumberExtension
    }
 
    /// <summary>
+   /// Converts a byte-array to a Number.
+   /// </summary>
+   /// <param name="bytes">Byte-array</param>
+   /// <param name="offset">Offset inside the byte-array (optional, default: 0)</param>
+   /// <returns>Number from the byte-array</returns>
+   public static T? BNToNumber<T>(this byte[]? bytes, int offset = 0) where T : INumber<T>
+   {
+      if (bytes == null || bytes.Length == 0)
+         return default;
+
+      Type type = typeof(T);
+      byte[] content;
+      int off = offset > 0 ? offset : 0;
+      switch (type)
+      {
+         case Type when type == typeof(byte):
+            return T.CreateTruncating(bytes[off]);
+         case Type when type == typeof(sbyte):
+            return T.CreateTruncating(bytes[off]);
+         case Type when type == typeof(short):
+            content = readNumberData(2, off, bytes);
+            return T.CreateTruncating(BitConverter.ToInt16(content));
+         case Type when type == typeof(ushort):
+            content = readNumberData(2, off, bytes);
+            return T.CreateTruncating(BitConverter.ToUInt16(content));
+         case Type when type == typeof(char):
+            content = readNumberData(2, off, bytes);
+            return T.CreateTruncating(BitConverter.ToChar(content));
+         case Type when type == typeof(float):
+            content = readNumberData(4, off, bytes);
+            return T.CreateTruncating(BitConverter.ToSingle(content));
+         case Type when type == typeof(int):
+            content = readNumberData(4, off, bytes);
+            return T.CreateTruncating(BitConverter.ToInt32(content));
+         case Type when type == typeof(uint):
+            content = readNumberData(4, off, bytes);
+            return T.CreateTruncating(BitConverter.ToUInt32(content));
+         case Type when type == typeof(double):
+            content = readNumberData(8, off, bytes);
+            return T.CreateTruncating(BitConverter.ToDouble(content));
+         case Type when type == typeof(long):
+            content = readNumberData(8, off, bytes);
+            return T.CreateTruncating(BitConverter.ToInt64(content));
+         case Type when type == typeof(ulong):
+            content = readNumberData(8, off, bytes);
+            return T.CreateTruncating(BitConverter.ToUInt64(content));
+         case Type when type == typeof(decimal):
+         {
+            content = readNumberData(16, off, bytes);
+            int i1 = BitConverter.ToInt32(content, 0);
+            int i2 = BitConverter.ToInt32(content, 4);
+            int i3 = BitConverter.ToInt32(content, 8);
+            int i4 = BitConverter.ToInt32(content, 12);
+
+            decimal result = new(new[] { i1, i2, i3, i4 });
+
+            return T.CreateTruncating(result);
+         }
+         default:
+            _logger.LogError($"Number type {type} is not supported!");
+            break;
+      }
+
+      return default;
+   }
+
+   /// <summary>
    /// Converts a byte to the given Number type.
    /// </summary>
    /// <param name="number">Given value as byte</param>
@@ -261,6 +328,23 @@ public static class NumberExtension
       return number < min ? min : number > max ? max : number;
    }
 */
+
+   #endregion
+
+   #region Private methods
+
+   private static byte[] readNumberData(int len, int off, byte[] bytes)
+   {
+      byte[] data = new byte[len];
+      int dstOff = Math.Clamp(len - bytes.Length, 0, len);
+      int length = Math.Clamp(bytes.Length, 1, len);
+      Buffer.BlockCopy(bytes, off, data, dstOff, length);
+
+      if (BitConverter.IsLittleEndian)
+         data.BNReverse();
+
+      return data;
+   }
 
    #endregion
 }

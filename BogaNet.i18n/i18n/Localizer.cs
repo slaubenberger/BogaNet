@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 using BogaNet.Util;
-using System.Text.RegularExpressions;
 using BogaNet.Extension;
 
 namespace BogaNet.i18n;
@@ -15,7 +14,7 @@ namespace BogaNet.i18n;
 /// <summary>
 /// i18n localizer for the application.
 /// </summary>
-public partial class Localizer : Singleton<Localizer>, ILocalizer //NUnit
+public class Localizer : Singleton<Localizer>, ILocalizer //NUnit
 {
    #region Variables
 
@@ -24,7 +23,6 @@ public partial class Localizer : Singleton<Localizer>, ILocalizer //NUnit
    protected CultureInfo _culture = Constants.CurrentCulture;
    protected readonly List<CultureInfo> _cultures = [];
    protected readonly Dictionary<string, Dictionary<string, string>> _messages = new();
-   private static readonly Regex _splitRegex = csvRegex();
 
    #endregion
 
@@ -179,7 +177,7 @@ public partial class Localizer : Singleton<Localizer>, ILocalizer //NUnit
 
          if (lines.Length > 1)
          {
-            string[] columns = _splitRegex.Split(lines[0]);
+            string[] columns = Constants.CSV_SPLIT.Split(lines[0]);
             CultureInfo? language;
             Dictionary<int, CultureInfo> supportedCultures = new();
 
@@ -194,7 +192,7 @@ public partial class Localizer : Singleton<Localizer>, ILocalizer //NUnit
             // process all messages and add them to the corresponding languages
             for (int ii = 1; ii < lines.Length; ii++)
             {
-               string[] cols = _splitRegex.Split(lines[ii]);
+               string[] cols = Constants.CSV_SPLIT.Split(lines[ii]);
 
                string? key = null;
                Dictionary<string, string>? translation = null;
@@ -210,7 +208,7 @@ public partial class Localizer : Singleton<Localizer>, ILocalizer //NUnit
                   {
                      if (supportedCultures.TryGetValue(yy, out language))
                      {
-                        translation?.Add(language.ToString(), cols[yy]?.Trim('"') ?? string.Empty);
+                        translation?.Add(language.ToString(), cols[yy].Trim('"'));
                      }
                      else
                      {
@@ -399,8 +397,5 @@ public partial class Localizer : Singleton<Localizer>, ILocalizer //NUnit
       return this.BNToString();
    }
 
-    [GeneratedRegex(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)")]
-    private static partial Regex csvRegex();
-
-    #endregion
+   #endregion
 }
