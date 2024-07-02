@@ -9,7 +9,8 @@
 # Ideas
 * Pressure unit
 * Base36, 85,  91, 122
-
+* Twofish
+* 
 # Features
 * True Random
 * BWF

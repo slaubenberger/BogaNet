@@ -7,7 +7,7 @@ using BogaNet.Extension;
 namespace BogaNet.Helper;
 
 /// <summary>
-/// Helper for HMAC cryptography. It contains ready-to-use Implementations of HMAC256, HMAC384 and HMAC512.
+/// Helper for HMAC cryptography. It contains ready-to-use implementations of HMAC256, HMAC384 and HMAC512.
 /// </summary>
 public abstract class HMACHelper //NUnit
 {

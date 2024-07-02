@@ -89,12 +89,14 @@ public abstract class GeneralHelper
    {
       if (!string.IsNullOrEmpty(name))
       {
-         string[] cliArguments = args ?? GetCLIArguments();
+         string[] array = args == null || args.Length == 0 ? GetCLIArguments() : args;
 
-         for (int ii = 0; ii < cliArguments.Length; ii++)
+         for (int i = 0; i < array.Length; i++)
          {
-            if (name.BNEquals(cliArguments[ii]) && cliArguments.Length > ii + 1)
-               return cliArguments[ii + 1];
+            if (name.BNEquals(array[i]) && array.Length > i + 1)
+            {
+               return array[i + 1];
+            }
          }
       }
 
@@ -146,6 +148,7 @@ public abstract class GeneralHelper
             return result.ToString();
          }
    */
+
    #endregion
 
    #region Private methods

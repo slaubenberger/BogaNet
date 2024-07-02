@@ -12,13 +12,13 @@ public class HashHelperTest
    {
       string plain = "BogaNet rulez!";
 
-      byte[] h1 = HashHelper.SHA256(plain);
-      byte[] h2 = HashHelper.SHA256(plain);
+      byte[] h1 = HashHelper.HashSHA256(plain);
+      byte[] h2 = HashHelper.HashSHA256(plain);
 
       Assert.That(h1, Is.EqualTo(h2));
 
       plain = "BogaNet ruleZ!";
-      h2 = HashHelper.SHA256(plain);
+      h2 = HashHelper.HashSHA256(plain);
 
       Assert.That(h1 == h2, Is.False);
 

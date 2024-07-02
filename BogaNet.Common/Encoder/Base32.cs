@@ -95,7 +95,6 @@ public static class Base32 //NUnit
          while (arrayIndex != charCount) returnArray[arrayIndex++] = '='; //padding
       }
 
-      //returnArray.BNReverse();
       return new string(returnArray);
    }
 
