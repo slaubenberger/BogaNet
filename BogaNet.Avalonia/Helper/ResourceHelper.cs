@@ -4,12 +4,12 @@ using System.IO;
 using Avalonia.Platform;
 using BogaNet.Extension;
 
-namespace BogaNet.Avalonia.Helper;
+namespace BogaNet.Helper;
 
 /// <summary>
 /// Helper for resources in Avalonia.
 /// </summary>
-public abstract class ResourceHelper
+public abstract class ResourceHelper //TODO make partial?
 {
    //private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(ResourceHelper));
 

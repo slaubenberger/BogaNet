@@ -6,12 +6,12 @@ using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using Microsoft.Extensions.Logging;
 
-namespace BogaNet.Avalonia.Helper;
+namespace BogaNet.Helper;
 
 /// <summary>
 /// Helper for images in Avalonia.
 /// </summary>
-public abstract class ImageHelper
+public class ImageHelper //TODO make partial?
 {
    private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(ImageHelper));
 

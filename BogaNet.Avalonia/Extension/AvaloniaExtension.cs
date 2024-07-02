@@ -1,10 +1,9 @@
 using System.Collections.Generic;
-using BogaNet.Avalonia.Helper;
+using BogaNet.Helper;
 using BogaNet.i18n;
 using System;
-using BogaNet.Helper;
 
-namespace BogaNet.Avalonia.Extension;
+namespace BogaNet.Extension;
 
 /// <summary>
 /// Extension methods for Avalonia.

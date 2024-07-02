@@ -1,7 +1,6 @@
 # TODO
 * make regex of CSV-split public
 * move all type related extensions together
-* change namespace of Avalonia?
 * extensions for X509 (from/to bytes)
 * RSA for file
 * add even more and detailed NUnit tests
