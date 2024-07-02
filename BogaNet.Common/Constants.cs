@@ -16,17 +16,8 @@ public abstract partial class Constants
    /// <summary>Float value of 32768.</summary>
    public const float FLOAT_32768 = 32768f;
 
-   /// <summary>Float tolerance.</summary>
+   /// <summary>Float tolerance (for comparisons).</summary>
    public const float FLOAT_TOLERANCE = 0.0001f;
-
-   /// <summary>ToString for two decimal places.</summary>
-   public const string FORMAT_NUMBER_TWO_DECIMAL_PLACES = "0.00";
-
-   /// <summary>ToString for no decimal places.</summary>
-   public const string FORMAT_NUMBER_NO_DECIMAL_PLACES = "0";
-
-   /// <summary>ToString for percent.</summary>
-   public const string FORMAT_NUMBER_PERCENT = "0%";
 
    /// <summary>Path delimiter for Windows.</summary>
    public const string PATH_DELIMITER_WINDOWS = @"\";
@@ -38,38 +29,6 @@ public abstract partial class Constants
 
    #region Time
 
-/*
-   public const int MAX_SECOND_VALUE = 59;
-   public const int MAX_MINUTE_VALUE = 59;
-   public const int MAX_HOUR_VALUE = 23;
-   public const int MAX_DAY_VALUE = 31;
-   public const int MAX_MONTH_VALUE = 12;
-   public const int MIN_YEAR_VALUE = -290000000;
-   public const int MAX_YEAR_VALUE = 290000000;
-
-   public const int HOURS_PER_DAY = 24;
-   public const int DAYS_PER_WEEK = 7;
-   public const int DAYS_PER_YEAR = 365;
-
-   public const int MINUTES_PER_HOUR = 60;
-   public const int MINUTES_PER_DAY = HOURS_PER_DAY * MINUTES_PER_HOUR;
-   public const int MINUTES_PER_WEEK = DAYS_PER_WEEK * MINUTES_PER_DAY;
-   public const int MINUTES_PER_YEAR = DAYS_PER_YEAR * MINUTES_PER_DAY;
-
-   public const int SECONDS_PER_MINUTE = 60;
-   public const int SECONDS_PER_HOUR = SECONDS_PER_MINUTE * MINUTES_PER_HOUR;
-   public const int SECONDS_PER_DAY = HOURS_PER_DAY * SECONDS_PER_HOUR;
-   public const int SECONDS_PER_WEEK = DAYS_PER_WEEK * SECONDS_PER_DAY;
-   public const int SECONDS_PER_YEAR = DAYS_PER_YEAR * SECONDS_PER_DAY;
-
-   public const long MILLISECONDS_PER_SECOND = 1000L;
-   public const long MILLISECONDS_PER_MINUTE = SECONDS_PER_MINUTE * MILLISECONDS_PER_SECOND;
-   public const long MILLISECONDS_PER_HOUR = MINUTES_PER_HOUR * MILLISECONDS_PER_MINUTE;
-   public const long MILLISECONDS_PER_DAY = HOURS_PER_DAY * MILLISECONDS_PER_HOUR;
-   public const long MILLISECONDS_PER_WEEK = DAYS_PER_WEEK * MILLISECONDS_PER_DAY;
-   public const long MILLISECONDS_PER_YEAR = DAYS_PER_YEAR * MILLISECONDS_PER_DAY;
-   public const long SECONDS_BETWEEN_1900_AND_1970 = 2208988800L;
-*/
    /// <summary>Format for DateTime in ISO8601.</summary>
    public const string FORMAT_DATETIME_ISO8601 = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'";
 
@@ -78,17 +37,17 @@ public abstract partial class Constants
    #region Physic/Math constants
 
    /// <summary>
+   /// Definition of absolute zero (= 0 Kelvin) in Celsius.
+   /// </summary>
+   public const decimal ABSOLUTE_ZERO = -273.15m;
+
+   /// <summary>
    /// Speed of light in m/s.
    /// </summary>
    public const decimal SPEED_OF_LIGHT = 299792458m;
 
    /// <summary>
-   /// Absolute zero in Celsius.
-   /// </summary>
-   public const decimal ABSOLUTE_ZERO = -273.16m;
-
-   /// <summary>
-   /// Gravity on earth in m/s^2.
+   /// Gravity on earth in m/s².
    /// </summary>
    public const decimal GRAVITY_ON_EARTH = 9.80665m;
 
@@ -111,77 +70,118 @@ public abstract partial class Constants
 
    #region Strings
 
+   /// <summary>
+   /// Latin alphabet in uppercase.
+   /// </summary>
    public const string ALPHABET_LATIN_UPPERCASE = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+   /// <summary>
+   /// Latin alphabet in lowercase.
+   /// </summary>
    public const string ALPHABET_LATIN_LOWERCASE = "abcdefghijklmnopqrstuvwxyz";
+
+   /// <summary>
+   /// Extended latin alphabet in uppercase.
+   /// </summary>
    public const string ALPHABET_EXT_UPPERCASE = "ÀÂÄÆÇÈÉÊËÎÏÔŒÙÛÜ";
+
+   /// <summary>
+   /// Extended latin alphabet in lowercase.
+   /// </summary>
    public const string ALPHABET_EXT_LOWERCASE = "àâäæçèéêëîïôœùûü";
+
+   /// <summary>
+   /// Latin alphabet.
+   /// </summary>
    public const string ALPHABET_LATIN = $"{ALPHABET_LATIN_UPPERCASE}{ALPHABET_LATIN_LOWERCASE}";
+
+   /// <summary>
+   /// Normal and extended latin alphabet.
+   /// </summary>
    public const string ALPHABET_LATIN_EXT = $"{ALPHABET_LATIN_UPPERCASE}{ALPHABET_EXT_UPPERCASE}{ALPHABET_LATIN_LOWERCASE}{ALPHABET_EXT_LOWERCASE}";
 
+   /// <summary>
+   /// Arabic numbers.
+   /// </summary>
    public const string NUMBERS = "0123456789";
 
+   /// <summary>
+   /// Latin alphabet and Arabic numbers.
+   /// </summary>
    public const string SIGNS = $"{ALPHABET_LATIN}{NUMBERS}";
+
+   /// <summary>
+   /// Normal and extended latin alphabet and Arabic numbers.
+   /// </summary>
    public const string SIGNS_EXT = $"{ALPHABET_LATIN_EXT}{NUMBERS}";
 
    #endregion
 
    #region Regex
 
-   private static Regex? _regexLineEndings;
-   public static Regex REGEX_LINEENDINGS => _regexLineEndings ??= lineEndingRegex();
+   /// <summary>
+   /// Regex to detect line endings.
+   /// </summary>
+   public static readonly Regex REGEX_LINEENDINGS = lineEndingRegex();
 
-   private static Regex? _regexEmail;
-   public static Regex REGEX_EMAIL => _regexEmail ??= emailRegex();
+   /// <summary>
+   /// Regex to identify emails.
+   /// </summary>
+   public static readonly Regex REGEX_EMAIL = emailRegex();
 
-   private static Regex? _regexCreditCard;
-   public static Regex REGEX_CREDITCARD => _regexCreditCard ??= creditcardRegex();
+   /// <summary>
+   /// Regex to identify credit cards.
+   /// </summary>
+   public static readonly Regex REGEX_CREDITCARD = creditcardRegex();
 
-   private static Regex? _regexUrlWeb;
+   /// <summary>
+   /// Regex to identify URLs.
+   /// </summary>
+   public static readonly Regex REGEX_URL_WEB = urlRegex();
 
-   public static Regex REGEX_URL_WEB => _regexUrlWeb ??= urlRegex();
+   /// <summary>
+   /// Regex to detect alpha numeric strings..
+   /// </summary>
+   public static readonly Regex REGEX_ALPHANUMERIC = alphanumericRegex();
 
-/*
-   private static Regex? _regexInvalidChars;
-   public static Regex REGEX_INVALID_CHARS => _regexInvalidChars ??= new Regex(@"[^\w\.@-]");
-*/
-   private static Regex? _regexAlpha;
-   public static Regex REGEX_ALPHANUMERIC => _regexAlpha ??= alphanumericRegex();
+   /// <summary>
+   /// Regex to detect multiple spaces.
+   /// </summary>
+   public static readonly Regex REGEX_CLEAN_SPACES = cleanSpaceRegex();
 
-   private static Regex? _regexCleanSpace;
-   public static Regex REGEX_CLEAN_SPACES => _regexCleanSpace ??= cleanSpaceRegex();
+   /// <summary>
+   /// Regex to detect tags.
+   /// </summary>
+   public static readonly Regex REGEX_CLEAN_TAGS = claenTagsRegex();
 
-   private static Regex? _regexCleanTags;
-   public static Regex REGEX_CLEAN_TAGS => _regexCleanTags ??= claenTagsRegex();
+   /// <summary>
+   /// Regex to detect drive letters (Windows).
+   /// </summary>
+   public static readonly Regex REGEX_DRIVE_LETTERS = driveRegex();
 
-   private static Regex? _regexDriveLetters;
-   public static Regex REGEX_DRIVE_LETTERS => _regexDriveLetters ??= driveRegex();
+   /// <summary>
+   /// Regex to detect UUIDs.
+   /// </summary>
+   public static readonly Regex REGEX_UUID = uuidRegex();
 
-   private static Regex? _regexFile;
+   /// <summary>
+   /// Regex to detect the start of a text line.
+   /// </summary>
+   public static readonly Regex REGEX_START_OF_LINE = startLineRegex();
 
-   //public static Regex REGEX_FILE => _regexFile ?? (_regexFile = new Regex(@"^\.[\w]+$"));
-   public static Regex REGEX_FILE => _regexFile ??= fileRegex();
+   /// <summary>
+   /// Regex to detect the end of a text line.
+   /// </summary>
+   public static readonly Regex REGEX_END_OF_LINE = endLineRegex();
 
-   private static Regex? _regexUnsignedInteger;
-   public static Regex REGEX_UNSIGNED_INTEGER => _regexUnsignedInteger ??= uintRegex();
 
-   private static Regex? _regexStartOfLine;
-   public static Regex REGEX_START_OF_LINE => _regexStartOfLine ??= startLineRegex();
-
-   private static Regex? _regexEndOfLine;
-   public static Regex REGEX_END_OF_LINE => _regexEndOfLine ??= endLineRegex();
-
-   private static Regex? _regexSpace;
-   public static Regex REGEX_SPACE => _regexSpace ??= spaceRegex();
-
-   private static Regex? _regexDomain;
-   public static Regex REGEX_DOMAIN => _regexDomain ??= domainRegex();
-
-   private static Regex? _regexUUID;
-   public static Regex REGEX_UUID => _regexUUID ??= uuidRegex();
-
+   //public static readonly Regex REGEX_FILE = fileRegex();
+   //public static readonly Regex REGEX_SPACE = spaceRegex();
+   //public static readonly Regex REGEX_DOMAIN = domainRegex();
    //public static readonly Regex asciiOnlyRegex = new Regex(@"[^\u0000-\u00FF]+");
    //public static readonly Regex REGEX_REALNUMBER = new Regex(@"([-+]?[0-9]*\.?[0-9]+)");
    //public static readonly Regex REGEX_SIGNED_INTEGER = new Regex(@"([-+]?[0-9]+)");
+   //public static readonly Regex REGEX_UNSIGNED_INTEGER = uintRegex();
    //public static readonly Regex cleanStringRegex = new Regex(@"([^a-zA-Z0-9 ]|[ ]{2,})");
 
    #endregion
@@ -240,11 +240,18 @@ public abstract partial class Constants
    /// </summary>
    public static bool IsMobile => IsIOS || IsAndroid;
 
-   // Prefixes for URLs and paths
+   /// <summary>
+   /// URL-prefix for HTTP.
+   /// </summary>
    public const string PREFIX_HTTP = "http://";
+
+   /// <summary>
+   /// URL-prefix for HTTPS.
+   /// </summary>
    public const string PREFIX_HTTPS = "https://";
-   public const string PREFIX_SMB = "smb://";
-   public const string PREFIX_FTP = "ftp://";
+
+   //public const string PREFIX_SMB = "smb://";
+   //public const string PREFIX_FTP = "ftp://";
 
    #endregion
 
@@ -272,6 +279,10 @@ public abstract partial class Constants
    /// <summary>URL prefix for files.</summary>
    public static string PREFIX_FILE => IsWindows ? "file:///" : "file://";
 
+   #endregion
+
+   #region Generated code
+
    [GeneratedRegex(@"[\u000A\u000B\u000C\u000D\u2028\u2029\u0085]+")]
    private static partial Regex lineEndingRegex();
 
@@ -296,34 +307,65 @@ public abstract partial class Constants
    [GeneratedRegex("^[a-zA-Z]:")]
    private static partial Regex driveRegex();
 
-   [GeneratedRegex(@"^.*\.[\w]+$")]
-   private static partial Regex fileRegex();
-
-   [GeneratedRegex("([0-9]+)")]
-   private static partial Regex uintRegex();
-
    [GeneratedRegex(@"^\s*")]
    private static partial Regex startLineRegex();
 
    [GeneratedRegex(@"\s*$")]
    private static partial Regex endLineRegex();
 
-   [GeneratedRegex(@"\s*")]
-   private static partial Regex spaceRegex();
-
-   [GeneratedRegex(@"^([\-\w]+\.)+[a-zA-Z]{2,4}$")]
-   private static partial Regex domainRegex();
-
    [GeneratedRegex("[({]?[a-fA-F0-9]{8}[-]?([a-fA-F0-9]{4}[-]?){3}[a-fA-F0-9]{12}[})]?")]
    private static partial Regex uuidRegex();
+/*
+   [GeneratedRegex(@"^.*\.[\w]+$")]
+   private static partial Regex fileRegex();
+*/
+/*
+   [GeneratedRegex("([0-9]+)")]
+   private static partial Regex uintRegex();
+*/
+   /*
+   [GeneratedRegex(@"\s*")]
+   private static partial Regex spaceRegex();
+*/
+/*
+   [GeneratedRegex(@"^([\-\w]+\.)+[a-zA-Z]{2,4}$")]
+   private static partial Regex domainRegex();
+*/
 
    #endregion
 
-   #region some old Java-stuff...
+/*
+   public const int MAX_SECOND_VALUE = 59;
+   public const int MAX_MINUTE_VALUE = 59;
+   public const int MAX_HOUR_VALUE = 23;
+   public const int MAX_DAY_VALUE = 31;
+   public const int MAX_MONTH_VALUE = 12;
+   public const int MIN_YEAR_VALUE = -290000000;
+   public const int MAX_YEAR_VALUE = 290000000;
 
-   /*
-    * factors
-    */
+   public const int HOURS_PER_DAY = 24;
+   public const int DAYS_PER_WEEK = 7;
+   public const int DAYS_PER_YEAR = 365;
+
+   public const int MINUTES_PER_HOUR = 60;
+   public const int MINUTES_PER_DAY = HOURS_PER_DAY * MINUTES_PER_HOUR;
+   public const int MINUTES_PER_WEEK = DAYS_PER_WEEK * MINUTES_PER_DAY;
+   public const int MINUTES_PER_YEAR = DAYS_PER_YEAR * MINUTES_PER_DAY;
+
+   public const int SECONDS_PER_MINUTE = 60;
+   public const int SECONDS_PER_HOUR = SECONDS_PER_MINUTE * MINUTES_PER_HOUR;
+   public const int SECONDS_PER_DAY = HOURS_PER_DAY * SECONDS_PER_HOUR;
+   public const int SECONDS_PER_WEEK = DAYS_PER_WEEK * SECONDS_PER_DAY;
+   public const int SECONDS_PER_YEAR = DAYS_PER_YEAR * SECONDS_PER_DAY;
+
+   public const long MILLISECONDS_PER_SECOND = 1000L;
+   public const long MILLISECONDS_PER_MINUTE = SECONDS_PER_MINUTE * MILLISECONDS_PER_SECOND;
+   public const long MILLISECONDS_PER_HOUR = MINUTES_PER_HOUR * MILLISECONDS_PER_MINUTE;
+   public const long MILLISECONDS_PER_DAY = HOURS_PER_DAY * MILLISECONDS_PER_HOUR;
+   public const long MILLISECONDS_PER_WEEK = DAYS_PER_WEEK * MILLISECONDS_PER_DAY;
+   public const long MILLISECONDS_PER_YEAR = DAYS_PER_YEAR * MILLISECONDS_PER_DAY;
+   public const long SECONDS_BETWEEN_1900_AND_1970 = 2208988800L;
+*/
    //		//time
    //		public static final BigDecimal FACTOR_NANOSECOND_TO_SECOND = new BigDecimal("1000000000"); //nanoseconds to seconds
    //		public static final BigDecimal FACTOR_MICROSECOND_TO_SECOND = HelperNumber.NUMBER_1000000; //microseconds to seconds
@@ -334,6 +376,4 @@ public abstract partial class Constants
    //		public static final BigDecimal FACTOR_DAY_TO_WEEK = new BigDecimal("7"); //days to weeks
    //		public static final BigDecimal FACTOR_DAY_TO_MONTH = new BigDecimal("30"); //days to months
    //		public static final BigDecimal FACTOR_DAY_TO_YEAR = new BigDecimal("365"); //days to years
-
-   #endregion
 }
