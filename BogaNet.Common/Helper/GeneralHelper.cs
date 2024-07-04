@@ -91,11 +91,11 @@ public abstract class GeneralHelper
       {
          string[] array = args == null || args.Length == 0 ? GetCLIArguments() : args;
 
-         for (int i = 0; i < array.Length; i++)
+         for (int ii = 0; ii < array.Length; ii++)
          {
-            if (name.BNEquals(array[i]) && array.Length > i + 1)
+            if (name.BNEquals(array[ii]) && array.Length > ii + 1)
             {
-               return array[i + 1];
+               return array[ii + 1];
             }
          }
       }

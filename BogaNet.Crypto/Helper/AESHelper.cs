@@ -13,7 +13,7 @@ namespace BogaNet.Helper;
 /// </summary>
 public abstract class AESHelper //NUnit //TODO add other algorithms, key&blocksize, padding and mode?
 {
-   private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(AESHelper));
+   private static readonly ILogger<AESHelper> _logger = GlobalLogging.CreateLogger<AESHelper>();
 
    #region Public methods
 

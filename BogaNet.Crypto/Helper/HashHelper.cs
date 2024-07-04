@@ -12,7 +12,7 @@ namespace BogaNet.Helper;
 /// </summary>
 public abstract class HashHelper //NUnit
 {
-   private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(HashHelper));
+   private static readonly ILogger<HashHelper> _logger = GlobalLogging.CreateLogger<HashHelper>();
 
    #region Public methods
 

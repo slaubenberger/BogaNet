@@ -15,7 +15,7 @@ public abstract class XmlHelper
 {
    #region Variables
 
-   private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(XmlHelper));
+   private static readonly ILogger<XmlHelper> _logger = GlobalLogging.CreateLogger<XmlHelper>();
 
    #endregion
 

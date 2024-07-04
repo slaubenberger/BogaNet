@@ -15,7 +15,7 @@ public abstract class JsonHelper
 {
    #region Variables
 
-   private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(JsonHelper));
+   private static readonly ILogger<JsonHelper> _logger = GlobalLogging.CreateLogger<JsonHelper>();
 
    #endregion
 

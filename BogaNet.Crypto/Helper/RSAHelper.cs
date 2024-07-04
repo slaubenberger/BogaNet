@@ -25,7 +25,7 @@ public enum RSAKeyLength
 /// </summary>
 public abstract class RSAHelper
 {
-   private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(RSAHelper));
+   private static readonly ILogger<RSAHelper> _logger = GlobalLogging.CreateLogger<RSAHelper>();
 
    #region Public methods
 

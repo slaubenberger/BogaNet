@@ -12,7 +12,7 @@ namespace BogaNet.Helper;
 /// </summary>
 public abstract class HMACHelper //NUnit
 {
-   private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(HMACHelper));
+   private static readonly ILogger<HMACHelper> _logger = GlobalLogging.CreateLogger<HMACHelper>();
 
    #region Public methods
 

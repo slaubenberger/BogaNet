@@ -12,7 +12,7 @@ public abstract class ObjectHelper
 {
    #region Variables
 
-   private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(ObjectHelper));
+   private static readonly ILogger<ObjectHelper> _logger = GlobalLogging.CreateLogger<ObjectHelper>();
 
    #endregion
 
