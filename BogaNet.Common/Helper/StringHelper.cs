@@ -302,18 +302,32 @@ public static class StringHelper
    {
       return url == null ? null : Uri.EscapeDataString(url).Replace("%2F", "/").Replace("%3A", ":");
    }
-/*
+
    /// <summary>
-   /// Creates a string of characters with a given length.
+   /// Removes or replaces quotations (") in a string (e.g. from a CSV)
    /// </summary>
-   /// <param name="stringLength">Length of the generated string</param>
-   /// <param name="fillerCharacters">Characters to fill the string (if more than one character is used, the generated string will be a randomized result of all characters)</param>
-   /// <returns>Generated string</returns>
-   public static string CreateString(int stringLength, string? fillerCharacters)
+   /// <param name="str"></param>
+   /// <param name="replacement">Replacement string for the quotation (optional, default: "")</param>
+   /// <param name="trim">Trim the string (optional, default: true)</param>
+   /// <returns>String without quotations</returns>
+   public static string? RemoveQuotation(this string? str, string replacement = "", bool trim = true)
    {
-      return fillerCharacters == null ? string.Empty : CreateString(stringLength, fillerCharacters.ToCharArray());
+      if (str == null)
+         return str;
+
+      return trim ? str.Replace("\"", replacement).Trim() : str.Replace("\"", replacement);
    }
-*/
+
+   /// <summary>
+   /// Adds quotations (") to a string (e.g. for a CSV)
+   /// </summary>
+   /// <param name="str"></param>
+   /// <returns>String with quotations</returns>
+   public static string? AddQuotation(this string? str)
+   {
+      return str == null ? str : $"\"{str}\"";
+   }
+
    /*
  /// <summary>
  /// Replaces new lines with a replacement string pattern.

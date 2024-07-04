@@ -237,13 +237,26 @@ public static class StringExtension
    /// </summary>
    /// <param name="bytes">Input string as byte-array</param>
    /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
+   /// <param name="offset">Offset inside the byte-array (optional, default: 0)</param>
+   /// <param name="length">Number of bytes (optional, default: 0 = all)</param>
    /// <returns>String from the byte-array</returns>
-   public static string? BNToString(this byte[]? bytes, Encoding? encoding = null)
+   public static string? BNToString(this byte[]? bytes, Encoding? encoding = null, int offset = 0, int length = 0)
    {
       if (bytes == null)
          return null;
 
+      int off = offset > 0 ? offset : 0;
+
       Encoding _encoding = encoding ?? Encoding.UTF8;
+
+      if (off > 0)
+      {
+         int len = length > 0 ? length : bytes.Length;
+         byte[] content = new byte[len];
+         Buffer.BlockCopy(bytes, off, content, 0, len);
+         string? res = content.BNToString(encoding);
+         return res?.Trim('\0');
+      }
 
       return _encoding.GetString(bytes);
    }
