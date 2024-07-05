@@ -52,14 +52,14 @@ public static class Program
       //var res = await BogaNet.TrueRandom.ModuleString.Generate(5);
       //var res = await BogaNet.TrueRandom.ModuleInteger.Generate(1, 10, 3);
       //var res = await BogaNet.TrueRandom.ModuleFloat.Generate(1, 10, 3);
-      var res = await BogaNet.TrueRandom.ModuleSequence.Generate(1, 5);
+      var res = await BogaNet.TrueRandom.TRNGSequence.Generate(1, 5);
 
       foreach (var number in res)
       {
          _logger.LogInformation(number.ToString());
       }
 
-      int quota = await BogaNet.TrueRandom.ModuleQuota.GetQuota();
+      int quota = await BogaNet.TrueRandom.CheckQuota.GetQuota();
 
       _logger.LogInformation(quota.ToString());
    }

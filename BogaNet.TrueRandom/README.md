@@ -1,15 +1,14 @@
 # BogaNet.TrueRandom
 
 ## Why use TrueRandom?
-“TrueRandom” can generate random numbers for you or your game. They are “truly random”, because they are generated with atmospheric noise, which supersedes the pseudo-random number algorithms typically use in computer programs.
+“TrueRandom” can generate random numbers and they are “truly random”, because they are generated with atmospheric noise, which supersedes the pseudo-random number algorithms typically use in computer programs.
 TrueRandom can be used for holding drawings, lotteries and sweepstakes, to drive online games, for scientific applications and for art and music.
 
 Here some more information regarding “true” vs. “pseudo-” random:
 There are two principal methods used to generate random numbers. The first method measures some physical phenomenon that is expected to be random and then compensates for possible biases in the measurement process. Example sources include measuring atmospheric noise, thermal noise, and other external electromagnetic and quantum phenomena. For example, cosmic background radiation or radioactive decay as measured over short timescales represent sources of natural entropy.
 The second method uses computational algorithms that can produce long sequences of apparently random results, which are in fact completely determined by a shorter initial value, known as a seed value or key. As a result, the entire seemingly random sequence can be reproduced if the seed value is known. This type of random number generator is often called a pseudorandom number generator. This type of generator typically does not rely on sources of naturally occurring entropy, though it may be periodically seeded by natural sources. This generator type is non-blocking, so they are not rate-limited by an external event, making large bulk reads a possibility.
-
-https://en.wikipedia.org/wiki/Random_number_generation#.22True.22_vs._pseudo-random_numbers
-
+For more, please read this:
+https://en.wikipedia.org/wiki/Random_number_generation
 
 ## How does this differ from C# Random?
 Perhaps you have wondered how C# generates randomness. In reality, random numbers used in C# are pseudo-random, which means they are generated in a predictable fashion using a mathematical formula.
@@ -50,7 +49,7 @@ text += frag;
 Console.WriteLine(text);
 ```
 ## Nuget:
-[BogaNet.SecureType](https://www.nuget.org/packages/BogaNet.SecureType/)
+[BogaNet.TrueRandom](https://www.nuget.org/packages/BogaNet.TrueRandom/)
 
 ## API:
 [https://www.crosstales.com/media/data/BogaNet/api/](https://www.crosstales.com/media/data/BogaNet/api/annotated.html)

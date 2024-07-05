@@ -4,13 +4,13 @@ using Microsoft.Extensions.Logging;
 namespace BogaNet.TrueRandom;
 
 /// <summary>
-/// This module will generate true random floats in configurable intervals.
+/// Generates true random floats in configurable intervals.
 /// </summary>
-public abstract class ModuleFloat
+public abstract class TRNGFloat
 {
    #region Variables
 
-   private static readonly ILogger<ModuleFloat> _logger = GlobalLogging.CreateLogger<ModuleFloat>();
+   private static readonly ILogger<TRNGFloat> _logger = GlobalLogging.CreateLogger<TRNGFloat>();
    private static System.Collections.Generic.List<float> result = new System.Collections.Generic.List<float>();
 
    private static bool isRunning;
@@ -92,10 +92,10 @@ public abstract class ModuleFloat
                      factor = Math.Abs(_min) > Constants.FLOAT_TOLERANCE ? factorMin : factorMax;
                   }
 
-                  await ModuleInteger.Generate((int)(_min * factor), (int)(_max * factor), _number, false, true);
+                  await TRNGInteger.Generate((int)(_min * factor), (int)(_max * factor), _number, false, true);
 
                   result.Clear();
-                  foreach (int value in ModuleInteger.Result)
+                  foreach (int value in TRNGInteger.Result)
                   {
                      result.Add(value / (float)factor);
                   }

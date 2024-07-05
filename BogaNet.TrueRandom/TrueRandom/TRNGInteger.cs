@@ -5,13 +5,13 @@ using Microsoft.Extensions.Logging;
 namespace BogaNet.TrueRandom;
 
 /// <summary>
-/// This module will generate true random integers in configurable intervals.
+/// Generates true random integers in configurable intervals.
 /// </summary>
-public abstract class ModuleInteger
+public abstract class TRNGInteger
 {
    #region Variables
 
-   private static readonly ILogger<ModuleInteger> _logger = GlobalLogging.CreateLogger<ModuleInteger>();
+   private static readonly ILogger<TRNGInteger> _logger = GlobalLogging.CreateLogger<TRNGInteger>();
 
    //[Tooltip("List of the generated integers.")]
    private static System.Collections.Generic.List<int> result = new System.Collections.Generic.List<int>();
@@ -78,9 +78,9 @@ public abstract class ModuleInteger
                if (true)
                //if (Crosstales.Common.Util.NetworkHelper.isInternetAvailable)
                {
-                  _logger.LogDebug("Quota before: " + ModuleQuota.Quota);
+                  _logger.LogDebug("Quota before: " + CheckQuota.Quota);
 
-                  if (ModuleQuota.Quota > 0)
+                  if (CheckQuota.Quota > 0)
                   {
                      string url = $"{TrueRandomNumberGenerator.GENERATOR_URL}integers/?num={_number}&min={_min}&max={_max}&col=1&base=10&format=plain&rnd=new";
 

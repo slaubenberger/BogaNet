@@ -6,13 +6,13 @@ using Microsoft.Extensions.Logging;
 namespace BogaNet.TrueRandom;
 
 /// <summary>
-/// This module will randomize a given interval of integers, i.e. arrange them in random order.
+/// Randomizes a given interval of integers, i.e. arrange them in random order.
 /// </summary>
-public abstract class ModuleSequence
+public abstract class TRNGSequence
 {
    #region Variables
 
-   private static readonly ILogger<ModuleSequence> _logger = GlobalLogging.CreateLogger<ModuleSequence>();
+   private static readonly ILogger<TRNGSequence> _logger = GlobalLogging.CreateLogger<TRNGSequence>();
 
    private static System.Collections.Generic.List<int> result = new System.Collections.Generic.List<int>();
 
@@ -72,9 +72,9 @@ public abstract class ModuleSequence
                   if (true)
                      //if (Crosstales.Common.Util.NetworkHelper.isInternetAvailable)
                   {
-                     _logger.LogDebug("Quota before: " + ModuleQuota.Quota);
+                     _logger.LogDebug("Quota before: " + CheckQuota.Quota);
 
-                     if (ModuleQuota.Quota > 0)
+                     if (CheckQuota.Quota > 0)
                      {
                         string url = $"{TrueRandomNumberGenerator.GENERATOR_URL}sequences/?min={_min}&max={_max}&col=1&format=plain&rnd=new";
 

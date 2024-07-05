@@ -6,13 +6,13 @@ using BogaNet.Helper;
 namespace BogaNet.TrueRandom;
 
 /// <summary>
-/// This module will generate true random strings of various length and character compositions.
+/// Generates true random strings of various length and character compositions.
 /// </summary>
-public abstract class ModuleString
+public abstract class TRNGString
 {
    #region Variables
 
-   private static readonly ILogger<ModuleString> _logger = GlobalLogging.CreateLogger<ModuleString>();
+   private static readonly ILogger<TRNGString> _logger = GlobalLogging.CreateLogger<TRNGString>();
 
    private static System.Collections.Generic.List<string> result = new System.Collections.Generic.List<string>();
 
@@ -76,9 +76,9 @@ public abstract class ModuleString
                //if (NetworkHelper.isInternetAvailable)
                if (true)
                {
-                  _logger.LogDebug("Quota before: " + ModuleQuota.Quota);
+                  _logger.LogDebug("Quota before: " + CheckQuota.Quota);
 
-                  if (ModuleQuota.Quota > 0)
+                  if (CheckQuota.Quota > 0)
                   {
                      string url = $"{TrueRandomNumberGenerator.GENERATOR_URL}strings/?num={_number}&len={_length}&digits={boolToString(digits)}&upperalpha={boolToString(upper)}&loweralpha={boolToString(lower)}&unique={boolToString(unique)}&format=plain&rnd=new";
 

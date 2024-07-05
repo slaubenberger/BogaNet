@@ -31,24 +31,24 @@ public class TrueRandomNumberGenerator : Singleton<TrueRandomNumberGenerator>
 
    /// <summary>Returns the remaining quota in bits from the last check.</summary>
    /// <returns>Remaining quota in bits from the last check.</returns>
-   public int CurrentQuota => ModuleQuota.Quota;
+   public int CurrentQuota => CheckQuota.Quota;
 
 
    /// <summary>Returns the list of integers from the last generation.</summary>
    /// <returns>List of integers from the last generation.</returns>
-   public System.Collections.Generic.List<int> CurrentIntegers => ModuleInteger.Result;
+   public System.Collections.Generic.List<int> CurrentIntegers => TRNGInteger.Result;
 
    /// <summary>Returns the list of floats from the last generation.</summary>
    /// <returns>List of floats from the last generation.</returns>
-   public System.Collections.Generic.List<float> CurrentFloats => ModuleFloat.Result;
+   public System.Collections.Generic.List<float> CurrentFloats => TRNGFloat.Result;
 
    /// <summary>Returns the sequence from the last generation.</summary>
    /// <returns>Sequence from the last generation.</returns>
-   public System.Collections.Generic.List<int> CurrentSequence => ModuleSequence.Result;
+   public System.Collections.Generic.List<int> CurrentSequence => TRNGSequence.Result;
 
    /// <summary>Returns the list of strings from the last generation.</summary>
    /// <returns>List of strings from the last generation.</returns>
-   public System.Collections.Generic.List<string> CurrentStrings => ModuleString.Result;
+   public System.Collections.Generic.List<string> CurrentStrings => TRNGString.Result;
 
    /// <summary>Checks if True Random is generating numbers on this system.</summary>
    /// <returns>True if True Random is generating numbers on this system.</returns>
@@ -162,7 +162,7 @@ public class TrueRandomNumberGenerator : Singleton<TrueRandomNumberGenerator>
    {
       string _id = string.IsNullOrEmpty(id) ? System.Guid.NewGuid().ToString() : id;
 
-      ModuleInteger.Generate(min, max, number, PRNG, false, _id);
+      TRNGInteger.Generate(min, max, number, PRNG, false, _id);
 
       return _id;
    }
@@ -177,7 +177,7 @@ public class TrueRandomNumberGenerator : Singleton<TrueRandomNumberGenerator>
    {
       string _id = string.IsNullOrEmpty(id) ? System.Guid.NewGuid().ToString() : id;
 
-      ModuleFloat.Generate(min, max, number, PRNG, false, string.IsNullOrEmpty(id) ? System.Guid.NewGuid().ToString() : id);
+      TRNGFloat.Generate(min, max, number, PRNG, false, string.IsNullOrEmpty(id) ? System.Guid.NewGuid().ToString() : id);
 
       return _id;
    }
@@ -192,7 +192,7 @@ public class TrueRandomNumberGenerator : Singleton<TrueRandomNumberGenerator>
    {
       string _id = string.IsNullOrEmpty(id) ? System.Guid.NewGuid().ToString() : id;
 
-      ModuleSequence.Generate(min, max, number, PRNG, false, string.IsNullOrEmpty(id) ? System.Guid.NewGuid().ToString() : id);
+      TRNGSequence.Generate(min, max, number, PRNG, false, string.IsNullOrEmpty(id) ? System.Guid.NewGuid().ToString() : id);
 
       return _id;
    }
@@ -209,14 +209,14 @@ public class TrueRandomNumberGenerator : Singleton<TrueRandomNumberGenerator>
    public string GenerateString(int length, int number = 1, bool digits = true, bool upper = true, bool lower = true, bool unique = false, string id = "")
    {
       string _id = string.IsNullOrEmpty(id) ? System.Guid.NewGuid().ToString() : id;
-      ModuleString.Generate(length, number, digits, upper, lower, unique, PRNG);
+      TRNGString.Generate(length, number, digits, upper, lower, unique, PRNG);
       return _id;
    }
 
    /// <summary>Gets the remaining quota in bits from the server.</summary>
    public void GetQuota()
    {
-      ModuleQuota.GetQuota();
+      CheckQuota.GetQuota();
    }
 
    /// <summary>Generates random integers with the C#-standard Pseudo-Random-Number-Generator.</summary>
@@ -227,7 +227,7 @@ public class TrueRandomNumberGenerator : Singleton<TrueRandomNumberGenerator>
    /// <returns>List with the generated integers.</returns>
    public System.Collections.Generic.List<int> GenerateIntegerPRNG(int min, int max, int number = 1, int seed = 0)
    {
-      return ModuleInteger.GeneratePRNG(min, max, number, seed);
+      return TRNGInteger.GeneratePRNG(min, max, number, seed);
    }
 
    /// <summary>Generates random floats with the C#-standard Pseudo-Random-Number-Generator.</summary>
@@ -238,7 +238,7 @@ public class TrueRandomNumberGenerator : Singleton<TrueRandomNumberGenerator>
    /// <returns>List with the generated floats.</returns>
    public System.Collections.Generic.List<float> GenerateFloatPRNG(float min, float max, int number = 1, int seed = 0)
    {
-      return ModuleFloat.GeneratePRNG(min, max, number, seed);
+      return TRNGFloat.GeneratePRNG(min, max, number, seed);
    }
 
    /// <summary>Generates a random sequence with the C#-standard Pseudo-Random-Number-Generator.</summary>
@@ -249,7 +249,7 @@ public class TrueRandomNumberGenerator : Singleton<TrueRandomNumberGenerator>
    /// <returns>List with the generated sequence.</returns>
    public System.Collections.Generic.List<int> GenerateSequencePRNG(int min, int max, int number = 0, int seed = 0)
    {
-      return ModuleSequence.GeneratePRNG(min, max, number, seed);
+      return TRNGSequence.GeneratePRNG(min, max, number, seed);
    }
 
    /// <summary>Generates random strings with the C#-standard Pseudo-Random-Number-Generator.</summary>
@@ -263,7 +263,7 @@ public class TrueRandomNumberGenerator : Singleton<TrueRandomNumberGenerator>
    /// <returns>List with the generated strings.</returns>
    public System.Collections.Generic.List<string> GenerateStringPRNG(int length, int number = 1, bool digits = true, bool upper = true, bool lower = true, bool unique = false, int seed = 0)
    {
-      return ModuleString.GeneratePRNG(length, number, digits, upper, lower, unique, seed);
+      return TRNGString.GeneratePRNG(length, number, digits, upper, lower, unique, seed);
    }
 
    #endregion

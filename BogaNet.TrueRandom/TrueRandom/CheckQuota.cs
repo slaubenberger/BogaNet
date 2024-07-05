@@ -6,11 +6,11 @@ namespace BogaNet.TrueRandom;
 /// <summary>
 /// This module gets the remaining quota on www.random.org.
 /// </summary>
-public abstract class ModuleQuota
+public abstract class CheckQuota
 {
    #region Variables
 
-   private static readonly ILogger<ModuleQuota> _logger = GlobalLogging.CreateLogger<ModuleQuota>();
+   private static readonly ILogger<CheckQuota> _logger = GlobalLogging.CreateLogger<CheckQuota>();
 
    private static int quota = 1000000;
 
