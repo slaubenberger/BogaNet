@@ -14,13 +14,14 @@ public static class Program
 
    #region Public methods
 
-   public static void Main(string[] args)
+   public static async Task Main(string[] args)
    {
       GlobalLogging.LoggerFactory = new NLogLoggerFactory();
 
       _logger.LogDebug("Hi there, this is a test app!");
 
-      testNetwork();
+      await testTrueRandom();
+      //testNetwork();
       //testBitrateHRF();
       //testBytesHRF();
 
@@ -45,6 +46,23 @@ public static class Program
    #endregion
 
    #region Private methods
+
+   private static async Task testTrueRandom()
+   {
+      //var res = await BogaNet.TrueRandom.ModuleString.Generate(5);
+      //var res = await BogaNet.TrueRandom.ModuleInteger.Generate(1, 10, 3);
+      //var res = await BogaNet.TrueRandom.ModuleFloat.Generate(1, 10, 3);
+      var res = await BogaNet.TrueRandom.ModuleSequence.Generate(1, 5);
+
+      foreach (var number in res)
+      {
+         _logger.LogInformation(number.ToString());
+      }
+
+      int quota = await BogaNet.TrueRandom.ModuleQuota.GetQuota();
+
+      _logger.LogInformation(quota.ToString());
+   }
 
    private static void testNetwork()
    {
