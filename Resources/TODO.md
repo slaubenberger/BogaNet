@@ -1,6 +1,5 @@
 # TODO
-* Cleanup TrueRandom
-* TrueRandom: getBytes
+* Cleanup TrueRandom (add non-async methods) and write tests
 * RSA for file
 * add even more and detailed NUnit tests
 * make ObjectObf and ObjectSec more useful, but how exactly?
@@ -9,7 +8,7 @@
 * Pressure unit
 * Base36, 85,  91, 122
 * Twofish
-* 
+* Faker-clone?
+
 # Features
-* True Random
 * BWF

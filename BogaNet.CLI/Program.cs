@@ -49,17 +49,19 @@ public static class Program
 
    private static async Task testTrueRandom()
    {
-      //var res = await BogaNet.TrueRandom.ModuleString.Generate(5);
-      //var res = await BogaNet.TrueRandom.ModuleInteger.Generate(1, 10, 3);
-      //var res = await BogaNet.TrueRandom.ModuleFloat.Generate(1, 10, 3);
-      var res = await BogaNet.TrueRandom.TRNGSequence.Generate(1, 5);
+      var res = await BogaNet.TrueRandom.TRNGBytes.GenerateAsync(5);
+      //var res = await BogaNet.TrueRandom.TRNGString.GenerateAsync(5);
+      //var res = await BogaNet.TrueRandom.TRNGInteger.GenerateAsync(1, 10, 3);
+      //var res = await BogaNet.TrueRandom.TRNGFloat.GenerateAsync(1, 10, 3);
+      //var res = await BogaNet.TrueRandom.TRNGSequence.GenerateAsync(1, 5);
 
       foreach (var number in res)
       {
-         _logger.LogInformation(number.ToString());
+         //_logger.LogInformation(number.ToString());
+         _logger.LogInformation(number.BNToString());
       }
 
-      int quota = await BogaNet.TrueRandom.CheckQuota.GetQuota();
+      int quota = await BogaNet.TrueRandom.CheckQuota.GetQuotaAsync();
 
       _logger.LogInformation(quota.ToString());
    }

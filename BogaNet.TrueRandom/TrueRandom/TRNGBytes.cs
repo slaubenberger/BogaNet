@@ -1,19 +1,22 @@
 ﻿using System;
+using BogaNet.Extension;
 using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using BogaNet.Helper;
+using System.Security.Cryptography;
 
 namespace BogaNet.TrueRandom;
 
 /// <summary>
-/// Generates true random bytes in configurable intervals.
+/// Generates true random byte-arrays in configurable intervals.
 /// </summary>
-public abstract class TRNGBytes
+public abstract class TRNGBytes : TRNGBase
 {
    #region Variables
 
    private static readonly ILogger<TRNGBytes> _logger = GlobalLogging.CreateLogger<TRNGBytes>();
-   private static System.Collections.Generic.List<byte[]> result = new System.Collections.Generic.List<byte[]>();
-
-   private static bool isRunning;
+   private static List<byte[]> _result = [];
 
    #endregion
 
@@ -21,120 +24,81 @@ public abstract class TRNGBytes
 
    /// <summary>Returns the list of byte-arrays from the last generation.</summary>
    /// <returns>List of byte-arrays from the last generation.</returns>
-   public static System.Collections.Generic.List<byte[]> Result => result;
+   public static List<byte[]> Result => _result;
 
    #endregion
 
 
    #region Public methods
 
-   /// <summary>Generates random byte-arrays.</summary>
-   /// <param name="length">Defines how many bytes the byte-arrays contains (range: 1 - 20)</param>
-   /// <param name="number">How many byte-arrays to generate (range: 1 - 10'000, default: 1, optional)</param>
-   /// <param name="prng">Use Pseudo-Random-Number-Generator (default: false, optional)</param>
-   public static async System.Threading.Tasks.Task<System.Collections.Generic.List<byte[]>> Generate(int length, int number = 1, bool prng = false)
+   /// <summary>
+   /// Calculates needed bits (from the quota) for generating random byte-arrays.
+   /// </summary>
+   /// <param name="length">Length of the byte-array</param>
+   /// <param name="number">How many byte-arrays (default: 1, optional)</param>
+   /// <returns>Needed bits for generating the byte-arrays.</returns>
+   public int CalcBits(int length, int number = 1)
    {
-      //TODO magic!
-/*      
-      int _number;
-
-      if (prng)
-      {
-         _number = Math.Clamp(number, 1, int.MaxValue);
-      }
-      else
-      {
-         if (number > 10000)
-            _logger.LogWarning("'number' is larger than 10'000 - returning 10'000 floats.");
-
-         _number = Math.Clamp(number, 1, 10000);
-      }
-
-      if (Math.Abs(_min - _max) < Constants.FLOAT_TOLERANCE)
-      {
-         result = GeneratePRNG(_min, _max, _number, TrueRandomNumberGenerator.Seed);
-      }
-      else
-      {
-         if (prng)
-         {
-            result = GeneratePRNG(_min, _max, _number, TrueRandomNumberGenerator.Seed);
-         }
-         else
-         {
-            if (!isRunning)
-            {
-               if (true)
-               //if (Crosstales.Common.Util.NetworkHelper.isInternetAvailable)
-               {
-                  isRunning = true;
-
-                  double factorMax = Math.Abs(_max) > Constants.FLOAT_TOLERANCE ? 1000000000f / Math.Abs(_max) : 1f;
-                  double factorMin = Math.Abs(_min) > Constants.FLOAT_TOLERANCE ? 1000000000f / Math.Abs(_min) : 1f;
-
-                  double factor;
-
-                  if (factorMax > factorMin && Math.Abs(factorMin - 1f) > Constants.FLOAT_TOLERANCE)
-                  {
-                     factor = factorMin;
-                  }
-                  else if (factorMin > factorMax && Math.Abs(factorMax - 1f) > Constants.FLOAT_TOLERANCE)
-                  {
-                     factor = factorMax;
-                  }
-                  else
-                  {
-                     factor = Math.Abs(_min) > Constants.FLOAT_TOLERANCE ? factorMin : factorMax;
-                  }
-
-                  await TRNGInteger.Generate((int)(_min * factor), (int)(_max * factor), _number, false, true);
-
-                  result.Clear();
-                  foreach (int value in TRNGInteger.Result)
-                  {
-                     result.Add(value / (float)factor);
-                  }
-               }
-               else
-               {
-                  const string msg = "No Internet access available - using standard prng now!";
-                  _logger.LogWarning(msg);
-
-                  result = GeneratePRNG(_min, _max, _number, TrueRandomNumberGenerator.Seed);
-               }
-
-               isRunning = false;
-            }
-            else
-            {
-               _logger.LogWarning("There is already a request running - please try again later!");
-            }
-         }
-      }
-*/
-      return result;
+      return TRNGString.CalcBits(length, number);
    }
 
-   /// <summary>Generates random floats with the C#-standard Pseudo-Random-Number-Generator.</summary>
-   /// <param name="min">Smallest possible number</param>
-   /// <param name="max">Biggest possible number</param>
-   /// <param name="number">How many numbers you want to generate (default: 1, optional)</param>
-   /// <param name="seed">Seed for the PRNG (default: 0 (=standard), optional)</param>
-   /// <returns>List with the generated floats.</returns>
-   public static System.Collections.Generic.List<byte[]> GeneratePRNG(int length, int number = 1, int seed = 0)
+   /// <summary>Generates random byte-arrays asynchronously.</summary>
+   /// <param name="length">Defines how many bytes the byte-arrays contains (range: 1 - 20)</param>
+   /// <param name="number">How many byte-arrays to generate (optional, range: 1 - 10'000, default: 1)</param>
+   /// <param name="prng">Use Pseudo-Random-Number-Generator (optional, default: false)</param>
+   /// <returns>List with the generated byte-arrays.</returns>
+   public static async Task<List<byte[]>> GenerateAsync(int length, int number = 1, bool prng = false)
    {
-      System.Random rnd = seed == 0 ? new System.Random() : new System.Random(seed);
-      int _number = Math.Abs(number);
+      int len = Math.Clamp(length, 1, 20);
+      int num = Math.Clamp(number, 1, 10000);
 
-      System.Collections.Generic.List<byte[]> _result = new System.Collections.Generic.List<byte[]>(_number);
-//TODO do the magic
-      /*
-      for (int ii = 0; ii < _number; ii++)
+      if (num < number)
+         _logger.LogWarning($"'number' is to large - returning {num} byte-arrays.");
+
+      bool hasInternet = await NetworkHelper.CheckInternetAvailabilityAsync();
+
+      if (!hasInternet)
+         _logger.LogWarning("No Internet access available - using standard prng now!");
+
+      if (prng || !hasInternet)
+         return GeneratePRNG(len, num, Seed);
+
+      if (!_isRunning) //TODO needed?
       {
-         _result.Add((float)(rnd.NextDouble() * (_max - _min) + _min));
+         List<string> list = await TRNGString.GenerateAsync(len, num);
+
+         _result.Clear();
+         foreach (string str in list)
+         {
+            _result.Add(str.BNToByteArray()!);
+         }
       }
-*/
+      else
+      {
+         _logger.LogWarning("There is already a request running - please try again later!");
+      }
+
+
       return _result;
+   }
+
+   /// <summary>Generates random byte-arrays.</summary>
+   /// <param name="length">Defines how many bytes the byte-arrays contains</param>
+   /// <param name="number">How many byte-arrays to generate (optional, default: 1)</param>
+   /// <param name="seed">Seed for the PRNG (optional, default: 0 (=standard))</param>
+   /// <returns>List with the generated byte-arrays.</returns>
+   public static List<byte[]> GeneratePRNG(int length, int number = 1, int seed = 0)
+   {
+      int num = Math.Abs(number);
+
+      List<byte[]> result = new(num);
+
+      for (int ii = 0; ii < num; ii++)
+      {
+         result.Add(RandomNumberGenerator.GetBytes(length));
+      }
+
+      return result;
    }
 
    #endregion

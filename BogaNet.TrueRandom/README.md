@@ -18,13 +18,13 @@ This is fine for many purposes, but it may not be random in the way you expect i
 ## How does it work
 "TrueRandom" uses the API of [random.org](https://www.random.org/), which provides a free tier with a quota limitation of 1'000'000 random bits per IP-address in 24 hours.
 This allows to generate at least:
-* 125'000 bytes
+* 120'000 bytes
 * 30'000 integers/floats (depends on the size)
+* 12'000 strings (length of 10 chars, depends on the settings)
 * 3'000 sequences (interval of 10 elements)
-* 3'000 strings (length of 10 chars, depends on the settings)
 
 If the quota expires, C# pseudo-random will be used automatically.
-It is recommended to use "TrueRandom" to set seeds in the PRNG and refresh them as desired to reduce the delay and usage of the quota.
+It is recommended to use "TrueRandom" only to set seeds in the PRNG and refresh them as desired to reduce the delay and quota usage.
 
 ## Main classes and example code
 Secure types for:

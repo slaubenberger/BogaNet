@@ -2,166 +2,168 @@
 using System;
 using BogaNet.Extension;
 using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using BogaNet.Helper;
+using System.Text.RegularExpressions;
+using System.Net.Http;
 
 namespace BogaNet.TrueRandom;
 
 /// <summary>
 /// Randomizes a given interval of integers, i.e. arrange them in random order.
 /// </summary>
-public abstract class TRNGSequence
+public abstract class TRNGSequence : TRNGBase
 {
    #region Variables
 
    private static readonly ILogger<TRNGSequence> _logger = GlobalLogging.CreateLogger<TRNGSequence>();
-
-   private static System.Collections.Generic.List<int> result = new System.Collections.Generic.List<int>();
-
-   private static bool isRunning;
+   private static List<int> _result = [];
 
    #endregion
 
 
-   #region Static properties
+   #region Properties
 
    /// <summary>Returns the sequence from the last generation.</summary>
    /// <returns>Sequence from the last generation.</returns>
-   public static System.Collections.Generic.List<int> Result => new System.Collections.Generic.List<int>(result);
+   public static List<int> Result => _result;
 
    #endregion
 
 
    #region Public methods
 
-   /// <summary>Generates random sequence.</summary>
+   /// <summary>
+   /// Calculates needed bits (from the quota) for generating a random sequence.
+   /// </summary>
+   /// <param name="min">Start of the interval</param>
+   /// <param name="max">End of the interval</param>
+   /// <returns>Needed bits for generating the sequence.</returns>
+   public static int CalcBits(int min, int max)
+   {
+      int _min = min;
+      int _max = max;
+
+      if (_min > _max)
+      {
+         _min = max;
+         _max = min;
+      }
+
+      if (_min == 0 && _max == 0)
+         _max = 1;
+
+      int bitsCounter = 0;
+
+      if (_min != _max)
+         bitsCounter = (_max - _min) * 31;
+
+      return bitsCounter;
+   }
+
+   /// <summary>Generates random sequence asynchronously.</summary>
    /// <param name="min">Start of the interval (range: -1'000'000'000 - 1'000'000'000)</param>
    /// <param name="max">End of the interval (range: -1'000'000'000 - 1'000'000'000)</param>
-   /// <param name="number">How many numbers you have in the result (max range: max - min, optional)</param>
-   /// <param name="prng">Use Pseudo-Random-Number-Generator (default: false, optional)</param>
-   /// <param name="silent">Ignore callbacks (default: false, optional)</param>
-   /// <param name="id">id to identify the generated result (optional)</param>
-   public static async System.Threading.Tasks.Task<System.Collections.Generic.List<int>> Generate(int min, int max, int number = 0, bool prng = false, bool silent = false, string id = "")
+   /// <param name="number">How many numbers you have in the result (optional, max range: max - min)</param>
+   /// <param name="prng">Use Pseudo-Random-Number-Generator (optional, default: false)</param>
+   /// <returns>List with the generated sequence.</returns>
+   public static async Task<List<int>> GenerateAsync(int min, int max, int number = 0, bool prng = false)
    {
-      int _min = Math.Min(min, max);
-      int _max = Math.Max(min, max);
+      int minValue = Math.Min(min, max);
+      int maxValue = Math.Max(min, max);
+      minValue = Math.Clamp(Math.Min(min, max), -1000000000, 1000000000);
+      maxValue = Math.Clamp(Math.Max(min, max), -1000000000, 1000000000);
 
-      if (!prng && _max - _min >= 10000)
+      if (maxValue - minValue >= 10000)
       {
-         _logger.LogError("Sequence range ('max' - 'min') is larger than 10'000 elements: " + (_max - _min + 1), id);
+         _logger.LogError($"Sequence range ('max' - 'min') is larger than 10'000 elements: {maxValue - minValue + 1}! Setting max = min + 10000.");
+         maxValue = minValue + 10000;
       }
-      else
+
+      bool hasInternet = await NetworkHelper.CheckInternetAvailabilityAsync();
+
+      if (!hasInternet)
+         _logger.LogWarning("No Internet access available - using standard prng!");
+
+      if (prng || !hasInternet)
+         return GeneratePRNG(minValue, maxValue, Seed);
+
+      if (!_isRunning)
       {
-         if (_min == _max)
+         _isRunning = true;
+
+         if (await CheckQuota.GetQuotaAsync() > CalcBits(minValue, maxValue))
          {
-            result = GeneratePRNG(_min, _max, TrueRandomNumberGenerator.Seed);
-         }
-         else
-         {
-            if (prng)
+            string url = $"{GENERATOR_URL}sequences/?min={minValue}&max={maxValue}&col=1&format=plain&rnd=new";
+
+            _logger.LogDebug("URL: " + url);
+
+
+            using HttpClient client = new();
+            using HttpResponseMessage response = client.GetAsync(url).Result;
+            response.EnsureSuccessStatusCode();
+
+            if (response.IsSuccessStatusCode)
             {
-               result = GeneratePRNG(_min, _max, TrueRandomNumberGenerator.Seed);
+               string data = await response.Content.ReadAsStringAsync();
+
+               _result.Clear();
+               string[] result = Regex.Split(data, "\r\n?|\n", RegexOptions.Singleline);
+
+               int value = 0;
+               foreach (string valueAsString in result.Where(valueAsString => int.TryParse(valueAsString, out value)))
+               {
+                  _result.Add(value);
+               }
             }
             else
             {
-               if (!isRunning)
-               {
-                  _min = Math.Clamp(Math.Min(min, max), -1000000000, 1000000000);
-                  _max = Math.Clamp(Math.Max(min, max), -1000000000, 1000000000);
-
-                  isRunning = true;
-
-                  if (true)
-                     //if (Crosstales.Common.Util.NetworkHelper.isInternetAvailable)
-                  {
-                     _logger.LogDebug("Quota before: " + CheckQuota.Quota);
-
-                     if (CheckQuota.Quota > 0)
-                     {
-                        string url = $"{TrueRandomNumberGenerator.GENERATOR_URL}sequences/?min={_min}&max={_max}&col=1&format=plain&rnd=new";
-
-                        _logger.LogDebug("URL: " + url);
-
-
-                        using System.Net.Http.HttpClient client = new();
-                        using System.Net.Http.HttpResponseMessage response = client.GetAsync(url).Result;
-                        response.EnsureSuccessStatusCode();
-
-                        if (response.IsSuccessStatusCode)
-                        {
-                           string data = await response.Content.ReadAsStringAsync();
-
-                           result.Clear();
-                           string[] _result = System.Text.RegularExpressions.Regex.Split(data, "\r\n?|\n", System.Text.RegularExpressions.RegexOptions.Singleline);
-
-                           int value = 0;
-                           foreach (string valueAsString in _result.Where(valueAsString => int.TryParse(valueAsString, out value)))
-                           {
-                              result.Add(value);
-                           }
-                        }
-                        else
-                        {
-                           _logger.LogError($"Could not download data: {response.StatusCode} - {response.ReasonPhrase}");
-                        }
-
-
-                        //if (Config.DEBUG)
-                        //   Debug.Log("Quota after: " + ModuleQuota.Quota);
-                     }
-                     else
-                     {
-                        const string msg = "Quota exceeded - using standard prng now!";
-                        _logger.LogWarning(msg);
-
-                        result = GeneratePRNG(_min, _max, TrueRandomNumberGenerator.Seed);
-                     }
-                  }
-                  else
-                  {
-                     const string msg = "No Internet access available - using standard prng now!";
-                     _logger.LogWarning(msg);
-
-                     result = GeneratePRNG(_min, _max, TrueRandomNumberGenerator.Seed);
-                  }
-
-                  isRunning = false;
-               }
-               else
-               {
-                  _logger.LogWarning("There is already a request running - please try again later!");
-               }
+               _logger.LogError($"Could not download data: {response.StatusCode} - {response.ReasonPhrase}");
             }
          }
+         else
+         {
+            _logger.LogWarning("Quota exceeded - using standard prng!");
+            _result = GeneratePRNG(minValue, maxValue, Seed);
+         }
 
-         if (number > 0 && number < result.Count)
-            result = result.GetRange(0, number);
+         _isRunning = false;
+      }
+      else
+      {
+         _logger.LogWarning("There is already a request running - please try again later!");
       }
 
-      return result;
+      if (number > 0 && number < _result.Count)
+         _result = _result.GetRange(0, number);
+
+      return _result;
    }
 
    /// <summary>Generates a random sequence with the C#-standard Pseudo-Random-Number-Generator.</summary>
    /// <param name="min">Start of the interval</param>
    /// <param name="max">End of the interval</param>
-   /// <param name="number">How many numbers you have in the result (max range: max - min, optional)</param>
-   /// <param name="seed">Seed for the PRNG (default: 0 (=standard), optional)</param>
+   /// <param name="number">How many numbers you have in the result (optional, max range: max - min)</param>
+   /// <param name="seed">Seed for the PRNG (optional, default: 0 (=standard))</param>
    /// <returns>List with the generated sequence.</returns>
-   public static System.Collections.Generic.List<int> GeneratePRNG(int min, int max, int number = 0, int seed = 0)
+   public static List<int> GeneratePRNG(int min, int max, int number = 0, int seed = 0)
    {
       int _min = Math.Min(min, max);
       int _max = Math.Max(min, max);
-      System.Collections.Generic.List<int> _result = new System.Collections.Generic.List<int>(_max - _min + 1);
+      List<int> result = new(_max - _min + 1);
 
       for (int ii = _min; ii <= _max; ii++)
       {
-         _result.Add(ii);
+         result.Add(ii);
       }
 
-      _result.BNShuffle(seed);
+      result.BNShuffle(seed);
 
-      if (number > 0 && number < _result.Count)
-         return _result.GetRange(0, number);
+      if (number > 0 && number < result.Count)
+         return result.GetRange(0, number);
 
-      return _result;
+      return result;
    }
 
    #endregion

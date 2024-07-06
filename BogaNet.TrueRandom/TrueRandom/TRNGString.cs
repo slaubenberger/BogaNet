@@ -1,157 +1,142 @@
 ﻿using System.Linq;
 using System;
 using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 using BogaNet.Helper;
+using System.Text.RegularExpressions;
+using System.Net.Http;
 
 namespace BogaNet.TrueRandom;
 
 /// <summary>
 /// Generates true random strings of various length and character compositions.
 /// </summary>
-public abstract class TRNGString
+public abstract class TRNGString : TRNGBase
 {
    #region Variables
 
    private static readonly ILogger<TRNGString> _logger = GlobalLogging.CreateLogger<TRNGString>();
-
-   private static System.Collections.Generic.List<string> result = new System.Collections.Generic.List<string>();
-
-   private static bool isRunning;
+   private static List<string> _result = [];
 
    #endregion
 
-   #region Static properties
+   #region Properties
 
    /// <summary>Returns the list of strings from the last generation.</summary>
    /// <returns>List of strings from the last generation.</returns>
-   public static System.Collections.Generic.List<string> Result => result.GetRange(0, result.Count);
+   public static List<string> Result => _result.GetRange(0, _result.Count);
 
    #endregion
 
-
    #region Public methods
 
-   /// <summary>Generates random strings.</summary>
-   /// <param name="length">How long the strings should be (range: 1 - 20)</param>
-   /// <param name="number">How many strings you want to generate (range: 1 - 10'000, default: 1, optional)</param>
-   /// <param name="digits">Allow digits (0-9) (default: true, optional)</param>
-   /// <param name="upper">Allow uppercase letters (default: true, optional)</param>
-   /// <param name="lower">Allow lowercase letters (default: true, optional)</param>
-   /// <param name="unique">String should be unique (default: false, optional)</param>
-   /// <param name="prng">Use Pseudo-Random-Number-Generator (default: false, optional)</param>
-   public static async System.Threading.Tasks.Task<System.Collections.Generic.List<string>> Generate(int length, int number = 1, bool digits = true, bool upper = true, bool lower = true, bool unique = false, bool prng = false)
+   /// <summary>
+   /// Calculates needed bits (from the quota) for generating random strings.
+   /// </summary>
+   /// <param name="length">Length of the strings</param>
+   /// <param name="number">How many strings (default: 1, optional)</param>
+   /// <returns>Needed bits for generating the strings.</returns>
+   public static int CalcBits(int length, int number = 1)
    {
-      int _length = length;
-      int _number;
+      //return Math.Abs(number) * Math.Abs(length) * 30; //TODO why was it factor 30?
+      return Math.Abs(number) * Math.Abs(length) * 16;
+   }
 
-      if (prng)
-      {
-         _number = Math.Clamp(number, 1, int.MaxValue);
-      }
-      else
-      {
-         _length = Math.Clamp(length, 1, 20);
-         _number = calcMaxNumber(number, _length, digits, upper, lower, unique);
+   /// <summary>Generates random strings asynchronously.</summary>
+   /// <param name="length">How long the strings should be (range: 1 - 20)</param>
+   /// <param name="number">How many strings you want to generate (optional, range: 1 - 10'000, default: 1)</param>
+   /// <param name="digits">Allow digits (0-9) (optional, default: true)</param>
+   /// <param name="upper">Allow uppercase letters (optional, default: true)</param>
+   /// <param name="lower">Allow lowercase letters (optional, default: true)</param>
+   /// <param name="unique">String should be unique (optional, default: false)</param>
+   /// <param name="prng">Use Pseudo-Random-Number-Generator (optional, default: false)</param>
+   public static async Task<List<string>> GenerateAsync(int length, int number = 1, bool digits = true, bool upper = true, bool lower = true, bool unique = false, bool prng = false)
+   {
+      int len = Math.Clamp(length, 1, 20);
+      int num = Math.Clamp(number, 1, 10000);
 
-         if (_number < number)
-            _logger.LogWarning("'number' is to large - returning " + _number + " strings.");
-      }
+      if (num < number)
+         _logger.LogWarning($"'number' is to large - returning {num} strings.");
 
       if (!digits && !upper && !lower)
       {
-         _logger.LogError("'digits', 'upper' and 'lower' are 'false' - string generation not possible!");
+         _logger.LogWarning("'digits', 'upper' and 'lower' are all 'false' - setting 'lower' to true!");
+         lower = true;
       }
-      else
+
+      bool hasInternet = await NetworkHelper.CheckInternetAvailabilityAsync();
+
+      if (!hasInternet)
+         _logger.LogWarning("No Internet access available - using standard prng!");
+
+      if (prng || !hasInternet)
+         return GeneratePRNG(len, num, digits, upper, lower, unique, Seed);
+
+      if (!_isRunning)
       {
-         if (prng)
+         _isRunning = true;
+
+         if (await CheckQuota.GetQuotaAsync() > CalcBits(len, num))
          {
-            result = GeneratePRNG(_length, _number, digits, upper, lower, unique, TrueRandomNumberGenerator.Seed);
-         }
-         else
-         {
-            if (!isRunning)
+            string url = $"{GENERATOR_URL}strings/?num={num}&len={len}&digits={boolToString(digits)}&upperalpha={boolToString(upper)}&loweralpha={boolToString(lower)}&unique={boolToString(unique)}&format=plain&rnd=new";
+
+            _logger.LogDebug("URL: " + url);
+
+            using HttpClient client = new();
+            using HttpResponseMessage response = client.GetAsync(url).Result;
+            response.EnsureSuccessStatusCode();
+
+            if (response.IsSuccessStatusCode)
             {
-               isRunning = true;
+               string data = await response.Content.ReadAsStringAsync();
 
-               //if (NetworkHelper.isInternetAvailable)
-               if (true)
+               _result.Clear();
+               string[] result = Regex.Split(data, "\r\n?|\n", RegexOptions.Singleline);
+
+               foreach (string valueAsString in result.Where(valueAsString => !string.IsNullOrEmpty(valueAsString)))
                {
-                  _logger.LogDebug("Quota before: " + CheckQuota.Quota);
-
-                  if (CheckQuota.Quota > 0)
-                  {
-                     string url = $"{TrueRandomNumberGenerator.GENERATOR_URL}strings/?num={_number}&len={_length}&digits={boolToString(digits)}&upperalpha={boolToString(upper)}&loweralpha={boolToString(lower)}&unique={boolToString(unique)}&format=plain&rnd=new";
-
-                     _logger.LogDebug("URL: " + url);
-
-
-                     using System.Net.Http.HttpClient client = new();
-                     using System.Net.Http.HttpResponseMessage response = client.GetAsync(url).Result;
-                     response.EnsureSuccessStatusCode();
-
-                     if (response.IsSuccessStatusCode)
-                     {
-                        string data = await response.Content.ReadAsStringAsync();
-
-                        result.Clear();
-                        string[] _result = System.Text.RegularExpressions.Regex.Split(data, "\r\n?|\n", System.Text.RegularExpressions.RegexOptions.Singleline);
-
-                        foreach (string valueAsString in _result.Where(valueAsString => !string.IsNullOrEmpty(valueAsString)))
-                        {
-                           result.Add(valueAsString);
-                        }
-                     }
-                     else
-                     {
-                        _logger.LogError($"Could not download data: {response.StatusCode} - {response.ReasonPhrase}");
-                     }
-
-                     //if (Config.DEBUG)
-                     //   Debug.Log("Quota after: " + ModuleQuota.Quota);
-                  }
-                  else
-                  {
-                     const string msg = "Quota exceeded - using standard prng now!";
-                     _logger.LogWarning(msg);
-
-                     result = GeneratePRNG(_length, _number, digits, upper, lower, unique, TrueRandomNumberGenerator.Seed);
-                  }
+                  _result.Add(valueAsString);
                }
-               else
-               {
-                  const string msg = "No Internet access available - using standard prng now!";
-                  _logger.LogWarning(msg);
-
-                  result = GeneratePRNG(_length, _number, digits, upper, lower, unique, TrueRandomNumberGenerator.Seed);
-               }
-
-               isRunning = false;
             }
             else
             {
-               _logger.LogWarning("There is already a request running - please try again later!");
+               _logger.LogError($"Could not download data: {response.StatusCode} - {response.ReasonPhrase}");
             }
          }
+         else
+         {
+            const string msg = "Quota exceeded - using standard prng!";
+            _logger.LogWarning(msg);
+
+            _result = GeneratePRNG(len, num, digits, upper, lower, unique, Seed);
+         }
+
+         _isRunning = false;
+      }
+      else
+      {
+         _logger.LogWarning("There is already a request running - please try again later!");
       }
 
-      return result;
+      return _result;
    }
 
    /// <summary>Generates random strings with the C#-standard Pseudo-Random-Number-Generator.</summary>
    /// <param name="length">How long the strings should be</param>
-   /// <param name="number">How many strings you want to generate (default: 1, optional)</param>
-   /// <param name="digits">Allow digits (0-9) (default: true, optional)</param>
-   /// <param name="upper">Allow uppercase (A-Z) letters (default: true, optional)</param>
-   /// <param name="lower">Allow lowercase (a-z) letters (default: true, optional)</param>
-   /// <param name="unique">String should be unique (default: false, optional)</param>
-   /// <param name="seed">Seed for the PRNG (default: 0 (=standard), optional)</param>
+   /// <param name="number">How many strings you want to generate (optional, default: 1)</param>
+   /// <param name="digits">Allow digits (0-9) (optional, default: true)</param>
+   /// <param name="upper">Allow uppercase (A-Z) letters (optional, default: true)</param>
+   /// <param name="lower">Allow lowercase (a-z) letters (optional, default: true)</param>
+   /// <param name="unique">String should be unique (optional, default: false)</param>
+   /// <param name="seed">Seed for the PRNG (optional, default: 0 (=standard))</param>
    /// <returns>List with the generated strings.</returns>
-   public static System.Collections.Generic.List<string> GeneratePRNG(int length, int number = 1, bool digits = true, bool upper = true, bool lower = true, bool unique = false, int seed = 0)
+   public static List<string> GeneratePRNG(int length, int number = 1, bool digits = true, bool upper = true, bool lower = true, bool unique = false, int seed = 0)
    {
-      Random rnd = seed == 0 ? new Random() : new System.Random(seed);
-      int _length = Math.Abs(length);
-      int _number = calcMaxNumber(number, _length, digits, upper, lower, unique);
-      System.Collections.Generic.List<string> _result = new System.Collections.Generic.List<string>(_number);
+      Random rnd = seed == 0 ? new Random() : new Random(seed);
+      int len = Math.Abs(length);
+      int num = calcMaxNumber(number, len, digits, upper, lower, unique);
+      List<string> result = new(num);
 
       string glyphs = string.Empty;
 
@@ -164,7 +149,7 @@ public abstract class TRNGString
       if (digits)
          glyphs += Constants.NUMBERS;
 
-      for (int ii = 0; ii < _number; ii++)
+      for (int ii = 0; ii < num; ii++)
       {
          string s;
          if (unique)
@@ -174,12 +159,12 @@ public abstract class TRNGString
             {
                isNotUnique = false;
                s = string.Empty;
-               for (int yy = 0; yy < _length; yy++)
+               for (int yy = 0; yy < len; yy++)
                {
                   s += glyphs[rnd.Next(0, glyphs.Length)];
                }
 
-               foreach (string str in result.Where(str => str == s))
+               foreach (string str in _result.Where(str => str == s))
                {
                   isNotUnique = true;
                }
@@ -188,16 +173,16 @@ public abstract class TRNGString
          else
          {
             s = string.Empty;
-            for (int yy = 0; yy < _length; yy++)
+            for (int yy = 0; yy < len; yy++)
             {
                s += glyphs[rnd.Next(0, glyphs.Length)];
             }
          }
 
-         _result.Add(s);
+         result.Add(s);
       }
 
-      return _result;
+      return result;
    }
 
    #endregion
@@ -214,19 +199,13 @@ public abstract class TRNGString
          double basis = 0d;
 
          if (digits)
-         {
             basis += 10d;
-         }
 
          if (upper)
-         {
             basis += 26d;
-         }
 
          if (lower)
-         {
             basis += 26d;
-         }
 
          if (basis > 0d)
          {

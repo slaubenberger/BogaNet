@@ -1,146 +1,127 @@
 ﻿using System;
 using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using BogaNet.Helper;
 
 namespace BogaNet.TrueRandom;
 
 /// <summary>
 /// Generates true random floats in configurable intervals.
 /// </summary>
-public abstract class TRNGFloat
+public abstract class TRNGFloat : TRNGBase
 {
    #region Variables
 
    private static readonly ILogger<TRNGFloat> _logger = GlobalLogging.CreateLogger<TRNGFloat>();
-   private static System.Collections.Generic.List<float> result = new System.Collections.Generic.List<float>();
-
-   private static bool isRunning;
+   private static List<float> _result = [];
 
    #endregion
 
-   #region Static properties
+   #region Properties
 
    /// <summary>Returns the list of floats from the last generation.</summary>
    /// <returns>List of floats from the last generation.</returns>
-   public static System.Collections.Generic.List<float> Result => result;
+   public static List<float> Result => _result;
 
    #endregion
 
 
    #region Public methods
 
-   /// <summary>Generates random floats.</summary>
+   /// <summary>
+   /// Calculates needed bits (from the quota) for generating random floats.
+   /// </summary>
+   /// <param name="number">How many numbers (optional, default: 1)</param>
+   /// <returns>Needed bits for generating the floats.</returns>
+   public static int CalcBits(int number = 1)
+   {
+      int bitsCounter = 32;
+      return bitsCounter * Math.Abs(number);
+   }
+
+   /// <summary>Generates random floats asynchronously.</summary>
    /// <param name="min">Smallest possible number (range: -1'000'000'000 - 1'000'000'000)</param>
    /// <param name="max">Biggest possible number (range: -1'000'000'000 - 1'000'000'000)</param>
-   /// <param name="number">How many numbers you want to generate (range: 1 - 10'000, default: 1, optional)</param>
-   /// <param name="prng">Use Pseudo-Random-Number-Generator (default: false, optional)</param>
-   /// <param name="silent">Ignore callbacks (default: false, optional)</param>
-   /// <param name="id">id to identify the generated result (optional)</param>
-   public static async System.Threading.Tasks.Task<System.Collections.Generic.List<float>> Generate(float min, float max, int number = 1, bool prng = false, bool silent = false, string id = "")
+   /// <param name="number">How many numbers you want to generate (optional, range: 1 - 10'000, default: 1)</param>
+   /// <param name="prng">Use Pseudo-Random-Number-Generator (optional, default: false)</param>
+   /// <returns>List with the generated floats.</returns>
+   public static async Task<List<float>> GenerateAsync(float min, float max, int number = 1, bool prng = false)
    {
-      float _min = Math.Min(min, max);
-      float _max = Math.Max(min, max);
-      int _number;
+      float minValue = Math.Min(min, max);
+      float maxValue = Math.Max(min, max);
+      minValue = Math.Clamp(minValue, -1000000000f, 1000000000f);
+      maxValue = Math.Clamp(maxValue, -1000000000f, 1000000000f);
+      int num = Math.Clamp(number, 1, 10000);
 
-      if (prng)
-      {
-         _number = Math.Clamp(number, 1, int.MaxValue);
-      }
-      else
-      {
-         if (number > 10000)
-            _logger.LogWarning("'number' is larger than 10'000 - returning 10'000 floats.");
+      if (num < number)
+         _logger.LogWarning($"'number' is to large - returning {num} floats.");
 
-         _min = Math.Clamp(_min, -1000000000f, 1000000000f);
-         _max = Math.Clamp(_max, -1000000000f, 1000000000f);
-         _number = Math.Clamp(number, 1, 10000);
-      }
+      bool hasInternet = await NetworkHelper.CheckInternetAvailabilityAsync();
 
-      if (Math.Abs(_min - _max) < Constants.FLOAT_TOLERANCE)
+      if (!hasInternet)
+         _logger.LogWarning("No Internet access available - using standard prng!");
+
+      if (prng || !hasInternet)
+         _result = GeneratePRNG(minValue, maxValue, num, Seed);
+
+      if (!_isRunning)
       {
-         result = GeneratePRNG(_min, _max, _number, TrueRandomNumberGenerator.Seed);
-      }
-      else
-      {
-         if (prng)
+         double factorMax = Math.Abs(maxValue) > Constants.FLOAT_TOLERANCE ? 1000000000f / Math.Abs(maxValue) : 1f;
+         double factorMin = Math.Abs(minValue) > Constants.FLOAT_TOLERANCE ? 1000000000f / Math.Abs(minValue) : 1f;
+
+         double factor;
+
+         if (factorMax > factorMin && Math.Abs(factorMin - 1f) > Constants.FLOAT_TOLERANCE)
          {
-            result = GeneratePRNG(_min, _max, _number, TrueRandomNumberGenerator.Seed);
+            factor = factorMin;
+         }
+         else if (factorMin > factorMax && Math.Abs(factorMax - 1f) > Constants.FLOAT_TOLERANCE)
+         {
+            factor = factorMax;
          }
          else
          {
-            if (!isRunning)
-            {
-               if (true)
-               //if (Crosstales.Common.Util.NetworkHelper.isInternetAvailable)
-               {
-                  isRunning = true;
+            factor = Math.Abs(minValue) > Constants.FLOAT_TOLERANCE ? factorMin : factorMax;
+         }
 
-                  double factorMax = Math.Abs(_max) > Constants.FLOAT_TOLERANCE ? 1000000000f / Math.Abs(_max) : 1f;
-                  double factorMin = Math.Abs(_min) > Constants.FLOAT_TOLERANCE ? 1000000000f / Math.Abs(_min) : 1f;
+         List<int> result = await TRNGInteger.GenerateAsync((int)(minValue * factor), (int)(maxValue * factor), num);
 
-                  double factor;
-
-                  if (factorMax > factorMin && Math.Abs(factorMin - 1f) > Constants.FLOAT_TOLERANCE)
-                  {
-                     factor = factorMin;
-                  }
-                  else if (factorMin > factorMax && Math.Abs(factorMax - 1f) > Constants.FLOAT_TOLERANCE)
-                  {
-                     factor = factorMax;
-                  }
-                  else
-                  {
-                     factor = Math.Abs(_min) > Constants.FLOAT_TOLERANCE ? factorMin : factorMax;
-                  }
-
-                  await TRNGInteger.Generate((int)(_min * factor), (int)(_max * factor), _number, false, true);
-
-                  result.Clear();
-                  foreach (int value in TRNGInteger.Result)
-                  {
-                     result.Add(value / (float)factor);
-                  }
-               }
-               else
-               {
-                  const string msg = "No Internet access available - using standard prng now!";
-                  _logger.LogWarning(msg);
-
-                  result = GeneratePRNG(_min, _max, _number, TrueRandomNumberGenerator.Seed);
-               }
-
-               isRunning = false;
-            }
-            else
-            {
-               _logger.LogWarning("There is already a request running - please try again later!");
-            }
+         _result.Clear();
+         foreach (int value in result)
+         {
+            _result.Add(value / (float)factor);
          }
       }
+      else
+      {
+         _logger.LogWarning("There is already a request running - please try again later!");
+      }
 
-      return result;
+      return _result;
    }
 
    /// <summary>Generates random floats with the C#-standard Pseudo-Random-Number-Generator.</summary>
    /// <param name="min">Smallest possible number</param>
    /// <param name="max">Biggest possible number</param>
-   /// <param name="number">How many numbers you want to generate (default: 1, optional)</param>
-   /// <param name="seed">Seed for the PRNG (default: 0 (=standard), optional)</param>
+   /// <param name="number">How many numbers you want to generate (optional, default: 1)</param>
+   /// <param name="seed">Seed for the PRNG (optional, default: 0 (=standard))</param>
    /// <returns>List with the generated floats.</returns>
-   public static System.Collections.Generic.List<float> GeneratePRNG(float min, float max, int number = 1, int seed = 0)
+   public static List<float> GeneratePRNG(float min, float max, int number = 1, int seed = 0)
    {
-      System.Random rnd = seed == 0 ? new System.Random() : new System.Random(seed);
+      Random rnd = seed == 0 ? new Random() : new Random(seed);
       int _number = Math.Abs(number);
       float _min = Math.Min(min, max);
       float _max = Math.Max(min, max);
 
-      System.Collections.Generic.List<float> _result = new System.Collections.Generic.List<float>(_number);
+      List<float> result = new(_number);
 
       for (int ii = 0; ii < _number; ii++)
       {
-         _result.Add((float)(rnd.NextDouble() * (_max - _min) + _min));
+         result.Add(rnd.NextSingle() * (_max - _min) + _min);
       }
 
-      return _result;
+      return result;
    }
 
    #endregion
