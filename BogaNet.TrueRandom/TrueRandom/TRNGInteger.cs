@@ -35,6 +35,7 @@ public abstract class TRNGInteger : TRNGBase
 
    /// <summary>
    /// Calculates needed bits (from the quota) for generating random integers.
+   /// NOTE: The calculated value may differ from the real value due the calculation of the server.
    /// </summary>
    /// <param name="max">Biggest allowed number</param>
    /// <param name="number">How many numbers (default: 1, optional)</param>

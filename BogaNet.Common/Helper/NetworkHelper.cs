@@ -26,6 +26,10 @@ public abstract class NetworkHelper
 
    private static readonly ILogger<NetworkHelper> _logger = GlobalLogging.CreateLogger<NetworkHelper>();
 
+   private static bool _isInternetAvailable = false;
+   private static DateTime _lastInternetCheck;
+   private const float INTERNET_CHECK_INTERVAL = 7; //minimum time in seconds between Internet availability checks
+
    #endregion
 
    #region Public methods
@@ -295,7 +299,7 @@ public abstract class NetworkHelper
 
          return content.Trim();
       }
-      catch (System.Exception ex)
+      catch (Exception ex)
       {
          _logger.LogError(ex, "Could not determine the public IP!");
       }
@@ -366,6 +370,9 @@ public abstract class NetworkHelper
    /// <returns>True if a connection to the Internet is available</returns>
    public static async Task<bool> CheckInternetAvailabilityAsync()
    {
+      if ((DateTime.UtcNow - _lastInternetCheck).TotalSeconds < INTERNET_CHECK_INTERVAL)
+         return _isInternetAvailable;
+
       const string microsoftUrl = "http://www.msftncsi.com/ncsi.txt";
       const string appleUrl = "https://www.apple.com/library/test/success.html";
       const string ubuntuUrl = "https://start.ubuntu.com/connectivity-check";
@@ -407,6 +414,9 @@ public abstract class NetworkHelper
 
          _logger.LogDebug($"{ubuntuDesc} check: {available}");
       }
+
+      _isInternetAvailable = available;
+      _lastInternetCheck = DateTime.UtcNow;
 
       return available;
    }

@@ -31,6 +31,7 @@ public abstract class TRNGFloat : TRNGBase
 
    /// <summary>
    /// Calculates needed bits (from the quota) for generating random floats.
+   /// NOTE: The calculated value may differ from the real value due the calculation of the server.
    /// </summary>
    /// <param name="number">How many numbers (optional, default: 1)</param>
    /// <returns>Needed bits for generating the floats.</returns>

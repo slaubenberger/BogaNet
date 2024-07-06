@@ -36,6 +36,7 @@ public abstract class TRNGSequence : TRNGBase
 
    /// <summary>
    /// Calculates needed bits (from the quota) for generating a random sequence.
+   /// NOTE: The calculated value may differ from the real value due the calculation of the server.
    /// </summary>
    /// <param name="min">Start of the interval</param>
    /// <param name="max">End of the interval</param>
@@ -57,7 +58,7 @@ public abstract class TRNGSequence : TRNGBase
       int bitsCounter = 0;
 
       if (_min != _max)
-         bitsCounter = (_max - _min) * 31;
+         bitsCounter = (_max - _min) * 36;
 
       return bitsCounter;
    }

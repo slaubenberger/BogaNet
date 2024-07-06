@@ -1,5 +1,5 @@
 ﻿using System;
-using BogaNet.Extension;
+using BogaNet.Util;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using System.Collections.Generic;
@@ -33,11 +33,12 @@ public abstract class TRNGBytes : TRNGBase
 
    /// <summary>
    /// Calculates needed bits (from the quota) for generating random byte-arrays.
+   /// NOTE: The calculated value may differ from the real value due the calculation of the server.
    /// </summary>
    /// <param name="length">Length of the byte-array</param>
    /// <param name="number">How many byte-arrays (default: 1, optional)</param>
    /// <returns>Needed bits for generating the byte-arrays.</returns>
-   public int CalcBits(int length, int number = 1)
+   public static int CalcBits(int length, int number = 1)
    {
       return TRNGString.CalcBits(length, number);
    }
@@ -70,7 +71,9 @@ public abstract class TRNGBytes : TRNGBase
          _result.Clear();
          foreach (string str in list)
          {
-            _result.Add(str.BNToByteArray()!);
+            byte[] data = Obfuscator.Obfuscate(str, Obfuscator.GenerateIV());
+            _logger.LogDebug($"{str.Length} - {data.Length}");
+            _result.Add(data);
          }
       }
       else

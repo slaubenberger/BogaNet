@@ -33,6 +33,7 @@ public abstract class TRNGString : TRNGBase
 
    /// <summary>
    /// Calculates needed bits (from the quota) for generating random strings.
+   /// NOTE: The calculated value may differ from the real value due the calculation of the server.
    /// </summary>
    /// <param name="length">Length of the strings</param>
    /// <param name="number">How many strings (default: 1, optional)</param>
@@ -40,7 +41,7 @@ public abstract class TRNGString : TRNGBase
    public static int CalcBits(int length, int number = 1)
    {
       //return Math.Abs(number) * Math.Abs(length) * 30; //TODO why was it factor 30?
-      return Math.Abs(number) * Math.Abs(length) * 16;
+      return Math.Abs(number) * Math.Abs(length) * 12; //Median is 60
    }
 
    /// <summary>Generates random strings asynchronously.</summary>
