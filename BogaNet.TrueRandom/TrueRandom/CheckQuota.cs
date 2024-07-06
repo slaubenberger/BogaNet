@@ -8,7 +8,7 @@ namespace BogaNet.TrueRandom;
 /// <summary>
 /// Gets the remaining quota from www.random.org.
 /// </summary>
-public abstract class CheckQuota
+public abstract class CheckQuota //NUnit
 {
    #region Variables
 
@@ -30,7 +30,17 @@ public abstract class CheckQuota
 
    #region Public methods
 
-   /// <summary>Gets the remaining quota in bits from the server asynchronously.</summary>
+   /// <summary>
+   /// Gets the remaining quota in bits from the server.
+   /// </summary>
+   public static int GetQuota()
+   {
+      return Task.Run(() => GetQuotaAsync()).GetAwaiter().GetResult();
+   }
+
+   /// <summary>
+   /// Gets the remaining quota in bits from the server asynchronously.
+   /// </summary>
    public static async Task<int> GetQuotaAsync()
    {
       bool hasInternet = await NetworkHelper.CheckInternetAvailabilityAsync();

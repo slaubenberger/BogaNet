@@ -34,6 +34,7 @@
       <ProjectReference Include="..\BogaNet.ObfuscatedType\BogaNet.ObfuscatedType.csproj" />
       <ProjectReference Include="..\BogaNet.Prefs\BogaNet.Prefs.csproj" />
       <ProjectReference Include="..\BogaNet.SecureType\BogaNet.SecureType.csproj" />
+      <ProjectReference Include="..\BogaNet.TrueRandom\BogaNet.TrueRandom.csproj" />
       <ProjectReference Include="..\BogaNet.Unit\BogaNet.Unit.csproj" />
     </ItemGroup>
 

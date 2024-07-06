@@ -12,7 +12,7 @@ namespace BogaNet.TrueRandom;
 /// <summary>
 /// Generates true random integers in configurable intervals.
 /// </summary>
-public abstract class TRNGInteger : TRNGBase
+public abstract class TRNGInteger : TRNGBase //NUnit
 {
    #region Variables
 
@@ -35,15 +35,16 @@ public abstract class TRNGInteger : TRNGBase
 
    /// <summary>
    /// Calculates needed bits (from the quota) for generating random integers.
-   /// NOTE: The calculated value may differ from the real value due the calculation of the server.
+   /// NOTE: The calculated value is an approximation and will may differ from the real quota deducted from the server.
    /// </summary>
-   /// <param name="max">Biggest allowed number</param>
+   /// <param name="min">Smallest possible number</param>
+   /// <param name="max">Biggest possible number</param>
    /// <param name="number">How many numbers (default: 1, optional)</param>
    /// <returns>Needed bits for generating the integers.</returns>
-   public static int CalcBits(int max, int number = 1)
+   public static int CalcBits(int min, int max, int number = 1)
    {
-      int bitsCounter = 0;
-      float tmp = Math.Abs(max);
+      int bitsCounter = 4;
+      float tmp = Math.Max(Math.Abs(min), Math.Abs(max));
 
       while (tmp >= 1)
       {
@@ -63,6 +64,17 @@ public abstract class TRNGInteger : TRNGBase
       return bitsCounter * Math.Abs(number);
    }
 
+   /// <summary>Generates random integers.</summary>
+   /// <param name="min">Smallest possible number (range: -1'000'000'000 - 1'000'000'000)</param>
+   /// <param name="max">Biggest possible number (range: -1'000'000'000 - 1'000'000'000)</param>
+   /// <param name="number">How many numbers you want to generate (optional, range: 1 - 10'000, default: 1)</param>
+   /// <param name="prng">Use Pseudo-Random-Number-Generator (optional, default: false)</param>
+   /// <returns>List with the generated integers.</returns>
+   public static List<int> Generate(int min, int max, int number = 1, bool prng = false)
+   {
+      return Task.Run(() => GenerateAsync(min, max, number, prng)).GetAwaiter().GetResult();
+   }
+
    /// <summary>Generates random integers asynchronously.</summary>
    /// <param name="min">Smallest possible number (range: -1'000'000'000 - 1'000'000'000)</param>
    /// <param name="max">Biggest possible number (range: -1'000'000'000 - 1'000'000'000)</param>
@@ -71,14 +83,9 @@ public abstract class TRNGInteger : TRNGBase
    /// <returns>List with the generated integers.</returns>
    public static async Task<List<int>> GenerateAsync(int min, int max, int number = 1, bool prng = false)
    {
-      int minValue = Math.Min(min, max);
-      int maxValue = Math.Max(min, max);
-      minValue = Math.Clamp(minValue, -1000000000, 1000000000);
-      maxValue = Math.Clamp(maxValue, -1000000000, 1000000000);
-      int num = Math.Clamp(number, 1, 10000);
-
-      if (num < number)
-         _logger.LogWarning($"'number' is to large - returning {num} integers.");
+      int minValue = Math.Clamp(Math.Min(min, max), -1000000000, 1000000000);
+      int maxValue = Math.Clamp(Math.Max(min, max), -1000000000, 1000000000);
+      int num = Math.Clamp(Math.Abs(number), 1, 10000);
 
       bool hasInternet = await NetworkHelper.CheckInternetAvailabilityAsync();
 
@@ -92,7 +99,7 @@ public abstract class TRNGInteger : TRNGBase
       {
          _isRunning = true;
 
-         if (await CheckQuota.GetQuotaAsync() > CalcBits(maxValue, number))
+         if (await CheckQuota.GetQuotaAsync() > CalcBits(minValue, maxValue, number))
          {
             string url = $"{GENERATOR_URL}integers/?num={num}&min={minValue}&max={maxValue}&col=1&base=10&format=plain&rnd=new";
 

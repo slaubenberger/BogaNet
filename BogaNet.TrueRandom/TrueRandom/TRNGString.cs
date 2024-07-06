@@ -12,7 +12,7 @@ namespace BogaNet.TrueRandom;
 /// <summary>
 /// Generates true random strings of various length and character compositions.
 /// </summary>
-public abstract class TRNGString : TRNGBase
+public abstract class TRNGString : TRNGBase //NUnit
 {
    #region Variables
 
@@ -33,15 +33,28 @@ public abstract class TRNGString : TRNGBase
 
    /// <summary>
    /// Calculates needed bits (from the quota) for generating random strings.
-   /// NOTE: The calculated value may differ from the real value due the calculation of the server.
+   /// NOTE: The calculated value is an approximation and will may differ from the real quota deducted from the server.
    /// </summary>
    /// <param name="length">Length of the strings</param>
    /// <param name="number">How many strings (default: 1, optional)</param>
    /// <returns>Needed bits for generating the strings.</returns>
    public static int CalcBits(int length, int number = 1)
    {
-      //return Math.Abs(number) * Math.Abs(length) * 30; //TODO why was it factor 30?
-      return Math.Abs(number) * Math.Abs(length) * 12; //Median is 60
+      int factor = length > 10 ? 2 : 1;
+      return Math.Abs(number) * Math.Abs(length) * 8 * factor;
+   }
+
+   /// <summary>Generates random strings.</summary>
+   /// <param name="length">How long the strings should be (range: 1 - 20)</param>
+   /// <param name="number">How many strings you want to generate (optional, range: 1 - 10'000, default: 1)</param>
+   /// <param name="digits">Allow digits (0-9) (optional, default: true)</param>
+   /// <param name="upper">Allow uppercase letters (optional, default: true)</param>
+   /// <param name="lower">Allow lowercase letters (optional, default: true)</param>
+   /// <param name="unique">String should be unique (optional, default: false)</param>
+   /// <param name="prng">Use Pseudo-Random-Number-Generator (optional, default: false)</param>
+   public static List<string> Generate(int length, int number = 1, bool digits = true, bool upper = true, bool lower = true, bool unique = false, bool prng = false)
+   {
+      return Task.Run(() => GenerateAsync(length, number, digits, upper, lower, unique, prng)).GetAwaiter().GetResult();
    }
 
    /// <summary>Generates random strings asynchronously.</summary>
@@ -54,11 +67,9 @@ public abstract class TRNGString : TRNGBase
    /// <param name="prng">Use Pseudo-Random-Number-Generator (optional, default: false)</param>
    public static async Task<List<string>> GenerateAsync(int length, int number = 1, bool digits = true, bool upper = true, bool lower = true, bool unique = false, bool prng = false)
    {
-      int len = Math.Clamp(length, 1, 20);
-      int num = Math.Clamp(number, 1, 10000);
-
-      if (num < number)
-         _logger.LogWarning($"'number' is to large - returning {num} strings.");
+      int len = Math.Clamp(Math.Abs(length), 1, 20);
+      int num = Math.Clamp(Math.Abs(number), 1, 10000);
+      num = calcMaxNumber(num, len, digits, upper, lower, unique);
 
       if (!digits && !upper && !lower)
       {
@@ -136,7 +147,7 @@ public abstract class TRNGString : TRNGBase
    {
       Random rnd = seed == 0 ? new Random() : new Random(seed);
       int len = Math.Abs(length);
-      int num = calcMaxNumber(number, len, digits, upper, lower, unique);
+      int num = calcMaxNumber(Math.Abs(number), len, digits, upper, lower, unique);
       List<string> result = new(num);
 
       string glyphs = string.Empty;
@@ -193,7 +204,7 @@ public abstract class TRNGString : TRNGBase
 
    private static int calcMaxNumber(int number, int length, bool digits, bool upper, bool lower, bool unique)
    {
-      int _number = Math.Clamp(number, 1, 10000);
+      int num = number;
 
       if (unique && length > 0 && length <= 10)
       {
@@ -210,17 +221,17 @@ public abstract class TRNGString : TRNGBase
 
          if (basis > 0d)
          {
-            long maxNumber = (long)System.Math.Pow(basis, length);
+            long maxNumber = (long)Math.Pow(basis, length);
 
-            if (maxNumber < number)
+            if (maxNumber < num)
             {
                _logger.LogWarning($"Too many numbers requested with 'unique' on - result reduced to {maxNumber} numbers!");
-               _number = (int)maxNumber;
+               num = (int)maxNumber;
             }
          }
       }
 
-      return _number;
+      return num;
    }
 
    private static string boolToString(bool value)
