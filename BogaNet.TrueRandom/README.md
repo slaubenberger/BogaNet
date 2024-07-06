@@ -12,12 +12,7 @@ The second method uses computational algorithms that can produce long sequences 
 For more, please read this:
 https://en.wikipedia.org/wiki/Random_number_generation
 
-## How does this differ from C# Random?
-Perhaps you have wondered how C# generates randomness. In reality, random numbers used in C# are pseudo-random, which means they are generated in a predictable fashion using a mathematical formula.
-
-This is fine for many purposes, but it may not be random in the way you expect it to be when you think of dice rolls and lottery drawings.
-
-## How does it work
+## Quota
 "TrueRandom" uses the API of [random.org](https://www.random.org/), which provides a free tier with a quota limitation of 1'000'000 random bits per IP-address in 24 hours.
 This allows to generate at least:
 * 120'000 bytes
@@ -28,28 +23,14 @@ This allows to generate at least:
 If the quota expires, C# pseudo-random will be used automatically.
 It is recommended to use "TrueRandom" only to set seeds in the PRNG and refresh them as desired to reduce the delay and quota usage.
 
-## Main classes and example code
-Secure types for:
-* [Integral numeric types](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/integral-numeric-types)
-* [Floating-point numeric types](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/floating-point-numeric-types)
-* [bool](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool)
-* [char](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/char)
-* [string](https://learn.microsoft.com/en-us/dotnet/api/system.string?view=net-8.0)
-* all **objects** (acts currently only as storage container)
+## Main classes
+* [CheckQuota](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_true_random_1_1_check_quota.html)
+* [TRNGBytes](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_true_random_1_1_t_r_n_g_bytes.html)
+* [TRNGFloat](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_true_random_1_1_t_r_n_g_float.html)
+* [TRNGInteger](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_true_random_1_1_t_r_n_g_integer.html)
+* [TRNGSequence](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_true_random_1_1_t_r_n_g_sequence.html)
+* [TRNGString](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_true_random_1_1_t_r_n_g_string.html)
 
-```csharp
-DoubleSec age = 35.8;
-double years = 7;
-age += years;
-
-Console.WriteLine(age.ToString());
-
-StringSec text = "Hello Wörld!";
-string frag = " byebye!";
-text += frag;
-
-Console.WriteLine(text);
-```
 ## Nuget:
 [BogaNet.TrueRandom](https://www.nuget.org/packages/BogaNet.TrueRandom/)
 

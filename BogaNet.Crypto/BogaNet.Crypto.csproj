@@ -3,7 +3,7 @@
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
-        <Version>1.1.2</Version>
+        <Version>1.1.3</Version>
         <Company>crosstales LLC</Company>
         <Copyright>© 2024 Stefan Laubenberger</Copyright>
         <Authors>Stefan Laubenberger</Authors>
@@ -11,7 +11,7 @@
         <RepositoryUrl>https://github.com/slaubenberger/BogaNet</RepositoryUrl>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageTags>AES Crypto RSA PKI Certificate X509 Hash SHA SHA256 SHA384 SHA512 HMAC HMAC256 HMAC384 HMAC512</PackageTags>
-        <PackageReleaseNotes>Hash for files added.</PackageReleaseNotes>
+        <PackageReleaseNotes>Logging and resilience improved.</PackageReleaseNotes>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <!-- <PackageIconUrl>https://www.crosstales.com/media/data/BogaNet/logo_boga.png</PackageIconUrl> -->
         <PackageIcon>logo_boga_crypto.jpg</PackageIcon>

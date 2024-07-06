@@ -7,7 +7,7 @@
         <Company>crosstales LLC</Company>
         <Copyright>© 2024 Stefan Laubenberger</Copyright>
         <Authors>Stefan Laubenberger</Authors>
-        <Description>True random numbers...</Description>
+        <Description>Generates true random numbers from atmospheric noise.</Description>
         <RepositoryUrl>https://github.com/slaubenberger/BogaNet</RepositoryUrl>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageTags>TrueRandom</PackageTags>
