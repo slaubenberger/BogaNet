@@ -107,7 +107,7 @@ public static class ListExtension
    {
       return source
          .Select((x, i) => new { Index = i, Value = x })
-         .GroupBy(x => x.Index / chunkSize)
+         .GroupBy(x => x.Index / Math.Abs(chunkSize))
          .Select(x => x.Select(v => v.Value).ToList())
          .ToList();
    }

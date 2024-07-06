@@ -245,7 +245,7 @@ public static class StringExtension
       if (bytes == null)
          return null;
 
-      int off = offset > 0 ? offset : 0;
+      int off = Math.Abs(offset);
 
       Encoding _encoding = encoding ?? Encoding.UTF8;
 

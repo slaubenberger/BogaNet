@@ -632,7 +632,6 @@ public abstract class FileHelper
       return CopyDirectory(sourceDir, destDir, true);
    }
 
-
    /// <summary>
    /// Renames a file or directory.
    /// </summary>

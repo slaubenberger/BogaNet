@@ -20,21 +20,21 @@ public abstract class AESHelper //NUnit //TODO add other algorithms, key&blocksi
    /// <summary>
    /// Generates a secure IV for AES.
    /// </summary>
-   /// <param name="length">Length of the IV (optional, default: 16)</param>
+   /// <param name="length">Length of the IV (optional, range: 16 - 32, default: 16)</param>
    /// <returns>IV as byte-array</returns>
    public static byte[] GenerateIV(int length = 16)
    {
-      return RandomNumberGenerator.GetBytes(Math.Clamp(length, 16, 256));
+      return RandomNumberGenerator.GetBytes(Math.Clamp(length, 16, 32));
    }
 
    /// <summary>
    /// Generates a secure key for AES.
    /// </summary>
-   /// <param name="length">Length of the key (optional, default: 16)</param>
+   /// <param name="length">Length of the key (optional, range: 16 - 128, default: 16)</param>
    /// <returns>Secure key as byte-array</returns>
    public static byte[] GenerateKey(int length = 16)
    {
-      return RandomNumberGenerator.GetBytes(Math.Clamp(length, 16, 256));
+      return RandomNumberGenerator.GetBytes(Math.Clamp(length, 16, 128));
    }
 
    /// <summary>

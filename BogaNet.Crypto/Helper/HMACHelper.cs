@@ -23,7 +23,7 @@ public abstract class HMACHelper //NUnit
    /// <returns>Secure secret as byte-array</returns>
    public static byte[] GenerateSecret(int length = 16)
    {
-      return RandomNumberGenerator.GetBytes(length);
+      return RandomNumberGenerator.GetBytes(Math.Abs(length));
    }
 
    #region Generic

@@ -129,7 +129,7 @@ public static class ArrayHelper
    /// <returns>Column of a 2D-array as array</returns>
    public static T[]? GetColumn<T>(T[,]? matrix, int columnNumber)
    {
-      return matrix != null ? Enumerable.Range(0, matrix.GetLength(0)).Select(x => matrix[x, columnNumber]).ToArray() : default;
+      return matrix != null ? Enumerable.Range(0, matrix.GetLength(0)).Select(x => matrix[x, Math.Abs(columnNumber)]).ToArray() : default;
    }
 
    /// <summary>
@@ -140,7 +140,7 @@ public static class ArrayHelper
    /// <returns>Row of a 2D-array as array</returns>
    public static T[]? GetRow<T>(T[,]? matrix, int rowNumber)
    {
-      return matrix != null ? Enumerable.Range(0, matrix.GetLength(1)).Select(x => matrix[rowNumber, x]).ToArray() : default;
+      return matrix != null ? Enumerable.Range(0, matrix.GetLength(1)).Select(x => matrix[Math.Abs(rowNumber), x]).ToArray() : default;
    }
 
    #endregion

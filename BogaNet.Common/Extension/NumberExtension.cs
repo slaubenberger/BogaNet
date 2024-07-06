@@ -111,7 +111,7 @@ public static class NumberExtension
 
       Type type = typeof(T);
       byte[] content;
-      int off = offset > 0 ? offset : 0;
+      int off = Math.Abs(offset);
       switch (type)
       {
          case Type when type == typeof(byte):

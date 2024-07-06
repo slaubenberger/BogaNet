@@ -49,6 +49,12 @@ public static class StringHelper
          "nonummy", "nibh", "euismod", "tincidunt", "ut", "laoreet", "dolore", "magna", "aliquam", "erat"
       ];
 
+      length = Math.Abs(length);
+      minSentences = Math.Abs(minSentences);
+      maxSentences = Math.Abs(maxSentences);
+      minWords = Math.Abs(minWords);
+      maxWords = Math.Abs(maxWords);
+
       int numSentences = _rnd.Next(maxSentences - minSentences) + minSentences + 1;
 
       StringBuilder result = new();
@@ -61,8 +67,7 @@ public static class StringHelper
             if (w > 0)
                result.Append(' ');
 
-            result.Append(
-               w == 0 ? ToTitleCase(words[_rnd.Next(words.Length)]) : words[_rnd.Next(words.Length)]);
+            result.Append(w == 0 ? ToTitleCase(words[_rnd.Next(words.Length)]) : words[_rnd.Next(words.Length)]);
          }
 
          result.Append(". ");
@@ -189,6 +194,8 @@ public static class StringHelper
    /// <returns>Fix length string</returns>
    public static string CreateFixedLengthString(string? str, int length, char filler = ' ', bool padRight = true)
    {
+      length = Math.Abs(length);
+
       if (str == null)
          return new string(filler, length);
 
@@ -207,19 +214,21 @@ public static class StringHelper
    /// <summary>
    /// Creates a string of characters with a given length.
    /// </summary>
-   /// <param name="stringLength">Length of the generated string</param>
+   /// <param name="length">Length of the generated string</param>
    /// <param name="fillerCharacters">Characters to fill the string (if more than one character is used, the generated string will be a randomized result of all characters)</param>
    /// <returns>Generated string</returns>
-   public static string CreateString(int stringLength, params char[]? fillerCharacters)
+   public static string CreateString(int length, params char[]? fillerCharacters)
    {
+      length = Math.Abs(length);
+
       if (fillerCharacters == null)
          return string.Empty;
 
       if (fillerCharacters.Length > 1)
       {
-         char[] chars = new char[stringLength];
+         char[] chars = new char[length];
 
-         for (int ii = 0; ii < stringLength; ii++)
+         for (int ii = 0; ii < length; ii++)
          {
             chars[ii] = fillerCharacters[_rnd.Next(0, fillerCharacters.Length)];
          }
@@ -227,7 +236,7 @@ public static class StringHelper
          return new string(chars);
       }
 
-      return fillerCharacters.Length == 1 ? new string(fillerCharacters[0], stringLength) : string.Empty;
+      return fillerCharacters.Length == 1 ? new string(fillerCharacters[0], length) : string.Empty;
    }
 
    /// <summary>
@@ -241,6 +250,9 @@ public static class StringHelper
    public static List<string> SplitToLines(string? text, bool ignoreCommentedLines = true, int skipHeaderLines = 0, int skipFooterLines = 0)
    {
       List<string> result = new(100);
+
+      skipHeaderLines = Math.Abs(skipHeaderLines);
+      skipFooterLines = Math.Abs(skipFooterLines);
 
       if (string.IsNullOrEmpty(text))
       {
