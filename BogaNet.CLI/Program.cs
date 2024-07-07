@@ -20,8 +20,8 @@ public static class Program
 
       _logger.LogDebug("Hi there, this is a test app!");
 
-      await testTrueRandom();
-      //testNetwork();
+      //await testTrueRandom();
+      testNetwork();
       //testBitrateHRF();
       //testBytesHRF();
 
@@ -46,7 +46,7 @@ public static class Program
    #endregion
 
    #region Private methods
-
+/*
    private static async Task testTrueRandom()
    {
       int quotaStart = await BogaNet.TrueRandom.CheckQuota.GetQuotaAsync();
@@ -73,7 +73,7 @@ public static class Program
       int quota = await BogaNet.TrueRandom.CheckQuota.GetQuotaAsync();
       _logger.LogInformation($"Quota end: {quota} - {quotaStart - quota}");
    }
-
+*/
    private static void testNetwork()
    {
       _logger.LogInformation("CPD: " + BogaNet.Helper.NetworkHelper.CheckInternetAvailability());

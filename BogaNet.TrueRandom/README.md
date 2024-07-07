@@ -7,7 +7,7 @@ TrueRandom can be used for holding drawings, lotteries and sweepstakes, to drive
 Here some more information regarding “true” vs. “pseudo-” random:
 There are two principal methods used to generate random numbers. The first method measures some physical phenomenon that is expected to be random and then compensates for possible biases in the measurement process. Example sources include measuring atmospheric noise, thermal noise, and other external electromagnetic and quantum phenomena. For example, cosmic background radiation or radioactive decay as measured over short timescales represent sources of natural entropy.
 The second method uses computational algorithms that can produce long sequences of apparently random results, which are in fact completely determined by a shorter initial value, known as a seed value or key. As a result, the entire seemingly random sequence can be reproduced if the seed value is known. This type of random number generator is often called a pseudorandom number generator. This type of generator typically does not rely on sources of naturally occurring entropy, though it may be periodically seeded by natural sources. This generator type is non-blocking, so they are not rate-limited by an external event, making large bulk reads a possibility.
-![Comparison TrueRandom vs. C# Random](https://github.com/slaubenberger/BogaNet/blob/develop/Resources/images/TrueRandom.jpg?raw=true)
+![Comparison TrueRandom vs. C# Random](https://raw.githubusercontent.com/slaubenberger/BogaNet/develop/Resources/images/TrueRandom.jpg)
 
 For more, please read this:
 https://en.wikipedia.org/wiki/Random_number_generation

@@ -25,9 +25,9 @@
     </ItemGroup>
     
 <!--    <ItemGroup>-->
-<!--        <PackageReference Include="BogaNet.Common" Version="1.1.0" />-->
-<!--        <PackageReference Include="BogaNet.Crypto" Version="1.1.0" />-->
-<!--        <PackageReference Include="BogaNet.ObfuscatedType" Version="1.1.0" />-->
+<!--        <PackageReference Include="BogaNet.Common" Version="1.1.2" />-->
+<!--        <PackageReference Include="BogaNet.Crypto" Version="1.1.2" />-->
+<!--        <PackageReference Include="BogaNet.ObfuscatedType" Version="1.1.2" />-->
 <!--    </ItemGroup>-->
 
     <ItemGroup>
