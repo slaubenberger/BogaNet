@@ -24,12 +24,12 @@ If the quota expires, C# pseudo-random will be used automatically.
 It is recommended to use "TrueRandom" only to set seeds in the PRNG and refresh them as desired to reduce the delay and quota usage.
 
 ## Main classes
-* [CheckQuota](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_true_random_1_1_check_quota.html)
-* [TRNGBytes](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_true_random_1_1_t_r_n_g_bytes.html)
-* [TRNGFloat](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_true_random_1_1_t_r_n_g_float.html)
-* [TRNGInteger](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_true_random_1_1_t_r_n_g_integer.html)
-* [TRNGSequence](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_true_random_1_1_t_r_n_g_sequence.html)
-* [TRNGString](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_true_random_1_1_t_r_n_g_string.html)
+* [CheckQuota](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_true_random_1_1_check_quota.html): Gets the remaining quota from www.random.org.
+* [TRNGBytes](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_true_random_1_1_t_r_n_g_bytes.html): Generates true random byte-arrays in configurable intervals.
+* [TRNGFloat](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_true_random_1_1_t_r_n_g_float.html): Generates true random floats in configurable intervals.
+* [TRNGInteger](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_true_random_1_1_t_r_n_g_integer.html): Generates true random integers in configurable intervals.
+* [TRNGSequence](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_true_random_1_1_t_r_n_g_sequence.html): Randomizes a given interval of integers, i.e. arrange them in random order.
+* [TRNGString](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_true_random_1_1_t_r_n_g_string.html): Generates true random strings of various length and character compositions.
 
 ## Nuget:
 [BogaNet.TrueRandom](https://www.nuget.org/packages/BogaNet.TrueRandom/)
