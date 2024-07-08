@@ -5,7 +5,7 @@ namespace BogaNet.TrueRandom;
 /// <summary>
 /// Base-class for all TRNG modules.
 /// </summary>
-public abstract class TRNGBase
+public abstract class BaseTRNG
 {
    protected static readonly Random _rnd = new();
    protected static bool _isRunning;

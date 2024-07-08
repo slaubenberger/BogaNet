@@ -2,7 +2,7 @@ using BogaNet.TrueRandom;
 
 namespace BogaNet.Test.TrueRandom;
 
-public class TRNGBytesTest
+public class SequenceTRNGTest
 {
    #region Tests
 
@@ -12,21 +12,19 @@ public class TRNGBytesTest
       int quotaStart = CheckQuota.GetQuota();
       Assert.That(quotaStart, Is.GreaterThan(0));
 
-      int length = 8;
-      //length = 11;
-      //length = 20;
-      int number = 2;
+      int min = -5;
+      int max = 5;
 
-      var result = TRNGBytes.Generate(length, number);
+      var result = SequenceTRNG.Generate(min, max);
 
-      Assert.That(result.Count, Is.EqualTo(number));
+      Assert.That(result.Count, Is.EqualTo(max - min + 1));
 
       foreach (var res in result)
       {
-         Assert.That(res.Length, Is.EqualTo(length));
+         Assert.That(res, Is.InRange(min, max));
       }
 /*
-      int calcBits = TRNGBytes.CalcBits(length, number);
+      int calcBits = TRNGSequence.CalcBits(min, max);
       int quotaEnd = CheckQuota.GetQuota();
       int quotaDiff = quotaStart - quotaEnd;
 
@@ -37,15 +35,16 @@ public class TRNGBytesTest
    [Test]
    public void GeneratePRNG_Test()
    {
-      int length = 24;
-      int number = 10;
-      var result = TRNGBytes.GeneratePRNG(length, number);
+      int min = -6000;
+      int max = 6000;
 
-      Assert.That(result.Count, Is.EqualTo(number));
+      var result = SequenceTRNG.GeneratePRNG(min, max);
+
+      Assert.That(result.Count, Is.EqualTo(max - min + 1));
 
       foreach (var res in result)
       {
-         Assert.That(res.Length, Is.EqualTo(length));
+         Assert.That(res, Is.InRange(min, max));
       }
    }
 

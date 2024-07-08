@@ -13,11 +13,11 @@ namespace BogaNet.TrueRandom;
 /// <summary>
 /// Randomizes a given interval of integers, i.e. arrange them in random order.
 /// </summary>
-public abstract class TRNGSequence : TRNGBase //NUnit
+public abstract class SequenceTRNG : BaseTRNG //NUnit
 {
    #region Variables
 
-   private static readonly ILogger<TRNGSequence> _logger = GlobalLogging.CreateLogger<TRNGSequence>();
+   private static readonly ILogger<SequenceTRNG> _logger = GlobalLogging.CreateLogger<SequenceTRNG>();
    private static List<int> _result = [];
 
    #endregion

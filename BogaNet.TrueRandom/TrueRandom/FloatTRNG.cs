@@ -9,11 +9,11 @@ namespace BogaNet.TrueRandom;
 /// <summary>
 /// Generates true random floats in configurable intervals.
 /// </summary>
-public abstract class TRNGFloat : TRNGBase //NUnit
+public abstract class FloatTRNG : BaseTRNG //NUnit
 {
    #region Variables
 
-   private static readonly ILogger<TRNGFloat> _logger = GlobalLogging.CreateLogger<TRNGFloat>();
+   private static readonly ILogger<FloatTRNG> _logger = GlobalLogging.CreateLogger<FloatTRNG>();
    private static List<float> _result = [];
 
    #endregion
@@ -92,7 +92,7 @@ public abstract class TRNGFloat : TRNGBase //NUnit
             factor = Math.Abs(minValue) > Constants.FLOAT_TOLERANCE ? factorMin : factorMax;
          }
 
-         List<int> result = await TRNGInteger.GenerateAsync((int)(minValue * factor), (int)(maxValue * factor), num);
+         List<int> result = await IntegerTRNG.GenerateAsync((int)(minValue * factor), (int)(maxValue * factor), num);
 
          _result.Clear();
          foreach (int value in result)

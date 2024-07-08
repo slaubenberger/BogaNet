@@ -12,11 +12,11 @@ namespace BogaNet.TrueRandom;
 /// <summary>
 /// Generates true random strings of various length and character compositions.
 /// </summary>
-public abstract class TRNGString : TRNGBase //NUnit
+public abstract class StringTRNG : BaseTRNG //NUnit
 {
    #region Variables
 
-   private static readonly ILogger<TRNGString> _logger = GlobalLogging.CreateLogger<TRNGString>();
+   private static readonly ILogger<StringTRNG> _logger = GlobalLogging.CreateLogger<StringTRNG>();
    private static List<string> _result = [];
 
    #endregion

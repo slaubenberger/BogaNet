@@ -11,11 +11,11 @@ namespace BogaNet.TrueRandom;
 /// <summary>
 /// Generates true random byte-arrays in configurable intervals.
 /// </summary>
-public abstract class TRNGBytes : TRNGBase //NUnit
+public abstract class BytesTRNG : BaseTRNG //NUnit
 {
    #region Variables
 
-   private static readonly ILogger<TRNGBytes> _logger = GlobalLogging.CreateLogger<TRNGBytes>();
+   private static readonly ILogger<BytesTRNG> _logger = GlobalLogging.CreateLogger<BytesTRNG>();
    private static List<byte[]> _result = [];
 
    #endregion
@@ -40,7 +40,7 @@ public abstract class TRNGBytes : TRNGBase //NUnit
    /// <returns>Needed bits for generating the byte-arrays.</returns>
    public static int CalcBits(int length, int number = 1)
    {
-      return TRNGString.CalcBits(length, number);
+      return StringTRNG.CalcBits(length, number);
    }
 
    /// <summary>Generates random byte-arrays.</summary>
@@ -73,7 +73,7 @@ public abstract class TRNGBytes : TRNGBase //NUnit
 
       if (!_isRunning) //TODO needed?
       {
-         List<string> list = await TRNGString.GenerateAsync(len, num);
+         List<string> list = await StringTRNG.GenerateAsync(len, num);
 
          _result.Clear();
          foreach (string str in list)

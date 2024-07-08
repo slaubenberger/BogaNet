@@ -51,7 +51,7 @@ public abstract class CheckQuota //NUnit
       }
       else
       {
-         string url = $"{TRNGBase.GENERATOR_URL}quota/?format=plain";
+         string url = $"{BaseTRNG.GENERATOR_URL}quota/?format=plain";
 
          _logger.LogDebug("URL: " + url);
 

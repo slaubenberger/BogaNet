@@ -2,7 +2,7 @@ using BogaNet.TrueRandom;
 
 namespace BogaNet.Test.TrueRandom;
 
-public class TRNGFloatTest
+public class StringTRNGTest
 {
    #region Tests
 
@@ -12,22 +12,19 @@ public class TRNGFloatTest
       int quotaStart = CheckQuota.GetQuota();
       Assert.That(quotaStart, Is.GreaterThan(0));
 
-      float min = -10;
-      //min = -1000000000f;
-      float max = 10;
-      //max = 1000000000f;
+      int length = 8;
       int number = 2;
 
-      var result = TRNGFloat.Generate(min, max, number);
+      var result = StringTRNG.Generate(length, number);
 
       Assert.That(result.Count, Is.EqualTo(number));
 
       foreach (var res in result)
       {
-         Assert.That(res, Is.InRange(min, max));
+         Assert.That(res.Length, Is.EqualTo(length));
       }
 /*
-      int calcBits = TRNGFloat.CalcBits(number);
+      int calcBits = TRNGString.CalcBits(length, number);
       int quotaEnd = CheckQuota.GetQuota();
       int quotaDiff = quotaStart - quotaEnd;
 
@@ -38,16 +35,15 @@ public class TRNGFloatTest
    [Test]
    public void GeneratePRNG_Test()
    {
-      float min = -2000000000f;
-      float max = 2000000000f;
+      int length = 24;
       int number = 10;
-      var result = TRNGFloat.GeneratePRNG(min, max, number);
+      var result = StringTRNG.GeneratePRNG(length, number);
 
       Assert.That(result.Count, Is.EqualTo(number));
 
       foreach (var res in result)
       {
-         Assert.That(res, Is.InRange(min, max));
+         Assert.That(res.Length, Is.EqualTo(length));
       }
    }
 

@@ -12,11 +12,11 @@ namespace BogaNet.TrueRandom;
 /// <summary>
 /// Generates true random integers in configurable intervals.
 /// </summary>
-public abstract class TRNGInteger : TRNGBase //NUnit
+public abstract class IntegerTRNG : BaseTRNG //NUnit
 {
    #region Variables
 
-   private static readonly ILogger<TRNGInteger> _logger = GlobalLogging.CreateLogger<TRNGInteger>();
+   private static readonly ILogger<IntegerTRNG> _logger = GlobalLogging.CreateLogger<IntegerTRNG>();
    private static List<int> _result = [];
 
    #endregion
