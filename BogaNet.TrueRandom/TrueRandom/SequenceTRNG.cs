@@ -77,7 +77,7 @@ public abstract class SequenceTRNG : BaseTRNG //NUnit
 
       if (maxValue - minValue >= 10000)
       {
-         _logger.LogError($"Sequence range ('max' - 'min') is larger than 10'000 elements: {maxValue - minValue + 1}! Setting max = min + 10000.");
+         _logger.LogWarning($"Sequence range ('max' - 'min') is larger than 10'000 elements: {maxValue - minValue + 1}! Setting max = min + 10000.");
          maxValue = minValue + 10000;
       }
 

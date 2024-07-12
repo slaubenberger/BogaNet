@@ -484,7 +484,7 @@ public abstract class NetworkHelper
          if (response.IsSuccessStatusCode)
             return await response.Content.ReadAsStringAsync();
 
-         _logger.LogError($"Could not download data: {response.StatusCode} - {response.ReasonPhrase}");
+         _logger.LogWarning($"Could not download data: {response.StatusCode} - {response.ReasonPhrase}");
          return null;
       }
       catch (Exception ex)
@@ -548,7 +548,7 @@ public abstract class NetworkHelper
          if (response.IsSuccessStatusCode)
             return await response.Content.ReadAsByteArrayAsync();
 
-         _logger.LogError($"Could not download data: {response.StatusCode} - {response.ReasonPhrase}");
+         _logger.LogWarning($"Could not download data: {response.StatusCode} - {response.ReasonPhrase}");
          return null;
       }
       catch (Exception ex)

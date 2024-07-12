@@ -378,7 +378,7 @@ public abstract class FileHelper
                : SearchOption.TopDirectoryOnly).ToArray();
          }
 
-         _logger.LogError($"Path does not exist: {path}");
+         _logger.LogWarning($"Path does not exist: {path}");
       }
       catch (Exception ex)
       {
@@ -452,7 +452,7 @@ public abstract class FileHelper
       {
          if (!ExistsFile(sourceFile))
          {
-            _logger.LogError($"Source file does not exists: {sourceFile}");
+            _logger.LogWarning($"Source file does not exists: {sourceFile}");
          }
          else
          {
@@ -520,7 +520,7 @@ public abstract class FileHelper
 
          if (!ExistsDirectory(src))
          {
-            _logger.LogError($"Source directory does not exists: {src}");
+            _logger.LogWarning($"Source directory does not exists: {src}");
          }
          else
          {
@@ -798,7 +798,7 @@ public abstract class FileHelper
       {
          if (!ExistsDirectory(path))
          {
-            _logger.LogError($"Path directory does not exists: {path}");
+            _logger.LogWarning($"Path directory does not exists: {path}");
          }
          else
          {
@@ -834,7 +834,7 @@ public abstract class FileHelper
       {
          if (!ExistsDirectory(path))
          {
-            _logger.LogError($"Path directory does not exists: {path}");
+            _logger.LogWarning($"Path directory does not exists: {path}");
          }
          else
          {
@@ -1067,7 +1067,7 @@ public abstract class FileHelper
          }
       }
 
-      _logger.LogError($"File does not exists: {path}");
+      _logger.LogWarning($"File does not exists: {path}");
 
       return -1;
    }
@@ -1097,7 +1097,7 @@ public abstract class FileHelper
          }
       }
 
-      _logger.LogError($"Directory does not exists: {path}");
+      _logger.LogWarning($"Directory does not exists: {path}");
 
       return -1;
    }
@@ -1127,7 +1127,7 @@ public abstract class FileHelper
          }
       }
 
-      _logger.LogError($"File does not exists: {path}");
+      _logger.LogWarning($"File does not exists: {path}");
 
       return null;
    }

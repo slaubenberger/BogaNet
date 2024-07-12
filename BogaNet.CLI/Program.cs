@@ -36,7 +36,7 @@ public static class Program
       }
       else
       {
-         _logger.LogError($"Application exited with an error code {code}");
+         _logger.LogWarning($"Application exited with an error code {code}");
       }
 
       NLog.LogManager.Shutdown();

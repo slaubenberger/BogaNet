@@ -64,7 +64,7 @@ public abstract class CheckQuota //NUnit
             if (int.TryParse(data, out quota))
                return quota;
 
-            _logger.LogError("Could not parse value to integer: " + data);
+            _logger.LogWarning("Could not parse value to integer: " + data);
          }
          else
          {

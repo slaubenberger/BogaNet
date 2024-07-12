@@ -66,7 +66,7 @@ public static class ArrayExtension //NUnit
    {
       if (bytes.Length < length)
       {
-         _logger.LogError($"Byte array is to short for a valid number type {type}!");
+         _logger.LogWarning($"Byte array is to short for a valid number type {type}!");
          return false;
       }
 

@@ -147,7 +147,7 @@ public abstract class XmlHelper
          }
          else
          {
-            _logger.LogError($"File does not exist: {filename}");
+            _logger.LogWarning($"File does not exist: {filename}");
          }
       }
       catch (Exception ex)
