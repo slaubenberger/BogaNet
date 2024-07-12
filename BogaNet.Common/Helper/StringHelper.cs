@@ -189,7 +189,7 @@ public static class StringHelper
    /// <param name="str">Input to clean</param>
    /// <returns>Clean text without line endings</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static string RemoveLineEndings(this string str)
+   public static string RemoveLineEndings(string str)
    {
       ArgumentNullException.ThrowIfNull(str);
 
@@ -340,7 +340,7 @@ public static class StringHelper
    /// <param name="trim">Trim the string (optional, default: true)</param>
    /// <returns>String without quotations</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static string RemoveQuotation(this string str, string replacement = "", bool trim = true)
+   public static string RemoveQuotation(string str, string replacement = "", bool trim = true)
    {
       ArgumentNullException.ThrowIfNull(str);
 
@@ -353,7 +353,7 @@ public static class StringHelper
    /// <param name="str"></param>
    /// <returns>String with quotations</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static string AddQuotation(this string str)
+   public static string AddQuotation(string str)
    {
       ArgumentNullException.ThrowIfNull(str);
 
