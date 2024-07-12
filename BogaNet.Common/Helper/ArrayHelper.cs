@@ -23,15 +23,13 @@ public static class ArrayHelper
    {
       ArgumentNullException.ThrowIfNull(bytes);
 
-      int _count = count;
+      if (count <= 0)
+         count = bytes.Length;
 
-      if (_count <= 0)
-         _count = bytes.Length;
-
-      float[] floats = new float[_count / 2];
+      float[] floats = new float[count / 2];
 
       int ii = 0;
-      for (int zz = 0; zz < _count; zz += 2)
+      for (int zz = 0; zz < count; zz += 2)
       {
          floats[ii] = bytesToFloat(bytes[zz], bytes[zz + 1]);
          ii++;
@@ -51,15 +49,13 @@ public static class ArrayHelper
    {
       ArgumentNullException.ThrowIfNull(array);
 
-      int _count = count;
+      if (count <= 0)
+         count = array.Length;
 
-      if (_count <= 0)
-         _count = array.Length;
-
-      byte[] bytes = new byte[_count * 2];
+      byte[] bytes = new byte[count * 2];
       int byteIndex = 0;
 
-      for (int ii = 0; ii < _count; ii++)
+      for (int ii = 0; ii < count; ii++)
       {
          short outsample = (short)(array[ii] * short.MaxValue);
 
@@ -84,14 +80,12 @@ public static class ArrayHelper
    {
       ArgumentNullException.ThrowIfNull(bytes);
 
-      int _count = count;
+      if (count <= 0)
+         count = bytes.Length;
 
-      if (_count <= 0)
-         _count = bytes.Length;
+      sbyte[] sbytes = new sbyte[count];
 
-      sbyte[] sbytes = new sbyte[_count];
-
-      for (int ii = 0; ii < _count; ii++)
+      for (int ii = 0; ii < count; ii++)
       {
          sbytes[ii] = Convert.ToSByte(bytes[ii] - 127);
       }
@@ -110,14 +104,12 @@ public static class ArrayHelper
    {
       ArgumentNullException.ThrowIfNull(sbytes);
 
-      int _count = count;
+      if (count <= 0)
+         count = sbytes.Length;
 
-      if (_count <= 0)
-         _count = sbytes.Length;
+      byte[] bytes = new byte[count];
 
-      byte[] bytes = new byte[_count];
-
-      for (int ii = 0; ii < _count; ii++)
+      for (int ii = 0; ii < count; ii++)
       {
          bytes[ii] = Convert.ToByte(sbytes[ii] + 127);
       }

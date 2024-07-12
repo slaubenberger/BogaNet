@@ -297,13 +297,13 @@ public abstract class FileHelper
 
       try
       {
-         string _path = ValidatePath(path);
+         string validPath = ValidatePath(path);
 
-         if (ExistsDirectory(_path))
+         if (ExistsDirectory(validPath))
          {
             if (filenames == null || filenames.Length == 0 || filenames.Any(extension => extension.Equals("*") || extension.Equals("*.*")))
             {
-               return Directory.EnumerateFiles(_path, "*", isRecursive
+               return Directory.EnumerateFiles(validPath, "*", isRecursive
                   ? SearchOption.AllDirectories
                   : SearchOption.TopDirectoryOnly).ToArray();
             }
@@ -312,7 +312,7 @@ public abstract class FileHelper
 
             foreach (string filename in filenames)
             {
-               files.AddRange(Directory.EnumerateFiles(_path, filename.BNStartsWith("*.") ? filename : $"*{filename}*", isRecursive
+               files.AddRange(Directory.EnumerateFiles(validPath, filename.BNStartsWith("*.") ? filename : $"*{filename}*", isRecursive
                   ? SearchOption.AllDirectories
                   : SearchOption.TopDirectoryOnly));
             }
@@ -369,11 +369,11 @@ public abstract class FileHelper
 
       try
       {
-         string _path = ValidatePath(path);
+         string validPath = ValidatePath(path);
 
-         if (ExistsDirectory(_path))
+         if (ExistsDirectory(validPath))
          {
-            return Directory.EnumerateDirectories(_path, "*", isRecursive
+            return Directory.EnumerateDirectories(validPath, "*", isRecursive
                ? SearchOption.AllDirectories
                : SearchOption.TopDirectoryOnly).ToArray();
          }

@@ -226,9 +226,9 @@ public static class StringExtension
    {
       ArgumentNullException.ThrowIfNull(str);
 
-      Encoding _encoding = encoding ?? Encoding.UTF8;
+      Encoding enc = encoding ?? Encoding.UTF8;
 
-      return _encoding.GetBytes(str);
+      return enc.GetBytes(str);
    }
 
    /// <summary>

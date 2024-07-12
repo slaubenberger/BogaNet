@@ -55,9 +55,9 @@ public class HttpClientFileDownloader
          _downloadUrl = NetworkHelper.ValidateURL(downloadUrl);
          _destinationPath = FileHelper.ValidateFile(destinationPath);
 
-         using HttpClient _httpClient = new();
-         _httpClient.Timeout = TimeSpan.FromSeconds(timeout);
-         using HttpResponseMessage response = await _httpClient.GetAsync(_downloadUrl, HttpCompletionOption.ResponseHeadersRead);
+         using HttpClient client = new();
+         client.Timeout = TimeSpan.FromSeconds(timeout);
+         using HttpResponseMessage response = await client.GetAsync(_downloadUrl, HttpCompletionOption.ResponseHeadersRead);
          await downloadFileFromHttpResponseMessage(response);
       }
       catch (Exception ex)

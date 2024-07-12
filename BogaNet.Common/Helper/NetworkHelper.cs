@@ -153,12 +153,12 @@ public abstract class NetworkHelper
    {
       if (!string.IsNullOrEmpty(path))
       {
-         string _path = FileHelper.ValidateFile(path);
+         string validFile = FileHelper.ValidateFile(path);
 
          if (!IsURL(path))
-            return Constants.PREFIX_FILE + StringHelper.EscapeURL(_path.Replace('\\', '/'));
+            return Constants.PREFIX_FILE + StringHelper.EscapeURL(validFile.Replace('\\', '/'));
 
-         return StringHelper.EscapeURL(_path.Replace('\\', '/'));
+         return StringHelper.EscapeURL(validFile.Replace('\\', '/'));
       }
 
       return path;
@@ -571,7 +571,7 @@ public abstract class NetworkHelper
 
    private static async Task<bool> checkAsync(string url, string data, bool equals, string type, bool showError = false)
    {
-      bool _available = false;
+      bool available = false;
 
       try
       {
@@ -581,7 +581,7 @@ public abstract class NetworkHelper
 
          _logger.LogTrace($"Content from {type}: {content}");
 
-         _available = equals ? !string.IsNullOrEmpty(content) && content.Equals(data) : !string.IsNullOrEmpty(content) && content.Contains(data);
+         available = equals ? !string.IsNullOrEmpty(content) && content.Equals(data) : !string.IsNullOrEmpty(content) && content.Contains(data);
       }
       catch (Exception ex)
       {
@@ -589,7 +589,7 @@ public abstract class NetworkHelper
             _logger.LogError(ex, $"Error getting content from {type}!");
       }
 
-      return _available;
+      return available;
    }
 
    private static string urlAntiCacheRandomizer(string url) //TODO make public?
