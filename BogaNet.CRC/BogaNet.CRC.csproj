@@ -25,7 +25,7 @@
     </ItemGroup>
     
     <ItemGroup>
-<!--        <PackageReference Include="BogaNet.Common" Version="1.1.2" />-->
+<!--        <PackageReference Include="BogaNet.Common" Version="1.2.0" />-->
         <PackageReference Include="System.IO.Hashing" Version="8.0.0" />
     </ItemGroup>
 

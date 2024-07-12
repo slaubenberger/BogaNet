@@ -28,13 +28,12 @@
         <PackageReference Include="Avalonia" Version="11.0.10">
             <!--            <PrivateAssets>all</PrivateAssets>-->
         </PackageReference>
-<!--        <PackageReference Include="BogaNet.Common" Version="1.1.2" />-->
-<!--        <PackageReference Include="BogaNet.i18n" Version="1.1.2" />-->
+<!--        <PackageReference Include="BogaNet.Common" Version="1.2.0" />-->
+<!--        <PackageReference Include="BogaNet.i18n" Version="1.2.0" />-->
     </ItemGroup>
     
     <ItemGroup>
         <ProjectReference Include="..\BogaNet.Common\BogaNet.Common.csproj"/>
         <ProjectReference Include="..\BogaNet.i18n\BogaNet.i18n.csproj"/>
     </ItemGroup>
-    
 </Project>
