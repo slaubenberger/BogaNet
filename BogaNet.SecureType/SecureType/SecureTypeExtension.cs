@@ -13,7 +13,7 @@ public static class SecureTypeExtension
    /// <param name="array">Array-instance to convert</param>
    /// <returns>Converted ByteSec-array</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static ByteSec[] BNToByteSecArray(this byte[]? array)
+   public static ByteSec[] BNToByteSecArray(this byte[] array)
    {
         ArgumentNullException.ThrowIfNull(array);
 
@@ -33,7 +33,7 @@ public static class SecureTypeExtension
    /// <param name="array">Array-instance to convert</param>
    /// <returns>Converted byte-array</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static byte[] ToByteArray(this ByteSec[]? array)
+   public static byte[] ToByteArray(this ByteSec[] array)
    {
         ArgumentNullException.ThrowIfNull(array);
 

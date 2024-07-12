@@ -91,24 +91,25 @@ public class Localizer : Singleton<Localizer>, ILocalizer //NUnit
 
    #region Public methods
 
-   public virtual string? GetText(string? key, TextType textType = TextType.LABEL) //NUnit
+   public virtual string? GetText(string key, TextType textType = TextType.LABEL) //NUnit
    {
       return GetText(key, Culture, textType);
    }
 
-   public virtual string? GetText(string? key, CultureInfo culture, TextType textType = TextType.LABEL) //NUnit
+   public virtual string? GetText(string key, CultureInfo culture, TextType textType = TextType.LABEL) //NUnit
    {
+      ArgumentNullException.ThrowIfNullOrEmpty(key);
+
       return getText(key, culture.ToString(), textType);
    }
 
-   public virtual string? GetTextWithReplacements(string? key, TextType textType = TextType.LABEL, params string[] replacements) //NUnit
+   public virtual string? GetTextWithReplacements(string key, TextType textType = TextType.LABEL, params string[] replacements) //NUnit
    {
       return GetTextWithReplacements(key, Culture, textType, replacements);
    }
 
-   public virtual string? GetTextWithReplacements(string? key, CultureInfo culture, TextType textType = TextType.LABEL, params string[] replacements) //NUnit
+   public virtual string? GetTextWithReplacements(string key, CultureInfo culture, TextType textType = TextType.LABEL, params string[] replacements) //NUnit
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(key);
       ArgumentNullException.ThrowIfNull(replacements);
 
       string? text = GetText(key, culture, textType);
@@ -124,11 +125,17 @@ public class Localizer : Singleton<Localizer>, ILocalizer //NUnit
 
    public bool ContainsKey(string key)
    {
+      ArgumentNullException.ThrowIfNullOrEmpty(key);
+
       return _messages.ContainsKey(key);
    }
 
    public virtual void Add(string key, CultureInfo culture, string value)
    {
+      ArgumentNullException.ThrowIfNullOrEmpty(key);
+      ArgumentNullException.ThrowIfNull(culture);
+      ArgumentNullException.ThrowIfNullOrEmpty(value);
+
       string lang = culture.ToString();
 
       if (_messages.TryGetValue(key, out Dictionary<string, string>? message))
@@ -151,12 +158,15 @@ public class Localizer : Singleton<Localizer>, ILocalizer //NUnit
 
    public virtual void Remove(string key)
    {
-      _messages.Remove(key);
+      if (ContainsKey(key))
+      {
+         _messages.Remove(key);
 
-      if (!RemovedTranslations.Contains(key))
-         RemovedTranslations.Add(key);
+         if (!RemovedTranslations.Contains(key))
+            RemovedTranslations.Add(key);
 
-      hasChanged();
+         hasChanged();
+      }
    }
 
    public virtual void Clear()
@@ -171,6 +181,8 @@ public class Localizer : Singleton<Localizer>, ILocalizer //NUnit
 
    public virtual void Load(Dictionary<string, string[]> dataDict)
    {
+      ArgumentNullException.ThrowIfNull(dataDict);
+
       foreach (var kvp in dataDict)
       {
          var lines = kvp.Value;
@@ -257,6 +269,8 @@ public class Localizer : Singleton<Localizer>, ILocalizer //NUnit
 
    public virtual async Task LoadFilesAsync(params string[] files)
    {
+      ArgumentNullException.ThrowIfNull(files);
+
       Dictionary<string, string[]> allLines = new();
 
       foreach (string currentTranslation in files)
@@ -277,6 +291,8 @@ public class Localizer : Singleton<Localizer>, ILocalizer //NUnit
 
    public virtual async Task SaveFileAsync(string filename)
    {
+      ArgumentNullException.ThrowIfNullOrEmpty(filename);
+
       string content = getEntries();
       await FileHelper.WriteAllTextAsync(filename, content);
    }

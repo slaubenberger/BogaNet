@@ -23,8 +23,11 @@ public class ImageHelper //TODO make partial?
    /// <param name="imageResource">Resource path of the image</param>
    /// <param name="resourceAssembly">Assembly with the resource (optional, default: ResourceAssembly)</param>
    /// <returns>Loaded image as Bitmap</returns>
+   /// <exception cref="ArgumentNullException"></exception>
    public static Bitmap LoadFromResource(string imageResource, string? resourceAssembly = null)
    {
+      ArgumentNullException.ThrowIfNullOrEmpty(imageResource);
+
       return new Bitmap(AssetLoader.Open(new Uri(ResourceHelper.ValidateResource(imageResource, resourceAssembly))));
    }
 
@@ -33,8 +36,11 @@ public class ImageHelper //TODO make partial?
    /// </summary>
    /// <param name="imageUrl">URL of the image</param>
    /// <returns>Loaded image as Bitmap</returns>
+   /// <exception cref="ArgumentNullException"></exception>
    public static async Task<Bitmap?> LoadFromUrl(string imageUrl)
    {
+      ArgumentNullException.ThrowIfNullOrEmpty(imageUrl);
+
       try
       {
          byte[]? data = await NetworkHelper.ReadAllBytesAsync(imageUrl);

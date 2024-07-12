@@ -5,6 +5,7 @@ using BogaNet.Encoder;
 using System.Collections.Generic;
 using BogaNet.Extension;
 using BogaNet.ObfuscatedType;
+using System;
 
 namespace BogaNet.Prefs;
 
@@ -16,7 +17,7 @@ public class PreferencesContainer : IPreferencesContainer //NUnit
    #region Variables
 
    protected string _file = "BNPrefs.json";
-   protected Dictionary<string, object?>? _preferences = [];
+   protected Dictionary<string, object> _preferences = [];
 
    #endregion
 
@@ -72,24 +73,29 @@ public class PreferencesContainer : IPreferencesContainer //NUnit
 
    public virtual bool ContainsKey(string key)
    {
-      return _preferences != null && _preferences.ContainsKey(key);
+      ArgumentNullException.ThrowIfNullOrEmpty(key);
+
+      return _preferences.ContainsKey(key);
    }
 
    public virtual object? Get(string key, bool obfuscated)
    {
       if (ContainsKey(key))
-         return obfuscated ? Obfuscator.Deobfuscate(Base64.FromBase64String(_preferences![key]?.ToString(), true), IV).BNToString() : _preferences![key];
+         return obfuscated ? Obfuscator.Deobfuscate(Base64.FromBase64String(_preferences[key].ToString()!, true), IV).BNToString() : _preferences![key];
 
       return null;
    }
 
-   public virtual void Set(string key, object? value, bool obfuscated)
+   public virtual void Set(string key, object value, bool obfuscated)
    {
+      ArgumentNullException.ThrowIfNullOrEmpty(key);
+      ArgumentNullException.ThrowIfNull(value);
+
       if (ContainsKey(key))
       {
          if (obfuscated)
          {
-            _preferences![key] = Base64.ToBase64String(Obfuscator.Obfuscate(value?.ToString(), IV), true);
+            _preferences![key] = Base64.ToBase64String(Obfuscator.Obfuscate(value.ToString()!, IV), true);
          }
          else
          {
@@ -98,7 +104,7 @@ public class PreferencesContainer : IPreferencesContainer //NUnit
       }
       else
       {
-         _preferences?.Add(key, obfuscated ? Base64.ToBase64String(Obfuscator.Obfuscate(value?.ToString(), IV), true) : value);
+         _preferences?.Add(key, obfuscated ? Base64.ToBase64String(Obfuscator.Obfuscate(value.ToString()!, IV), true) : value);
       }
    }
 
@@ -109,12 +115,9 @@ public class PreferencesContainer : IPreferencesContainer //NUnit
       sb.Append(GetType().Name);
       sb.Append('[');
 
-      if (_preferences != null)
+      foreach (KeyValuePair<string, object> kvp in _preferences)
       {
-         foreach (KeyValuePair<string, object?> kvp in _preferences)
-         {
-            sb.Append($"{kvp.Key}='{kvp.Value}', ");
-         }
+         sb.Append($"{kvp.Key}='{kvp.Value}', ");
       }
 
       sb.Remove(sb.Length, 2); //remove last delimiter

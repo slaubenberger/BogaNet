@@ -56,13 +56,13 @@ public interface IPreferences
    /// <param name="key">Key for the object</param>
    /// <param name="obfuscated">Obfuscate value in the preferences (optional, default: false)</param>
    /// <returns>Object for the key</returns>
-   T GetObject<T>(string key, bool obfuscated = false);
+   T? GetObject<T>(string key, bool obfuscated = false);
 
    /// <summary>Get a number for a key.</summary>
    /// <param name="key">Key for the number</param>
    /// <param name="obfuscated">Obfuscate value in the preferences (optional, default: false)</param>
    /// <returns>Number for the key</returns>
-   T GetNumber<T>(string key, bool obfuscated = false) where T : INumber<T>;
+   T? GetNumber<T>(string key, bool obfuscated = false) where T : INumber<T>;
 
    /// <summary>Get a bool for a key.</summary>
    /// <param name="key">Key for the bol.</param>
@@ -75,7 +75,7 @@ public interface IPreferences
    /// <param name="obfuscated">Obfuscate value in the preferences (optional, default: false)</param>
    /// <param name="usedTZ">Time zone of the date (optional, default: local)</param>
    /// <returns>DateTime for the key</returns>
-   DateTime GetDate(string key, bool obfuscated = false, TimeZoneInfo? usedTZ = null);
+   DateTime? GetDate(string key, bool obfuscated = false, TimeZoneInfo? usedTZ = null);
 
    #endregion
 
@@ -86,7 +86,7 @@ public interface IPreferences
    /// <param name="key">Key for the string</param>
    /// <param name="value">String for the preferences</param>
    /// <param name="obfuscated">Obfuscate value in the preferences (optional, default: false)</param>
-   void Set(string key, string? value, bool obfuscated = false);
+   void Set(string key, string value, bool obfuscated = false);
 
    /// <summary>Set an object for a key.</summary>
    /// <param name="key">Key for the object</param>

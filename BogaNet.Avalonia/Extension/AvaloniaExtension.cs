@@ -18,9 +18,10 @@ public static class AvaloniaExtension
    /// <param name="localizer">Localizer-instance</param>
    /// <param name="translationFiles">Files to load</param>
    /// <exception cref="ArgumentNullException"></exception>
-   public static void LoadResources(this Localizer? localizer, params string[] translationFiles)
+   public static void LoadResources(this Localizer localizer, params string[] translationFiles)
    {
       ArgumentNullException.ThrowIfNull(localizer);
+      ArgumentNullException.ThrowIfNull(translationFiles);
 
       Dictionary<string, string[]> allLines = new();
 

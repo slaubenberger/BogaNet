@@ -30,8 +30,11 @@ public abstract class ResourceHelper //TODO make partial?
    /// <param name="resourcePath">Resource path to validate</param>
    /// <param name="resourceAssembly">Assembly with the resource (optional, default: ResourceAssembly)</param>
    /// <returns>Validated resource path</returns>
+   /// <exception cref="ArgumentNullException"></exception>
    public static string ValidateResource(string resourcePath, string? resourceAssembly = null)
    {
+      ArgumentNullException.ThrowIfNullOrEmpty(resourcePath);
+
       if (!resourcePath.BNStartsWith("avares://"))
       {
          ResourceAssembly ??= Assembly.GetEntryAssembly()?.GetName().Name;
@@ -47,9 +50,12 @@ public abstract class ResourceHelper //TODO make partial?
    /// </summary>
    /// <param name="resourcePath"></param>
    /// <param name="resourceAssembly">Assembly with the resource (optional, default: ResourceAssembly)</param>
-   /// <returns></returns>
+   /// <returns>Text from the given resource</returns>
+   /// <exception cref="ArgumentNullException"></exception>
    public static string LoadText(string resourcePath, string? resourceAssembly = null)
    {
+      ArgumentNullException.ThrowIfNullOrEmpty(resourcePath);
+
       Uri fileUri = new(ValidateResource(resourcePath, resourceAssembly));
       using StreamReader streamReader = new(AssetLoader.Open(fileUri));
       return streamReader.ReadToEnd();
@@ -60,9 +66,12 @@ public abstract class ResourceHelper //TODO make partial?
    /// </summary>
    /// <param name="resourcePath"></param>
    /// <param name="resourceAssembly">Assembly with the resource (optional, default: ResourceAssembly)</param>
-   /// <returns></returns>
+   /// <returns>Binary data from the given resource</returns>
+   /// <exception cref="ArgumentNullException"></exception>
    public static byte[] LoadBinary(string resourcePath, string? resourceAssembly = null)
    {
+      ArgumentNullException.ThrowIfNullOrEmpty(resourcePath);
+
       Uri fileUri = new(ValidateResource(resourcePath, resourceAssembly));
       using BufferedStream streamReader = new(AssetLoader.Open(fileUri));
       return streamReader.BNReadFully();

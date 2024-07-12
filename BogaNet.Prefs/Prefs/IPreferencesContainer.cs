@@ -46,5 +46,5 @@ public interface IPreferencesContainer
    /// <param name="key">Key for the string</param>
    /// <param name="value">Object for the preferences</param>
    /// <param name="obfuscated">Obfuscate value in the preferences (optional, default: false)</param>
-   public void Set(string key, object? value, bool obfuscated);
+   public void Set(string key, object value, bool obfuscated);
 }

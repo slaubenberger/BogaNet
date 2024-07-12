@@ -71,22 +71,20 @@ public class Preferences : Singleton<Preferences>, IPreferences //NUnit //TODO a
       return _container.Get(key, obfuscated)?.ToString();
    }
 
-   public virtual T GetObject<T>(string key, bool obfuscated = false)
+   public virtual T? GetObject<T>(string key, bool obfuscated = false)
    {
-      return JsonHelper.DeserializeFromString<T>(GetString(key, obfuscated))!;
+      string? str = GetString(key, obfuscated);
+      return str == null ? default : JsonHelper.DeserializeFromString<T>(str);
    }
 
-   public virtual T GetNumber<T>(string key, bool obfuscated = false) where T : INumber<T>
+   public virtual T? GetNumber<T>(string key, bool obfuscated = false) where T : INumber<T>
    {
-      if (string.IsNullOrEmpty(key))
-         throw new ArgumentNullException(nameof(key));
-
-      Type type = typeof(T);
-
       string? plainValue = GetString(key, obfuscated);
 
       if (plainValue == null)
-         return T.CreateTruncating(0);
+         return default;
+
+      Type type = typeof(T);
 
       switch (type)
       {
@@ -143,7 +141,7 @@ public class Preferences : Singleton<Preferences>, IPreferences //NUnit //TODO a
       return result != null && "true".Equals(result.ToLower());
    }
 
-   public virtual DateTime GetDate(string key, bool obfuscated = false, TimeZoneInfo? usedTZ = null)
+   public virtual DateTime? GetDate(string key, bool obfuscated = false, TimeZoneInfo? usedTZ = null)
    {
       string? date = GetString(key, obfuscated);
 
@@ -158,13 +156,15 @@ public class Preferences : Singleton<Preferences>, IPreferences //NUnit //TODO a
 
    #region Setter
 
-   public virtual void Set(string key, string? value, bool obfuscated = false)
+   public virtual void Set(string key, string value, bool obfuscated = false)
    {
       _container.Set(key, value, obfuscated);
    }
 
    public virtual void Set(string key, object value, bool obfuscated = false)
    {
+      ArgumentNullException.ThrowIfNull(value);
+
       Set(key, JsonHelper.SerializeToString(value), obfuscated);
    }
 
@@ -180,6 +180,8 @@ public class Preferences : Singleton<Preferences>, IPreferences //NUnit //TODO a
 
    public virtual void Set(string key, DateTime value, bool obfuscated = false)
    {
+      ArgumentNullException.ThrowIfNull(value);
+
       string dt = JsonHelper.SerializeToString(value).Replace("\"", "");
       Set(key, dt, obfuscated);
    }

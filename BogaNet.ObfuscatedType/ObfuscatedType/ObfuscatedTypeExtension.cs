@@ -13,7 +13,7 @@ public static class ObfuscatedTypeExtension
    /// <param name="array">Array-instance to convert</param>
    /// <returns>Converted ByteObf-array</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static ByteObf[] BNToByteObfArray(this byte[]? array)
+   public static ByteObf[] BNToByteObfArray(this byte[] array)
    {
       ArgumentNullException.ThrowIfNull(array);
 
@@ -33,7 +33,7 @@ public static class ObfuscatedTypeExtension
    /// <param name="array">Array-instance to convert</param>
    /// <returns>Converted byte-array</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static byte[] ToByteArray(this ByteObf[]? array)
+   public static byte[] ToByteArray(this ByteObf[] array)
    {
       ArgumentNullException.ThrowIfNull(array);
 

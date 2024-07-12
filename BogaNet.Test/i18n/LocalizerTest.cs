@@ -19,6 +19,8 @@ public class LocalizerTest
    {
       Localizer.Instance.Culture = new CultureInfo("en");
 
+      //Assert.That(Localizer.Instance.ContainsKey(null), Is.EqualTo(false));
+
       string key = "Greeting";
       string? text = Localizer.Instance.GetText(key);
       string refText = "Hi there!";

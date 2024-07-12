@@ -85,7 +85,7 @@ public class PreferencesTest
       DateTime refVal = DateTime.UtcNow;
       const string key = "date";
       Preferences.Instance.Set(key, refVal);
-      DateTime dt = Preferences.Instance.GetDate(key, false, TimeZoneInfo.Utc);
+      DateTime? dt = Preferences.Instance.GetDate(key, false, TimeZoneInfo.Utc);
       Assert.That(dt, Is.EqualTo(refVal));
 
       const string keyObf = "dateObf";
@@ -100,7 +100,7 @@ public class PreferencesTest
       DateTime refVal = DateTime.Now;
       const string key = "date";
       Preferences.Instance.Set(key, refVal);
-      DateTime dt = Preferences.Instance.GetDate(key);
+      DateTime? dt = Preferences.Instance.GetDate(key);
       Assert.That(dt, Is.EqualTo(refVal));
 
       const string keyObf = "dateObf";
