@@ -53,23 +53,12 @@ public abstract class CheckQuota //NUnit
 
          _logger.LogDebug("URL: " + url);
 
-         using HttpClient client = new();
-         using HttpResponseMessage response = client.GetAsync(url).Result;
-         response.EnsureSuccessStatusCode();
+         string? data = await NetworkHelper.ReadAllTextAsync(url);
 
-         if (response.IsSuccessStatusCode)
-         {
-            string data = await response.Content.ReadAsStringAsync();
+         if (int.TryParse(data, out quota))
+            return quota;
 
-            if (int.TryParse(data, out quota))
-               return quota;
-
-            _logger.LogWarning("Could not parse value to integer: " + data);
-         }
-         else
-         {
-            _logger.LogError($"Could not download data: {response.StatusCode} - {response.ReasonPhrase}");
-         }
+         _logger.LogWarning("Could not parse value to integer: " + data);
       }
 
       return 0;

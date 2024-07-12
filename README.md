@@ -209,11 +209,11 @@ It is recommended to use "TrueRandom" only to set seeds in the PRNG and refresh 
 
 ### Main classes
 * [CheckQuota](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_true_random_1_1_check_quota.html): Gets the remaining quota from www.random.org.
-* [TRNGBytes](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_true_random_1_1_t_r_n_g_bytes.html): Generates true random byte-arrays in configurable intervals.
-* [TRNGFloat](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_true_random_1_1_t_r_n_g_float.html): Generates true random floats in configurable intervals.
-* [TRNGInteger](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_true_random_1_1_t_r_n_g_integer.html): Generates true random integers in configurable intervals.
-* [TRNGSequence](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_true_random_1_1_t_r_n_g_sequence.html): Randomizes a given interval of integers, i.e. arrange them in random order.
-* [TRNGString](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_true_random_1_1_t_r_n_g_string.html): Generates true random strings of various length and character compositions.
+* [BytesTRNG](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_true_random_1_1_bytes_t_r_n_g.html): Generates true random byte-arrays in configurable intervals.
+* [FloatTRNG](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_true_random_1_1_float_t_r_n_g.html): Generates true random floats in configurable intervals.
+* [IntegerTRNG](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_true_random_1_1_integer_t_r_n_g.html): Generates true random integers in configurable intervals.
+* [SequenceTRNG](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_true_random_1_1_sequence_t_r_n_g.html): Randomizes a given interval of integers, i.e. arrange them in random order.
+* [StringTRNG](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_true_random_1_1_string_t_r_n_g.html): Generates true random strings of various length and character compositions.
 
 ### Nuget:
 [BogaNet.TrueRandom](https://www.nuget.org/packages/BogaNet.TrueRandom/)
