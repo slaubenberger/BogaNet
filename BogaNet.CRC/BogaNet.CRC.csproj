@@ -3,7 +3,7 @@
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
-        <Version>1.2.0</Version>
+        <Version>1.2.1</Version>
         <Company>crosstales LLC</Company>
         <Copyright>© 2024 Stefan Laubenberger</Copyright>
         <Authors>Stefan Laubenberger</Authors>
@@ -11,7 +11,7 @@
         <RepositoryUrl>https://github.com/slaubenberger/BogaNet</RepositoryUrl>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageTags>CRC CRC8 CRC16 CRC32 CRC64</PackageTags>
-        <PackageReleaseNotes>CRC for files added.</PackageReleaseNotes>
+        <PackageReleaseNotes>Nullability improved.</PackageReleaseNotes>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <!-- <PackageIconUrl>https://www.crosstales.com/media/data/BogaNet/logo_boga.png</PackageIconUrl> -->
         <PackageIcon>logo_boga_crc.jpg</PackageIcon>
@@ -25,7 +25,7 @@
     </ItemGroup>
     
     <ItemGroup>
-<!--        <PackageReference Include="BogaNet.Common" Version="1.2.0" />-->
+<!--        <PackageReference Include="BogaNet.Common" Version="1.2.1" />-->
         <PackageReference Include="System.IO.Hashing" Version="8.0.0" />
     </ItemGroup>
 

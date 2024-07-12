@@ -28,8 +28,8 @@
         <PackageReference Include="Avalonia" Version="11.0.10">
             <!--            <PrivateAssets>all</PrivateAssets>-->
         </PackageReference>
-<!--        <PackageReference Include="BogaNet.Common" Version="1.2.0" />-->
-<!--        <PackageReference Include="BogaNet.i18n" Version="1.2.0" />-->
+<!--        <PackageReference Include="BogaNet.Common" Version="1.2.1" />-->
+<!--        <PackageReference Include="BogaNet.i18n" Version="1.2.1" />-->
     </ItemGroup>
     
     <ItemGroup>
