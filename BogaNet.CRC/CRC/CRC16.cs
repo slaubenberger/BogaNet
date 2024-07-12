@@ -105,8 +105,8 @@ public abstract class CRC16 //NUnit
    {
       ArgumentNullException.ThrowIfNullOrEmpty(file);
 
-      byte[]? bytes = await FileHelper.ReadAllBytesAsync(file);
-      return bytes == null ? (ushort)0 : CalcCRC(bytes);
+      byte[] bytes = await FileHelper.ReadAllBytesAsync(file);
+      return CalcCRC(bytes);
    }
 
    #endregion

@@ -10,17 +10,6 @@ using BogaNet.Extension;
 namespace BogaNet.Helper;
 
 /// <summary>
-/// Possible RSA key lengths.
-/// </summary>
-public enum RSAKeyLength
-{
-   _512 = 512,
-   _1024 = 1024,
-   _2048 = 2048,
-   _4096 = 4096
-}
-
-/// <summary>
 /// Helper for RSA cryptography and X509 certificates.
 /// </summary>
 public abstract class RSAHelper
@@ -76,7 +65,7 @@ public abstract class RSAHelper
    /// <param name="certName">Name of the certificate</param>
    /// <param name="storeLocation">Location in the key store (optional, default: LocalMachine)</param>
    /// <returns>X509-certificate</returns>
-   public static X509Certificate2? GetCertificateFromStore(string certName, StoreLocation storeLocation = StoreLocation.LocalMachine)
+   public static X509Certificate2 GetCertificateFromStore(string certName, StoreLocation storeLocation = StoreLocation.LocalMachine)
    {
       ArgumentNullException.ThrowIfNull(certName);
 
@@ -89,7 +78,15 @@ public abstract class RSAHelper
          X509Certificate2Collection currentCerts = certCollection.Find(X509FindType.FindByTimeValid, DateTime.Now, false);
          X509Certificate2Collection signingCert = currentCerts.Find(X509FindType.FindBySubjectDistinguishedName, certName, false);
 
-         return signingCert.Count == 0 ? null : signingCert[0]; // Return the first certificate in the collection
+         if (signingCert.Count == 0)
+            throw new Exception($"Could not find certificate: {certName}");
+
+         return signingCert[0]; // Return the first certificate in the collection
+      }
+      catch (Exception ex)
+      {
+         _logger.LogError(ex, "Getting certificate from store failed!");
+         throw;
       }
       finally
       {
@@ -113,6 +110,11 @@ public abstract class RSAHelper
       {
          store.Open(OpenFlags.ReadWrite);
          store.Add(cert);
+      }
+      catch (Exception ex)
+      {
+         _logger.LogError(ex, "Adding certificate to store failed!");
+         throw;
       }
       finally
       {
@@ -228,7 +230,7 @@ public abstract class RSAHelper
    /// <param name="password">Password for the file</param>
    /// <returns>X509-certificate</returns>
    /// <exception cref="Exception"></exception>
-   public static X509Certificate2? ReadCertificateFromFile(string filename, string? password = null)
+   public static X509Certificate2 ReadCertificateFromFile(string filename, string? password = null)
    {
       return Task.Run(() => ReadCertificateFromFileAsync(filename, password)).GetAwaiter().GetResult();
    }
@@ -240,12 +242,12 @@ public abstract class RSAHelper
    /// <param name="password">Password for the file</param>
    /// <returns>X509-certificate</returns>
    /// <exception cref="Exception"></exception>
-   public static async Task<X509Certificate2?> ReadCertificateFromFileAsync(string filename, string? password = null)
+   public static async Task<X509Certificate2> ReadCertificateFromFileAsync(string filename, string? password = null)
    {
       ArgumentNullException.ThrowIfNullOrEmpty(filename);
 
-      byte[]? bytes = await FileHelper.ReadAllBytesAsync(filename);
-      return bytes == null ? null : GetCertificate(bytes, password);
+      byte[] bytes = await FileHelper.ReadAllBytesAsync(filename);
+      return GetCertificate(bytes, password);
    }
 
    /// <summary>
@@ -256,7 +258,7 @@ public abstract class RSAHelper
    /// <param name="padding">Padding for the asymmetric encryption (optional, default: OaepSHA256)</param>
    /// <returns>Encrypted data as byte-array</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static byte[]? Encrypt(byte[] dataToEncrypt, X509Certificate2 cert, RSAEncryptionPadding? padding = null)
+   public static byte[] Encrypt(byte[] dataToEncrypt, X509Certificate2 cert, RSAEncryptionPadding? padding = null)
    {
       ArgumentNullException.ThrowIfNull(dataToEncrypt);
       ArgumentNullException.ThrowIfNull(cert);
@@ -264,7 +266,11 @@ public abstract class RSAHelper
       try
       {
          using RSA? publicKey = cert.GetRSAPublicKey();
-         return publicKey?.Encrypt(dataToEncrypt, padding ?? RSAEncryptionPadding.OaepSHA256);
+
+         if (publicKey == null)
+            throw new Exception("Public key not found!");
+
+         return publicKey.Encrypt(dataToEncrypt, padding ?? RSAEncryptionPadding.OaepSHA256);
       }
       catch (CryptographicException ex)
       {
@@ -282,7 +288,7 @@ public abstract class RSAHelper
    /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
    /// <returns>Encrypted string as byte-array</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static byte[]? Encrypt(string? textToEncrypt, X509Certificate2 cert, RSAEncryptionPadding? padding = null, Encoding? encoding = null)
+   public static byte[] Encrypt(string? textToEncrypt, X509Certificate2 cert, RSAEncryptionPadding? padding = null, Encoding? encoding = null)
    {
       ArgumentNullException.ThrowIfNullOrEmpty(textToEncrypt);
 
@@ -297,7 +303,7 @@ public abstract class RSAHelper
    /// <param name="padding">Padding for the asymmetric encryption (optional, default: OaepSHA256)</param>
    /// <returns>Decrypted byte-array</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static byte[]? Decrypt(byte[]? dataToDecrypt, X509Certificate2 cert, RSAEncryptionPadding? padding = null)
+   public static byte[] Decrypt(byte[] dataToDecrypt, X509Certificate2 cert, RSAEncryptionPadding? padding = null)
    {
       ArgumentNullException.ThrowIfNull(dataToDecrypt);
       ArgumentNullException.ThrowIfNull(cert);
@@ -305,7 +311,11 @@ public abstract class RSAHelper
       try
       {
          using RSA? privateKey = cert.GetRSAPrivateKey();
-         return privateKey?.Decrypt(dataToDecrypt, padding ?? RSAEncryptionPadding.OaepSHA256);
+
+         if (privateKey == null)
+            throw new Exception("Public key not found!");
+
+         return privateKey.Decrypt(dataToDecrypt, padding ?? RSAEncryptionPadding.OaepSHA256);
       }
       catch (Exception ex)
       {
@@ -513,4 +523,15 @@ public abstract class RSAHelper
    */
 
    #endregion
+}
+
+/// <summary>
+/// Possible RSA key lengths.
+/// </summary>
+public enum RSAKeyLength
+{
+   _512 = 512,
+   _1024 = 1024,
+   _2048 = 2048,
+   _4096 = 4096
 }

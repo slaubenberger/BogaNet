@@ -141,7 +141,7 @@ public interface ILocalizer
    /// <param name="urls">URLs of files to load</param>
    /// <exception cref="Exception"></exception>
    Task LoadFilesFromUrlAsync(params string[] urls);
-   
+
    /// <summary>
    /// Saves all translations to a given file (CSV).
    /// </summary>

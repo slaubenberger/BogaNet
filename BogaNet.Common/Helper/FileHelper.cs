@@ -109,21 +109,6 @@ public abstract class FileHelper
    #region Public methods
 
    /// <summary>
-   /// Combine two paths together.
-   /// </summary>
-   /// <param name="path1">First path</param>
-   /// <param name="path2">Second path</param>
-   /// <returns>Combined path</returns>
-   /// <exception cref="ArgumentNullException"></exception>
-   public static string Combine(string path1, string path2)
-   {
-      ArgumentNullException.ThrowIfNullOrEmpty(path1);
-      ArgumentNullException.ThrowIfNullOrEmpty(path2);
-
-      return Path.Combine(path1, path2);
-   }
-
-   /// <summary>
    /// Checks if the given path is from a Unix-device.
    /// </summary>
    /// <param name="path">Path to check</param>
@@ -414,6 +399,21 @@ public abstract class FileHelper
    public static DriveInfo[] GetDriveInfo()
    {
       return DriveInfo.GetDrives();
+   }
+
+   /// <summary>
+   /// Combine two paths together.
+   /// </summary>
+   /// <param name="path1">First path</param>
+   /// <param name="path2">Second path</param>
+   /// <returns>Combined path</returns>
+   /// <exception cref="ArgumentNullException"></exception>
+   public static string Combine(string path1, string path2)
+   {
+      ArgumentNullException.ThrowIfNullOrEmpty(path1);
+      ArgumentNullException.ThrowIfNullOrEmpty(path2);
+
+      return Path.Combine(path1, path2);
    }
 
    /// <summary>
@@ -789,7 +789,7 @@ public abstract class FileHelper
    /// <param name="path">Path for the file</param>
    /// <param name="fileName">New file</param>
    /// <exception cref="Exception"></exception>
-   public static string? CreateFile(string path, string fileName) //NUnit
+   public static string CreateFile(string path, string fileName) //NUnit
    {
       ArgumentNullException.ThrowIfNullOrEmpty(path);
       ArgumentNullException.ThrowIfNullOrEmpty(fileName);
@@ -797,26 +797,20 @@ public abstract class FileHelper
       try
       {
          if (!ExistsDirectory(path))
-         {
-            _logger.LogWarning($"Path directory does not exists: {path}");
-         }
-         else
-         {
-            string newPath = Combine(path, fileName);
-            using (File.Create(newPath))
-            {
-            }
+            throw new Exception($"Path directory does not exists: {path}");
 
-            return newPath;
+         string newPath = Combine(path, fileName);
+         using (File.Create(newPath))
+         {
          }
+
+         return newPath;
       }
       catch (Exception ex)
       {
          _logger.LogError(ex, $"Could not create file at '{path}' with name '{fileName}'");
          throw;
       }
-
-      return null;
    }
 
    /// <summary>
@@ -825,7 +819,7 @@ public abstract class FileHelper
    /// <param name="path">Path for the directory</param>
    /// <param name="folderName">New folder</param>
    /// <exception cref="Exception"></exception>
-   public static string? CreateDirectory(string path, string folderName) //NUnit
+   public static string CreateDirectory(string path, string folderName) //NUnit
    {
       ArgumentNullException.ThrowIfNullOrEmpty(path);
       ArgumentNullException.ThrowIfNullOrEmpty(folderName);
@@ -833,23 +827,17 @@ public abstract class FileHelper
       try
       {
          if (!ExistsDirectory(path))
-         {
-            _logger.LogWarning($"Path directory does not exists: {path}");
-         }
-         else
-         {
-            string newPath = Combine(path, folderName);
-            Directory.CreateDirectory(newPath);
-            return newPath;
-         }
+            throw new Exception($"Path directory does not exists: {path}");
+
+         string newPath = Combine(path, folderName);
+         Directory.CreateDirectory(newPath);
+         return newPath;
       }
       catch (Exception ex)
       {
          _logger.LogError(ex, $"Could not create directory at '{path}' with name '{folderName}'");
          throw;
       }
-
-      return null;
    }
 
    /// <summary>
@@ -927,8 +915,8 @@ public abstract class FileHelper
 
       if (checkForExtensions)
       {
-         string? extension = GetExtension(path);
-         return extension == null || extension.Length <= 1; // extension includes '.'
+         string extension = GetExtension(path);
+         return extension.Length <= 1; // extension includes '.'
       }
 
       return false;
@@ -1108,28 +1096,24 @@ public abstract class FileHelper
    /// <param name="path">Path to the file</param>
    /// <returns>Extension of the file</returns>
    /// <exception cref="Exception"></exception>
-   public static string? GetExtension(string path) //NUnit
+   public static string GetExtension(string path) //NUnit
    {
       ArgumentNullException.ThrowIfNullOrEmpty(path);
 
-      if (IsFile(path, false))
+      try
       {
-         try
-         {
-            string ext = Path.GetExtension(path);
+         //if (!IsFile(path, false))
+         //   throw new Exception($"File does not exists: {path}");
 
-            return !string.IsNullOrEmpty(ext) ? ext[1..] : null;
-         }
-         catch (Exception ex)
-         {
-            _logger.LogError(ex, $"Could not get extension for file '{path}'");
-            throw;
-         }
+         string ext = Path.GetExtension(path);
+
+         return ext.Length > 0 ? ext[1..] : string.Empty;
       }
-
-      _logger.LogWarning($"File does not exists: {path}");
-
-      return null;
+      catch (Exception ex)
+      {
+         _logger.LogError(ex, $"Could not get extension for file '{path}'");
+         throw;
+      }
    }
 
    /// <summary>
@@ -1340,7 +1324,7 @@ public abstract class FileHelper
    /// <param name="encoding">Encoding of the text (optional, default: UTF8)</param>
    /// <returns>Text-content of the file</returns>
    /// <exception cref="Exception"></exception>
-   public static string? ReadAllText(string path, Encoding? encoding = null) //NUnit
+   public static string ReadAllText(string path, Encoding? encoding = null) //NUnit
    {
       return Task.Run(() => ReadAllTextAsync(path, encoding)).GetAwaiter().GetResult();
    }
@@ -1352,24 +1336,22 @@ public abstract class FileHelper
    /// <param name="encoding">Encoding of the text (optional, default: UTF8)</param>
    /// <returns>Text-content of the file</returns>
    /// <exception cref="Exception"></exception>
-   public static async Task<string?> ReadAllTextAsync(string path, Encoding? encoding = null)
+   public static async Task<string> ReadAllTextAsync(string path, Encoding? encoding = null)
    {
       ArgumentNullException.ThrowIfNullOrEmpty(path);
 
       try
       {
-         if (ExistsFile(path))
-            return await File.ReadAllTextAsync(path, encoding ?? Encoding.UTF8);
+         if (!ExistsFile(path))
+            throw new Exception($"File does not exists: {path}");
+
+         return await File.ReadAllTextAsync(path, encoding ?? Encoding.UTF8);
       }
       catch (Exception ex)
       {
          _logger.LogError(ex, $"Could not read file '{path}'");
          throw;
       }
-
-      _logger.LogWarning($"File does not exists: {path}");
-
-      return null;
    }
 
    /// <summary>
@@ -1379,7 +1361,7 @@ public abstract class FileHelper
    /// <param name="encoding">Encoding of the text (optional, default: UTF8)</param>
    /// <returns>Array of text lines from the file</returns>
    /// <exception cref="Exception"></exception>
-   public static string[]? ReadAllLines(string path, Encoding? encoding = null) //NUnit
+   public static string[] ReadAllLines(string path, Encoding? encoding = null) //NUnit
    {
       return Task.Run(() => ReadAllLinesAsync(path, encoding)).GetAwaiter().GetResult();
    }
@@ -1391,24 +1373,22 @@ public abstract class FileHelper
    /// <param name="encoding">Encoding of the text (optional, default: UTF8)</param>
    /// <returns>Array of text lines from the file</returns>
    /// <exception cref="Exception"></exception>
-   public static async Task<string[]?> ReadAllLinesAsync(string path, Encoding? encoding = null)
+   public static async Task<string[]> ReadAllLinesAsync(string path, Encoding? encoding = null)
    {
       ArgumentNullException.ThrowIfNullOrEmpty(path);
 
       try
       {
-         if (ExistsFile(path))
-            return await File.ReadAllLinesAsync(path, encoding ?? Encoding.UTF8);
+         if (!ExistsFile(path))
+            throw new Exception($"File does not exists: {path}");
+
+         return await File.ReadAllLinesAsync(path, encoding ?? Encoding.UTF8);
       }
       catch (Exception ex)
       {
          _logger.LogError(ex, $"Could not read file '{path}'");
          throw;
       }
-
-      _logger.LogWarning($"File does not exists: {path}");
-
-      return null;
    }
 
    /// <summary>
@@ -1417,7 +1397,7 @@ public abstract class FileHelper
    /// <param name="path">Path to the file</param>
    /// <returns>Byte-content of the file</returns>
    /// <exception cref="Exception"></exception>
-   public static byte[]? ReadAllBytes(string path) //NUnit
+   public static byte[] ReadAllBytes(string path) //NUnit
    {
       return Task.Run(() => ReadAllBytesAsync(path)).GetAwaiter().GetResult();
    }
@@ -1428,24 +1408,22 @@ public abstract class FileHelper
    /// <param name="path">Path to the file</param>
    /// <returns>Byte-content of the file</returns>
    /// <exception cref="Exception"></exception>
-   public static async Task<byte[]?> ReadAllBytesAsync(string path)
+   public static async Task<byte[]> ReadAllBytesAsync(string path)
    {
       ArgumentNullException.ThrowIfNullOrEmpty(path);
 
       try
       {
-         if (ExistsFile(path))
-            return await File.ReadAllBytesAsync(path);
+         if (!ExistsFile(path))
+            throw new Exception($"File does not exists: {path}");
+
+         return await File.ReadAllBytesAsync(path);
       }
       catch (Exception ex)
       {
          _logger.LogError(ex, $"Could not read file '{path}'");
          throw;
       }
-
-      _logger.LogWarning($"File does not exists: {path}");
-
-      return null;
    }
 
    /// <summary>

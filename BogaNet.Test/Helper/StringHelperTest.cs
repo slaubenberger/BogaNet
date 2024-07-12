@@ -11,7 +11,7 @@ public class StringHelperTest
    {
       //Test: input good
       const string input = "testing tiTle cASE";
-      string? result = StringHelper.ToTitleCase(input);
+      string result = StringHelper.ToTitleCase(input);
 
       Assert.That(result, Is.EqualTo("Testing Title Case"));
    }
@@ -21,7 +21,7 @@ public class StringHelperTest
    {
       //Test: input empty
       const string input = "";
-      string? result = StringHelper.ToTitleCase(input);
+      string result = StringHelper.ToTitleCase(input);
 
       Assert.That(result, Is.Empty);
    }

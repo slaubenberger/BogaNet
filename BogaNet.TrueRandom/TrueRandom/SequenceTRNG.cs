@@ -5,7 +5,6 @@ using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using BogaNet.Helper;
-using System.Net.Http;
 
 namespace BogaNet.TrueRandom;
 
@@ -99,22 +98,14 @@ public abstract class SequenceTRNG : BaseTRNG //NUnit
 
             _logger.LogDebug("URL: " + url);
 
-            string[]? result = await NetworkHelper.ReadAllLinesAsync(url);
+            string[] result = await NetworkHelper.ReadAllLinesAsync(url);
 
-            if (result != null)
-            {
-               Result.Clear();
+            Result.Clear();
 
-               int value = 0;
-               foreach (string unused in result.Where(valueAsString => int.TryParse(valueAsString, out value)))
-               {
-                  Result.Add(value);
-               }
-            }
-            else
+            int value = 0;
+            foreach (string unused in result.Where(valueAsString => int.TryParse(valueAsString, out value)))
             {
-               _logger.LogWarning("No data received - using standard prng!");
-               Result = GeneratePRNG(minValue, maxValue, Seed);
+               Result.Add(value);
             }
          }
          else

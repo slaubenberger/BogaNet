@@ -28,15 +28,12 @@ public class RSAHelperTest
       X509Certificate2 certPublic = RSAHelper.ReadCertificateFromFile(certPublicFile);
       */
 
-      byte[]? enc = RSAHelper.Encrypt(plain.BNToByteArray(), certPublic);
-      byte[]? dec = RSAHelper.Decrypt(enc, certPrivate);
+      byte[] enc = RSAHelper.Encrypt(plain.BNToByteArray(), certPublic);
+      byte[] dec = RSAHelper.Decrypt(enc, certPrivate);
 
-      if (dec != null)
-      {
-         string result = dec.BNToString();
+      string result = dec.BNToString();
 
-         Assert.That(result, Is.EqualTo(plain));
-      }
+      Assert.That(result, Is.EqualTo(plain));
    }
 
    #endregion

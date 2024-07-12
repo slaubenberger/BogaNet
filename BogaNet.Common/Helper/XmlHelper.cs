@@ -114,7 +114,7 @@ public abstract class XmlHelper
    /// <param name="skipBOM">Skip BOM (optional, default: false)</param>
    /// <returns>Object</returns>
    /// <exception cref="Exception"></exception>
-   public static T? DeserializeFromFile<T>(string filename, bool skipBOM = false)
+   public static T DeserializeFromFile<T>(string filename, bool skipBOM = false)
    {
       return Task.Run(() => DeserializeFromFileAsync<T>(filename, skipBOM)).GetAwaiter().GetResult();
    }
@@ -126,37 +126,23 @@ public abstract class XmlHelper
    /// <param name="skipBOM">Skip BOM (optional, default: false)</param>
    /// <returns>Object</returns>
    /// <exception cref="Exception"></exception>
-   public static async Task<T?> DeserializeFromFileAsync<T>(string filename, bool skipBOM = false)
+   public static async Task<T> DeserializeFromFileAsync<T>(string filename, bool skipBOM = false)
    {
       ArgumentNullException.ThrowIfNullOrEmpty(filename);
 
       try
       {
-         if (FileHelper.ExistsFile(filename))
-         {
-            string? data = await FileHelper.ReadAllTextAsync(filename);
+         if (!FileHelper.ExistsFile(filename))
+            throw new Exception($"File does not exist: {filename}");
 
-            if (string.IsNullOrEmpty(data))
-            {
-               _logger.LogWarning($"Data was null: {filename}");
-            }
-            else
-            {
-               return DeserializeFromString<T>(data, skipBOM);
-            }
-         }
-         else
-         {
-            _logger.LogWarning($"File does not exist: {filename}");
-         }
+         string data = await FileHelper.ReadAllTextAsync(filename);
+         return DeserializeFromString<T>(data, skipBOM);
       }
       catch (Exception ex)
       {
          _logger.LogError(ex, "Could not deserialize the object from a file");
          throw;
       }
-
-      return default;
    }
 
    /// <summary>
@@ -166,7 +152,7 @@ public abstract class XmlHelper
    /// <param name="skipBOM">Skip BOM (optional, default: true)</param>
    /// <returns>Object</returns>
    /// <exception cref="Exception"></exception>
-   public static T? DeserializeFromString<T>(string xmlAsString, bool skipBOM = true)
+   public static T DeserializeFromString<T>(string xmlAsString, bool skipBOM = true)
    {
       ArgumentNullException.ThrowIfNullOrEmpty(xmlAsString);
 
@@ -181,16 +167,16 @@ public abstract class XmlHelper
 
          object? obj = xs.Deserialize(sr);
 
-         if (obj != null)
-            return (T)obj;
+         if (obj == null)
+            throw new Exception("Deserialize failed!");
+
+         return (T)obj;
       }
       catch (Exception ex)
       {
          _logger.LogError(ex, "Could not deserialize the object from a string");
          throw;
       }
-
-      return default;
    }
 
    /// <summary>
@@ -199,7 +185,7 @@ public abstract class XmlHelper
    /// <param name="data">XML of the object</param>
    /// <returns>Object</returns>
    /// <exception cref="Exception"></exception>
-   public static T? DeserializeFromByteArray<T>(byte[] data)
+   public static T DeserializeFromByteArray<T>(byte[] data)
    {
       ArgumentNullException.ThrowIfNull(data);
 
@@ -210,16 +196,16 @@ public abstract class XmlHelper
 
          object? obj = xs.Deserialize(ms);
 
-         if (obj != null)
-            return (T)obj;
+         if (obj == null)
+            throw new Exception("Deserialize failed!");
+
+         return (T)obj;
       }
       catch (Exception ex)
       {
          _logger.LogError(ex, "Could not deserialize the object from a byte-array");
          throw;
       }
-
-      return default;
    }
 
    #endregion

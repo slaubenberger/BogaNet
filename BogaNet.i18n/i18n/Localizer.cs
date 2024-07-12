@@ -275,9 +275,9 @@ public class Localizer : Singleton<Localizer>, ILocalizer //NUnit
 
       foreach (string currentTranslation in files)
       {
-         string[]? lines = await FileHelper.ReadAllLinesAsync(currentTranslation);
+         string[] lines = await FileHelper.ReadAllLinesAsync(currentTranslation);
 
-         if (lines != null && lines.Length > 1)
+         if (lines.Length > 1)
             allLines.Add(currentTranslation, lines);
       }
 
@@ -297,9 +297,9 @@ public class Localizer : Singleton<Localizer>, ILocalizer //NUnit
 
       foreach (string currentTranslation in urls)
       {
-         string[]? lines = await NetworkHelper.ReadAllLinesAsync(currentTranslation);
+         string[] lines = await NetworkHelper.ReadAllLinesAsync(currentTranslation);
 
-         if (lines != null && lines.Length > 1)
+         if (lines.Length > 1)
             allLines.Add(currentTranslation, lines);
       }
 

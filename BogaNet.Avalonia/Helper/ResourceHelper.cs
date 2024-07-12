@@ -3,6 +3,7 @@ using System;
 using System.IO;
 using Avalonia.Platform;
 using BogaNet.Extension;
+using System.Threading.Tasks;
 
 namespace BogaNet.Helper;
 
@@ -54,11 +55,23 @@ public abstract class ResourceHelper //TODO make partial?
    /// <exception cref="ArgumentNullException"></exception>
    public static string LoadText(string resourcePath, string? resourceAssembly = null)
    {
+      return Task.Run(() => LoadTextAsync(resourcePath, resourceAssembly)).GetAwaiter().GetResult();
+   }
+
+   /// <summary>
+   /// Reads a resource as text asynchronously.
+   /// </summary>
+   /// <param name="resourcePath"></param>
+   /// <param name="resourceAssembly">Assembly with the resource (optional, default: ResourceAssembly)</param>
+   /// <returns>Text from the given resource</returns>
+   /// <exception cref="ArgumentNullException"></exception>
+   public static async Task<string> LoadTextAsync(string resourcePath, string? resourceAssembly = null)
+   {
       ArgumentNullException.ThrowIfNullOrEmpty(resourcePath);
 
       Uri fileUri = new(ValidateResource(resourcePath, resourceAssembly));
       using StreamReader streamReader = new(AssetLoader.Open(fileUri));
-      return streamReader.ReadToEnd();
+      return await streamReader.ReadToEndAsync();
    }
 
    /// <summary>
@@ -70,11 +83,23 @@ public abstract class ResourceHelper //TODO make partial?
    /// <exception cref="ArgumentNullException"></exception>
    public static byte[] LoadBinary(string resourcePath, string? resourceAssembly = null)
    {
+      return Task.Run(() => LoadBinaryAsync(resourcePath, resourceAssembly)).GetAwaiter().GetResult();
+   }
+
+   /// <summary>
+   /// Reads a resource as binary asynchronously.
+   /// </summary>
+   /// <param name="resourcePath"></param>
+   /// <param name="resourceAssembly">Assembly with the resource (optional, default: ResourceAssembly)</param>
+   /// <returns>Binary data from the given resource</returns>
+   /// <exception cref="ArgumentNullException"></exception>
+   public static async Task<byte[]> LoadBinaryAsync(string resourcePath, string? resourceAssembly = null)
+   {
       ArgumentNullException.ThrowIfNullOrEmpty(resourcePath);
 
       Uri fileUri = new(ValidateResource(resourcePath, resourceAssembly));
-      using BufferedStream streamReader = new(AssetLoader.Open(fileUri));
-      return streamReader.BNReadFully();
+      await using BufferedStream streamReader = new(AssetLoader.Open(fileUri));
+      return await streamReader.BNReadFullyAsync();
    }
 
    #endregion

@@ -89,8 +89,8 @@ public abstract class HMACHelper //NUnit
    {
       ArgumentNullException.ThrowIfNullOrEmpty(file);
 
-      byte[]? bytes = await FileHelper.ReadAllBytesAsync(file);
-      return bytes == null ? [] : Hash(bytes, algo);
+      byte[] bytes = await FileHelper.ReadAllBytesAsync(file);
+      return Hash(bytes, algo);
    }
 
    #endregion

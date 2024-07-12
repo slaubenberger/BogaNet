@@ -30,7 +30,7 @@ public static class ObjectExtension
    /// <param name="bytes">Byte-array</param>
    /// <returns>Object from the byte-array</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static T? BNToObject<T>(this byte[] bytes)
+   public static T BNToObject<T>(this byte[] bytes)
    {
       ArgumentNullException.ThrowIfNull(bytes);
 

@@ -59,9 +59,9 @@ public abstract class MimeTypeMap
    /// <param name="str">The filename or extension</param>
    /// <returns>The MIME type</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static string? GetMimeType(string str)
+   public static string GetMimeType(string str)
    {
-      return TryGetMimeType(str, out string? result) ? result : DEFAULT_TYPE;
+      return TryGetMimeType(str, out string? result) ? result! : DEFAULT_TYPE;
    }
 
    /// <summary>

@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Logging;
-using System.Net.Http;
 using BogaNet.Helper;
 using System.Threading.Tasks;
 
@@ -53,7 +52,7 @@ public abstract class CheckQuota //NUnit
 
          _logger.LogDebug("URL: " + url);
 
-         string? data = await NetworkHelper.ReadAllTextAsync(url);
+         string data = await NetworkHelper.ReadAllTextAsync(url);
 
          if (int.TryParse(data, out quota))
             return quota;

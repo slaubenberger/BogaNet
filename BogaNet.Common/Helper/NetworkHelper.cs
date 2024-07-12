@@ -149,19 +149,16 @@ public abstract class NetworkHelper
    /// </summary>
    /// <param name="path">File path</param>
    /// <returns>URL of the file path</returns>
-   public static string? GetURLForFile(string? path) //NUnit
+   public static string GetURLForFile(string path) //NUnit
    {
-      if (!string.IsNullOrEmpty(path))
-      {
-         string validFile = FileHelper.ValidateFile(path);
+      ArgumentNullException.ThrowIfNullOrEmpty(path);
 
-         if (!IsURL(path))
-            return Constants.PREFIX_FILE + StringHelper.EscapeURL(validFile.Replace('\\', '/'));
+      string validFile = FileHelper.ValidateFile(path);
 
-         return StringHelper.EscapeURL(validFile.Replace('\\', '/'));
-      }
+      if (!IsURL(path))
+         return Constants.PREFIX_FILE + StringHelper.EscapeURL(validFile.Replace('\\', '/'));
 
-      return path;
+      return StringHelper.EscapeURL(validFile.Replace('\\', '/'));
    }
 
    /// <summary>
@@ -288,11 +285,11 @@ public abstract class NetworkHelper
 
       try
       {
-         string? content = await ReadAllTextAsync(checkUrl);
+         string content = await ReadAllTextAsync(checkUrl);
 
          _logger.LogDebug($"Content: {content}");
 
-         return content == null ? "unknown" : content.Trim();
+         return content.Trim();
       }
       catch (Exception ex)
       {
@@ -458,7 +455,7 @@ public abstract class NetworkHelper
    /// <param name="url">URL to the file</param>
    /// <returns>Text-content of the file</returns>
    /// <exception cref="Exception"></exception>
-   public static string? ReadAllText(string url)
+   public static string ReadAllText(string url)
    {
       return Task.Run(() => ReadAllTextAsync(url)).GetAwaiter().GetResult();
    }
@@ -469,7 +466,7 @@ public abstract class NetworkHelper
    /// <param name="url">URL to the file</param>
    /// <returns>Text-content of the file</returns>
    /// <exception cref="Exception"></exception>
-   public static async Task<string?> ReadAllTextAsync(string url)
+   public static async Task<string> ReadAllTextAsync(string url)
    {
       ArgumentNullException.ThrowIfNullOrEmpty(url);
 
@@ -479,11 +476,10 @@ public abstract class NetworkHelper
          using HttpResponseMessage response = client.GetAsync(url).Result;
          //response.EnsureSuccessStatusCode();
 
-         if (response.IsSuccessStatusCode)
-            return await response.Content.ReadAsStringAsync();
+         if (!response.IsSuccessStatusCode)
+            throw new Exception($"Could not download data: {response.StatusCode} - {response.ReasonPhrase}");
 
-         _logger.LogWarning($"Could not download data: {response.StatusCode} - {response.ReasonPhrase}");
-         return null;
+         return await response.Content.ReadAsStringAsync();
       }
       catch (Exception ex)
       {
@@ -498,7 +494,7 @@ public abstract class NetworkHelper
    /// <param name="url">URL to the file</param>
    /// <returns>Array of text lines from the file</returns>
    /// <exception cref="Exception"></exception>
-   public static string[]? ReadAllLines(string url)
+   public static string[] ReadAllLines(string url)
    {
       return Task.Run(() => ReadAllLinesAsync(url)).GetAwaiter().GetResult();
    }
@@ -509,11 +505,11 @@ public abstract class NetworkHelper
    /// <param name="url">URL to the file</param>
    /// <returns>Array of text lines from the file</returns>
    /// <exception cref="Exception"></exception>
-   public static async Task<string[]?> ReadAllLinesAsync(string url)
+   public static async Task<string[]> ReadAllLinesAsync(string url)
    {
-      string? text = await ReadAllTextAsync(url);
+      string text = await ReadAllTextAsync(url);
 
-      return text == null ? null : StringHelper.SplitToLines(text).ToArray();
+      return StringHelper.SplitToLines(text).ToArray();
    }
 
    /// <summary>
@@ -522,7 +518,7 @@ public abstract class NetworkHelper
    /// <param name="url">URL to the file</param>
    /// <returns>Byte-content of the file</returns>
    /// <exception cref="Exception"></exception>
-   public static byte[]? ReadAllBytes(string url)
+   public static byte[] ReadAllBytes(string url)
    {
       return Task.Run(() => ReadAllBytesAsync(url)).GetAwaiter().GetResult();
    }
@@ -533,7 +529,7 @@ public abstract class NetworkHelper
    /// <param name="url">URL to the file</param>
    /// <returns>Byte-content of the file</returns>
    /// <exception cref="Exception"></exception>
-   public static async Task<byte[]?> ReadAllBytesAsync(string url)
+   public static async Task<byte[]> ReadAllBytesAsync(string url)
    {
       ArgumentNullException.ThrowIfNullOrEmpty(url);
 
@@ -543,11 +539,10 @@ public abstract class NetworkHelper
          using HttpResponseMessage response = client.GetAsync(url).Result;
          //response.EnsureSuccessStatusCode();
 
-         if (response.IsSuccessStatusCode)
-            return await response.Content.ReadAsByteArrayAsync();
+         if (!response.IsSuccessStatusCode)
+            throw new Exception($"Could not download data: {response.StatusCode} - {response.ReasonPhrase}");
 
-         _logger.LogWarning($"Could not download data: {response.StatusCode} - {response.ReasonPhrase}");
-         return null;
+         return await response.Content.ReadAsByteArrayAsync();
       }
       catch (Exception ex)
       {
@@ -573,7 +568,7 @@ public abstract class NetworkHelper
 
       try
       {
-         string? content = await ReadAllTextAsync(urlAntiCacheRandomizer(url));
+         string content = await ReadAllTextAsync(urlAntiCacheRandomizer(url));
 
          _logger.LogTrace($"Content from {type}: {content}");
 

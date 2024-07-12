@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
 using BogaNet.Helper;
-using System.Net.Http;
 
 namespace BogaNet.TrueRandom;
 
@@ -66,6 +65,7 @@ public abstract class IntegerTRNG : BaseTRNG //NUnit
    /// <param name="number">How many numbers you want to generate (optional, range: 1 - 10'000, default: 1)</param>
    /// <param name="prng">Use Pseudo-Random-Number-Generator (optional, default: false)</param>
    /// <returns>List with the generated integers.</returns>
+   /// <exception cref="Exception"></exception>
    public static List<int> Generate(int min, int max, int number = 1, bool prng = false)
    {
       return Task.Run(() => GenerateAsync(min, max, number, prng)).GetAwaiter().GetResult();
@@ -77,6 +77,7 @@ public abstract class IntegerTRNG : BaseTRNG //NUnit
    /// <param name="number">How many numbers you want to generate (optional, range: 1 - 10'000, default: 1)</param>
    /// <param name="prng">Use Pseudo-Random-Number-Generator (optional, default: false)</param>
    /// <returns>List with the generated integers.</returns>
+   /// <exception cref="Exception"></exception>
    public static async Task<List<int>> GenerateAsync(int min, int max, int number = 1, bool prng = false)
    {
       int minValue = Math.Clamp(Math.Min(min, max), -1000000000, 1000000000);
@@ -101,22 +102,14 @@ public abstract class IntegerTRNG : BaseTRNG //NUnit
 
             _logger.LogDebug("URL: " + url);
 
-            string[]? result = await NetworkHelper.ReadAllLinesAsync(url);
+            string[] result = await NetworkHelper.ReadAllLinesAsync(url);
 
-            if (result != null)
-            {
-               Result.Clear();
+            Result.Clear();
 
-               int value = 0;
-               foreach (string unused in result.Where(valueAsString => int.TryParse(valueAsString, out value)))
-               {
-                  Result.Add(value);
-               }
-            }
-            else
+            int value = 0;
+            foreach (string unused in result.Where(valueAsString => int.TryParse(valueAsString, out value)))
             {
-               _logger.LogWarning("No data received - using standard prng!");
-               Result = GeneratePRNG(minValue, maxValue, num, Seed);
+               Result.Add(value);
             }
          }
          else
@@ -131,7 +124,6 @@ public abstract class IntegerTRNG : BaseTRNG //NUnit
       {
          _logger.LogWarning("There is already a request running - please try again later!");
       }
-
 
       return Result;
    }

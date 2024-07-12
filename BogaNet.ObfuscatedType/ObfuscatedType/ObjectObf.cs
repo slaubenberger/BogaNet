@@ -28,7 +28,7 @@ public class ObjectObf<T> where T : class //NUnit
 
    private T _value
    {
-      get => (Obfuscator.Deobfuscate(_obfValue, _obf).BNToObject<T>() ?? default)!;
+      get => Obfuscator.Deobfuscate(_obfValue, _obf).BNToObject<T>();
       set => _obfValue = Obfuscator.Obfuscate(value.BNToByteArray(), _obf);
    }
 

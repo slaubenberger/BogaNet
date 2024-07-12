@@ -31,28 +31,37 @@ public class ImageHelper //TODO make partial?
    }
 
    /// <summary>
+   /// Loads an image from a given url.
+   /// </summary>
+   /// <param name="imageUrl">URL of the image</param>
+   /// <returns>Loaded image as Bitmap</returns>
+   /// <exception cref="Exception"></exception>
+   public static Bitmap LoadFromUrl(string imageUrl)
+   {
+      return Task.Run(() => LoadFromUrlAsync(imageUrl)).GetAwaiter().GetResult();
+   }
+
+   /// <summary>
    /// Loads an image from a given url asynchronously.
    /// </summary>
    /// <param name="imageUrl">URL of the image</param>
    /// <returns>Loaded image as Bitmap</returns>
-   /// <exception cref="ArgumentNullException"></exception>
-   public static async Task<Bitmap?> LoadFromUrl(string imageUrl)
+   /// <exception cref="Exception"></exception>
+   public static async Task<Bitmap> LoadFromUrlAsync(string imageUrl)
    {
       ArgumentNullException.ThrowIfNullOrEmpty(imageUrl);
 
       try
       {
-         byte[]? data = await NetworkHelper.ReadAllBytesAsync(imageUrl);
+         byte[] data = await NetworkHelper.ReadAllBytesAsync(imageUrl);
 
-         if (data != null)
-            return new Bitmap(new MemoryStream(data));
+         return new Bitmap(new MemoryStream(data));
       }
       catch (Exception ex)
       {
          _logger.LogError(ex, $"An error occurred while downloading the image '{imageUrl}'");
+         throw;
       }
-
-      return null;
    }
 
    #endregion

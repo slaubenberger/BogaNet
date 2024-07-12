@@ -39,10 +39,9 @@ public class PreferencesContainer : IPreferencesContainer //NUnit
 
       if (FileHelper.Exists(_file))
       {
-         Dictionary<string, object>? prefs = JsonHelper.DeserializeFromFile<Dictionary<string, object>>(_file);
+         Dictionary<string, object> prefs = JsonHelper.DeserializeFromFile<Dictionary<string, object>>(_file);
 
-         if (prefs != null)
-            _preferences = prefs;
+         _preferences = prefs;
       }
    }
 

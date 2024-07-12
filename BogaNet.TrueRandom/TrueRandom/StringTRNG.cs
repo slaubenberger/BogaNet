@@ -4,7 +4,6 @@ using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using BogaNet.Helper;
-using System.Net.Http;
 
 namespace BogaNet.TrueRandom;
 
@@ -93,21 +92,13 @@ public abstract class StringTRNG : BaseTRNG //NUnit
 
             _logger.LogDebug("URL: " + url);
 
-            string[]? result = await NetworkHelper.ReadAllLinesAsync(url);
+            string[] result = await NetworkHelper.ReadAllLinesAsync(url);
 
-            if (result != null)
-            {
-               Result.Clear();
+            Result.Clear();
 
-               foreach (string valueAsString in result.Where(valueAsString => !string.IsNullOrEmpty(valueAsString)))
-               {
-                  Result.Add(valueAsString);
-               }
-            }
-            else
+            foreach (string valueAsString in result.Where(valueAsString => !string.IsNullOrEmpty(valueAsString)))
             {
-               _logger.LogWarning("No data received - using standard prng!");
-               Result = GeneratePRNG(len, num, digits, upper, lower, unique, Seed);
+               Result.Add(valueAsString);
             }
          }
          else

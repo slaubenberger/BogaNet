@@ -145,7 +145,7 @@ public abstract class JsonHelper
    /// <param name="settings">Serializer settings (optional)</param>
    /// <returns>Object</returns>
    /// <exception cref="Exception"></exception>
-   public static T? DeserializeFromFile<T>(string path, JsonSerializerSettings? settings = null)
+   public static T DeserializeFromFile<T>(string path, JsonSerializerSettings? settings = null)
    {
       return Task.Run(() => DeserializeFromFileAsync<T>(path, settings)).GetAwaiter().GetResult();
    }
@@ -157,7 +157,7 @@ public abstract class JsonHelper
    /// <param name="settings">Serializer settings (optional)</param>
    /// <returns>Object</returns>
    /// <exception cref="Exception"></exception>
-   public static async Task<T?> DeserializeFromFileAsync<T>(string path, JsonSerializerSettings? settings = null)
+   public static async Task<T> DeserializeFromFileAsync<T>(string path, JsonSerializerSettings? settings = null)
    {
       ArgumentNullException.ThrowIfNullOrEmpty(path);
 
@@ -179,13 +179,18 @@ public abstract class JsonHelper
    /// <param name="settings">Serializer settings (optional)</param>
    /// <returns>Object</returns>
    /// <exception cref="Exception"></exception>
-   public static T? DeserializeFromString<T>(string jsonAsString, JsonSerializerSettings? settings = null)
+   public static T DeserializeFromString<T>(string jsonAsString, JsonSerializerSettings? settings = null)
    {
       ArgumentNullException.ThrowIfNullOrEmpty(jsonAsString);
 
       try
       {
-         return JsonConvert.DeserializeObject<T>(jsonAsString, settings ?? FORMAT_INDENTED);
+         T? obj = JsonConvert.DeserializeObject<T>(jsonAsString, settings ?? FORMAT_INDENTED);
+
+         if (obj == null)
+            throw new Exception("Deserialize failed!");
+
+         return obj;
       }
       catch (Exception ex)
       {
@@ -201,8 +206,10 @@ public abstract class JsonHelper
    /// <param name="settings">Serializer settings (optional)</param>
    /// <returns>Object</returns>
    /// <exception cref="Exception"></exception>
-   public static T? DeserializeFromByteArray<T>(byte[] data, JsonSerializerSettings? settings = null)
+   public static T DeserializeFromByteArray<T>(byte[] data, JsonSerializerSettings? settings = null)
    {
+      ArgumentNullException.ThrowIfNull(data);
+
       return DeserializeFromString<T>(data.BNToString(), settings);
    }
 

@@ -23,65 +23,6 @@ public static class StringHelper
    #region Public methods
 
    /// <summary>
-   /// Converts a string to title case (first letter uppercase).
-   /// </summary>
-   /// <param name="str">String-instance</param>
-   /// <returns>Converted string in title case</returns>
-   public static string? ToTitleCase(string? str)
-   {
-      return str == null ? str : CultureInfo.CurrentCulture.TextInfo.ToTitleCase(str.ToLower());
-   }
-
-   /// <summary>
-   /// Generates a "Lorem Ipsum" based on various parameters.
-   /// </summary>
-   /// <param name="length">Length of the text</param>
-   /// <param name="minSentences">Minimum number of sentences for the text (optional, default: 1)</param>
-   /// <param name="maxSentences">Maximal number of sentences for the text (optional, default: int.MaxValue)</param>
-   /// <param name="minWords">Minimum number of words per sentence (optional, default: 1)</param>
-   /// <param name="maxWords">Maximal number of words per sentence (optional, default: 15)</param>
-   /// <returns>"Lorem Ipsum" based on the given parameters</returns>
-   public static string GenerateLoremIpsum(int length, int minSentences = 1, int maxSentences = int.MaxValue, int minWords = 1, int maxWords = 15)
-   {
-      string[] words =
-      [
-         "lorem", "ipsum", "dolor", "sit", "amet", "consectetuer", "adipiscing", "elit", "sed", "diam",
-         "nonummy", "nibh", "euismod", "tincidunt", "ut", "laoreet", "dolore", "magna", "aliquam", "erat"
-      ];
-
-      length = Math.Abs(length);
-      minSentences = Math.Abs(minSentences);
-      maxSentences = Math.Abs(maxSentences);
-      minWords = Math.Abs(minWords);
-      maxWords = Math.Abs(maxWords);
-
-      int numSentences = _rnd.Next(maxSentences - minSentences) + minSentences + 1;
-
-      StringBuilder result = new();
-
-      for (int s = 0; s < numSentences && result.Length <= length; s++)
-      {
-         int numWords = _rnd.Next(maxWords - minWords) + minWords + 1;
-         for (int w = 0; w < numWords && result.Length <= length; w++)
-         {
-            if (w > 0)
-               result.Append(' ');
-
-            result.Append(w == 0 ? ToTitleCase(words[_rnd.Next(words.Length)]) : words[_rnd.Next(words.Length)]);
-         }
-
-         result.Append(". ");
-      }
-
-      string text = result.ToString();
-
-      if (length > 0 && text.Length > length)
-         text = text[..(length - 1)] + ".";
-
-      return text;
-   }
-
-   /// <summary>
    /// Checks if the string is numeric.
    /// </summary>
    /// <param name="str">String-instance</param>
@@ -155,13 +96,78 @@ public static class StringHelper
    }
 
    /// <summary>
+   /// Converts a string to title case (first letter uppercase).
+   /// </summary>
+   /// <param name="str">String-instance</param>
+   /// <returns>Converted string in title case</returns>
+   /// <exception cref="ArgumentNullException"></exception>
+   public static string ToTitleCase(string str)
+   {
+      ArgumentNullException.ThrowIfNull(str);
+
+      return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(str.ToLower());
+   }
+
+   /// <summary>
+   /// Generates a "Lorem Ipsum" based on various parameters.
+   /// </summary>
+   /// <param name="length">Length of the text</param>
+   /// <param name="minSentences">Minimum number of sentences for the text (optional, default: 1)</param>
+   /// <param name="maxSentences">Maximal number of sentences for the text (optional, default: int.MaxValue)</param>
+   /// <param name="minWords">Minimum number of words per sentence (optional, default: 1)</param>
+   /// <param name="maxWords">Maximal number of words per sentence (optional, default: 15)</param>
+   /// <returns>"Lorem Ipsum" based on the given parameters</returns>
+   public static string GenerateLoremIpsum(int length, int minSentences = 1, int maxSentences = int.MaxValue, int minWords = 1, int maxWords = 15)
+   {
+      string[] words =
+      [
+         "lorem", "ipsum", "dolor", "sit", "amet", "consectetuer", "adipiscing", "elit", "sed", "diam",
+         "nonummy", "nibh", "euismod", "tincidunt", "ut", "laoreet", "dolore", "magna", "aliquam", "erat"
+      ];
+
+      length = Math.Abs(length);
+      minSentences = Math.Abs(minSentences);
+      maxSentences = Math.Abs(maxSentences);
+      minWords = Math.Abs(minWords);
+      maxWords = Math.Abs(maxWords);
+
+      int numSentences = _rnd.Next(maxSentences - minSentences) + minSentences + 1;
+
+      StringBuilder result = new();
+
+      for (int s = 0; s < numSentences && result.Length <= length; s++)
+      {
+         int numWords = _rnd.Next(maxWords - minWords) + minWords + 1;
+         for (int w = 0; w < numWords && result.Length <= length; w++)
+         {
+            if (w > 0)
+               result.Append(' ');
+
+            result.Append(w == 0 ? ToTitleCase(words[_rnd.Next(words.Length)]) : words[_rnd.Next(words.Length)]);
+         }
+
+         result.Append(". ");
+      }
+
+      string text = result.ToString();
+
+      if (length > 0 && text.Length > length)
+         text = text[..(length - 1)] + ".";
+
+      return text;
+   }
+
+   /// <summary>
    /// Cleans a given text from tags.
    /// </summary>
    /// <param name="str">Input to clean</param>
    /// <returns>Clean text without tags</returns>
-   public static string? RemoveTags(string? str)
+   /// <exception cref="ArgumentNullException"></exception>
+   public static string RemoveTags(string? str)
    {
-      return str != null ? Constants.REGEX_CLEAN_TAGS.Replace(str, string.Empty).Trim() : null;
+      ArgumentNullException.ThrowIfNull(str);
+
+      return Constants.REGEX_CLEAN_TAGS.Replace(str, string.Empty).Trim();
    }
 
    /// <summary>
@@ -169,9 +175,12 @@ public static class StringHelper
    /// </summary>
    /// <param name="str">Input to clean</param>
    /// <returns>Clean text without multiple spaces</returns>
-   public static string? RemoveSpaces(string? str)
+   /// <exception cref="ArgumentNullException"></exception>
+   public static string RemoveSpaces(string str)
    {
-      return str != null ? Constants.REGEX_CLEAN_SPACES.Replace(str, " ").Trim() : null;
+      ArgumentNullException.ThrowIfNull(str);
+
+      return Constants.REGEX_CLEAN_SPACES.Replace(str, " ").Trim();
    }
 
    /// <summary>
@@ -179,9 +188,12 @@ public static class StringHelper
    /// </summary>
    /// <param name="str">Input to clean</param>
    /// <returns>Clean text without line endings</returns>
-   public static string? RemoveLineEndings(this string? str)
+   /// <exception cref="ArgumentNullException"></exception>
+   public static string RemoveLineEndings(this string str)
    {
-      return str != null ? Constants.REGEX_LINEENDINGS.Replace(str, string.Empty).Trim() : null;
+      ArgumentNullException.ThrowIfNull(str);
+
+      return Constants.REGEX_LINEENDINGS.Replace(str, string.Empty).Trim();
    }
 
    /// <summary>
@@ -286,8 +298,11 @@ public static class StringHelper
    /// </summary>
    /// <param name="input">HTML encoded string</param>
    /// <returns>Normal string</returns>
+   /// <exception cref="ArgumentNullException"></exception>
    public static string DecodeFromHTMLString(string input)
    {
+      ArgumentNullException.ThrowIfNullOrEmpty(input);
+
       return HttpUtility.HtmlDecode(input);
    }
 
@@ -296,8 +311,11 @@ public static class StringHelper
    /// </summary>
    /// <param name="input">Normal string</param>
    /// <returns>HTML encoded string</returns>
+   /// <exception cref="ArgumentNullException"></exception>
    public static string EncodeToHTMLString(string input)
    {
+      ArgumentNullException.ThrowIfNullOrEmpty(input);
+
       return HttpUtility.HtmlEncode(input);
    }
 
@@ -306,9 +324,12 @@ public static class StringHelper
    /// </summary>
    /// <param name="url"></param>
    /// <returns>Escaped URL</returns>
-   public static string? EscapeURL(string? url)
+   /// <exception cref="ArgumentNullException"></exception>
+   public static string EscapeURL(string url)
    {
-      return url == null ? null : Uri.EscapeDataString(url).Replace("%2F", "/").Replace("%3A", ":");
+      ArgumentNullException.ThrowIfNullOrEmpty(url);
+
+      return Uri.EscapeDataString(url).Replace("%2F", "/").Replace("%3A", ":");
    }
 
    /// <summary>
@@ -318,10 +339,10 @@ public static class StringHelper
    /// <param name="replacement">Replacement string for the quotation (optional, default: "")</param>
    /// <param name="trim">Trim the string (optional, default: true)</param>
    /// <returns>String without quotations</returns>
-   public static string? RemoveQuotation(this string? str, string replacement = "", bool trim = true)
+   /// <exception cref="ArgumentNullException"></exception>
+   public static string RemoveQuotation(this string str, string replacement = "", bool trim = true)
    {
-      if (str == null)
-         return str;
+      ArgumentNullException.ThrowIfNull(str);
 
       return trim ? str.Replace("\"", replacement).Trim() : str.Replace("\"", replacement);
    }
@@ -331,9 +352,12 @@ public static class StringHelper
    /// </summary>
    /// <param name="str"></param>
    /// <returns>String with quotations</returns>
-   public static string? AddQuotation(this string? str)
+   /// <exception cref="ArgumentNullException"></exception>
+   public static string AddQuotation(this string str)
    {
-      return str == null ? str : $"\"{str}\"";
+      ArgumentNullException.ThrowIfNull(str);
+
+      return $"\"{str}\"";
    }
 
    /*

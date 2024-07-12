@@ -24,7 +24,7 @@ public class ObjectSec<T> where T : class //NUnit
 
    private T _value
    {
-      get => (AESHelper.Decrypt(_secretValue, _key.ToByteArray(), _iv.ToByteArray()).BNToObject<T>() ?? default)!;
+      get => AESHelper.Decrypt(_secretValue, _key.ToByteArray(), _iv.ToByteArray()).BNToObject<T>();
       set => _secretValue = AESHelper.Encrypt(value.BNToByteArray(), _key.ToByteArray(), _iv.ToByteArray());
    }
 

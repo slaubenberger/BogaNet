@@ -289,11 +289,11 @@ public class FileHelperTest
          Assert.That(FileHelper.ExistsDirectory(newPath), Is.True);
       });
 
-      string? movePath = FileHelper.CreateDirectory(_testTempPath, "BN_TEST");
+      string movePath = FileHelper.CreateDirectory(_testTempPath, "BN_TEST");
 
       Assert.Multiple(() =>
       {
-         Assert.That(movePath != null && FileHelper.CopyDirectory(newPath, movePath, true), Is.True);
+         Assert.That(FileHelper.CopyDirectory(newPath, movePath, true), Is.True);
          Assert.That(FileHelper.ExistsDirectory(newPath), Is.False);
       });
    }
@@ -301,19 +301,16 @@ public class FileHelperTest
    [Test]
    public void RenameDirectory_Test()
    {
-      string? fname = FileHelper.CreateDirectory(FileHelper.TempPath, System.Guid.NewGuid().ToString());
+      string fname = FileHelper.CreateDirectory(FileHelper.TempPath, System.Guid.NewGuid().ToString());
       Assert.That(FileHelper.ExistsDirectory(fname), Is.True);
 
-      if (fname != null)
-      {
-         string fnameNew = FileHelper.RenameDirectory(fname, System.Guid.NewGuid().ToString());
+      string fnameNew = FileHelper.RenameDirectory(fname, System.Guid.NewGuid().ToString());
 
-         Assert.Multiple(() =>
-         {
-            Assert.That(FileHelper.ExistsDirectory(fname), Is.False);
-            Assert.That(FileHelper.ExistsDirectory(fnameNew), Is.True);
-         });
-      }
+      Assert.Multiple(() =>
+      {
+         Assert.That(FileHelper.ExistsDirectory(fname), Is.False);
+         Assert.That(FileHelper.ExistsDirectory(fnameNew), Is.True);
+      });
    }
 
    [Test]
@@ -332,19 +329,16 @@ public class FileHelperTest
    [Test]
    public void RenameFile_Test()
    {
-      string? fname = FileHelper.CreateFile(FileHelper.TempPath, Guid.NewGuid().ToString());
+      string fname = FileHelper.CreateFile(FileHelper.TempPath, Guid.NewGuid().ToString());
       Assert.That(FileHelper.ExistsFile(fname), Is.True);
 
-      if (fname != null)
-      {
-         string fnameNew = FileHelper.RenameFile(fname, Guid.NewGuid().ToString());
+      string fnameNew = FileHelper.RenameFile(fname, Guid.NewGuid().ToString());
 
-         Assert.Multiple(() =>
-         {
-            Assert.That(FileHelper.ExistsFile(fname), Is.False);
-            Assert.That(FileHelper.ExistsFile(fnameNew), Is.True);
-         });
-      }
+      Assert.Multiple(() =>
+      {
+         Assert.That(FileHelper.ExistsFile(fname), Is.False);
+         Assert.That(FileHelper.ExistsFile(fnameNew), Is.True);
+      });
    }
 
    [Test]
@@ -365,14 +359,14 @@ public class FileHelperTest
    public void DeleteDirectory_Test()
    {
       string folderName = Guid.NewGuid().ToString();
-      string? newPath = FileHelper.CreateDirectory(FileHelper.TempPath, folderName);
+      string newPath = FileHelper.CreateDirectory(FileHelper.TempPath, folderName);
 
       Assert.Multiple(() =>
       {
          Assert.That(FileHelper.ExistsDirectory(newPath), Is.True);
-         Assert.That(newPath != null && FileHelper.DeleteDirectory(newPath), Is.True);
+         Assert.That(FileHelper.DeleteDirectory(newPath), Is.True);
          Assert.That(!FileHelper.ExistsDirectory(newPath), Is.True);
-         Assert.That(newPath != null && FileHelper.DeleteDirectory(newPath), Is.False);
+         Assert.That(FileHelper.DeleteDirectory(newPath), Is.False);
       });
    }
 
@@ -405,32 +399,32 @@ public class FileHelperTest
    [Test]
    public void CreateDirectory_Test()
    {
-      string? path = FileHelper.CreateDirectory(FileHelper.TempPath, System.Guid.NewGuid().ToString());
+      string path = FileHelper.CreateDirectory(FileHelper.TempPath, System.Guid.NewGuid().ToString());
 
       Assert.Multiple(() =>
       {
          Assert.That(FileHelper.ExistsDirectory(path), Is.True);
-         Assert.That(path != null && FileHelper.DeleteDirectory(path), Is.True);
+         Assert.That(FileHelper.DeleteDirectory(path), Is.True);
          Assert.That(FileHelper.ExistsDirectory(path), Is.False);
          Assert.That(FileHelper.CreateDirectory(path), Is.True);
          Assert.That(FileHelper.ExistsDirectory(path), Is.True);
-         Assert.That(path != null && FileHelper.DeleteDirectory(path), Is.True);
+         Assert.That(FileHelper.DeleteDirectory(path), Is.True);
       });
    }
 
    [Test]
    public void CreateFile_Test()
    {
-      string? fname = FileHelper.CreateFile(FileHelper.TempPath, $"{System.Guid.NewGuid()}.tmp");
+      string fname = FileHelper.CreateFile(FileHelper.TempPath, $"{System.Guid.NewGuid()}.tmp");
 
       Assert.Multiple(() =>
       {
          Assert.That(FileHelper.ExistsFile(fname), Is.True);
-         Assert.That(fname != null && FileHelper.DeleteFile(fname), Is.True);
+         Assert.That(FileHelper.DeleteFile(fname), Is.True);
          Assert.That(FileHelper.ExistsFile(fname), Is.False);
-         Assert.That(fname != null && FileHelper.CreateFile(fname), Is.True);
+         Assert.That(FileHelper.CreateFile(fname), Is.True);
          Assert.That(FileHelper.ExistsFile(fname), Is.True);
-         Assert.That(fname != null && FileHelper.DeleteFile(fname), Is.True);
+         Assert.That(FileHelper.DeleteFile(fname), Is.True);
       });
    }
 
@@ -560,8 +554,8 @@ public class FileHelperTest
       {
          Assert.That(FileHelper.GetExtension(FileHelper.TempFile), Is.EqualTo("tmp"));
          Assert.That(FileHelper.GetExtension(_testFileName), Is.EqualTo("png"));
-         Assert.That(FileHelper.GetExtension("ct_logo"), Is.EqualTo(null));
-         Assert.That(FileHelper.GetExtension(FileHelper.TempPath), Is.EqualTo(null));
+         Assert.That(FileHelper.GetExtension("ct_logo"), Is.EqualTo(string.Empty));
+         Assert.That(FileHelper.GetExtension(FileHelper.TempPath), Is.EqualTo(string.Empty));
       });
    }
 
@@ -667,10 +661,9 @@ public class FileHelperTest
    [TearDown]
    public void CleanUp()
    {
-      string? movePath = FileHelper.CreateDirectory(_testTempPath, "CT_TEST");
+      string movePath = FileHelper.CreateDirectory(_testTempPath, "CT_TEST");
 
-      if (movePath != null)
-         FileHelper.DeleteDirectory(movePath);
+      FileHelper.DeleteDirectory(movePath);
    }
 
    #endregion

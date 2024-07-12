@@ -99,8 +99,8 @@ public abstract class CRC8 //NUnit
    {
       ArgumentNullException.ThrowIfNullOrEmpty(file);
 
-      byte[]? bytes = await FileHelper.ReadAllBytesAsync(file);
-      return bytes == null ? (byte)0 : CalcCRC(bytes);
+      byte[] bytes = await FileHelper.ReadAllBytesAsync(file);
+      return CalcCRC(bytes);
    }
 
    #endregion
