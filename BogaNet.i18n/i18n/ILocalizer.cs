@@ -115,19 +115,33 @@ public interface ILocalizer
    void Clear();
 
    /// <summary>
-   /// Load translation files (CSV).
+   /// Load translation files (CSV) from a given path.
    /// </summary>
    /// <param name="files">Files to load</param>
    /// <exception cref="Exception"></exception>
    void LoadFiles(params string[] files);
 
    /// <summary>
-   /// Load translation files (CSV) asynchronously.
+   /// Load translation files (CSV) from a given path asynchronously.
    /// </summary>
    /// <param name="files">Files to load</param>
    /// <exception cref="Exception"></exception>
    Task LoadFilesAsync(params string[] files);
 
+   /// <summary>
+   /// Load translation files (CSV) from given URLs.
+   /// </summary>
+   /// <param name="urls">URLs of files to load</param>
+   /// <exception cref="Exception"></exception>
+   void LoadFilesFromUrl(params string[] urls);
+
+   /// <summary>
+   /// Load translation files (CSV) from given URLs asynchronously.
+   /// </summary>
+   /// <param name="urls">URLs of files to load</param>
+   /// <exception cref="Exception"></exception>
+   Task LoadFilesFromUrlAsync(params string[] urls);
+   
    /// <summary>
    /// Saves all translations to a given file (CSV).
    /// </summary>

@@ -93,16 +93,11 @@ public abstract class StringTRNG : BaseTRNG //NUnit
 
             _logger.LogDebug("URL: " + url);
 
-            using HttpClient client = new();
-            using HttpResponseMessage response = client.GetAsync(url).Result;
-            response.EnsureSuccessStatusCode();
+            string[]? result = await NetworkHelper.ReadAllLinesAsync(url);
 
-            if (response.IsSuccessStatusCode)
+            if (result != null)
             {
-               string data = await response.Content.ReadAsStringAsync();
-
                Result.Clear();
-               List<string> result = StringHelper.SplitToLines(data);
 
                foreach (string valueAsString in result.Where(valueAsString => !string.IsNullOrEmpty(valueAsString)))
                {
@@ -111,13 +106,13 @@ public abstract class StringTRNG : BaseTRNG //NUnit
             }
             else
             {
-               _logger.LogError($"Could not download data: {response.StatusCode} - {response.ReasonPhrase}");
+               _logger.LogWarning("No data received - using standard prng!");
+               Result = GeneratePRNG(len, num, digits, upper, lower, unique, Seed);
             }
          }
          else
          {
-            const string msg = "Quota exceeded - using standard prng!";
-            _logger.LogWarning(msg);
+            _logger.LogWarning("Quota exceeded - using standard prng!");
 
             Result = GeneratePRNG(len, num, digits, upper, lower, unique, Seed);
          }

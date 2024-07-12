@@ -271,7 +271,7 @@ public abstract class NetworkHelper
    /// </summary>
    /// <param name="checkUrl">External url to check the ip (optional, default: https://checkip.amazonaws.com/</param>
    /// <returns>Public IP of the Internet connection.</returns>
-   public static string GetPublicIP(string checkUrl = "https://checkip.amazonaws.com/") //alternatives: "https://icanhazip.com", "https://ipinfo.io/ip"
+   public static string GetPublicIP(string checkUrl = "https://checkip.amazonaws.com/") //alternatives: "https://icanhazip.com", "https://ipinfo.io/ip"  //NUnit
    {
       return Task.Run(() => GetPublicIPAsync(checkUrl)).GetAwaiter().GetResult();
    }
@@ -288,13 +288,11 @@ public abstract class NetworkHelper
 
       try
       {
-         using HttpClient client = new();
-
-         string content = await client.GetStringAsync(checkUrl);
+         string? content = await ReadAllTextAsync(checkUrl);
 
          _logger.LogDebug($"Content: {content}");
 
-         return content.Trim();
+         return content == null ? "unknown" : content.Trim();
       }
       catch (Exception ex)
       {
@@ -311,7 +309,7 @@ public abstract class NetworkHelper
    /// </summary>
    /// <param name="activeOnly">Search only for active network interfaces (optional, default: true)</param>
    /// <returns>List of network interfaces.</returns>
-   public static List<NetworkAdapter> GetNetworkAdapters(bool activeOnly = true)
+   public static List<NetworkAdapter> GetNetworkAdapters(bool activeOnly = true) //NUnit
    {
       List<NetworkAdapter> adapters = [];
 
@@ -355,7 +353,7 @@ public abstract class NetworkHelper
    /// Checks the availability of the Internet (aka "Captive Portal Detection").
    /// </summary>
    /// <returns>True if a connection to the Internet is available</returns>
-   public static bool CheckInternetAvailability()
+   public static bool CheckInternetAvailability() //NUnit
    {
       return Task.Run(CheckInternetAvailabilityAsync).GetAwaiter().GetResult();
    }
@@ -423,7 +421,7 @@ public abstract class NetworkHelper
    /// <param name="hostname">Host/IP to ping</param>
    /// <returns>Roundtrip-Time in milliseconds</returns>
    /// <exception cref="Exception"></exception>
-   public static long Ping(string hostname)
+   public static long Ping(string hostname) //NUnit
    {
       return Task.Run(() => PingAsync(hostname)).GetAwaiter().GetResult();
    }
@@ -575,8 +573,6 @@ public abstract class NetworkHelper
 
       try
       {
-//         using HttpClient client = new();
-         //string content = await client.GetStringAsync(urlAntiCacheRandomizer(url));
          string? content = await ReadAllTextAsync(urlAntiCacheRandomizer(url));
 
          _logger.LogTrace($"Content from {type}: {content}");

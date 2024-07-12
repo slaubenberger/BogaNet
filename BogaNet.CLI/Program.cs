@@ -52,17 +52,17 @@ public static class Program
       int quotaStart = await BogaNet.TrueRandom.CheckQuota.GetQuotaAsync();
       _logger.LogInformation($"Quota start: {quotaStart}");
 
-      //var res = await BogaNet.TrueRandom.TRNGBytes.GenerateAsync(5);
-      var res = await BogaNet.TrueRandom.TRNGString.GenerateAsync(5, 3);
-      //var res = await BogaNet.TrueRandom.TRNGInteger.GenerateAsync(-10, 10, 5);
-      //var res = await BogaNet.TrueRandom.TRNGFloat.GenerateAsync(-10, 10, 5);
-      //var res = await BogaNet.TrueRandom.TRNGSequence.GenerateAsync(-5, 5);
+      //var res = await BogaNet.TrueRandom.BytesTRNG.GenerateAsync(5);
+      //var res = await BogaNet.TrueRandom.StringTRNG.GenerateAsync(5, 3);
+      //var res = await BogaNet.TrueRandom.IntegerTRNG.GenerateAsync(-10, 10, 5);
+      //var res = await BogaNet.TrueRandom.FloatTRNG.GenerateAsync(-10, 10, 5);
+      var res = await BogaNet.TrueRandom.SequenceTRNG.GenerateAsync(-5, 5);
 
-      //_logger.LogInformation(BogaNet.TrueRandom.TRNGBytes.CalcBits(5).ToString());
-      _logger.LogInformation(BogaNet.TrueRandom.TRNGString.CalcBits(5, 3).ToString());
-      //_logger.LogInformation("Calc: " + BogaNet.TrueRandom.TRNGInteger.CalcBits(-10, 10, 5).ToString());
-      //_logger.LogInformation("Calc: " + BogaNet.TrueRandom.TRNGFloat.CalcBits(5).ToString());
-      //_logger.LogInformation("Calc: " + BogaNet.TrueRandom.TRNGSequence.CalcBits(-5, 5).ToString());
+      //_logger.LogInformation(BogaNet.TrueRandom.BytesTRNG.CalcBits(5).ToString());
+      //_logger.LogInformation(BogaNet.TrueRandom.StringTRNG.CalcBits(5, 3).ToString());
+      //_logger.LogInformation("Calc: " + BogaNet.TrueRandom.IntegerTRNG.CalcBits(-10, 10, 5).ToString());
+      //_logger.LogInformation("Calc: " + BogaNet.TrueRandom.FloatTRNG.CalcBits(5).ToString());
+      _logger.LogInformation("Calc: " + BogaNet.TrueRandom.SequenceTRNG.CalcBits(-5, 5).ToString());
 
       foreach (var number in res)
       {

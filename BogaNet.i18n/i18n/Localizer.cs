@@ -284,6 +284,28 @@ public class Localizer : Singleton<Localizer>, ILocalizer //NUnit
       Load(allLines);
    }
 
+   public void LoadFilesFromUrl(params string[] urls)
+   {
+      Task.Run(() => LoadFilesFromUrlAsync(urls)).GetAwaiter().GetResult();
+   }
+
+   public async Task LoadFilesFromUrlAsync(params string[] urls)
+   {
+      ArgumentNullException.ThrowIfNull(urls);
+
+      Dictionary<string, string[]> allLines = new();
+
+      foreach (string currentTranslation in urls)
+      {
+         string[]? lines = await NetworkHelper.ReadAllLinesAsync(currentTranslation);
+
+         if (lines != null && lines.Length > 1)
+            allLines.Add(currentTranslation, lines);
+      }
+
+      Load(allLines);
+   }
+
    public virtual void SaveFile(string filename)
    {
       Task.Run(() => SaveFileAsync(filename)).GetAwaiter().GetResult();

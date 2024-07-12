@@ -138,5 +138,33 @@ public class NetworkHelperTest
       Assert.That(ip, Is.EqualTo(_ipLocalhost));
    }
 
+   [Test]
+   public void GetPublicIP_Test()
+   {
+      string ip = NetworkHelper.GetPublicIP();
+      Assert.That(ip, Is.EqualTo("188.63.132.68")); //TODO change for every run
+   }
+
+   [Test]
+   public void GetNetworkAdapters_Test()
+   {
+      var adapters = NetworkHelper.GetNetworkAdapters();
+      Assert.That(adapters, Has.Count.GreaterThan(0));
+   }
+
+   [Test]
+   public void CheckInternetAvailability_Test()
+   {
+      var isOnline = NetworkHelper.CheckInternetAvailability();
+      Assert.That(isOnline, Is.EqualTo(true));
+   }
+
+   [Test]
+   public void Ping_Test()
+   {
+      var ping = NetworkHelper.Ping("google.com");
+      Assert.That(ping, Is.GreaterThan(0));
+   }
+
    #endregion
 }

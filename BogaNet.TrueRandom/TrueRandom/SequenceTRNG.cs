@@ -99,16 +99,11 @@ public abstract class SequenceTRNG : BaseTRNG //NUnit
 
             _logger.LogDebug("URL: " + url);
 
-            using HttpClient client = new();
-            using HttpResponseMessage response = client.GetAsync(url).Result;
-            response.EnsureSuccessStatusCode();
+            string[]? result = await NetworkHelper.ReadAllLinesAsync(url);
 
-            if (response.IsSuccessStatusCode)
+            if (result != null)
             {
-               string data = await response.Content.ReadAsStringAsync();
-
                Result.Clear();
-               List<string> result = StringHelper.SplitToLines(data);
 
                int value = 0;
                foreach (string unused in result.Where(valueAsString => int.TryParse(valueAsString, out value)))
@@ -118,7 +113,8 @@ public abstract class SequenceTRNG : BaseTRNG //NUnit
             }
             else
             {
-               _logger.LogError($"Could not download data: {response.StatusCode} - {response.ReasonPhrase}");
+               _logger.LogWarning("No data received - using standard prng!");
+               Result = GeneratePRNG(minValue, maxValue, Seed);
             }
          }
          else
