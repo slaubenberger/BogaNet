@@ -13,8 +13,8 @@ public class Base64Test
       const string plain = "BogaNet rülez!";
       //plain = "Hello world!";
       //Byte-array
-      string? output = Base64.ToBase64String(plain.BNToByteArray());
-      string? plain2 = Base64.FromBase64String(output).BNToString();
+      string output = Base64.ToBase64String(plain.BNToByteArray());
+      string plain2 = Base64.FromBase64String(output).BNToString();
       Assert.That(plain2, Is.EqualTo(plain));
 
       //String

@@ -15,7 +15,7 @@ public class BoolObf //NUnit
    private static readonly byte _shift = Obfuscator.GenerateIV();
    private readonly byte _offset;
    private readonly byte _iv;
-   private byte[]? _obfValue;
+   private byte[] _obfValue = [];
 
    #endregion
 
@@ -81,7 +81,7 @@ public class BoolObf //NUnit
       if (ReferenceEquals(null, obj)) return false;
       if (ReferenceEquals(this, obj)) return true;
 
-      if (obj.GetType() == typeof(bool))
+      if (obj is bool)
          return _value.Equals(obj);
 
       return obj.GetType() == GetType() && equals((BoolObf)obj);

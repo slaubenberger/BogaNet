@@ -21,7 +21,7 @@ public class ArrayHelperTest
       const string input = "";
       string? result = input.BNReverse();
 
-      Assert.IsEmpty(result);
+      Assert.That(result, Is.Empty);
    }
 
    [Test]
@@ -45,7 +45,7 @@ public class ArrayHelperTest
       const string newString = "LLC";
       string? result = input.BNReplace(oldString, newString);
 
-      Assert.IsEmpty(result);
+      Assert.That(result, Is.Empty);
 /*
          //Test: newString null
          input = "crosstales GmbH";

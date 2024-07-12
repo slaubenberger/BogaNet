@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using BogaNet.Helper;
 using System.Net.Http;
-using System.Text.RegularExpressions;
 
 namespace BogaNet.TrueRandom;
 
@@ -17,7 +16,6 @@ public abstract class IntegerTRNG : BaseTRNG //NUnit
    #region Variables
 
    private static readonly ILogger<IntegerTRNG> _logger = GlobalLogging.CreateLogger<IntegerTRNG>();
-   private static List<int> _result = [];
 
    #endregion
 
@@ -25,7 +23,7 @@ public abstract class IntegerTRNG : BaseTRNG //NUnit
 
    /// <summary>Returns the list of integers from the last generation.</summary>
    /// <returns>List of integers from the last generation.</returns>
-   public static List<int> Result => _result;
+   public static List<int> Result { get; private set; } = [];
 
    #endregion
 
@@ -111,13 +109,13 @@ public abstract class IntegerTRNG : BaseTRNG //NUnit
             {
                string data = await response.Content.ReadAsStringAsync();
 
-               _result.Clear();
-               string[] result = Regex.Split(data, "\r\n?|\n", RegexOptions.Singleline);
+               Result.Clear();
+               List<string> result = StringHelper.SplitToLines(data);
 
                int value = 0;
-               foreach (string valueAsString in result.Where(valueAsString => int.TryParse(valueAsString, out value)))
+               foreach (string unused in result.Where(valueAsString => int.TryParse(valueAsString, out value)))
                {
-                  _result.Add(value);
+                  Result.Add(value);
                }
             }
             else
@@ -130,7 +128,7 @@ public abstract class IntegerTRNG : BaseTRNG //NUnit
             const string msg = "Quota exceeded - using standard prng!";
             _logger.LogWarning(msg);
 
-            _result = GeneratePRNG(minValue, maxValue, num, Seed);
+            Result = GeneratePRNG(minValue, maxValue, num, Seed);
          }
 
          _isRunning = false;
@@ -142,7 +140,7 @@ public abstract class IntegerTRNG : BaseTRNG //NUnit
       }
 
 
-      return _result;
+      return Result;
    }
 
    /// <summary>Generates random integers with the C#-standard Pseudo-Random-Number-Generator.</summary>

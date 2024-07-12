@@ -4,7 +4,6 @@ using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using BogaNet.Helper;
-using System.Text.RegularExpressions;
 using System.Net.Http;
 
 namespace BogaNet.TrueRandom;
@@ -17,7 +16,6 @@ public abstract class StringTRNG : BaseTRNG //NUnit
    #region Variables
 
    private static readonly ILogger<StringTRNG> _logger = GlobalLogging.CreateLogger<StringTRNG>();
-   private static List<string> _result = [];
 
    #endregion
 
@@ -25,7 +23,7 @@ public abstract class StringTRNG : BaseTRNG //NUnit
 
    /// <summary>Returns the list of strings from the last generation.</summary>
    /// <returns>List of strings from the last generation.</returns>
-   public static List<string> Result => _result.GetRange(0, _result.Count);
+   public static List<string> Result { get; private set; } = [];
 
    #endregion
 
@@ -103,12 +101,12 @@ public abstract class StringTRNG : BaseTRNG //NUnit
             {
                string data = await response.Content.ReadAsStringAsync();
 
-               _result.Clear();
-               string[] result = Regex.Split(data, "\r\n?|\n", RegexOptions.Singleline);
+               Result.Clear();
+               List<string> result = StringHelper.SplitToLines(data);
 
                foreach (string valueAsString in result.Where(valueAsString => !string.IsNullOrEmpty(valueAsString)))
                {
-                  _result.Add(valueAsString);
+                  Result.Add(valueAsString);
                }
             }
             else
@@ -121,7 +119,7 @@ public abstract class StringTRNG : BaseTRNG //NUnit
             const string msg = "Quota exceeded - using standard prng!";
             _logger.LogWarning(msg);
 
-            _result = GeneratePRNG(len, num, digits, upper, lower, unique, Seed);
+            Result = GeneratePRNG(len, num, digits, upper, lower, unique, Seed);
          }
 
          _isRunning = false;
@@ -131,7 +129,7 @@ public abstract class StringTRNG : BaseTRNG //NUnit
          _logger.LogWarning("There is already a request running - please try again later!");
       }
 
-      return _result;
+      return Result;
    }
 
    /// <summary>Generates random strings with the C#-standard Pseudo-Random-Number-Generator.</summary>
@@ -169,17 +167,13 @@ public abstract class StringTRNG : BaseTRNG //NUnit
             bool isNotUnique;
             do
             {
-               isNotUnique = false;
                s = string.Empty;
                for (int yy = 0; yy < len; yy++)
                {
                   s += glyphs[rnd.Next(0, glyphs.Length)];
                }
 
-               foreach (string str in _result.Where(str => str == s))
-               {
-                  isNotUnique = true;
-               }
+               isNotUnique = Result.Any(str => str == s);
             } while (isNotUnique);
          }
          else
@@ -205,7 +199,7 @@ public abstract class StringTRNG : BaseTRNG //NUnit
    {
       int num = number;
 
-      if (unique && length > 0 && length <= 10)
+      if (unique && length is > 0 and <= 10)
       {
          double basis = 0d;
 

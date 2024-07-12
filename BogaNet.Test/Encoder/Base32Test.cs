@@ -13,8 +13,8 @@ public class Base32Test
       const string plain = "BogaNet rülez!";
 
       //Byte-array
-      string? output = Base32.ToBase32String(plain.BNToByteArray());
-      string? plain2 = Base32.FromBase32String(output).BNToString();
+      string output = Base32.ToBase32String(plain.BNToByteArray());
+      string plain2 = Base32.FromBase32String(output).BNToString();
       Assert.That(plain2, Is.EqualTo(plain));
 
       //String

@@ -16,7 +16,7 @@ public static class CertificateExtension
    /// <param name="type">Type of the content (optional, default: Cert (=public key))</param>
    /// <returns>Byte-array with the X509-certificate</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static byte[]? BNToByteArray(this X509Certificate2 cert, string? password = null, X509ContentType type = X509ContentType.Cert)
+   public static byte[] BNToByteArray(this X509Certificate2 cert, string? password = null, X509ContentType type = X509ContentType.Cert)
    {
       ArgumentNullException.ThrowIfNull(cert);
 

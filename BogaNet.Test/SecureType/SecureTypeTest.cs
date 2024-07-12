@@ -11,7 +11,7 @@ public class SecureTypeTest
    public void Byte_Test()
    {
       ByteSec age = 35;
-      byte years = 7;
+      const byte years = 7;
       age += years;
 
       byte res = age;
@@ -40,7 +40,7 @@ public class SecureTypeTest
    public void Decimal_Test()
    {
       DecimalSec age = 35.8m;
-      decimal years = 7;
+      const decimal years = 7;
       age += years;
 
       decimal res = age;
@@ -51,7 +51,7 @@ public class SecureTypeTest
    public void Double_Test()
    {
       DoubleSec age = 35.8;
-      double years = 7;
+      const double years = 7;
       age += years;
 
       double res = age;
@@ -62,7 +62,7 @@ public class SecureTypeTest
    public void Float_Test()
    {
       FloatSec age = 35.8f;
-      float years = 7;
+      const float years = 7;
       age += years;
 
       float res = age;
@@ -73,7 +73,7 @@ public class SecureTypeTest
    public void Int_Test()
    {
       IntSec age = 35;
-      int years = 7;
+      const int years = 7;
       age += years;
 
       int res = age;
@@ -84,7 +84,7 @@ public class SecureTypeTest
    public void Long_Test()
    {
       LongSec age = 35;
-      long years = 7;
+      const long years = 7;
       age += years;
 
       long res = age;
@@ -95,7 +95,7 @@ public class SecureTypeTest
    public void Nint_Test()
    {
       NintSec age = 35;
-      nint years = 7;
+      const IntPtr years = 7;
       age += years;
 
       nint res = age;
@@ -106,7 +106,7 @@ public class SecureTypeTest
    public void Nuint_Test()
    {
       NuintSec age = 35;
-      nuint years = 7;
+      const UIntPtr years = 7;
       age += years;
 
       nuint res = age;
@@ -117,7 +117,7 @@ public class SecureTypeTest
    public void Sbyte_Test()
    {
       SbyteSec age = 35;
-      sbyte years = 7;
+      const sbyte years = 7;
       age += years;
 
       sbyte res = age;
@@ -128,7 +128,7 @@ public class SecureTypeTest
    public void Short_Test()
    {
       ShortSec age = 35;
-      short years = 7;
+      const short years = 7;
       age += years;
 
       short res = age;
@@ -139,7 +139,7 @@ public class SecureTypeTest
    public void String_Test()
    {
       StringSec text = $"Hello everybody! {DateTime.Now}";
-      string frag = " BYE";
+      const string frag = " BYE";
       text += frag;
 
       string textB = text;
@@ -151,7 +151,7 @@ public class SecureTypeTest
    public void Uint_Test()
    {
       UintSec age = 35;
-      uint years = 7;
+      const uint years = 7;
       age += years;
 
       uint res = age;
@@ -162,7 +162,7 @@ public class SecureTypeTest
    public void Ulong_Test()
    {
       UlongSec age = 35;
-      ulong years = 7;
+      const ulong years = 7;
       age += years;
 
       ulong res = age;
@@ -173,7 +173,7 @@ public class SecureTypeTest
    public void Ushort_Test()
    {
       UshortSec age = 35;
-      ushort years = 7;
+      const ushort years = 7;
       age += years;
 
       ushort res = age;
@@ -187,7 +187,7 @@ public class SecureTypeTest
       ObjectSec<TestClass> obj = refObj;
       TestClass tm = obj;
       Assert.True(obj.Equals(refObj));
-      Assert.True(tm.Equals(refObj));
+      Assert.That(tm, Is.EqualTo(refObj));
    }
 
    #endregion

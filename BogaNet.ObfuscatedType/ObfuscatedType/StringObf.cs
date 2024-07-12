@@ -15,7 +15,7 @@ public class StringObf //NUnit
    private static readonly byte _shift = Obfuscator.GenerateIV();
    private readonly byte _offset;
    private readonly byte _iv;
-   private byte[]? _obfValue;
+   private byte[] _obfValue = [];
 
    #endregion
 
@@ -26,7 +26,7 @@ public class StringObf //NUnit
 
    private string _value
    {
-      get => Obfuscator.Deobfuscate(_obfValue, _obf).BNToString() ?? string.Empty;
+      get => Obfuscator.Deobfuscate(_obfValue, _obf).BNToString();
       set => _obfValue = Obfuscator.Obfuscate(value, _obf);
    }
 
@@ -81,7 +81,7 @@ public class StringObf //NUnit
       if (ReferenceEquals(null, obj)) return false;
       if (ReferenceEquals(this, obj)) return true;
 
-      if (obj.GetType() == typeof(string))
+      if (obj is string)
          return _value.Equals(obj);
 
       return obj.GetType() == GetType() && equals((StringObf)obj);

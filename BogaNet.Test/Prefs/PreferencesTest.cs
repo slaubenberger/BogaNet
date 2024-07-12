@@ -23,7 +23,7 @@ public class PreferencesTest
       Assert.That(text, Is.EqualTo(refText));
 
       const string refTextObf = "Hello obfuscated wörld!";
-      string keyObf = "textObf";
+      const string keyObf = "textObf";
       Preferences.Instance.Set(keyObf, refTextObf, true);
       text = Preferences.Instance.GetString(keyObf, true);
       Assert.That(text, Is.EqualTo(refTextObf));
@@ -39,7 +39,7 @@ public class PreferencesTest
       };
       const string key = "object";
       Preferences.Instance.Set(key, refValue);
-      TestClass testClass = Preferences.Instance.GetObject<TestClass>(key);
+      TestClass? testClass = Preferences.Instance.GetObject<TestClass>(key);
       Assert.That(testClass, Is.EqualTo(refValue));
 
       const string keyObf = "objectObf";

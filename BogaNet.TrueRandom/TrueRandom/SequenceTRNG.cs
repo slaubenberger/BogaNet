@@ -5,7 +5,6 @@ using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using BogaNet.Helper;
-using System.Text.RegularExpressions;
 using System.Net.Http;
 
 namespace BogaNet.TrueRandom;
@@ -18,7 +17,6 @@ public abstract class SequenceTRNG : BaseTRNG //NUnit
    #region Variables
 
    private static readonly ILogger<SequenceTRNG> _logger = GlobalLogging.CreateLogger<SequenceTRNG>();
-   private static List<int> _result = [];
 
    #endregion
 
@@ -26,7 +24,7 @@ public abstract class SequenceTRNG : BaseTRNG //NUnit
 
    /// <summary>Returns the sequence from the last generation.</summary>
    /// <returns>Sequence from the last generation.</returns>
-   public static List<int> Result => _result;
+   public static List<int> Result { get; private set; } = [];
 
    #endregion
 
@@ -109,13 +107,13 @@ public abstract class SequenceTRNG : BaseTRNG //NUnit
             {
                string data = await response.Content.ReadAsStringAsync();
 
-               _result.Clear();
-               string[] result = Regex.Split(data, "\r\n?|\n", RegexOptions.Singleline);
+               Result.Clear();
+               List<string> result = StringHelper.SplitToLines(data);
 
                int value = 0;
-               foreach (string valueAsString in result.Where(valueAsString => int.TryParse(valueAsString, out value)))
+               foreach (string unused in result.Where(valueAsString => int.TryParse(valueAsString, out value)))
                {
-                  _result.Add(value);
+                  Result.Add(value);
                }
             }
             else
@@ -126,7 +124,7 @@ public abstract class SequenceTRNG : BaseTRNG //NUnit
          else
          {
             _logger.LogWarning("Quota exceeded - using standard prng!");
-            _result = GeneratePRNG(minValue, maxValue, Seed);
+            Result = GeneratePRNG(minValue, maxValue, Seed);
          }
 
          _isRunning = false;
@@ -136,10 +134,10 @@ public abstract class SequenceTRNG : BaseTRNG //NUnit
          _logger.LogWarning("There is already a request running - please try again later!");
       }
 
-      if (number > 0 && number < _result.Count)
-         _result = _result.GetRange(0, number);
+      if (number > 0 && number < Result.Count)
+         Result = Result.GetRange(0, number);
 
-      return _result;
+      return Result;
    }
 
    /// <summary>Generates a random sequence with the C#-standard Pseudo-Random-Number-Generator.</summary>

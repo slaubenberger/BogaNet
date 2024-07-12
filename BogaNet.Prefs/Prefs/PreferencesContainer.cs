@@ -59,7 +59,7 @@ public class PreferencesContainer : IPreferencesContainer //NUnit
       if (!string.IsNullOrEmpty(filepath))
          _file = filepath;
 
-      _preferences?.Clear();
+      _preferences.Clear();
 
       if (FileHelper.Exists(_file))
          FileHelper.Delete(_file);
@@ -68,7 +68,7 @@ public class PreferencesContainer : IPreferencesContainer //NUnit
    public virtual void Remove(string key)
    {
       if (ContainsKey(key))
-         _preferences?.Remove(key);
+         _preferences.Remove(key);
    }
 
    public virtual bool ContainsKey(string key)
@@ -81,7 +81,7 @@ public class PreferencesContainer : IPreferencesContainer //NUnit
    public virtual object? Get(string key, bool obfuscated)
    {
       if (ContainsKey(key))
-         return obfuscated ? Obfuscator.Deobfuscate(Base64.FromBase64String(_preferences[key].ToString()!, true), IV).BNToString() : _preferences![key];
+         return obfuscated ? Obfuscator.Deobfuscate(Base64.FromBase64String(_preferences[key].ToString()!, true), IV).BNToString() : _preferences[key];
 
       return null;
    }
@@ -95,16 +95,16 @@ public class PreferencesContainer : IPreferencesContainer //NUnit
       {
          if (obfuscated)
          {
-            _preferences![key] = Base64.ToBase64String(Obfuscator.Obfuscate(value.ToString()!, IV), true);
+            _preferences[key] = Base64.ToBase64String(Obfuscator.Obfuscate(value.ToString()!, IV), true);
          }
          else
          {
-            _preferences![key] = value;
+            _preferences[key] = value;
          }
       }
       else
       {
-         _preferences?.Add(key, obfuscated ? Base64.ToBase64String(Obfuscator.Obfuscate(value.ToString()!, IV), true) : value);
+         _preferences.Add(key, obfuscated ? Base64.ToBase64String(Obfuscator.Obfuscate(value.ToString()!, IV), true) : value);
       }
    }
 

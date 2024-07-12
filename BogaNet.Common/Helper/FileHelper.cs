@@ -37,7 +37,7 @@ public abstract class FileHelper
    /// Returns the temporary directory path.
    /// </summary>
    /// <returns>Temporary directory path</returns>
-   public static string TempPath => ValidatePath(Path.GetTempPath()) ?? string.Empty;
+   public static string TempPath => ValidatePath(Path.GetTempPath());
 
    /// <summary>
    /// Returns a temporary directory.
@@ -47,7 +47,7 @@ public abstract class FileHelper
    {
       get
       {
-         string name = ValidatePath($"{TempPath}{ShortUID.NewShortUID()}") ?? string.Empty;
+         string name = ValidatePath($"{TempPath}{ShortUID.NewShortUID()}");
 
          CreateDirectory(name);
 
@@ -59,7 +59,7 @@ public abstract class FileHelper
    /// Returns the current directory.
    /// </summary>
    /// <returns>Current directory</returns>
-   public static string CurrentDirectory => ValidatePath(Environment.CurrentDirectory) ?? string.Empty;
+   public static string CurrentDirectory => ValidatePath(Environment.CurrentDirectory);
 
    #endregion
 
@@ -279,7 +279,7 @@ public abstract class FileHelper
       if (file == null || string.IsNullOrEmpty(file))
          return !ignoreNullOrEmpty;
 
-      return GetFileName(file, false)?.IndexOfAny(_invalidFilenameChars) >= 0 || file.EndsWith('.');
+      return GetFileName(file, false).IndexOfAny(_invalidFilenameChars) >= 0 || file.EndsWith('.');
    }
 
    /// <summary>

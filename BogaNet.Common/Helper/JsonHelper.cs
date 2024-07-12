@@ -135,7 +135,7 @@ public abstract class JsonHelper
    /// <exception cref="Exception"></exception>
    public static byte[] SerializeToByteArray(object obj, JsonSerializerSettings? settings = null)
    {
-      return SerializeToString(obj, settings ?? FORMAT_INDENTED).BNToByteArray()!;
+      return SerializeToString(obj, settings ?? FORMAT_INDENTED).BNToByteArray();
    }
 
    /// <summary>

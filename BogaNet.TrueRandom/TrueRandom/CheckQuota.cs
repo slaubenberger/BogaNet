@@ -33,7 +33,7 @@ public abstract class CheckQuota //NUnit
    /// </summary>
    public static int GetQuota()
    {
-      return Task.Run(() => GetQuotaAsync()).GetAwaiter().GetResult();
+      return Task.Run(GetQuotaAsync).GetAwaiter().GetResult();
    }
 
    /// <summary>
@@ -49,7 +49,7 @@ public abstract class CheckQuota //NUnit
       }
       else
       {
-         string url = $"{BaseTRNG.GENERATOR_URL}quota/?format=plain";
+         const string url = $"{BaseTRNG.GENERATOR_URL}quota/?format=plain";
 
          _logger.LogDebug("URL: " + url);
 

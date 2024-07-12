@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 using System.Text;
-using Microsoft.Extensions.Logging;
+//using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System;
 using System.Web;
@@ -15,7 +15,7 @@ public static class StringHelper
 {
    #region Variables
 
-   private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(StringHelper));
+   //private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(StringHelper));
    private static readonly Random _rnd = new();
 
    #endregion

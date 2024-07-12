@@ -14,7 +14,7 @@ public class StringSec //NUnit
 
    private readonly ByteObf[] _key = AESHelper.GenerateKey().BNToByteObfArray();
    private readonly ByteObf[] _iv = AESHelper.GenerateIV().BNToByteObfArray();
-   private byte[]? _secretValue;
+   private byte[] _secretValue = [];
 
    #endregion
 
@@ -22,7 +22,7 @@ public class StringSec //NUnit
 
    private string _value
    {
-      get => AESHelper.Decrypt(_secretValue, _key.ToByteArray(), _iv.ToByteArray()).BNToString() ?? string.Empty;
+      get => AESHelper.Decrypt(_secretValue, _key.ToByteArray(), _iv.ToByteArray()).BNToString();
       set => _secretValue = AESHelper.Encrypt(value.BNToByteArray(), _key.ToByteArray(), _iv.ToByteArray());
    }
 
@@ -75,7 +75,7 @@ public class StringSec //NUnit
       if (ReferenceEquals(null, obj)) return false;
       if (ReferenceEquals(this, obj)) return true;
 
-      if (obj.GetType() == typeof(string))
+      if (obj is string)
          return _value.Equals(obj);
 
       return obj.GetType() == GetType() && equals((StringSec)obj);

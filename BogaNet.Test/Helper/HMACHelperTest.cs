@@ -22,10 +22,10 @@ public class HMACHelperTest
       plain = "BogaNet ruleZ!";
       h2 = HMACHelper.HashHMACSHA256(plain, secret);
 
-      Assert.That(h1 == h2, Is.False);
+      Assert.That(h1, Is.Not.EqualTo(h2));
 
       plain = "BogaNet rulez!";
-      secret = "abc123".BNToByteArray()!;
+      secret = "abc123".BNToByteArray();
       h1 = HMACHelper.HashHMACSHA256(plain, secret);
       string base64 = Base64.ToBase64String(h1);
       const string refValue = "ffJ5XqLTaKW6+Jis/M8ZoWL39mEjuzCR+jzcSunYs6o=";

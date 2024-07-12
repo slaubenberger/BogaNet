@@ -88,43 +88,43 @@ public class Preferences : Singleton<Preferences>, IPreferences //NUnit //TODO a
 
       switch (type)
       {
-         case Type when type == typeof(double):
+         case not null when type == typeof(double):
             double doubleVal = double.Parse(plainValue);
             return T.CreateTruncating(doubleVal);
-         case Type when type == typeof(float):
+         case not null when type == typeof(float):
             float floatVal = float.Parse(plainValue);
             return T.CreateTruncating(floatVal);
-         case Type when type == typeof(long):
+         case not null when type == typeof(long):
             long longVal = long.Parse(plainValue);
             return T.CreateTruncating(longVal);
-         case Type when type == typeof(ulong):
+         case not null when type == typeof(ulong):
             ulong ulongVal = ulong.Parse(plainValue);
             return T.CreateTruncating(ulongVal);
-         case Type when type == typeof(int):
+         case not null when type == typeof(int):
             int intVal = int.Parse(plainValue);
             return T.CreateTruncating(intVal);
-         case Type when type == typeof(uint):
+         case not null when type == typeof(uint):
             uint uintVal = uint.Parse(plainValue);
             return T.CreateTruncating(uintVal);
-         case Type when type == typeof(short):
+         case not null when type == typeof(short):
             short shortVal = short.Parse(plainValue);
             return T.CreateTruncating(shortVal);
-         case Type when type == typeof(ushort):
+         case not null when type == typeof(ushort):
             ushort ushortVal = ushort.Parse(plainValue);
             return T.CreateTruncating(ushortVal);
-         case Type when type == typeof(nint):
+         case not null when type == typeof(nint):
             nint nintVal = nint.Parse(plainValue);
             return T.CreateTruncating(nintVal);
-         case Type when type == typeof(nuint):
+         case not null when type == typeof(nuint):
             nint nuintVal = nint.Parse(plainValue);
             return T.CreateTruncating(nuintVal);
-         case Type when type == typeof(byte):
+         case not null when type == typeof(byte):
             byte byteVal = byte.Parse(plainValue);
             return T.CreateTruncating(byteVal);
-         case Type when type == typeof(sbyte):
+         case not null when type == typeof(sbyte):
             sbyte sbyteVal = sbyte.Parse(plainValue);
             return T.CreateTruncating(sbyteVal);
-         case Type when type == typeof(char):
+         case not null when type == typeof(char):
             char charVal = char.Parse(plainValue);
             return T.CreateTruncating(charVal);
          default:
@@ -145,10 +145,7 @@ public class Preferences : Singleton<Preferences>, IPreferences //NUnit //TODO a
    {
       string? date = GetString(key, obfuscated);
 
-      if (DateTime.TryParse(date, out DateTime dt))
-         return dt.BNConvertToTimeZone(usedTZ);
-
-      return default;
+      return DateTime.TryParse(date, out DateTime dt) ? dt.BNConvertToTimeZone(usedTZ) : default(DateTime?);
    }
 
    #endregion

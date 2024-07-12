@@ -20,7 +20,7 @@ public class HashHelperTest
       plain = "BogaNet ruleZ!";
       h2 = HashHelper.HashSHA256(plain);
 
-      Assert.That(h1 == h2, Is.False);
+      Assert.That(h1, Is.Not.EqualTo(h2));
 
       string base64 = Base64.ToBase64String(h1);
       const string refValue = "8kNcJBdM1xzVVuYg9mdDkaItGCWPf+6v+DBwS0ppm6o=";

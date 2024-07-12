@@ -12,15 +12,15 @@ public class IntegerTRNGTest
       int quotaStart = CheckQuota.GetQuota();
       Assert.That(quotaStart, Is.GreaterThan(0));
 
-      int min = -10;
+      const int min = -10;
       //min = -1000000000;
-      int max = 10;
+      const int max = 10;
       //max = 1000000000;
-      int number = 2;
+      const int number = 2;
 
       var result = IntegerTRNG.Generate(min, max, number);
- 
-      Assert.That(result.Count, Is.EqualTo(number));
+
+      Assert.That(result, Has.Count.EqualTo(number));
 
       foreach (var res in result)
       {
@@ -38,12 +38,12 @@ public class IntegerTRNGTest
    [Test]
    public void GeneratePRNG_Test()
    {
-      int min = -1500000000;
-      int max = 1500000000;
-      int number = 10;
+      const int min = -1500000000;
+      const int max = 1500000000;
+      const int number = 10;
       var result = IntegerTRNG.GeneratePRNG(min, max, number);
 
-      Assert.That(result.Count, Is.EqualTo(number));
+      Assert.That(result, Has.Count.EqualTo(number));
 
       foreach (var res in result)
       {

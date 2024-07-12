@@ -14,7 +14,6 @@ public abstract class FloatTRNG : BaseTRNG //NUnit
    #region Variables
 
    private static readonly ILogger<FloatTRNG> _logger = GlobalLogging.CreateLogger<FloatTRNG>();
-   private static List<float> _result = [];
 
    #endregion
 
@@ -22,7 +21,7 @@ public abstract class FloatTRNG : BaseTRNG //NUnit
 
    /// <summary>Returns the list of floats from the last generation.</summary>
    /// <returns>List of floats from the last generation.</returns>
-   public static List<float> Result => _result;
+   public static List<float> Result { get; private set; } = [];
 
    #endregion
 
@@ -36,7 +35,7 @@ public abstract class FloatTRNG : BaseTRNG //NUnit
    /// <returns>Needed bits for generating the floats.</returns>
    public static int CalcBits(int number = 1)
    {
-      int bitsCounter = 32;
+      const int bitsCounter = 32;
       return bitsCounter * Math.Abs(number);
    }
 
@@ -69,7 +68,7 @@ public abstract class FloatTRNG : BaseTRNG //NUnit
          _logger.LogWarning("No Internet access available - using standard prng!");
 
       if (prng || !hasInternet)
-         _result = GeneratePRNG(minValue, maxValue, num, Seed);
+         Result = GeneratePRNG(minValue, maxValue, num, Seed);
 
       if (!_isRunning)
       {
@@ -93,10 +92,10 @@ public abstract class FloatTRNG : BaseTRNG //NUnit
 
          List<int> result = await IntegerTRNG.GenerateAsync((int)(minValue * factor), (int)(maxValue * factor), num);
 
-         _result.Clear();
+         Result.Clear();
          foreach (int value in result)
          {
-            _result.Add(value / (float)factor);
+            Result.Add(value / (float)factor);
          }
       }
       else
@@ -104,7 +103,7 @@ public abstract class FloatTRNG : BaseTRNG //NUnit
          _logger.LogWarning("There is already a request running - please try again later!");
       }
 
-      return _result;
+      return Result;
    }
 
    /// <summary>Generates random floats with the C#-standard Pseudo-Random-Number-Generator.</summary>

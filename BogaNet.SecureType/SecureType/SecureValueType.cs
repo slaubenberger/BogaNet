@@ -15,7 +15,7 @@ public abstract class SecureValueType<TCustom, TValue> where TValue : INumber<TV
 {
    #region Variables
 
-   private byte[]? _secretValue;
+   private byte[] _secretValue = [];
 
    #endregion
 

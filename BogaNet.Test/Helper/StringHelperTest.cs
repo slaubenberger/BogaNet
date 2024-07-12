@@ -23,6 +23,6 @@ public class StringHelperTest
       const string input = "";
       string? result = StringHelper.ToTitleCase(input);
 
-      Assert.IsEmpty(result);
+      Assert.That(result, Is.Empty);
    }
 }

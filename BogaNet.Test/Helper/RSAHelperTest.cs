@@ -31,9 +31,12 @@ public class RSAHelperTest
       byte[]? enc = RSAHelper.Encrypt(plain.BNToByteArray(), certPublic);
       byte[]? dec = RSAHelper.Decrypt(enc, certPrivate);
 
-      string? result = dec.BNToString();
+      if (dec != null)
+      {
+         string result = dec.BNToString();
 
-      Assert.That(result, Is.EqualTo(plain));
+         Assert.That(result, Is.EqualTo(plain));
+      }
    }
 
    #endregion

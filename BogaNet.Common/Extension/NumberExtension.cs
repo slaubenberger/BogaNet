@@ -20,68 +20,68 @@ public static class NumberExtension
    /// <param name="number">Given value</param>
    /// <returns>Byte-array with the Number</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static byte[]? BNToByteArray<T>(this T number) where T : INumber<T>
+   public static byte[] BNToByteArray<T>(this T number) where T : INumber<T>
    {
       ArgumentNullException.ThrowIfNull(number);
 
       Type type = typeof(T);
-      byte[]? bytes = null;
+      byte[] bytes = [];
 
       switch (type)
       {
-         case Type when type == typeof(byte):
+         case not null when type == typeof(byte):
             byte byteVal = byte.CreateTruncating(number);
             bytes = [byteVal];
             break;
-         case Type when type == typeof(sbyte):
+         case not null when type == typeof(sbyte):
             sbyte sbyteVal = sbyte.CreateTruncating(number);
             bytes = [(byte)sbyteVal];
             break;
-         case Type when type == typeof(short):
+         case not null when type == typeof(short):
             short shortVal = short.CreateTruncating(number);
             bytes = BitConverter.GetBytes(shortVal);
             break;
-         case Type when type == typeof(ushort):
+         case not null when type == typeof(ushort):
             ushort ushortVal = ushort.CreateTruncating(number);
             bytes = BitConverter.GetBytes(ushortVal);
             break;
-         case Type when type == typeof(char):
+         case not null when type == typeof(char):
             ushort charVal = ushort.CreateTruncating(number);
             bytes = BitConverter.GetBytes(charVal);
             break;
-         case Type when type == typeof(float):
+         case not null when type == typeof(float):
             float floatVal = float.CreateTruncating(number);
             bytes = BitConverter.GetBytes(floatVal);
             break;
-         case Type when type == typeof(int):
+         case not null when type == typeof(int):
             int intVal = int.CreateTruncating(number);
             bytes = BitConverter.GetBytes(intVal);
             break;
-         case Type when type == typeof(uint):
+         case not null when type == typeof(uint):
             uint uintVal = uint.CreateTruncating(number);
             bytes = BitConverter.GetBytes(uintVal);
             break;
-         case Type when type == typeof(double):
+         case not null when type == typeof(double):
             double doubleVal = double.CreateTruncating(number);
             bytes = BitConverter.GetBytes(doubleVal);
             break;
-         case Type when type == typeof(long):
+         case not null when type == typeof(long):
             long longVal = long.CreateTruncating(number);
             bytes = BitConverter.GetBytes(longVal);
             break;
-         case Type when type == typeof(ulong):
+         case not null when type == typeof(ulong):
             ulong ulongVal = ulong.CreateTruncating(number);
             bytes = BitConverter.GetBytes(ulongVal);
             break;
-         case Type when type == typeof(nint):
+         case not null when type == typeof(nint):
             nint nintVal = nint.CreateTruncating(number);
             bytes = BitConverter.GetBytes(nintVal);
             break;
-         case Type when type == typeof(nuint):
+         case not null when type == typeof(nuint):
             nint nuintVal = nint.CreateTruncating(number);
             bytes = BitConverter.GetBytes(nuintVal);
             break;
-         case Type when type == typeof(decimal):
+         case not null when type == typeof(decimal):
             decimal decVal = decimal.CreateTruncating(number);
             int[] int64s = decimal.GetBits(decVal);
             bytes = int64s.Take(4).SelectMany(BitConverter.GetBytes).ToArray();
@@ -105,50 +105,50 @@ public static class NumberExtension
    /// <param name="offset">Offset inside the byte-array (optional, default: 0)</param>
    /// <returns>Number from the byte-array</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static T? BNToNumber<T>(this byte[] bytes, int offset = 0) where T : INumber<T>
+   public static T BNToNumber<T>(this byte[] bytes, int offset = 0) where T : INumber<T>
    {
       ArgumentNullException.ThrowIfNull(bytes);
 
       if (bytes.Length == 0)
-         return default;
+         T.CreateTruncating(0);
 
       Type type = typeof(T);
       byte[] content;
       int off = Math.Abs(offset);
       switch (type)
       {
-         case Type when type == typeof(byte):
+         case not null when type == typeof(byte):
             return T.CreateTruncating(bytes[off]);
-         case Type when type == typeof(sbyte):
+         case not null when type == typeof(sbyte):
             return T.CreateTruncating(bytes[off]);
-         case Type when type == typeof(short):
+         case not null when type == typeof(short):
             content = readNumberData(2, off, bytes);
             return T.CreateTruncating(BitConverter.ToInt16(content));
-         case Type when type == typeof(ushort):
+         case not null when type == typeof(ushort):
             content = readNumberData(2, off, bytes);
             return T.CreateTruncating(BitConverter.ToUInt16(content));
-         case Type when type == typeof(char):
+         case not null when type == typeof(char):
             content = readNumberData(2, off, bytes);
             return T.CreateTruncating(BitConverter.ToChar(content));
-         case Type when type == typeof(float):
+         case not null when type == typeof(float):
             content = readNumberData(4, off, bytes);
             return T.CreateTruncating(BitConverter.ToSingle(content));
-         case Type when type == typeof(int):
+         case not null when type == typeof(int):
             content = readNumberData(4, off, bytes);
             return T.CreateTruncating(BitConverter.ToInt32(content));
-         case Type when type == typeof(uint):
+         case not null when type == typeof(uint):
             content = readNumberData(4, off, bytes);
             return T.CreateTruncating(BitConverter.ToUInt32(content));
-         case Type when type == typeof(double):
+         case not null when type == typeof(double):
             content = readNumberData(8, off, bytes);
             return T.CreateTruncating(BitConverter.ToDouble(content));
-         case Type when type == typeof(long):
+         case not null when type == typeof(long):
             content = readNumberData(8, off, bytes);
             return T.CreateTruncating(BitConverter.ToInt64(content));
-         case Type when type == typeof(ulong):
+         case not null when type == typeof(ulong):
             content = readNumberData(8, off, bytes);
             return T.CreateTruncating(BitConverter.ToUInt64(content));
-         case Type when type == typeof(decimal):
+         case not null when type == typeof(decimal):
          {
             content = readNumberData(16, off, bytes);
             int i1 = BitConverter.ToInt32(content, 0);
@@ -161,11 +161,11 @@ public static class NumberExtension
             return T.CreateTruncating(result);
          }
          default:
-            _logger.LogError($"Number type {type} is not supported!");
+            _logger.LogWarning($"Number type {type} is not supported!");
             break;
       }
 
-      return default;
+      return T.CreateTruncating(0);
    }
 
    /// <summary>

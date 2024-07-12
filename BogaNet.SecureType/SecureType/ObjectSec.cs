@@ -16,7 +16,7 @@ public class ObjectSec<T> where T : class //NUnit
 
    private readonly ByteObf[] _key = AESHelper.GenerateKey().BNToByteObfArray();
    private readonly ByteObf[] _iv = AESHelper.GenerateIV().BNToByteObfArray();
-   private byte[]? _secretValue;
+   private byte[] _secretValue = [];
 
    #endregion
 

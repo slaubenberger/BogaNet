@@ -52,7 +52,7 @@ public static class Base64 //NUnit
    {
       ArgumentNullException.ThrowIfNullOrEmpty(str);
 
-      byte[]? bytes = str.BNToByteArray(encoding);
+      byte[] bytes = str.BNToByteArray(encoding);
       //bytes.BNReverse();
       return ToBase64String(bytes, useSave);
    }

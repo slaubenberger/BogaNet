@@ -24,7 +24,7 @@ public class ShortUID
    /// <param name="data">ShortUID as byte-array</param>
    public ShortUID(byte[] data)
    {
-      Code = data.BNToString(Encoding.ASCII) ?? string.Empty;
+      Code = data.BNToString(Encoding.ASCII);
    }
 
    /// <summary>
@@ -63,7 +63,7 @@ public class ShortUID
    /// <returns>ShortUID as byte-array</returns>
    public byte[] ToByteArray()
    {
-      return Code.BNToByteArray(Encoding.ASCII) ?? [];
+      return Code.BNToByteArray(Encoding.ASCII);
    }
 
    /// <summary>
@@ -121,6 +121,6 @@ public static class GuidExtension
       ArgumentNullException.ThrowIfNull(uid);
 
       string guid = Base64.ToBase64String(uid.ToByteArray(), true);
-      return new ShortUID(guid.Substring(0, guid.Length - 2) ?? string.Empty);
+      return new ShortUID(guid.Substring(0, guid.Length - 2));
    }
 }

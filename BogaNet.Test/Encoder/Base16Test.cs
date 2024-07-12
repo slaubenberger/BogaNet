@@ -14,29 +14,41 @@ public class Base16Test
       byte bVal = 1;
       string bCode = Base16.ToBase16String(bVal);
       byte bRes = Base16.FromBase16String(code).BNToNumber<byte>();
-      Assert.That(bCode, Is.EqualTo(code));
-      Assert.That(bRes, Is.EqualTo(bVal));
+      Assert.Multiple(() =>
+      {
+         Assert.That(bCode, Is.EqualTo(code));
+         Assert.That(bRes, Is.EqualTo(bVal));
+      });
 
       code = "00";
       bVal = byte.MinValue;
       bCode = Base16.ToBase16String(bVal);
       bRes = Base16.FromBase16String(code).BNToNumber<byte>();
-      Assert.That(bCode, Is.EqualTo(code));
-      Assert.That(bRes, Is.EqualTo(bVal));
+      Assert.Multiple(() =>
+      {
+         Assert.That(bCode, Is.EqualTo(code));
+         Assert.That(bRes, Is.EqualTo(bVal));
+      });
 
       code = "FF";
       bVal = byte.MaxValue;
       bCode = Base16.ToBase16String(bVal);
       bRes = Base16.FromBase16String(code).BNToNumber<byte>();
-      Assert.That(bCode, Is.EqualTo(code));
-      Assert.That(bRes, Is.EqualTo(bVal));
+      Assert.Multiple(() =>
+      {
+         Assert.That(bCode, Is.EqualTo(code));
+         Assert.That(bRes, Is.EqualTo(bVal));
+      });
 
       code = "7B";
       bVal = 123;
       bCode = Base16.ToBase16String(bVal);
       bRes = Base16.FromBase16String(code).BNToNumber<byte>();
-      Assert.That(bCode, Is.EqualTo(code));
-      Assert.That(bRes, Is.EqualTo(bVal));
+      Assert.Multiple(() =>
+      {
+         Assert.That(bCode, Is.EqualTo(code));
+         Assert.That(bRes, Is.EqualTo(bVal));
+      });
 
       //prefix test
       code = "0x7B";
@@ -58,29 +70,41 @@ public class Base16Test
       sbyte bVal = 1;
       string bCode = Base16.ToBase16String(bVal);
       sbyte bRes = Base16.FromBase16String(code).BNToNumber<sbyte>();
-      Assert.That(bCode, Is.EqualTo(code));
-      Assert.That(bRes, Is.EqualTo(bVal));
+      Assert.Multiple(() =>
+      {
+         Assert.That(bCode, Is.EqualTo(code));
+         Assert.That(bRes, Is.EqualTo(bVal));
+      });
 
       code = "80";
       bVal = sbyte.MinValue;
       bCode = Base16.ToBase16String(bVal);
       bRes = Base16.FromBase16String(code).BNToNumber<sbyte>();
-      Assert.That(bCode, Is.EqualTo(code));
-      Assert.That(bRes, Is.EqualTo(bVal));
+      Assert.Multiple(() =>
+      {
+         Assert.That(bCode, Is.EqualTo(code));
+         Assert.That(bRes, Is.EqualTo(bVal));
+      });
 
       code = "7F";
       bVal = sbyte.MaxValue;
       bCode = Base16.ToBase16String(bVal);
       bRes = Base16.FromBase16String(code).BNToNumber<sbyte>();
-      Assert.That(bCode, Is.EqualTo(code));
-      Assert.That(bRes, Is.EqualTo(bVal));
+      Assert.Multiple(() =>
+      {
+         Assert.That(bCode, Is.EqualTo(code));
+         Assert.That(bRes, Is.EqualTo(bVal));
+      });
 
       code = "7B";
       bVal = 123;
       bCode = Base16.ToBase16String(bVal);
       bRes = Base16.FromBase16String(code).BNToNumber<sbyte>();
-      Assert.That(bCode, Is.EqualTo(code));
-      Assert.That(bRes, Is.EqualTo(bVal));
+      Assert.Multiple(() =>
+      {
+         Assert.That(bCode, Is.EqualTo(code));
+         Assert.That(bRes, Is.EqualTo(bVal));
+      });
 
       //overflow test
       code = "0007B";
@@ -96,36 +120,51 @@ public class Base16Test
       short bVal = 1;
       string bCode = Base16.ToBase16String(bVal);
       short bRes = Base16.FromBase16String(code).BNToNumber<short>();
-      Assert.That(bCode, Is.EqualTo(code));
-      Assert.That(bRes, Is.EqualTo(bVal));
+      Assert.Multiple(() =>
+      {
+         Assert.That(bCode, Is.EqualTo(code));
+         Assert.That(bRes, Is.EqualTo(bVal));
+      });
 
       code = "8000";
       bVal = short.MinValue;
       bCode = Base16.ToBase16String(bVal);
       bRes = Base16.FromBase16String(code).BNToNumber<short>();
-      Assert.That(bCode, Is.EqualTo(code));
-      Assert.That(bRes, Is.EqualTo(bVal));
+      Assert.Multiple(() =>
+      {
+         Assert.That(bCode, Is.EqualTo(code));
+         Assert.That(bRes, Is.EqualTo(bVal));
+      });
 
       code = "7FFF";
       bVal = short.MaxValue;
       bCode = Base16.ToBase16String(bVal);
       bRes = Base16.FromBase16String(code).BNToNumber<short>();
-      Assert.That(bCode, Is.EqualTo(code));
-      Assert.That(bRes, Is.EqualTo(bVal));
+      Assert.Multiple(() =>
+      {
+         Assert.That(bCode, Is.EqualTo(code));
+         Assert.That(bRes, Is.EqualTo(bVal));
+      });
 
       code = "3039";
       bVal = 12345;
       bCode = Base16.ToBase16String(bVal);
       bRes = Base16.FromBase16String(code).BNToNumber<short>();
-      Assert.That(bCode, Is.EqualTo(code));
-      Assert.That(bRes, Is.EqualTo(bVal));
+      Assert.Multiple(() =>
+      {
+         Assert.That(bCode, Is.EqualTo(code));
+         Assert.That(bRes, Is.EqualTo(bVal));
+      });
 
       code = "CFC7";
       bVal = -12345;
       bCode = Base16.ToBase16String(bVal);
       bRes = Base16.FromBase16String(code).BNToNumber<short>();
-      Assert.That(bCode, Is.EqualTo(code));
-      Assert.That(bRes, Is.EqualTo(bVal));
+      Assert.Multiple(() =>
+      {
+         Assert.That(bCode, Is.EqualTo(code));
+         Assert.That(bRes, Is.EqualTo(bVal));
+      });
 
       //short test
       code = "7B";
@@ -147,29 +186,41 @@ public class Base16Test
       ushort bVal = 1;
       string bCode = Base16.ToBase16String(bVal);
       ushort bRes = Base16.FromBase16String(code).BNToNumber<ushort>();
-      Assert.That(bCode, Is.EqualTo(code));
-      Assert.That(bRes, Is.EqualTo(bVal));
+      Assert.Multiple(() =>
+      {
+         Assert.That(bCode, Is.EqualTo(code));
+         Assert.That(bRes, Is.EqualTo(bVal));
+      });
 
       code = "0000";
       bVal = ushort.MinValue;
       bCode = Base16.ToBase16String(bVal);
       bRes = Base16.FromBase16String(code).BNToNumber<ushort>();
-      Assert.That(bCode, Is.EqualTo(code));
-      Assert.That(bRes, Is.EqualTo(bVal));
+      Assert.Multiple(() =>
+      {
+         Assert.That(bCode, Is.EqualTo(code));
+         Assert.That(bRes, Is.EqualTo(bVal));
+      });
 
       code = "FFFF";
       bVal = ushort.MaxValue;
       bCode = Base16.ToBase16String(bVal);
       bRes = Base16.FromBase16String(code).BNToNumber<ushort>();
-      Assert.That(bCode, Is.EqualTo(code));
-      Assert.That(bRes, Is.EqualTo(bVal));
+      Assert.Multiple(() =>
+      {
+         Assert.That(bCode, Is.EqualTo(code));
+         Assert.That(bRes, Is.EqualTo(bVal));
+      });
 
       code = "3039";
       bVal = 12345;
       bCode = Base16.ToBase16String(bVal);
       bRes = Base16.FromBase16String(code).BNToNumber<ushort>();
-      Assert.That(bCode, Is.EqualTo(code));
-      Assert.That(bRes, Is.EqualTo(bVal));
+      Assert.Multiple(() =>
+      {
+         Assert.That(bCode, Is.EqualTo(code));
+         Assert.That(bRes, Is.EqualTo(bVal));
+      });
 
       //short test
       code = "7B";
@@ -191,29 +242,41 @@ public class Base16Test
       char bVal = 'A';
       string bCode = Base16.ToBase16String(bVal);
       ushort bRes = Base16.FromBase16String(code).BNToNumber<char>();
-      Assert.That(bCode, Is.EqualTo(code));
-      Assert.That(bRes, Is.EqualTo(bVal));
+      Assert.Multiple(() =>
+      {
+         Assert.That(bCode, Is.EqualTo(code));
+         Assert.That(bRes, Is.EqualTo(bVal));
+      });
 
       code = "0000";
       bVal = char.MinValue;
       bCode = Base16.ToBase16String(bVal);
       bRes = Base16.FromBase16String(code).BNToNumber<char>();
-      Assert.That(bCode, Is.EqualTo(code));
-      Assert.That(bRes, Is.EqualTo(bVal));
+      Assert.Multiple(() =>
+      {
+         Assert.That(bCode, Is.EqualTo(code));
+         Assert.That(bRes, Is.EqualTo(bVal));
+      });
 
       code = "FFFF";
       bVal = char.MaxValue;
       bCode = Base16.ToBase16String(bVal);
       bRes = Base16.FromBase16String(code).BNToNumber<char>();
-      Assert.That(bCode, Is.EqualTo(code));
-      Assert.That(bRes, Is.EqualTo(bVal));
+      Assert.Multiple(() =>
+      {
+         Assert.That(bCode, Is.EqualTo(code));
+         Assert.That(bRes, Is.EqualTo(bVal));
+      });
 
       code = "3053";
       bVal = 'こ';
       bCode = Base16.ToBase16String(bVal);
       bRes = Base16.FromBase16String(code).BNToNumber<char>();
-      Assert.That(bCode, Is.EqualTo(code));
-      Assert.That(bRes, Is.EqualTo(bVal));
+      Assert.Multiple(() =>
+      {
+         Assert.That(bCode, Is.EqualTo(code));
+         Assert.That(bRes, Is.EqualTo(bVal));
+      });
 
       //short test
       code = "41";
@@ -235,29 +298,41 @@ public class Base16Test
       float bVal = 1;
       string bCode = Base16.ToBase16String(bVal);
       float bRes = Base16.FromBase16String(code).BNToNumber<float>();
-      Assert.That(bCode, Is.EqualTo(code));
-      Assert.That(bRes, Is.EqualTo(bVal));
+      Assert.Multiple(() =>
+      {
+         Assert.That(bCode, Is.EqualTo(code));
+         Assert.That(bRes, Is.EqualTo(bVal));
+      });
 
       code = "FF7FFFFF";
       bVal = float.MinValue;
       bCode = Base16.ToBase16String(bVal);
       bRes = Base16.FromBase16String(code).BNToNumber<float>();
-      Assert.That(bCode, Is.EqualTo(code));
-      Assert.That(bRes, Is.EqualTo(bVal));
+      Assert.Multiple(() =>
+      {
+         Assert.That(bCode, Is.EqualTo(code));
+         Assert.That(bRes, Is.EqualTo(bVal));
+      });
 
       code = "7F7FFFFF";
       bVal = float.MaxValue;
       bCode = Base16.ToBase16String(bVal);
       bRes = Base16.FromBase16String(code).BNToNumber<float>();
-      Assert.That(bCode, Is.EqualTo(code));
-      Assert.That(bRes, Is.EqualTo(bVal));
+      Assert.Multiple(() =>
+      {
+         Assert.That(bCode, Is.EqualTo(code));
+         Assert.That(bRes, Is.EqualTo(bVal));
+      });
 
       code = "40490FDB";
       bVal = Math.PI.BNToNumber<float>();
       bCode = Base16.ToBase16String(bVal);
       bRes = Base16.FromBase16String(code).BNToNumber<float>();
-      Assert.That(bCode, Is.EqualTo(code));
-      Assert.That(bRes, Is.EqualTo(bVal));
+      Assert.Multiple(() =>
+      {
+         Assert.That(bCode, Is.EqualTo(code));
+         Assert.That(bRes, Is.EqualTo(bVal));
+      });
 
       //short test
       code = "0";
@@ -279,36 +354,51 @@ public class Base16Test
       int bVal = 1;
       string bCode = Base16.ToBase16String(bVal);
       int bRes = Base16.FromBase16String(code).BNToNumber<int>();
-      Assert.That(bCode, Is.EqualTo(code));
-      Assert.That(bRes, Is.EqualTo(bVal));
+      Assert.Multiple(() =>
+      {
+         Assert.That(bCode, Is.EqualTo(code));
+         Assert.That(bRes, Is.EqualTo(bVal));
+      });
 
       code = "80000000";
       bVal = int.MinValue;
       bCode = Base16.ToBase16String(bVal);
       bRes = Base16.FromBase16String(code).BNToNumber<int>();
-      Assert.That(bCode, Is.EqualTo(code));
-      Assert.That(bRes, Is.EqualTo(bVal));
+      Assert.Multiple(() =>
+      {
+         Assert.That(bCode, Is.EqualTo(code));
+         Assert.That(bRes, Is.EqualTo(bVal));
+      });
 
       code = "7FFFFFFF";
       bVal = int.MaxValue;
       bCode = Base16.ToBase16String(bVal);
       bRes = Base16.FromBase16String(code).BNToNumber<int>();
-      Assert.That(bCode, Is.EqualTo(code));
-      Assert.That(bRes, Is.EqualTo(bVal));
+      Assert.Multiple(() =>
+      {
+         Assert.That(bCode, Is.EqualTo(code));
+         Assert.That(bRes, Is.EqualTo(bVal));
+      });
 
       code = "499602D2";
       bVal = 1234567890;
       bCode = Base16.ToBase16String(bVal);
       bRes = Base16.FromBase16String(code).BNToNumber<int>();
-      Assert.That(bCode, Is.EqualTo(code));
-      Assert.That(bRes, Is.EqualTo(bVal));
+      Assert.Multiple(() =>
+      {
+         Assert.That(bCode, Is.EqualTo(code));
+         Assert.That(bRes, Is.EqualTo(bVal));
+      });
 
       code = "B669FD2E";
       bVal = -1234567890;
       bCode = Base16.ToBase16String(bVal);
       bRes = Base16.FromBase16String(code).BNToNumber<int>();
-      Assert.That(bCode, Is.EqualTo(code));
-      Assert.That(bRes, Is.EqualTo(bVal));
+      Assert.Multiple(() =>
+      {
+         Assert.That(bCode, Is.EqualTo(code));
+         Assert.That(bRes, Is.EqualTo(bVal));
+      });
 
       //short test
       code = "7B";
@@ -330,29 +420,41 @@ public class Base16Test
       uint bVal = 1;
       string bCode = Base16.ToBase16String(bVal);
       uint bRes = Base16.FromBase16String(code).BNToNumber<uint>();
-      Assert.That(bCode, Is.EqualTo(code));
-      Assert.That(bRes, Is.EqualTo(bVal));
+      Assert.Multiple(() =>
+      {
+         Assert.That(bCode, Is.EqualTo(code));
+         Assert.That(bRes, Is.EqualTo(bVal));
+      });
 
       code = "00000000";
       bVal = uint.MinValue;
       bCode = Base16.ToBase16String(bVal);
       bRes = Base16.FromBase16String(code).BNToNumber<uint>();
-      Assert.That(bCode, Is.EqualTo(code));
-      Assert.That(bRes, Is.EqualTo(bVal));
+      Assert.Multiple(() =>
+      {
+         Assert.That(bCode, Is.EqualTo(code));
+         Assert.That(bRes, Is.EqualTo(bVal));
+      });
 
       code = "FFFFFFFF";
       bVal = uint.MaxValue;
       bCode = Base16.ToBase16String(bVal);
       bRes = Base16.FromBase16String(code).BNToNumber<uint>();
-      Assert.That(bCode, Is.EqualTo(code));
-      Assert.That(bRes, Is.EqualTo(bVal));
+      Assert.Multiple(() =>
+      {
+         Assert.That(bCode, Is.EqualTo(code));
+         Assert.That(bRes, Is.EqualTo(bVal));
+      });
 
       code = "499602D2";
       bVal = 1234567890;
       bCode = Base16.ToBase16String(bVal);
       bRes = Base16.FromBase16String(code).BNToNumber<uint>();
-      Assert.That(bCode, Is.EqualTo(code));
-      Assert.That(bRes, Is.EqualTo(bVal));
+      Assert.Multiple(() =>
+      {
+         Assert.That(bCode, Is.EqualTo(code));
+         Assert.That(bRes, Is.EqualTo(bVal));
+      });
 
       //short test
       code = "7B";
@@ -375,29 +477,41 @@ public class Base16Test
       double bVal = 1;
       string bCode = Base16.ToBase16String(bVal);
       double bRes = Base16.FromBase16String(code).BNToNumber<double>();
-      Assert.That(bCode, Is.EqualTo(code));
-      Assert.That(bRes, Is.EqualTo(bVal));
+      Assert.Multiple(() =>
+      {
+         Assert.That(bCode, Is.EqualTo(code));
+         Assert.That(bRes, Is.EqualTo(bVal));
+      });
 
       code = "FFEFFFFFFFFFFFFF";
       bVal = double.MinValue;
       bCode = Base16.ToBase16String(bVal);
       bRes = Base16.FromBase16String(code).BNToNumber<double>();
-      Assert.That(bCode, Is.EqualTo(code));
-      Assert.That(bRes, Is.EqualTo(bVal));
+      Assert.Multiple(() =>
+      {
+         Assert.That(bCode, Is.EqualTo(code));
+         Assert.That(bRes, Is.EqualTo(bVal));
+      });
 
       code = "7FEFFFFFFFFFFFFF";
       bVal = double.MaxValue;
       bCode = Base16.ToBase16String(bVal);
       bRes = Base16.FromBase16String(code).BNToNumber<double>();
-      Assert.That(bCode, Is.EqualTo(code));
-      Assert.That(bRes, Is.EqualTo(bVal));
+      Assert.Multiple(() =>
+      {
+         Assert.That(bCode, Is.EqualTo(code));
+         Assert.That(bRes, Is.EqualTo(bVal));
+      });
 
       code = "400921FB54442D18";
       bVal = Math.PI;
       bCode = Base16.ToBase16String(bVal);
       bRes = Base16.FromBase16String(code).BNToNumber<double>();
-      Assert.That(bCode, Is.EqualTo(code));
-      Assert.That(bRes, Is.EqualTo(bVal));
+      Assert.Multiple(() =>
+      {
+         Assert.That(bCode, Is.EqualTo(code));
+         Assert.That(bRes, Is.EqualTo(bVal));
+      });
 
       //short test
       code = "0";
@@ -419,36 +533,51 @@ public class Base16Test
       long bVal = 1;
       string bCode = Base16.ToBase16String(bVal);
       long bRes = Base16.FromBase16String(code).BNToNumber<long>();
-      Assert.That(bCode, Is.EqualTo(code));
-      Assert.That(bRes, Is.EqualTo(bVal));
+      Assert.Multiple(() =>
+      {
+         Assert.That(bCode, Is.EqualTo(code));
+         Assert.That(bRes, Is.EqualTo(bVal));
+      });
 
       code = "8000000000000000";
       bVal = long.MinValue;
       bCode = Base16.ToBase16String(bVal);
       bRes = Base16.FromBase16String(code).BNToNumber<long>();
-      Assert.That(bCode, Is.EqualTo(code));
-      Assert.That(bRes, Is.EqualTo(bVal));
+      Assert.Multiple(() =>
+      {
+         Assert.That(bCode, Is.EqualTo(code));
+         Assert.That(bRes, Is.EqualTo(bVal));
+      });
 
       code = "7FFFFFFFFFFFFFFF";
       bVal = long.MaxValue;
       bCode = Base16.ToBase16String(bVal);
       bRes = Base16.FromBase16String(code).BNToNumber<long>();
-      Assert.That(bCode, Is.EqualTo(code));
-      Assert.That(bRes, Is.EqualTo(bVal));
+      Assert.Multiple(() =>
+      {
+         Assert.That(bCode, Is.EqualTo(code));
+         Assert.That(bRes, Is.EqualTo(bVal));
+      });
 
       code = "112210F47DE98115";
       bVal = 1234567890123456789;
       bCode = Base16.ToBase16String(bVal);
       bRes = Base16.FromBase16String(code).BNToNumber<long>();
-      Assert.That(bCode, Is.EqualTo(code));
-      Assert.That(bRes, Is.EqualTo(bVal));
+      Assert.Multiple(() =>
+      {
+         Assert.That(bCode, Is.EqualTo(code));
+         Assert.That(bRes, Is.EqualTo(bVal));
+      });
 
       code = "EEDDEF0B82167EEB";
       bVal = -1234567890123456789;
       bCode = Base16.ToBase16String(bVal);
       bRes = Base16.FromBase16String(code).BNToNumber<long>();
-      Assert.That(bCode, Is.EqualTo(code));
-      Assert.That(bRes, Is.EqualTo(bVal));
+      Assert.Multiple(() =>
+      {
+         Assert.That(bCode, Is.EqualTo(code));
+         Assert.That(bRes, Is.EqualTo(bVal));
+      });
 
       //short test
       code = "7B";
@@ -470,29 +599,41 @@ public class Base16Test
       ulong bVal = 1;
       string bCode = Base16.ToBase16String(bVal);
       ulong bRes = Base16.FromBase16String(code).BNToNumber<ulong>();
-      Assert.That(bCode, Is.EqualTo(code));
-      Assert.That(bRes, Is.EqualTo(bVal));
+      Assert.Multiple(() =>
+      {
+         Assert.That(bCode, Is.EqualTo(code));
+         Assert.That(bRes, Is.EqualTo(bVal));
+      });
 
       code = "0000000000000000";
       bVal = ulong.MinValue;
       bCode = Base16.ToBase16String(bVal);
       bRes = Base16.FromBase16String(code).BNToNumber<ulong>();
-      Assert.That(bCode, Is.EqualTo(code));
-      Assert.That(bRes, Is.EqualTo(bVal));
+      Assert.Multiple(() =>
+      {
+         Assert.That(bCode, Is.EqualTo(code));
+         Assert.That(bRes, Is.EqualTo(bVal));
+      });
 
       code = "FFFFFFFFFFFFFFFF";
       bVal = ulong.MaxValue;
       bCode = Base16.ToBase16String(bVal);
       bRes = Base16.FromBase16String(code).BNToNumber<ulong>();
-      Assert.That(bCode, Is.EqualTo(code));
-      Assert.That(bRes, Is.EqualTo(bVal));
+      Assert.Multiple(() =>
+      {
+         Assert.That(bCode, Is.EqualTo(code));
+         Assert.That(bRes, Is.EqualTo(bVal));
+      });
 
       code = "AB54A98CEB1F0AD2";
       bVal = 12345678901234567890;
       bCode = Base16.ToBase16String(bVal);
       bRes = Base16.FromBase16String(code).BNToNumber<ulong>();
-      Assert.That(bCode, Is.EqualTo(code));
-      Assert.That(bRes, Is.EqualTo(bVal));
+      Assert.Multiple(() =>
+      {
+         Assert.That(bCode, Is.EqualTo(code));
+         Assert.That(bRes, Is.EqualTo(bVal));
+      });
 
       //short test
       code = "7B";
@@ -514,29 +655,41 @@ public class Base16Test
       decimal bVal = 1;
       string bCode = Base16.ToBase16String(bVal);
       decimal bRes = Base16.FromBase16String(code).BNToNumber<decimal>();
-      Assert.That(bCode, Is.EqualTo(code));
-      Assert.That(bRes, Is.EqualTo(bVal));
+      Assert.Multiple(() =>
+      {
+         Assert.That(bCode, Is.EqualTo(code));
+         Assert.That(bRes, Is.EqualTo(bVal));
+      });
 
       code = "80000000FFFFFFFFFFFFFFFFFFFFFFFF";
       bVal = decimal.MinValue;
       bCode = Base16.ToBase16String(bVal);
       bRes = Base16.FromBase16String(code).BNToNumber<decimal>();
-      Assert.That(bCode, Is.EqualTo(code));
-      Assert.That(bRes, Is.EqualTo(bVal));
+      Assert.Multiple(() =>
+      {
+         Assert.That(bCode, Is.EqualTo(code));
+         Assert.That(bRes, Is.EqualTo(bVal));
+      });
 
       code = "00000000FFFFFFFFFFFFFFFFFFFFFFFF";
       bVal = decimal.MaxValue;
       bCode = Base16.ToBase16String(bVal);
       bRes = Base16.FromBase16String(code).BNToNumber<decimal>();
-      Assert.That(bCode, Is.EqualTo(code));
-      Assert.That(bRes, Is.EqualTo(bVal));
+      Assert.Multiple(() =>
+      {
+         Assert.That(bCode, Is.EqualTo(code));
+         Assert.That(bRes, Is.EqualTo(bVal));
+      });
 
       code = "000C00000000000000000178BA57548D";
       bVal = Constants.FACTOR_GOLDEN_RATIO_A_TO_B;
       bCode = Base16.ToBase16String(bVal);
       bRes = Base16.FromBase16String(code).BNToNumber<decimal>();
-      Assert.That(bCode, Is.EqualTo(code));
-      Assert.That(bRes, Is.EqualTo(bVal));
+      Assert.Multiple(() =>
+      {
+         Assert.That(bCode, Is.EqualTo(code));
+         Assert.That(bRes, Is.EqualTo(bVal));
+      });
 
       //short test
       code = "0";
@@ -556,17 +709,23 @@ public class Base16Test
    {
       string code = "414243";
       string bVal = "ABC";
-      string? bCode = Base16.ToBase16String(bVal);
-      string? bRes = Base16.FromBase16String(code).BNToString();
-      Assert.That(bCode, Is.EqualTo(code));
-      Assert.That(bRes, Is.EqualTo(bVal));
+      string bCode = Base16.ToBase16String(bVal);
+      string bRes = Base16.FromBase16String(code).BNToString();
+      Assert.Multiple(() =>
+      {
+         Assert.That(bCode, Is.EqualTo(code));
+         Assert.That(bRes, Is.EqualTo(bVal));
+      });
 
       code = "426F67614E65742072C3BC6C657A21";
       bVal = "BogaNet rülez!";
       bCode = Base16.ToBase16String(bVal);
       bRes = Base16.FromBase16String(code).BNToString();
-      Assert.That(bCode, Is.EqualTo(code));
-      Assert.That(bRes, Is.EqualTo(bVal));
+      Assert.Multiple(() =>
+      {
+         Assert.That(bCode, Is.EqualTo(code));
+         Assert.That(bRes, Is.EqualTo(bVal));
+      });
 
       //overflow test
       code = "0414243";

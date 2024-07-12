@@ -128,6 +128,8 @@ public abstract class RSAHelper
    /// <returns>X509-certificate as byte-array</returns>
    public static X509Certificate2 GetPublicCertificate(X509Certificate2 cert, string? password = null)
    {
+      ArgumentNullException.ThrowIfNull(cert);
+
       return GetCertificate(cert.BNToByteArray(password));
    }
 
@@ -140,6 +142,8 @@ public abstract class RSAHelper
    /// <returns>X509-certificate</returns>
    public static X509Certificate2 GetPrivateCertificate(X509Certificate2 cert, string? password = null)
    {
+      ArgumentNullException.ThrowIfNull(cert);
+
       return GetCertificate(cert.BNToByteArray(password, X509ContentType.Pfx));
    }
 
@@ -183,7 +187,7 @@ public abstract class RSAHelper
       ArgumentNullException.ThrowIfNullOrEmpty(filename);
       ArgumentNullException.ThrowIfNull(cert);
 
-      return await FileHelper.WriteAllBytesAsync(filename, cert.BNToByteArray(password));
+      return await FileHelper.WriteAllBytesAsync(filename, password == null ? [] : cert.BNToByteArray(password));
    }
 
    /// <summary>
@@ -224,7 +228,7 @@ public abstract class RSAHelper
    /// <param name="password">Password for the file</param>
    /// <returns>X509-certificate</returns>
    /// <exception cref="Exception"></exception>
-   public static X509Certificate2 ReadCertificateFromFile(string filename, string? password = null)
+   public static X509Certificate2? ReadCertificateFromFile(string filename, string? password = null)
    {
       return Task.Run(() => ReadCertificateFromFileAsync(filename, password)).GetAwaiter().GetResult();
    }
@@ -236,11 +240,12 @@ public abstract class RSAHelper
    /// <param name="password">Password for the file</param>
    /// <returns>X509-certificate</returns>
    /// <exception cref="Exception"></exception>
-   public static async Task<X509Certificate2> ReadCertificateFromFileAsync(string filename, string? password = null)
+   public static async Task<X509Certificate2?> ReadCertificateFromFileAsync(string filename, string? password = null)
    {
       ArgumentNullException.ThrowIfNullOrEmpty(filename);
 
-      return GetCertificate(await FileHelper.ReadAllBytesAsync(filename), password);
+      byte[]? bytes = await FileHelper.ReadAllBytesAsync(filename);
+      return bytes == null ? null : GetCertificate(bytes, password);
    }
 
    /// <summary>

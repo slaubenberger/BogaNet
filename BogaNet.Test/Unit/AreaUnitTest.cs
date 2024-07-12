@@ -33,53 +33,83 @@ public class AreaUnitTest
 
       conv = AreaUnit.CM2.Convert(AreaUnit.YARD2, valIn);
       tRef = 0.1476530908070512128678578345m;
-      Assert.That(conv, Is.EqualTo(tRef));
-      Assert.That(refValue, Is.EqualTo(AreaUnit.YARD2.Convert(AreaUnit.CM2, conv)));
+      Assert.Multiple(() =>
+      {
+         Assert.That(conv, Is.EqualTo(tRef));
+         Assert.That(refValue, Is.EqualTo(AreaUnit.YARD2.Convert(AreaUnit.CM2, conv)));
+      });
 
       conv = AreaUnit.AREA.Convert(AreaUnit.YARD2, valIn);
       tRef = 147653.09080705121286785783448m;
-      Assert.That(conv, Is.EqualTo(tRef));
-      Assert.That(refValue, Is.EqualTo(AreaUnit.YARD2.Convert(AreaUnit.AREA, conv)));
+      Assert.Multiple(() =>
+      {
+         Assert.That(conv, Is.EqualTo(tRef));
+         Assert.That(refValue, Is.EqualTo(AreaUnit.YARD2.Convert(AreaUnit.AREA, conv)));
+      });
 
       conv = AreaUnit.HECTARE.Convert(AreaUnit.YARD2, valIn);
       tRef = 14765309.080705121286785783448m;
-      Assert.That(conv, Is.EqualTo(tRef));
-      Assert.That(refValue, Is.EqualTo(AreaUnit.YARD2.Convert(AreaUnit.HECTARE, conv)));
+      Assert.Multiple(() =>
+      {
+         Assert.That(conv, Is.EqualTo(tRef));
+         Assert.That(refValue, Is.EqualTo(AreaUnit.YARD2.Convert(AreaUnit.HECTARE, conv)));
+      });
 
       conv = AreaUnit.KM2.Convert(AreaUnit.YARD2, valIn);
       tRef = 1476530908.0705121286785783448m;
-      Assert.That(conv, Is.EqualTo(tRef));
-      Assert.That(refValue, Is.EqualTo(AreaUnit.YARD2.Convert(AreaUnit.KM2, conv)));
+      Assert.Multiple(() =>
+      {
+         Assert.That(conv, Is.EqualTo(tRef));
+         Assert.That(refValue, Is.EqualTo(AreaUnit.YARD2.Convert(AreaUnit.KM2, conv)));
+      });
 
       conv = AreaUnit.INCH2.Convert(AreaUnit.YARD2, valIn);
       tRef = 0.9525986806507716049382716049m;
-      Assert.That(conv, Is.EqualTo(tRef));
-      Assert.That(refValue, Is.EqualTo(decimal.Round(AreaUnit.YARD2.Convert(AreaUnit.INCH2, conv), 10)));
+      Assert.Multiple(() =>
+      {
+         Assert.That(conv, Is.EqualTo(tRef));
+         Assert.That(refValue, Is.EqualTo(decimal.Round(AreaUnit.YARD2.Convert(AreaUnit.INCH2, conv), 10)));
+      });
 
       conv = AreaUnit.FOOT2.Convert(AreaUnit.YARD2, valIn);
       tRef = 137.17421001371111111111111111m;
-      Assert.That(conv, Is.EqualTo(tRef));
-      Assert.That(refValue, Is.EqualTo(AreaUnit.YARD2.Convert(AreaUnit.FOOT2, conv)));
+      Assert.Multiple(() =>
+      {
+         Assert.That(conv, Is.EqualTo(tRef));
+         Assert.That(refValue, Is.EqualTo(AreaUnit.YARD2.Convert(AreaUnit.FOOT2, conv)));
+      });
 
       conv = AreaUnit.YARD2.Convert(AreaUnit.YARD2, valIn);
       tRef = 1234.5678901234m;
-      Assert.That(conv, Is.EqualTo(tRef));
-      Assert.That(refValue, Is.EqualTo(AreaUnit.YARD2.Convert(AreaUnit.YARD2, conv)));
+      Assert.Multiple(() =>
+      {
+         Assert.That(conv, Is.EqualTo(tRef));
+         Assert.That(refValue, Is.EqualTo(AreaUnit.YARD2.Convert(AreaUnit.YARD2, conv)));
+      });
 
       conv = AreaUnit.PERCH.Convert(AreaUnit.YARD2, valIn);
       tRef = 37345.678617171613677179514853m;
-      Assert.That(conv, Is.EqualTo(tRef));
-      Assert.That(refValue, Is.EqualTo(AreaUnit.YARD2.Convert(AreaUnit.PERCH, conv)));
+      Assert.Multiple(() =>
+      {
+         Assert.That(conv, Is.EqualTo(tRef));
+         Assert.That(refValue, Is.EqualTo(AreaUnit.YARD2.Convert(AreaUnit.PERCH, conv)));
+      });
 
       conv = AreaUnit.ACRE.Convert(AreaUnit.YARD2, valIn);
       tRef = 5975308.588197256m;
-      Assert.That(conv, Is.EqualTo(tRef));
-      Assert.That(refValue, Is.EqualTo(AreaUnit.YARD2.Convert(AreaUnit.ACRE, conv)));
+      Assert.Multiple(() =>
+      {
+         Assert.That(conv, Is.EqualTo(tRef));
+         Assert.That(refValue, Is.EqualTo(AreaUnit.YARD2.Convert(AreaUnit.ACRE, conv)));
+      });
 
       conv = AreaUnit.MILE2.Convert(AreaUnit.YARD2, valIn);
       tRef = 3824197496.3930887273094615634m;
-      Assert.That(conv, Is.EqualTo(tRef));
-      Assert.That(refValue, Is.EqualTo(AreaUnit.YARD2.Convert(AreaUnit.MILE2, conv)));
+      Assert.Multiple(() =>
+      {
+         Assert.That(conv, Is.EqualTo(tRef));
+         Assert.That(refValue, Is.EqualTo(AreaUnit.YARD2.Convert(AreaUnit.MILE2, conv)));
+      });
    }
 
    #endregion

@@ -17,7 +17,7 @@ public class ObjectObf<T> where T : class //NUnit
    private static readonly byte _shift = Obfuscator.GenerateIV();
    private readonly byte _offset;
    private readonly byte _iv;
-   private byte[]? _obfValue;
+   private byte[] _obfValue = [];
 
    #endregion
 

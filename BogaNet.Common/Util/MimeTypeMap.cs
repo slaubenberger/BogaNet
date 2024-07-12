@@ -76,10 +76,7 @@ public abstract class MimeTypeMap
       if (mimeType.StartsWith(DOT))
          throw new ArgumentException($"Requested mime type is not valid: {mimeType}");
 
-      if (_mappings.Value.TryGetValue(mimeType, out string? extension))
-         return extension;
-
-      return string.Empty;
+      return _mappings.Value.TryGetValue(mimeType, out string? extension) ? extension : string.Empty;
    }
 
    #endregion

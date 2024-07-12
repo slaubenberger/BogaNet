@@ -86,37 +86,37 @@ public static class Base16 //NUnit
 
       switch (type)
       {
-         case Type when type == typeof(byte):
+         case not null when type == typeof(byte):
             pairs = 1;
             break;
-         case Type when type == typeof(sbyte):
+         case not null when type == typeof(sbyte):
             pairs = 1;
             break;
-         case Type when type == typeof(short):
+         case not null when type == typeof(short):
             pairs = 2;
             break;
-         case Type when type == typeof(ushort):
+         case not null when type == typeof(ushort):
             pairs = 2;
             break;
-         case Type when type == typeof(char):
+         case not null when type == typeof(char):
             pairs = 2;
             break;
-         case Type when type == typeof(float):
+         case not null when type == typeof(float):
             pairs = 4;
             break;
-         case Type when type == typeof(int):
+         case not null when type == typeof(int):
             pairs = 4;
             break;
-         case Type when type == typeof(uint):
+         case not null when type == typeof(uint):
             pairs = 4;
             break;
-         case Type when type == typeof(double):
+         case not null when type == typeof(double):
             pairs = 8;
             break;
-         case Type when type == typeof(long):
+         case not null when type == typeof(long):
             pairs = 8;
             break;
-         case Type when type == typeof(ulong):
+         case not null when type == typeof(ulong):
             pairs = 8;
             break;
           //TODO needs unsafe...
@@ -128,7 +128,7 @@ public static class Base16 //NUnit
             length = sizeof(nint);
             break;
 */
-         case Type when type == typeof(decimal):
+         case not null when type == typeof(decimal):
             pairs = 16;
             break;
          default:
@@ -136,7 +136,7 @@ public static class Base16 //NUnit
             break;
       }
 
-      byte[]? bytes = number.BNToByteArray();
+      byte[] bytes = number.BNToByteArray();
       string hex = ToBase16String(bytes);
       string res = useFullLength ? StringHelper.CreateFixedLengthString(hex, 2 * pairs, '0', false) : hex;
 

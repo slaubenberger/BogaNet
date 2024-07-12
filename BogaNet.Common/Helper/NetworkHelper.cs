@@ -130,7 +130,7 @@ public abstract class NetworkHelper
       // If there are errors in the certificate chain, look at each error to determine the cause.
       if (sslPolicyErrors != SslPolicyErrors.None)
       {
-         foreach (X509ChainStatus t in chain.ChainStatus.Where(t => t.Status != X509ChainStatusFlags.RevocationStatusUnknown))
+         foreach (X509ChainStatus unused in chain.ChainStatus.Where(t => t.Status != X509ChainStatusFlags.RevocationStatusUnknown))
          {
             chain.ChainPolicy.RevocationFlag = X509RevocationFlag.EntireChain;
             chain.ChainPolicy.RevocationMode = X509RevocationMode.Online;
@@ -179,7 +179,7 @@ public abstract class NetworkHelper
 
       if (IsURL(url))
       {
-         string result = url.Trim().Replace('\\', '/');
+         string? result = url.Trim().Replace('\\', '/');
 
          if (removeWWW)
             result = result.BNReplace("www.", string.Empty);
@@ -336,8 +336,7 @@ public abstract class NetworkHelper
             ipInterfaceProperties.UnicastAddresses.FirstOrDefault(ua =>
                ua.Address.AddressFamily == AddressFamily.InterNetwork);
 
-         IPAddress gateway = ipInterfaceProperties.GatewayAddresses.Select(g => g.Address)
-            .FirstOrDefault(a => a != null)!;
+         IPAddress? gateway = ipInterfaceProperties.GatewayAddresses.Select(g => g.Address).FirstOrDefault();
 
          if (unicastAddressIP != null)
          {
@@ -628,7 +627,7 @@ public class NetworkAdapter
    public string MacAddress { get; private set; }
 
    /// <summary>Gateway of the network adapter.</summary>
-   public IPAddress Gateway { get; private set; }
+   public IPAddress? Gateway { get; private set; }
 
    /// <summary>Speed of the network adapter in bits-per-second (bps).</summary>
    public long Speed { get; private set; }
@@ -641,7 +640,7 @@ public class NetworkAdapter
    #region Constructor
 
    public NetworkAdapter(string id, string name, NetworkInterfaceType type,
-      IPAddress address, IPAddress mask, string macAddress, IPAddress gateway,
+      IPAddress address, IPAddress mask, string macAddress, IPAddress? gateway,
       long speed, OperationalStatus status)
    {
       Id = id;

@@ -21,6 +21,6 @@ public class DIContainerTest
       DIContainer.Unbind<ITestClass>();
       res = DIContainer.Resolve<ITestClass>();
 
-      Assert.IsNull(res);
+      Assert.That(res, Is.Null);
    }
 }

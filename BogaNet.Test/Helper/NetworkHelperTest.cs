@@ -46,7 +46,7 @@ public class NetworkHelperTest
       string inUrl = "https://www.crosstales.com/";
       string outUrl = "crosstales.com";
 
-      string? url = NetworkHelper.ValidateURL(inUrl, true);
+      string url = NetworkHelper.ValidateURL(inUrl, true);
       Assert.That(url, Is.EqualTo(outUrl));
 
       outUrl = "https://crosstales.com";
@@ -68,12 +68,6 @@ public class NetworkHelperTest
       url = NetworkHelper.ValidateURL(_ipCT);
       Assert.That(url, Is.EqualTo(_ipCT));
 
-//      url = NetworkHelper.ValidateURL("");
-//      Assert.That(url, Is.EqualTo(""));
-
-//      url = NetworkHelper.ValidateURL(null);
-//      Assert.That(url, Is.EqualTo(null));
-
       inUrl = "www.crosstales.com/";
       outUrl = "crosstales.com";
 
@@ -86,62 +80,62 @@ public class NetworkHelperTest
    {
       string file = FileHelper.TempFile;
 
-      Assert.True(NetworkHelper.IsURL(_testUrl));
-
-      Assert.False(NetworkHelper.IsURL(file));
-      Assert.False(NetworkHelper.IsURL(""));
-      Assert.False(NetworkHelper.IsURL(null));
-      Assert.True(NetworkHelper.IsURL("www.crosstales.com"));
+      Assert.Multiple(() =>
+      {
+         Assert.That(NetworkHelper.IsURL(_testUrl), Is.True);
+         Assert.That(NetworkHelper.IsURL(file), Is.False);
+         Assert.That(NetworkHelper.IsURL(""), Is.False);
+         Assert.That(NetworkHelper.IsURL(null), Is.False);
+         Assert.That(NetworkHelper.IsURL("www.crosstales.com"), Is.True);
+      });
    }
 
    [Test]
    public void isIPv4_Test()
    {
-      Assert.True(NetworkHelper.IsIPv4(_ipCT));
-      Assert.True(NetworkHelper.IsIPv4(_ipLocalhost));
-      Assert.True(NetworkHelper.IsIPv4(_ipValid));
-
-      Assert.False(NetworkHelper.IsIPv4(_ipWrong1));
-      Assert.False(NetworkHelper.IsIPv4(_ipWrong2));
-      Assert.False(NetworkHelper.IsIPv4(_ipWrong3));
-      Assert.False(NetworkHelper.IsIPv4(_testUrl));
-      Assert.False(NetworkHelper.IsIPv4("ueli"));
-      Assert.False(NetworkHelper.IsIPv4(""));
-      Assert.False(NetworkHelper.IsIPv4(null));
+      Assert.Multiple(() =>
+      {
+         Assert.That(NetworkHelper.IsIPv4(_ipCT), Is.True);
+         Assert.That(NetworkHelper.IsIPv4(_ipLocalhost), Is.True);
+         Assert.That(NetworkHelper.IsIPv4(_ipValid), Is.True);
+         Assert.That(NetworkHelper.IsIPv4(_ipWrong1), Is.False);
+         Assert.That(NetworkHelper.IsIPv4(_ipWrong2), Is.False);
+         Assert.That(NetworkHelper.IsIPv4(_ipWrong3), Is.False);
+         Assert.That(NetworkHelper.IsIPv4(_testUrl), Is.False);
+         Assert.That(NetworkHelper.IsIPv4("ueli"), Is.False);
+         Assert.That(NetworkHelper.IsIPv4(""), Is.False);
+         Assert.That(NetworkHelper.IsIPv4(null), Is.False);
+      });
    }
 
    [Test]
    public void isIPv6_Test()
    {
-      Assert.True(NetworkHelper.IsIPv6(_ipV6));
-      Assert.True(NetworkHelper.IsIPv6(_ipV6Complex));
-
-      Assert.False(NetworkHelper.IsIPv6(_ipCT));
-      Assert.False(NetworkHelper.IsIPv6(_ipLocalhost));
-      Assert.False(NetworkHelper.IsIPv6(_ipWrong1));
-      Assert.False(NetworkHelper.IsIPv6(_ipWrong2));
-      Assert.False(NetworkHelper.IsIPv6(_ipWrong3));
-      Assert.False(NetworkHelper.IsIPv6(_ipValid));
-      Assert.False(NetworkHelper.IsIPv6(_testUrl));
-      Assert.False(NetworkHelper.IsIPv6("ueli"));
-      Assert.False(NetworkHelper.IsIPv6(""));
-      Assert.False(NetworkHelper.IsIPv6(null));
+      Assert.Multiple(() =>
+      {
+         Assert.That(NetworkHelper.IsIPv6(_ipV6), Is.True);
+         Assert.That(NetworkHelper.IsIPv6(_ipV6Complex), Is.True);
+         Assert.That(NetworkHelper.IsIPv6(_ipCT), Is.False);
+         Assert.That(NetworkHelper.IsIPv6(_ipLocalhost), Is.False);
+         Assert.That(NetworkHelper.IsIPv6(_ipWrong1), Is.False);
+         Assert.That(NetworkHelper.IsIPv6(_ipWrong2), Is.False);
+         Assert.That(NetworkHelper.IsIPv6(_ipWrong3), Is.False);
+         Assert.That(NetworkHelper.IsIPv6(_ipValid), Is.False);
+         Assert.That(NetworkHelper.IsIPv6(_testUrl), Is.False);
+         Assert.That(NetworkHelper.IsIPv6("ueli"), Is.False);
+         Assert.That(NetworkHelper.IsIPv6(""), Is.False);
+         Assert.That(NetworkHelper.IsIPv6(null), Is.False);
+      });
    }
 
    [Test]
    public void GetIP_Test()
    {
-      string? ip = NetworkHelper.GetIP(_testUrl);
+      string ip = NetworkHelper.GetIP(_testUrl);
       Assert.That(ip, Is.EqualTo(_ipCT));
 
       ip = NetworkHelper.GetIP("localhost");
       Assert.That(ip, Is.EqualTo(_ipLocalhost));
-
-//      ip = NetworkHelper.GetIP("");
-//      Assert.That(ip, Is.EqualTo(""));
-
-//      ip = NetworkHelper.GetIP(null);
-//      Assert.That(ip, Is.EqualTo(null));
    }
 
    #endregion

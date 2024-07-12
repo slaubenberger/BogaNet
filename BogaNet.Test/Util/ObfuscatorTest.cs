@@ -53,7 +53,7 @@ public class ObfuscatorTest
       output = Obfuscator.Obfuscate(plain.BNToByteArray(), 10);
       res = Obfuscator.Deobfuscate(output, 11).BNToString();
 
-      Assert.That(plain == res, Is.False);
+      Assert.That(plain, Is.Not.EqualTo(res));
    }
 
    #endregion
