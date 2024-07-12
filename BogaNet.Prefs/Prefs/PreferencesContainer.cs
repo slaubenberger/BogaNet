@@ -37,13 +37,13 @@ public class PreferencesContainer : IPreferencesContainer //NUnit
       if (!string.IsNullOrEmpty(filepath))
          _file = filepath;
 
-      Dictionary<string, object?>? prefs = null;
-
       if (FileHelper.Exists(_file))
-         prefs = JsonHelper.DeserializeFromFile<Dictionary<string, object?>>(_file);
+      {
+         Dictionary<string, object>? prefs = JsonHelper.DeserializeFromFile<Dictionary<string, object>>(_file);
 
-      if (prefs != null)
-         _preferences = prefs;
+         if (prefs != null)
+            _preferences = prefs;
+      }
    }
 
    public virtual void Save(string filepath = "")

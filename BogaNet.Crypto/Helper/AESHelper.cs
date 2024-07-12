@@ -62,7 +62,8 @@ public abstract class AESHelper //NUnit //TODO add other algorithms, key&blocksi
    {
       ArgumentNullException.ThrowIfNullOrEmpty(file);
 
-      return await FileHelper.WriteAllBytesAsync(file, await EncryptAsync(await FileHelper.ReadAllBytesAsync(file), key, IV));
+      byte[]? bytes = await FileHelper.ReadAllBytesAsync(file);
+      return bytes != null && await FileHelper.WriteAllBytesAsync(file, await EncryptAsync(bytes, key, IV));
    }
 
    /// <summary>
@@ -90,7 +91,8 @@ public abstract class AESHelper //NUnit //TODO add other algorithms, key&blocksi
    {
       ArgumentNullException.ThrowIfNullOrEmpty(file);
 
-      return await FileHelper.WriteAllBytesAsync(file, await DecryptAsync(await FileHelper.ReadAllBytesAsync(file), key, IV));
+      byte[]? bytes = await FileHelper.ReadAllBytesAsync(file);
+      return bytes != null && await FileHelper.WriteAllBytesAsync(file, await DecryptAsync(bytes, key, IV));
    }
 
    /// <summary>

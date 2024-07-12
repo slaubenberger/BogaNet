@@ -27,7 +27,7 @@ public abstract class SecureValueType<TCustom, TValue> where TValue : INumber<TV
 
    protected TValue _value
    {
-      get => AESHelper.Decrypt(_secretValue, key.ToByteArray(), iv.ToByteArray()).BNToNumber<TValue>()!;
+      get => AESHelper.Decrypt(_secretValue, key.ToByteArray(), iv.ToByteArray()).BNToNumber<TValue>();
 
       private set => _secretValue = AESHelper.Encrypt(value.BNToByteArray(), key.ToByteArray(), iv.ToByteArray());
    }

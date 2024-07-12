@@ -41,7 +41,7 @@ public static class Base16 //NUnit
       {
          do
          {
-            if (hexVal.StartsWith("00") && hexVal.Length > 2)
+            if (hexVal.BNStartsWith("00") && hexVal.Length > 2)
             {
                hexVal = hexVal[2..];
             }

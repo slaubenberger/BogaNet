@@ -79,7 +79,8 @@ public abstract class HashHelper //NUnit
    {
       ArgumentNullException.ThrowIfNullOrEmpty(file);
 
-      return Hash(await FileHelper.ReadAllBytesAsync(file), algo);
+      byte[]? bytes = await FileHelper.ReadAllBytesAsync(file);
+      return bytes == null ? [] : Hash(bytes, algo);
    }
 
    #endregion

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System;
 using System.Linq;
+using BogaNet.Extension;
 
 namespace BogaNet.Util;
 
@@ -39,9 +40,9 @@ public abstract class MimeTypeMap
          str = str.Remove(indexQuestionMark);
       }
 
-      if (!str.StartsWith(DOT))
+      if (!str.BNStartsWith(DOT))
       {
-         int index = str.LastIndexOf(DOT);
+         int index = str.BNLastIndexOf(DOT);
 
          if (index != -1 && str.Length > index + 1)
             str = str.Substring(index + 1);
@@ -73,7 +74,7 @@ public abstract class MimeTypeMap
    {
       ArgumentNullException.ThrowIfNullOrEmpty(mimeType);
 
-      if (mimeType.StartsWith(DOT))
+      if (mimeType.BNStartsWith(DOT))
          throw new ArgumentException($"Requested mime type is not valid: {mimeType}");
 
       return _mappings.Value.TryGetValue(mimeType, out string? extension) ? extension : string.Empty;

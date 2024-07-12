@@ -28,7 +28,7 @@ public abstract class ObfuscatedValueType<TCustom, TValue> where TValue : INumbe
 
    protected TValue _value
    {
-      get => Obfuscator.Deobfuscate(_obfValue, _obf).BNToNumber<TValue>()!;
+      get => Obfuscator.Deobfuscate(_obfValue, _obf).BNToNumber<TValue>();
 
       private set => _obfValue = Obfuscator.Obfuscate(value.BNToByteArray(), _obf);
    }

@@ -306,7 +306,7 @@ public class FileHelperTest
 
       if (fname != null)
       {
-         string? fnameNew = FileHelper.RenameDirectory(fname, System.Guid.NewGuid().ToString());
+         string fnameNew = FileHelper.RenameDirectory(fname, System.Guid.NewGuid().ToString());
 
          Assert.Multiple(() =>
          {
@@ -372,7 +372,7 @@ public class FileHelperTest
          Assert.That(FileHelper.ExistsDirectory(newPath), Is.True);
          Assert.That(newPath != null && FileHelper.DeleteDirectory(newPath), Is.True);
          Assert.That(!FileHelper.ExistsDirectory(newPath), Is.True);
-         Assert.That(FileHelper.DeleteDirectory(newPath), Is.False);
+         Assert.That(newPath != null && FileHelper.DeleteDirectory(newPath), Is.False);
       });
    }
 
@@ -414,7 +414,7 @@ public class FileHelperTest
          Assert.That(FileHelper.ExistsDirectory(path), Is.False);
          Assert.That(FileHelper.CreateDirectory(path), Is.True);
          Assert.That(FileHelper.ExistsDirectory(path), Is.True);
-         Assert.That(FileHelper.DeleteDirectory(path), Is.True);
+         Assert.That(path != null && FileHelper.DeleteDirectory(path), Is.True);
       });
    }
 
@@ -428,9 +428,9 @@ public class FileHelperTest
          Assert.That(FileHelper.ExistsFile(fname), Is.True);
          Assert.That(fname != null && FileHelper.DeleteFile(fname), Is.True);
          Assert.That(FileHelper.ExistsFile(fname), Is.False);
-         Assert.That(FileHelper.CreateFile(fname), Is.True);
+         Assert.That(fname != null && FileHelper.CreateFile(fname), Is.True);
          Assert.That(FileHelper.ExistsFile(fname), Is.True);
-         Assert.That(FileHelper.DeleteFile(fname), Is.True);
+         Assert.That(fname != null && FileHelper.DeleteFile(fname), Is.True);
       });
    }
 

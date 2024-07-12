@@ -150,7 +150,7 @@ public abstract class FileHelper
    /// <returns>True if the given path is UNC</returns>
    public static bool IsUNCPath(string? path) //NUnit
    {
-      return !string.IsNullOrEmpty(path) && path.StartsWith(@"\\");
+      return !string.IsNullOrEmpty(path) && path.BNStartsWith(@"\\");
    }
 
    /// <summary>
@@ -178,7 +178,7 @@ public abstract class FileHelper
 
       if (IsURL(path))
       {
-         if (addEndDelimiter && !path.EndsWith(Constants.PATH_DELIMITER_UNIX))
+         if (addEndDelimiter && !path.BNEndsWith(Constants.PATH_DELIMITER_UNIX))
             path += Constants.PATH_DELIMITER_UNIX;
 
          return path;
@@ -193,14 +193,14 @@ public abstract class FileHelper
          //if (!isUNCPath(pathTemp))
          result = pathTemp.Replace('/', '\\');
 
-         if (addEndDelimiter && !result.EndsWith(Constants.PATH_DELIMITER_WINDOWS))
+         if (addEndDelimiter && !result.BNEndsWith(Constants.PATH_DELIMITER_WINDOWS))
             result += Constants.PATH_DELIMITER_WINDOWS;
       }
       else
       {
          result = pathTemp.Replace('\\', '/');
 
-         if (addEndDelimiter && !result.EndsWith(Constants.PATH_DELIMITER_UNIX))
+         if (addEndDelimiter && !result.BNEndsWith(Constants.PATH_DELIMITER_UNIX))
             result += Constants.PATH_DELIMITER_UNIX;
       }
 
@@ -229,8 +229,8 @@ public abstract class FileHelper
 
       string result = ValidatePath(path, false, true, removeInvalidChars);
 
-      if (result.EndsWith(Constants.PATH_DELIMITER_WINDOWS) ||
-          result.EndsWith(Constants.PATH_DELIMITER_UNIX))
+      if (result.BNEndsWith(Constants.PATH_DELIMITER_WINDOWS) ||
+          result.BNEndsWith(Constants.PATH_DELIMITER_UNIX))
          result = result.Substring(0, result.Length - 1);
 
       string fileName;
@@ -312,7 +312,7 @@ public abstract class FileHelper
 
             foreach (string filename in filenames)
             {
-               files.AddRange(Directory.EnumerateFiles(_path, filename.StartsWith("*.") ? filename : $"*{filename}*", isRecursive
+               files.AddRange(Directory.EnumerateFiles(_path, filename.BNStartsWith("*.") ? filename : $"*{filename}*", isRecursive
                   ? SearchOption.AllDirectories
                   : SearchOption.TopDirectoryOnly));
             }
@@ -647,7 +647,7 @@ public abstract class FileHelper
    /// <param name="newName">New name for the directory</param>
    /// <returns>New path of the directory</returns>
    /// <exception cref="Exception"></exception>
-   public static string? RenameDirectory(string path, string newName) //NUnit
+   public static string RenameDirectory(string path, string newName) //NUnit
    {
       ArgumentNullException.ThrowIfNullOrEmpty(path);
       ArgumentNullException.ThrowIfNullOrEmpty(newName);
@@ -671,7 +671,7 @@ public abstract class FileHelper
          throw;
       }
 
-      return null;
+      return path;
    }
 
    /// <summary>
@@ -1675,14 +1675,22 @@ public abstract class FileHelper
                else if (Constants.IsOSX)
                {
                   process.StartInfo.FileName = "open";
-                  process.StartInfo.WorkingDirectory = GetDirectoryName(file) + Constants.PATH_DELIMITER_UNIX;
-                  process.StartInfo.Arguments = $"-t \"{GetFileName(file)}\"";
+
+                  if (file != null)
+                  {
+                     process.StartInfo.WorkingDirectory = GetDirectoryName(file) + Constants.PATH_DELIMITER_UNIX;
+                     process.StartInfo.Arguments = $"-t \"{GetFileName(file)}\"";
+                  }
                }
                else
                {
                   process.StartInfo.FileName = "xdg-open";
-                  process.StartInfo.WorkingDirectory = GetDirectoryName(file) + Constants.PATH_DELIMITER_UNIX;
-                  process.StartInfo.Arguments = GetFileName(file);
+
+                  if (file != null)
+                  {
+                     process.StartInfo.WorkingDirectory = GetDirectoryName(file) + Constants.PATH_DELIMITER_UNIX;
+                     process.StartInfo.Arguments = GetFileName(file);
+                  }
                }
 
                process.Start();

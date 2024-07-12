@@ -14,13 +14,13 @@ public class AESHelperTest
       const string plain = "BogaNet rulez!";
 
       const string initVector = "SL$2OIjLS$2aIj76";
-      byte[]? IV = initVector.BNToByteArray(System.Text.Encoding.ASCII);
+      byte[] IV = initVector.BNToByteArray(System.Text.Encoding.ASCII);
 
       const string keyPlain = "abc123";
       byte[] key = HashHelper.HashSHA256(keyPlain.BNToByteArray());
 
       var output = AESHelper.Encrypt(plain.BNToByteArray(), key, IV);
-      string? res = AESHelper.Decrypt(output, key, IV).BNToString();
+      string res = AESHelper.Decrypt(output, key, IV).BNToString();
 
       Assert.That(res, Is.EqualTo(plain));
    }

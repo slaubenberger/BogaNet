@@ -179,10 +179,10 @@ public abstract class NetworkHelper
 
       if (IsURL(url))
       {
-         string? result = url.Trim().Replace('\\', '/');
+         string result = url.Trim().Replace('\\', '/');
 
          if (removeWWW)
-            result = result.BNReplace("www.", string.Empty);
+            result = result.BNReplace("www.", string.Empty)!;
 
          if (removeSlash && result.BNEndsWith(Constants.PATH_DELIMITER_UNIX))
             result = result.Substring(0, result.Length - 1);
@@ -500,7 +500,7 @@ public abstract class NetworkHelper
    /// <param name="url">URL to the file</param>
    /// <returns>Array of text lines from the file</returns>
    /// <exception cref="Exception"></exception>
-   public static string[]? ReadAllLines(string? url)
+   public static string[]? ReadAllLines(string url)
    {
       return Task.Run(() => ReadAllLinesAsync(url)).GetAwaiter().GetResult();
    }

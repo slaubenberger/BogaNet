@@ -45,7 +45,7 @@ public static class Base2 //NUnit
             }
             else
             {
-               if (base2string.StartsWith("0000000") && base2string.Length > 8)
+               if (base2string.BNStartsWith("0000000") && base2string.Length > 8)
                {
                   base2string = base2string[8..];
                }

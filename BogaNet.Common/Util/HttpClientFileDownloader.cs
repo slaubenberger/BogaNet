@@ -17,7 +17,7 @@ public class HttpClientFileDownloader
    private static readonly ILogger<HttpClientFileDownloader> _logger = GlobalLogging.CreateLogger<HttpClientFileDownloader>();
 
    private string? _downloadUrl;
-   private string? _destinationPath;
+   private string _destinationPath = string.Empty;
 
    #endregion
 
