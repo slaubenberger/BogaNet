@@ -26,7 +26,6 @@ public abstract class FloatTRNG : BaseTRNG //NUnit
 
    #endregion
 
-
    #region Public methods
 
    /// <summary>

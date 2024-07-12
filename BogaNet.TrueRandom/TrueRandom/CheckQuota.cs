@@ -18,7 +18,6 @@ public abstract class CheckQuota //NUnit
 
    #endregion
 
-
    #region Static properties
 
    /// <summary>Returns the remaining quota in bits from the last check.</summary>
@@ -26,7 +25,6 @@ public abstract class CheckQuota //NUnit
    public static int Quota => quota;
 
    #endregion
-
 
    #region Public methods
 

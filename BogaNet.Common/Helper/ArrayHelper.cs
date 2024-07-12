@@ -19,7 +19,7 @@ public static class ArrayHelper
    /// <param name="count">Number of bytes to convert (optional, default: 0 = all)</param>
    /// <returns>Converted float-array</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static float[] ByteArrayToFloatArray(byte[]? bytes, int count = 0)
+   public static float[] ByteArrayToFloatArray(byte[] bytes, int count = 0)
    {
       ArgumentNullException.ThrowIfNull(bytes);
 
@@ -47,7 +47,7 @@ public static class ArrayHelper
    /// <param name="count">Number of floats to convert (optional, default: 0 = all)</param>
    /// <returns>Converted byte-array</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static byte[] FloatArrayToByteArray(float[]? array, int count = 0)
+   public static byte[] FloatArrayToByteArray(float[] array, int count = 0)
    {
       ArgumentNullException.ThrowIfNull(array);
 
@@ -82,6 +82,8 @@ public static class ArrayHelper
    /// <exception cref="ArgumentNullException"></exception>
    public static sbyte[] ByteArrayToSByteArray(byte[] bytes, int count = 0)
    {
+      ArgumentNullException.ThrowIfNull(bytes);
+
       int _count = count;
 
       if (_count <= 0)
@@ -106,6 +108,8 @@ public static class ArrayHelper
    /// <exception cref="ArgumentNullException"></exception>
    public static byte[] SByteArrayToByteArray(sbyte[] sbytes, int count = 0)
    {
+      ArgumentNullException.ThrowIfNull(sbytes);
+
       int _count = count;
 
       if (_count <= 0)
@@ -127,9 +131,12 @@ public static class ArrayHelper
    /// <param name="matrix">Input as 2D-array</param>
    /// <param name="columnNumber">Desired column of the 2D-array</param>
    /// <returns>Column of a 2D-array as array</returns>
-   public static T[]? GetColumn<T>(T[,]? matrix, int columnNumber)
+   /// <exception cref="ArgumentNullException"></exception>
+   public static T[] GetColumn<T>(T[,] matrix, int columnNumber)
    {
-      return matrix != null ? Enumerable.Range(0, matrix.GetLength(0)).Select(x => matrix[x, Math.Abs(columnNumber)]).ToArray() : default;
+      ArgumentNullException.ThrowIfNull(matrix);
+
+      return Enumerable.Range(0, matrix.GetLength(0)).Select(x => matrix[x, Math.Abs(columnNumber)]).ToArray();
    }
 
    /// <summary>
@@ -138,9 +145,12 @@ public static class ArrayHelper
    /// <param name="matrix">Input as 2D-array</param>
    /// <param name="rowNumber">Desired row of the 2D-array</param>
    /// <returns>Row of a 2D-array as array</returns>
-   public static T[]? GetRow<T>(T[,]? matrix, int rowNumber)
+   /// <exception cref="ArgumentNullException"></exception>
+   public static T[] GetRow<T>(T[,] matrix, int rowNumber)
    {
-      return matrix != null ? Enumerable.Range(0, matrix.GetLength(1)).Select(x => matrix[Math.Abs(rowNumber), x]).ToArray() : default;
+      ArgumentNullException.ThrowIfNull(matrix);
+
+      return Enumerable.Range(0, matrix.GetLength(1)).Select(x => matrix[Math.Abs(rowNumber), x]).ToArray();
    }
 
    #endregion

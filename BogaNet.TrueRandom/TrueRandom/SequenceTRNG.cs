@@ -22,7 +22,6 @@ public abstract class SequenceTRNG : BaseTRNG //NUnit
 
    #endregion
 
-
    #region Properties
 
    /// <summary>Returns the sequence from the last generation.</summary>
@@ -30,7 +29,6 @@ public abstract class SequenceTRNG : BaseTRNG //NUnit
    public static List<int> Result => _result;
 
    #endregion
-
 
    #region Public methods
 

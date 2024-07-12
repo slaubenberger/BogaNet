@@ -28,9 +28,9 @@ public abstract class MimeTypeMap
    /// <param name="mimeType">The variable to store the MIME type</param>
    /// <returns>The MIME type</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static bool TryGetMimeType(string? str, out string? mimeType)
+   public static bool TryGetMimeType(string str, out string? mimeType)
    {
-      ArgumentNullException.ThrowIfNull(str);
+      ArgumentNullException.ThrowIfNullOrEmpty(str);
 
       int indexQuestionMark = str.IndexOf(QUESTION_MARK, StringComparison.Ordinal);
 
@@ -58,7 +58,7 @@ public abstract class MimeTypeMap
    /// <param name="str">The filename or extension</param>
    /// <returns>The MIME type</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static string? GetMimeType(string? str)
+   public static string? GetMimeType(string str)
    {
       return TryGetMimeType(str, out string? result) ? result : DEFAULT_TYPE;
    }
@@ -67,21 +67,17 @@ public abstract class MimeTypeMap
    /// Gets the extension from the provided MIME type.
    /// </summary>
    /// <param name="mimeType">Type of the MIME</param>
-   /// <param name="throwErrorIfNotFound">if set to <c>true</c>, throws error if extension's not found</param>
-   /// <returns>The extension</returns>
+   /// <returns>The extension for the MIME type</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static string GetExtension(string? mimeType, bool throwErrorIfNotFound = true)
+   public static string GetExtension(string mimeType)
    {
-      ArgumentNullException.ThrowIfNull(mimeType);
+      ArgumentNullException.ThrowIfNullOrEmpty(mimeType);
 
       if (mimeType.StartsWith(DOT))
-         throw new ArgumentException("Requested mime type is not valid: " + mimeType);
+         throw new ArgumentException($"Requested mime type is not valid: {mimeType}");
 
       if (_mappings.Value.TryGetValue(mimeType, out string? extension))
          return extension;
-
-      if (throwErrorIfNotFound)
-         throw new ArgumentException("Requested mime type is not registered: " + mimeType);
 
       return string.Empty;
    }

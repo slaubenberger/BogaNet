@@ -22,9 +22,9 @@ public static class Base2 //NUnit
    /// <param name="base2string">Data as Base2-string</param>
    /// <returns>Data as byte-array</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static byte[] FromBase2String(string? base2string)
+   public static byte[] FromBase2String(string base2string)
    {
-      ArgumentNullException.ThrowIfNull(base2string);
+      ArgumentNullException.ThrowIfNullOrEmpty(base2string);
 
       int diff = base2string.Length % 8;
 
@@ -75,7 +75,7 @@ public static class Base2 //NUnit
    /// <param name="bytes">Data as byte-array</param>
    /// <returns>Data as encoded Base2-string</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static string ToBase2String(params byte[]? bytes)
+   public static string ToBase2String(params byte[] bytes)
    {
       ArgumentNullException.ThrowIfNull(bytes);
 
@@ -95,7 +95,7 @@ public static class Base2 //NUnit
    /// <param name="number">Given value</param>
    /// <returns>Number as converted Base2-string</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static string ToBase2String<T>(T? number) where T : INumber<T>
+   public static string ToBase2String<T>(T number) where T : INumber<T>
    {
       ArgumentNullException.ThrowIfNull(number);
 
@@ -108,9 +108,10 @@ public static class Base2 //NUnit
    /// <param name="str">Input string</param>
    /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
    /// <returns>String value as converted Base2-string</returns>
-   public static string? ToBase2String(string? str, Encoding? encoding = null)
+   /// <exception cref="ArgumentNullException"></exception>
+   public static string ToBase2String(string str, Encoding? encoding = null)
    {
-      return str == null ? null : ToBase2String(str.BNToByteArray(encoding));
+      return ToBase2String(str.BNToByteArray(encoding));
    }
 
    #endregion

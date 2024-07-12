@@ -108,7 +108,7 @@ public class Localizer : Singleton<Localizer>, ILocalizer //NUnit
 
    public virtual string? GetTextWithReplacements(string? key, CultureInfo culture, TextType textType = TextType.LABEL, params string[] replacements) //NUnit
    {
-      ArgumentNullException.ThrowIfNull(key);
+      ArgumentNullException.ThrowIfNullOrEmpty(key);
       ArgumentNullException.ThrowIfNull(replacements);
 
       string? text = GetText(key, culture, textType);

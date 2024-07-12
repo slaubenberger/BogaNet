@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using BogaNet.Helper;
+using System;
 
 namespace BogaNet.Extension;
 
@@ -15,8 +16,11 @@ public static class ObjectExtension
    /// </summary>
    /// <param name="obj">Given object</param>
    /// <returns>Byte-array with the object</returns>
-   public static byte[]? BNToByteArray(this object? obj)
+   /// <exception cref="ArgumentNullException"></exception>
+   public static byte[] BNToByteArray(this object obj)
    {
+      ArgumentNullException.ThrowIfNull(obj);
+
       return JsonHelper.SerializeToString(obj, JsonHelper.FORMAT_NONE).BNToByteArray();
    }
 
@@ -25,8 +29,11 @@ public static class ObjectExtension
    /// </summary>
    /// <param name="bytes">Byte-array</param>
    /// <returns>Object from the byte-array</returns>
-   public static T? BNToObject<T>(this byte[]? bytes)
+   /// <exception cref="ArgumentNullException"></exception>
+   public static T? BNToObject<T>(this byte[] bytes)
    {
+      ArgumentNullException.ThrowIfNull(bytes);
+
       return JsonHelper.DeserializeFromString<T>(bytes.BNToString(), JsonHelper.FORMAT_NONE);
    }
 

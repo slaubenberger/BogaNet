@@ -19,10 +19,10 @@ public static class NumberExtension
    /// </summary>
    /// <param name="number">Given value</param>
    /// <returns>Byte-array with the Number</returns>
-   public static byte[]? BNToByteArray<T>(this T? number) where T : INumber<T>
+   /// <exception cref="ArgumentNullException"></exception>
+   public static byte[]? BNToByteArray<T>(this T number) where T : INumber<T>
    {
-      if (number == null)
-         return null;
+      ArgumentNullException.ThrowIfNull(number);
 
       Type type = typeof(T);
       byte[]? bytes = null;
@@ -104,9 +104,12 @@ public static class NumberExtension
    /// <param name="bytes">Byte-array</param>
    /// <param name="offset">Offset inside the byte-array (optional, default: 0)</param>
    /// <returns>Number from the byte-array</returns>
-   public static T? BNToNumber<T>(this byte[]? bytes, int offset = 0) where T : INumber<T>
+   /// <exception cref="ArgumentNullException"></exception>
+   public static T? BNToNumber<T>(this byte[] bytes, int offset = 0) where T : INumber<T>
    {
-      if (bytes == null || bytes.Length == 0)
+      ArgumentNullException.ThrowIfNull(bytes);
+
+      if (bytes.Length == 0)
          return default;
 
       Type type = typeof(T);

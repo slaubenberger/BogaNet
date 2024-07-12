@@ -75,7 +75,7 @@ public abstract class JsonHelper
    /// <param name="settings">Serializer settings (optional)</param>
    /// <returns>True if the operation was successful</returns>
    /// <exception cref="Exception"></exception>
-   public static bool SerializeToFile(object? obj, string? path, JsonSerializerSettings? settings = null)
+   public static bool SerializeToFile(object obj, string path, JsonSerializerSettings? settings = null)
    {
       return Task.Run(() => SerializeToFileAsync(obj, path, settings)).GetAwaiter().GetResult();
    }
@@ -88,10 +88,10 @@ public abstract class JsonHelper
    /// <param name="settings">Serializer settings (optional)</param>
    /// <returns>True if the operation was successful</returns>
    /// <exception cref="Exception"></exception>
-   public static async Task<bool> SerializeToFileAsync(object? obj, string? path, JsonSerializerSettings? settings = null)
+   public static async Task<bool> SerializeToFileAsync(object obj, string path, JsonSerializerSettings? settings = null)
    {
       ArgumentNullException.ThrowIfNull(obj);
-      ArgumentNullException.ThrowIfNull(path);
+      ArgumentNullException.ThrowIfNullOrEmpty(path);
 
       try
       {
@@ -111,7 +111,7 @@ public abstract class JsonHelper
    /// <param name="settings">Serializer settings (optional)</param>
    /// <returns>Object as JSON-string</returns>
    /// <exception cref="Exception"></exception>
-   public static string SerializeToString(object? obj, JsonSerializerSettings? settings = null)
+   public static string SerializeToString(object obj, JsonSerializerSettings? settings = null)
    {
       ArgumentNullException.ThrowIfNull(obj);
 
@@ -133,10 +133,8 @@ public abstract class JsonHelper
    /// <param name="settings">Serializer settings (optional)</param>
    /// <returns>Object as JSON byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static byte[] SerializeToByteArray(object? obj, JsonSerializerSettings? settings = null)
+   public static byte[] SerializeToByteArray(object obj, JsonSerializerSettings? settings = null)
    {
-      ArgumentNullException.ThrowIfNull(obj);
-
       return SerializeToString(obj, settings ?? FORMAT_INDENTED).BNToByteArray()!;
    }
 
@@ -147,7 +145,7 @@ public abstract class JsonHelper
    /// <param name="settings">Serializer settings (optional)</param>
    /// <returns>Object</returns>
    /// <exception cref="Exception"></exception>
-   public static T? DeserializeFromFile<T>(string? path, JsonSerializerSettings? settings = null)
+   public static T? DeserializeFromFile<T>(string path, JsonSerializerSettings? settings = null)
    {
       return Task.Run(() => DeserializeFromFileAsync<T>(path, settings)).GetAwaiter().GetResult();
    }
@@ -159,9 +157,9 @@ public abstract class JsonHelper
    /// <param name="settings">Serializer settings (optional)</param>
    /// <returns>Object</returns>
    /// <exception cref="Exception"></exception>
-   public static async Task<T?> DeserializeFromFileAsync<T>(string? path, JsonSerializerSettings? settings = null)
+   public static async Task<T?> DeserializeFromFileAsync<T>(string path, JsonSerializerSettings? settings = null)
    {
-      ArgumentNullException.ThrowIfNull(path);
+      ArgumentNullException.ThrowIfNullOrEmpty(path);
 
       try
       {
@@ -181,9 +179,9 @@ public abstract class JsonHelper
    /// <param name="settings">Serializer settings (optional)</param>
    /// <returns>Object</returns>
    /// <exception cref="Exception"></exception>
-   public static T? DeserializeFromString<T>(string? jsonAsString, JsonSerializerSettings? settings = null)
+   public static T? DeserializeFromString<T>(string jsonAsString, JsonSerializerSettings? settings = null)
    {
-      ArgumentNullException.ThrowIfNull(jsonAsString);
+      ArgumentNullException.ThrowIfNullOrEmpty(jsonAsString);
 
       try
       {
@@ -196,7 +194,6 @@ public abstract class JsonHelper
       }
    }
 
-
    /// <summary>
    /// Deserialize a JSON byte-array to an object.
    /// </summary>
@@ -204,10 +201,8 @@ public abstract class JsonHelper
    /// <param name="settings">Serializer settings (optional)</param>
    /// <returns>Object</returns>
    /// <exception cref="Exception"></exception>
-   public static T? DeserializeFromByteArray<T>(byte[]? data, JsonSerializerSettings? settings = null)
+   public static T? DeserializeFromByteArray<T>(byte[] data, JsonSerializerSettings? settings = null)
    {
-      ArgumentNullException.ThrowIfNull(data);
-
       return DeserializeFromString<T>(data.BNToString(), settings);
    }
 

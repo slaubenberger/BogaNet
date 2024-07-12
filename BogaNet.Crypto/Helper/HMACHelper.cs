@@ -35,13 +35,14 @@ public abstract class HMACHelper //NUnit
    /// <param name="algo">HMAC-algorithm</param>
    /// <returns>HMAC-value as byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static byte[] Hash(byte[]? bytes, HMAC? algo)
+   public static byte[] Hash(byte[] bytes, HMAC algo)
    {
       ArgumentNullException.ThrowIfNull(bytes);
+      ArgumentNullException.ThrowIfNull(algo);
 
       try
       {
-         return algo?.ComputeHash(bytes, 0, bytes.Length) ?? [];
+         return algo.ComputeHash(bytes, 0, bytes.Length);
       }
       catch (Exception ex)
       {
@@ -58,8 +59,10 @@ public abstract class HMACHelper //NUnit
    /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
    /// <returns>HMAC-value as byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static byte[] Hash(string? text, HMAC? algo, Encoding? encoding = null)
+   public static byte[] Hash(string? text, HMAC algo, Encoding? encoding = null)
    {
+      ArgumentNullException.ThrowIfNullOrEmpty(text);
+
       return Hash(text.BNToByteArray(encoding), algo);
    }
 
@@ -70,7 +73,7 @@ public abstract class HMACHelper //NUnit
    /// <param name="algo">Hash-algorithm</param>
    /// <returns>HMAC-value as byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static byte[] HashFile(string? file, HMAC? algo)
+   public static byte[] HashFile(string file, HMAC algo)
    {
       return Task.Run(() => HashFileAsync(file, algo)).GetAwaiter().GetResult();
    }
@@ -79,10 +82,13 @@ public abstract class HMACHelper //NUnit
    /// Generates a HMAC-value as byte-array from a file asynchronously.
    /// </summary>
    /// <param name="file">File to hash</param>
+   /// <param name="algo">Hash-algorithm</param>
    /// <returns>HMAC-value as byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static async Task<byte[]> HashFileAsync(string? file, HMAC? algo)
+   public static async Task<byte[]> HashFileAsync(string file, HMAC algo)
    {
+      ArgumentNullException.ThrowIfNullOrEmpty(file);
+
       return Hash(await FileHelper.ReadAllBytesAsync(file), algo);
    }
 
@@ -97,7 +103,7 @@ public abstract class HMACHelper //NUnit
    /// <param name="secret">Shared secret for HMAC</param>
    /// <returns>HMAC-value with SHA256 as byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static byte[] HashHMACSHA256(byte[]? bytes, byte[]? secret)
+   public static byte[] HashHMACSHA256(byte[] bytes, byte[] secret)
    {
       ArgumentNullException.ThrowIfNull(secret);
 
@@ -113,7 +119,7 @@ public abstract class HMACHelper //NUnit
    /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
    /// <returns>HMAC-value with SHA256 as byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static byte[] HashHMACSHA256(string? text, byte[]? secret, Encoding? encoding = null)
+   public static byte[] HashHMACSHA256(string text, byte[] secret, Encoding? encoding = null)
    {
       return HashHMACSHA256(text.BNToByteArray(encoding), secret);
    }
@@ -125,7 +131,7 @@ public abstract class HMACHelper //NUnit
    /// <param name="secret">Shared secret for HMAC</param>
    /// <returns>HMAC-value with SHA256 as byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static byte[] HashHMACSHA256File(string? file, byte[]? secret)
+   public static byte[] HashHMACSHA256File(string file, byte[] secret)
    {
       return Task.Run(() => HashHMACSHA256FileAsync(file, secret)).GetAwaiter().GetResult();
    }
@@ -137,7 +143,7 @@ public abstract class HMACHelper //NUnit
    /// <param name="secret">Shared secret for HMAC</param>
    /// <returns>HMAC-value with SHA256 as byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static async Task<byte[]> HashHMACSHA256FileAsync(string? file, byte[]? secret)
+   public static async Task<byte[]> HashHMACSHA256FileAsync(string file, byte[] secret)
    {
       ArgumentNullException.ThrowIfNull(secret);
 
@@ -156,7 +162,7 @@ public abstract class HMACHelper //NUnit
    /// <param name="secret">Shared secret for HMAC</param>
    /// <returns>HMAC-value with SHA384 as byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static byte[] HashHMACSHA384(byte[]? bytes, byte[]? secret)
+   public static byte[] HashHMACSHA384(byte[] bytes, byte[] secret)
    {
       ArgumentNullException.ThrowIfNull(secret);
 
@@ -172,7 +178,7 @@ public abstract class HMACHelper //NUnit
    /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
    /// <returns>HMAC-value with SHA384 as byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static byte[] HashHMACSHA384(string? text, byte[]? secret, Encoding? encoding = null)
+   public static byte[] HashHMACSHA384(string text, byte[] secret, Encoding? encoding = null)
    {
       return HashHMACSHA384(text.BNToByteArray(encoding), secret);
    }
@@ -184,7 +190,7 @@ public abstract class HMACHelper //NUnit
    /// <param name="secret">Shared secret for HMAC</param>
    /// <returns>HMAC-value with SHA384 as byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static byte[] HashHMACSHA384File(string? file, byte[]? secret)
+   public static byte[] HashHMACSHA384File(string file, byte[] secret)
    {
       return Task.Run(() => HashHMACSHA384FileAsync(file, secret)).GetAwaiter().GetResult();
    }
@@ -196,7 +202,7 @@ public abstract class HMACHelper //NUnit
    /// <param name="secret">Shared secret for HMAC</param>
    /// <returns>HMAC-value with SHA384 as byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static async Task<byte[]> HashHMACSHA384FileAsync(string? file, byte[]? secret)
+   public static async Task<byte[]> HashHMACSHA384FileAsync(string file, byte[] secret)
    {
       ArgumentNullException.ThrowIfNull(secret);
 
@@ -215,7 +221,7 @@ public abstract class HMACHelper //NUnit
    /// <param name="secret">Shared secret for HMAC</param>
    /// <returns>HMAC-value with SHA512 as byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static byte[] HashHMACSHA512(byte[]? bytes, byte[]? secret)
+   public static byte[] HashHMACSHA512(byte[] bytes, byte[] secret)
    {
       ArgumentNullException.ThrowIfNull(secret);
 
@@ -231,7 +237,7 @@ public abstract class HMACHelper //NUnit
    /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
    /// <returns>HMAC-value with SHA512 as byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static byte[] HashHMACSHA512(string? text, byte[]? secret, Encoding? encoding = null)
+   public static byte[] HashHMACSHA512(string text, byte[] secret, Encoding? encoding = null)
    {
       return HashHMACSHA512(text.BNToByteArray(encoding), secret);
    }
@@ -243,7 +249,7 @@ public abstract class HMACHelper //NUnit
    /// <param name="secret">Shared secret for HMAC</param>
    /// <returns>HMAC-value with SHA512 as byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static byte[] HashHMACSHA512File(string? file, byte[]? secret)
+   public static byte[] HashHMACSHA512File(string file, byte[] secret)
    {
       return Task.Run(() => HashHMACSHA512FileAsync(file, secret)).GetAwaiter().GetResult();
    }
@@ -255,7 +261,7 @@ public abstract class HMACHelper //NUnit
    /// <param name="secret">Shared secret for HMAC</param>
    /// <returns>HMAC-value with SHA512 as byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static async Task<byte[]> HashHMACSHA512FileAsync(string? file, byte[]? secret)
+   public static async Task<byte[]> HashHMACSHA512FileAsync(string file, byte[] secret)
    {
       ArgumentNullException.ThrowIfNull(secret);
 
@@ -274,7 +280,7 @@ public abstract class HMACHelper //NUnit
    /// <param name="secret">Shared secret for HMAC</param>
    /// <returns>HMAC-value with SHA3-256 as byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static byte[] HashHMACSHA3_256(byte[]? bytes, byte[]? secret)
+   public static byte[] HashHMACSHA3_256(byte[] bytes, byte[] secret)
    {
       ArgumentNullException.ThrowIfNull(secret);
 
@@ -290,7 +296,7 @@ public abstract class HMACHelper //NUnit
    /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
    /// <returns>HMAC-value with SHA3-256 as byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static byte[] HashHMACSHA3_256(string? text, byte[]? secret, Encoding? encoding = null)
+   public static byte[] HashHMACSHA3_256(string text, byte[] secret, Encoding? encoding = null)
    {
       return HashHMACSHA3_256(text.BNToByteArray(encoding), secret);
    }
@@ -302,7 +308,7 @@ public abstract class HMACHelper //NUnit
    /// <param name="secret">Shared secret for HMAC</param>
    /// <returns>HMAC-value with SHA3-256 as byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static byte[] HashHMACSHA3_256File(string? file, byte[]? secret)
+   public static byte[] HashHMACSHA3_256File(string file, byte[] secret)
    {
       return Task.Run(() => HashHMACSHA3_256FileAsync(file, secret)).GetAwaiter().GetResult();
    }
@@ -314,7 +320,7 @@ public abstract class HMACHelper //NUnit
    /// <param name="secret">Shared secret for HMAC</param>
    /// <returns>HMAC-value with SHA3-256 as byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static async Task<byte[]> HashHMACSHA3_256FileAsync(string? file, byte[]? secret)
+   public static async Task<byte[]> HashHMACSHA3_256FileAsync(string file, byte[] secret)
    {
       ArgumentNullException.ThrowIfNull(secret);
 
@@ -333,7 +339,7 @@ public abstract class HMACHelper //NUnit
    /// <param name="secret">Shared secret for HMAC</param>
    /// <returns>HMAC-value with SHA3-384 as byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static byte[] HashHMACSHA3_384(byte[]? bytes, byte[]? secret)
+   public static byte[] HashHMACSHA3_384(byte[] bytes, byte[] secret)
    {
       ArgumentNullException.ThrowIfNull(secret);
 
@@ -349,7 +355,7 @@ public abstract class HMACHelper //NUnit
    /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
    /// <returns>HMAC-value with SHA3-384 as byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static byte[] HashHMACSHA3_384(string? text, byte[]? secret, Encoding? encoding = null)
+   public static byte[] HashHMACSHA3_384(string text, byte[] secret, Encoding? encoding = null)
    {
       return HashHMACSHA3_384(text.BNToByteArray(encoding), secret);
    }
@@ -361,7 +367,7 @@ public abstract class HMACHelper //NUnit
    /// <param name="secret">Shared secret for HMAC</param>
    /// <returns>HMAC-value with SHA3-384 as byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static byte[] HashHMACSHA3_384File(string? file, byte[]? secret)
+   public static byte[] HashHMACSHA3_384File(string file, byte[] secret)
    {
       return Task.Run(() => HashHMACSHA3_384FileAsync(file, secret)).GetAwaiter().GetResult();
    }
@@ -373,7 +379,7 @@ public abstract class HMACHelper //NUnit
    /// <param name="secret">Shared secret for HMAC</param>
    /// <returns>HMAC-value with SHA3-384 as byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static async Task<byte[]> HashHMACSHA3_384FileAsync(string? file, byte[]? secret)
+   public static async Task<byte[]> HashHMACSHA3_384FileAsync(string file, byte[] secret)
    {
       ArgumentNullException.ThrowIfNull(secret);
 
@@ -392,7 +398,7 @@ public abstract class HMACHelper //NUnit
    /// <param name="secret">Shared secret for HMAC</param>
    /// <returns>HMAC-value with SHA3-512 as byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static byte[] HashHMACSHA3_512(byte[]? bytes, byte[]? secret)
+   public static byte[] HashHMACSHA3_512(byte[] bytes, byte[] secret)
    {
       ArgumentNullException.ThrowIfNull(secret);
 
@@ -408,7 +414,7 @@ public abstract class HMACHelper //NUnit
    /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
    /// <returns>HMAC-value with SHA3-512 as byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static byte[] HashHMACSHA3_512(string? text, byte[]? secret, Encoding? encoding = null)
+   public static byte[] HashHMACSHA3_512(string text, byte[] secret, Encoding? encoding = null)
    {
       return HashHMACSHA3_512(text.BNToByteArray(encoding), secret);
    }
@@ -420,7 +426,7 @@ public abstract class HMACHelper //NUnit
    /// <param name="secret">Shared secret for HMAC</param>
    /// <returns>HMAC-value with SHA3-512 as byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static byte[] HashHMACSHA3_512File(string? file, byte[]? secret)
+   public static byte[] HashHMACSHA3_512File(string file, byte[] secret)
    {
       return Task.Run(() => HashHMACSHA3_512FileAsync(file, secret)).GetAwaiter().GetResult();
    }
@@ -432,7 +438,7 @@ public abstract class HMACHelper //NUnit
    /// <param name="secret">Shared secret for HMAC</param>
    /// <returns>HMAC-value with SHA3-512 as byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static async Task<byte[]> HashHMACSHA3_512FileAsync(string? file, byte[]? secret)
+   public static async Task<byte[]> HashHMACSHA3_512FileAsync(string file, byte[] secret)
    {
       ArgumentNullException.ThrowIfNull(secret);
 

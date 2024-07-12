@@ -60,8 +60,11 @@ public class StopWatch
    /// </summary>
    /// <param name="obj">Object for the point</param>
    /// <returns>Elapsed time in milliseconds</returns>
+   /// <exception cref="ArgumentNullException"></exception>
    public long AddPoint(object obj)
    {
+      ArgumentNullException.ThrowIfNull(obj);
+
       if (!_watch.IsRunning)
          Start();
 

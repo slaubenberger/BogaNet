@@ -28,7 +28,7 @@ public abstract class XmlHelper
    /// <param name="filename">File name of the XML</param>
    /// <returns>True if the operation was successful</returns>
    /// <exception cref="Exception"></exception>
-   public static bool SerializeToFile<T>(T? obj, string? filename)
+   public static bool SerializeToFile<T>(T obj, string filename)
    {
       return Task.Run(() => SerializeToFileAsync(obj, filename)).GetAwaiter().GetResult();
    }
@@ -40,10 +40,10 @@ public abstract class XmlHelper
    /// <param name="filename">File name of the XML</param>
    /// <returns>True if the operation was successful</returns>
    /// <exception cref="Exception"></exception>
-   public static async Task<bool> SerializeToFileAsync<T>(T? obj, string? filename)
+   public static async Task<bool> SerializeToFileAsync<T>(T obj, string filename)
    {
       ArgumentNullException.ThrowIfNull(obj);
-      ArgumentNullException.ThrowIfNull(filename);
+      ArgumentNullException.ThrowIfNullOrEmpty(filename);
 
       try
       {
@@ -62,7 +62,7 @@ public abstract class XmlHelper
    /// <param name="obj">Object to serialize</param>
    /// <returns>Object as XML-string</returns>
    /// <exception cref="Exception"></exception>
-   public static string SerializeToString<T>(T? obj)
+   public static string SerializeToString<T>(T obj)
    {
       ArgumentNullException.ThrowIfNull(obj);
 
@@ -77,7 +77,7 @@ public abstract class XmlHelper
    /// <param name="obj">Object to serialize</param>
    /// <returns>Object as XML byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static byte[] SerializeToByteArray<T>(T? obj)
+   public static byte[] SerializeToByteArray<T>(T obj)
    {
       ArgumentNullException.ThrowIfNull(obj);
 
@@ -114,7 +114,7 @@ public abstract class XmlHelper
    /// <param name="skipBOM">Skip BOM (optional, default: false)</param>
    /// <returns>Object</returns>
    /// <exception cref="Exception"></exception>
-   public static T? DeserializeFromFile<T>(string? filename, bool skipBOM = false)
+   public static T? DeserializeFromFile<T>(string filename, bool skipBOM = false)
    {
       return Task.Run(() => DeserializeFromFileAsync<T>(filename, skipBOM)).GetAwaiter().GetResult();
    }
@@ -126,9 +126,9 @@ public abstract class XmlHelper
    /// <param name="skipBOM">Skip BOM (optional, default: false)</param>
    /// <returns>Object</returns>
    /// <exception cref="Exception"></exception>
-   public static async Task<T?> DeserializeFromFileAsync<T>(string? filename, bool skipBOM = false)
+   public static async Task<T?> DeserializeFromFileAsync<T>(string filename, bool skipBOM = false)
    {
-      ArgumentNullException.ThrowIfNull(filename);
+      ArgumentNullException.ThrowIfNullOrEmpty(filename);
 
       try
       {
@@ -166,9 +166,9 @@ public abstract class XmlHelper
    /// <param name="skipBOM">Skip BOM (optional, default: true)</param>
    /// <returns>Object</returns>
    /// <exception cref="Exception"></exception>
-   public static T? DeserializeFromString<T>(string? xmlAsString, bool skipBOM = true)
+   public static T? DeserializeFromString<T>(string xmlAsString, bool skipBOM = true)
    {
-      ArgumentNullException.ThrowIfNull(xmlAsString);
+      ArgumentNullException.ThrowIfNullOrEmpty(xmlAsString);
 
       try
       {
@@ -199,7 +199,7 @@ public abstract class XmlHelper
    /// <param name="data">XML of the object</param>
    /// <returns>Object</returns>
    /// <exception cref="Exception"></exception>
-   public static T? DeserializeFromByteArray<T>(byte[]? data)
+   public static T? DeserializeFromByteArray<T>(byte[] data)
    {
       ArgumentNullException.ThrowIfNull(data);
 

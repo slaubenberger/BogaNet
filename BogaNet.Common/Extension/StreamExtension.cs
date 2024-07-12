@@ -17,7 +17,7 @@ public static class StreamExtension
    /// <param name="input">Stream-instance to read</param>
    /// <returns>Byte-array of the Stream content</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static byte[] BNReadFully(this Stream? input)
+   public static byte[] BNReadFully(this Stream input)
    {
       return Task.Run(() => BNReadFullyAsync(input)).GetAwaiter().GetResult();
    }
@@ -28,7 +28,7 @@ public static class StreamExtension
    /// <param name="input">Stream-instance to read</param>
    /// <returns>Byte-array of the Stream content</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static async Task<byte[]> BNReadFullyAsync(this Stream? input)
+   public static async Task<byte[]> BNReadFullyAsync(this Stream input)
    {
       ArgumentNullException.ThrowIfNull(input);
 

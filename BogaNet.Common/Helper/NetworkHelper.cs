@@ -153,15 +153,12 @@ public abstract class NetworkHelper
    {
       if (!string.IsNullOrEmpty(path))
       {
-         string? _path = FileHelper.ValidateFile(path);
+         string _path = FileHelper.ValidateFile(path);
 
-         if (_path != null)
-         {
-            if (!IsURL(path))
-               return Constants.PREFIX_FILE + StringHelper.EscapeURL(_path.Replace('\\', '/'));
+         if (!IsURL(path))
+            return Constants.PREFIX_FILE + StringHelper.EscapeURL(_path.Replace('\\', '/'));
 
-            return StringHelper.EscapeURL(_path.Replace('\\', '/'));
-         }
+         return StringHelper.EscapeURL(_path.Replace('\\', '/'));
       }
 
       return path;
@@ -175,17 +172,20 @@ public abstract class NetworkHelper
    /// <param name="removeWWW">Remove www (optional, default: true)</param>
    /// <param name="removeSlash">Remove slash at the end (optional, default: true)</param>
    /// <returns>Validated URL</returns>
-   public static string? ValidateURL(string? url, bool removeProtocol = false, bool removeWWW = true, bool removeSlash = true) //NUnit
+   /// <exception cref="ArgumentNullException"></exception>
+   public static string ValidateURL(string url, bool removeProtocol = false, bool removeWWW = true, bool removeSlash = true) //NUnit
    {
+      ArgumentNullException.ThrowIfNullOrEmpty(url);
+
       if (IsURL(url))
       {
-         string? result = url?.Trim().Replace('\\', '/');
+         string result = url.Trim().Replace('\\', '/');
 
          if (removeWWW)
-            result = result?.BNReplace("www.", string.Empty);
+            result = result.BNReplace("www.", string.Empty);
 
          if (removeSlash && result.BNEndsWith(Constants.PATH_DELIMITER_UNIX))
-            result = result?.Substring(0, result.Length - 1);
+            result = result.Substring(0, result.Length - 1);
 
          if (!string.IsNullOrEmpty(result))
          {
@@ -245,30 +245,25 @@ public abstract class NetworkHelper
    /// <param name="host">Host name</param>
    /// <returns>IP of a given host name</returns>
    /// <exception cref="Exception"></exception>
-   public static string? GetIP(string? host) //NUnit
+   public static string GetIP(string host) //NUnit
    {
+      ArgumentNullException.ThrowIfNullOrEmpty(host);
+
       if (IsIPv4(host) || IsIPv6(host))
          return host;
 
-      string? validHost = ValidateURL(host, IsURL(host));
+      string validHost = ValidateURL(host, IsURL(host));
 
-      if (!string.IsNullOrEmpty(validHost))
+      try
       {
-         try
-         {
-            string ip = Dns.GetHostAddresses(validHost)[0].ToString();
-            return ip == "::1" ? "127.0.0.1" : ip;
-         }
-         catch (Exception ex)
-         {
-            _logger.LogError(ex, $"Could not resolve host '{host}");
-            throw;
-         }
+         string ip = Dns.GetHostAddresses(validHost)[0].ToString();
+         return ip == "::1" ? "127.0.0.1" : ip;
       }
-
-      _logger.LogWarning("Host name is null or empty - can't resolve to IP!");
-
-      return host;
+      catch (Exception ex)
+      {
+         _logger.LogError(ex, $"Could not resolve host '{host}");
+         throw;
+      }
    }
 
    /// <summary>
@@ -289,6 +284,8 @@ public abstract class NetworkHelper
    public static async Task<string> GetPublicIPAsync(string checkUrl = "https://checkip.amazonaws.com/") //alternatives: "https://icanhazip.com", "https://ipinfo.io/ip"
    {
 #if !BROWSER
+      ArgumentNullException.ThrowIfNullOrEmpty(checkUrl);
+
       try
       {
          using HttpClient client = new();
@@ -440,14 +437,11 @@ public abstract class NetworkHelper
    /// <exception cref="Exception"></exception>
    public static async Task<long> PingAsync(string hostname)
    {
-      ArgumentNullException.ThrowIfNull(hostname);
+      ArgumentNullException.ThrowIfNullOrEmpty(hostname);
 
       try
       {
-         string? ip = GetIP(hostname);
-
-         if (ip == null)
-            return -1;
+         string ip = GetIP(hostname);
 
          Ping ping = new();
          var reply = await ping.SendPingAsync(ip);
@@ -457,6 +451,110 @@ public abstract class NetworkHelper
       catch (Exception ex)
       {
          _logger.LogError(ex, "Ping failed!");
+         throw;
+      }
+   }
+
+   /// <summary>
+   /// Reads the text of a file from a given URL.
+   /// </summary>
+   /// <param name="url">URL to the file</param>
+   /// <returns>Text-content of the file</returns>
+   /// <exception cref="Exception"></exception>
+   public static string? ReadAllText(string url)
+   {
+      return Task.Run(() => ReadAllTextAsync(url)).GetAwaiter().GetResult();
+   }
+
+   /// <summary>
+   /// Reads the text of a file from a given URL asynchronously.
+   /// </summary>
+   /// <param name="url">URL to the file</param>
+   /// <returns>Text-content of the file</returns>
+   /// <exception cref="Exception"></exception>
+   public static async Task<string?> ReadAllTextAsync(string url)
+   {
+      ArgumentNullException.ThrowIfNullOrEmpty(url);
+
+      try
+      {
+         using HttpClient client = new();
+         using HttpResponseMessage response = client.GetAsync(url).Result;
+         //response.EnsureSuccessStatusCode();
+
+         if (response.IsSuccessStatusCode)
+            return await response.Content.ReadAsStringAsync();
+
+         _logger.LogError($"Could not download data: {response.StatusCode} - {response.ReasonPhrase}");
+         return null;
+      }
+      catch (Exception ex)
+      {
+         _logger.LogError(ex, $"Could not read file '{url}'");
+         throw;
+      }
+   }
+
+   /// <summary>
+   /// Reads all lines of text from a file from a given URL.
+   /// </summary>
+   /// <param name="url">URL to the file</param>
+   /// <returns>Array of text lines from the file</returns>
+   /// <exception cref="Exception"></exception>
+   public static string[]? ReadAllLines(string? url)
+   {
+      return Task.Run(() => ReadAllLinesAsync(url)).GetAwaiter().GetResult();
+   }
+
+   /// <summary>
+   /// Reads all lines of text from a file from a given URL asynchronously.
+   /// </summary>
+   /// <param name="url">URL to the file</param>
+   /// <returns>Array of text lines from the file</returns>
+   /// <exception cref="Exception"></exception>
+   public static async Task<string[]?> ReadAllLinesAsync(string url)
+   {
+      string? text = await ReadAllTextAsync(url);
+
+      return text == null ? null : StringHelper.SplitToLines(text).ToArray();
+   }
+
+   /// <summary>
+   /// Reads the bytes of a file from a given URL.
+   /// </summary>
+   /// <param name="url">URL to the file</param>
+   /// <returns>Byte-content of the file</returns>
+   /// <exception cref="Exception"></exception>
+   public static byte[]? ReadAllBytes(string url)
+   {
+      return Task.Run(() => ReadAllBytesAsync(url)).GetAwaiter().GetResult();
+   }
+
+   /// <summary>
+   /// Reads the bytes of a file from a given URL asynchronously.
+   /// </summary>
+   /// <param name="url">URL to the file</param>
+   /// <returns>Byte-content of the file</returns>
+   /// <exception cref="Exception"></exception>
+   public static async Task<byte[]?> ReadAllBytesAsync(string url)
+   {
+      ArgumentNullException.ThrowIfNullOrEmpty(url);
+
+      try
+      {
+         using HttpClient client = new();
+         using HttpResponseMessage response = client.GetAsync(url).Result;
+         //response.EnsureSuccessStatusCode();
+
+         if (response.IsSuccessStatusCode)
+            return await response.Content.ReadAsByteArrayAsync();
+
+         _logger.LogError($"Could not download data: {response.StatusCode} - {response.ReasonPhrase}");
+         return null;
+      }
+      catch (Exception ex)
+      {
+         _logger.LogError(ex, $"Could not read file '{url}'");
          throw;
       }
    }
@@ -478,9 +576,9 @@ public abstract class NetworkHelper
 
       try
       {
-         using HttpClient client = new();
-
-         string content = await client.GetStringAsync(urlAntiCacheRandomizer(url));
+//         using HttpClient client = new();
+         //string content = await client.GetStringAsync(urlAntiCacheRandomizer(url));
+         string? content = await ReadAllTextAsync(urlAntiCacheRandomizer(url));
 
          _logger.LogTrace($"Content from {type}: {content}");
 
@@ -495,10 +593,10 @@ public abstract class NetworkHelper
       return _available;
    }
 
-   private static string urlAntiCacheRandomizer(string url)
+   private static string urlAntiCacheRandomizer(string url) //TODO make public?
    {
       Random rnd = new();
-      return $"{url}?p={rnd.NextInt64(9999, long.MaxValue)}";
+      return $"{url}?p={rnd.NextInt64(9999, 99999999)}";
    }
 
    #endregion

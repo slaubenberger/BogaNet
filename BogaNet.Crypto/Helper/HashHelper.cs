@@ -25,13 +25,14 @@ public abstract class HashHelper //NUnit
    /// <param name="algo">Hash-algorithm</param>
    /// <returns>Hash-value as byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static byte[] Hash(byte[]? bytes, HashAlgorithm? algo)
+   public static byte[] Hash(byte[] bytes, HashAlgorithm algo)
    {
       ArgumentNullException.ThrowIfNull(bytes);
+      ArgumentNullException.ThrowIfNull(algo);
 
       try
       {
-         return algo?.ComputeHash(bytes, 0, bytes.Length) ?? [];
+         return algo.ComputeHash(bytes, 0, bytes.Length);
       }
       catch (Exception ex)
       {
@@ -48,8 +49,10 @@ public abstract class HashHelper //NUnit
    /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
    /// <returns>Hash-value as byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static byte[] Hash(string? text, HashAlgorithm? algo, Encoding? encoding = null)
+   public static byte[] Hash(string text, HashAlgorithm algo, Encoding? encoding = null)
    {
+      ArgumentNullException.ThrowIfNullOrEmpty(text);
+
       return Hash(text.BNToByteArray(encoding), algo);
    }
 
@@ -60,7 +63,7 @@ public abstract class HashHelper //NUnit
    /// <param name="algo">Hash-algorithm</param>
    /// <returns>Hash-value as byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static byte[] HashFile(string? file, HashAlgorithm? algo)
+   public static byte[] HashFile(string file, HashAlgorithm algo)
    {
       return Task.Run(() => HashFileAsync(file, algo)).GetAwaiter().GetResult();
    }
@@ -69,10 +72,13 @@ public abstract class HashHelper //NUnit
    /// Generates a hash-value as byte-array from a file asynchronously.
    /// </summary>
    /// <param name="file">File to hash</param>
+   /// <param name="algo">Hash-algorithm</param>
    /// <returns>Hash-value as byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static async Task<byte[]> HashFileAsync(string? file, HashAlgorithm? algo)
+   public static async Task<byte[]> HashFileAsync(string file, HashAlgorithm algo)
    {
+      ArgumentNullException.ThrowIfNullOrEmpty(file);
+
       return Hash(await FileHelper.ReadAllBytesAsync(file), algo);
    }
 
@@ -86,7 +92,7 @@ public abstract class HashHelper //NUnit
    /// <param name="bytes">Data as byte-array</param>
    /// <returns>SHA256-value as byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static byte[] HashSHA256(params byte[]? bytes)
+   public static byte[] HashSHA256(params byte[] bytes)
    {
       using HashAlgorithm sha256 = SHA256.Create();
       return Hash(bytes, sha256);
@@ -99,9 +105,10 @@ public abstract class HashHelper //NUnit
    /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
    /// <returns>SHA256-value as byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static byte[] HashSHA256(string? text, Encoding? encoding = null)
+   public static byte[] HashSHA256(string text, Encoding? encoding = null)
    {
-      return HashSHA256(text.BNToByteArray(encoding));
+      using HashAlgorithm sha256 = SHA256.Create();
+      return Hash(text, sha256, encoding);
    }
 
    /// <summary>
@@ -110,7 +117,7 @@ public abstract class HashHelper //NUnit
    /// <param name="file">File to hash</param>
    /// <returns>SHA256-value as byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static byte[] HashSHA256File(string? file)
+   public static byte[] HashSHA256File(string file)
    {
       return Task.Run(() => HashSHA256FileAsync(file)).GetAwaiter().GetResult();
    }
@@ -121,7 +128,7 @@ public abstract class HashHelper //NUnit
    /// <param name="file">File to hash</param>
    /// <returns>SHA256-value as byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static async Task<byte[]> HashSHA256FileAsync(string? file)
+   public static async Task<byte[]> HashSHA256FileAsync(string file)
    {
       using HashAlgorithm sha256 = SHA256.Create();
       return await HashFileAsync(file, sha256);
@@ -137,7 +144,7 @@ public abstract class HashHelper //NUnit
    /// <param name="bytes">Data as byte-array</param>
    /// <returns>SHA384-value as byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static byte[] HashSHA384(params byte[]? bytes)
+   public static byte[] HashSHA384(params byte[] bytes)
    {
       using HashAlgorithm sha384 = SHA384.Create();
       return Hash(bytes, sha384);
@@ -150,9 +157,10 @@ public abstract class HashHelper //NUnit
    /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
    /// <returns>SHA384-value as byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static byte[] HashSHA384(string? text, Encoding? encoding = null)
+   public static byte[] HashSHA384(string text, Encoding? encoding = null)
    {
-      return HashSHA384(text.BNToByteArray(encoding));
+      using HashAlgorithm sha = SHA384.Create();
+      return Hash(text, sha, encoding);
    }
 
    /// <summary>
@@ -161,7 +169,7 @@ public abstract class HashHelper //NUnit
    /// <param name="file">File to hash</param>
    /// <returns>SHA384-value as byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static byte[] HashSHA384File(string? file)
+   public static byte[] HashSHA384File(string file)
    {
       return Task.Run(() => HashSHA384FileAsync(file)).GetAwaiter().GetResult();
    }
@@ -172,7 +180,7 @@ public abstract class HashHelper //NUnit
    /// <param name="file">File to hash</param>
    /// <returns>SHA384-value as byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static async Task<byte[]> HashSHA384FileAsync(string? file)
+   public static async Task<byte[]> HashSHA384FileAsync(string file)
    {
       using HashAlgorithm sha384 = SHA384.Create();
       return await HashFileAsync(file, sha384);
@@ -188,7 +196,7 @@ public abstract class HashHelper //NUnit
    /// <param name="bytes">Data as byte-array</param>
    /// <returns>SHA512-value as byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static byte[] HashSHA512(params byte[]? bytes)
+   public static byte[] HashSHA512(params byte[] bytes)
    {
       using HashAlgorithm sha512 = SHA512.Create();
       return Hash(bytes, sha512);
@@ -201,9 +209,10 @@ public abstract class HashHelper //NUnit
    /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
    /// <returns>SHA512-value as byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static byte[] HashSHA512(string? text, Encoding? encoding = null)
+   public static byte[] HashSHA512(string text, Encoding? encoding = null)
    {
-      return HashSHA512(text.BNToByteArray(encoding));
+      using HashAlgorithm sha = SHA512.Create();
+      return Hash(text, sha, encoding);
    }
 
    /// <summary>
@@ -212,7 +221,7 @@ public abstract class HashHelper //NUnit
    /// <param name="file">File to hash</param>
    /// <returns>SHA512-value as byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static byte[] HashSHA512File(string? file)
+   public static byte[] HashSHA512File(string file)
    {
       return Task.Run(() => HashSHA512FileAsync(file)).GetAwaiter().GetResult();
    }
@@ -223,7 +232,7 @@ public abstract class HashHelper //NUnit
    /// <param name="file">File to hash</param>
    /// <returns>SHA512-value as byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static async Task<byte[]> HashSHA512FileAsync(string? file)
+   public static async Task<byte[]> HashSHA512FileAsync(string file)
    {
       using HashAlgorithm sha512 = SHA512.Create();
       return await HashFileAsync(file, sha512);
@@ -239,7 +248,7 @@ public abstract class HashHelper //NUnit
    /// <param name="bytes">Data as byte-array</param>
    /// <returns>SHA3-256-value as byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static byte[] HashSHA3_256(params byte[]? bytes)
+   public static byte[] HashSHA3_256(params byte[] bytes)
    {
       using HashAlgorithm sha256 = SHA3_256.Create();
       return Hash(bytes, sha256);
@@ -252,9 +261,10 @@ public abstract class HashHelper //NUnit
    /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
    /// <returns>SHA3-256-value as byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static byte[] HashSHA3_256(string? text, Encoding? encoding = null)
+   public static byte[] HashSHA3_256(string text, Encoding? encoding = null)
    {
-      return HashSHA3_256(text.BNToByteArray(encoding));
+      using HashAlgorithm sha3 = SHA3_256.Create();
+      return Hash(text, sha3, encoding);
    }
 
    /// <summary>
@@ -263,7 +273,7 @@ public abstract class HashHelper //NUnit
    /// <param name="file">File to hash</param>
    /// <returns>SHA3-256-value as byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static byte[] HashSHA3_256File(string? file)
+   public static byte[] HashSHA3_256File(string file)
    {
       return Task.Run(() => HashSHA3_256FileAsync(file)).GetAwaiter().GetResult();
    }
@@ -274,7 +284,7 @@ public abstract class HashHelper //NUnit
    /// <param name="file">File to hash</param>
    /// <returns>SHA3-256-value as byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static async Task<byte[]> HashSHA3_256FileAsync(string? file)
+   public static async Task<byte[]> HashSHA3_256FileAsync(string file)
    {
       using HashAlgorithm sha256 = SHA3_256.Create();
       return await HashFileAsync(file, sha256);
@@ -290,7 +300,7 @@ public abstract class HashHelper //NUnit
    /// <param name="bytes">Data as byte-array</param>
    /// <returns>SHA3-384-value as byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static byte[] HashSHA3_384(params byte[]? bytes)
+   public static byte[] HashSHA3_384(params byte[] bytes)
    {
       using HashAlgorithm sha384 = SHA3_384.Create();
       return Hash(bytes, sha384);
@@ -303,9 +313,10 @@ public abstract class HashHelper //NUnit
    /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
    /// <returns>SHA3-384-value as byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static byte[] HashSHA3_384(string? text, Encoding? encoding = null)
+   public static byte[] HashSHA3_384(string text, Encoding? encoding = null)
    {
-      return HashSHA3_384(text.BNToByteArray(encoding));
+      using HashAlgorithm sha3 = SHA3_384.Create();
+      return Hash(text, sha3, encoding);
    }
 
    /// <summary>
@@ -314,7 +325,7 @@ public abstract class HashHelper //NUnit
    /// <param name="file">File to hash</param>
    /// <returns>SHA3-384-value as byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static byte[] HashSHA3_384File(string? file)
+   public static byte[] HashSHA3_384File(string file)
    {
       return Task.Run(() => HashSHA3_384FileAsync(file)).GetAwaiter().GetResult();
    }
@@ -325,7 +336,7 @@ public abstract class HashHelper //NUnit
    /// <param name="file">File to hash</param>
    /// <returns>SHA3-384-value as byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static async Task<byte[]> HashSHA3_384FileAsync(string? file)
+   public static async Task<byte[]> HashSHA3_384FileAsync(string file)
    {
       using HashAlgorithm sha384 = SHA3_384.Create();
       return await HashFileAsync(file, sha384);
@@ -341,7 +352,7 @@ public abstract class HashHelper //NUnit
    /// <param name="bytes">Data as byte-array</param>
    /// <returns>SHA3-512-value as byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static byte[] HashSHA3_512(params byte[]? bytes)
+   public static byte[] HashSHA3_512(params byte[] bytes)
    {
       using HashAlgorithm sha512 = SHA3_512.Create();
       return Hash(bytes, sha512);
@@ -354,9 +365,10 @@ public abstract class HashHelper //NUnit
    /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
    /// <returns>SHA3-512-value as byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static byte[] HashSHA3_512(string? text, Encoding? encoding = null)
+   public static byte[] HashSHA3_512(string text, Encoding? encoding = null)
    {
-      return HashSHA3_512(text.BNToByteArray(encoding));
+      using HashAlgorithm sha3 = SHA3_512.Create();
+      return Hash(text, sha3, encoding);
    }
 
    /// <summary>
@@ -365,7 +377,7 @@ public abstract class HashHelper //NUnit
    /// <param name="file">File to hash</param>
    /// <returns>SHA3-512-value as byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static byte[] HashSHA3_512File(string? file)
+   public static byte[] HashSHA3_512File(string file)
    {
       return Task.Run(() => HashSHA3_512FileAsync(file)).GetAwaiter().GetResult();
    }
@@ -376,7 +388,7 @@ public abstract class HashHelper //NUnit
    /// <param name="file">File to hash</param>
    /// <returns>SHA3-512-value as byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static async Task<byte[]> HashSHA3_512FileAsync(string? file)
+   public static async Task<byte[]> HashSHA3_512FileAsync(string file)
    {
       using HashAlgorithm sha512 = SHA3_512.Create();
       return await HashFileAsync(file, sha512);

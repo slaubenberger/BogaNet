@@ -23,10 +23,10 @@ public static class DictionaryExtension
    /// <param name="postfix">Postfix for every element (optional, default: empty)</param>
    /// <param name="delimiter">Delimiter if appendNewLine is false (optional, default: "; ")</param>
    /// <returns>String with lines for all dictionary entries</returns>
+   /// <exception cref="ArgumentNullException"></exception>
    public static string? BNDump<K, V>(this IDictionary<K, V>? dict, bool appendNewLine = true, string? prefix = "", string? postfix = "", string delimiter = "; ")
    {
-      if (dict == null)
-         return null;
+      ArgumentNullException.ThrowIfNull(dict);
 
       StringBuilder sb = new();
 
@@ -55,7 +55,7 @@ public static class DictionaryExtension
    /// <param name="dict">IDictionary-instance</param>
    /// <param name="collection">Dictionary to add</param>
    /// <exception cref="ArgumentNullException"></exception>
-   public static void BNAddRange<K, V>(this IDictionary<K, V>? dict, IDictionary<K, V>? collection) where K : notnull
+   public static void BNAddRange<K, V>(this IDictionary<K, V> dict, IDictionary<K, V> collection) where K : notnull
    {
       ArgumentNullException.ThrowIfNull(dict);
       ArgumentNullException.ThrowIfNull(collection);
@@ -80,8 +80,10 @@ public static class DictionaryExtension
    /// <param name="dict">Standard dictionary</param>
    /// <returns>XML serializable dictionary</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static DictionaryXML<K, V> BNToDictionaryXML<K, V>(this IDictionary<K, V>? dict) where K : notnull
+   public static DictionaryXML<K, V> BNToDictionaryXML<K, V>(this IDictionary<K, V> dict) where K : notnull
    {
+      ArgumentNullException.ThrowIfNull(dict);
+
       DictionaryXML<K, V> xmlDict = new();
       xmlDict.BNAddRange(dict);
 

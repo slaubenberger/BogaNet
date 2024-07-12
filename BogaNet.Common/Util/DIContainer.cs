@@ -18,8 +18,11 @@ public static class DIContainer
    /// <param name="instance">Instance of the Type</param>
    /// <typeparam name="TType">Type (interface/class) of the instance</typeparam>
    /// <typeparam name="TValue">Class of the instance</typeparam>
-   public static void Bind<TType, TValue>(TValue? instance) where TValue : TType where TType : class
+   /// <exception cref="ArgumentNullException"></exception>
+   public static void Bind<TType, TValue>(TValue instance) where TValue : TType where TType : class
    {
+      ArgumentNullException.ThrowIfNull(instance);
+
       //TODO check for existing instances?
       _container[typeof(TType)] = instance;
    }

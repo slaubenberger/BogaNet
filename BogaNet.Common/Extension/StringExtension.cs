@@ -222,10 +222,9 @@ public static class StringExtension
    /// <param name="str">Input string</param>
    /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
    /// <returns>Byte-array with the string</returns>
-   public static byte[]? BNToByteArray(this string? str, Encoding? encoding = null)
+   public static byte[] BNToByteArray(this string str, Encoding? encoding = null)
    {
-      if (str == null)
-         return null;
+      ArgumentNullException.ThrowIfNull(str);
 
       Encoding _encoding = encoding ?? Encoding.UTF8;
 
@@ -240,10 +239,10 @@ public static class StringExtension
    /// <param name="offset">Offset inside the byte-array (optional, default: 0)</param>
    /// <param name="length">Number of bytes (optional, default: 0 = all)</param>
    /// <returns>String from the byte-array</returns>
-   public static string? BNToString(this byte[]? bytes, Encoding? encoding = null, int offset = 0, int length = 0)
+   /// <exception cref="ArgumentNullException"></exception>
+   public static string BNToString(this byte[] bytes, Encoding? encoding = null, int offset = 0, int length = 0)
    {
-      if (bytes == null)
-         return null;
+      ArgumentNullException.ThrowIfNull(bytes);
 
       int off = Math.Abs(offset);
 
@@ -254,8 +253,8 @@ public static class StringExtension
          int len = length > 0 ? length : bytes.Length;
          byte[] content = new byte[len];
          Buffer.BlockCopy(bytes, off, content, 0, len);
-         string? res = content.BNToString(encoding);
-         return res?.Trim('\0');
+         string res = content.BNToString(encoding);
+         return res.Trim('\0');
       }
 
       return _encoding.GetString(bytes);

@@ -199,7 +199,6 @@ public abstract class StringTRNG : BaseTRNG //NUnit
 
    #endregion
 
-
    #region Private methods
 
    private static int calcMaxNumber(int number, int length, bool digits, bool upper, bool lower, bool unique)

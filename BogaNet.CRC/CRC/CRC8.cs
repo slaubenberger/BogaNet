@@ -53,11 +53,14 @@ public abstract class CRC8 //NUnit
    /// </summary>
    /// <param name="bytes">Bytes for the CRC8</param>
    /// <returns>CRC8 as byte</returns>
-   public static byte CalcCRC(params byte[]? bytes)
+   /// <exception cref="ArgumentNullException"></exception>
+   public static byte CalcCRC(params byte[] bytes)
    {
+      ArgumentNullException.ThrowIfNull(bytes);
+
       byte crc = 0;
 
-      if (bytes != null && bytes.Length > 0)
+      if (bytes.Length > 0)
          crc = Enumerable.Aggregate(bytes, crc, (current, b) => _crc8table[current ^ b]);
 
       return crc;
@@ -69,6 +72,7 @@ public abstract class CRC8 //NUnit
    /// <param name="text">string for the CRC8</param>
    /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
    /// <returns>CRC8 as byte</returns>
+   /// <exception cref="ArgumentNullException"></exception>
    public static byte CalcCRC(string text, Encoding? encoding = null)
    {
       return CalcCRC(text.BNToByteArray(encoding));
@@ -80,7 +84,7 @@ public abstract class CRC8 //NUnit
    /// <param name="file">File to crc</param>
    /// <returns>CRC8 as byte</returns>
    /// <exception cref="Exception"></exception>
-   public static byte CalcCRCFile(string? file)
+   public static byte CalcCRCFile(string file)
    {
       return Task.Run(() => CalcCRCFileAsync(file)).GetAwaiter().GetResult();
    }
@@ -91,8 +95,10 @@ public abstract class CRC8 //NUnit
    /// <param name="file">File to crc</param>
    /// <returns>CRC8 as byte</returns>
    /// <exception cref="Exception"></exception>
-   public static async Task<byte> CalcCRCFileAsync(string? file)
+   public static async Task<byte> CalcCRCFileAsync(string file)
    {
+      ArgumentNullException.ThrowIfNullOrEmpty(file);
+
       return CalcCRC(await FileHelper.ReadAllBytesAsync(file));
    }
 

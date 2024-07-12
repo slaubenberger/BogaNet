@@ -45,7 +45,7 @@ public abstract class AESHelper //NUnit //TODO add other algorithms, key&blocksi
    /// <param name="IV">IV (initial vector) for AES</param>
    /// <returns>True if the operation was successful</returns>
    /// <exception cref="Exception"></exception>
-   public static bool EncryptFile(string? file, byte[]? key, byte[]? IV)
+   public static bool EncryptFile(string file, byte[] key, byte[] IV)
    {
       return Task.Run(() => EncryptFileAsync(file, key, IV)).GetAwaiter().GetResult();
    }
@@ -58,8 +58,10 @@ public abstract class AESHelper //NUnit //TODO add other algorithms, key&blocksi
    /// <param name="IV">IV (initial vector) for AES</param>
    /// <returns>True if the operation was successful</returns>
    /// <exception cref="Exception"></exception>
-   public static async Task<bool> EncryptFileAsync(string? file, byte[]? key, byte[]? IV)
+   public static async Task<bool> EncryptFileAsync(string file, byte[] key, byte[] IV)
    {
+      ArgumentNullException.ThrowIfNullOrEmpty(file);
+
       return await FileHelper.WriteAllBytesAsync(file, await EncryptAsync(await FileHelper.ReadAllBytesAsync(file), key, IV));
    }
 
@@ -71,7 +73,7 @@ public abstract class AESHelper //NUnit //TODO add other algorithms, key&blocksi
    /// <param name="IV">IV (initial vector) for AES</param>
    /// <returns>True if the operation was successful</returns>
    /// <exception cref="Exception"></exception>
-   public static bool DecryptFile(string? file, byte[]? key, byte[]? IV)
+   public static bool DecryptFile(string file, byte[] key, byte[] IV)
    {
       return Task.Run(() => DecryptFileAsync(file, key, IV)).GetAwaiter().GetResult();
    }
@@ -84,8 +86,10 @@ public abstract class AESHelper //NUnit //TODO add other algorithms, key&blocksi
    /// <param name="IV">IV (initial vector) for AES</param>
    /// <returns>True if the operation was successful</returns>
    /// <exception cref="Exception"></exception>
-   public static async Task<bool> DecryptFileAsync(string? file, byte[]? key, byte[]? IV)
+   public static async Task<bool> DecryptFileAsync(string file, byte[] key, byte[] IV)
    {
+      ArgumentNullException.ThrowIfNullOrEmpty(file);
+
       return await FileHelper.WriteAllBytesAsync(file, await DecryptAsync(await FileHelper.ReadAllBytesAsync(file), key, IV));
    }
 
@@ -97,7 +101,7 @@ public abstract class AESHelper //NUnit //TODO add other algorithms, key&blocksi
    /// <param name="IV">IV (initial vector) for AES</param>
    /// <returns>Encrypted byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static byte[] Encrypt(byte[]? dataToEncrypt, byte[]? key, byte[]? IV)
+   public static byte[] Encrypt(byte[] dataToEncrypt, byte[] key, byte[] IV)
    {
       return Task.Run(() => EncryptAsync(dataToEncrypt, key, IV)).GetAwaiter().GetResult();
    }
@@ -111,9 +115,9 @@ public abstract class AESHelper //NUnit //TODO add other algorithms, key&blocksi
    /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
    /// <returns>Encrypted byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static byte[] Encrypt(string textToEncrypt, byte[]? key, byte[]? IV, Encoding? encoding = null)
+   public static byte[] Encrypt(string textToEncrypt, byte[] key, byte[] IV, Encoding? encoding = null)
    {
-      ArgumentNullException.ThrowIfNull(textToEncrypt);
+      ArgumentNullException.ThrowIfNullOrEmpty(textToEncrypt);
 
       return Encrypt(textToEncrypt.BNToByteArray(encoding), key, IV);
    }
@@ -126,7 +130,7 @@ public abstract class AESHelper //NUnit //TODO add other algorithms, key&blocksi
    /// <param name="IV">IV (initial vector) for AES</param>
    /// <returns>Encrypted byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static async Task<byte[]> EncryptAsync(byte[]? dataToEncrypt, byte[]? key, byte[]? IV)
+   public static async Task<byte[]> EncryptAsync(byte[] dataToEncrypt, byte[] key, byte[] IV)
    {
       ArgumentNullException.ThrowIfNull(dataToEncrypt);
       ArgumentNullException.ThrowIfNull(key);
@@ -164,7 +168,7 @@ public abstract class AESHelper //NUnit //TODO add other algorithms, key&blocksi
    /// <param name="IV">IV (initial vector) for AES</param>
    /// <returns>Decrypted byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static byte[] Decrypt(byte[]? dataToDecrypt, byte[]? key, byte[]? IV)
+   public static byte[] Decrypt(byte[] dataToDecrypt, byte[] key, byte[] IV)
    {
       return Task.Run(() => DecryptAsync(dataToDecrypt, key, IV)).GetAwaiter().GetResult();
    }
@@ -192,7 +196,7 @@ public abstract class AESHelper //NUnit //TODO add other algorithms, key&blocksi
    /// <param name="IV">IV (initial vector) for AES</param>
    /// <returns>Decrypted byte-array</returns>
    /// <exception cref="Exception"></exception>
-   public static async Task<byte[]> DecryptAsync(byte[]? dataToDecrypt, byte[]? key, byte[]? IV)
+   public static async Task<byte[]> DecryptAsync(byte[] dataToDecrypt, byte[] key, byte[] IV)
    {
       ArgumentNullException.ThrowIfNull(dataToDecrypt);
       ArgumentNullException.ThrowIfNull(key);

@@ -38,6 +38,8 @@ public abstract class RSAHelper
    /// <returns>X509-certificate</returns>
    public static X509Certificate2 GenerateSelfSignedCertificate(string certName, RSAKeyLength keyLength = RSAKeyLength._2048, string oid = "1.2.840.10045.3.1.7")
    {
+      ArgumentNullException.ThrowIfNull(certName);
+
       SubjectAlternativeNameBuilder sanBuilder = new();
       sanBuilder.AddIpAddress(IPAddress.Loopback);
       sanBuilder.AddIpAddress(IPAddress.IPv6Loopback);
@@ -76,20 +78,18 @@ public abstract class RSAHelper
    /// <returns>X509-certificate</returns>
    public static X509Certificate2? GetCertificateFromStore(string certName, StoreLocation storeLocation = StoreLocation.LocalMachine)
    {
-      // Get the certificate store for the current user.
+      ArgumentNullException.ThrowIfNull(certName);
+
       using X509Store store = new(storeLocation);
       try
       {
          store.Open(OpenFlags.ReadOnly);
 
-         // Place all certificates in an X509Certificate2Collection object.
          X509Certificate2Collection certCollection = store.Certificates;
-         // If using a certificate with a trusted root you do not need to FindByTimeValid, instead:
-         // currentCerts.Find(X509FindType.FindBySubjectDistinguishedName, certName, true);
          X509Certificate2Collection currentCerts = certCollection.Find(X509FindType.FindByTimeValid, DateTime.Now, false);
          X509Certificate2Collection signingCert = currentCerts.Find(X509FindType.FindBySubjectDistinguishedName, certName, false);
 
-         return signingCert.Count == 0 ? null : signingCert[0]; // Return the first certificate in the collection, has the right name and is current.
+         return signingCert.Count == 0 ? null : signingCert[0]; // Return the first certificate in the collection
       }
       finally
       {
@@ -105,6 +105,8 @@ public abstract class RSAHelper
    /// <param name="storeLocation">Location in the key store (optional, default: LocalMachine)</param>
    public static void AddCertificateToStore(X509Certificate2 cert, StoreName storeName = StoreName.TrustedPublisher, StoreLocation storeLocation = StoreLocation.LocalMachine)
    {
+      ArgumentNullException.ThrowIfNull(cert);
+
       using X509Store store = new(storeName, storeLocation);
 
       try
@@ -148,7 +150,7 @@ public abstract class RSAHelper
    /// <param name="password">Password for the certificate</param>
    /// <returns>X509-certificate</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static X509Certificate2 GetCertificate(byte[]? data, string? password = null)
+   public static X509Certificate2 GetCertificate(byte[] data, string? password = null)
    {
       ArgumentNullException.ThrowIfNull(data);
 
@@ -178,6 +180,9 @@ public abstract class RSAHelper
    /// <exception cref="Exception"></exception>
    public static async Task<bool> WritePublicCertificateToFileAsync(string filename, X509Certificate2 cert, string? password = null)
    {
+      ArgumentNullException.ThrowIfNullOrEmpty(filename);
+      ArgumentNullException.ThrowIfNull(cert);
+
       return await FileHelper.WriteAllBytesAsync(filename, cert.BNToByteArray(password));
    }
 
@@ -206,6 +211,9 @@ public abstract class RSAHelper
    /// <exception cref="Exception"></exception>
    public static async Task<bool> WritePrivateCertificateToFileAsync(string filename, X509Certificate2 cert, string password)
    {
+      ArgumentNullException.ThrowIfNullOrEmpty(filename);
+      ArgumentNullException.ThrowIfNull(cert);
+
       return await FileHelper.WriteAllBytesAsync(filename, cert.BNToByteArray(password, X509ContentType.Pfx));
    }
 
@@ -230,6 +238,8 @@ public abstract class RSAHelper
    /// <exception cref="Exception"></exception>
    public static async Task<X509Certificate2> ReadCertificateFromFileAsync(string filename, string? password = null)
    {
+      ArgumentNullException.ThrowIfNullOrEmpty(filename);
+
       return GetCertificate(await FileHelper.ReadAllBytesAsync(filename), password);
    }
 
@@ -241,7 +251,7 @@ public abstract class RSAHelper
    /// <param name="padding">Padding for the asymmetric encryption (optional, default: OaepSHA256)</param>
    /// <returns>Encrypted data as byte-array</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static byte[]? Encrypt(byte[]? dataToEncrypt, X509Certificate2? cert, RSAEncryptionPadding? padding = null)
+   public static byte[]? Encrypt(byte[] dataToEncrypt, X509Certificate2 cert, RSAEncryptionPadding? padding = null)
    {
       ArgumentNullException.ThrowIfNull(dataToEncrypt);
       ArgumentNullException.ThrowIfNull(cert);
@@ -267,9 +277,9 @@ public abstract class RSAHelper
    /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
    /// <returns>Encrypted string as byte-array</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static byte[]? Encrypt(string? textToEncrypt, X509Certificate2? cert, RSAEncryptionPadding? padding = null, Encoding? encoding = null)
+   public static byte[]? Encrypt(string? textToEncrypt, X509Certificate2 cert, RSAEncryptionPadding? padding = null, Encoding? encoding = null)
    {
-      ArgumentNullException.ThrowIfNull(textToEncrypt);
+      ArgumentNullException.ThrowIfNullOrEmpty(textToEncrypt);
 
       return Encrypt(textToEncrypt.BNToByteArray(encoding), cert, padding);
    }

@@ -35,18 +35,19 @@ public class ImageHelper //TODO make partial?
    /// <returns>Loaded image as Bitmap</returns>
    public static async Task<Bitmap?> LoadFromUrl(string imageUrl)
    {
-      using var client = new HttpClient();
-
       try
       {
-         byte[] data = await client.GetByteArrayAsync(imageUrl);
-         return new Bitmap(new MemoryStream(data));
+         byte[]? data = await NetworkHelper.ReadAllBytesAsync(imageUrl);
+
+         if (data != null)
+            return new Bitmap(new MemoryStream(data));
       }
       catch (Exception ex)
       {
          _logger.LogError(ex, $"An error occurred while downloading the image '{imageUrl}'");
-         return null;
       }
+
+      return null;
    }
 
    #endregion

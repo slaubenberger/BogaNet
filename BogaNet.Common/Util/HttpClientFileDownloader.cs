@@ -47,11 +47,8 @@ public class HttpClientFileDownloader
    /// <exception cref="Exception"></exception>
    public async Task<bool> Download(string downloadUrl, string destinationPath, int timeout = 3600)
    {
-      if (string.IsNullOrEmpty(downloadUrl))
-         return false;
-
-      if (string.IsNullOrEmpty(destinationPath))
-         return false;
+      ArgumentNullException.ThrowIfNullOrEmpty(downloadUrl);
+      ArgumentNullException.ThrowIfNullOrEmpty(destinationPath);
 
       try
       {
@@ -88,35 +85,32 @@ public class HttpClientFileDownloader
 
    private async Task processContentStream(long? totalDownloadSize, Stream contentStream)
    {
-      if (_destinationPath != null)
+      long totalBytesRead = 0L;
+      long readCount = 0L;
+      byte[] buffer = new byte[8192];
+      bool isMoreToRead = true;
+
+      await using FileStream fileStream = new(_destinationPath, FileMode.Create, FileAccess.Write, FileShare.None, 8192, true);
+
+      do
       {
-         long totalBytesRead = 0L;
-         long readCount = 0L;
-         byte[] buffer = new byte[8192];
-         bool isMoreToRead = true;
+         int bytesRead = await contentStream.ReadAsync(buffer);
 
-         await using FileStream fileStream = new(_destinationPath, FileMode.Create, FileAccess.Write, FileShare.None, 8192, true);
-
-         do
+         if (bytesRead == 0)
          {
-            int bytesRead = await contentStream.ReadAsync(buffer);
+            isMoreToRead = false;
+            triggerProgressChanged(totalDownloadSize, totalBytesRead);
+            continue;
+         }
 
-            if (bytesRead == 0)
-            {
-               isMoreToRead = false;
-               triggerProgressChanged(totalDownloadSize, totalBytesRead);
-               continue;
-            }
+         await fileStream.WriteAsync(buffer.AsMemory(0, bytesRead));
 
-            await fileStream.WriteAsync(buffer.AsMemory(0, bytesRead));
+         totalBytesRead += bytesRead;
+         readCount += 1;
 
-            totalBytesRead += bytesRead;
-            readCount += 1;
-
-            if (readCount % 100 == 0)
-               triggerProgressChanged(totalDownloadSize, totalBytesRead);
-         } while (isMoreToRead);
-      }
+         if (readCount % 100 == 0)
+            triggerProgressChanged(totalDownloadSize, totalBytesRead);
+      } while (isMoreToRead);
    }
 
    private void triggerProgressChanged(long? totalDownloadSize, long totalBytesRead)

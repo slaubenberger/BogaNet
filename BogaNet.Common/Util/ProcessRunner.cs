@@ -108,7 +108,7 @@ public class ProcessRunner
    /// <exception cref="Exception"></exception>
    public async Task<Process> StartAsync(string command, string? args = null, bool waitForExit = false, Encoding? encoding = null, bool useShellExecute = false, bool createNoWindow = true)
    {
-      ArgumentNullException.ThrowIfNull(command);
+      ArgumentNullException.ThrowIfNullOrEmpty(command);
 
       try
       {

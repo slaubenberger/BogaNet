@@ -1,4 +1,5 @@
 using System.Security.Cryptography.X509Certificates;
+using System;
 
 namespace BogaNet.Extension;
 
@@ -14,8 +15,11 @@ public static class CertificateExtension
    /// <param name="password">Password for the certificate (optional, default: none)</param>
    /// <param name="type">Type of the content (optional, default: Cert (=public key))</param>
    /// <returns>Byte-array with the X509-certificate</returns>
-   public static byte[]? BNToByteArray(this X509Certificate2? cert, string? password = null, X509ContentType type = X509ContentType.Cert)
+   /// <exception cref="ArgumentNullException"></exception>
+   public static byte[]? BNToByteArray(this X509Certificate2 cert, string? password = null, X509ContentType type = X509ContentType.Cert)
    {
-      return cert?.Export(type, password);
+      ArgumentNullException.ThrowIfNull(cert);
+
+      return cert.Export(type, password);
    }
 }

@@ -20,10 +20,10 @@ public abstract class CRC32 //NUnit
    /// </summary>
    /// <param name="bytes">Bytes for the CRC32</param>
    /// <returns>CRC32 as uint</returns>
-   public static uint CalcCRC(params byte[]? bytes)
+   /// <exception cref="ArgumentNullException"></exception>
+   public static uint CalcCRC(params byte[] bytes)
    {
-      if (bytes == null)
-         return 0;
+      ArgumentNullException.ThrowIfNull(bytes);
 
       Crc32 crc32 = new();
 
@@ -38,6 +38,7 @@ public abstract class CRC32 //NUnit
    /// <param name="text">string for the CRC32</param>
    /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
    /// <returns>CRC32 as uint</returns>
+   /// <exception cref="ArgumentNullException"></exception>
    public static uint CalcCRC(string text, Encoding? encoding = null)
    {
       return CalcCRC(text.BNToByteArray(encoding));
@@ -49,7 +50,7 @@ public abstract class CRC32 //NUnit
    /// <param name="file">File to crc</param>
    /// <returns>CRC32 as uint</returns>
    /// <exception cref="Exception"></exception>
-   public static uint CalcCRCFile(string? file)
+   public static uint CalcCRCFile(string file)
    {
       return Task.Run(() => CalcCRCFileAsync(file)).GetAwaiter().GetResult();
    }
@@ -60,8 +61,10 @@ public abstract class CRC32 //NUnit
    /// <param name="file">File to crc</param>
    /// <returns>CRC32 as uint</returns>
    /// <exception cref="Exception"></exception>
-   public static async Task<uint> CalcCRCFileAsync(string? file)
+   public static async Task<uint> CalcCRCFileAsync(string file)
    {
+      ArgumentNullException.ThrowIfNullOrEmpty(file);
+
       return CalcCRC(await FileHelper.ReadAllBytesAsync(file));
    }
 

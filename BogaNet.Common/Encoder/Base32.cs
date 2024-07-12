@@ -18,9 +18,9 @@ public static class Base32 //NUnit
    /// <param name="base32string">Data as Base32-string</param>
    /// <returns>Data as byte-array</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static byte[] FromBase32String(string? base32string)
+   public static byte[] FromBase32String(string base32string)
    {
-      ArgumentNullException.ThrowIfNull(base32string);
+      ArgumentNullException.ThrowIfNullOrEmpty(base32string);
 
       base32string = base32string.TrimEnd('=');
       int byteCount = base32string.Length * 5 / 8;
@@ -62,7 +62,7 @@ public static class Base32 //NUnit
    /// <param name="bytes">Data as byte-array</param>
    /// <returns>Data as encoded Base32-string</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static string ToBase32String(params byte[]? bytes)
+   public static string ToBase32String(params byte[] bytes)
    {
       ArgumentNullException.ThrowIfNull(bytes);
 
@@ -104,9 +104,10 @@ public static class Base32 //NUnit
    /// <param name="str">Input string</param>
    /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
    /// <returns>String value as converted Base32-string</returns>
-   public static string? ToBase32String(string? str, Encoding? encoding = null)
+   /// <exception cref="ArgumentNullException"></exception>
+   public static string ToBase32String(string str, Encoding? encoding = null)
    {
-      return str == null ? null : ToBase32String(str.BNToByteArray(encoding));
+      return ToBase32String(str.BNToByteArray(encoding));
    }
 
    #endregion

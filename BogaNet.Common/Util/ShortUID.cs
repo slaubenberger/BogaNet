@@ -115,9 +115,12 @@ public static class GuidExtension
    /// </summary>
    /// <param name="uid">Guid-instance</param>
    /// <returns>ShortUID-instance</returns>
+   /// <exception cref="ArgumentNullException"></exception>
    public static ShortUID BNToShortUID(this Guid uid)
    {
-      string? guid = Base64.ToBase64String(uid.ToByteArray(), true);
+      ArgumentNullException.ThrowIfNull(uid);
+
+      string guid = Base64.ToBase64String(uid.ToByteArray(), true);
       return new ShortUID(guid.Substring(0, guid.Length - 2) ?? string.Empty);
    }
 }

@@ -18,7 +18,7 @@ public static class ListExtension
    /// <param name="list">IList-instance to shuffle</param>
    /// <param name="seed">Seed for the PRNG (optional, default: 0 (=standard))</param>
    /// <exception cref="ArgumentNullException"></exception>
-   public static void BNShuffle<T>(this IList<T>? list, int seed = 0)
+   public static void BNShuffle<T>(this IList<T> list, int seed = 0)
    {
       ArgumentNullException.ThrowIfNull(list);
 
@@ -41,10 +41,10 @@ public static class ListExtension
    /// <param name="postfix">Postfix for every element (optional, default: empty)</param>
    /// <param name="delimiter">Delimiter if appendNewLine is false (optional, default: "; ")</param>
    /// <returns>String with lines for all list entries</returns>
-   public static string? BNDump<T>(this IList<T>? list, bool appendNewLine = true, string? prefix = "", string? postfix = "", string delimiter = "; ")
+   /// <exception cref="ArgumentNullException"></exception>
+   public static string BNDump<T>(this IList<T> list, bool appendNewLine = true, string? prefix = "", string? postfix = "", string? delimiter = "; ")
    {
-      if (list == null)
-         return null;
+      ArgumentNullException.ThrowIfNull(list);
 
       StringBuilder sb = new();
 
@@ -70,7 +70,7 @@ public static class ListExtension
    /// <param name="list">IList-instance to ToString</param>
    /// <returns>String list with all entries (via CTToString)</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static List<string> BNToStringList<T>(this IList<T>? list)
+   public static List<string> BNToStringList<T>(this IList<T> list)
    {
       ArgumentNullException.ThrowIfNull(list);
 
@@ -103,8 +103,11 @@ public static class ListExtension
    /// <param name="source">Source list</param>
    /// <param name="chunkSize">Chunk size of the lists</param>
    /// <returns>List with lists of a given chunk size</returns>
+   /// <exception cref="ArgumentNullException"></exception>
    public static List<List<T>> BNChunkBy<T>(this IEnumerable<T> source, int chunkSize)
    {
+      ArgumentNullException.ThrowIfNull(source);
+
       return source
          .Select((x, i) => new { Index = i, Value = x })
          .GroupBy(x => x.Index / Math.Abs(chunkSize))

@@ -22,9 +22,9 @@ public static class Base16 //NUnit
    /// <param name="base16string">Data as Base16-string</param>
    /// <returns>Data as byte-array</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static byte[] FromBase16String(string? base16string)
+   public static byte[] FromBase16String(string base16string)
    {
-      ArgumentNullException.ThrowIfNull(base16string);
+      ArgumentNullException.ThrowIfNullOrEmpty(base16string);
 
       int diff = base16string.Length % 2;
 
@@ -62,7 +62,7 @@ public static class Base16 //NUnit
    /// <param name="addPrefix">Add "0x"-as prefix (optional, default: false)</param>
    /// <returns>Data as encoded Base16-string</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static string ToBase16String(byte[]? bytes, bool addPrefix = false)
+   public static string ToBase16String(byte[] bytes, bool addPrefix = false)
    {
       ArgumentNullException.ThrowIfNull(bytes);
 
@@ -77,7 +77,7 @@ public static class Base16 //NUnit
    /// <param name="useFullLength">Use the full length of the Number type (optional, default: false)</param>
    /// <returns>Number as converted Base16-string</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static string ToBase16String<T>(T? number, bool addPrefix = false, bool useFullLength = false) where T : INumber<T>
+   public static string ToBase16String<T>(T number, bool addPrefix = false, bool useFullLength = false) where T : INumber<T>
    {
       ArgumentNullException.ThrowIfNull(number);
 
@@ -150,9 +150,10 @@ public static class Base16 //NUnit
    /// <param name="addPrefix">Add "0x"-as prefix (optional, default: false)</param>
    /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
    /// <returns>String value as converted Base16-string</returns>
-   public static string? ToBase16String(string? str, bool addPrefix = false, Encoding? encoding = null)
+   /// <exception cref="ArgumentNullException"></exception>
+   public static string ToBase16String(string str, bool addPrefix = false, Encoding? encoding = null)
    {
-      return str == null ? null : ToBase16String(str.BNToByteArray(encoding), addPrefix);
+      return ToBase16String(str.BNToByteArray(encoding), addPrefix);
    }
 
    #endregion

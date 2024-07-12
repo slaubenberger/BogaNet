@@ -247,36 +247,32 @@ public static class StringHelper
    /// <param name="skipHeaderLines">Number of skipped header lines (optional, default: 0)</param>
    /// <param name="skipFooterLines">Number of skipped footer lines (optional, default: 0)</param>
    /// <returns>Splitted lines as list</returns>
-   public static List<string> SplitToLines(string? text, bool ignoreCommentedLines = true, int skipHeaderLines = 0, int skipFooterLines = 0)
+   /// <exception cref="ArgumentNullException"></exception>
+   public static List<string> SplitToLines(string text, bool ignoreCommentedLines = true, int skipHeaderLines = 0, int skipFooterLines = 0)
    {
+      ArgumentNullException.ThrowIfNull(text);
+
       List<string> result = new(100);
 
       skipHeaderLines = Math.Abs(skipHeaderLines);
       skipFooterLines = Math.Abs(skipFooterLines);
 
-      if (string.IsNullOrEmpty(text))
-      {
-         _logger.LogWarning("Parameter 'text' is null or empty => 'SplitStringToLines()' will return an empty string list.");
-      }
-      else
-      {
-         string[] lines = Constants.REGEX_LINEENDINGS.Split(text);
+      string[] lines = Constants.REGEX_LINEENDINGS.Split(text);
 
-         for (int ii = 0; ii < lines.Length; ii++)
+      for (int ii = 0; ii < lines.Length; ii++)
+      {
+         if (ii + 1 > skipHeaderLines && ii < lines.Length - skipFooterLines)
          {
-            if (ii + 1 > skipHeaderLines && ii < lines.Length - skipFooterLines)
+            if (!string.IsNullOrEmpty(lines[ii]))
             {
-               if (!string.IsNullOrEmpty(lines[ii]))
+               if (ignoreCommentedLines)
                {
-                  if (ignoreCommentedLines)
-                  {
-                     if (!lines[ii].BNStartsWith("#")) //valid and not disabled line?
-                        result.Add(lines[ii]);
-                  }
-                  else
-                  {
+                  if (!lines[ii].BNStartsWith("#")) //valid and not disabled line?
                      result.Add(lines[ii]);
-                  }
+               }
+               else
+               {
+                  result.Add(lines[ii]);
                }
             }
          }

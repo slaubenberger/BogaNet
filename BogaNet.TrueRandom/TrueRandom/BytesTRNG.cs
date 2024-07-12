@@ -28,7 +28,6 @@ public abstract class BytesTRNG : BaseTRNG //NUnit
 
    #endregion
 
-
    #region Public methods
 
    /// <summary>

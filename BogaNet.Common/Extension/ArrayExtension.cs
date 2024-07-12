@@ -18,10 +18,10 @@ public static class ArrayExtension //NUnit
    /// </summary>
    /// <param name="array">Array-instance</param>
    /// <returns>Reversed object array</returns>
+   /// <exception cref="ArgumentNullException"></exception>
    public static void BNReverse(this object[]? array)
    {
-      if (array == null)
-         return;
+      ArgumentNullException.ThrowIfNull(array);
 
       Array.Reverse(array);
    }
@@ -31,10 +31,10 @@ public static class ArrayExtension //NUnit
    /// </summary>
    /// <param name="array">Number type array-instance</param>
    /// <returns>Reversed Number type array</returns>
-   public static void BNReverse<T>(this T[]? array) where T : INumber<T>
+   /// <exception cref="ArgumentNullException"></exception>
+   public static void BNReverse<T>(this T[] array) where T : INumber<T>
    {
-      if (array == null)
-         return;
+      ArgumentNullException.ThrowIfNull(array);
 
       Array.Reverse(array);
    }

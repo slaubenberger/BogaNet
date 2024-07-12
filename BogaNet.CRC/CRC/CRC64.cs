@@ -20,10 +20,10 @@ public abstract class CRC64 //NUnit
    /// </summary>
    /// <param name="bytes">Bytes for the CRC64</param>
    /// <returns>CRC64 as ulong</returns>
-   public static ulong CalcCRC(params byte[]? bytes)
+   /// <exception cref="ArgumentNullException"></exception>
+   public static ulong CalcCRC(params byte[] bytes)
    {
-      if (bytes == null)
-         return 0;
+      ArgumentNullException.ThrowIfNull(bytes);
 
       Crc64 crc64 = new();
 
@@ -38,6 +38,7 @@ public abstract class CRC64 //NUnit
    /// <param name="text">string for the CRC64</param>
    /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
    /// <returns>CRC64 as ulong</returns>
+   /// <exception cref="ArgumentNullException"></exception>
    public static ulong CalcCRC(string text, Encoding? encoding = null)
    {
       return CalcCRC(text.BNToByteArray(encoding));
@@ -49,7 +50,7 @@ public abstract class CRC64 //NUnit
    /// <param name="file">File to crc</param>
    /// <returns>CRC64 as ulong</returns>
    /// <exception cref="Exception"></exception>
-   public static ulong CalcCRCFile(string? file)
+   public static ulong CalcCRCFile(string file)
    {
       return Task.Run(() => CalcCRCFileAsync(file)).GetAwaiter().GetResult();
    }
@@ -60,8 +61,10 @@ public abstract class CRC64 //NUnit
    /// <param name="file">File to crc</param>
    /// <returns>CRC64 as ulong</returns>
    /// <exception cref="Exception"></exception>
-   public static async Task<ulong> CalcCRCFileAsync(string? file)
+   public static async Task<ulong> CalcCRCFileAsync(string file)
    {
+      ArgumentNullException.ThrowIfNullOrEmpty(file);
+
       return CalcCRC(await FileHelper.ReadAllBytesAsync(file));
    }
 

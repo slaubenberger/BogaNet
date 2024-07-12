@@ -21,7 +21,6 @@ public abstract class IntegerTRNG : BaseTRNG //NUnit
 
    #endregion
 
-
    #region Properties
 
    /// <summary>Returns the list of integers from the last generation.</summary>
@@ -29,7 +28,6 @@ public abstract class IntegerTRNG : BaseTRNG //NUnit
    public static List<int> Result => _result;
 
    #endregion
-
 
    #region Public methods
 
