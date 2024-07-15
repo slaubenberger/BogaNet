@@ -376,10 +376,11 @@ public class FileHelperTest
       Assert.Multiple(() =>
       {
          Assert.That(FileHelper.ExistsFile(FileHelper.TempFile), Is.True);
+         //Assert.That(FileHelper.ExistsFile("~/Desktop/Locales.csv"), Is.True);
          Assert.That(FileHelper.ExistsFile(_testFile), Is.True);
          Assert.That(FileHelper.ExistsFile(_testFilePathWin), Is.False);
          Assert.That(FileHelper.ExistsFile(""), Is.False);
-         Assert.That(FileHelper.ExistsFile(null), Is.False);
+         //Assert.That(FileHelper.ExistsFile(null), Is.False);
       });
    }
 
@@ -389,10 +390,11 @@ public class FileHelperTest
       Assert.Multiple(() =>
       {
          Assert.That(FileHelper.ExistsDirectory(FileHelper.TempPath), Is.True);
+         //Assert.That(FileHelper.ExistsDirectory("~/Desktop/"), Is.True);
          Assert.That(FileHelper.ExistsDirectory(_testDirectory), Is.True);
          Assert.That(FileHelper.ExistsDirectory(_testDirectoryWin), Is.False);
          Assert.That(FileHelper.ExistsDirectory(""), Is.False);
-         Assert.That(FileHelper.ExistsDirectory(null), Is.False);
+         //Assert.That(FileHelper.ExistsDirectory(null), Is.False);
       });
    }
 
@@ -554,7 +556,8 @@ public class FileHelperTest
       {
          Assert.That(FileHelper.GetExtension(FileHelper.TempFile), Is.EqualTo("tmp"));
          Assert.That(FileHelper.GetExtension(_testFileName), Is.EqualTo("png"));
-         Assert.That(FileHelper.GetExtension("ct_logo"), Is.EqualTo(string.Empty));
+         Assert.That(FileHelper.GetExtension("mp3"), Is.EqualTo("mp3"));
+         Assert.That(FileHelper.GetExtension(".mp3"), Is.EqualTo("mp3"));
          Assert.That(FileHelper.GetExtension(FileHelper.TempPath), Is.EqualTo(string.Empty));
       });
    }

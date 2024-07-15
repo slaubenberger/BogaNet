@@ -169,6 +169,9 @@ public abstract class FileHelper
          return path;
       }
 
+      if (path.BNStartsWith("~"))
+         path = replaceTilde(path);
+
       string pathTemp = !preserveFile && ExistsFile(path.Trim()) ? GetDirectoryName(path.Trim()) : path.Trim();
 
       string result;
@@ -402,7 +405,7 @@ public abstract class FileHelper
    }
 
    /// <summary>
-   /// Combine two paths together.
+   /// Combines two paths together.
    /// </summary>
    /// <param name="path1">First path</param>
    /// <param name="path2">Second path</param>
@@ -412,6 +415,9 @@ public abstract class FileHelper
    {
       ArgumentNullException.ThrowIfNullOrEmpty(path1);
       ArgumentNullException.ThrowIfNullOrEmpty(path2);
+
+      //path1 = ValidatePath(path1);
+      //path2 = ValidatePath(path2);
 
       return Path.Combine(path1, path2);
    }
@@ -450,6 +456,8 @@ public abstract class FileHelper
 
       try
       {
+         sourceFile = ValidateFile(sourceFile);
+
          if (!ExistsFile(sourceFile))
          {
             _logger.LogWarning($"Source file does not exists: {sourceFile}");
@@ -654,6 +662,8 @@ public abstract class FileHelper
 
       try
       {
+         path = ValidatePath(path);
+
          DirectoryInfo di = new(path);
          DirectoryInfo? parent = di.Parent;
 
@@ -699,6 +709,8 @@ public abstract class FileHelper
 
       try
       {
+         file = ValidateFile(file);
+
          if (!ExistsFile(file))
          {
             _logger.LogWarning($"File does not exists: {file}");
@@ -733,6 +745,8 @@ public abstract class FileHelper
 
       try
       {
+         dir = ValidatePath(dir);
+
          if (!ExistsDirectory(dir))
          {
             _logger.LogWarning($"Source directory does not exists: {dir}");
@@ -752,13 +766,13 @@ public abstract class FileHelper
       return success;
    }
 
-
    /// <summary>
    /// Checks if a file or directory exists.
    /// </summary>
    /// <param name="path">Path to the file or directory</param>
    /// <returns>True if the file or directory exists</returns>
-   public static bool Exists(string? path)
+   /// <exception cref="ArgumentNullException"></exception>
+   public static bool Exists(string path)
    {
       return IsFile(path) ? ExistsFile(path) : ExistsDirectory(path);
    }
@@ -768,8 +782,12 @@ public abstract class FileHelper
    /// </summary>
    /// <param name="path">Path to the file</param>
    /// <returns>True if the file exists</returns>
-   public static bool ExistsFile(string? path) //NUnit
+   public static bool ExistsFile(string path) //NUnit
    {
+      ArgumentNullException.ThrowIfNull(path);
+
+      path = replaceTilde(path);
+
       return File.Exists(path);
    }
 
@@ -778,8 +796,12 @@ public abstract class FileHelper
    /// </summary>
    /// <param name="path">Path to the directory</param>
    /// <returns>True if the directory exists</returns>
-   public static bool ExistsDirectory(string? path) //NUnit
+   public static bool ExistsDirectory(string path) //NUnit
    {
+      ArgumentNullException.ThrowIfNull(path);
+
+      path = replaceTilde(path);
+
       return Directory.Exists(path);
    }
 
@@ -796,6 +818,8 @@ public abstract class FileHelper
 
       try
       {
+         path = ValidatePath(path);
+
          if (!ExistsDirectory(path))
             throw new Exception($"Path directory does not exists: {path}");
 
@@ -826,6 +850,8 @@ public abstract class FileHelper
 
       try
       {
+         path = ValidatePath(path);
+
          if (!ExistsDirectory(path))
             throw new Exception($"Path directory does not exists: {path}");
 
@@ -854,6 +880,8 @@ public abstract class FileHelper
 
       try
       {
+         path = ValidateFile(path);
+
          using (File.Create(path))
          {
          }
@@ -875,7 +903,7 @@ public abstract class FileHelper
    /// <param name="path">Path to the directory to create</param>
    /// <returns>True if the operation was successful</returns>
    /// <exception cref="Exception"></exception>
-   public static bool CreateDirectory(string? path) //NUnit
+   public static bool CreateDirectory(string path) //NUnit
    {
       ArgumentNullException.ThrowIfNullOrEmpty(path);
 
@@ -883,6 +911,8 @@ public abstract class FileHelper
 
       try
       {
+         path = ValidatePath(path);
+
          Directory.CreateDirectory(path);
          success = true;
       }
@@ -894,7 +924,6 @@ public abstract class FileHelper
 
       return success;
    }
-
 
    /// <summary>
    /// Checks if the path is a directory.
@@ -964,6 +993,7 @@ public abstract class FileHelper
       ArgumentNullException.ThrowIfNullOrEmpty(path);
 
       string validPath = ValidatePath(path, false, removeInvalidChars);
+      //string validPath = ValidateFile(path, removeInvalidChars);
       string fname = validPath;
 
       try
@@ -1042,6 +1072,8 @@ public abstract class FileHelper
    {
       ArgumentNullException.ThrowIfNullOrEmpty(path);
 
+      path = ValidateFile(path);
+
       if (ExistsFile(path))
       {
          try
@@ -1069,6 +1101,8 @@ public abstract class FileHelper
    public static long GetDirectorySize(string path)
    {
       ArgumentNullException.ThrowIfNullOrEmpty(path);
+
+      path = ValidatePath(path);
 
       if (ExistsDirectory(path))
       {
@@ -1102,12 +1136,15 @@ public abstract class FileHelper
 
       try
       {
-         //if (!IsFile(path, false))
-         //   throw new Exception($"File does not exists: {path}");
+         if (IsDirectory(path, false))
+            return string.Empty;
+
+         //path = ValidateFile(path);
 
          string ext = Path.GetExtension(path);
 
-         return ext.Length > 0 ? ext[1..] : string.Empty;
+         string res = ext.Length > 0 ? ext[1..] : path;
+         return res.ToLower();
       }
       catch (Exception ex)
       {
@@ -1159,6 +1196,8 @@ public abstract class FileHelper
    {
       ArgumentNullException.ThrowIfNullOrEmpty(file);
 
+      file = ValidateFile(file);
+
       if (ExistsFile(file))
       {
          try
@@ -1186,6 +1225,8 @@ public abstract class FileHelper
    public static DateTime GetLastFileAccessTime(string file) //NUnit
    {
       ArgumentNullException.ThrowIfNullOrEmpty(file);
+
+      file = ValidateFile(file);
 
       if (ExistsFile(file))
       {
@@ -1215,6 +1256,8 @@ public abstract class FileHelper
    {
       ArgumentNullException.ThrowIfNullOrEmpty(file);
 
+      file = ValidateFile(file);
+
       if (ExistsFile(file))
       {
          try
@@ -1242,6 +1285,8 @@ public abstract class FileHelper
    public static DateTime GetLastDirectoryWriteTime(string path) //NUnit
    {
       ArgumentNullException.ThrowIfNullOrEmpty(path);
+
+      path = ValidatePath(path);
 
       if (ExistsDirectory(path))
       {
@@ -1271,6 +1316,8 @@ public abstract class FileHelper
    {
       ArgumentNullException.ThrowIfNullOrEmpty(path);
 
+      path = ValidatePath(path);
+
       if (ExistsDirectory(path))
       {
          try
@@ -1298,6 +1345,8 @@ public abstract class FileHelper
    public static DateTime GetDirectoryCreationTime(string path) //NUnit
    {
       ArgumentNullException.ThrowIfNullOrEmpty(path);
+
+      path = ValidatePath(path);
 
       if (ExistsDirectory(path))
       {
@@ -1342,6 +1391,8 @@ public abstract class FileHelper
 
       try
       {
+         path = ValidateFile(path);
+
          if (!ExistsFile(path))
             throw new Exception($"File does not exists: {path}");
 
@@ -1379,6 +1430,8 @@ public abstract class FileHelper
 
       try
       {
+         path = ValidateFile(path);
+
          if (!ExistsFile(path))
             throw new Exception($"File does not exists: {path}");
 
@@ -1414,6 +1467,8 @@ public abstract class FileHelper
 
       try
       {
+         path = ValidateFile(path);
+
          if (!ExistsFile(path))
             throw new Exception($"File does not exists: {path}");
 
@@ -1456,6 +1511,8 @@ public abstract class FileHelper
 
       try
       {
+         destFile = ValidateFile(destFile);
+
          await File.WriteAllTextAsync(destFile, text, encoding ?? Encoding.UTF8);
          success = true;
       }
@@ -1498,6 +1555,8 @@ public abstract class FileHelper
 
       try
       {
+         destFile = ValidateFile(destFile);
+
          await File.WriteAllLinesAsync(destFile, lines, encoding ?? Encoding.UTF8);
          success = true;
       }
@@ -1538,6 +1597,8 @@ public abstract class FileHelper
 
       try
       {
+         destFile = ValidateFile(destFile);
+
          await File.WriteAllBytesAsync(destFile, data);
          success = true;
       }
@@ -1694,6 +1755,11 @@ public abstract class FileHelper
    #endregion
 
    #region Private methods
+
+   private static string replaceTilde(string path)
+   {
+      return path.Replace("~", Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)).Replace("//", "/");
+   }
 
    private static void copyAll(DirectoryInfo source, DirectoryInfo target)
    {

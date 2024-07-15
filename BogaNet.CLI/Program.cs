@@ -1,7 +1,8 @@
 ﻿using BogaNet.Extension;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Primitives;
 using NLog.Extensions.Logging;
-
+using BogaNet.Helper;
 namespace BogaNet.CLI;
 
 /// <summary>
@@ -20,6 +21,7 @@ public static class Program
 
       _logger.LogDebug("Hi there, this is a test app!");
 
+      buildCode();
       //await testTrueRandom();
       testNetwork();
       //testBitrateHRF();
@@ -46,6 +48,37 @@ public static class Program
    #endregion
 
    #region Private methods
+
+   private static void buildCode()
+   {
+      var lines = FileHelper.ReadAllLines("~/Desktop/Locales.csv");
+
+      System.Text.StringBuilder sb = new();
+
+      List<string> keys = [];
+      
+      foreach (var line in lines)
+      {
+         var split = line.Split(',');
+
+         sb.Append("{ ");
+         sb.Append(split[0]);
+         sb.Append(", ");
+         sb.Append(StringHelper.AddQuotation(split[1]));
+         sb.AppendLine(" },");
+
+         if (keys.Contains(split[0]))
+         {
+            Console.Error.WriteLine("Key already used: " + split[0]);
+         }
+         else
+         {
+            keys.Add(split[0]);
+         }
+      }
+
+      FileHelper.WriteAllText("~/Desktop/Locales.code", sb.ToString());
+   }
 /*
    private static async Task testTrueRandom()
    {
