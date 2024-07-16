@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <Version>0.9.0</Version>
+        <Company>crosstales LLC</Company>
+        <Copyright>© 2024 Stefan Laubenberger</Copyright>
+        <Authors>Stefan Laubenberger</Authors>
+        <Description>TTS...</Description>
+        <RepositoryUrl>https://github.com/slaubenberger/BogaNet</RepositoryUrl>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageTags>TTS...</PackageTags>
+        <PackageReleaseNotes>Initial release.</PackageReleaseNotes>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <!-- <PackageIconUrl>https://www.crosstales.com/media/data/BogaNet/logo_boga.png</PackageIconUrl> -->
+        <PackageIcon>logo_boga_truerandom.jpg</PackageIcon>
+        <PackageProjectUrl>https://www.crosstales.com/media/data/BogaNet/api/</PackageProjectUrl>
+        <LangVersion>12</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="../Resources/logos/logo_boga_truerandom.jpg" Pack="true" PackagePath="\"/>
+        <None Include="README.md" Pack="true" PackagePath="\"/>
+    </ItemGroup>
+
+    <!--    <ItemGroup>-->
+    <!--        <PackageReference Include="BogaNet.Common" Version="1.2.1"/>-->
+    <!--    </ItemGroup>-->
+
+    <ItemGroup>
+        <ProjectReference Include="..\BogaNet.Common\BogaNet.Common.csproj" />
+    </ItemGroup>
+</Project>

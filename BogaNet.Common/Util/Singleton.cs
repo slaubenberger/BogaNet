@@ -28,6 +28,8 @@ public class Singleton<T> where T : class
             {
                if (_instance == null)
                {
+                  //_instance = new T();
+
                   ConstructorInfo? ci = typeof(T).GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, Type.EmptyTypes, null);
                   if (ci == null)
                   {

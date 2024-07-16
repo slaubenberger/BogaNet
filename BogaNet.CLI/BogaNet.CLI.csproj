@@ -17,6 +17,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\BogaNet.Common\BogaNet.Common.csproj"/>
+        <ProjectReference Include="..\BogaNet.TTS\BogaNet.TTS.csproj" />
 <!--        <ProjectReference Include="..\BogaNet.TrueRandom\BogaNet.TrueRandom.csproj" />-->
     </ItemGroup>
 

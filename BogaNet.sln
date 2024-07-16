@@ -24,6 +24,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BogaNet.CRC", "BogaNet.CRC\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BogaNet.TrueRandom", "BogaNet.TrueRandom\BogaNet.TrueRandom.csproj", "{3165EEF2-794C-4D3A-B49C-8FA281619604}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BogaNet.TTS", "BogaNet.TTS\BogaNet.TTS.csproj", "{5A79F4B5-17F6-4376-919F-CED0D0C2C1B6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -78,6 +80,10 @@ Global
 		{3165EEF2-794C-4D3A-B49C-8FA281619604}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3165EEF2-794C-4D3A-B49C-8FA281619604}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3165EEF2-794C-4D3A-B49C-8FA281619604}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A79F4B5-17F6-4376-919F-CED0D0C2C1B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A79F4B5-17F6-4376-919F-CED0D0C2C1B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A79F4B5-17F6-4376-919F-CED0D0C2C1B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A79F4B5-17F6-4376-919F-CED0D0C2C1B6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection

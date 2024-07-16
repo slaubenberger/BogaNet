@@ -1,8 +1,8 @@
 ﻿using BogaNet.Extension;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Primitives;
 using NLog.Extensions.Logging;
 using BogaNet.Helper;
+
 namespace BogaNet.CLI;
 
 /// <summary>
@@ -15,15 +15,18 @@ public static class Program
 
    #region Public methods
 
-   public static async Task Main(string[] args)
+   //public static async Task Main(string[] args)
+   public static void Main(string[] args)
    {
       GlobalLogging.LoggerFactory = new NLogLoggerFactory();
 
       _logger.LogDebug("Hi there, this is a test app!");
 
-      buildCode();
+      testTTS();
+      //await testTTSAsync();
+      //buildCode();
       //await testTrueRandom();
-      testNetwork();
+      //testNetwork();
       //testBitrateHRF();
       //testBytesHRF();
 
@@ -49,6 +52,31 @@ public static class Program
 
    #region Private methods
 
+   private static void testTTS()
+   {
+      //var tts = BogaNet.TTS.Provider.OSXVoiceProvider.Instance;
+      var tts = BogaNet.TTS.Speaker.Instance;
+      tts.UseESpeak = true;
+      tts.ESpeakApplication = "/opt/local/bin/espeak-ng";
+
+      var voices = tts.GetVoices();
+
+      _logger.LogDebug(voices.BNDump());
+
+      var voice = tts.VoiceForCulture("de");
+      //var voice = tts.VoiceForCulture("hi");
+
+      tts.Speak("Hallo Ramon, wie geht es dir?", voice);
+   }
+
+   private static async Task testTTSAsync()
+   {
+      var tts = BogaNet.TTS.Provider.OSXVoiceProvider.Instance;
+
+      //tts.Speak("Hello there!", new BogaNet.TTS.Model.Voice("Daniel", null, BogaNet.TTS.Model.Enum.Gender.MALE, "unknown", "en"));
+      await tts.SpeakAsync("Hello there, I'm TTS for c-sharp");
+   }
+
    private static void buildCode()
    {
       var lines = FileHelper.ReadAllLines("~/Desktop/Locales.csv");
@@ -56,7 +84,7 @@ public static class Program
       System.Text.StringBuilder sb = new();
 
       List<string> keys = [];
-      
+
       foreach (var line in lines)
       {
          var split = line.Split(',');
@@ -79,6 +107,7 @@ public static class Program
 
       FileHelper.WriteAllText("~/Desktop/Locales.code", sb.ToString());
    }
+
 /*
    private static async Task testTrueRandom()
    {
