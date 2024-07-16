@@ -86,13 +86,12 @@ public class ProcessRunner
    /// <param name="args">Arguments for the command (optional)</param>
    /// <param name="waitForExit">Wait for the process to exit (optional, default: false)</param>
    /// <param name="encoding">Encoding of the I/O (optional, default: Latin1)</param>
-   /// <param name="useShellExecute">Use shell execute (optional, default: false)</param>
    /// <param name="createNoWindow">Ceate no window (optional, default: true)</param>
    /// <returns>Process object</returns>
    /// <exception cref="Exception"></exception>
-   public Process Start(string command, string? args = null, bool waitForExit = false, Encoding? encoding = null, bool useShellExecute = false, bool createNoWindow = true)
+   public Process Start(string command, string? args = null, bool waitForExit = false, Encoding? encoding = null, bool createNoWindow = true)
    {
-      return Task.Run(() => StartAsync(command, args, waitForExit, encoding, useShellExecute, createNoWindow)).GetAwaiter().GetResult();
+      return Task.Run(() => StartAsync(command, args, waitForExit, encoding, createNoWindow)).GetAwaiter().GetResult();
    }
 
    /// <summary>
@@ -102,11 +101,10 @@ public class ProcessRunner
    /// <param name="args">Arguments for the command (optional)</param>
    /// <param name="waitForExit">Wait for the process to exit (optional, default: false)</param>
    /// <param name="encoding">Encoding of the I/O (optional, default: Latin1)</param>
-   /// <param name="useShellExecute">Use shell execute (optional, default: false)</param>
    /// <param name="createNoWindow">Ceate no window (optional, default: true)</param>
    /// <returns>Process object</returns>
    /// <exception cref="Exception"></exception>
-   public async Task<Process> StartAsync(string command, string? args = null, bool waitForExit = false, Encoding? encoding = null, bool useShellExecute = false, bool createNoWindow = true)
+   public async Task<Process> StartAsync(string command, string? args = null, bool waitForExit = false, Encoding? encoding = null, bool createNoWindow = true)
    {
       ArgumentNullException.ThrowIfNullOrEmpty(command);
 
@@ -123,8 +121,8 @@ public class ProcessRunner
 
          if (args != null)
             psi.Arguments = args;
-
-         psi.UseShellExecute = useShellExecute;
+         
+         psi.UseShellExecute = false;
          psi.CreateNoWindow = createNoWindow;
          psi.StandardErrorEncoding = psi.StandardOutputEncoding = psi.StandardInputEncoding = encoding ?? Encoding.Latin1;
          psi.RedirectStandardOutput = psi.RedirectStandardError = psi.RedirectStandardInput = true;

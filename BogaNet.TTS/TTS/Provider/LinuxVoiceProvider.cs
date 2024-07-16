@@ -175,8 +175,7 @@ namespace BogaNet.TTS.Provider
       }
 
       #endregion
-
-
+      
       #region Private methods
 
       private string getVoiceName(Voice? voice)
@@ -205,7 +204,7 @@ namespace BogaNet.TTS.Provider
 
          string args = "--voices" + (string.IsNullOrEmpty(ESpeakDataPath) ? string.Empty : $" --path=\"{ESpeakDataPath}\"");
 
-         var process = await _process.StartAsync(ESpeakApplication, args, true);
+         var process = await _process.StartAsync(ESpeakApplication, args, true, null, true);
 
          if (process.ExitCode == 0)
          {

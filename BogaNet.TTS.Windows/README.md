@@ -1,4 +1,4 @@
-# BogaNet.TTS
+# BogaNet.TTS.Windows
 
 ## Why use TrueRandom?
 “TrueRandom” can generate random numbers and they are “truly random”, because they are generated with atmospheric noise, which supersedes the pseudo-random number algorithms typically use in computer programs.

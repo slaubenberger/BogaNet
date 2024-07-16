@@ -1,23 +1,21 @@
-#if false
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Speech.Synthesis;
 using System.Text;
 
 namespace BogaNet.TTS
 {
-    /// <summary>TTS-wrapper for Windows.</summary>
-    public static class TTSWrapper
+    internal class Program
     {
-        #region Variables
+       #region Variables
 
-        private const string name = "RTVoiceTTSWrapper";
-        private const string version = "2020.2.0";
+        private const string name = "BogaNetTTSWrapper";
+        private const string version = "1.0.0";
 
         private static int returnCode = 0;
 
 #if DEBUG
-        private static readonly string logFile = @"C:\temp\" + name + "_" + DateTime.Now.ToString("yyyyMMddHHmmsss") + ".log";
+        private static readonly string logFile = $"{System.IO.Path.GetTempPath()}{name}_{DateTime.Now:yyyyMMddHHmmsss}.log";
 #endif
 
         #endregion
@@ -27,6 +25,7 @@ namespace BogaNet.TTS
 
         public static int Main(string[] args)
         {
+            Console.WriteLine(logFile);
             Console.OutputEncoding = Encoding.UTF8;
 
             if (args.Length == 0)
@@ -473,4 +472,3 @@ namespace BogaNet.TTS
         #endregion
     }
 }
-#endif
