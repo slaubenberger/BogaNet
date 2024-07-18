@@ -958,6 +958,7 @@ INPUT                  = ../BogaNet.Avalonia \
                          ../BogaNet.Prefs \
                          ../BogaNet.SecureType \
                          ../BogaNet.TrueRandom \
+						 ../BogaNet.TTS \
                          ../BogaNet.Unit \
                          ../README.md
 
