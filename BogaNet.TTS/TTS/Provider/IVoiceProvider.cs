@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using BogaNet.TTS.Model;
 using System.Threading.Tasks;
-using BogaNet.TTS.Model.Enum;
 
 namespace BogaNet.TTS.Provider
 {
@@ -11,10 +9,11 @@ namespace BogaNet.TTS.Provider
    {
       #region Properties
 
+/*
       /// <summary>Returns the default voice name of the current TTS-provider.</summary>
       /// <returns>Default voice name of the current TTS-provider.</returns>
       string DefaultVoiceName { get; }
-
+*/
       /// <summary>Get all available voices from the current TTS-provider and fills it into a given list.</summary>
       /// <returns>All available voices (alphabetically ordered by 'Name') as a list.</returns>
       List<Voice> Voices { get; }
@@ -25,11 +24,11 @@ namespace BogaNet.TTS.Provider
 
       /// <summary>Indicates if this provider is supporting the current platform.</summary>
       /// <returns>True if this provider supports current platform.</returns>
-      bool isPlatformSupported { get; }
+      bool IsPlatformSupported { get; }
 
       /// <summary>Indicates if this provider is supporting SSML.</summary>
       /// <returns>True if this provider supports SSML.</returns>
-      bool isSSMLSupported { get; }
+      bool IsSSMLSupported { get; }
 
       /// <summary>Get all available cultures from the current provider (ISO 639-1).</summary>
       /// <returns>All available cultures (alphabetically ordered by 'Culture') as a list.</returns>
@@ -47,7 +46,7 @@ namespace BogaNet.TTS.Provider
       /// <summary>Get all available voices from the current TTS-provider as a list asynchronously.</summary>
       /// <returns>All available voices (alphabetically ordered by 'Name') as a list.</returns>
       Task<List<Voice>> GetVoicesAsync();
- 
+
       /// <summary>Silence all active TTS speeches.</summary>
       void Silence();
 

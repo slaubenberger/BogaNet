@@ -21,27 +21,10 @@ public class Speaker : Singleton<Speaker>, IVoiceProvider
    private static readonly ILogger<Speaker> _logger = GlobalLogging.CreateLogger<Speaker>();
 
    private bool _useUseESpeak;
-   
-   private bool autoClearTags;
-
-   private float cleanUpTimer;
 
    private IVoiceProvider? voiceProvider;
 
-   private int speechCount;
-   private int busyCount;
-   private int realSpeechCount;
-
-   private static readonly char[] splitCharWords = { ' ' };
-
-   #endregion
-
-   #region Constructor
-
-   private Speaker()
-   {
-      initProvider();
-   }
+   private static readonly char[] splitCharWords = [' '];
 
    #endregion
 
@@ -62,45 +45,19 @@ public class Speaker : Singleton<Speaker>, IVoiceProvider
    }
 
    /// <summary>Automatically clear tags from speeches depending on the capabilities of the current TTS-system.</summary>
-   public bool AutoClearTags
-   {
-      get => autoClearTags;
-      set => autoClearTags = value;
-   }
-
-   /// <summary>Number of active speeches.</summary>
-   public int SpeechCount
-   {
-      get => speechCount;
-      private set => speechCount = value < 0 ? 0 : value;
-   }
-
-   /// <summary>Number of active calls.</summary>
-   public int BusyCount
-   {
-      get => busyCount;
-      private set => busyCount = value < 0 ? 0 : value;
-   }
+   public bool AutoClearTags { get; set; }
 
    /// <summary>Checks if TTS is available on this system.</summary>
    /// <returns>True if TTS is available on this system.</returns>
-   public bool isTTSAvailable => voiceProvider != null && voiceProvider.Voices.Count > 0;
-
-   /// <summary>Checks if RT-Voice is speaking on this system.</summary>
-   /// <returns>True if RT-Voice is speaking on this system.</returns>
-   public bool isSpeaking => SpeechCount > 0;
-
-   /// <summary>Checks if RT-Voice is busy on this system.</summary>
-   /// <returns>True if RT-Voice is busy on this system.</returns>
-   public bool isBusy => BusyCount > 0;
+   public bool IsTTSAvailable => voiceProvider != null && voiceProvider.Voices.Count > 0;
 
    #region Provider delegates
 
-   public string DefaultVoiceName => voiceProvider != null ? voiceProvider.DefaultVoiceName : string.Empty;
+   //public string DefaultVoiceName => voiceProvider != null ? voiceProvider.DefaultVoiceName : string.Empty;
    public List<Voice> Voices => voiceProvider != null ? voiceProvider.Voices : [];
    public int MaxTextLength => voiceProvider?.MaxTextLength ?? 3999; //minimum (Android)
-   public bool isPlatformSupported => voiceProvider?.isPlatformSupported == true;
-   public bool isSSMLSupported => voiceProvider != null && voiceProvider.isSSMLSupported;
+   public bool IsPlatformSupported => voiceProvider?.IsPlatformSupported == true;
+   public bool IsSSMLSupported => voiceProvider != null && voiceProvider.IsSSMLSupported;
    public List<string> Cultures => voiceProvider != null ? voiceProvider.Cultures : new List<string>();
 
    /// <summary>eSpeak application name/path.</summary>
@@ -135,6 +92,14 @@ public class Speaker : Singleton<Speaker>, IVoiceProvider
 
    #endregion
 
+   #region Constructor
+
+   private Speaker()
+   {
+      initProvider();
+   }
+
+   #endregion
 
    #region Public methods
 
@@ -167,39 +132,39 @@ public class Speaker : Singleton<Speaker>, IVoiceProvider
                {
                   rate = 2.78f;
                }
-               else if (rate >= 2.6f && rate < 2.75f)
+               else if (rate is >= 2.6f and < 2.75f)
                {
                   rate = 2.6f;
                }
-               else if (rate >= 2.35f && rate < 2.6f)
+               else if (rate is >= 2.35f and < 2.6f)
                {
                   rate = 2.39f;
                }
-               else if (rate >= 2.2f && rate < 2.35f)
+               else if (rate is >= 2.2f and < 2.35f)
                {
                   rate = 2.2f;
                }
-               else if (rate >= 2f && rate < 2.2f)
+               else if (rate is >= 2f and < 2.2f)
                {
                   rate = 2f;
                }
-               else if (rate >= 1.8f && rate < 2f)
+               else if (rate is >= 1.8f and < 2f)
                {
                   rate = 1.8f;
                }
-               else if (rate >= 1.6f && rate < 1.8f)
+               else if (rate is >= 1.6f and < 1.8f)
                {
                   rate = 1.6f;
                }
-               else if (rate >= 1.4f && rate < 1.6f)
+               else if (rate is >= 1.4f and < 1.6f)
                {
                   rate = 1.45f;
                }
-               else if (rate >= 1.2f && rate < 1.4f)
+               else if (rate is >= 1.2f and < 1.4f)
                {
                   rate = 1.28f;
                }
-               else if (rate > 1f && rate < 1.2f)
+               else if (rate is > 1f and < 1.2f)
                {
                   rate = 1.14f;
                }
@@ -211,39 +176,39 @@ public class Speaker : Singleton<Speaker>, IVoiceProvider
                {
                   rate = 0.33f;
                }
-               else if (rate > 0.3 && rate <= 0.4f)
+               else if (rate is > 0.3f and <= 0.4f)
                {
                   rate = 0.375f;
                }
-               else if (rate > 0.4 && rate <= 0.45f)
+               else if (rate is > 0.4f and <= 0.45f)
                {
                   rate = 0.42f;
                }
-               else if (rate > 0.45 && rate <= 0.5f)
+               else if (rate is > 0.45f and <= 0.5f)
                {
                   rate = 0.47f;
                }
-               else if (rate > 0.5 && rate <= 0.55f)
+               else if (rate is > 0.5f and <= 0.55f)
                {
                   rate = 0.525f;
                }
-               else if (rate > 0.55 && rate <= 0.6f)
+               else if (rate is > 0.55f and <= 0.6f)
                {
                   rate = 0.585f;
                }
-               else if (rate > 0.6 && rate <= 0.7f)
+               else if (rate is > 0.6f and <= 0.7f)
                {
                   rate = 0.655f;
                }
-               else if (rate > 0.7 && rate <= 0.8f)
+               else if (rate is > 0.7f and <= 0.8f)
                {
                   rate = 0.732f;
                }
-               else if (rate > 0.8 && rate <= 0.9f)
+               else if (rate is > 0.8f and <= 0.9f)
                {
                   rate = 0.82f;
                }
-               else if (rate > 0.9 && rate < 1f)
+               else if (rate is > 0.9f and < 1f)
                {
                   rate = 0.92f;
                }
@@ -257,47 +222,47 @@ public class Speaker : Singleton<Speaker>, IVoiceProvider
       {
          speechLength *= 1f;
       }
-      else if (ratio >= 2f && ratio < 3f)
+      else if (ratio is >= 2f and < 3f)
       {
          speechLength *= 1.05f;
       }
-      else if (ratio >= 3f && ratio < 3.5f)
+      else if (ratio is >= 3f and < 3.5f)
       {
          speechLength *= 1.15f;
       }
-      else if (ratio >= 3.5f && ratio < 4f)
+      else if (ratio is >= 3.5f and < 4f)
       {
          speechLength *= 1.2f;
       }
-      else if (ratio >= 4f && ratio < 4.5f)
+      else if (ratio is >= 4f and < 4.5f)
       {
          speechLength *= 1.25f;
       }
-      else if (ratio >= 4.5f && ratio < 5f)
+      else if (ratio is >= 4.5f and < 5f)
       {
          speechLength *= 1.3f;
       }
-      else if (ratio >= 5f && ratio < 5.5f)
+      else if (ratio is >= 5f and < 5.5f)
       {
          speechLength *= 1.4f;
       }
-      else if (ratio >= 5.5f && ratio < 6f)
+      else if (ratio is >= 5.5f and < 6f)
       {
          speechLength *= 1.45f;
       }
-      else if (ratio >= 6f && ratio < 6.5f)
+      else if (ratio is >= 6f and < 6.5f)
       {
          speechLength *= 1.5f;
       }
-      else if (ratio >= 6.5f && ratio < 7f)
+      else if (ratio is >= 6.5f and < 7f)
       {
          speechLength *= 1.6f;
       }
-      else if (ratio >= 7f && ratio < 8f)
+      else if (ratio is >= 7f and < 8f)
       {
          speechLength *= 1.7f;
       }
-      else if (ratio >= 8f && ratio < 9f)
+      else if (ratio is >= 8f and < 9f)
       {
          speechLength *= 1.8f;
       }
@@ -316,7 +281,7 @@ public class Speaker : Singleton<Speaker>, IVoiceProvider
    /// <param name="gender">Gender of the voice</param>
    /// <param name="culture">Culture of the voice (e.g. "en", optional)</param>
    /// <returns>True if a voice is available for a given gender and culture.</returns>
-   public bool isVoiceForGenderAvailable(Gender gender, string culture = "")
+   public bool IsVoiceForGenderAvailable(Gender gender, string culture = "")
    {
       return VoicesForGender(gender, culture).Count > 0;
    }
@@ -325,9 +290,9 @@ public class Speaker : Singleton<Speaker>, IVoiceProvider
    /// <param name="gender">Gender of the voice</param>
    /// <param name="culture">Culture of the voice</param>
    /// <returns>True if a voice is available for a given gender and language.</returns>
-   public bool isVoiceForGenderAvailable(Gender gender, CultureInfo culture)
+   public bool IsVoiceForGenderAvailable(Gender gender, CultureInfo culture)
    {
-      return isVoiceForGenderAvailable(gender, culture.TwoLetterISOLanguageName);
+      return IsVoiceForGenderAvailable(gender, culture.TwoLetterISOLanguageName);
    }
 
    /// <summary>Get all available voices for a given gender and optional culture from the current TTS-system.</summary>
@@ -377,9 +342,9 @@ public class Speaker : Singleton<Speaker>, IVoiceProvider
    /// <param name="fallbackCulture">Fallback culture of the voice (default "en", optional)</param>
    /// <param name="isFuzzy">Always returns voices if there is no match with the gender and/or culture (default: false, optional)</param>
    /// <returns>Voice for the given gender, culture and index.</returns>
-   public Voice VoiceForGender(Gender gender, string culture = "", int index = 0, string fallbackCulture = "en", bool isFuzzy = false)
+   public Voice? VoiceForGender(Gender gender, string culture = "", int index = 0, string fallbackCulture = "en", bool isFuzzy = false)
    {
-      Voice result = null;
+      Voice? result = null;
 
       List<Voice> voices = VoicesForGender(gender, culture, isFuzzy);
 
@@ -421,7 +386,7 @@ public class Speaker : Singleton<Speaker>, IVoiceProvider
    /// <param name="index">Index of the voice (default: 0, optional)</param>
    /// <param name="isFuzzy">Always returns voices if there is no match with the gender and/or language (default: false, optional)</param>
    /// <returns>Voice for the given gender, language and index.</returns>
-   public Voice VoiceForGender(Gender gender, CultureInfo culture, int index = 0, bool isFuzzy = false)
+   public Voice? VoiceForGender(Gender gender, CultureInfo culture, int index = 0, bool isFuzzy = false)
    {
       return VoiceForGender(gender, culture.TwoLetterISOLanguageName, index, "en", isFuzzy);
    }
@@ -429,7 +394,7 @@ public class Speaker : Singleton<Speaker>, IVoiceProvider
    /// <summary>Is a voice available for a given culture from the current TTS-system?</summary>
    /// <param name="culture">Culture of the voice (e.g. "en")</param>
    /// <returns>True if a voice is available for a given culture.</returns>
-   public bool isVoiceForCultureAvailable(string culture)
+   public bool IsVoiceForCultureAvailable(string culture)
    {
       return VoicesForCulture(culture).Count > 0;
    }
@@ -437,9 +402,9 @@ public class Speaker : Singleton<Speaker>, IVoiceProvider
    /// <summary>Is a voice available for a given language from the current TTS-system?</summary>
    /// <param name="culture">Culture of the voice</param>
    /// <returns>True if a voice is available for a given language.</returns>
-   public bool isVoiceForLanguageAvailable(CultureInfo culture)
+   public bool IsVoiceForLanguageAvailable(CultureInfo culture)
    {
-      return isVoiceForCultureAvailable(culture.TwoLetterISOLanguageName);
+      return IsVoiceForCultureAvailable(culture.TwoLetterISOLanguageName);
    }
 
    /// <summary>Get all available voices for a given culture from the current TTS-system.</summary>
@@ -485,9 +450,9 @@ public class Speaker : Singleton<Speaker>, IVoiceProvider
    /// <param name="fallbackCulture">Fallback culture of the voice (default "en", optional)</param>
    /// <param name="isFuzzy">Always returns voices if there is no match with the culture (default: false, optional)</param>
    /// <returns>Voice for the given culture and index.</returns>
-   public Voice VoiceForCulture(string culture, int index = 0, string fallbackCulture = "en", bool isFuzzy = false)
+   public Voice? VoiceForCulture(string culture, int index = 0, string fallbackCulture = "en", bool isFuzzy = false)
    {
-      Voice result = null;
+      Voice? result = null;
 
       if (!string.IsNullOrEmpty(culture))
       {
@@ -531,7 +496,7 @@ public class Speaker : Singleton<Speaker>, IVoiceProvider
    /// <param name="index">Index of the voice (default: 0, optional)</param>
    /// <param name="isFuzzy">Always returns voices if there is no match with the language (default: false, optional)</param>
    /// <returns>Voice for the given language and index.</returns>
-   public Voice VoiceForLanguage(CultureInfo culture, int index = 0, bool isFuzzy = false)
+   public Voice? VoiceForLanguage(CultureInfo culture, int index = 0, bool isFuzzy = false)
    {
       return VoiceForCulture(culture.TwoLetterISOLanguageName, index, "en", isFuzzy);
    }
@@ -540,7 +505,7 @@ public class Speaker : Singleton<Speaker>, IVoiceProvider
    /// <param name="_name">Name of the voice (e.g. "Alex")</param>
    /// <param name="isExact">Exact match for the voice name (default: false, optional)</param>
    /// <returns>True if a voice is available for a given name.</returns>
-   public bool isVoiceForNameAvailable(string _name, bool isExact = false)
+   public bool IsVoiceForNameAvailable(string _name, bool isExact = false)
    {
       return VoiceForName(_name, isExact) != null;
    }
@@ -549,9 +514,9 @@ public class Speaker : Singleton<Speaker>, IVoiceProvider
    /// <param name="_name">Name of the voice (e.g. "Alex")</param>
    /// <param name="isExact">Exact match for the voice name (default: false, optional)</param>
    /// <returns>Voice for the given name or null if not found.</returns>
-   public Voice VoiceForName(string _name, bool isExact = false)
+   public Voice? VoiceForName(string _name, bool isExact = false)
    {
-      Voice result = null;
+      Voice? result = null;
 
       if (string.IsNullOrEmpty(_name))
       {
@@ -604,10 +569,6 @@ public class Speaker : Singleton<Speaker>, IVoiceProvider
       {
          logPlatformNotSupported();
       }
-
-      SpeechCount = 0;
-      BusyCount = 0;
-      realSpeechCount = 0;
    }
 
    public bool Speak(string text, Voice? voice = null, float rate = 1, float pitch = 1, float volume = 1, bool forceSSML = true)
@@ -620,21 +581,9 @@ public class Speaker : Singleton<Speaker>, IVoiceProvider
       _logger.LogDebug($"Speak called: {text} - Voice: {voice} - Rate: {rate} - Pitch: {pitch} - Volume: {volume} - ForceSSML: {forceSSML}");
 
       if (voiceProvider != null)
-      {
-         BusyCount++;
+         return await voiceProvider.SpeakAsync(text, voice, rate, pitch, volume, forceSSML);
 
-         if (SpeechCount <= 1) //TODO is this limit really neccessary?
-         {
-            realSpeechCount++;
-            return await voiceProvider.SpeakAsync(text, voice, rate, pitch, volume, forceSSML);
-         }
-
-         _logger.LogWarning($"Maximum one native speech per time! Please wait for the speech to complete or stop it.");
-      }
-      else
-      {
-         logPlatformNotSupported();
-      }
+      logPlatformNotSupported();
 
       return false;
    }
@@ -659,7 +608,7 @@ public class Speaker : Singleton<Speaker>, IVoiceProvider
       }
       else if (Constants.IsWindows)
       {
-         //voiceProvider = WindowsVP
+         voiceProvider = WindowsVoiceProvider.Instance;
       }
       else if (Constants.IsOSX)
       {

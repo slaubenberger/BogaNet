@@ -17,11 +17,11 @@ namespace BogaNet.TTS.Provider;
 public partial class OSXVoiceProvider : Singleton<OSXVoiceProvider>, IVoiceProvider
 {
    #region Variables
-   
+
    private static readonly ILogger<OSXVoiceProvider> _logger = GlobalLogging.CreateLogger<OSXVoiceProvider>();
 
-   public const string DEFAULT_TTS_MACOS = "say";
-   
+   private const string _applicationName = "say";
+
    private static readonly Regex _sayRegex = sayRegex();
 
    private const int _defaultRate = 175;
@@ -37,13 +37,13 @@ public partial class OSXVoiceProvider : Singleton<OSXVoiceProvider>, IVoiceProvi
 
    public virtual List<Voice> Voices => _cachedVoices ??= GetVoices();
 
-   public virtual string DefaultVoiceName => "Daniel";
+   //public virtual string DefaultVoiceName => "Daniel";
 
    public virtual int MaxTextLength => 256000;
 
-   public virtual bool isPlatformSupported => Constants.IsOSX;
+   public virtual bool IsPlatformSupported => Constants.IsOSX;
 
-   public virtual bool isSSMLSupported => false;
+   public virtual bool IsSSMLSupported => false;
 
    public virtual List<string> Cultures
    {
@@ -70,6 +70,8 @@ public partial class OSXVoiceProvider : Singleton<OSXVoiceProvider>, IVoiceProvi
 
    private OSXVoiceProvider()
    {
+      if (!Constants.IsOSX)
+         _logger.LogError("OSXVoiceProvider works only under OSX!");
    }
 
    #endregion
@@ -101,13 +103,11 @@ public partial class OSXVoiceProvider : Singleton<OSXVoiceProvider>, IVoiceProvi
    {
       ArgumentNullException.ThrowIfNull(text);
 
-      _logger.LogDebug("Starting TTS2: " + text);
-
       string voiceName = getVoiceName(voice);
       int calculatedRate = calculateRate(rate);
 
-      System.Text.StringBuilder sb = new();
-      sb.Append((string.IsNullOrEmpty(voiceName) ? string.Empty : " -v \"" + voiceName.Replace('"', '\'') + '"'));
+      StringBuilder sb = new();
+      sb.Append(string.IsNullOrEmpty(voiceName) ? string.Empty : " -v \"" + voiceName.Replace('"', '\'') + '"');
       sb.Append((calculatedRate != _defaultRate ? " -r " + calculatedRate : string.Empty));
       sb.Append(" \"");
       sb.Append(text.Replace('"', '\''));
@@ -117,7 +117,7 @@ public partial class OSXVoiceProvider : Singleton<OSXVoiceProvider>, IVoiceProvi
 
       _process = new();
 
-      var process = await _process.StartAsync(DEFAULT_TTS_MACOS, args, true, Encoding.UTF8);
+      var process = await _process.StartAsync(_applicationName, args, true, Encoding.UTF8);
 
       if (process.ExitCode == 0 || process.ExitCode == -1 || process.ExitCode == 137) //0 = normal ended, -1/137 = killed
       {
@@ -139,7 +139,7 @@ public partial class OSXVoiceProvider : Singleton<OSXVoiceProvider>, IVoiceProvi
    {
       _process = new();
 
-      var process = await _process.StartAsync(DEFAULT_TTS_MACOS, "-v ?", true, Encoding.UTF8);
+      var process = await _process.StartAsync(_applicationName, "-v ?", true, Encoding.UTF8);
 
       if (process.ExitCode == 0)
       {
@@ -181,17 +181,18 @@ public partial class OSXVoiceProvider : Singleton<OSXVoiceProvider>, IVoiceProvi
       {
          _logger.LogWarning("'Voice' or 'Voice.Name' is null! Using the providers 'default' voice.");
 
-         return DefaultVoiceName;
+         //return DefaultVoiceName;
+         return string.Empty;
       }
 
-      return voice != null ? voice.Name : DefaultVoiceName;
+      return voice.Name;
    }
 
    private static int calculateRate(float rate)
    {
       return Math.Clamp(Math.Abs(rate - 1f) > Constants.FLOAT_TOLERANCE
-               ? (int)(_defaultRate * rate)
-               : _defaultRate, 1, 3 * _defaultRate);
+         ? (int)(_defaultRate * rate)
+         : _defaultRate, 1, 3 * _defaultRate);
    }
 
    [GeneratedRegex(@"^([^#]+?)\s*([^ ]+)\s*# (.*?)$")]

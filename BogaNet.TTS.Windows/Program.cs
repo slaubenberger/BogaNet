@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if WINDOWS
+using System;
 using System.Collections.ObjectModel;
 using System.Speech.Synthesis;
 using System.Text;
@@ -472,3 +473,4 @@ namespace BogaNet.TTS
         #endregion
     }
 }
+#endif

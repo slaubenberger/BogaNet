@@ -92,7 +92,7 @@ public class Voice
 
    #region Overridden methods
 
-   public override bool Equals(object obj)
+   public override bool Equals(object? obj)
    {
       if (obj == null || GetType() != obj.GetType())
          return false;
@@ -112,24 +112,7 @@ public class Voice
 
    public override int GetHashCode()
    {
-      int hash = 0;
-
-      if (Name != null)
-         hash += Name.GetHashCode();
-      if (Culture != null)
-         hash += Culture.GetHashCode();
-      if (Description != null)
-         hash += Description.GetHashCode();
-      hash += (int)Gender * 17;
-      if (Age != null)
-         hash += Age.GetHashCode();
-      if (Identifier != null)
-         hash += Identifier.GetHashCode();
-      if (Vendor != null)
-         hash += Vendor.GetHashCode();
-      hash += SampleRate * 17;
-
-      return hash;
+      return base.GetHashCode();
    }
 
    public override string ToString()

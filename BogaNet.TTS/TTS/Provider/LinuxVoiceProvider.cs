@@ -1,12 +1,10 @@
-﻿#if true
-using System.Linq;
+﻿using System.Linq;
 using BogaNet.TTS.Model;
 using System;
 using BogaNet.Extension;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using BogaNet.Util;
 using BogaNet.TTS.Model.Enum;
 
@@ -31,57 +29,33 @@ namespace BogaNet.TTS.Provider
       private List<Voice>? _cachedVoices;
       private readonly List<string> _cachedCultures = [];
 
-      private string eSpeakApplication = "espeak-ng";
-      //private string eSpeakApplication = "/opt/local/bin/espeak-ng";
-
-      private string eSpeakDataPath = string.Empty;
-      //private string eSpeakDataPath = "/opt/local/bin/";
-
-      private ESpeakModifiers eSpeakModifier = ESpeakModifiers.none;
-      private ESpeakModifiers eSpeakFemaleModifier = ESpeakModifiers.f3;
-
       #endregion
 
 
       #region Properties
 
       /// <summary>eSpeak application name/path.</summary>
-      public string ESpeakApplication
-      {
-         get => eSpeakApplication;
-         set => eSpeakApplication = value;
-      }
+      public string ESpeakApplication { get; set; } = "espeak-ng";
 
       /// <summary>eSpeak application data path.</summary>
-      public string ESpeakDataPath
-      {
-         get => eSpeakDataPath;
-         set => eSpeakDataPath = value;
-      }
+      public string ESpeakDataPath { get; set; } = string.Empty;
 
       /// <summary>Active modifier for all eSpeak voices.</summary>
-      public ESpeakModifiers ESpeakModifier
-      {
-         get => eSpeakModifier;
-         set => eSpeakModifier = value;
-      }
+      public ESpeakModifiers ESpeakModifier { get; set; } = ESpeakModifiers.none;
 
       /// <summary>Female modifier for female eSpeak voices.</summary>
-      public ESpeakModifiers ESpeakFemaleModifier
-      {
-         get => eSpeakFemaleModifier;
-         set => eSpeakFemaleModifier = value;
-      }
+      public ESpeakModifiers ESpeakFemaleModifier { get; set; } = ESpeakModifiers.f3;
 
       public virtual List<Voice> Voices => _cachedVoices ??= GetVoices();
 
+/*
       public virtual string DefaultVoiceName => "en";
-
+*/
       public virtual int MaxTextLength => 32000;
 
-      public virtual bool isPlatformSupported => Constants.IsOSX || Constants.IsLinux || Constants.IsWindows;
+      public virtual bool IsPlatformSupported => Constants.IsOSX || Constants.IsLinux || Constants.IsWindows;
 
-      public virtual bool isSSMLSupported => true;
+      public virtual bool IsSSMLSupported => true;
 
       public virtual List<string> Cultures
       {
@@ -175,7 +149,7 @@ namespace BogaNet.TTS.Provider
       }
 
       #endregion
-      
+
       #region Private methods
 
       private string getVoiceName(Voice? voice)
@@ -184,7 +158,8 @@ namespace BogaNet.TTS.Provider
          {
             _logger.LogWarning("'Voice' or 'Voice.Name' is null! Using the providers 'default' voice.");
 
-            return DefaultVoiceName;
+            //return DefaultVoiceName;
+            return string.Empty;
          }
 
          if (ESpeakModifier == ESpeakModifiers.none)
@@ -192,10 +167,10 @@ namespace BogaNet.TTS.Provider
             if (voice.Gender == Gender.FEMALE)
                return voice.Name + $"+{ESpeakFemaleModifier.ToString()}";
 
-            return voice?.Name;
+            return voice.Name;
          }
 
-         return voice?.Name + "+" + ESpeakModifier;
+         return voice.Name + "+" + ESpeakModifier;
       }
 
       private async Task<List<Voice>?> getVoices()
@@ -204,7 +179,7 @@ namespace BogaNet.TTS.Provider
 
          string args = "--voices" + (string.IsNullOrEmpty(ESpeakDataPath) ? string.Empty : $" --path=\"{ESpeakDataPath}\"");
 
-         var process = await _process.StartAsync(ESpeakApplication, args, true, null, true);
+         var process = await _process.StartAsync(ESpeakApplication, args, true);
 
          if (process.ExitCode == 0)
          {
@@ -218,10 +193,6 @@ namespace BogaNet.TTS.Provider
                {
                   if (!line.BNStartsWith("Pty")) //ignore header
                   {
-                     _logger.LogDebug(line);
-
-                     var split = line.Split("\t");
-
                      Voice voice;
 
                      if (ESpeakApplication.BNContains("espeak-ng"))
@@ -263,69 +234,6 @@ namespace BogaNet.TTS.Provider
          return _cachedVoices;
       }
 
-/*
-         private IEnumerator getVoices()
-         {
-            _cachedVoices.Clear();
-
-            string args = "--voices" + (string.IsNullOrEmpty(Speaker.Instance.ESpeakDataPath) ? string.Empty : " --path=\"" + Speaker.Instance.ESpeakDataPath + '"');
-
-            using (System.Diagnostics.Process process = new System.Diagnostics.Process())
-            {
-               process.StartInfo.FileName = Speaker.Instance.ESpeakApplication;
-               process.StartInfo.Arguments = args;
-               process.OutputDataReceived += process_OutputDataReceived;
-
-               System.Threading.Thread worker = new System.Threading.Thread(() => startProcess(process, Crosstales.RTVoice.Util.Constants.DEFAULT_TTS_KILL_TIME, true));
-               worker.Start();
-
-               do
-               {
-                  yield return null;
-               } while (worker.IsAlive || !process.HasExited);
-
-               if (process.ExitCode == 0)
-               {
-                  //do nothing
-               }
-               else
-               {
-                  using (System.IO.StreamReader sr = process.StandardError)
-                  {
-                     string errorMessage = "Could not get any voices: " + process.ExitCode + System.Environment.NewLine +
-                                           sr.ReadToEnd();
-                     _logger.LogError(errorMessage);
-                  }
-               }
-            }
-
-            cachedVoices = _cachedVoices.OrderBy(s => s.Name).ToList();
-
-            if (Crosstales.RTVoice.Util.Constants.DEV_DEBUG)
-               _logger.Log("Voices read: " + cachedVoices.CTDump());
-         }
-
-      private void process_OutputDataReceived(object sender, System.Diagnostics.DataReceivedEventArgs e)
-      {
-         //Debug.Log(e.Data);
-
-         string reply = e.Data;
-
-         if (!string.IsNullOrEmpty(reply))
-         {
-            if (!reply.CTStartsWith("Pty")) //ignore header
-            {
-               _cachedVoices.Add(Speaker.Instance.ESpeakApplication.CTContains("espeak-ng")
-                  ? new Crosstales.RTVoice.Model.Voice(reply.Substring(30, 19).Trim().Replace("_", " "), reply.Substring(50).Trim(),
-                     Crosstales.RTVoice.Util.Helper.StringToGender(reply.Substring(23, 1)), Crosstales.RTVoice.Util.Constants.VOICE_AGE_UNKNOWN,
-                     reply.Substring(4, 15).Trim(), "", "espeak-ng")
-                  : new Crosstales.RTVoice.Model.Voice(reply.Substring(22, 20).Trim(), reply.Substring(43).Trim(),
-                     Crosstales.RTVoice.Util.Helper.StringToGender(reply.Substring(19, 1)), Crosstales.RTVoice.Util.Constants.VOICE_AGE_UNKNOWN,
-                     reply.Substring(4, 15).Trim(), "", "espeak"));
-            }
-         }
-      }
-*/
       private static int calculateRate(float rate)
       {
          return Math.Clamp(Math.Abs(rate - 1f) > Constants.FLOAT_TOLERANCE
@@ -346,4 +254,3 @@ namespace BogaNet.TTS.Provider
       #endregion
    }
 }
-#endif
