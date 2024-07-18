@@ -11,110 +11,128 @@ namespace BogaNet.CLI;
 /// </summary>
 public static class Program
 {
-    private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(Program));
+   private static readonly ILogger _logger = GlobalLogging.CreateLogger(nameof(Program));
 
-    #region Public methods
+   #region Public methods
 
-    //public static async Task Main(string[] args)
-    public static void Main(string[] args)
-    {
-        GlobalLogging.LoggerFactory = new NLogLoggerFactory();
+   public static async Task Main(string[] args)
+   //public static void Main(string[] args)
+   {
+      GlobalLogging.LoggerFactory = new NLogLoggerFactory();
 
-        _logger.LogDebug("Hi there, this is a test app!");
+      _logger.LogDebug("Hi there, this is a test app!");
 
-        testTTS();
-        //await testTTSAsync();
-        //buildCode();
-        //await testTrueRandom();
-        //testNetwork();
-        //testBitrateHRF();
-        //testBytesHRF();
+      Task task1 = Task1();
+      Task task2 = Task2();
+      Task task3 = testTTS();
 
-        Exit(0);
-    }
+      await Task.WhenAll(task1, task2, task3);
 
-    public static void Exit(int code)
-    {
-        if (code == 0)
-        {
-            _logger.LogDebug($"Application exited with code {code}");
-        }
-        else
-        {
-            _logger.LogWarning($"Application exited with an error code {code}");
-        }
 
-        NLog.LogManager.Shutdown();
-        Environment.Exit(code);
-    }
+      //await testTTSAsync();
+      //buildCode();
+      //await testTrueRandom();
+      //testNetwork();
+      //testBitrateHRF();
+      //testBytesHRF();
 
-    #endregion
+      Exit(0);
+   }
 
-    #region Private methods
+   public static void Exit(int code)
+   {
+      if (code == 0)
+      {
+         _logger.LogDebug($"Application exited with code {code}");
+      }
+      else
+      {
+         _logger.LogWarning($"Application exited with an error code {code}");
+      }
 
-    private static void testTTS()
-    {
-        //var tts = BogaNet.TTS.Provider.OSXVoiceProvider.Instance;
-        var tts = BogaNet.TTS.Speaker.Instance;
-        tts.UseESpeak = true;
+      NLog.LogManager.Shutdown();
+      Environment.Exit(code);
+   }
 
-        if (Constants.IsOSX)
-        {
-            tts.ESpeakApplication = "/opt/local/bin/espeak-ng";
-        }
-        else if (Constants.IsWindows)
-        {
-            tts.ESpeakApplication = @"C:\Program Files\eSpeak NG\espeak-ng.exe";
-        }
+   #endregion
 
-        var voices = tts.GetVoices();
+   #region Private methods
 
-        _logger.LogDebug(voices.BNDump());
+   public static async Task Task1()
+   {
+      await Task.Delay(1000);
+      _logger.LogInformation("Finished Task1");
+   }
 
-        var voice = tts.VoiceForCulture("de");
-        //var voice = tts.VoiceForCulture("hi");
+   public static async Task Task2()
+   {
+      await Task.Delay(2000);
+      _logger.LogInformation("Finished Task2");
+   }
 
-        tts.Speak("Hallo Ramon, wie geht es dir?", voice);
-    }
+   private static async Task testTTS()
+   {
+      //var tts = BogaNet.TTS.Provider.OSXVoiceProvider.Instance;
+      var tts = BogaNet.TTS.Speaker.Instance;
+      tts.UseESpeak = false;
 
-    private static async Task testTTSAsync()
-    {
-        var tts = BogaNet.TTS.Provider.OSXVoiceProvider.Instance;
+      if (Constants.IsOSX)
+      {
+         tts.ESpeakApplication = "/opt/local/bin/espeak-ng";
+      }
+      else if (Constants.IsWindows)
+      {
+         tts.ESpeakApplication = @"C:\Program Files\eSpeak NG\espeak-ng.exe";
+      }
 
-        //tts.Speak("Hello there!", new BogaNet.TTS.Model.Voice("Daniel", null, BogaNet.TTS.Model.Enum.Gender.MALE, "unknown", "en"));
-        await tts.SpeakAsync("Hello there, I'm TTS for c-sharp");
-    }
+      var voices = await tts.GetVoicesAsync();
 
-    private static void buildCode()
-    {
-        var lines = FileHelper.ReadAllLines("~/Desktop/Locales.csv");
+      //_logger.LogDebug(voices.BNDump());
 
-        System.Text.StringBuilder sb = new();
+      var voice = tts.VoiceForCulture("de");
+      //var voice = tts.VoiceForCulture("hi");
 
-        List<string> keys = [];
+      await tts.SpeakAsync("Hallo Ramon, wie geht es dir?", voice);
+   }
 
-        foreach (var line in lines)
-        {
-            var split = line.Split(',');
+   private static async Task testTTSAsync()
+   {
+      var tts = BogaNet.TTS.Provider.OSXVoiceProvider.Instance;
 
-            sb.Append("{ ");
-            sb.Append(split[0]);
-            sb.Append(", ");
-            sb.Append(StringHelper.AddQuotation(split[1]));
-            sb.AppendLine(" },");
+      //tts.Speak("Hello there!", new BogaNet.TTS.Model.Voice("Daniel", null, BogaNet.TTS.Model.Enum.Gender.MALE, "unknown", "en"));
+      await tts.SpeakAsync("Hello there, I'm TTS for c-sharp");
+   }
 
-            if (keys.Contains(split[0]))
-            {
-                Console.Error.WriteLine("Key already used: " + split[0]);
-            }
-            else
-            {
-                keys.Add(split[0]);
-            }
-        }
+   private static void buildCode()
+   {
+      var lines = FileHelper.ReadAllLines("~/Desktop/Locales.csv");
 
-        FileHelper.WriteAllText("~/Desktop/Locales.code", sb.ToString());
-    }
+      System.Text.StringBuilder sb = new();
+
+      List<string> keys = [];
+
+      foreach (var line in lines)
+      {
+         var split = line.Split(',');
+
+         sb.Append("{ ");
+         sb.Append(split[0]);
+         sb.Append(", ");
+         sb.Append(StringHelper.AddQuotation(split[1]));
+         sb.AppendLine(" },");
+
+         if (keys.Contains(split[0]))
+         {
+            Console.Error.WriteLine("Key already used: " + split[0]);
+         }
+         else
+         {
+            keys.Add(split[0]);
+         }
+      }
+
+      FileHelper.WriteAllText("~/Desktop/Locales.code", sb.ToString());
+   }
 
 /*
    private static async Task testTrueRandom()
@@ -144,16 +162,16 @@ public static class Program
       _logger.LogInformation($"Quota end: {quota} - {quotaStart - quota}");
    }
 */
-    private static void testNetwork()
-    {
-        _logger.LogInformation("CPD: " + BogaNet.Helper.NetworkHelper.CheckInternetAvailability());
+   private static void testNetwork()
+   {
+      _logger.LogInformation("CPD: " + BogaNet.Helper.NetworkHelper.CheckInternetAvailability());
 
-        _logger.LogInformation("Ping: " + BogaNet.Helper.NetworkHelper.Ping("crosstales.com"));
+      _logger.LogInformation("Ping: " + BogaNet.Helper.NetworkHelper.Ping("crosstales.com"));
 
-        _logger.LogInformation("Public IP: " + BogaNet.Helper.NetworkHelper.GetPublicIP());
+      _logger.LogInformation("Public IP: " + BogaNet.Helper.NetworkHelper.GetPublicIP());
 
-        _logger.LogInformation("Network adapters: " + BogaNet.Helper.NetworkHelper.GetNetworkAdapters().BNDump(false));
-    }
+      _logger.LogInformation("Network adapters: " + BogaNet.Helper.NetworkHelper.GetNetworkAdapters().BNDump(false));
+   }
 
 /*
    private static void testBitrateHRF()
@@ -194,5 +212,5 @@ public static class Program
    }
 */
 
-    #endregion
+   #endregion
 }
