@@ -20,18 +20,15 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Content Include="content/**/*.*" Pack="true" PackagePath="contentFiles">
+        <Content Include="contentFiles/**/*.*" Condition="$([MSBuild]::IsOSPlatform('Windows'))" Pack="true" PackagePath="contentFiles">
             <PackageCopyToOutput>true</PackageCopyToOutput>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
     </ItemGroup>
     
     <ItemGroup>
         <None Include="../Resources/logos/logo_boga_tts.jpg" Pack="true" PackagePath="\"/>
-        <None Include="./content/BogaNetTTSWrapper.exe" Pack="true" PackagePath="\content\"/>
         <None Include="README.md" Pack="true" PackagePath="\"/>
-        <None Update="content\BogaNetTTSWrapper.exe">
-          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
     </ItemGroup>
 
     <!--    <ItemGroup>-->

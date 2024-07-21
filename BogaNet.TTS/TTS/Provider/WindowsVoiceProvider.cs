@@ -18,7 +18,7 @@ public class WindowsVoiceProvider : Singleton<WindowsVoiceProvider>, IVoiceProvi
 
    private static readonly ILogger<WindowsVoiceProvider> _logger = GlobalLogging.CreateLogger<WindowsVoiceProvider>();
 
-   private const string _applicationName = "./content/BogaNetTTSWrapper.exe";
+   private const string _applicationName = "./contentFiles/BogaNetTTSWrapper.exe";
 
    private const string idVoice = "@VOICE:";
 
