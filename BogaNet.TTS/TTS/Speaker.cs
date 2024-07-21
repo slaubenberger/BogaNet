@@ -43,6 +43,7 @@ public class Speaker : Singleton<Speaker>, IVoiceProvider
          initProvider();
       }
    }
+
 /*
    /// <summary>Automatically clear tags from speeches depending on the capabilities of the current TTS-system.</summary>
    public bool AutoClearTags { get; set; }
@@ -502,7 +503,7 @@ public class Speaker : Singleton<Speaker>, IVoiceProvider
    #endregion
 
    #endregion
-   
+
    #region Private methods
 
    private static void logPlatformNotSupported()

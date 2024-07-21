@@ -35,7 +35,7 @@ public interface IVoiceProvider
    List<string> Cultures { get; }
 
    #endregion
-   
+
    #region Methods
 
    /// <summary>Get all available voices from the current TTS-provider as a list.</summary>

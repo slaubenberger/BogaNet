@@ -232,7 +232,7 @@ It is recommended to use "TrueRandom" only to set seeds in the PRNG and refresh 
 
 ## BogaNet.TTS
 Use the built-in Text-To-Speech (TTS) engine under Windows, OSX and Linux.
-It provides all installed voices and support [SSML](https://www.w3.org/TR/speech-synthesis/).
+It provides all installed voices and support for [SSML](https://www.w3.org/TR/speech-synthesis/).
 
 ### Note
 The LinuxVoiceProvider uses eSpeak/eSpeak-NG as engine, which is also available for Windows and OSX.
@@ -246,7 +246,7 @@ BogaNet.TTS uses the SAPI-voices, visible by running the following command: %win
 * [Voice](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_t_t_s_1_1_model_1_1_voice.html): Model for a voice.
 
 ```csharp
-Speaker.Instance.Speak("Hello dear user, how are you?"); //Talk with the system default voice
+Speaker.Instance.Speak("Hello dear user, how are you?"); //talk with the system default voice
 
 var voice = Speaker.Instance.VoiceForCulture("de"); //talk in German
 Speaker.Instance.SpeakAsync("Hallo lieber Benutzer, wie geht es dir?", voice);
