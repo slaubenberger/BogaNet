@@ -20,9 +20,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Content Include="contentFiles/**/*.*" Condition="$([MSBuild]::IsOSPlatform('Windows'))" Pack="true" PackagePath="contentFiles">
+        <Content Include="contentFiles/BogaNetTTSWrapper.exe">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
             <PackageCopyToOutput>true</PackageCopyToOutput>
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
     </ItemGroup>
     
