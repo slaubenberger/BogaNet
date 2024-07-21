@@ -1702,7 +1702,7 @@ public abstract class FileHelper
 
       try
       {
-         if (ExistsFile(file))
+         if (file != null && ExistsFile(file))
          {
             using (Process process = new())
             {

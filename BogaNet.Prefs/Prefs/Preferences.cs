@@ -39,24 +39,24 @@ public class Preferences : Singleton<Preferences>, IPreferences //NUnit //TODO a
 
    #region Public methods
 
-   public virtual void Load(string filepath = "")
+   public virtual bool Load(string filepath = "")
    {
-      _container.Load(filepath);
+      return _container.Load(filepath);
    }
 
-   public virtual void Save(string filepath = "")
+   public virtual bool Save(string filepath = "")
    {
-      _container.Save(filepath);
+      return _container.Save(filepath);
    }
 
-   public virtual void Delete(string filepath = "")
+   public virtual bool Delete(string filepath = "")
    {
-      _container.Delete(filepath);
+      return _container.Delete(filepath);
    }
 
-   public virtual void Remove(string key)
+   public virtual bool Remove(string key)
    {
-      _container.Remove(key);
+      return _container.Remove(key);
    }
 
    public virtual bool ContainsKey(string key)

@@ -32,7 +32,7 @@ public class PreferencesContainer : IPreferencesContainer //NUnit
 
    #region Public methods
 
-   public virtual void Load(string filepath = "")
+   public virtual bool Load(string filepath = "")
    {
       if (!string.IsNullOrEmpty(filepath))
          _file = filepath;
@@ -42,18 +42,22 @@ public class PreferencesContainer : IPreferencesContainer //NUnit
          Dictionary<string, object> prefs = JsonHelper.DeserializeFromFile<Dictionary<string, object>>(_file);
 
          _preferences = prefs;
+
+         return true;
       }
+
+      return false;
    }
 
-   public virtual void Save(string filepath = "")
+   public virtual bool Save(string filepath = "")
    {
       if (!string.IsNullOrEmpty(filepath))
          _file = filepath;
 
-      JsonHelper.SerializeToFile(_preferences, _file);
+      return JsonHelper.SerializeToFile(_preferences, _file);
    }
 
-   public virtual void Delete(string filepath = "")
+   public virtual bool Delete(string filepath = "")
    {
       if (!string.IsNullOrEmpty(filepath))
          _file = filepath;
@@ -61,13 +65,14 @@ public class PreferencesContainer : IPreferencesContainer //NUnit
       _preferences.Clear();
 
       if (FileHelper.Exists(_file))
-         FileHelper.Delete(_file);
+         return FileHelper.Delete(_file);
+
+      return true;
    }
 
-   public virtual void Remove(string key)
+   public virtual bool Remove(string key)
    {
-      if (ContainsKey(key))
-         _preferences.Remove(key);
+      return ContainsKey(key) && _preferences.Remove(key);
    }
 
    public virtual bool ContainsKey(string key)

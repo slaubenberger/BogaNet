@@ -3,31 +3,30 @@
 namespace BogaNet.TTS.Model;
 
 /// <summary>Model for a voice.</summary>
-[System.Serializable]
 public class Voice
 {
    #region Variables
 
    /// <summary>Name of the voice.</summary>
-   public string Name;
+   public string Name = string.Empty;
 
    /// <summary>Culture of the voice.</summary>
-   private string culture;
+   private string culture = string.Empty;
 
    /// <summary>Description of the voice.</summary>
-   public string Description;
+   public string Description = string.Empty;
 
    /// <summary>Gender of the voice.</summary>
-   public Gender Gender;
+   public Gender Gender = Gender.UNKNOWN;
 
    /// <summary>Age of the voice.</summary>
-   public string Age;
+   public string Age = "unknown";
 
    /// <summary>Identifier of the voice.</summary>
    public string Identifier = string.Empty;
 
    /// <summary>Vendor of the voice.</summary>
-   public string Vendor = string.Empty;
+   public string Vendor = "unknown";
 
    /// <summary>Sample rate in Hz of the voice.</summary>
    public int SampleRate;

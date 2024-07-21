@@ -92,8 +92,9 @@ public interface ILocalizer
    /// Checks if a given key exists in the localizer.
    /// </summary>
    /// <param name="key">Key to check</param>
+   /// <param name="culture">Culture of the key (optional, default: any)</param>
    /// <returns>True if the key exists in the localizer</returns>
-   public bool ContainsKey(string key);
+   public bool ContainsKey(string key, CultureInfo? culture = null);
 
    /// <summary>
    /// Adds a translated text.
@@ -104,10 +105,12 @@ public interface ILocalizer
    void Add(string key, CultureInfo culture, string value);
 
    /// <summary>
-   /// Removes a key and all assigned translated texts.
+   /// Removes a key and assigned translated texts.
    /// </summary>
    /// <param name="key">Key to remove</param>
-   void Remove(string key);
+   /// <param name="culture">Culture of the key (optional, default: all)</param>
+   ///<returns>True if the operation was successful</returns>
+   bool Remove(string key, CultureInfo? culture = null);
 
    /// <summary>
    /// Clears all translations.
@@ -118,41 +121,47 @@ public interface ILocalizer
    /// Load translation files (CSV) from a given path.
    /// </summary>
    /// <param name="files">Files to load</param>
+   ///<returns>True if the operation was successful</returns>
    /// <exception cref="Exception"></exception>
-   void LoadFiles(params string[] files);
+   bool LoadFiles(params string[] files);
 
    /// <summary>
    /// Load translation files (CSV) from a given path asynchronously.
    /// </summary>
    /// <param name="files">Files to load</param>
+   ///<returns>True if the operation was successful</returns>
    /// <exception cref="Exception"></exception>
-   Task LoadFilesAsync(params string[] files);
+   Task<bool> LoadFilesAsync(params string[] files);
 
    /// <summary>
    /// Load translation files (CSV) from given URLs.
    /// </summary>
    /// <param name="urls">URLs of files to load</param>
+   ///<returns>True if the operation was successful</returns>
    /// <exception cref="Exception"></exception>
-   void LoadFilesFromUrl(params string[] urls);
+   bool LoadFilesFromUrl(params string[] urls);
 
    /// <summary>
    /// Load translation files (CSV) from given URLs asynchronously.
    /// </summary>
    /// <param name="urls">URLs of files to load</param>
+   ///<returns>True if the operation was successful</returns>
    /// <exception cref="Exception"></exception>
-   Task LoadFilesFromUrlAsync(params string[] urls);
+   Task<bool> LoadFilesFromUrlAsync(params string[] urls);
 
    /// <summary>
    /// Saves all translations to a given file (CSV).
    /// </summary>
    /// <param name="filename">File for the translations</param>
+   ///<returns>True if the operation was successful</returns>
    /// <exception cref="Exception"></exception>
-   void SaveFile(string filename);
+   bool SaveFile(string filename);
 
    /// <summary>
    /// Saves all translations to a given file (CSV) asynchronously.
    /// </summary>
    /// <param name="filename">File for the translations</param>
+   ///<returns>True if the operation was successful</returns>
    /// <exception cref="Exception"></exception>
-   Task SaveFileAsync(string filename);
+   Task<bool> SaveFileAsync(string filename);
 }

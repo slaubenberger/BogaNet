@@ -58,7 +58,7 @@ public class Speaker : Singleton<Speaker>, IVoiceProvider
    public int MaxTextLength => voiceProvider?.MaxTextLength ?? 3999; //minimum (Android)
    public bool IsPlatformSupported => voiceProvider?.IsPlatformSupported == true;
    public bool IsSSMLSupported => voiceProvider != null && voiceProvider.IsSSMLSupported;
-   public List<string> Cultures => voiceProvider != null ? voiceProvider.Cultures : new List<string>();
+   public List<string> Cultures => voiceProvider != null ? voiceProvider.Cultures : [];
 
    /// <summary>eSpeak application name/path.</summary>
    public string ESpeakApplication
@@ -124,152 +124,63 @@ public class Speaker : Singleton<Speaker>, IVoiceProvider
       {
          if (Math.Abs(rate - 1f) > BogaNet.Constants.FLOAT_TOLERANCE)
          {
-            //relevant?
             if (rate > 1f)
             {
                //larger than 1
-               if (rate >= 2.75f)
+               rate = rate switch
                {
-                  rate = 2.78f;
-               }
-               else if (rate is >= 2.6f and < 2.75f)
-               {
-                  rate = 2.6f;
-               }
-               else if (rate is >= 2.35f and < 2.6f)
-               {
-                  rate = 2.39f;
-               }
-               else if (rate is >= 2.2f and < 2.35f)
-               {
-                  rate = 2.2f;
-               }
-               else if (rate is >= 2f and < 2.2f)
-               {
-                  rate = 2f;
-               }
-               else if (rate is >= 1.8f and < 2f)
-               {
-                  rate = 1.8f;
-               }
-               else if (rate is >= 1.6f and < 1.8f)
-               {
-                  rate = 1.6f;
-               }
-               else if (rate is >= 1.4f and < 1.6f)
-               {
-                  rate = 1.45f;
-               }
-               else if (rate is >= 1.2f and < 1.4f)
-               {
-                  rate = 1.28f;
-               }
-               else if (rate is > 1f and < 1.2f)
-               {
-                  rate = 1.14f;
-               }
+                  >= 2.75f => 2.78f,
+                  >= 2.6f and < 2.75f => 2.6f,
+                  >= 2.35f and < 2.6f => 2.39f,
+                  >= 2.2f and < 2.35f => 2.2f,
+                  >= 2f and < 2.2f => 2f,
+                  >= 1.8f and < 2f => 1.8f,
+                  >= 1.6f and < 1.8f => 1.6f,
+                  >= 1.4f and < 1.6f => 1.45f,
+                  >= 1.2f and < 1.4f => 1.28f,
+                  > 1f and < 1.2f => 1.14f,
+                  _ => rate
+               };
             }
             else
             {
                //smaller than 1
-               if (rate <= 0.3f)
+               rate = rate switch
                {
-                  rate = 0.33f;
-               }
-               else if (rate is > 0.3f and <= 0.4f)
-               {
-                  rate = 0.375f;
-               }
-               else if (rate is > 0.4f and <= 0.45f)
-               {
-                  rate = 0.42f;
-               }
-               else if (rate is > 0.45f and <= 0.5f)
-               {
-                  rate = 0.47f;
-               }
-               else if (rate is > 0.5f and <= 0.55f)
-               {
-                  rate = 0.525f;
-               }
-               else if (rate is > 0.55f and <= 0.6f)
-               {
-                  rate = 0.585f;
-               }
-               else if (rate is > 0.6f and <= 0.7f)
-               {
-                  rate = 0.655f;
-               }
-               else if (rate is > 0.7f and <= 0.8f)
-               {
-                  rate = 0.732f;
-               }
-               else if (rate is > 0.8f and <= 0.9f)
-               {
-                  rate = 0.82f;
-               }
-               else if (rate is > 0.9f and < 1f)
-               {
-                  rate = 0.92f;
-               }
+                  <= 0.3f => 0.33f,
+                  > 0.3f and <= 0.4f => 0.375f,
+                  > 0.4f and <= 0.45f => 0.42f,
+                  > 0.45f and <= 0.5f => 0.47f,
+                  > 0.5f and <= 0.55f => 0.525f,
+                  > 0.55f and <= 0.6f => 0.585f,
+                  > 0.6f and <= 0.7f => 0.655f,
+                  > 0.7f and <= 0.8f => 0.732f,
+                  > 0.8f and <= 0.9f => 0.82f,
+                  > 0.9f and < 1f => 0.92f,
+                  _ => rate
+               };
             }
          }
       }
 
       float speechLength = words / (wordsPerMinute / 60 * rate);
 
-      if (ratio < 2)
+      speechLength *= ratio switch
       {
-         speechLength *= 1f;
-      }
-      else if (ratio is >= 2f and < 3f)
-      {
-         speechLength *= 1.05f;
-      }
-      else if (ratio is >= 3f and < 3.5f)
-      {
-         speechLength *= 1.15f;
-      }
-      else if (ratio is >= 3.5f and < 4f)
-      {
-         speechLength *= 1.2f;
-      }
-      else if (ratio is >= 4f and < 4.5f)
-      {
-         speechLength *= 1.25f;
-      }
-      else if (ratio is >= 4.5f and < 5f)
-      {
-         speechLength *= 1.3f;
-      }
-      else if (ratio is >= 5f and < 5.5f)
-      {
-         speechLength *= 1.4f;
-      }
-      else if (ratio is >= 5.5f and < 6f)
-      {
-         speechLength *= 1.45f;
-      }
-      else if (ratio is >= 6f and < 6.5f)
-      {
-         speechLength *= 1.5f;
-      }
-      else if (ratio is >= 6.5f and < 7f)
-      {
-         speechLength *= 1.6f;
-      }
-      else if (ratio is >= 7f and < 8f)
-      {
-         speechLength *= 1.7f;
-      }
-      else if (ratio is >= 8f and < 9f)
-      {
-         speechLength *= 1.8f;
-      }
-      else
-      {
-         speechLength *= ratio * (ratio / 100f + 0.02f) + 1f;
-      }
+         < 2 => 1f,
+         >= 2f and < 3f => 1.05f,
+         >= 3f and < 3.5f => 1.15f,
+         >= 3.5f and < 4f => 1.2f,
+         >= 4f and < 4.5f => 1.25f,
+         >= 4.5f and < 5f => 1.3f,
+         >= 5f and < 5.5f => 1.4f,
+         >= 5.5f and < 6f => 1.45f,
+         >= 6f and < 6.5f => 1.5f,
+         >= 6.5f and < 7f => 1.6f,
+         >= 7f and < 8f => 1.7f,
+         >= 8f and < 9f => 1.8f,
+         _ => ratio * (ratio / 100f + 0.02f) + 1f
+      };
 
       if (speechLength < 0.8f)
          speechLength += 0.6f;
@@ -302,7 +213,7 @@ public class Speaker : Singleton<Speaker>, IVoiceProvider
    /// <returns>All available voices (alphabetically ordered by 'Name') for a given gender and culture as a list.</returns>
    public List<Voice> VoicesForGender(Gender gender, string culture = "", bool isFuzzy = false)
    {
-      List<Voice> voices = new List<Voice>(Voices.Count);
+      List<Voice> voices = new(Voices.Count);
 
       if (string.IsNullOrEmpty(culture))
       {
@@ -547,7 +458,7 @@ public class Speaker : Singleton<Speaker>, IVoiceProvider
 
    public async Task<List<Voice>> GetVoicesAsync()
    {
-      _logger.LogDebug($"GetVoices called");
+      _logger.LogDebug("GetVoices called");
 
       if (voiceProvider != null)
          return await voiceProvider.GetVoicesAsync();
@@ -595,7 +506,7 @@ public class Speaker : Singleton<Speaker>, IVoiceProvider
 
    #region Private methods
 
-   private void logPlatformNotSupported()
+   private static void logPlatformNotSupported()
    {
       _logger.LogWarning("The current platform is not supported!");
    }

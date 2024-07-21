@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using BogaNet.Util;
 using System.Text;
+using System.Diagnostics;
 
 namespace BogaNet.TTS.Provider;
 
@@ -90,8 +91,7 @@ public partial class OSXVoiceProvider : Singleton<OSXVoiceProvider>, IVoiceProvi
 
    public virtual void Silence()
    {
-      if (_process != null)
-         _process.Stop();
+      _process?.Stop();
    }
 
    public virtual bool Speak(string text, Voice? voice = null, float rate = 1f, float pitch = 1f, float volume = 1f, bool forceSSML = true)
@@ -108,7 +108,7 @@ public partial class OSXVoiceProvider : Singleton<OSXVoiceProvider>, IVoiceProvi
 
       StringBuilder sb = new();
       sb.Append(string.IsNullOrEmpty(voiceName) ? string.Empty : " -v \"" + voiceName.Replace('"', '\'') + '"');
-      sb.Append((calculatedRate != _defaultRate ? " -r " + calculatedRate : string.Empty));
+      sb.Append(calculatedRate != _defaultRate ? " -r " + calculatedRate : string.Empty);
       sb.Append(" \"");
       sb.Append(text.Replace('"', '\''));
       sb.Append('"');
@@ -117,9 +117,9 @@ public partial class OSXVoiceProvider : Singleton<OSXVoiceProvider>, IVoiceProvi
 
       _process = new();
 
-      var process = await _process.StartAsync(_applicationName, args, true, Encoding.UTF8);
+      Process process = await _process.StartAsync(_applicationName, args, true, Encoding.UTF8);
 
-      if (process.ExitCode == 0 || process.ExitCode == -1 || process.ExitCode == 137) //0 = normal ended, -1/137 = killed
+      if (process.ExitCode is 0 or -1 or 137) //0 = normal ended, -1/137 = killed
       {
          _logger.LogDebug($"Text spoken: {text}");
          return true;
@@ -139,13 +139,13 @@ public partial class OSXVoiceProvider : Singleton<OSXVoiceProvider>, IVoiceProvi
    {
       _process = new();
 
-      var process = await _process.StartAsync(_applicationName, "-v ?", true, Encoding.UTF8);
+      Process process = await _process.StartAsync(_applicationName, "-v ?", true, Encoding.UTF8);
 
       if (process.ExitCode == 0)
       {
          List<Voice> voices = new(200);
 
-         var lines = _process.Output.ToList();
+         List<string> lines = _process.Output.ToList();
 
          foreach (var line in lines)
          {
@@ -175,7 +175,7 @@ public partial class OSXVoiceProvider : Singleton<OSXVoiceProvider>, IVoiceProvi
       return _cachedVoices;
    }
 
-   private string getVoiceName(Voice? voice)
+   private static string getVoiceName(Voice? voice)
    {
       if (voice == null || string.IsNullOrEmpty(voice.Name))
       {

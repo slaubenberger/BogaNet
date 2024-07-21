@@ -9,7 +9,6 @@ namespace BogaNet;
 /// <summary>
 /// Serializable Dictionary-class for XML.
 /// </summary>
-[System.Serializable]
 public class DictionaryXML<TKey, TVal> : Dictionary<TKey, TVal>, IXmlSerializable, ISerializable where TKey : notnull
 {
    #region Variables

@@ -17,25 +17,28 @@ public interface IPreferences
    /// Load the preference file.
    /// </summary>
    /// <param name="filepath">Preference file to load</param>
-   void Load(string filepath = "");
+   ///<returns>True if the operation was successful</returns>
+   bool Load(string filepath = "");
 
    /// <summary>
    /// Save the preference file.
    /// </summary>
    /// <param name="filepath">Preference file to save</param>
-   void Save(string filepath = "");
+   ///<returns>True if the operation was successful</returns>
+   bool Save(string filepath = "");
 
    /// <summary>
    /// Delete all preferences, including the file.
    /// </summary>
    /// <param name="filepath">Preference file to delete</param>
-   void Delete(string filepath = "");
+   ///<returns>True if the operation was successful</returns>
+   bool Delete(string filepath = "");
 
    /// <summary>
    /// Removes a key/value from the preferences.
    /// </summary>
    /// <param name="key">Key (and value) to delete</param>
-   void Remove(string key);
+   bool Remove(string key);
 
    /// <summary>
    /// Checks if a given key exists in the preferences.

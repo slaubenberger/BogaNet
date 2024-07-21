@@ -123,11 +123,13 @@ public class Localizer : Singleton<Localizer>, ILocalizer //NUnit
       return text;
    }
 
-   public bool ContainsKey(string key)
+   public bool ContainsKey(string key, CultureInfo? culture = null)
    {
       ArgumentNullException.ThrowIfNullOrEmpty(key);
 
-      return _messages.ContainsKey(key);
+      bool contains = _messages.ContainsKey(key);
+
+      return culture == null ? contains : contains && _messages[key].ContainsKey(culture.ToString());
    }
 
    public virtual void Add(string key, CultureInfo culture, string value)
@@ -156,17 +158,39 @@ public class Localizer : Singleton<Localizer>, ILocalizer //NUnit
       hasChanged();
    }
 
-   public virtual void Remove(string key)
+   public virtual bool Remove(string key, CultureInfo? culture = null)
    {
       if (ContainsKey(key))
       {
-         _messages.Remove(key);
+         if (culture == null)
+         {
+            _messages.Remove(key);
 
-         if (!RemovedTranslations.Contains(key))
-            RemovedTranslations.Add(key);
+            if (!RemovedTranslations.Contains(key))
+               RemovedTranslations.Add(key);
 
-         hasChanged();
+            hasChanged();
+
+            return true;
+         }
+
+
+         if (_messages[key].ContainsKey(culture.ToString()))
+         {
+            _messages[key].Remove(culture.ToString());
+
+            string id = $"{key},{culture}";
+
+            if (!RemovedTranslations.Contains(id))
+               RemovedTranslations.Add(id);
+
+            hasChanged();
+
+            return true;
+         }
       }
+
+      return false;
    }
 
    public virtual void Clear()
@@ -262,12 +286,12 @@ public class Localizer : Singleton<Localizer>, ILocalizer //NUnit
       hasChanged();
    }
 
-   public virtual void LoadFiles(params string[] files)
+   public virtual bool LoadFiles(params string[] files)
    {
-      Task.Run(() => LoadFilesAsync(files)).GetAwaiter().GetResult();
+      return Task.Run(() => LoadFilesAsync(files)).GetAwaiter().GetResult();
    }
 
-   public virtual async Task LoadFilesAsync(params string[] files)
+   public virtual async Task<bool> LoadFilesAsync(params string[] files)
    {
       ArgumentNullException.ThrowIfNull(files);
 
@@ -281,15 +305,18 @@ public class Localizer : Singleton<Localizer>, ILocalizer //NUnit
             allLines.Add(currentTranslation, lines);
       }
 
-      Load(allLines);
+      if (allLines.Count > 0)
+         Load(allLines);
+
+      return allLines.Count > 0;
    }
 
-   public void LoadFilesFromUrl(params string[] urls)
+   public bool LoadFilesFromUrl(params string[] urls)
    {
-      Task.Run(() => LoadFilesFromUrlAsync(urls)).GetAwaiter().GetResult();
+      return Task.Run(() => LoadFilesFromUrlAsync(urls)).GetAwaiter().GetResult();
    }
 
-   public async Task LoadFilesFromUrlAsync(params string[] urls)
+   public async Task<bool> LoadFilesFromUrlAsync(params string[] urls)
    {
       ArgumentNullException.ThrowIfNull(urls);
 
@@ -303,20 +330,23 @@ public class Localizer : Singleton<Localizer>, ILocalizer //NUnit
             allLines.Add(currentTranslation, lines);
       }
 
-      Load(allLines);
+      if (allLines.Count > 0)
+         Load(allLines);
+
+      return allLines.Count > 0;
    }
 
-   public virtual void SaveFile(string filename)
+   public virtual bool SaveFile(string filename)
    {
-      Task.Run(() => SaveFileAsync(filename)).GetAwaiter().GetResult();
+      return Task.Run(() => SaveFileAsync(filename)).GetAwaiter().GetResult();
    }
 
-   public virtual async Task SaveFileAsync(string filename)
+   public virtual async Task<bool> SaveFileAsync(string filename)
    {
       ArgumentNullException.ThrowIfNullOrEmpty(filename);
 
       string content = getEntries();
-      await FileHelper.WriteAllTextAsync(filename, content);
+      return await FileHelper.WriteAllTextAsync(filename, content);
    }
 
    #endregion

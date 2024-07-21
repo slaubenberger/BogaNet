@@ -10,7 +10,7 @@
         <Description>Use the built-in Text-To-Speech (TTS) engine under Windows, OSX and Linux.</Description>
         <RepositoryUrl>https://github.com/slaubenberger/BogaNet</RepositoryUrl>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageTags>TTS Text-To-Speech Windows OSX Mac Linux</PackageTags>
+        <PackageTags>TTS Text-To-Speech Windows OSX Mac Linux ADA</PackageTags>
         <PackageReleaseNotes>Initial release.</PackageReleaseNotes>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <!-- <PackageIconUrl>https://www.crosstales.com/media/data/BogaNet/logo_boga.png</PackageIconUrl> -->
@@ -21,7 +21,11 @@
 
     <ItemGroup>
         <None Include="../Resources/logos/logo_boga_tts.jpg" Pack="true" PackagePath="\"/>
+        <None Include="./Resources/BogaNetTTSWrapper.exe" Pack="true" PackagePath="\Resources\"/>
         <None Include="README.md" Pack="true" PackagePath="\"/>
+        <None Update="Resources\BogaNetTTSWrapper.exe">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
     <!--    <ItemGroup>-->
