@@ -203,7 +203,7 @@ public class WindowsVoiceProvider : Singleton<WindowsVoiceProvider>, IVoiceProvi
         //TEST
         //wrapper.ForceSSML = false;
 
-        if (forceSSML && !Speaker.Instance.AutoClearTags)
+        if (forceSSML)
         {
             StringBuilder sbXML = new();
 

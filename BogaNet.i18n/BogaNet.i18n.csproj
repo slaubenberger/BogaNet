@@ -3,7 +3,7 @@
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
-        <Version>1.2.1</Version>
+        <Version>1.2.2</Version>
         <Company>crosstales LLC</Company>
         <Copyright>© 2024 Stefan Laubenberger</Copyright>
         <Authors>Stefan Laubenberger</Authors>
@@ -11,7 +11,7 @@
         <RepositoryUrl>https://github.com/slaubenberger/BogaNet</RepositoryUrl>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageTags>Localizer i18n Translate Language Accessibility</PackageTags>
-        <PackageReleaseNotes>Support for URLs added.</PackageReleaseNotes>
+        <PackageReleaseNotes>Methods improved.</PackageReleaseNotes>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <!-- <PackageIconUrl>https://www.crosstales.com/media/data/BogaNet/logo_boga.png</PackageIconUrl> -->
         <PackageIcon>logo_boga_i18n.jpg</PackageIcon>
@@ -25,7 +25,7 @@
     </ItemGroup>
     
 <!--    <ItemGroup>-->
-<!--        <PackageReference Include="BogaNet.Common" Version="1.2.1" />-->
+<!--        <PackageReference Include="BogaNet.Common" Version="1.2.2" />-->
 <!--    </ItemGroup>-->
 
     <ItemGroup>

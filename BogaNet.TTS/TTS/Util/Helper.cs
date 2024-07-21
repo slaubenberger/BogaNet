@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using BogaNet.Extension;
 using BogaNet.TTS.Model.Enum;
+using BogaNet.Helper;
 
 namespace BogaNet.TTS.Util;
 
@@ -136,28 +137,28 @@ public abstract class Helper
 
       return Gender.UNKNOWN;
    }
-/*
-      /// <summary>Cleans a given text to contain only letters or digits.</summary>
-      /// <param name="text">Text to clean.</param>
-      /// <param name="removeTags">Removes tags from text (default: true, optional).</param>
-      /// <param name="clearSpaces">Clears multiple spaces from text (default: true, optional).</param>
-      /// <param name="clearLineEndings">Clears line endings from text (default: true, optional).</param>
-      /// <returns>Clean text with only letters and digits.</returns>
-      public static string CleanText(string text, bool removeTags = true, bool clearSpaces = true, bool clearLineEndings = true)
-      {
-         string result = text;
 
-         if (removeTags)
-            result = StringHelper.RemoveTags(result);
+   /// <summary>Cleans a given text to contain only letters or digits.</summary>
+   /// <param name="text">Text to clean.</param>
+   /// <param name="removeTags">Removes tags from text (default: true, optional).</param>
+   /// <param name="clearSpaces">Clears multiple spaces from text (default: true, optional).</param>
+   /// <param name="clearLineEndings">Clears line endings from text (default: true, optional).</param>
+   /// <returns>Clean text with only letters and digits.</returns>
+   public static string CleanText(string text, bool removeTags = true, bool clearSpaces = true, bool clearLineEndings = true)
+   {
+      string result = text;
 
-         if (clearSpaces)
-            result = StringHelper.RemoveSpaces(result);
+      if (removeTags)
+         result = StringHelper.RemoveTags(result);
 
-         if (clearLineEndings)
-            result = StringHelper.RemoveLineEndings(result);
+      if (clearSpaces)
+         result = StringHelper.RemoveSpaces(result);
 
-         return result;
-      }
-*/
+      if (clearLineEndings)
+         result = StringHelper.RemoveLineEndings(result);
+
+      return result;
+   }
+
    #endregion
 }

@@ -13,7 +13,7 @@ using BogaNet.Extension;
 
 namespace BogaNet.TTS;
 
-/// <summary>Main component of RT-Voice.</summary>
+/// <summary>Main component for TTS-operations.</summary>
 public class Speaker : Singleton<Speaker>, IVoiceProvider
 {
    #region Variables
@@ -43,10 +43,10 @@ public class Speaker : Singleton<Speaker>, IVoiceProvider
          initProvider();
       }
    }
-
+/*
    /// <summary>Automatically clear tags from speeches depending on the capabilities of the current TTS-system.</summary>
    public bool AutoClearTags { get; set; }
-
+*/
    /// <summary>Checks if TTS is available on this system.</summary>
    /// <returns>True if TTS is available on this system.</returns>
    public bool IsTTSAvailable => voiceProvider != null && voiceProvider.Voices.Count > 0;
