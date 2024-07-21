@@ -1,5 +1,4 @@
 # TODO
-* Test for WindowsLocalesMap
 * RSA for file
 * add even more and detailed NUnit tests
 * make ObjectObf and ObjectSec more useful, but how exactly?
@@ -14,4 +13,3 @@
 # Features
 * BWF
 * FB
-* TTS standalone
