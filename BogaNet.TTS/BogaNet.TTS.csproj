@@ -18,13 +18,6 @@
         <PackageProjectUrl>https://www.crosstales.com/media/data/BogaNet/api/</PackageProjectUrl>
         <LangVersion>12</LangVersion>
     </PropertyGroup>
-
-    <ItemGroup>
-        <Content Include="contentFiles/BogaNetTTSWrapper.exe">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-            <PackageCopyToOutput>true</PackageCopyToOutput>
-        </Content>
-    </ItemGroup>
     
     <ItemGroup>
         <None Include="../Resources/logos/logo_boga_tts.jpg" Pack="true" PackagePath="\"/>

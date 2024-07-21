@@ -1,6 +1,7 @@
 using System;
 using System.Text;
 using System.Numerics;
+using System.Threading.Tasks;
 using BogaNet.Extension;
 using BogaNet.Helper;
 using Microsoft.Extensions.Logging;
@@ -156,5 +157,55 @@ public static class Base16 //NUnit
       return ToBase16String(str.BNToByteArray(encoding), addPrefix);
    }
 
+   /// <summary>
+   /// Converts a file to a Base16-string.
+   /// </summary>
+   /// <param name="file">File to convert</param>
+   /// <returns>File content as converted Base16-string</returns>
+   /// <exception cref="Exception"></exception>
+   public static string Base16FromFile(string file)
+   {
+      return Task.Run(() => Base16FromFileAsync(file)).GetAwaiter().GetResult();
+   }
+
+   /// <summary>
+   /// Converts a file to a Base16-string asynchronously.
+   /// </summary>
+   /// <param name="file">File to convert</param>
+   /// <returns>File content as converted Base16-string</returns>
+   /// <exception cref="Exception"></exception>
+   public static async Task<string> Base16FromFileAsync(string file)
+   {
+      ArgumentNullException.ThrowIfNullOrEmpty(file);
+
+      return ToBase16String(await FileHelper.ReadAllBytesAsync(file));
+   }
+
+   /// <summary>
+   /// Converts a Base16-string to a file.
+   /// </summary>
+   /// <param name="file">File to write the content of the Base16-string</param>
+   /// <param name="base16string">Data as Base16-string</param>
+   /// <returns>True if the operation was successful</returns>
+   /// <exception cref="Exception"></exception>
+   public static bool FileFromBase16(string file, string base16string)
+   {
+      return Task.Run(() => FileFromBase16Async(file, base16string)).GetAwaiter().GetResult();
+   }
+
+   /// <summary>
+   /// Converts a Base16-string to a file asynchronously.
+   /// </summary>
+   /// <param name="file">File to write the content of the Base16-string</param>
+   /// <param name="base16string">Data as Base16-string</param>
+   /// <returns>True if the operation was successful</returns>
+   /// <exception cref="Exception"></exception>
+   public static async Task<bool> FileFromBase16Async(string file, string base16string)
+   {
+      ArgumentNullException.ThrowIfNullOrEmpty(file);
+
+      return await FileHelper.WriteAllBytesAsync(file, FromBase16String(base16string));
+   }
+   
    #endregion
 }

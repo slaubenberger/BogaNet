@@ -1,4 +1,5 @@
-﻿using BogaNet.Extension;
+﻿using BogaNet.Encoder;
+using BogaNet.Extension;
 using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
 using BogaNet.Helper;
@@ -72,6 +73,9 @@ public static class Program
 
    private static async Task testTTS()
    {
+      //await FileHelper.WriteAllTextAsync("WindowsWrapper.txt", await Base64.Base64FromFileAsync("./contentFiles/BogaNetTTSWrapper.exe"));
+      //_logger.LogDebug(Base64.ToBase64String(HashHelper.HashSHA256File("./contentFiles/BogaNetTTSWrapper.exe")));
+      
       //var tts = BogaNet.TTS.Provider.OSXVoiceProvider.Instance;
       var tts = BogaNet.TTS.Speaker.Instance;
       tts.UseESpeak = false;

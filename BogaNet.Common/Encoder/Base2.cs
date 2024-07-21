@@ -1,6 +1,7 @@
 using System;
 using System.Text;
 using System.Numerics;
+using System.Threading.Tasks;
 using BogaNet.Extension;
 using BogaNet.Helper;
 using Microsoft.Extensions.Logging;
@@ -112,6 +113,56 @@ public static class Base2 //NUnit
    public static string ToBase2String(string str, Encoding? encoding = null)
    {
       return ToBase2String(str.BNToByteArray(encoding));
+   }
+
+   /// <summary>
+   /// Converts a file to a Base2-string.
+   /// </summary>
+   /// <param name="file">File to convert</param>
+   /// <returns>File content as converted Base2-string</returns>
+   /// <exception cref="Exception"></exception>
+   public static string Base2FromFile(string file)
+   {
+      return Task.Run(() => Base2FromFileAsync(file)).GetAwaiter().GetResult();
+   }
+
+   /// <summary>
+   /// Converts a file to a Base2-string asynchronously.
+   /// </summary>
+   /// <param name="file">File to convert</param>
+   /// <returns>File content as converted Base2-string</returns>
+   /// <exception cref="Exception"></exception>
+   public static async Task<string> Base2FromFileAsync(string file)
+   {
+      ArgumentNullException.ThrowIfNullOrEmpty(file);
+
+      return ToBase2String(await FileHelper.ReadAllBytesAsync(file));
+   }
+
+   /// <summary>
+   /// Converts a Base2-string to a file.
+   /// </summary>
+   /// <param name="file">File to write the content of the Base2-string</param>
+   /// <param name="base2string">Data as Base2-string</param>
+   /// <returns>True if the operation was successful</returns>
+   /// <exception cref="Exception"></exception>
+   public static bool FileFromBase2(string file, string base2string)
+   {
+      return Task.Run(() => FileFromBase2Async(file, base2string)).GetAwaiter().GetResult();
+   }
+
+   /// <summary>
+   /// Converts a Base2-string to a file asynchronously.
+   /// </summary>
+   /// <param name="file">File to write the content of the Base2-string</param>
+   /// <param name="base2string">Data as Base2-string</param>
+   /// <returns>True if the operation was successful</returns>
+   /// <exception cref="Exception"></exception>
+   public static async Task<bool> FileFromBase2Async(string file, string base2string)
+   {
+      ArgumentNullException.ThrowIfNullOrEmpty(file);
+
+      return await FileHelper.WriteAllBytesAsync(file, FromBase2String(base2string));
    }
 
    #endregion
