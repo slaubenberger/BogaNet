@@ -21,9 +21,9 @@
 
     <ItemGroup>
         <None Include="../Resources/logos/logo_boga_tts.jpg" Pack="true" PackagePath="\"/>
-        <None Include="./Resources/BogaNetTTSWrapper.exe" Pack="true" PackagePath="\Resources\"/>
+        <None Include="./content/BogaNetTTSWrapper.exe" Pack="true" PackagePath="\content\"/>
         <None Include="README.md" Pack="true" PackagePath="\"/>
-        <None Update="Resources\BogaNetTTSWrapper.exe">
+        <None Update="content\BogaNetTTSWrapper.exe">
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
     </ItemGroup>

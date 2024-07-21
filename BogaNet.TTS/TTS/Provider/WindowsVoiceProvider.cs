@@ -12,13 +12,13 @@ using System.Diagnostics;
 namespace BogaNet.TTS.Provider;
 
 /// <summary>Windows voice provider.</summary>
-public class WindowsVoiceProvider : Singleton<OSXVoiceProvider>, IVoiceProvider
+public class WindowsVoiceProvider : Singleton<WindowsVoiceProvider>, IVoiceProvider
 {
    #region Variables
 
    private static readonly ILogger<WindowsVoiceProvider> _logger = GlobalLogging.CreateLogger<WindowsVoiceProvider>();
 
-   private const string _applicationName = "say";
+   private const string _applicationName = "./content/BogaNetTTSWrapper.exe";
 
    private const string idVoice = "@VOICE:";
 
@@ -30,8 +30,7 @@ public class WindowsVoiceProvider : Singleton<OSXVoiceProvider>, IVoiceProvider
    private readonly List<string> _cachedCultures = [];
 
    #endregion
-
-
+   
    #region Properties
 
    public virtual List<Voice> Voices => _cachedVoices ??= GetVoices();
@@ -69,7 +68,7 @@ public class WindowsVoiceProvider : Singleton<OSXVoiceProvider>, IVoiceProvider
 
    private WindowsVoiceProvider()
    {
-      if (!Constants.IsOSX)
+      if (!Constants.IsWindows)
          _logger.LogError("WindowsVoiceProvider works only under Windows!");
    }
 
@@ -130,15 +129,14 @@ public class WindowsVoiceProvider : Singleton<OSXVoiceProvider>, IVoiceProvider
    }
 
    #endregion
-
-
+   
    #region Private methods
 
    private async Task<List<Voice>?> getVoices()
    {
       _process = new();
 
-      Process process = await _process.StartAsync(_applicationName, "-v ?", true, Encoding.UTF8);
+      Process process = await _process.StartAsync(_applicationName, "--voices", true, Encoding.UTF8);
 
       if (process.ExitCode == 0)
       {

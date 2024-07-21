@@ -31,8 +31,7 @@ public class LinuxVoiceProvider : Singleton<LinuxVoiceProvider>, IVoiceProvider
    private readonly List<string> _cachedCultures = [];
 
    #endregion
-
-
+   
    #region Properties
 
    /// <summary>eSpeak application name/path.</summary>

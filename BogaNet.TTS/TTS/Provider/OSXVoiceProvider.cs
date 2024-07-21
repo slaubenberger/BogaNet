@@ -131,8 +131,7 @@ public partial class OSXVoiceProvider : Singleton<OSXVoiceProvider>, IVoiceProvi
    }
 
    #endregion
-
-
+   
    #region Private methods
 
    private async Task<List<Voice>?> getVoices()

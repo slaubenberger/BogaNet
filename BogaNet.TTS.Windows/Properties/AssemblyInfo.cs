@@ -4,12 +4,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("BogaNet.TTS.Windows")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("BogaNetTTSWrapper")]
+[assembly: AssemblyDescription("Text-to-speech wrapper for RTVoice")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("BogaNet.TTS.Windows")]
-[assembly: AssemblyCopyright("Copyright ©  2024")]
+[assembly: AssemblyCompany("crosstales LLC")]
+[assembly: AssemblyProduct("BogaNetTTSWrapper")]
+[assembly: AssemblyCopyright("© 2024 by Stefan Laubenberger")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

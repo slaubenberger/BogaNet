@@ -1,4 +1,4 @@
-﻿#if WINDOWS
+﻿#if true //change this to false if .NET 4.8 is not installed
 using System;
 using System.Collections.ObjectModel;
 using System.Speech.Synthesis;
@@ -25,7 +25,9 @@ namespace BogaNet.TTS
 
       public static int Main(string[] args)
       {
+#if DEBUG
          Console.WriteLine(logFile);
+#endif
          Console.OutputEncoding = Encoding.UTF8;
 
          if (args.Length == 0)

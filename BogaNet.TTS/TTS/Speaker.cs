@@ -502,8 +502,7 @@ public class Speaker : Singleton<Speaker>, IVoiceProvider
    #endregion
 
    #endregion
-
-
+   
    #region Private methods
 
    private static void logPlatformNotSupported()

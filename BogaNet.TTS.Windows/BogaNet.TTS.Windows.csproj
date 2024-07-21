@@ -9,7 +9,7 @@
         <OutputType>Exe</OutputType>
         <AppDesignerFolder>Properties</AppDesignerFolder>
         <RootNamespace>BogaNet.TTS.Windows</RootNamespace>
-        <AssemblyName>BogaNet.TTS.Windows</AssemblyName>
+        <AssemblyName>BogaNetTTSWrapper</AssemblyName>
         <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
         <FileAlignment>512</FileAlignment>
         <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
