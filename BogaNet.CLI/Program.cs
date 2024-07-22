@@ -17,18 +17,19 @@ public static class Program
    #region Public methods
 
    public static async Task Main(string[] args)
-   //public static void Main(string[] args)
+      //public static void Main(string[] args)
    {
       GlobalLogging.LoggerFactory = new NLogLoggerFactory();
 
       _logger.LogDebug("Hi there, this is a test app!");
 
+      /*
       Task task1 = Task1();
       Task task2 = Task2();
       Task task3 = testTTS();
 
       await Task.WhenAll(task1, task2, task3);
-
+      */
 
       //await testTTSAsync();
       //buildCode();
@@ -75,7 +76,7 @@ public static class Program
    {
       //await FileHelper.WriteAllTextAsync("WindowsWrapper.txt", await Base64.Base64FromFileAsync("./contentFiles/BogaNetTTSWrapper.exe"));
       //_logger.LogDebug(Base64.ToBase64String(HashHelper.HashSHA256File("./contentFiles/BogaNetTTSWrapper.exe")));
-      
+
       //var tts = BogaNet.TTS.Provider.OSXVoiceProvider.Instance;
       var tts = BogaNet.TTS.Speaker.Instance;
       tts.UseESpeak = false;

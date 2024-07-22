@@ -72,11 +72,9 @@ public class ShortUID
    /// <returns>Guid-instance</returns>
    public Guid ToGuid()
    {
-      Base64.UseSaveFormat = true;
-      Guid guid = new(Base64.FromBase64String(Code + "=="));
-
-      //Base85.EnforceMarks = false;
+      //Guid guid = new(Base64.FromBase64String(Code + "=="));
       //Guid guid = new(Base85.FromBase85String(Code));
+      Guid guid = new(Base91.FromBase91String(Code));
 
       return guid;
    }
@@ -123,12 +121,10 @@ public static class GuidExtension
    {
       ArgumentNullException.ThrowIfNull(uid);
 
-      Base64.UseSaveFormat = true;
-      string guid = Base64.ToBase64String(uid.ToByteArray());
-      return new ShortUID(guid.Substring(0, guid.Length - 2));
-
-      //Base85.EnforceMarks = false;
+      //string guid = Base64.ToBase64String(uid.ToByteArray());
       //string guid = Base85.ToBase85String(uid.ToByteArray());
-      //return new ShortUID(guid);
+      string guid = Base91.ToBase91String(uid.ToByteArray());
+
+      return new ShortUID(guid);
    }
 }

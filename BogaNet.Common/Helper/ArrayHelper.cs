@@ -87,7 +87,7 @@ public static class ArrayHelper
 
       for (int ii = 0; ii < count; ii++)
       {
-         sbytes[ii] = Convert.ToSByte(bytes[ii] - 127);
+         sbytes[ii] = Convert.ToSByte(bytes[ii] - 128);
       }
 
       return sbytes;
@@ -111,7 +111,7 @@ public static class ArrayHelper
 
       for (int ii = 0; ii < count; ii++)
       {
-         bytes[ii] = Convert.ToByte(sbytes[ii] + 127);
+         bytes[ii] = Convert.ToByte(sbytes[ii] + 128);
       }
 
       return bytes;

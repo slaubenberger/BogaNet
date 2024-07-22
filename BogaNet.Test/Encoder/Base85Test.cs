@@ -17,7 +17,6 @@ public class Base85Test
       string plain2 = Base85.FromBase85String(output).BNToString();
       Assert.That(plain2, Is.EqualTo(plain));
 
-      Base85.EnforceMarks = false;
       //String
       output = Base85.ToBase85String(plain);
       byte[] bytes = Base85.FromBase85String(output);

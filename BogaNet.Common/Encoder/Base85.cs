@@ -9,10 +9,12 @@ namespace BogaNet.Encoder;
 
 /// <summary>
 /// Base85 encoder class.
-/// Based on: https://github.com/coding-horror/ascii85/tree/master
+/// Partially based on: https://github.com/coding-horror/ascii85/tree/master
 /// </summary>
 public static class Base85
 {
+   #region Variables
+
    /// <summary>
    /// Prefix mark that identifies an encoded Base85-string (default: <~).
    /// </summary>
@@ -23,10 +25,7 @@ public static class Base85
    /// </summary>
    public static string SuffixMark = "~>";
 
-   /// <summary>
-   /// Add the Prefix and Suffix marks when encoding, and enforce their presence for decoding (default: true).
-   /// </summary>
-   public static bool EnforceMarks = true;
+   #endregion
 
    #region Public methods
 
@@ -34,9 +33,10 @@ public static class Base85
    /// Converts a Base85-string to a byte-array.
    /// </summary>
    /// <param name="base85string">Data as Base85-string</param>
+   /// <param name="useMarks">Add the Prefix and Suffix marks when encoding, and enforce their presence for decoding (default: false).</param>
    /// <returns>Data as byte-array</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static byte[] FromBase85String(string base85string)
+   public static byte[] FromBase85String(string base85string, bool useMarks = false)
    {
       ArgumentNullException.ThrowIfNullOrEmpty(base85string);
 
@@ -45,7 +45,7 @@ public static class Base85
          PrefixMark = PrefixMark,
          SuffixMark = SuffixMark,
          LineLength = 0,
-         EnforceMarks = EnforceMarks
+         EnforceMarks = useMarks
       };
 
       return ascii85.Decode(base85string);
@@ -55,9 +55,10 @@ public static class Base85
    /// Converts a byte-array to a Base85-string.
    /// </summary>
    /// <param name="bytes">Data as byte-array</param>
+   /// <param name="useMarks">Add the Prefix and Suffix marks when encoding, and enforce their presence for decoding (default: false).</param>
    /// <returns>Data as encoded Base85-string</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static string ToBase85String(byte[] bytes)
+   public static string ToBase85String(byte[] bytes, bool useMarks = false)
    {
       ArgumentNullException.ThrowIfNull(bytes);
 
@@ -66,7 +67,7 @@ public static class Base85
          PrefixMark = PrefixMark,
          SuffixMark = SuffixMark,
          LineLength = 0,
-         EnforceMarks = EnforceMarks
+         EnforceMarks = useMarks
       };
 
       return ascii85.Encode(bytes);
@@ -77,39 +78,42 @@ public static class Base85
    /// </summary>
    /// <param name="str">Input string</param>
    /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
+   /// <param name="useMarks">Add the Prefix and Suffix marks when encoding, and enforce their presence for decoding (default: false).</param>
    /// <returns>String value as converted Base85-string</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static string ToBase85String(string str, Encoding? encoding = null)
+   public static string ToBase85String(string str, Encoding? encoding = null, bool useMarks = false)
    {
       ArgumentNullException.ThrowIfNullOrEmpty(str);
 
       byte[] bytes = str.BNToByteArray(encoding);
       //bytes.BNReverse();
-      return ToBase85String(bytes);
+      return ToBase85String(bytes, useMarks);
    }
 
    /// <summary>
    /// Converts a file to a Base85-string.
    /// </summary>
    /// <param name="file">File to convert</param>
+   /// <param name="useMarks">Add the Prefix and Suffix marks when encoding, and enforce their presence for decoding (default: false).</param>
    /// <returns>File content as converted Base85-string</returns>
    /// <exception cref="Exception"></exception>
-   public static string Base85FromFile(string file)
+   public static string Base85FromFile(string file, bool useMarks = false)
    {
-      return Task.Run(() => Base85FromFileAsync(file)).GetAwaiter().GetResult();
+      return Task.Run(() => Base85FromFileAsync(file, useMarks)).GetAwaiter().GetResult();
    }
 
    /// <summary>
    /// Converts a file to a Base85-string asynchronously.
    /// </summary>
    /// <param name="file">File to convert</param>
+   /// <param name="useMarks">Add the Prefix and Suffix marks when encoding, and enforce their presence for decoding (default: false).</param>
    /// <returns>File content as converted Base85-string</returns>
    /// <exception cref="Exception"></exception>
-   public static async Task<string> Base85FromFileAsync(string file)
+   public static async Task<string> Base85FromFileAsync(string file, bool useMarks = false)
    {
       ArgumentNullException.ThrowIfNullOrEmpty(file);
 
-      return ToBase85String(await FileHelper.ReadAllBytesAsync(file));
+      return ToBase85String(await FileHelper.ReadAllBytesAsync(file), useMarks);
    }
 
    /// <summary>
@@ -117,11 +121,12 @@ public static class Base85
    /// </summary>
    /// <param name="file">File to write the content of the Base85-string</param>
    /// <param name="base85string">Data as Base85-string</param>
+   /// <param name="useMarks">Add the Prefix and Suffix marks when encoding, and enforce their presence for decoding (default: false).</param>
    /// <returns>True if the operation was successful</returns>
    /// <exception cref="Exception"></exception>
-   public static bool FileFromBase85(string file, string base85string)
+   public static bool FileFromBase85(string file, string base85string, bool useMarks = false)
    {
-      return Task.Run(() => FileFromBase85Async(file, base85string)).GetAwaiter().GetResult();
+      return Task.Run(() => FileFromBase85Async(file, base85string, useMarks)).GetAwaiter().GetResult();
    }
 
    /// <summary>
@@ -129,13 +134,14 @@ public static class Base85
    /// </summary>
    /// <param name="file">File to write the content of the Base85-string</param>
    /// <param name="base85string">Data as Base85-string</param>
+   /// <param name="useMarks">Add the Prefix and Suffix marks when encoding, and enforce their presence for decoding (default: false).</param>
    /// <returns>True if the operation was successful</returns>
    /// <exception cref="Exception"></exception>
-   public static async Task<bool> FileFromBase85Async(string file, string base85string)
+   public static async Task<bool> FileFromBase85Async(string file, string base85string, bool useMarks = false)
    {
       ArgumentNullException.ThrowIfNullOrEmpty(file);
 
-      return await FileHelper.WriteAllBytesAsync(file, FromBase85String(base85string));
+      return await FileHelper.WriteAllBytesAsync(file, FromBase85String(base85string, useMarks));
    }
 
    #endregion

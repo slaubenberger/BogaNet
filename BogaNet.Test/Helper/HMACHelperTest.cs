@@ -28,9 +28,8 @@ public class HMACHelperTest
       secret = "abc123".BNToByteArray();
       h1 = HMACHelper.HashHMACSHA256(plain, secret);
 
-      Base64.UseSaveFormat = false;
       string base64 = Base64.ToBase64String(h1);
-      const string refValue = "ffJ5XqLTaKW6+Jis/M8ZoWL39mEjuzCR+jzcSunYs6o=";
+      const string refValue = "ffJ5XqLTaKW6-Jis_M8ZoWL39mEjuzCR-jzcSunYs6o=";
 
       Assert.That(base64, Is.EqualTo(refValue));
    }

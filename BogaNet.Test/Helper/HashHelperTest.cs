@@ -22,9 +22,8 @@ public class HashHelperTest
 
       Assert.That(h1, Is.Not.EqualTo(h2));
 
-      Base64.UseSaveFormat = false;
       string base64 = Base64.ToBase64String(h1);
-      const string refValue = "8kNcJBdM1xzVVuYg9mdDkaItGCWPf+6v+DBwS0ppm6o=";
+      const string refValue = "8kNcJBdM1xzVVuYg9mdDkaItGCWPf-6v-DBwS0ppm6o=";
 
       Assert.That(base64, Is.EqualTo(refValue));
    }
