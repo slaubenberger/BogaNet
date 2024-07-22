@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.Net;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
-using System.Net.Http.Headers;
 using System;
 using System.Linq;
 using System.Net.Http;
@@ -11,8 +10,6 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
-using System.Text;
-using BogaNet.Encoder;
 using BogaNet.Extension;
 
 namespace BogaNet.Helper;
@@ -33,7 +30,7 @@ public abstract class NetworkHelper
    #endregion
 
    #region Public methods
-
+/*
    /// <summary>
    /// Create a basic AuthenticationHeaderValue.
    /// </summary>
@@ -60,7 +57,7 @@ public abstract class NetworkHelper
          bearerToken
       );
    }
-
+*/
    /// <summary>
    /// Sets the global proxy for all network requests to the default.
    /// </summary>

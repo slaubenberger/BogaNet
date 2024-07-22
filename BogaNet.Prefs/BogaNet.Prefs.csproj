@@ -31,6 +31,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\BogaNet.Common\BogaNet.Common.csproj"/>
+        <ProjectReference Include="..\BogaNet.Encoder\BogaNet.Encoder.csproj" />
         <ProjectReference Include="..\BogaNet.ObfuscatedType\BogaNet.ObfuscatedType.csproj"/>
     </ItemGroup>
 </Project>

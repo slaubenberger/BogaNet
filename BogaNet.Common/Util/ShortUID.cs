@@ -1,6 +1,5 @@
 using System.Text;
 using System;
-using BogaNet.Encoder;
 using BogaNet.Extension;
 
 namespace BogaNet.Util;
@@ -72,9 +71,11 @@ public class ShortUID
    /// <returns>Guid-instance</returns>
    public Guid ToGuid()
    {
+      string code = Code.Replace("_", "/").Replace("-", "+") + "==";
+      Guid guid = new(Convert.FromBase64String(code));
       //Guid guid = new(Base64.FromBase64String(Code + "=="));
       //Guid guid = new(Base85.FromBase85String(Code));
-      Guid guid = new(Base91.FromBase91String(Code));
+      //Guid guid = new(Base91.FromBase91String(Code));
 
       return guid;
    }
@@ -121,9 +122,10 @@ public static class GuidExtension
    {
       ArgumentNullException.ThrowIfNull(uid);
 
+      string guid = Convert.ToBase64String(uid.ToByteArray()).Replace("/", "_").Replace("+", "-").Replace("=", "");
       //string guid = Base64.ToBase64String(uid.ToByteArray());
       //string guid = Base85.ToBase85String(uid.ToByteArray());
-      string guid = Base91.ToBase91String(uid.ToByteArray());
+      //string guid = Base91.ToBase91String(uid.ToByteArray());
 
       return new ShortUID(guid);
    }

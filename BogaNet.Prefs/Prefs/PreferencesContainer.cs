@@ -85,9 +85,7 @@ public class PreferencesContainer : IPreferencesContainer //NUnit
    public virtual object? Get(string key, bool obfuscated)
    {
       if (ContainsKey(key))
-      {
          return obfuscated ? Obfuscator.Deobfuscate(Base64.FromBase64String(_preferences[key].ToString()!), IV).BNToString() : _preferences[key];
-      }
 
       return null;
    }
