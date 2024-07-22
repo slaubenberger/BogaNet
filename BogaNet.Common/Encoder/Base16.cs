@@ -120,7 +120,7 @@ public static class Base16 //NUnit
          case not null when type == typeof(ulong):
             pairs = 8;
             break;
-          //TODO needs unsafe...
+         //needs unsafe...
 /*
          case Type t when t == typeof(nint):
             length = sizeof(nint);
@@ -206,6 +206,6 @@ public static class Base16 //NUnit
 
       return await FileHelper.WriteAllBytesAsync(file, FromBase16String(base16string));
    }
-   
+
    #endregion
 }

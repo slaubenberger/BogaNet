@@ -42,9 +42,11 @@ public abstract class NetworkHelper
    /// <returns>Basic AuthenticationHeaderValue</returns>
    public static AuthenticationHeaderValue CreateBasicAuth(string username, string password)
    {
+      Base64.UseSaveFormat = false;
+
       return new AuthenticationHeaderValue(
          "Basic",
-         Base64.ToBase64String($"{username}:{password}", false, Encoding.ASCII)
+         Base64.ToBase64String($"{username}:{password}", Encoding.ASCII)
       );
    }
 

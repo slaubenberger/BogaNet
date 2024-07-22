@@ -5,11 +5,13 @@
 
 # Ideas
 * Pressure unit
-* Base36, 85, 91, 122?
+* Base36, 91, 122?
 * Twofish?
 * Faker-clone?
 * Add support for Vector2, Vector3, Vector4 and Quaternion (port my code from Unity for Common, Crypto, TR etc.)
+* CSVHelper
 
 # Features
 * BWF
 * FB
+* TB

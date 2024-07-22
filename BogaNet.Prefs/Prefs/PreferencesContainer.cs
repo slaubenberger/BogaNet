@@ -85,7 +85,10 @@ public class PreferencesContainer : IPreferencesContainer //NUnit
    public virtual object? Get(string key, bool obfuscated)
    {
       if (ContainsKey(key))
-         return obfuscated ? Obfuscator.Deobfuscate(Base64.FromBase64String(_preferences[key].ToString()!, true), IV).BNToString() : _preferences[key];
+      {
+         Base64.UseSaveFormat = true;
+         return obfuscated ? Obfuscator.Deobfuscate(Base64.FromBase64String(_preferences[key].ToString()!), IV).BNToString() : _preferences[key];
+      }
 
       return null;
    }
@@ -99,7 +102,8 @@ public class PreferencesContainer : IPreferencesContainer //NUnit
       {
          if (obfuscated)
          {
-            _preferences[key] = Base64.ToBase64String(Obfuscator.Obfuscate(value.ToString()!, IV), true);
+            Base64.UseSaveFormat = true;
+            _preferences[key] = Base64.ToBase64String(Obfuscator.Obfuscate(value.ToString()!, IV));
          }
          else
          {
@@ -108,7 +112,8 @@ public class PreferencesContainer : IPreferencesContainer //NUnit
       }
       else
       {
-         _preferences.Add(key, obfuscated ? Base64.ToBase64String(Obfuscator.Obfuscate(value.ToString()!, IV), true) : value);
+         Base64.UseSaveFormat = true;
+         _preferences.Add(key, obfuscated ? Base64.ToBase64String(Obfuscator.Obfuscate(value.ToString()!, IV)) : value);
       }
    }
 

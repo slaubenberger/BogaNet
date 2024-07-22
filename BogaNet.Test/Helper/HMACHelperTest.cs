@@ -27,6 +27,8 @@ public class HMACHelperTest
       plain = "BogaNet rulez!";
       secret = "abc123".BNToByteArray();
       h1 = HMACHelper.HashHMACSHA256(plain, secret);
+
+      Base64.UseSaveFormat = false;
       string base64 = Base64.ToBase64String(h1);
       const string refValue = "ffJ5XqLTaKW6+Jis/M8ZoWL39mEjuzCR+jzcSunYs6o=";
 
