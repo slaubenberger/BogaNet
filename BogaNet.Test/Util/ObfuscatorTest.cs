@@ -31,7 +31,7 @@ public class ObfuscatorTest
          Assert.That(decVal, Is.EqualTo(dec));
       }
 
-      plain = "BogaNet rülez!";
+      plain = TestConstants.LatinText;
 
       var output = Obfuscator.Obfuscate(plain.BNToByteArray());
       var res = Obfuscator.Deobfuscate(output).BNToString();

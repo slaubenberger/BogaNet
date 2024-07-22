@@ -6,7 +6,6 @@
 # Ideas
 * Pressure unit
 * Base36, 122, 2048?
-* Base58: https://github.com/medo64/Medo/blob/main/src/Medo/Convert/Base58.cs
 * Base62: https://github.com/JoyMoe/Base62.Net/blob/dev/src/Base62/EncodingExtensions.cs
 * Twofish?
 * Faker-clone?

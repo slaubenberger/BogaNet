@@ -7,13 +7,13 @@ public class ArrayExtensionTest
    [Test]
    public void BNToString_Test()
    {
-      string input = "crosstales LLC";
+      string input = TestConstants.LatinText;
       byte[] bytes = input.BNToByteArray();
       string result = bytes.BNToString();
 
       Assert.That(result, Is.EqualTo(input));
 
-      input = "こんにちは";
+      input = TestConstants.NonLatinText;
       bytes = input.BNToByteArray();
       result = bytes.BNToString();
 

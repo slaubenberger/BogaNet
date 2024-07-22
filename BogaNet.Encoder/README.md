@@ -5,6 +5,7 @@ A collection of various binary encoders.
 * [Base2](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_encoder_1_1_base2.html): Base2 (aka binary) encoder.
 * [Base16](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_encoder_1_1_base16.html): Base16 (aka Hex) encoder.
 * [Base32](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_encoder_1_1_base32.html): Base32 encoder.
+* [Base58](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_encoder_1_1_base64.html): Base58 encoder.
 * [Base64](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_encoder_1_1_base64.html): Base64 encoder.
 * [Base85](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_encoder_1_1_base85.html): Base85 encoder.
 * [Base91](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_encoder_1_1_base91.html): Base91 encoder.

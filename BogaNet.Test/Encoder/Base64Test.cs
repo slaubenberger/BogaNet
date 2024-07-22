@@ -10,7 +10,7 @@ public class Base64Test
    [Test]
    public void Base64_Test()
    {
-      const string plain = "BogaNet rülez!";
+      const string plain = Constants.SIGNS_EXT;
       string output;
       string plain2;
 
@@ -33,7 +33,21 @@ public class Base64Test
       plain2 = bytes.BNToString();
       Assert.That(plain2, Is.EqualTo(plain));
 
-      output = "Qm9nYU5ldCByw7xsZXoh";
+      output = "QUJDREVGR0hJSktMTU5PUFFSU1RVVldYWVrDgMOCw4TDhsOHw4jDicOKw4vDjsOPw5TFksOZw5vDnGFiY2RlZmdoaWprbG1ub3BxcnN0dXZ3eHl6w6DDosOkw6bDp8Oow6nDqsOrw67Dr8O0xZPDucO7w7wwMTIzNDU2Nzg5";
+      plain2 = Base64.FromBase64String(output).BNToString();
+      Assert.That(plain2, Is.EqualTo(plain));
+   }
+
+   [Test]
+   public void Base64_NonLatinTest()
+   {
+      const string plain = TestConstants.NonLatinText;
+
+      string output = Base64.ToBase64String(plain);
+      string plain2 = Base64.FromBase64String(output).BNToString();
+      Assert.That(plain2, Is.EqualTo(plain));
+
+      output = "44OP44Ot44O844Ov44O844Or44OJISDkuJbnlYzmgqjlpb3vvIHguKvguKfguLHguJTguJTguLXguIrguLLguKfguYLguKXguIEh";
       plain2 = Base64.FromBase64String(output).BNToString();
       Assert.That(plain2, Is.EqualTo(plain));
    }

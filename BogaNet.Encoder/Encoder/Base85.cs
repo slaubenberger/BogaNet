@@ -146,6 +146,7 @@ public static class Base85
 
    #endregion
 
+   #region Inner classes
 
    /// <summary>
    /// C# implementation of ASCII85 encoding.
@@ -389,4 +390,6 @@ public static class Base85
          }
       }
    }
+
+   #endregion
 }

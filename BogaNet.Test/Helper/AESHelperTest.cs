@@ -11,7 +11,7 @@ public class AESHelperTest
    [Test]
    public void AESHelper_Test()
    {
-      const string plain = "BogaNet rulez!";
+      const string plain = TestConstants.LatinText;
 
       const string initVector = "SL$2OIjLS$2aIj76";
       byte[] IV = initVector.BNToByteArray(System.Text.Encoding.ASCII);

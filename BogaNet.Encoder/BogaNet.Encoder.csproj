@@ -10,7 +10,7 @@
         <Description>A collection of various binary encoders.</Description>
         <RepositoryUrl>https://github.com/slaubenberger/BogaNet</RepositoryUrl>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageTags>Encoder base2 binary base16 hex base32 base64 base85 base91</PackageTags>
+        <PackageTags>Encoder base2 binary base16 hex base32 base58 base64 base85 base91</PackageTags>
         <PackageReleaseNotes>Initial release.</PackageReleaseNotes>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <!-- <PackageIconUrl>https://www.crosstales.com/media/data/BogaNet/logo_boga.png</PackageIconUrl> -->

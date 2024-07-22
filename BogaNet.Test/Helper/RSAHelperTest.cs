@@ -11,7 +11,7 @@ public class RSAHelperTest
    [Test]
    public void RSAHelper_Test()
    {
-      const string plain = "BogaNet rulez!";
+      const string plain = TestConstants.LatinText;
 
       X509Certificate2 cert = RSAHelper.GenerateSelfSignedCertificate("BogaNet");
 

@@ -9,8 +9,8 @@ public class CRC16Test
    [Test]
    public void CRC16_Test()
    {
-      const string plain = "BogaNet rulez!";
-      const ushort refValue = 5090;
+      const string plain = TestConstants.LatinText;
+      const ushort refValue = 37545;
 
       ushort crc = CRC16.CalcCRC(plain);
 

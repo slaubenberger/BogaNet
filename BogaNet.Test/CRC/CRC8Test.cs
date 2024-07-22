@@ -9,8 +9,8 @@ public class CRC8Test
    [Test]
    public void CRC8_Test()
    {
-      const string plain = "BogaNet rulez!";
-      const byte refValue = 109;
+      const string plain = TestConstants.LatinText;
+      const byte refValue = 4;
 
       byte crc = CRC8.CalcCRC(plain);
 

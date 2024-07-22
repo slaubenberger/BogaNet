@@ -9,8 +9,8 @@ public class CRC64Test
    [Test]
    public void CRC64_Test()
    {
-      const string plain = "BogaNet rulez!";
-      const ulong refValue = 18056882464249972536;
+      const string plain = TestConstants.LatinText;
+      const ulong refValue = 7127998075804121923;
 
       ulong crc = CRC64.CalcCRC(plain);
 
