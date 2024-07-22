@@ -6,7 +6,6 @@
 # Ideas
 * Pressure unit
 * Base36, 122, 2048?
-* Base62: https://github.com/JoyMoe/Base62.Net/blob/dev/src/Base62/EncodingExtensions.cs
 * Twofish?
 * Faker-clone?
 * Add support for Vector2, Vector3, Vector4 and Quaternion (port my code from Unity for Common, Crypto, TR etc.)

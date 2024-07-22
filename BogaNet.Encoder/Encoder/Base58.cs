@@ -124,18 +124,17 @@ public static class Base58
    /// </example>
    private static class Base58_intern
    {
-      private static readonly char[] Base58Map = new char[]
-      {
+      private static readonly char[] Base58Map =
+      [
          '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
          'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W',
          'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'm',
          'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
-      };
+      ];
 
       private static readonly BigInteger Base58Divisor = 58;
 
-      private static readonly Encoding Utf8 = new UTF8Encoding(false);
-
+      //private static readonly Encoding Utf8 = new UTF8Encoding(false);
 
       #region ToString
 
@@ -154,6 +153,7 @@ public static class Base58
          throw new FormatException("Cannot convert.");
       }
 
+/*
       /// <summary>
       /// Returns Base58 string.
       /// </summary>
@@ -165,7 +165,7 @@ public static class Base58
 
          return ToString(Utf8.GetBytes(text));
       }
-
+*/
       /// <summary>
       /// Returns true of conversion succeeded.
       /// </summary>
@@ -219,6 +219,7 @@ public static class Base58
          return true;
       }
 
+/*
       /// <summary>
       /// Returns true of conversion succeeded.
       /// </summary>
@@ -231,6 +232,7 @@ public static class Base58
 
          return TryToString(Utf8.GetBytes(text), out result);
       }
+*/
 
       #endregion ToString
 
@@ -310,6 +312,7 @@ public static class Base58
          {
             var extraZeros = (outputBytes[0] == 0x00) ? startingZeros - 1 : startingZeros;
             var buffer = new byte[outputBytes.Length + extraZeros];
+
             if (extraZeros >= 0)
             {
                Buffer.BlockCopy(outputBytes, 0, buffer, extraZeros, outputBytes.Length);
@@ -332,6 +335,7 @@ public static class Base58
 
       #region AsString
 
+/*
       /// <summary>
       /// Returns UTF-8 string based on it's Base58 encoding.
       /// </summary>
@@ -368,6 +372,7 @@ public static class Base58
          result = null;
          return false;
       }
+*/
 
       #endregion AsString
    }
