@@ -145,247 +145,248 @@ public static class Base85
    }
 
    #endregion
-}
 
-/// <summary>
-/// C# implementation of ASCII85 encoding.
-/// Based on C code from http://www.stillhq.com/cgi-bin/cvsweb/ascii85/
-/// </summary>
-/// <remarks>
-/// Jeff Atwood
-/// http://www.codinghorror.com/blog/archives/000410.html
-/// </remarks>
-internal class Ascii85
-{
-   /// <summary>
-   /// Prefix mark that identifies an encoded ASCII85 string, traditionally '<~'
-   /// </summary>
-   public string PrefixMark = "<~";
 
    /// <summary>
-   /// Suffix mark that identifies an encoded ASCII85 string, traditionally '~>'
+   /// C# implementation of ASCII85 encoding.
+   /// Based on C code from http://www.stillhq.com/cgi-bin/cvsweb/ascii85/
    /// </summary>
-   public string SuffixMark = "~>";
-
-   /// <summary>
-   /// Maximum line length for encoded ASCII85 string;
-   /// set to zero for one unbroken line.
-   /// </summary>
-   public int LineLength = 75;
-
-   /// <summary>
-   /// Add the Prefix and Suffix marks when encoding, and enforce their presence for decoding
-   /// </summary>
-   public bool EnforceMarks = true;
-
-   private const int _asciiOffset = 33;
-   private static readonly uint[] pow85 = [85 * 85 * 85 * 85, 85 * 85 * 85, 85 * 85, 85, 1];
-
-   private readonly byte[] _encodedBlock = new byte[5];
-   private readonly byte[] _decodedBlock = new byte[4];
-   private uint _tuple = 0;
-   private int _linePos = 0;
-
-   /// <summary>
-   /// Decodes an ASCII85 encoded string into the original binary data
-   /// </summary>
-   /// <param name="s">ASCII85 encoded string</param>
-   /// <returns>byte array of decoded binary data</returns>
-   public byte[] Decode(string s)
+   /// <remarks>
+   /// Jeff Atwood
+   /// http://www.codinghorror.com/blog/archives/000410.html
+   /// </remarks>
+   private class Ascii85
    {
-      if (EnforceMarks)
+      /// <summary>
+      /// Prefix mark that identifies an encoded ASCII85 string, traditionally '<~'
+      /// </summary>
+      public string PrefixMark = "<~";
+
+      /// <summary>
+      /// Suffix mark that identifies an encoded ASCII85 string, traditionally '~>'
+      /// </summary>
+      public string SuffixMark = "~>";
+
+      /// <summary>
+      /// Maximum line length for encoded ASCII85 string;
+      /// set to zero for one unbroken line.
+      /// </summary>
+      public int LineLength = 75;
+
+      /// <summary>
+      /// Add the Prefix and Suffix marks when encoding, and enforce their presence for decoding
+      /// </summary>
+      public bool EnforceMarks = true;
+
+      private const int _asciiOffset = 33;
+      private static readonly uint[] pow85 = [85 * 85 * 85 * 85, 85 * 85 * 85, 85 * 85, 85, 1];
+
+      private readonly byte[] _encodedBlock = new byte[5];
+      private readonly byte[] _decodedBlock = new byte[4];
+      private uint _tuple = 0;
+      private int _linePos = 0;
+
+      /// <summary>
+      /// Decodes an ASCII85 encoded string into the original binary data
+      /// </summary>
+      /// <param name="s">ASCII85 encoded string</param>
+      /// <returns>byte array of decoded binary data</returns>
+      public byte[] Decode(string s)
       {
-         if (!s.BNStartsWith(PrefixMark) | !s.BNEndsWith(SuffixMark))
-            throw new Exception("ASCII85 encoded data should begin with '" + PrefixMark + "' and end with '" + SuffixMark + "'");
-      }
-
-      // strip prefix and suffix if present
-      if (s.BNStartsWith(PrefixMark))
-         s = s.Substring(PrefixMark.Length);
-
-      if (s.BNEndsWith(SuffixMark))
-         s = s.Substring(0, s.Length - SuffixMark.Length);
-
-      MemoryStream ms = new();
-      int count = 0;
-
-      foreach (char c in s)
-      {
-         bool processChar;
-
-         switch (c)
+         if (EnforceMarks)
          {
-            case 'z':
-               if (count != 0)
-               {
-                  throw new Exception("The character 'z' is invalid inside an ASCII85 block.");
-               }
-
-               _decodedBlock[0] = 0;
-               _decodedBlock[1] = 0;
-               _decodedBlock[2] = 0;
-               _decodedBlock[3] = 0;
-               ms.Write(_decodedBlock, 0, _decodedBlock.Length);
-               processChar = false;
-               break;
-            case '\n':
-            case '\r':
-            case '\t':
-            case '\0':
-            case '\f':
-            case '\b':
-               processChar = false;
-               break;
-            default:
-               if (c is < '!' or > 'u')
-                  throw new Exception("Bad character '" + c + "' found. ASCII85 only allows characters '!' to 'u'.");
-
-               processChar = true;
-               break;
+            if (!s.BNStartsWith(PrefixMark) | !s.BNEndsWith(SuffixMark))
+               throw new Exception("ASCII85 encoded data should begin with '" + PrefixMark + "' and end with '" + SuffixMark + "'");
          }
 
-         if (processChar)
-         {
-            _tuple += (uint)(c - _asciiOffset) * pow85[count];
-            count++;
+         // strip prefix and suffix if present
+         if (s.BNStartsWith(PrefixMark))
+            s = s.Substring(PrefixMark.Length);
 
-            if (count == _encodedBlock.Length)
+         if (s.BNEndsWith(SuffixMark))
+            s = s.Substring(0, s.Length - SuffixMark.Length);
+
+         MemoryStream ms = new();
+         int count = 0;
+
+         foreach (char c in s)
+         {
+            bool processChar;
+
+            switch (c)
             {
-               decodeBlock();
-               ms.Write(_decodedBlock, 0, _decodedBlock.Length);
+               case 'z':
+                  if (count != 0)
+                  {
+                     throw new Exception("The character 'z' is invalid inside an ASCII85 block.");
+                  }
+
+                  _decodedBlock[0] = 0;
+                  _decodedBlock[1] = 0;
+                  _decodedBlock[2] = 0;
+                  _decodedBlock[3] = 0;
+                  ms.Write(_decodedBlock, 0, _decodedBlock.Length);
+                  processChar = false;
+                  break;
+               case '\n':
+               case '\r':
+               case '\t':
+               case '\0':
+               case '\f':
+               case '\b':
+                  processChar = false;
+                  break;
+               default:
+                  if (c is < '!' or > 'u')
+                     throw new Exception("Bad character '" + c + "' found. ASCII85 only allows characters '!' to 'u'.");
+
+                  processChar = true;
+                  break;
+            }
+
+            if (processChar)
+            {
+               _tuple += (uint)(c - _asciiOffset) * pow85[count];
+               count++;
+
+               if (count == _encodedBlock.Length)
+               {
+                  decodeBlock();
+                  ms.Write(_decodedBlock, 0, _decodedBlock.Length);
+                  _tuple = 0;
+                  count = 0;
+               }
+            }
+         }
+
+         // if we have some bytes left over at the end...
+         if (count != 0)
+         {
+            if (count == 1)
+               throw new Exception("The last block of ASCII85 data cannot be a single byte.");
+
+            count--;
+            _tuple += pow85[count];
+            decodeBlock(count);
+
+            for (int i = 0; i < count; i++)
+            {
+               ms.WriteByte(_decodedBlock[i]);
+            }
+         }
+
+         return ms.ToArray();
+      }
+
+      /// <summary>
+      /// Encodes binary data into a plaintext ASCII85 format string
+      /// </summary>
+      /// <param name="ba">binary data to encode</param>
+      /// <returns>ASCII85 encoded string</returns>
+      public string Encode(byte[] ba)
+      {
+         StringBuilder sb = new(ba.Length * (_encodedBlock.Length / _decodedBlock.Length));
+         _linePos = 0;
+
+         if (EnforceMarks)
+            appendString(sb, PrefixMark);
+
+         int count = 0;
+         _tuple = 0;
+
+         foreach (byte b in ba)
+         {
+            if (count >= _decodedBlock.Length - 1)
+            {
+               _tuple |= b;
+
+               if (_tuple == 0)
+               {
+                  appendChar(sb, 'z');
+               }
+               else
+               {
+                  encodeBlock(sb);
+               }
+
                _tuple = 0;
                count = 0;
             }
+            else
+            {
+               _tuple |= (uint)(b << (24 - count * 8));
+               count++;
+            }
          }
+
+         // if we have some bytes left over at the end...
+         if (count > 0)
+            encodeBlock(count + 1, sb);
+
+         if (EnforceMarks)
+            appendString(sb, SuffixMark);
+
+         return sb.ToString();
       }
 
-      // if we have some bytes left over at the end...
-      if (count != 0)
+      private void encodeBlock(StringBuilder sb)
       {
-         if (count == 1)
-            throw new Exception("The last block of ASCII85 data cannot be a single byte.");
+         encodeBlock(_encodedBlock.Length, sb);
+      }
 
-         count--;
-         _tuple += pow85[count];
-         decodeBlock(count);
+      private void encodeBlock(int count, StringBuilder sb)
+      {
+         for (int i = _encodedBlock.Length - 1; i >= 0; i--)
+         {
+            _encodedBlock[i] = (byte)(_tuple % 85 + _asciiOffset);
+            _tuple /= 85;
+         }
 
          for (int i = 0; i < count; i++)
          {
-            ms.WriteByte(_decodedBlock[i]);
+            char c = (char)_encodedBlock[i];
+            appendChar(sb, c);
          }
       }
 
-      return ms.ToArray();
-   }
-
-   /// <summary>
-   /// Encodes binary data into a plaintext ASCII85 format string
-   /// </summary>
-   /// <param name="ba">binary data to encode</param>
-   /// <returns>ASCII85 encoded string</returns>
-   public string Encode(byte[] ba)
-   {
-      StringBuilder sb = new(ba.Length * (_encodedBlock.Length / _decodedBlock.Length));
-      _linePos = 0;
-
-      if (EnforceMarks)
-         appendString(sb, PrefixMark);
-
-      int count = 0;
-      _tuple = 0;
-
-      foreach (byte b in ba)
+      private void decodeBlock()
       {
-         if (count >= _decodedBlock.Length - 1)
+         decodeBlock(_decodedBlock.Length);
+      }
+
+      private void decodeBlock(int bytes)
+      {
+         for (int ii = 0; ii < bytes; ii++)
          {
-            _tuple |= b;
+            _decodedBlock[ii] = (byte)(_tuple >> (24 - ii * 8));
+         }
+      }
 
-            if (_tuple == 0)
-            {
-               appendChar(sb, 'z');
-            }
-            else
-            {
-               encodeBlock(sb);
-            }
-
-            _tuple = 0;
-            count = 0;
+      private void appendString(StringBuilder sb, string s)
+      {
+         if (LineLength > 0 && _linePos + s.Length > LineLength)
+         {
+            _linePos = 0;
+            sb.Append('\n');
          }
          else
          {
-            _tuple |= (uint)(b << (24 - count * 8));
-            count++;
+            _linePos += s.Length;
          }
+
+         sb.Append(s);
       }
 
-      // if we have some bytes left over at the end...
-      if (count > 0)
-         encodeBlock(count + 1, sb);
-
-      if (EnforceMarks)
-         appendString(sb, SuffixMark);
-
-      return sb.ToString();
-   }
-
-   private void encodeBlock(StringBuilder sb)
-   {
-      encodeBlock(_encodedBlock.Length, sb);
-   }
-
-   private void encodeBlock(int count, StringBuilder sb)
-   {
-      for (int i = _encodedBlock.Length - 1; i >= 0; i--)
+      private void appendChar(StringBuilder sb, char c)
       {
-         _encodedBlock[i] = (byte)(_tuple % 85 + _asciiOffset);
-         _tuple /= 85;
-      }
+         sb.Append(c);
+         _linePos++;
 
-      for (int i = 0; i < count; i++)
-      {
-         char c = (char)_encodedBlock[i];
-         appendChar(sb, c);
-      }
-   }
-
-   private void decodeBlock()
-   {
-      decodeBlock(_decodedBlock.Length);
-   }
-
-   private void decodeBlock(int bytes)
-   {
-      for (int ii = 0; ii < bytes; ii++)
-      {
-         _decodedBlock[ii] = (byte)(_tuple >> (24 - ii * 8));
-      }
-   }
-
-   private void appendString(StringBuilder sb, string s)
-   {
-      if (LineLength > 0 && _linePos + s.Length > LineLength)
-      {
-         _linePos = 0;
-         sb.Append('\n');
-      }
-      else
-      {
-         _linePos += s.Length;
-      }
-
-      sb.Append(s);
-   }
-
-   private void appendChar(StringBuilder sb, char c)
-   {
-      sb.Append(c);
-      _linePos++;
-
-      if (LineLength > 0 && _linePos >= LineLength)
-      {
-         _linePos = 0;
-         sb.Append('\n');
+         if (LineLength > 0 && _linePos >= LineLength)
+         {
+            _linePos = 0;
+            sb.Append('\n');
+         }
       }
    }
 }

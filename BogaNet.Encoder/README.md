@@ -6,8 +6,8 @@ A collection of various binary encoders.
 * [Base16](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_encoder_1_1_base16.html): Base16 (aka Hex) encoder.
 * [Base32](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_encoder_1_1_base32.html): Base32 encoder.
 * [Base64](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_encoder_1_1_base64.html): Base64 encoder.
-* [Base85](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_encoder_1_1_base64.html): Base85 encoder. => TBD!
-* [Base91](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_encoder_1_1_base64.html): Base91 encoder. => TBD!
+* [Base85](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_encoder_1_1_base85.html): Base85 encoder.
+* [Base91](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_encoder_1_1_base91.html): Base91 encoder.
 
 ## Nuget:
 [BogaNet.Encoder](https://www.nuget.org/packages/BogaNet.Encoder/)

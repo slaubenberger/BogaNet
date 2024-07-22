@@ -85,7 +85,8 @@ public class PreferencesContainer : IPreferencesContainer //NUnit
    public virtual object? Get(string key, bool obfuscated)
    {
       if (ContainsKey(key))
-         return obfuscated ? Obfuscator.Deobfuscate(Base64.FromBase64String(_preferences[key].ToString()!), IV).BNToString() : _preferences[key];
+         return obfuscated ? Obfuscator.Deobfuscate(Base91.FromBase91String(_preferences[key].ToString()!), IV).BNToString() : _preferences[key];
+      //return obfuscated ? Obfuscator.Deobfuscate(Base64.FromBase64String(_preferences[key].ToString()!), IV).BNToString() : _preferences[key];
 
       return null;
    }
@@ -99,7 +100,8 @@ public class PreferencesContainer : IPreferencesContainer //NUnit
       {
          if (obfuscated)
          {
-            _preferences[key] = Base64.ToBase64String(Obfuscator.Obfuscate(value.ToString()!, IV));
+            //_preferences[key] = Base64.ToBase64String(Obfuscator.Obfuscate(value.ToString()!, IV));
+            _preferences[key] = Base91.ToBase91String(Obfuscator.Obfuscate(value.ToString()!, IV));
          }
          else
          {
@@ -108,7 +110,8 @@ public class PreferencesContainer : IPreferencesContainer //NUnit
       }
       else
       {
-         _preferences.Add(key, obfuscated ? Base64.ToBase64String(Obfuscator.Obfuscate(value.ToString()!, IV)) : value);
+         //_preferences.Add(key, obfuscated ? Base64.ToBase64String(Obfuscator.Obfuscate(value.ToString()!, IV)) : value);
+         _preferences.Add(key, obfuscated ? Base91.ToBase91String(Obfuscator.Obfuscate(value.ToString()!, IV)) : value);
       }
    }
 

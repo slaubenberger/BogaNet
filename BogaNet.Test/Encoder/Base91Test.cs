@@ -11,11 +11,21 @@ public class Base91Test
    public void Base91_Test()
    {
       const string plain = "BogaNet rülez!";
+      string output;
+      string plain2;
 
-      //Byte-array
-      string output = Base91.ToBase91String(plain.BNToByteArray());
-      string plain2 = Base91.FromBase91String(output).BNToString();
-      Assert.That(plain2, Is.EqualTo(plain));
+      //BogaNet.Util.StopWatch watch = new();
+      //watch.Start();
+      for (int ii = 0; ii < 10000; ii++)
+      {
+         //Byte-array
+         output = Base91.ToBase91String(plain.BNToByteArray());
+         plain2 = Base91.FromBase91String(output).BNToString();
+         Assert.That(plain2, Is.EqualTo(plain));
+      }
+
+      //watch.Stop();
+      //Console.WriteLine(watch.ElapsedTime);
 
       //String
       output = Base91.ToBase91String(plain);

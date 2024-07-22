@@ -18,10 +18,6 @@ Little helpers to speed up Avalonia development.
 Main library for all BogaNet-packages filled with useful helpers to speed up C# development.
 
 ### Main classes
-* [Base2](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_encoder_1_1_base2.html): Base2 (aka binary) encoder.
-* [Base16](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_encoder_1_1_base16.html): Base16 (aka Hex) encoder.
-* [Base32](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_encoder_1_1_base32.html): Base32 encoder.
-* [Base64](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_encoder_1_1_base64.html): Base64 encoder.
 * [FileHelper](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_helper_1_1_file_helper.html): Various helper functions for filesystem operations.
 * [JsonHelper](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_helper_1_1_json_helper.html): Helper for JSON operations.
 * [NetworkHelper](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_helper_1_1_network_helper.html): Various helper functions for networking.
@@ -59,6 +55,20 @@ Various helpers for cryptographic functions, like hashing (SHA), asymmetric (AES
 
 ### Nuget:
 [BogaNet.Crypto](https://www.nuget.org/packages/BogaNet.Crypto/)
+
+## BogaNet.Encoder
+A collection of various binary encoders.
+
+### Main classes
+* [Base2](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_encoder_1_1_base2.html): Base2 (aka binary) encoder.
+* [Base16](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_encoder_1_1_base16.html): Base16 (aka Hex) encoder.
+* [Base32](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_encoder_1_1_base32.html): Base32 encoder.
+* [Base64](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_encoder_1_1_base64.html): Base64 encoder.
+* [Base85](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_encoder_1_1_base85.html): Base85 encoder.
+* [Base91](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_encoder_1_1_base91.html): Base91 encoder.
+
+### Nuget:
+[BogaNet.Encoder](https://www.nuget.org/packages/BogaNet.Encoder/)
 
 ## BogaNet.i18n
 Localizer for C# applications.

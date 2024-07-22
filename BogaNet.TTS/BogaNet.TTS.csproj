@@ -3,7 +3,7 @@
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
-        <Version>0.9.1</Version>
+        <Version>1.2.3</Version>
         <Company>crosstales LLC</Company>
         <Copyright>© 2024 Stefan Laubenberger</Copyright>
         <Authors>Stefan Laubenberger</Authors>
@@ -11,7 +11,7 @@
         <RepositoryUrl>https://github.com/slaubenberger/BogaNet</RepositoryUrl>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageTags>TTS Text-To-Speech Windows OSX Mac Linux ADA SSML</PackageTags>
-        <PackageReleaseNotes>Initial release.</PackageReleaseNotes>
+        <PackageReleaseNotes>Reference to BogaNet.Encoder added.</PackageReleaseNotes>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <!-- <PackageIconUrl>https://www.crosstales.com/media/data/BogaNet/logo_boga.png</PackageIconUrl> -->
         <PackageIcon>logo_boga_tts.jpg</PackageIcon>
@@ -25,7 +25,8 @@
     </ItemGroup>
 
 <!--    <ItemGroup>-->
-<!--        <PackageReference Include="BogaNet.Common" Version="1.2.2" />-->
+<!--        <PackageReference Include="BogaNet.Common" Version="1.2.3" />-->
+<!--        <PackageReference Include="BogaNet.Encoder" Version="1.2.3" />-->
 <!--    </ItemGroup>-->
 
     <ItemGroup>
