@@ -38,7 +38,19 @@ public class ImageHelper //TODO make partial?
    /// <exception cref="Exception"></exception>
    public static Bitmap LoadFromUrl(string imageUrl)
    {
-      return Task.Run(() => LoadFromUrlAsync(imageUrl)).GetAwaiter().GetResult();
+      ArgumentNullException.ThrowIfNullOrEmpty(imageUrl);
+
+      try
+      {
+         byte[] data = NetworkHelper.ReadAllBytes(imageUrl);
+
+         return new Bitmap(new MemoryStream(data));
+      }
+      catch (Exception ex)
+      {
+         _logger.LogError(ex, $"An error occurred while downloading the image '{imageUrl}'");
+         throw;
+      }
    }
 
    /// <summary>

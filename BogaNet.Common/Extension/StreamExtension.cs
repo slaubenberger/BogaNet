@@ -19,7 +19,11 @@ public static class StreamExtension
    /// <exception cref="ArgumentNullException"></exception>
    public static byte[] BNReadFully(this Stream input)
    {
-      return Task.Run(() => BNReadFullyAsync(input)).GetAwaiter().GetResult();
+      ArgumentNullException.ThrowIfNull(input);
+
+      using MemoryStream ms = new();
+      input.CopyTo(ms);
+      return ms.ToArray();
    }
 
    /// <summary>

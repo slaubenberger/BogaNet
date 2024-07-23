@@ -55,7 +55,11 @@ public abstract class ResourceHelper //TODO make partial?
    /// <exception cref="ArgumentNullException"></exception>
    public static string LoadText(string resourcePath, string? resourceAssembly = null)
    {
-      return Task.Run(() => LoadTextAsync(resourcePath, resourceAssembly)).GetAwaiter().GetResult();
+      ArgumentNullException.ThrowIfNullOrEmpty(resourcePath);
+
+      Uri fileUri = new(ValidateResource(resourcePath, resourceAssembly));
+      using StreamReader streamReader = new(AssetLoader.Open(fileUri));
+      return streamReader.ReadToEnd();
    }
 
    /// <summary>
@@ -83,7 +87,11 @@ public abstract class ResourceHelper //TODO make partial?
    /// <exception cref="ArgumentNullException"></exception>
    public static byte[] LoadBinary(string resourcePath, string? resourceAssembly = null)
    {
-      return Task.Run(() => LoadBinaryAsync(resourcePath, resourceAssembly)).GetAwaiter().GetResult();
+      ArgumentNullException.ThrowIfNullOrEmpty(resourcePath);
+
+      Uri fileUri = new(ValidateResource(resourcePath, resourceAssembly));
+      using BufferedStream streamReader = new(AssetLoader.Open(fileUri));
+      return streamReader.BNReadFully();
    }
 
    /// <summary>
