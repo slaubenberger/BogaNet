@@ -14,7 +14,7 @@ public partial class WebPreferencesContainer : PreferencesContainer
 {
    #region Variables
 
-   private static Dictionary<string, object?> _staticPreferences = [];
+   private static readonly Dictionary<string, object?> _staticPreferences = [];
 
    #endregion
 
@@ -22,11 +22,9 @@ public partial class WebPreferencesContainer : PreferencesContainer
 
    public WebPreferencesContainer()
    {
-      Console.WriteLine("Web-version of AvaloniaPreferencesContainer STARTED"); //TODO remove!
-
       Task.Run(init).GetAwaiter();
 
-      Console.WriteLine("Web-version of AvaloniaPreferencesContainer instantiated!"); //TODO remove!
+      Console.WriteLine("WebPreferencesContainer instantiated"); //TODO remove!
    }
 
    public WebPreferencesContainer(params string[] keys) : this()
@@ -86,7 +84,7 @@ public partial class WebPreferencesContainer : PreferencesContainer
    }
 
    [JSExport]
-   internal static void Preference(string key, string? value)
+   public static void Preference(string key, string? value)
    {
       Console.WriteLine($"Preference received: {key} - {value}"); //TODO remove or replace
 
@@ -101,10 +99,10 @@ public partial class WebPreferencesContainer : PreferencesContainer
    }
 
    [JSImport("setPreference", "bogabridge")]
-   internal static partial void SetPreference(string key, string? value);
+   public static partial void SetPreference(string key, string? value);
 
    [JSImport("getPreference", "bogabridge")]
-   internal static partial void GetPreference(string key);
+   public static partial void GetPreference(string key);
 
    #endregion
 }

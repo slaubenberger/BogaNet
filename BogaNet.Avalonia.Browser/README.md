@@ -1,5 +1,6 @@
 # BogaNet.Avalonia.Browser
 Browser-specific helpers for Avalonia development.
+__This package is in experimental stage!__
 
 ## Main classes and usage
 * [WebPreferencesContainer](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_prefs_1_1_web_preferences_container.html): Preferences-container for web, for more see: [BogaNet.Prefs](https://www.nuget.org/packages/BogaNet.Prefs/).
