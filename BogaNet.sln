@@ -30,6 +30,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BogaNet.TTS.Windows", "Boga
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BogaNet.Encoder", "BogaNet.Encoder\BogaNet.Encoder.csproj", "{749736E7-EC90-4CCF-89C4-0CDF5C1C3B73}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BogaNet.Avalonia.Browser", "BogaNet.Avalonia.Browser\BogaNet.Avalonia.Browser.csproj", "{6AD05101-8038-4325-BE35-B28CDD4743B6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -96,6 +98,10 @@ Global
 		{749736E7-EC90-4CCF-89C4-0CDF5C1C3B73}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{749736E7-EC90-4CCF-89C4-0CDF5C1C3B73}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{749736E7-EC90-4CCF-89C4-0CDF5C1C3B73}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6AD05101-8038-4325-BE35-B28CDD4743B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AD05101-8038-4325-BE35-B28CDD4743B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6AD05101-8038-4325-BE35-B28CDD4743B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6AD05101-8038-4325-BE35-B28CDD4743B6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection

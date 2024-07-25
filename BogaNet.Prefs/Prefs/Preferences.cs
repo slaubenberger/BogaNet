@@ -20,7 +20,7 @@ public class Preferences : Singleton<Preferences>, IFilePreferences //NUnit
 
    #region Properties
 
-   protected virtual IPreferencesContainer _container { get; set; } = new PreferencesContainer();
+   public virtual IPreferencesContainer Container { get; set; } = new PreferencesContainer();
 
    public virtual bool AutoSaveOnExit { get; set; } = true;
 
@@ -41,34 +41,34 @@ public class Preferences : Singleton<Preferences>, IFilePreferences //NUnit
 
    public virtual bool Load(string filepath = "")
    {
-      return _container.Load(filepath);
+      return Container.Load(filepath);
    }
 
    public virtual bool Save(string filepath = "")
    {
-      return _container.Save(filepath);
+      return Container.Save(filepath);
    }
 
    public virtual bool Delete(string filepath = "")
    {
-      return _container.Delete(filepath);
+      return Container.Delete(filepath);
    }
 
    public virtual bool Remove(string key)
    {
-      return _container.Remove(key);
+      return Container.Remove(key);
    }
 
    public virtual bool ContainsKey(string key)
    {
-      return _container.ContainsKey(key);
+      return Container.ContainsKey(key);
    }
 
    #region Getter
 
    public virtual string? GetString(string key, bool obfuscated = false)
    {
-      return _container.Get(key, obfuscated)?.ToString();
+      return Container.Get(key, obfuscated)?.ToString();
    }
 
    public virtual T? GetObject<T>(string key, bool obfuscated = false)
@@ -154,7 +154,7 @@ public class Preferences : Singleton<Preferences>, IFilePreferences //NUnit
 
    public virtual void Set(string key, string value, bool obfuscated = false)
    {
-      _container.Set(key, value, obfuscated);
+      Container.Set(key, value, obfuscated);
    }
 
    public virtual void Set(string key, object value, bool obfuscated = false)
@@ -166,12 +166,12 @@ public class Preferences : Singleton<Preferences>, IFilePreferences //NUnit
 
    public virtual void Set<T>(string key, T value, bool obfuscated = false) where T : INumber<T>
    {
-      _container.Set(key, value, obfuscated);
+      Container.Set(key, value, obfuscated);
    }
 
    public virtual void Set(string key, bool value, bool obfuscated = false)
    {
-      _container.Set(key, value, obfuscated);
+      Container.Set(key, value, obfuscated);
    }
 
    public virtual void Set(string key, DateTime value, bool obfuscated = false)
