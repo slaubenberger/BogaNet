@@ -3,15 +3,15 @@
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
-        <Version>0.6.0</Version>
+        <Version>0.6.1</Version>
         <Company>crosstales LLC</Company>
         <Copyright>© 2024 Stefan Laubenberger</Copyright>
         <Authors>Stefan Laubenberger</Authors>
         <Description>Little helpers to speed up Avalonia development.</Description>
         <RepositoryUrl>https://github.com/slaubenberger/BogaNet</RepositoryUrl>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageTags>Avalonia Extension Image Text Resources i18n Translate Accessibility</PackageTags>
-        <PackageReleaseNotes>Async improved.</PackageReleaseNotes>
+        <PackageTags>Avalonia Extension Image Text Resources i18n Translate Accessibility Preferences</PackageTags>
+        <PackageReleaseNotes>Multi-platform preferences added.</PackageReleaseNotes>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <!-- <PackageIconUrl>https://www.crosstales.com/media/data/BogaNet/logo_boga.png</PackageIconUrl> -->
         <PackageIcon>logo_boga_avalonia.jpg</PackageIcon>
@@ -30,10 +30,12 @@
         </PackageReference>
 <!--        <PackageReference Include="BogaNet.Common" Version="1.2.4" />-->
 <!--        <PackageReference Include="BogaNet.i18n" Version="1.2.2" />-->
+<!--        <PackageReference Include="BogaNet.Prefs" Version="1.2.4" />-->
     </ItemGroup>
     
     <ItemGroup>
         <ProjectReference Include="..\BogaNet.Common\BogaNet.Common.csproj"/>
         <ProjectReference Include="..\BogaNet.i18n\BogaNet.i18n.csproj"/>
+        <ProjectReference Include="..\BogaNet.Prefs\BogaNet.Prefs.csproj" />
     </ItemGroup>
 </Project>

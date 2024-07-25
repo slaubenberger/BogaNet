@@ -83,7 +83,7 @@ public class Localizer : Singleton<Localizer>, ILocalizer //NUnit
 
    #region Constructor
 
-   private Localizer()
+   protected Localizer()
    {
    }
 

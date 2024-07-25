@@ -10,17 +10,17 @@ namespace BogaNet.Prefs;
 /// <summary>
 /// Preferences for the application.
 /// </summary>
-public class Preferences : Singleton<Preferences>, IPreferences //NUnit //TODO add support for web and mobile (Avalonia) ?
+public class Preferences : Singleton<Preferences>, IFilePreferences //NUnit
 {
    #region Variables
 
    private static readonly ILogger<Preferences> _logger = GlobalLogging.CreateLogger<Preferences>();
 
-   protected IPreferencesContainer _container = new PreferencesContainer();
-
    #endregion
 
    #region Properties
+
+   protected virtual IPreferencesContainer _container { get; set; } = new PreferencesContainer();
 
    public virtual bool AutoSaveOnExit { get; set; } = true;
 
@@ -28,7 +28,7 @@ public class Preferences : Singleton<Preferences>, IPreferences //NUnit //TODO a
 
    #region Constructor
 
-   private Preferences()
+   protected Preferences()
    {
       Load();
 
@@ -149,7 +149,6 @@ public class Preferences : Singleton<Preferences>, IPreferences //NUnit //TODO a
    }
 
    #endregion
-
 
    #region Setter
 

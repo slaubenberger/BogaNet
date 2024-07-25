@@ -95,7 +95,7 @@ public class Speaker : Singleton<Speaker>, IVoiceProvider
 
    #region Constructor
 
-   private Speaker()
+   protected Speaker()
    {
       initProvider();
    }
