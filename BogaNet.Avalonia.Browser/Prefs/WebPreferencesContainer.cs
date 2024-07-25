@@ -1,9 +1,9 @@
 ﻿using System;
-using BogaNet.Extension;
 using System.Runtime.InteropServices.JavaScript;
 using System.Threading.Tasks;
 using BogaNet.Util;
 using BogaNet.Encoder;
+using System.Collections.Generic;
 
 namespace BogaNet.Prefs;
 
@@ -12,64 +12,55 @@ namespace BogaNet.Prefs;
 /// </summary>
 public partial class WebPreferencesContainer : PreferencesContainer
 {
-   private static string? _value;
-   private static bool _receivedPreference;
+   #region Variables
+
+   private static Dictionary<string, object?> _staticPreferences = [];
+
+   #endregion
+
+   #region Constructors
 
    public WebPreferencesContainer()
    {
       Console.WriteLine("Web-version of AvaloniaPreferencesContainer STARTED"); //TODO remove!
 
-      Task.Run(init).GetAwaiter().GetResult();
+      Task.Run(init).GetAwaiter();
 
       Console.WriteLine("Web-version of AvaloniaPreferencesContainer instantiated!"); //TODO remove!
    }
 
-   private async Task init()
+   public WebPreferencesContainer(params string[] keys) : this()
    {
-      await JSHost.ImportAsync("bogabridge", "../boganet_bridge.js");
+      foreach (var key in keys)
+      {
+         GetPreference(key);
+      }
    }
+
+   #endregion
+
+   #region Overridden methods
 
    public override bool ContainsKey(string key)
    {
-      return Task.Run(() => ContainsKeyAsync(key)).GetAwaiter().GetResult();
-   }
-
-   public virtual async Task<bool> ContainsKeyAsync(string key)
-   {
       ArgumentNullException.ThrowIfNullOrEmpty(key);
+
+      if (_staticPreferences.ContainsKey(key))
+         return true;
 
       GetPreference(key);
 
-      do
-      {
-         await Task.Delay(100);
-      } while (!_receivedPreference);
-
-      _receivedPreference = false;
-
-      return !string.IsNullOrEmpty(_value);
+      return false;
    }
 
    public override object? Get(string key, bool obfuscated)
    {
-      return Task.Run(() => GetAsync(key, obfuscated)).GetAwaiter().GetResult();
-   }
-
-   public virtual async Task<object?> GetAsync(string key, bool obfuscated)
-   {
       ArgumentNullException.ThrowIfNullOrEmpty(key);
 
+      if (_staticPreferences.ContainsKey(key))
+         return _staticPreferences[key];
+
       GetPreference(key);
-
-      do
-      {
-         await Task.Delay(100);
-      } while (!_receivedPreference);
-
-      _receivedPreference = false;
-
-      if (!string.IsNullOrEmpty(_value))
-         return obfuscated ? Obfuscator.Deobfuscate(Base91.FromBase91String(_value), IV).BNToString() : _value;
 
       return null;
    }
@@ -79,15 +70,34 @@ public partial class WebPreferencesContainer : PreferencesContainer
       ArgumentNullException.ThrowIfNullOrEmpty(key);
       ArgumentNullException.ThrowIfNull(value);
 
+      if (_staticPreferences.TryGetValue(key, out object? v) && v!.Equals(value))
+         return;
+
       SetPreference(key, obfuscated ? Base91.ToBase91String(Obfuscator.Obfuscate(value.ToString()!, IV)) : value.ToString());
    }
 
-   [JSExport]
-   internal static void Preference(string pref)
+   #endregion
+
+   #region Private methods
+
+   private async Task init()
    {
-      _receivedPreference = true;
-      _value = pref;
-      Console.WriteLine("Preference received: " + pref); //TODO remove or replace
+      await JSHost.ImportAsync("bogabridge", "../boganet_bridge.js");
+   }
+
+   [JSExport]
+   internal static void Preference(string key, string? value)
+   {
+      Console.WriteLine($"Preference received: {key} - {value}"); //TODO remove or replace
+
+      if (_staticPreferences.ContainsKey(key))
+      {
+         _staticPreferences[key] = value;
+      }
+      else
+      {
+         _staticPreferences.Add(key, value);
+      }
    }
 
    [JSImport("setPreference", "bogabridge")]
@@ -95,4 +105,6 @@ public partial class WebPreferencesContainer : PreferencesContainer
 
    [JSImport("getPreference", "bogabridge")]
    internal static partial void GetPreference(string key);
+
+   #endregion
 }

@@ -14,10 +14,13 @@ public static AppBuilder BuildAvaloniaApp()
 }
 ```
 
-To make it work in web-builds, please add the following line at the end of "main.js" under "wwwroot"s:
+To make it work in web-builds, please add the following line at the end of "main.js" under "wwwroot":
 ```
 export const exports = await dotnetRuntime.getAssemblyExports(config.mainAssemblyName);
 ```
+
+Unfortunately, you have to manually copy the "boganet_bridge.js" to "wwwroot" since I don't know how to include it in the Nuget-package correctly... Tips are welcome! :-)
+[boganet_bridge.js](https://raw.githubusercontent.com/slaubenberger/BogaNet/develop/BogaNet.Avalonia.Browser/wwwroot/boganet_bridge.js)
 
 ## Nuget:
 [BogaNet.Avalonia.Browser](https://www.nuget.org/packages/BogaNet.Avalonia.Browser/)

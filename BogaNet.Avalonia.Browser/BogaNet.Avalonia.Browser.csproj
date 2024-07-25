@@ -4,7 +4,7 @@
         <TargetFramework>net8.0-browser</TargetFramework>
         <Nullable>enable</Nullable>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-        <Version>0.5.0</Version>
+        <Version>0.5.4</Version>
         <Company>crosstales LLC</Company>
         <Copyright>© 2024 Stefan Laubenberger</Copyright>
         <Authors>Stefan Laubenberger</Authors>
@@ -26,17 +26,13 @@
     </ItemGroup>
 
     <ItemGroup>
-        <!--        <Content Include="wwwroot\boganet_bridge.js" Condition="$([MSBuild]::IsOSPlatform('Windows'))">-->
-        <Content Include="wwwroot\boganet_bridge.js">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-            <PackageCopyToOutput>true</PackageCopyToOutput>
-        </Content>
+        <WasmExtraFilesToDeploy Include="./wwwroot/boganet_bridge.js">
+<!--            <CopyToOutputDirectory>Always</CopyToOutputDirectory>-->
+<!--            <PackageCopyToOutput>true</PackageCopyToOutput>-->
+        </WasmExtraFilesToDeploy>
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Avalonia" Version="11.0.10">
-            <!--            <PrivateAssets>all</PrivateAssets>-->
-        </PackageReference>
         <PackageReference Include="BogaNet.Common" Version="1.2.4" />
         <PackageReference Include="BogaNet.Prefs" Version="1.2.5" />
     </ItemGroup>

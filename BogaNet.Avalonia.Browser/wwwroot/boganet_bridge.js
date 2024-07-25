@@ -11,7 +11,7 @@ export async function getPreference(key) {
 
     //console.log("getPreference: " + key + " - " + value);
 
-    exports.AvaloniaPreferencesContainer.Preference(value);
+    exports.AvaloniaPreferencesContainer.Preference(key, value);
 }
 
 
