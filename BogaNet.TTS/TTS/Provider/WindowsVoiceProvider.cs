@@ -62,8 +62,18 @@ public class WindowsVoiceProvider : Singleton<WindowsVoiceProvider>, IVoiceProvi
          return _cachedCultures;
       }
    }
-
+   
+   public bool IsReady { get; private set; }
+   
    private string _applicationName => WindowsWrapper.Application;
+
+   #endregion
+
+   #region Events
+
+   public event IVoiceProvider.VoicesLoaded? OnVoicesLoaded;
+
+   public event IVoiceProvider.SpeakCompleted? OnSpeakCompleted;
 
    #endregion
 
@@ -86,7 +96,12 @@ public class WindowsVoiceProvider : Singleton<WindowsVoiceProvider>, IVoiceProvi
 
    public virtual async Task<List<Voice>> GetVoicesAsync()
    {
-      return await getVoices() ?? [];
+      List<Voice> res = await getVoices() ?? [];
+
+      IsReady = res.Count > 0;
+      OnVoicesLoaded?.Invoke(res);
+
+      return res;
    }
 
    public virtual void Silence()
@@ -121,6 +136,8 @@ public class WindowsVoiceProvider : Singleton<WindowsVoiceProvider>, IVoiceProvi
       _process = new();
 
       Process process = await _process.StartAsync(_applicationName, args, true, Encoding.UTF8);
+
+      OnSpeakCompleted?.Invoke(text);
 
       if (process.ExitCode is 0 or -1 or 137) //0 = normal ended, -1/137 = killed
       {

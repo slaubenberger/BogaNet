@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using BogaNet.Extension;
 using BogaNet.ObfuscatedType;
 using System;
+using System.Threading.Tasks;
 
 namespace BogaNet.Prefs;
 
@@ -28,20 +29,39 @@ public class PreferencesContainer : IPreferencesContainer //NUnit
    /// </summary>
    public virtual ByteObf IV { get; set; } = 139;
 
+   public virtual bool IsLoaded { get; protected set; }
+   public bool IsSaved { get; protected set; }
+
+   #endregion
+
+   #region Events
+
+   public virtual event IFilePreferences.FileLoaded? OnFileLoaded;
+
+   public virtual event IFilePreferences.FileSaved? OnFileSaved;
+
    #endregion
 
    #region Public methods
 
    public virtual bool Load(string filepath = "")
    {
+      return Task.Run(() => LoadAsync(filepath)).GetAwaiter().GetResult();
+   }
+
+   public virtual async Task<bool> LoadAsync(string filepath = "")
+   {
       if (!string.IsNullOrEmpty(filepath))
          _file = filepath;
 
       if (FileHelper.Exists(_file))
       {
-         Dictionary<string, object> prefs = JsonHelper.DeserializeFromFile<Dictionary<string, object>>(_file);
+         Dictionary<string, object> prefs = await JsonHelper.DeserializeFromFileAsync<Dictionary<string, object>>(_file);
 
          _preferences = prefs;
+
+         IsLoaded = _preferences.Count > 0;
+         OnFileLoaded?.Invoke(filepath);
 
          return true;
       }
@@ -51,10 +71,20 @@ public class PreferencesContainer : IPreferencesContainer //NUnit
 
    public virtual bool Save(string filepath = "")
    {
+      return Task.Run(() => SaveAsync(filepath)).GetAwaiter().GetResult();
+   }
+
+   public virtual async Task<bool> SaveAsync(string filepath = "")
+   {
       if (!string.IsNullOrEmpty(filepath))
          _file = filepath;
 
-      return JsonHelper.SerializeToFile(_preferences, _file);
+      bool res = await JsonHelper.SerializeToFileAsync(_preferences, _file);
+      IsSaved = res;
+
+      OnFileSaved?.Invoke(filepath);
+
+      return res;
    }
 
    public virtual bool Delete(string filepath = "")
@@ -67,12 +97,19 @@ public class PreferencesContainer : IPreferencesContainer //NUnit
       if (FileHelper.Exists(_file))
          return FileHelper.Delete(_file);
 
+      IsSaved = IsLoaded = false;
       return true;
    }
 
    public virtual bool Remove(string key)
    {
-      return ContainsKey(key) && _preferences.Remove(key);
+      bool res = false;
+
+      if (ContainsKey(key))
+         res = _preferences.Remove(key);
+
+      IsSaved = !res;
+      return res;
    }
 
    public virtual bool ContainsKey(string key)
@@ -113,6 +150,8 @@ public class PreferencesContainer : IPreferencesContainer //NUnit
          //_preferences.Add(key, obfuscated ? Base64.ToBase64String(Obfuscator.Obfuscate(value.ToString()!, IV)) : value);
          _preferences.Add(key, obfuscated ? Base91.ToBase91String(Obfuscator.Obfuscate(value.ToString()!, IV)) : value);
       }
+
+      IsSaved = false;
    }
 
    public override string ToString()

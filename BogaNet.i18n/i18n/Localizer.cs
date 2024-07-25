@@ -40,7 +40,7 @@ public class Localizer : Singleton<Localizer>, ILocalizer //NUnit
                _logger.LogWarning($"No supported culture for {Culture} found!");
 
             _culture = value;
-            OnCultureChange?.Invoke(_culture);
+            OnCultureChanged?.Invoke(_culture);
          }
       }
    }
@@ -72,12 +72,15 @@ public class Localizer : Singleton<Localizer>, ILocalizer //NUnit
    public virtual List<string> MissingCountries { get; } = [];
    public virtual List<string> RemovedTranslations { get; } = [];
    public virtual List<string> AddedTranslations { get; } = [];
+   public virtual bool IsLoaded { get; protected set; }
 
    #endregion
 
    #region Events
 
-   public event ILocalizer.CultureChange? OnCultureChange;
+   public event ILocalizer.CultureChanged? OnCultureChanged;
+   public event ILocalizer.FilesLoaded? OnFilesLoaded;
+   public event ILocalizer.FileSaved? OnFileSaved;
 
    #endregion
 
@@ -173,7 +176,6 @@ public class Localizer : Singleton<Localizer>, ILocalizer //NUnit
 
             return true;
          }
-
 
          if (_messages[key].ContainsKey(culture.ToString()))
          {
@@ -305,10 +307,18 @@ public class Localizer : Singleton<Localizer>, ILocalizer //NUnit
             allLines.Add(currentTranslation, lines);
       }
 
-      if (allLines.Count > 0)
+      bool res = allLines.Count > 0;
+
+      if (res)
+      {
          Load(allLines);
 
-      return allLines.Count > 0;
+         OnFilesLoaded?.Invoke(files);
+      }
+
+      IsLoaded = res; //too simple?
+
+      return res;
    }
 
    public bool LoadFilesFromUrl(params string[] urls)
@@ -333,6 +343,8 @@ public class Localizer : Singleton<Localizer>, ILocalizer //NUnit
       if (allLines.Count > 0)
          Load(allLines);
 
+      OnFilesLoaded?.Invoke(urls);
+
       return allLines.Count > 0;
    }
 
@@ -346,7 +358,11 @@ public class Localizer : Singleton<Localizer>, ILocalizer //NUnit
       ArgumentNullException.ThrowIfNullOrEmpty(filename);
 
       string content = getEntries();
-      return await FileHelper.WriteAllTextAsync(filename, content);
+      bool res = await FileHelper.WriteAllTextAsync(filename, content);
+
+      OnFileSaved?.Invoke(filename);
+
+      return res;
    }
 
    #endregion

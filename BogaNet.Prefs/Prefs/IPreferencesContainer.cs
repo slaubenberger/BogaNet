@@ -1,10 +1,28 @@
-﻿namespace BogaNet.Prefs;
+﻿using System.Threading.Tasks;
+
+namespace BogaNet.Prefs;
 
 /// <summary>
 /// Interface for containers of the application preferences.
 /// </summary>
 public interface IPreferencesContainer
 {
+   #region Properties
+
+   /// <summary>
+   /// Is the preferences-container loaded?
+   /// </summary>
+   bool IsLoaded { get; }
+
+   /// <summary>
+   /// Is the current preferences-container saved?
+   /// </summary>
+   bool IsSaved { get; }
+
+   #endregion
+
+   #region Methods
+
    /// <summary>
    /// Load the preference file.
    /// </summary>
@@ -13,11 +31,25 @@ public interface IPreferencesContainer
    bool Load(string filepath = "");
 
    /// <summary>
+   /// Load the preference file asynchronously.
+   /// </summary>
+   /// <param name="filepath">Preference file to load</param>
+   ///<returns>True if the operation was successful</returns>
+   Task<bool> LoadAsync(string filepath = "");
+
+   /// <summary>
    /// Save the preference file.
    /// </summary>
    /// <param name="filepath">Preference file to save</param>
    ///<returns>True if the operation was successful</returns>
    bool Save(string filepath = "");
+
+   /// <summary>
+   /// Save the preference file asynchronously.
+   /// </summary>
+   /// <param name="filepath">Preference file to save</param>
+   ///<returns>True if the operation was successful</returns>
+   Task<bool> SaveAsync(string filepath = "");
 
    /// <summary>
    /// Delete all preferences, including the file.
@@ -50,5 +82,7 @@ public interface IPreferencesContainer
    /// <param name="key">Key for the string</param>
    /// <param name="value">Object for the preferences</param>
    /// <param name="obfuscated">Obfuscate value in the preferences (optional, default: false)</param>
-    void Set(string key, object value, bool obfuscated);
+   void Set(string key, object value, bool obfuscated);
+
+   #endregion
 }

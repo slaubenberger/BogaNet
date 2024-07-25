@@ -60,6 +60,7 @@ public class Speaker : Singleton<Speaker>, IVoiceProvider
    public bool IsPlatformSupported => voiceProvider?.IsPlatformSupported == true;
    public bool IsSSMLSupported => voiceProvider != null && voiceProvider.IsSSMLSupported;
    public List<string> Cultures => voiceProvider != null ? voiceProvider.Cultures : [];
+   public bool IsReady { get; private set; }
 
    /// <summary>eSpeak application name/path.</summary>
    public string ESpeakApplication
@@ -90,6 +91,14 @@ public class Speaker : Singleton<Speaker>, IVoiceProvider
    }
 
    #endregion
+
+   #endregion
+
+   #region Events
+
+   public event IVoiceProvider.VoicesLoaded? OnVoicesLoaded;
+
+   public event IVoiceProvider.SpeakCompleted? OnSpeakCompleted;
 
    #endregion
 
@@ -461,12 +470,20 @@ public class Speaker : Singleton<Speaker>, IVoiceProvider
    {
       _logger.LogDebug("GetVoices called");
 
+      List<Voice> res = [];
       if (voiceProvider != null)
-         return await voiceProvider.GetVoicesAsync();
+      {
+         res = await voiceProvider.GetVoicesAsync();
+      }
+      else
+      {
+         logPlatformNotSupported();
+      }
 
-      logPlatformNotSupported();
+      IsReady = res.Count > 0;
+      OnVoicesLoaded?.Invoke(res);
 
-      return [];
+      return res;
    }
 
    public void Silence()
@@ -492,12 +509,20 @@ public class Speaker : Singleton<Speaker>, IVoiceProvider
    {
       _logger.LogDebug($"Speak called: {text} - Voice: {voice} - Rate: {rate} - Pitch: {pitch} - Volume: {volume} - ForceSSML: {forceSSML}");
 
+      bool res = false;
+
       if (voiceProvider != null)
-         return await voiceProvider.SpeakAsync(text, voice, rate, pitch, volume, forceSSML);
+      {
+         res = await voiceProvider.SpeakAsync(text, voice, rate, pitch, volume, forceSSML);
+      }
+      else
+      {
+         logPlatformNotSupported();
+      }
 
-      logPlatformNotSupported();
+      OnSpeakCompleted?.Invoke(text);
 
-      return false;
+      return res;
    }
 
    #endregion

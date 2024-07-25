@@ -8,6 +8,22 @@ namespace BogaNet.Prefs;
 /// </summary>
 public interface IPreferences
 {
+   #region Properties
+
+   /// <summary>
+   /// Are the preferences loaded?
+   /// </summary>
+   bool IsLoaded { get; }
+
+   /// <summary>
+   /// Are the current preferences saved?
+   /// </summary>
+   bool IsSaved { get; }
+
+   #endregion
+
+   #region Methods
+
    /// <summary>
    /// Removes a key/value from the preferences.
    /// </summary>
@@ -56,7 +72,6 @@ public interface IPreferences
 
    #endregion
 
-
    #region Setter
 
    /// <summary>Set a string for a key.</summary>
@@ -88,6 +103,8 @@ public interface IPreferences
    /// <param name="value">DateTime for the preferences</param>
    /// <param name="obfuscated">Obfuscate value in the preferences (optional, default: false)</param>
    void Set(string key, DateTime value, bool obfuscated = false);
+
+   #endregion
 
    #endregion
 }

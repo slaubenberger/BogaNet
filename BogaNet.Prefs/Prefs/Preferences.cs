@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using BogaNet.Extension;
 using BogaNet.Util;
+using System.Threading.Tasks;
 
 namespace BogaNet.Prefs;
 
@@ -21,8 +22,17 @@ public class Preferences : Singleton<Preferences>, IFilePreferences //NUnit
    #region Properties
 
    public virtual IPreferencesContainer Container { get; set; } = new PreferencesContainer();
-
    public virtual bool AutoSaveOnExit { get; set; } = true;
+   public virtual bool IsLoaded => Container.IsLoaded;
+   public bool IsSaved => Container.IsSaved;
+
+   #endregion
+
+   #region Events
+
+   public event IFilePreferences.FileLoaded? OnFileLoaded;
+
+   public event IFilePreferences.FileSaved? OnFileSaved;
 
    #endregion
 
@@ -30,7 +40,7 @@ public class Preferences : Singleton<Preferences>, IFilePreferences //NUnit
 
    protected Preferences()
    {
-      Load();
+      //Load(); //TODO good idea?
 
       AppDomain.CurrentDomain.ProcessExit += cb_exit;
    }
@@ -41,12 +51,26 @@ public class Preferences : Singleton<Preferences>, IFilePreferences //NUnit
 
    public virtual bool Load(string filepath = "")
    {
-      return Container.Load(filepath);
+      return Task.Run(() => LoadAsync(filepath)).GetAwaiter().GetResult();
+   }
+
+   public virtual async Task<bool> LoadAsync(string filepath = "")
+   {
+      bool res = await Container.LoadAsync(filepath);
+      OnFileLoaded?.Invoke(filepath);
+      return res;
    }
 
    public virtual bool Save(string filepath = "")
    {
-      return Container.Save(filepath);
+      return Task.Run(() => SaveAsync(filepath)).GetAwaiter().GetResult();
+   }
+
+   public virtual async Task<bool> SaveAsync(string filepath = "")
+   {
+      bool res = await Container.SaveAsync(filepath);
+      OnFileSaved?.Invoke(filepath);
+      return res;
    }
 
    public virtual bool Delete(string filepath = "")

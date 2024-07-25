@@ -34,6 +34,35 @@ public interface IVoiceProvider
    /// <returns>All available cultures (alphabetically ordered by 'Culture') as a list.</returns>
    List<string> Cultures { get; }
 
+   /// <summary>
+   /// Is the provider ready to use?
+   /// </summary>
+   bool IsReady { get; }
+
+   #endregion
+
+   #region Events
+
+   /// <summary>
+   /// Delegate for the load status of the voices.
+   /// </summary>
+   delegate void VoicesLoaded(List<Voice> voices);
+
+   /// <summary>
+   /// Event triggered whenever the voices are loaded.
+   /// </summary>
+   event VoicesLoaded OnVoicesLoaded;
+
+   /// <summary>
+   /// Delegate for the speak status.
+   /// </summary>
+   delegate void SpeakCompleted(string text);
+
+   /// <summary>
+   /// Event triggered whenever a speech is completed.
+   /// </summary>
+   event SpeakCompleted OnSpeakCompleted;
+
    #endregion
 
    #region Methods

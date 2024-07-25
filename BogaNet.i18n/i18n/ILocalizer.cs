@@ -10,6 +10,8 @@ namespace BogaNet.i18n;
 /// </summary>
 public interface ILocalizer
 {
+   #region Properties
+
    /// <summary>
    /// Current culture.
    /// </summary>
@@ -41,14 +43,47 @@ public interface ILocalizer
    List<string> AddedTranslations { get; }
 
    /// <summary>
+   /// Is the localizer loaded?
+   /// </summary>
+   bool IsLoaded { get; }
+
+   #endregion
+
+   #region Events
+
+   /// <summary>
    /// Delegate for culture changes.
    /// </summary>
-   delegate void CultureChange(CultureInfo lang);
+   delegate void CultureChanged(CultureInfo lang);
 
    /// <summary>
    /// Event triggered whenever the culture changes.
    /// </summary>
-   event CultureChange OnCultureChange;
+   event CultureChanged OnCultureChanged;
+
+   /// <summary>
+   /// Delegate for the load status of the files.
+   /// </summary>
+   delegate void FilesLoaded(params string[] files);
+
+   /// <summary>
+   /// Event triggered whenever the files are loaded.
+   /// </summary>
+   event FilesLoaded OnFilesLoaded;
+
+   /// <summary>
+   /// Delegate for the save status of the file.
+   /// </summary>
+   delegate void FileSaved(string file);
+
+   /// <summary>
+   /// Event triggered whenever the file is saved.
+   /// </summary>
+   event FileSaved OnFileSaved;
+
+   #endregion
+
+   #region Methods
 
    /// <summary>
    /// Gets the text for a key and the current culture.
@@ -164,4 +199,6 @@ public interface ILocalizer
    ///<returns>True if the operation was successful</returns>
    /// <exception cref="Exception"></exception>
    Task<bool> SaveFileAsync(string filename);
+
+   #endregion
 }

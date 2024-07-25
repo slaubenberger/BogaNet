@@ -76,6 +76,16 @@ public class LinuxVoiceProvider : Singleton<LinuxVoiceProvider>, IVoiceProvider
       }
    }
 
+   public bool IsReady { get; private set; }
+
+   #endregion
+
+   #region Events
+
+   public event IVoiceProvider.VoicesLoaded? OnVoicesLoaded;
+
+   public event IVoiceProvider.SpeakCompleted? OnSpeakCompleted;
+
    #endregion
 
    #region Constructor
@@ -95,7 +105,12 @@ public class LinuxVoiceProvider : Singleton<LinuxVoiceProvider>, IVoiceProvider
 
    public virtual async Task<List<Voice>> GetVoicesAsync()
    {
-      return await getVoices() ?? [];
+      List<Voice> res = await getVoices() ?? [];
+
+      IsReady = res.Count > 0;
+      OnVoicesLoaded?.Invoke(res);
+
+      return res;
    }
 
    public void Silence()
@@ -135,6 +150,8 @@ public class LinuxVoiceProvider : Singleton<LinuxVoiceProvider>, IVoiceProvider
       _process = new();
 
       Process process = await _process.StartAsync(ESpeakApplication, args, true);
+
+      OnSpeakCompleted?.Invoke(text);
 
       if (process.ExitCode is 0 or -1 or 137) //0 = normal ended, -1/137 = killed
       {
