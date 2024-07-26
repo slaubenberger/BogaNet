@@ -123,7 +123,9 @@ public static class Base2 //NUnit
    /// <exception cref="Exception"></exception>
    public static string Base2FromFile(string file)
    {
-      return Task.Run(() => Base2FromFileAsync(file)).GetAwaiter().GetResult();
+      ArgumentNullException.ThrowIfNullOrEmpty(file);
+
+      return ToBase2String(FileHelper.ReadAllBytes(file));
    }
 
    /// <summary>
@@ -148,7 +150,9 @@ public static class Base2 //NUnit
    /// <exception cref="Exception"></exception>
    public static bool FileFromBase2(string file, string base2string)
    {
-      return Task.Run(() => FileFromBase2Async(file, base2string)).GetAwaiter().GetResult();
+      ArgumentNullException.ThrowIfNullOrEmpty(file);
+
+      return FileHelper.WriteAllBytes(file, FromBase2String(base2string));
    }
 
    /// <summary>

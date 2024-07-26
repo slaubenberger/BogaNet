@@ -463,12 +463,27 @@ public class Speaker : Singleton<Speaker>, IVoiceProvider
 
    public List<Voice> GetVoices()
    {
-      return Task.Run(GetVoicesAsync).GetAwaiter().GetResult();
+      _logger.LogDebug("GetVoices called");
+
+      List<Voice> res = [];
+      if (voiceProvider != null)
+      {
+         res = voiceProvider.GetVoices();
+      }
+      else
+      {
+         logPlatformNotSupported();
+      }
+
+      IsReady = res.Count > 0;
+      OnVoicesLoaded?.Invoke(res);
+
+      return res;
    }
 
    public async Task<List<Voice>> GetVoicesAsync()
    {
-      _logger.LogDebug("GetVoices called");
+      _logger.LogDebug("GetVoicesAsync called");
 
       List<Voice> res = [];
       if (voiceProvider != null)
@@ -502,12 +517,27 @@ public class Speaker : Singleton<Speaker>, IVoiceProvider
 
    public bool Speak(string text, Voice? voice = null, float rate = 1, float pitch = 1, float volume = 1, bool forceSSML = true)
    {
-      return Task.Run(() => SpeakAsync(text, voice, rate, pitch, volume, forceSSML)).GetAwaiter().GetResult();
+      _logger.LogDebug($"Speak called: {text} - Voice: {voice} - Rate: {rate} - Pitch: {pitch} - Volume: {volume} - ForceSSML: {forceSSML}");
+
+      bool res = false;
+
+      if (voiceProvider != null)
+      {
+         res = voiceProvider.Speak(text, voice, rate, pitch, volume, forceSSML);
+      }
+      else
+      {
+         logPlatformNotSupported();
+      }
+
+      OnSpeakCompleted?.Invoke(text);
+
+      return res;
    }
 
    public async Task<bool> SpeakAsync(string text, Voice? voice = null, float rate = 1, float pitch = 1, float volume = 1, bool forceSSML = true)
    {
-      _logger.LogDebug($"Speak called: {text} - Voice: {voice} - Rate: {rate} - Pitch: {pitch} - Volume: {volume} - ForceSSML: {forceSSML}");
+      _logger.LogDebug($"SpeakAsync called: {text} - Voice: {voice} - Rate: {rate} - Pitch: {pitch} - Volume: {volume} - ForceSSML: {forceSSML}");
 
       bool res = false;
 

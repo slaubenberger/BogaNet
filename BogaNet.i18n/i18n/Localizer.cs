@@ -290,7 +290,30 @@ public class Localizer : Singleton<Localizer>, ILocalizer //NUnit
 
    public virtual bool LoadFiles(params string[] files)
    {
-      return Task.Run(() => LoadFilesAsync(files)).GetAwaiter().GetResult();
+      ArgumentNullException.ThrowIfNull(files);
+
+      Dictionary<string, string[]> allLines = new();
+
+      foreach (string currentTranslation in files)
+      {
+         string[] lines = FileHelper.ReadAllLines(currentTranslation);
+
+         if (lines.Length > 1)
+            allLines.Add(currentTranslation, lines);
+      }
+
+      bool res = allLines.Count > 0;
+
+      if (res)
+      {
+         Load(allLines);
+
+         OnFilesLoaded?.Invoke(files);
+      }
+
+      IsLoaded = res; //too simple?
+
+      return res;
    }
 
    public virtual async Task<bool> LoadFilesAsync(params string[] files)
@@ -350,7 +373,14 @@ public class Localizer : Singleton<Localizer>, ILocalizer //NUnit
 
    public virtual bool SaveFile(string filename)
    {
-      return Task.Run(() => SaveFileAsync(filename)).GetAwaiter().GetResult();
+      ArgumentNullException.ThrowIfNullOrEmpty(filename);
+
+      string content = getEntries();
+      bool res = FileHelper.WriteAllText(filename, content);
+
+      OnFileSaved?.Invoke(filename);
+
+      return res;
    }
 
    public virtual async Task<bool> SaveFileAsync(string filename)

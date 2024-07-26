@@ -121,7 +121,7 @@ public class ProcessRunner
 
          if (args != null)
             psi.Arguments = args;
-         
+
          psi.UseShellExecute = false;
          psi.CreateNoWindow = createNoWindow;
          psi.StandardErrorEncoding = psi.StandardOutputEncoding = psi.StandardInputEncoding = encoding ?? Encoding.Latin1;

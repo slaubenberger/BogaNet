@@ -65,7 +65,10 @@ public abstract class HashHelper //NUnit
    /// <exception cref="Exception"></exception>
    public static byte[] HashFile(string file, HashAlgorithm algo)
    {
-      return Task.Run(() => HashFileAsync(file, algo)).GetAwaiter().GetResult();
+      ArgumentNullException.ThrowIfNullOrEmpty(file);
+
+      byte[] bytes = FileHelper.ReadAllBytes(file);
+      return Hash(bytes, algo);
    }
 
    /// <summary>
@@ -120,7 +123,8 @@ public abstract class HashHelper //NUnit
    /// <exception cref="Exception"></exception>
    public static byte[] HashSHA256File(string file)
    {
-      return Task.Run(() => HashSHA256FileAsync(file)).GetAwaiter().GetResult();
+      using HashAlgorithm sha256 = SHA256.Create();
+      return HashFile(file, sha256);
    }
 
    /// <summary>
@@ -172,7 +176,8 @@ public abstract class HashHelper //NUnit
    /// <exception cref="Exception"></exception>
    public static byte[] HashSHA384File(string file)
    {
-      return Task.Run(() => HashSHA384FileAsync(file)).GetAwaiter().GetResult();
+      using HashAlgorithm sha384 = SHA384.Create();
+      return HashFile(file, sha384);
    }
 
    /// <summary>
@@ -224,7 +229,8 @@ public abstract class HashHelper //NUnit
    /// <exception cref="Exception"></exception>
    public static byte[] HashSHA512File(string file)
    {
-      return Task.Run(() => HashSHA512FileAsync(file)).GetAwaiter().GetResult();
+      using HashAlgorithm sha512 = SHA512.Create();
+      return HashFile(file, sha512);
    }
 
    /// <summary>
@@ -276,7 +282,8 @@ public abstract class HashHelper //NUnit
    /// <exception cref="Exception"></exception>
    public static byte[] HashSHA3_256File(string file)
    {
-      return Task.Run(() => HashSHA3_256FileAsync(file)).GetAwaiter().GetResult();
+      using HashAlgorithm sha256 = SHA3_256.Create();
+      return HashFile(file, sha256);
    }
 
    /// <summary>
@@ -328,7 +335,8 @@ public abstract class HashHelper //NUnit
    /// <exception cref="Exception"></exception>
    public static byte[] HashSHA3_384File(string file)
    {
-      return Task.Run(() => HashSHA3_384FileAsync(file)).GetAwaiter().GetResult();
+      using HashAlgorithm sha384 = SHA3_384.Create();
+      return HashFile(file, sha384);
    }
 
    /// <summary>
@@ -380,7 +388,8 @@ public abstract class HashHelper //NUnit
    /// <exception cref="Exception"></exception>
    public static byte[] HashSHA3_512File(string file)
    {
-      return Task.Run(() => HashSHA3_512FileAsync(file)).GetAwaiter().GetResult();
+      using HashAlgorithm sha512 = SHA3_512.Create();
+      return HashFile(file, sha512);
    }
 
    /// <summary>

@@ -46,7 +46,22 @@ public class PreferencesContainer : IPreferencesContainer //NUnit
 
    public virtual bool Load(string filepath = "")
    {
-      return Task.Run(() => LoadAsync(filepath)).GetAwaiter().GetResult();
+      if (!string.IsNullOrEmpty(filepath))
+         _file = filepath;
+
+      if (FileHelper.Exists(_file))
+      {
+         Dictionary<string, object> prefs = JsonHelper.DeserializeFromFile<Dictionary<string, object>>(_file);
+
+         _preferences = prefs;
+
+         IsLoaded = _preferences.Count > 0;
+         OnFileLoaded?.Invoke(filepath);
+
+         return true;
+      }
+
+      return false;
    }
 
    public virtual async Task<bool> LoadAsync(string filepath = "")
@@ -71,7 +86,15 @@ public class PreferencesContainer : IPreferencesContainer //NUnit
 
    public virtual bool Save(string filepath = "")
    {
-      return Task.Run(() => SaveAsync(filepath)).GetAwaiter().GetResult();
+      if (!string.IsNullOrEmpty(filepath))
+         _file = filepath;
+
+      bool res = JsonHelper.SerializeToFile(_preferences, _file);
+      IsSaved = res;
+
+      OnFileSaved?.Invoke(filepath);
+
+      return res;
    }
 
    public virtual async Task<bool> SaveAsync(string filepath = "")

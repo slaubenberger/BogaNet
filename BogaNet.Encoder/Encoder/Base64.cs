@@ -69,7 +69,9 @@ public static class Base64 //NUnit
    /// <exception cref="Exception"></exception>
    public static string Base64FromFile(string file, bool useSaveFormat = true)
    {
-      return Task.Run(() => Base64FromFileAsync(file, useSaveFormat)).GetAwaiter().GetResult();
+      ArgumentNullException.ThrowIfNullOrEmpty(file);
+
+      return ToBase64String(FileHelper.ReadAllBytes(file), useSaveFormat);
    }
 
    /// <summary>
@@ -96,7 +98,9 @@ public static class Base64 //NUnit
    /// <exception cref="Exception"></exception>
    public static bool FileFromBase64(string file, string base64string, bool useSaveFormat = true)
    {
-      return Task.Run(() => FileFromBase64Async(file, base64string, useSaveFormat)).GetAwaiter().GetResult();
+      ArgumentNullException.ThrowIfNullOrEmpty(file);
+
+      return FileHelper.WriteAllBytes(file, FromBase64String(base64string, useSaveFormat));
    }
 
    /// <summary>

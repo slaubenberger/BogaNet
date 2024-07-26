@@ -92,7 +92,10 @@ public abstract class CRC16 //NUnit
    /// <exception cref="Exception"></exception>
    public static ushort CalcCRCFile(string file)
    {
-      return Task.Run(() => CalcCRCFileAsync(file)).GetAwaiter().GetResult();
+      ArgumentNullException.ThrowIfNullOrEmpty(file);
+
+      byte[] bytes = FileHelper.ReadAllBytes(file);
+      return CalcCRC(bytes);
    }
 
    /// <summary>

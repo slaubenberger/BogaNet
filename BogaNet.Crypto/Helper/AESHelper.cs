@@ -47,7 +47,10 @@ public abstract class AESHelper //NUnit //TODO add other algorithms, key&blocksi
    /// <exception cref="Exception"></exception>
    public static bool EncryptFile(string file, byte[] key, byte[] IV)
    {
-      return Task.Run(() => EncryptFileAsync(file, key, IV)).GetAwaiter().GetResult();
+      ArgumentNullException.ThrowIfNullOrEmpty(file);
+
+      byte[] bytes = FileHelper.ReadAllBytes(file);
+      return FileHelper.WriteAllBytes(file, Encrypt(bytes, key, IV));
    }
 
    /// <summary>
@@ -76,7 +79,10 @@ public abstract class AESHelper //NUnit //TODO add other algorithms, key&blocksi
    /// <exception cref="Exception"></exception>
    public static bool DecryptFile(string file, byte[] key, byte[] IV)
    {
-      return Task.Run(() => DecryptFileAsync(file, key, IV)).GetAwaiter().GetResult();
+      ArgumentNullException.ThrowIfNullOrEmpty(file);
+
+      byte[] bytes = FileHelper.ReadAllBytes(file);
+      return FileHelper.WriteAllBytes(file, Decrypt(bytes, key, IV));
    }
 
    /// <summary>
@@ -96,19 +102,6 @@ public abstract class AESHelper //NUnit //TODO add other algorithms, key&blocksi
    }
 
    /// <summary>
-   /// Encrypts a byte-array with AES.
-   /// </summary>
-   /// <param name="dataToEncrypt">byte-array to encrypt</param>
-   /// <param name="key">Key for the byte-array as byte-array</param>
-   /// <param name="IV">IV (initial vector) for AES</param>
-   /// <returns>Encrypted byte-array</returns>
-   /// <exception cref="Exception"></exception>
-   public static byte[] Encrypt(byte[] dataToEncrypt, byte[] key, byte[] IV)
-   {
-      return Task.Run(() => EncryptAsync(dataToEncrypt, key, IV)).GetAwaiter().GetResult();
-   }
-
-   /// <summary>
    /// Encrypts a string with AES.
    /// </summary>
    /// <param name="textToEncrypt">string to encrypt</param>
@@ -122,6 +115,38 @@ public abstract class AESHelper //NUnit //TODO add other algorithms, key&blocksi
       ArgumentNullException.ThrowIfNullOrEmpty(textToEncrypt);
 
       return Encrypt(textToEncrypt.BNToByteArray(encoding), key, IV);
+   }
+
+   /// <summary>
+   /// Encrypts a byte-array with AES.
+   /// </summary>
+   /// <param name="dataToEncrypt">byte-array to encrypt</param>
+   /// <param name="key">Key for the byte-array as byte-array</param>
+   /// <param name="IV">IV (initial vector) for AES</param>
+   /// <returns>Encrypted byte-array</returns>
+   /// <exception cref="Exception"></exception>
+   public static byte[] Encrypt(byte[] dataToEncrypt, byte[] key, byte[] IV)
+   {
+      ArgumentNullException.ThrowIfNull(dataToEncrypt);
+      ArgumentNullException.ThrowIfNull(key);
+      ArgumentNullException.ThrowIfNull(IV);
+
+      try
+      {
+         using SymmetricAlgorithm algo = Aes.Create();
+         using ICryptoTransform encryptor = algo.CreateEncryptor(key, IV);
+         using MemoryStream msEncrypt = new();
+         using CryptoStream csEncrypt = new(msEncrypt, encryptor, CryptoStreamMode.Write);
+         csEncrypt.Write(dataToEncrypt);
+         csEncrypt.FlushFinalBlock();
+
+         return msEncrypt.ToArray();
+      }
+      catch (Exception ex)
+      {
+         _logger.LogError(ex, "Encrypt failed!");
+         throw;
+      }
    }
 
    /// <summary>
@@ -172,24 +197,26 @@ public abstract class AESHelper //NUnit //TODO add other algorithms, key&blocksi
    /// <exception cref="Exception"></exception>
    public static byte[] Decrypt(byte[] dataToDecrypt, byte[] key, byte[] IV)
    {
-      return Task.Run(() => DecryptAsync(dataToDecrypt, key, IV)).GetAwaiter().GetResult();
+      ArgumentNullException.ThrowIfNull(dataToDecrypt);
+      ArgumentNullException.ThrowIfNull(key);
+      ArgumentNullException.ThrowIfNull(IV);
+
+      try
+      {
+         using SymmetricAlgorithm algo = Aes.Create();
+         using ICryptoTransform decryptor = algo.CreateDecryptor(key, IV);
+         using MemoryStream msDecrypt = new(dataToDecrypt);
+         using CryptoStream csDecrypt = new(msDecrypt, decryptor, CryptoStreamMode.Read);
+
+         return csDecrypt.BNReadFully();
+      }
+      catch (Exception ex)
+      {
+         _logger.LogError(ex, "Decrypt failed!");
+         throw;
+      }
    }
 
-/*
-   /// <summary>
-   /// Decrypts a byte-array with AES to a string.
-   /// </summary>
-   /// <param name="dataToDecrypt">byte-array to decrypt</param>
-   /// <param name="key">Key for the byte-array as byte-array</param>
-   /// <param name="IV">IV (initial vector) for AES</param>
-   /// <param name="encoding">Encoding of the string (optional, default: UTF8)</param>
-   /// <returns>Decrypted byte-array as string</returns>
-   /// <exception cref="Exception"></exception>
-   public static string? DecryptToString(byte[]? dataToDecrypt, byte[]? key, byte[]? IV, Encoding? encoding = null)
-   {
-      return Decrypt(dataToDecrypt, key, IV).BNToString(encoding);
-   }
-*/
    /// <summary>
    /// Decrypts a byte-array with AES asynchronously.
    /// </summary>

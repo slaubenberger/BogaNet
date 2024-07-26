@@ -86,7 +86,10 @@ public abstract class CRC8 //NUnit
    /// <exception cref="Exception"></exception>
    public static byte CalcCRCFile(string file)
    {
-      return Task.Run(() => CalcCRCFileAsync(file)).GetAwaiter().GetResult();
+      ArgumentNullException.ThrowIfNullOrEmpty(file);
+
+      byte[] bytes = FileHelper.ReadAllBytes(file);
+      return CalcCRC(bytes);
    }
 
    /// <summary>

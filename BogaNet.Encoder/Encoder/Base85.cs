@@ -99,7 +99,9 @@ public static class Base85
    /// <exception cref="Exception"></exception>
    public static string Base85FromFile(string file, bool useMarks = false)
    {
-      return Task.Run(() => Base85FromFileAsync(file, useMarks)).GetAwaiter().GetResult();
+      ArgumentNullException.ThrowIfNullOrEmpty(file);
+
+      return ToBase85String(FileHelper.ReadAllBytes(file), useMarks);
    }
 
    /// <summary>
@@ -126,7 +128,9 @@ public static class Base85
    /// <exception cref="Exception"></exception>
    public static bool FileFromBase85(string file, string base85string, bool useMarks = false)
    {
-      return Task.Run(() => FileFromBase85Async(file, base85string, useMarks)).GetAwaiter().GetResult();
+      ArgumentNullException.ThrowIfNullOrEmpty(file);
+
+      return FileHelper.WriteAllBytes(file, FromBase85String(base85string, useMarks));
    }
 
    /// <summary>

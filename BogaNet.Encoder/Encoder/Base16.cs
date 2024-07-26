@@ -165,7 +165,9 @@ public static class Base16 //NUnit
    /// <exception cref="Exception"></exception>
    public static string Base16FromFile(string file)
    {
-      return Task.Run(() => Base16FromFileAsync(file)).GetAwaiter().GetResult();
+      ArgumentNullException.ThrowIfNullOrEmpty(file);
+
+      return ToBase16String(FileHelper.ReadAllBytes(file));
    }
 
    /// <summary>
@@ -190,7 +192,9 @@ public static class Base16 //NUnit
    /// <exception cref="Exception"></exception>
    public static bool FileFromBase16(string file, string base16string)
    {
-      return Task.Run(() => FileFromBase16Async(file, base16string)).GetAwaiter().GetResult();
+      ArgumentNullException.ThrowIfNullOrEmpty(file);
+
+      return FileHelper.WriteAllBytes(file, FromBase16String(base16string));
    }
 
    /// <summary>

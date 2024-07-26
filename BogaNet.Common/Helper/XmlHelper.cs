@@ -30,7 +30,18 @@ public abstract class XmlHelper
    /// <exception cref="Exception"></exception>
    public static bool SerializeToFile<T>(T obj, string filename)
    {
-      return Task.Run(() => SerializeToFileAsync(obj, filename)).GetAwaiter().GetResult();
+      ArgumentNullException.ThrowIfNull(obj);
+      ArgumentNullException.ThrowIfNullOrEmpty(filename);
+
+      try
+      {
+         return FileHelper.WriteAllText(filename, SerializeToString(obj));
+      }
+      catch (Exception ex)
+      {
+         _logger.LogError(ex, "Could not serialize the object to a file");
+         throw;
+      }
    }
 
    /// <summary>
@@ -116,7 +127,21 @@ public abstract class XmlHelper
    /// <exception cref="Exception"></exception>
    public static T DeserializeFromFile<T>(string filename, bool skipBOM = false)
    {
-      return Task.Run(() => DeserializeFromFileAsync<T>(filename, skipBOM)).GetAwaiter().GetResult();
+      ArgumentNullException.ThrowIfNullOrEmpty(filename);
+
+      try
+      {
+         if (!FileHelper.ExistsFile(filename))
+            throw new Exception($"File does not exist: {filename}");
+
+         string data = FileHelper.ReadAllText(filename);
+         return DeserializeFromString<T>(data, skipBOM);
+      }
+      catch (Exception ex)
+      {
+         _logger.LogError(ex, "Could not deserialize the object from a file");
+         throw;
+      }
    }
 
    /// <summary>

@@ -66,7 +66,9 @@ public static class Base58
    /// <exception cref="Exception"></exception>
    public static string Base58FromFile(string file)
    {
-      return Task.Run(() => Base58FromFileAsync(file)).GetAwaiter().GetResult();
+      ArgumentNullException.ThrowIfNullOrEmpty(file);
+
+      return ToBase58String(FileHelper.ReadAllBytes(file));
    }
 
    /// <summary>
@@ -91,7 +93,9 @@ public static class Base58
    /// <exception cref="Exception"></exception>
    public static bool FileFromBase58(string file, string base58string)
    {
-      return Task.Run(() => FileFromBase58Async(file, base58string)).GetAwaiter().GetResult();
+      ArgumentNullException.ThrowIfNullOrEmpty(file);
+
+      return FileHelper.WriteAllBytes(file, FromBase58String(base58string));
    }
 
    /// <summary>

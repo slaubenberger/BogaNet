@@ -51,7 +51,9 @@ public class Preferences : Singleton<Preferences>, IFilePreferences //NUnit
 
    public virtual bool Load(string filepath = "")
    {
-      return Task.Run(() => LoadAsync(filepath)).GetAwaiter().GetResult();
+      bool res = Container.Load(filepath);
+      OnFileLoaded?.Invoke(filepath);
+      return res;
    }
 
    public virtual async Task<bool> LoadAsync(string filepath = "")
@@ -63,7 +65,9 @@ public class Preferences : Singleton<Preferences>, IFilePreferences //NUnit
 
    public virtual bool Save(string filepath = "")
    {
-      return Task.Run(() => SaveAsync(filepath)).GetAwaiter().GetResult();
+      bool res = Container.Save(filepath);
+      OnFileSaved?.Invoke(filepath);
+      return res;
    }
 
    public virtual async Task<bool> SaveAsync(string filepath = "")

@@ -77,7 +77,18 @@ public abstract class JsonHelper
    /// <exception cref="Exception"></exception>
    public static bool SerializeToFile(object obj, string path, JsonSerializerSettings? settings = null)
    {
-      return Task.Run(() => SerializeToFileAsync(obj, path, settings)).GetAwaiter().GetResult();
+      ArgumentNullException.ThrowIfNull(obj);
+      ArgumentNullException.ThrowIfNullOrEmpty(path);
+
+      try
+      {
+         return FileHelper.WriteAllText(path, SerializeToString(obj, settings));
+      }
+      catch (Exception ex)
+      {
+         _logger.LogError(ex, "Could not serialize the object to a file");
+         throw;
+      }
    }
 
    /// <summary>
@@ -147,7 +158,17 @@ public abstract class JsonHelper
    /// <exception cref="Exception"></exception>
    public static T DeserializeFromFile<T>(string path, JsonSerializerSettings? settings = null)
    {
-      return Task.Run(() => DeserializeFromFileAsync<T>(path, settings)).GetAwaiter().GetResult();
+      ArgumentNullException.ThrowIfNullOrEmpty(path);
+
+      try
+      {
+         return DeserializeFromString<T>(FileHelper.ReadAllText(path), settings);
+      }
+      catch (Exception ex)
+      {
+         _logger.LogError(ex, "Could not deserialize the object from a file");
+         throw;
+      }
    }
 
    /// <summary>
@@ -163,7 +184,7 @@ public abstract class JsonHelper
 
       try
       {
-         return DeserializeFromString<T>(await File.ReadAllTextAsync(path), settings);
+         return DeserializeFromString<T>(await FileHelper.ReadAllTextAsync(path), settings);
       }
       catch (Exception ex)
       {

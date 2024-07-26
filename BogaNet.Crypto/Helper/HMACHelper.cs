@@ -75,7 +75,10 @@ public abstract class HMACHelper //NUnit
    /// <exception cref="Exception"></exception>
    public static byte[] HashFile(string file, HMAC algo)
    {
-      return Task.Run(() => HashFileAsync(file, algo)).GetAwaiter().GetResult();
+      ArgumentNullException.ThrowIfNullOrEmpty(file);
+
+      byte[] bytes = FileHelper.ReadAllBytes(file);
+      return Hash(bytes, algo);
    }
 
    /// <summary>
@@ -134,7 +137,10 @@ public abstract class HMACHelper //NUnit
    /// <exception cref="Exception"></exception>
    public static byte[] HashHMACSHA256File(string file, byte[] secret)
    {
-      return Task.Run(() => HashHMACSHA256FileAsync(file, secret)).GetAwaiter().GetResult();
+      ArgumentNullException.ThrowIfNull(secret);
+
+      using HMAC hash = new HMACSHA256(secret);
+      return HashFile(file, hash);
    }
 
    /// <summary>
@@ -193,7 +199,10 @@ public abstract class HMACHelper //NUnit
    /// <exception cref="Exception"></exception>
    public static byte[] HashHMACSHA384File(string file, byte[] secret)
    {
-      return Task.Run(() => HashHMACSHA384FileAsync(file, secret)).GetAwaiter().GetResult();
+      ArgumentNullException.ThrowIfNull(secret);
+
+      using HMAC hash = new HMACSHA384(secret);
+      return HashFile(file, hash);
    }
 
    /// <summary>
@@ -252,7 +261,10 @@ public abstract class HMACHelper //NUnit
    /// <exception cref="Exception"></exception>
    public static byte[] HashHMACSHA512File(string file, byte[] secret)
    {
-      return Task.Run(() => HashHMACSHA512FileAsync(file, secret)).GetAwaiter().GetResult();
+      ArgumentNullException.ThrowIfNull(secret);
+
+      using HMAC hash = new HMACSHA512(secret);
+      return HashFile(file, hash);
    }
 
    /// <summary>
@@ -311,7 +323,10 @@ public abstract class HMACHelper //NUnit
    /// <exception cref="Exception"></exception>
    public static byte[] HashHMACSHA3_256File(string file, byte[] secret)
    {
-      return Task.Run(() => HashHMACSHA3_256FileAsync(file, secret)).GetAwaiter().GetResult();
+      ArgumentNullException.ThrowIfNull(secret);
+
+      using HMAC hash = new HMACSHA3_256(secret);
+      return HashFile(file, hash);
    }
 
    /// <summary>
@@ -370,7 +385,10 @@ public abstract class HMACHelper //NUnit
    /// <exception cref="Exception"></exception>
    public static byte[] HashHMACSHA3_384File(string file, byte[] secret)
    {
-      return Task.Run(() => HashHMACSHA3_384FileAsync(file, secret)).GetAwaiter().GetResult();
+      ArgumentNullException.ThrowIfNull(secret);
+
+      using HMAC hash = new HMACSHA3_384(secret);
+      return HashFile(file, hash);
    }
 
    /// <summary>
@@ -429,7 +447,10 @@ public abstract class HMACHelper //NUnit
    /// <exception cref="Exception"></exception>
    public static byte[] HashHMACSHA3_512File(string file, byte[] secret)
    {
-      return Task.Run(() => HashHMACSHA3_512FileAsync(file, secret)).GetAwaiter().GetResult();
+      ArgumentNullException.ThrowIfNull(secret);
+
+      using HMAC hash = new HMACSHA3_512(secret);
+      return HashFile(file, hash);
    }
 
    /// <summary>

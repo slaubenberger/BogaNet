@@ -1375,7 +1375,22 @@ public abstract class FileHelper
    /// <exception cref="Exception"></exception>
    public static string ReadAllText(string path, Encoding? encoding = null) //NUnit
    {
-      return Task.Run(() => ReadAllTextAsync(path, encoding)).GetAwaiter().GetResult();
+      ArgumentNullException.ThrowIfNullOrEmpty(path);
+
+      try
+      {
+         path = ValidateFile(path);
+
+         if (!ExistsFile(path))
+            throw new Exception($"File does not exists: {path}");
+
+         return File.ReadAllText(path, encoding ?? Encoding.UTF8);
+      }
+      catch (Exception ex)
+      {
+         _logger.LogError(ex, $"Could not read file '{path}'");
+         throw;
+      }
    }
 
    /// <summary>
@@ -1414,7 +1429,22 @@ public abstract class FileHelper
    /// <exception cref="Exception"></exception>
    public static string[] ReadAllLines(string path, Encoding? encoding = null) //NUnit
    {
-      return Task.Run(() => ReadAllLinesAsync(path, encoding)).GetAwaiter().GetResult();
+      ArgumentNullException.ThrowIfNullOrEmpty(path);
+
+      try
+      {
+         path = ValidateFile(path);
+
+         if (!ExistsFile(path))
+            throw new Exception($"File does not exists: {path}");
+
+         return File.ReadAllLines(path, encoding ?? Encoding.UTF8);
+      }
+      catch (Exception ex)
+      {
+         _logger.LogError(ex, $"Could not read file '{path}'");
+         throw;
+      }
    }
 
    /// <summary>
@@ -1452,7 +1482,22 @@ public abstract class FileHelper
    /// <exception cref="Exception"></exception>
    public static byte[] ReadAllBytes(string path) //NUnit
    {
-      return Task.Run(() => ReadAllBytesAsync(path)).GetAwaiter().GetResult();
+      ArgumentNullException.ThrowIfNullOrEmpty(path);
+
+      try
+      {
+         path = ValidateFile(path);
+
+         if (!ExistsFile(path))
+            throw new Exception($"File does not exists: {path}");
+
+         return File.ReadAllBytes(path);
+      }
+      catch (Exception ex)
+      {
+         _logger.LogError(ex, $"Could not read file '{path}'");
+         throw;
+      }
    }
 
    /// <summary>
@@ -1491,7 +1536,25 @@ public abstract class FileHelper
    /// <exception cref="Exception"></exception>
    public static bool WriteAllText(string destFile, string text, Encoding? encoding = null) //NUnit
    {
-      return Task.Run(() => WriteAllTextAsync(destFile, text, encoding)).GetAwaiter().GetResult();
+      ArgumentNullException.ThrowIfNullOrEmpty(destFile);
+      ArgumentNullException.ThrowIfNull(text);
+
+      bool success;
+
+      try
+      {
+         destFile = ValidateFile(destFile);
+
+         File.WriteAllText(destFile, text, encoding ?? Encoding.UTF8);
+         success = true;
+      }
+      catch (Exception ex)
+      {
+         _logger.LogError(ex, $"Could not write file '{destFile}'");
+         throw;
+      }
+
+      return success;
    }
 
    /// <summary>
@@ -1535,7 +1598,25 @@ public abstract class FileHelper
    /// <exception cref="Exception"></exception>
    public static bool WriteAllLines(string destFile, string[] lines, Encoding? encoding = null) //NUnit
    {
-      return Task.Run(() => WriteAllLinesAsync(destFile, lines, encoding)).GetAwaiter().GetResult();
+      ArgumentNullException.ThrowIfNullOrEmpty(destFile);
+      ArgumentNullException.ThrowIfNull(lines);
+
+      bool success;
+
+      try
+      {
+         destFile = ValidateFile(destFile);
+
+         File.WriteAllLines(destFile, lines, encoding ?? Encoding.UTF8);
+         success = true;
+      }
+      catch (Exception ex)
+      {
+         _logger.LogError(ex, $"Could not write file '{destFile}'");
+         throw;
+      }
+
+      return success;
    }
 
    /// <summary>
@@ -1578,7 +1659,25 @@ public abstract class FileHelper
    /// <exception cref="Exception"></exception>
    public static bool WriteAllBytes(string destFile, byte[] data) //NUnit
    {
-      return Task.Run(() => WriteAllBytesAsync(destFile, data)).GetAwaiter().GetResult();
+      ArgumentNullException.ThrowIfNullOrEmpty(destFile);
+      ArgumentNullException.ThrowIfNull(data);
+
+      bool success;
+
+      try
+      {
+         destFile = ValidateFile(destFile);
+
+         File.WriteAllBytes(destFile, data);
+         success = true;
+      }
+      catch (Exception ex)
+      {
+         _logger.LogError(ex, $"Could not write file '{destFile}'");
+         throw;
+      }
+
+      return success;
    }
 
    /// <summary>
