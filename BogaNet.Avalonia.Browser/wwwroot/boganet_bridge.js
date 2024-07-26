@@ -1,4 +1,6 @@
-import { exports } from "./main.js";
+//import { exports } from "./main.js";
+
+console.log("boganet_bridge loaded!");
 
 export async function setPreference(key, pref) {
     //console.log("setPreference: " + key + " - " + pref);
@@ -11,8 +13,17 @@ export async function getPreference(key) {
 
     //console.log("getPreference: " + key + " - " + value);
 
+    return value;
+    /*
+    return await new Promise((resolve) => {
+        setTimeout(() => {
+            resolve(data);
+        }, 2000);
+    });
+    
     exports.WebPreferencesContainer.Preference(key, value);
+*/
 }
-
+ 
 
 

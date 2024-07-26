@@ -15,6 +15,10 @@ public class CRC16Test
       ushort crc = CRC16.CalcCRC(plain);
 
       Assert.That(crc, Is.EqualTo(refValue));
+
+      ushort crc2 = CRC16.CalcCRC(TestConstants.LatinTextCorrupted);
+
+      Assert.That(crc2, !Is.EqualTo(crc));
    }
 
    #endregion

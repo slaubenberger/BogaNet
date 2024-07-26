@@ -15,6 +15,10 @@ public class CRC64Test
       ulong crc = CRC64.CalcCRC(plain);
 
       Assert.That(crc, Is.EqualTo(refValue));
+      
+      ulong crc2 = CRC64.CalcCRC(TestConstants.LatinTextCorrupted);
+
+      Assert.That(crc2, !Is.EqualTo(crc));
    }
 
    #endregion

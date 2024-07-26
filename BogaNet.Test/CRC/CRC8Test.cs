@@ -15,6 +15,10 @@ public class CRC8Test
       byte crc = CRC8.CalcCRC(plain);
 
       Assert.That(crc, Is.EqualTo(refValue));
+
+      byte crc2 = CRC8.CalcCRC(TestConstants.LatinTextCorrupted);
+
+      Assert.That(crc2, !Is.EqualTo(crc));
    }
 
    #endregion

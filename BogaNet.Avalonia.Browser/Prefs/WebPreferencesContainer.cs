@@ -51,7 +51,7 @@ public partial class WebPreferencesContainer : PreferencesContainer
          _file = filepath;
 
       Console.WriteLine("Load...");
-      GetPreference(_file);
+      onLoaded(GetPreference(_file).ToString());
       Console.WriteLine("Load completed!");
 
       return true;
@@ -59,7 +59,14 @@ public partial class WebPreferencesContainer : PreferencesContainer
 
    public override async Task<bool> LoadAsync(string filepath = "")
    {
-      return Load(filepath);
+      if (!string.IsNullOrEmpty(filepath))
+         _file = filepath;
+
+      Console.WriteLine("LoadAsync...");
+      onLoaded((await GetPreference(_file)));
+      Console.WriteLine("LoadAsync completed!");
+
+      return true;
    }
 
    public override bool Save(string filepath = "")
@@ -119,10 +126,11 @@ public partial class WebPreferencesContainer : PreferencesContainer
    }
 
    [JSImport("setPreference", "bogabridge")]
-   internal static partial void SetPreference(string key, string? value);
+   internal static partial Task SetPreference(string key, string? value);
 
    [JSImport("getPreference", "bogabridge")]
-   internal static partial void GetPreference(string key);
+   [return: JSMarshalAs<JSType.Promise<JSType.String>>()]
+   internal static partial Task<string> GetPreference(string key);
 
    #endregion
 }

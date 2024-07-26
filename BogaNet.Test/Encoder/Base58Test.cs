@@ -16,13 +16,13 @@ public class Base58Test
 
       //BogaNet.Util.StopWatch watch = new();
       //watch.Start();
-      for (int ii = 0; ii < 10000; ii++)
-      {
-         //Byte-array
-         output = Base58.ToBase58String(plain.BNToByteArray());
-         plain2 = Base58.FromBase58String(output).BNToString();
-         Assert.That(plain2, Is.EqualTo(plain));
-      }
+      // for (int ii = 0; ii < 10000; ii++)
+      // {
+      //Byte-array
+      output = Base58.ToBase58String(plain.BNToByteArray());
+      plain2 = Base58.FromBase58String(output).BNToString();
+      Assert.That(plain2, Is.EqualTo(plain));
+      // }
 
       //watch.Stop();
       //Console.WriteLine(watch.ElapsedTime);

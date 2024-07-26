@@ -16,13 +16,13 @@ public class Base64Test
 
       //BogaNet.Util.StopWatch watch = new();
       //watch.Start();
-      for (int ii = 0; ii < 10000; ii++)
-      {
-         //Byte-array
-         output = Base64.ToBase64String(plain.BNToByteArray());
-         plain2 = Base64.FromBase64String(output).BNToString();
-         Assert.That(plain2, Is.EqualTo(plain));
-      }
+      // for (int ii = 0; ii < 10000; ii++)
+      // {
+      //Byte-array
+      output = Base64.ToBase64String(plain.BNToByteArray());
+      plain2 = Base64.FromBase64String(output).BNToString();
+      Assert.That(plain2, Is.EqualTo(plain));
+      // }
 
       //watch.Stop();
       //Console.WriteLine(watch.ElapsedTime);

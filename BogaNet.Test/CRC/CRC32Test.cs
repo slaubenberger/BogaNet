@@ -15,6 +15,10 @@ public class CRC32Test
       uint crc = CRC32.CalcCRC(plain);
 
       Assert.That(crc, Is.EqualTo(refValue));
+
+      uint crc2 = CRC32.CalcCRC(TestConstants.LatinTextCorrupted);
+
+      Assert.That(crc2, !Is.EqualTo(crc));
    }
 
    #endregion

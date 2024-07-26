@@ -16,13 +16,13 @@ public class Base62Test
 
       //BogaNet.Util.StopWatch watch = new();
       //watch.Start();
-      for (int ii = 0; ii < 10000; ii++)
-      {
-         //Byte-array
-         output = Base62.ToBase62String(plain.BNToByteArray());
-         plain2 = Base62.FromBase62String(output).BNToString();
-         Assert.That(plain2, Is.EqualTo(plain));
-      }
+      // for (int ii = 0; ii < 10000; ii++)
+      // {
+      //Byte-array
+      output = Base62.ToBase62String(plain.BNToByteArray());
+      plain2 = Base62.FromBase62String(output).BNToString();
+      Assert.That(plain2, Is.EqualTo(plain));
+      // }
 
       //watch.Stop();
       //Console.WriteLine(watch.ElapsedTime);

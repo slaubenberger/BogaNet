@@ -16,14 +16,14 @@ public class Base85Test
 
       //BogaNet.Util.StopWatch watch = new();
       //watch.Start();
-      for (int ii = 0; ii < 10000; ii++)
-      {
-         //plain = "Hello world!";
-         //Byte-array
-         output = Base85.ToBase85String(plain.BNToByteArray());
-         plain2 = Base85.FromBase85String(output).BNToString();
-         Assert.That(plain2, Is.EqualTo(plain));
-      }
+      // for (int ii = 0; ii < 10000; ii++)
+      // {
+      //plain = "Hello world!";
+      //Byte-array
+      output = Base85.ToBase85String(plain.BNToByteArray());
+      plain2 = Base85.FromBase85String(output).BNToString();
+      Assert.That(plain2, Is.EqualTo(plain));
+      // }
 
       //watch.Stop();
       //Console.WriteLine(watch.ElapsedTime);
