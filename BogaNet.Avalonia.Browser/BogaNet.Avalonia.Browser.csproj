@@ -4,7 +4,7 @@
         <TargetFramework>net8.0-browser</TargetFramework>
         <Nullable>enable</Nullable>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-        <Version>0.5.7</Version>
+        <Version>0.5.8</Version>
         <Company>crosstales LLC</Company>
         <Copyright>© 2024 Stefan Laubenberger</Copyright>
         <Authors>Stefan Laubenberger</Authors>
@@ -32,13 +32,13 @@
         </WasmExtraFilesToDeploy>
     </ItemGroup>
 
-    <ItemGroup>
-        <PackageReference Include="BogaNet.Common" Version="1.2.4" />
-        <PackageReference Include="BogaNet.Prefs" Version="1.2.7" />
-    </ItemGroup>
-
 <!--    <ItemGroup>-->
-<!--        <ProjectReference Include="..\BogaNet.Common\BogaNet.Common.csproj"/>-->
-<!--        <ProjectReference Include="..\BogaNet.Prefs\BogaNet.Prefs.csproj"/>-->
+<!--        <PackageReference Include="BogaNet.Common" Version="1.3.0" />-->
+<!--        <PackageReference Include="BogaNet.Prefs" Version="1.3.0" />-->
 <!--    </ItemGroup>-->
+
+    <ItemGroup>
+        <ProjectReference Include="..\BogaNet.Common\BogaNet.Common.csproj"/>
+        <ProjectReference Include="..\BogaNet.Prefs\BogaNet.Prefs.csproj"/>
+    </ItemGroup>
 </Project>

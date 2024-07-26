@@ -3,7 +3,7 @@
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
-        <Version>1.2.3</Version>
+        <Version>1.3.0</Version>
         <Company>crosstales LLC</Company>
         <Copyright>© 2024 Stefan Laubenberger</Copyright>
         <Authors>Stefan Laubenberger</Authors>
@@ -11,7 +11,7 @@
         <RepositoryUrl>https://github.com/slaubenberger/BogaNet</RepositoryUrl>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageTags>Encoder base2 binary base16 hex base32 base58 base62 base64 base85 base91</PackageTags>
-        <PackageReleaseNotes>Initial release.</PackageReleaseNotes>
+        <PackageReleaseNotes>Release 1.3.0.</PackageReleaseNotes>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <!-- <PackageIconUrl>https://www.crosstales.com/media/data/BogaNet/logo_boga.png</PackageIconUrl> -->
         <PackageIcon>logo_boga_encoder.jpg</PackageIcon>
@@ -25,7 +25,7 @@
     </ItemGroup>
 
 <!--    <ItemGroup>-->
-<!--        <PackageReference Include="BogaNet.Common" Version="1.2.3" />-->
+<!--        <PackageReference Include="BogaNet.Common" Version="1.3.0" />-->
 <!--    </ItemGroup>-->
 
     <ItemGroup>
