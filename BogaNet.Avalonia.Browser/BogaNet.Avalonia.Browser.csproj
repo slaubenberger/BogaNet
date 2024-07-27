@@ -4,33 +4,33 @@
         <TargetFramework>net8.0-browser</TargetFramework>
         <Nullable>enable</Nullable>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-        <Version>0.5.8</Version>
+        <Version>0.6.0</Version>
         <Company>crosstales LLC</Company>
         <Copyright>© 2024 Stefan Laubenberger</Copyright>
         <Authors>Stefan Laubenberger</Authors>
         <Description>Browser-specific helpers for Avalonia development.</Description>
         <RepositoryUrl>https://github.com/slaubenberger/BogaNet</RepositoryUrl>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageTags>Avalonia Web Browser Preferences</PackageTags>
+        <PackageTags>Avalonia Web Browser Preferences TTS</PackageTags>
         <PackageReleaseNotes>Initial release.</PackageReleaseNotes>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <!-- <PackageIconUrl>https://www.crosstales.com/media/data/BogaNet/logo_boga.png</PackageIconUrl> -->
-        <PackageIcon>logo_boga_avalonia.jpg</PackageIcon>
+        <PackageIcon>logo_boga_avalonia_browser.jpg</PackageIcon>
         <PackageProjectUrl>https://www.crosstales.com/media/data/BogaNet/api/</PackageProjectUrl>
         <LangVersion>12</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>
         <None Include="README.md" Pack="true" PackagePath="\"/>
-        <None Include="../Resources/logos/logo_boga_avalonia.jpg" Pack="true" PackagePath="\"/>
+        <None Include="../Resources/logos/logo_boga_avalonia_browser.jpg" Pack="true" PackagePath="\"/>
     </ItemGroup>
 
-    <ItemGroup>
-        <WasmExtraFilesToDeploy Include="./wwwroot/boganet_bridge.js">
+<!--    <ItemGroup>-->
+<!--        <WasmExtraFilesToDeploy Include="./wwwroot/boganet_bridge.js">-->
 <!--            <CopyToOutputDirectory>Always</CopyToOutputDirectory>-->
 <!--            <PackageCopyToOutput>true</PackageCopyToOutput>-->
-        </WasmExtraFilesToDeploy>
-    </ItemGroup>
+<!--        </WasmExtraFilesToDeploy>-->
+<!--    </ItemGroup>-->
 
 <!--    <ItemGroup>-->
 <!--        <PackageReference Include="BogaNet.Common" Version="1.3.0" />-->
@@ -40,5 +40,6 @@
     <ItemGroup>
         <ProjectReference Include="..\BogaNet.Common\BogaNet.Common.csproj"/>
         <ProjectReference Include="..\BogaNet.Prefs\BogaNet.Prefs.csproj"/>
+        <ProjectReference Include="..\BogaNet.TTS\BogaNet.TTS.csproj" />
     </ItemGroup>
 </Project>

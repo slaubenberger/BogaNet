@@ -1,27 +1,74 @@
 # BogaNet.Avalonia.Browser
 Browser-specific helpers for Avalonia development.
-__This package is in experimental stage!__
+It also contains various JavaScript-helper files.
 
 ## Main classes and usage
-* [WebPreferencesContainer](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_prefs_1_1_web_preferences_container.html): Preferences-container for web, for more see: [BogaNet.Prefs](https://www.nuget.org/packages/BogaNet.Prefs/).
+* [BrowserPreferencesContainer](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_prefs_1_1_browser_preferences_container.html): Preferences-container for browser, for more see: [BogaNet.Prefs](https://www.nuget.org/packages/BogaNet.Prefs/).
+* [BrowserVoiceProvider](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_t_t_s_1_1_provider_1_1_browser_voice_provider.html): TTS for browser, for more see: [BogaNet.TTS](https://www.nuget.org/packages/BogaNet.TTS/).
+* [UrlHelper](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_helper_1_1_url_helper.html): Get and set the URL of the application.
 
-Add the following line to "Program.cs" in the Browser-project:
+JavaScript-files:
+* [boganet_exit.js](https://raw.githubusercontent.com/slaubenberger/BogaNet/develop/BogaNet.Avalonia.Browser/wwwroot/boganet_exit.js): Prevents the app from closing/reload and offers a callback to react
+* [boganet_prefs.js](https://raw.githubusercontent.com/slaubenberger/BogaNet/develop/BogaNet.Avalonia.Browser/wwwroot/boganet_prefs.js): Bridge for BrowserPreferencesContainer
+* [boganet_tts.js](https://raw.githubusercontent.com/slaubenberger/BogaNet/develop/BogaNet.Avalonia.Browser/wwwroot/boganet_tts.js): Bridge for BrowserVoiceProvider
+* [boganet_url.js](https://raw.githubusercontent.com/slaubenberger/BogaNet/develop/BogaNet.Avalonia.Browser/wwwroot/boganet_url.js): Get and set the URL of the application
+Unfortunately, you have to manually copy the desired files to "wwwroot" since I don't know how to include it in the Nuget-package correctly... Tips are welcome! :-)
+
+### Exit
+This callback prevents close and reload-operations in the browser.
+Add/modify the following code to in "Program.cs" from the Avalonia Browser-project and handle the case (e.g saving data etc.):
 ```csharp
-public static AppBuilder BuildAvaloniaApp()
+private static async Task Main(string[] args)
 {
-    Preferences.Instance.Container = new WebPreferencesContainer();
-    
-    return AppBuilder.Configure<App>();
+    await JSHost.ImportAsync("boganet_exit", "../boganet_exit.js");
+    //...rest of the Main-code
+}
+
+[JSExport]
+internal static void Exit()
+{
+    Preferences.Instance.Save();
+    //... your code (e.g. saving data etc.)
 }
 ```
 
-To make it work in web-builds, please add the following line at the end of "main.js" under "wwwroot":
-```
-export const exports = await dotnetRuntime.getAssemblyExports(config.mainAssemblyName);
+### Preferences
+To use the [BogaNet.Prefs](https://www.nuget.org/packages/BogaNet.Prefs/), add/modify "Program.cs" from the Avalonia Browser-project:
+```csharp
+private static async Task Main(string[] args)
+{
+    await JSHost.ImportAsync("boganet_prefs", "../boganet_prefs.js");
+    Preferences.Instance.Container = new BrowserPreferencesContainer();
+    await Preferences.Instance.LoadAsync();
+    //...rest of the Main-code
+}
 ```
 
-Unfortunately, you have to manually copy the "boganet_bridge.js" to "wwwroot" since I don't know how to include it in the Nuget-package correctly... Tips are welcome! :-)
-[boganet_bridge.js](https://raw.githubusercontent.com/slaubenberger/BogaNet/develop/BogaNet.Avalonia.Browser/wwwroot/boganet_bridge.js)
+### TTS
+To use the [BogaNet.TTS](https://www.nuget.org/packages/BogaNet.TTS/), add/modify "Program.cs" from the Avalonia Browser-project:
+```csharp
+private static async Task Main(string[] args)
+{
+    await JSHost.ImportAsync("boganet_tts", "../boganet_tts.js");
+    Speaker.Instance.CustomVoiceProvider = BrowserVoiceProvider.Instance;
+    //...rest of the Main-code
+}
+```
+
+### URL
+To set/get the application URL, add/modify "Program.cs" from the Avalonia Browser-project:
+```csharp
+private static async Task Main(string[] args)
+{
+    await JSHost.ImportAsync("boganet_url", "../boganet_url.js");
+    //...rest of the Main-code
+}
+```
+
+The URL can then be accessed via UrlHelper:
+```csharp
+Console.WriteLine("Browser-URL: " + UrlHelper.URL);
+```
 
 ## Nuget:
 [BogaNet.Avalonia.Browser](https://www.nuget.org/packages/BogaNet.Avalonia.Browser/)

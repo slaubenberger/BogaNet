@@ -189,7 +189,7 @@ public class WindowsVoiceProvider : Singleton<WindowsVoiceProvider>, IVoiceProvi
                   }
                   else
                   {
-                     _logger.LogWarning("Voice is invalid: " + line);
+                     _logger.LogWarning($"Voice is invalid: {line}");
                   }
                }
             }
