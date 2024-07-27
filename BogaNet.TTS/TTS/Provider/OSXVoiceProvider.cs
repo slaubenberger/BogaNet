@@ -65,15 +65,17 @@ public partial class OSXVoiceProvider : Singleton<OSXVoiceProvider>, IVoiceProvi
       }
    }
 
-   public bool IsReady { get; private set; }
-   
+   public virtual bool IsReady { get; private set; }
+   public bool IsSpeaking { get; private set; }
+
    #endregion
 
    #region Events
 
-   public event IVoiceProvider.VoicesLoaded? OnVoicesLoaded;
+   public virtual event IVoiceProvider.VoicesLoaded? OnVoicesLoaded;
+   public event IVoiceProvider.SpeakStarted? OnSpeakStarted;
 
-   public event IVoiceProvider.SpeakCompleted? OnSpeakCompleted;
+   public virtual event IVoiceProvider.SpeakCompleted? OnSpeakCompleted;
 
    #endregion
 
@@ -118,6 +120,9 @@ public partial class OSXVoiceProvider : Singleton<OSXVoiceProvider>, IVoiceProvi
    {
       ArgumentNullException.ThrowIfNull(text);
 
+      OnSpeakStarted?.Invoke(text);
+      IsSpeaking = true;
+
       string voiceName = getVoiceName(voice);
       int calculatedRate = calculateRate(rate);
 
@@ -135,6 +140,7 @@ public partial class OSXVoiceProvider : Singleton<OSXVoiceProvider>, IVoiceProvi
       Process process = await _process.StartAsync(_applicationName, args, true, Encoding.UTF8);
 
       OnSpeakCompleted?.Invoke(text);
+      IsSpeaking = false;
 
       if (process.ExitCode is 0 or -1 or 137) //0 = normal ended, -1/137 = killed
       {

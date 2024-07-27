@@ -305,12 +305,9 @@ public class Localizer : Singleton<Localizer>, ILocalizer //NUnit
       bool res = allLines.Count > 0;
 
       if (res)
-      {
          Load(allLines);
 
-         OnFilesLoaded?.Invoke(files);
-      }
-
+      OnFilesLoaded?.Invoke(files);
       IsLoaded = res; //too simple?
 
       return res;
@@ -333,12 +330,9 @@ public class Localizer : Singleton<Localizer>, ILocalizer //NUnit
       bool res = allLines.Count > 0;
 
       if (res)
-      {
          Load(allLines);
 
-         OnFilesLoaded?.Invoke(files);
-      }
-
+      OnFilesLoaded?.Invoke(files);
       IsLoaded = res; //too simple?
 
       return res;
@@ -363,12 +357,15 @@ public class Localizer : Singleton<Localizer>, ILocalizer //NUnit
             allLines.Add(currentTranslation, lines);
       }
 
-      if (allLines.Count > 0)
+      bool res = allLines.Count > 0;
+      
+      if (res)
          Load(allLines);
 
       OnFilesLoaded?.Invoke(urls);
-
-      return allLines.Count > 0;
+      IsLoaded = res; //too simple?
+      
+      return res;
    }
 
    public virtual bool SaveFile(string filename)

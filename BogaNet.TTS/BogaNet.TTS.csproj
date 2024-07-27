@@ -3,7 +3,7 @@
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
-        <Version>1.3.0</Version>
+        <Version>1.3.1</Version>
         <Company>crosstales LLC</Company>
         <Copyright>© 2024 Stefan Laubenberger</Copyright>
         <Authors>Stefan Laubenberger</Authors>
@@ -11,7 +11,7 @@
         <RepositoryUrl>https://github.com/slaubenberger/BogaNet</RepositoryUrl>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageTags>TTS Text-To-Speech Windows OSX Mac Linux ADA SSML</PackageTags>
-        <PackageReleaseNotes>Release 1.3.0.</PackageReleaseNotes>
+        <PackageReleaseNotes>Support for custom voice providers.</PackageReleaseNotes>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <!-- <PackageIconUrl>https://www.crosstales.com/media/data/BogaNet/logo_boga.png</PackageIconUrl> -->
         <PackageIcon>logo_boga_tts.jpg</PackageIcon>
@@ -24,13 +24,13 @@
         <None Include="README.md" Pack="true" PackagePath="\" />
     </ItemGroup>
 
-<!--    <ItemGroup>-->
-<!--        <PackageReference Include="BogaNet.Common" Version="1.3.0" />-->
-<!--        <PackageReference Include="BogaNet.Encoder" Version="1.3.0" />-->
-<!--    </ItemGroup>-->
-
     <ItemGroup>
-        <ProjectReference Include="..\BogaNet.Common\BogaNet.Common.csproj"/>
-        <ProjectReference Include="..\BogaNet.Encoder\BogaNet.Encoder.csproj" />
+        <PackageReference Include="BogaNet.Common" Version="1.3.0" />
+        <PackageReference Include="BogaNet.Encoder" Version="1.3.0" />
     </ItemGroup>
+
+<!--    <ItemGroup>-->
+<!--        <ProjectReference Include="..\BogaNet.Common\BogaNet.Common.csproj"/>-->
+<!--        <ProjectReference Include="..\BogaNet.Encoder\BogaNet.Encoder.csproj" />-->
+<!--    </ItemGroup>-->
 </Project>

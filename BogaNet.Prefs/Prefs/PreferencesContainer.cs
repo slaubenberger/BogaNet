@@ -61,6 +61,7 @@ public class PreferencesContainer : IPreferencesContainer //NUnit
          return true;
       }
 
+      OnFileLoaded?.Invoke(filepath);
       return false;
    }
 
@@ -81,6 +82,7 @@ public class PreferencesContainer : IPreferencesContainer //NUnit
          return true;
       }
 
+      OnFileLoaded?.Invoke(filepath);
       return false;
    }
 

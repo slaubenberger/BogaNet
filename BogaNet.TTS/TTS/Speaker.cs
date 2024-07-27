@@ -22,13 +22,30 @@ public class Speaker : Singleton<Speaker>, IVoiceProvider
 
    private bool _useUseESpeak;
 
-   private IVoiceProvider? voiceProvider;
+   private IVoiceProvider? _customVoiceProvider;
+   private IVoiceProvider? _voiceProvider;
 
-   private static readonly char[] splitCharWords = [' '];
+   private static readonly char[] _splitCharWords = [' '];
 
    #endregion
 
    #region Properties
+
+   /// <summary>
+   /// Custom voice provider.
+   /// </summary>
+   public IVoiceProvider? CustomVoiceProvider
+   {
+      get => _customVoiceProvider;
+      set
+      {
+         if (_customVoiceProvider == value) return;
+
+         _customVoiceProvider = value;
+
+         initProvider();
+      }
+   }
 
    /// <summary>Enable or disable eSpeak for standalone platforms.</summary>
    public bool UseESpeak
@@ -50,17 +67,18 @@ public class Speaker : Singleton<Speaker>, IVoiceProvider
 */
    /// <summary>Checks if TTS is available on this system.</summary>
    /// <returns>True if TTS is available on this system.</returns>
-   public bool IsTTSAvailable => voiceProvider != null && voiceProvider.Voices.Count > 0;
+   public bool IsTTSAvailable => _voiceProvider != null && _voiceProvider.Voices.Count > 0;
 
    #region Provider delegates
 
    //public string DefaultVoiceName => voiceProvider != null ? voiceProvider.DefaultVoiceName : string.Empty;
-   public List<Voice> Voices => voiceProvider != null ? voiceProvider.Voices : [];
-   public int MaxTextLength => voiceProvider?.MaxTextLength ?? 3999; //minimum (Android)
-   public bool IsPlatformSupported => voiceProvider?.IsPlatformSupported == true;
-   public bool IsSSMLSupported => voiceProvider != null && voiceProvider.IsSSMLSupported;
-   public List<string> Cultures => voiceProvider != null ? voiceProvider.Cultures : [];
+   public List<Voice> Voices => _voiceProvider != null ? _voiceProvider.Voices : [];
+   public int MaxTextLength => _voiceProvider?.MaxTextLength ?? 3999; //minimum (Android)
+   public bool IsPlatformSupported => _voiceProvider?.IsPlatformSupported == true;
+   public bool IsSSMLSupported => _voiceProvider != null && _voiceProvider.IsSSMLSupported;
+   public List<string> Cultures => _voiceProvider != null ? _voiceProvider.Cultures : [];
    public bool IsReady { get; private set; }
+   public bool IsSpeaking { get; private set; }
 
    /// <summary>eSpeak application name/path.</summary>
    public string ESpeakApplication
@@ -97,7 +115,7 @@ public class Speaker : Singleton<Speaker>, IVoiceProvider
    #region Events
 
    public event IVoiceProvider.VoicesLoaded? OnVoicesLoaded;
-
+   public event IVoiceProvider.SpeakStarted? OnSpeakStarted;
    public event IVoiceProvider.SpeakCompleted? OnSpeakCompleted;
 
    #endregion
@@ -126,7 +144,7 @@ public class Speaker : Singleton<Speaker>, IVoiceProvider
    /// <returns>Approximated speech length in seconds of the given text and rate.</returns>
    public float ApproximateSpeechLength(string text, float rate = 1f, float wordsPerMinute = 175f, float timeFactor = 0.9f)
    {
-      float words = text.Split(splitCharWords, System.StringSplitOptions.RemoveEmptyEntries).Length;
+      float words = text.Split(_splitCharWords, System.StringSplitOptions.RemoveEmptyEntries).Length;
       float characters = text.Length - words + 1;
       float ratio = characters / words;
 
@@ -466,9 +484,9 @@ public class Speaker : Singleton<Speaker>, IVoiceProvider
       _logger.LogDebug("GetVoices called");
 
       List<Voice> res = [];
-      if (voiceProvider != null)
+      if (_voiceProvider != null)
       {
-         res = voiceProvider.GetVoices();
+         res = _voiceProvider.GetVoices();
       }
       else
       {
@@ -486,9 +504,9 @@ public class Speaker : Singleton<Speaker>, IVoiceProvider
       _logger.LogDebug("GetVoicesAsync called");
 
       List<Voice> res = [];
-      if (voiceProvider != null)
+      if (_voiceProvider != null)
       {
-         res = await voiceProvider.GetVoicesAsync();
+         res = await _voiceProvider.GetVoicesAsync();
       }
       else
       {
@@ -505,9 +523,9 @@ public class Speaker : Singleton<Speaker>, IVoiceProvider
    {
       _logger.LogDebug("Silence called");
 
-      if (voiceProvider != null)
+      if (_voiceProvider != null)
       {
-         voiceProvider.Silence();
+         _voiceProvider.Silence();
       }
       else
       {
@@ -519,11 +537,14 @@ public class Speaker : Singleton<Speaker>, IVoiceProvider
    {
       _logger.LogDebug($"Speak called: {text} - Voice: {voice} - Rate: {rate} - Pitch: {pitch} - Volume: {volume} - ForceSSML: {forceSSML}");
 
+      OnSpeakStarted?.Invoke(text);
+      IsSpeaking = true;
+
       bool res = false;
 
-      if (voiceProvider != null)
+      if (_voiceProvider != null)
       {
-         res = voiceProvider.Speak(text, voice, rate, pitch, volume, forceSSML);
+         res = _voiceProvider.Speak(text, voice, rate, pitch, volume, forceSSML);
       }
       else
       {
@@ -531,6 +552,7 @@ public class Speaker : Singleton<Speaker>, IVoiceProvider
       }
 
       OnSpeakCompleted?.Invoke(text);
+      IsSpeaking = false;
 
       return res;
    }
@@ -539,11 +561,14 @@ public class Speaker : Singleton<Speaker>, IVoiceProvider
    {
       _logger.LogDebug($"SpeakAsync called: {text} - Voice: {voice} - Rate: {rate} - Pitch: {pitch} - Volume: {volume} - ForceSSML: {forceSSML}");
 
+      OnSpeakStarted?.Invoke(text);
+      IsSpeaking = true;
+
       bool res = false;
 
-      if (voiceProvider != null)
+      if (_voiceProvider != null)
       {
-         res = await voiceProvider.SpeakAsync(text, voice, rate, pitch, volume, forceSSML);
+         res = await _voiceProvider.SpeakAsync(text, voice, rate, pitch, volume, forceSSML);
       }
       else
       {
@@ -551,6 +576,7 @@ public class Speaker : Singleton<Speaker>, IVoiceProvider
       }
 
       OnSpeakCompleted?.Invoke(text);
+      IsSpeaking = false;
 
       return res;
    }
@@ -568,21 +594,25 @@ public class Speaker : Singleton<Speaker>, IVoiceProvider
 
    private void initProvider()
    {
-      if (UseESpeak || Constants.IsLinux)
+      if (CustomVoiceProvider != null)
       {
-         voiceProvider = LinuxVoiceProvider.Instance;
+         _voiceProvider = CustomVoiceProvider;
+      }
+      else if (UseESpeak || Constants.IsLinux)
+      {
+         _voiceProvider = LinuxVoiceProvider.Instance;
       }
       else if (Constants.IsWindows)
       {
-         voiceProvider = WindowsVoiceProvider.Instance;
+         _voiceProvider = WindowsVoiceProvider.Instance;
       }
       else if (Constants.IsOSX)
       {
-         voiceProvider = OSXVoiceProvider.Instance;
+         _voiceProvider = OSXVoiceProvider.Instance;
       }
       else
       {
-         _logger.LogError("No valid TTS provider found for current platform!");
+         _logger.LogWarning("No valid TTS provider found for current platform!");
       }
    }
 

@@ -35,16 +35,16 @@ public class LinuxVoiceProvider : Singleton<LinuxVoiceProvider>, IVoiceProvider
    #region Properties
 
    /// <summary>eSpeak application name/path.</summary>
-   public string ESpeakApplication { get; set; } = "espeak-ng";
+   public virtual string ESpeakApplication { get; set; } = "espeak-ng";
 
    /// <summary>eSpeak application data path.</summary>
-   public string ESpeakDataPath { get; set; } = string.Empty;
+   public virtual string ESpeakDataPath { get; set; } = string.Empty;
 
    /// <summary>Active modifier for all eSpeak voices.</summary>
-   public ESpeakModifiers ESpeakModifier { get; set; } = ESpeakModifiers.none;
+   public virtual ESpeakModifiers ESpeakModifier { get; set; } = ESpeakModifiers.none;
 
    /// <summary>Female modifier for female eSpeak voices.</summary>
-   public ESpeakModifiers ESpeakFemaleModifier { get; set; } = ESpeakModifiers.f3;
+   public virtual ESpeakModifiers ESpeakFemaleModifier { get; set; } = ESpeakModifiers.f3;
 
    public virtual List<Voice> Voices => _cachedVoices ??= GetVoices();
 
@@ -76,15 +76,17 @@ public class LinuxVoiceProvider : Singleton<LinuxVoiceProvider>, IVoiceProvider
       }
    }
 
-   public bool IsReady { get; private set; }
+   public virtual bool IsReady { get; private set; }
+   public bool IsSpeaking { get; private set; }
 
    #endregion
 
    #region Events
 
-   public event IVoiceProvider.VoicesLoaded? OnVoicesLoaded;
+   public virtual event IVoiceProvider.VoicesLoaded? OnVoicesLoaded;
+   public event IVoiceProvider.SpeakStarted? OnSpeakStarted;
 
-   public event IVoiceProvider.SpeakCompleted? OnSpeakCompleted;
+   public virtual event IVoiceProvider.SpeakCompleted? OnSpeakCompleted;
 
    #endregion
 
@@ -113,19 +115,22 @@ public class LinuxVoiceProvider : Singleton<LinuxVoiceProvider>, IVoiceProvider
       return res;
    }
 
-   public void Silence()
+   public virtual void Silence()
    {
       _process?.Stop();
    }
 
-   public bool Speak(string text, Voice? voice = null, float rate = 1, float pitch = 1, float volume = 1, bool forceSSML = true)
+   public virtual bool Speak(string text, Voice? voice = null, float rate = 1, float pitch = 1, float volume = 1, bool forceSSML = true)
    {
       return Task.Run(() => SpeakAsync(text, voice, rate, pitch, volume, forceSSML)).GetAwaiter().GetResult();
    }
 
-   public async Task<bool> SpeakAsync(string text, Voice? voice = null, float rate = 1, float pitch = 1, float volume = 1, bool forceSSML = true)
+   public virtual async Task<bool> SpeakAsync(string text, Voice? voice = null, float rate = 1, float pitch = 1, float volume = 1, bool forceSSML = true)
    {
       ArgumentNullException.ThrowIfNull(text);
+
+      OnSpeakStarted?.Invoke(text);
+      IsSpeaking = true;
 
       _logger.LogDebug("Starting TTS2: " + text);
 
@@ -152,6 +157,7 @@ public class LinuxVoiceProvider : Singleton<LinuxVoiceProvider>, IVoiceProvider
       Process process = await _process.StartAsync(ESpeakApplication, args, true);
 
       OnSpeakCompleted?.Invoke(text);
+      IsSpeaking = false;
 
       if (process.ExitCode is 0 or -1 or 137) //0 = normal ended, -1/137 = killed
       {

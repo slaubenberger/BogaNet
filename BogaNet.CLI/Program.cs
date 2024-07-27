@@ -23,6 +23,8 @@ public static class Program
 
       _logger.LogDebug("Hi there, this is a test app!");
 
+      testPrefs();
+      
       /*
       Task task1 = Task1();
       Task task2 = Task2();
@@ -60,6 +62,19 @@ public static class Program
 
    #region Private methods
 
+   public static void testPrefs()
+   {
+      BogaNet.Prefs.Preferences.Instance.Load();
+
+      if (BogaNet.Prefs.Preferences.Instance.IsLoaded)
+      {
+         _logger.LogInformation("ready!");
+         
+         _logger.LogInformation(BogaNet.Prefs.Preferences.Instance.GetString("user"));
+      }
+
+      BogaNet.Prefs.Preferences.Instance.Set("user", "ueli " + DateTime.Now);
+   }
    public static async Task Task1()
    {
       await Task.Delay(1000);

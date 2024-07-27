@@ -39,6 +39,11 @@ public interface IVoiceProvider
    /// </summary>
    bool IsReady { get; }
 
+   /// <summary>
+   /// Is the provider currently speaking?
+   /// </summary>
+   bool IsSpeaking { get; }
+
    #endregion
 
    #region Events
@@ -52,6 +57,16 @@ public interface IVoiceProvider
    /// Event triggered whenever the voices are loaded.
    /// </summary>
    event VoicesLoaded OnVoicesLoaded;
+
+   /// <summary>
+   /// Delegate for the speak status.
+   /// </summary>
+   delegate void SpeakStarted(string text);
+
+   /// <summary>
+   /// Event triggered whenever a speech is started.
+   /// </summary>
+   event SpeakStarted OnSpeakStarted;
 
    /// <summary>
    /// Delegate for the speak status.

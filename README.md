@@ -272,6 +272,7 @@ It is recommended to use "TrueRandom" only to set seeds in the PRNG and refresh 
 ## BogaNet.TTS
 Use the built-in Text-To-Speech (TTS) engine under Windows, OSX and Linux.
 It provides all installed voices and support for [SSML](https://www.w3.org/TR/speech-synthesis/).
+It's also possible to implement your own custom voice provider (e.g. to use other engines like AWS Polly, Azure, Google, ElvenLabs etc.).
 
 ### Note
 The LinuxVoiceProvider uses eSpeak/eSpeak-NG as engine, which is also available for Windows and OSX.
