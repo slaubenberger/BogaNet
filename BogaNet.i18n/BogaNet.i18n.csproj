@@ -7,10 +7,10 @@
         <Company>crosstales LLC</Company>
         <Copyright>© 2024 Stefan Laubenberger</Copyright>
         <Authors>Stefan Laubenberger</Authors>
-        <Description>Localizer for C# applications.</Description>
+        <Description>Localizer for C# applications with CSV files as translations.</Description>
         <RepositoryUrl>https://github.com/slaubenberger/BogaNet</RepositoryUrl>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageTags>Localizer i18n Translate Language Accessibility</PackageTags>
+        <PackageTags>Localizer i18n Translate Language Accessibility CSV</PackageTags>
         <PackageReleaseNotes>Release 1.3.0.</PackageReleaseNotes>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <!-- <PackageIconUrl>https://www.crosstales.com/media/data/BogaNet/logo_boga.png</PackageIconUrl> -->

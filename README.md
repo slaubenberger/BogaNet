@@ -11,7 +11,7 @@
 * [BogaNet.CRC](https://github.com/slaubenberger/BogaNet#boganetcrc): Various helpers for cyclic redundancy checks (CRC), namely CRC8, CRC16, CRC32 and CRC64.
 * [BogaNet.Encoder](https://github.com/slaubenberger/BogaNet#boganetencoder):  A collection of various binary encoders, namely base2, base16, base32, base64, base85 and base91.
 * [BogaNet.i18n](https://github.com/slaubenberger/BogaNet#boganeti18n): Localizer for C# applications with CSV files as translations.
-* [BogaNet.ObfuscatedType](https://github.com/slaubenberger/BogaNet#boganetobfuscatedtype): Various obfuscated types for all value types, strings and objects. This types prevent the values from being "plain" in memory.
+* [BogaNet.ObfuscatedType](https://github.com/slaubenberger/BogaNet#boganetobfuscatedtype): Various obfuscated types for all value types, strings and objects.
 * [BogaNet.Prefs](https://github.com/slaubenberger/BogaNet#boganetprefs): Preferences/settings for C# applications. It supports all values types, strings, DateTime and object.
 * [BogaNet.SecureType](https://github.com/slaubenberger/BogaNet#boganetsecuretype): Various encrypted types for all value types, strings and objects.
 * [BogaNet.TrueRandom](https://github.com/slaubenberger/BogaNet#boganettruerandom): Generates true random numbers from atmospheric noise.
@@ -164,7 +164,7 @@ A collection of various binary encoders, namely base2, base16, base32, base64, b
 [BogaNet.Encoder](https://www.nuget.org/packages/BogaNet.Encoder/)
 
 ## BogaNet.i18n
-Localizer for C# applications.
+Localizer for C# applications with CSV files as translations.
 
 ### Main class and example code
 * [Localizer](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1i18n_1_1_localizer.html): i18n localizer.
