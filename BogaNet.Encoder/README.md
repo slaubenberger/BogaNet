@@ -1,5 +1,5 @@
 # BogaNet.Encoder
-A collection of various binary encoders.
+A collection of various binary encoders, namely base2, base16, base32, base64, base85 and base91.
 
 ## Main classes
 * [Base2](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_encoder_1_1_base2.html): Base2 (aka binary) encoder.

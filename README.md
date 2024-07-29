@@ -4,6 +4,39 @@
 ## API:
 [https://www.crosstales.com/media/data/BogaNet/api/](https://www.crosstales.com/media/data/BogaNet/api/annotated.html)
 
+## Packages
+* [BogaNet.Common](https://github.com/slaubenberger/BogaNet#boganetcommon): Main library for all BogaNet-packages filled with useful helpers to speed up C# development, like helpers for file operations, JSON&XML, strings etc. It also contains many nice extensions, obfuscation and a short UID implementation.
+* [BogaNet.Avalonia](https://github.com/slaubenberger/BogaNet#boganetavalonia): Little helpers to speed up Avalonia development, like helpers for images and resources.
+* [BogaNet.Avalonia.Browser](https://github.com/slaubenberger/BogaNet#boganetavaloniabrowser): Browser-specific helpers for Avalonia development, like local preferences, i18n, TTS, close/reload callback.
+* [BogaNet.CRC](https://github.com/slaubenberger/BogaNet#boganetcrc): Various helpers for cyclic redundancy checks (CRC), namely CRC8, CRC16, CRC32 and CRC64.
+* [BogaNet.Encoder](https://github.com/slaubenberger/BogaNet#boganetencoder):  A collection of various binary encoders, namely base2, base16, base32, base64, base85 and base91.
+* [BogaNet.i18n](https://github.com/slaubenberger/BogaNet#boganeti18n): Localizer for C# applications with CSV files as translations.
+* [BogaNet.ObfuscatedType](https://github.com/slaubenberger/BogaNet#boganetobfuscatedtype): Various obfuscated types for all value types, strings and objects. This types prevent the values from being "plain" in memory.
+* [BogaNet.Prefs](https://github.com/slaubenberger/BogaNet#boganetprefs): Preferences/settings for C# applications. It supports all values types, strings, DateTime and object.
+* [BogaNet.SecureType](https://github.com/slaubenberger/BogaNet#boganetsecuretype): Various encrypted types for all value types, strings and objects.
+* [BogaNet.TrueRandom](https://github.com/slaubenberger/BogaNet#boganettruerandom): Generates true random numbers from atmospheric noise.
+* [BogaNet.TTS](https://github.com/slaubenberger/BogaNet#boganettts): Use the built-in Text-To-Speech (TTS) engine under Windows, OSX and Linux.
+* [BogaNet.Unit](https://github.com/slaubenberger/BogaNet#boganetunit): Various units, like area, bit, byte, length, temperature, volume and weight with easy conversion between different types.
+
+
+## BogaNet.Common
+Main library for all BogaNet-packages filled with useful helpers to speed up C# development.
+
+### Main classes
+* [FileHelper](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_helper_1_1_file_helper.html): Various helper functions for filesystem operations.
+* [JsonHelper](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_helper_1_1_json_helper.html): Helper for JSON operations.
+* [NetworkHelper](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_helper_1_1_network_helper.html): Various helper functions for networking.
+* [Obfuscator](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_util_1_1_obfuscator.html): Obfuscator for strings and byte-arrays.
+* [ProcessRunner](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_util_1_1_process_runner.html): Executes applications and commands.
+* [ShortUID](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_util_1_1_short_u_i_d.html): Short Guid implementation with a length of 22 characters (instead 36 of the normal Guid).
+* [StringHelper](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_helper_1_1_string_helper.html): Helper methods for strings.
+* [XmlHelper](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_helper_1_1_xml_helper.html): Helper for XML operations.
+
+There are also many powerful extensions for arrays, bytes, dictionaries, lists, numbers and strings.
+
+### Nuget:
+[BogaNet.Common](https://www.nuget.org/packages/BogaNet.Common/)
+
 ## BogaNet.Avalonia
 Little helpers to speed up Avalonia development.
 
@@ -19,7 +52,7 @@ Browser-specific helpers for Avalonia development.
 It also contains various JavaScript-helper files.
 This package most likely works with other C# web-technologies like Blazor and Razor, but its untested outside of Avalonia.
 
-## Main classes and usage
+### Main classes and usage
 * [BrowserPreferencesContainer](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_prefs_1_1_browser_preferences_container.html): Preferences-container for browser, for more see: [BogaNet.Prefs](https://www.nuget.org/packages/BogaNet.Prefs/).
 * [BrowserVoiceProvider](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_t_t_s_1_1_provider_1_1_browser_voice_provider.html): TTS for browser, for more see: [BogaNet.TTS](https://www.nuget.org/packages/BogaNet.TTS/).
 * [UrlHelper](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_helper_1_1_url_helper.html): Get and set the URL of the application.
@@ -92,24 +125,6 @@ Console.WriteLine("Browser-URL: " + UrlHelper.URL);
 [BogaNet.Avalonia.Browser](https://www.nuget.org/packages/BogaNet.Avalonia.Browser/)
 
 
-## BogaNet.Common
-Main library for all BogaNet-packages filled with useful helpers to speed up C# development.
-
-### Main classes
-* [FileHelper](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_helper_1_1_file_helper.html): Various helper functions for filesystem operations.
-* [JsonHelper](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_helper_1_1_json_helper.html): Helper for JSON operations.
-* [NetworkHelper](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_helper_1_1_network_helper.html): Various helper functions for networking.
-* [Obfuscator](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_util_1_1_obfuscator.html): Obfuscator for strings and byte-arrays.
-* [ProcessRunner](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_util_1_1_process_runner.html): Executes applications and commands.
-* [ShortUID](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_util_1_1_short_u_i_d.html): Short Guid implementation with a length of 22 characters (instead 36 of the normal Guid).
-* [StringHelper](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_helper_1_1_string_helper.html): Helper methods for strings.
-* [XmlHelper](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_helper_1_1_xml_helper.html): Helper for XML operations.
-
-There are also many powerful extensions for arrays, bytes, dictionaries, lists, numbers and strings.
-
-### Nuget:
-[BogaNet.Common](https://www.nuget.org/packages/BogaNet.Common/)
-
 ## BogaNet.CRC
 Various helpers for cyclic redundancy checks (CRC), namely CRC8, CRC16, CRC32 and CRC64.
 
@@ -135,7 +150,7 @@ Various helpers for cryptographic functions, like hashing (SHA), asymmetric (AES
 [BogaNet.Crypto](https://www.nuget.org/packages/BogaNet.Crypto/)
 
 ## BogaNet.Encoder
-A collection of various binary encoders.
+A collection of various binary encoders, namely base2, base16, base32, base64, base85 and base91.
 
 ### Main classes
 * [Base2](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_encoder_1_1_base2.html): Base2 (aka binary) encoder.
@@ -218,7 +233,7 @@ Console.WriteLine(text);
 
 ## BogaNet.Prefs
 Handles preferences/settings for C# applications. It supports all values types, strings, DateTime and object.
-Furthermore, it allows to store the data in obfuscated form to prevent it from being easily read.
+Furthermore, it allows to store the data in obfuscated form to prevent it from being easily read/modified.
 The data is automatically stored at application exit.
 
 ### Main class and example code

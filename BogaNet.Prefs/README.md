@@ -1,6 +1,6 @@
 # BogaNet.Prefs
 Handles preferences/settings for C# applications. It supports all values types, strings, DateTime and object.
-Furthermore, it allows to store the data in obfuscated form to prevent it from being easily read.
+Furthermore, it allows to store the data in obfuscated form to prevent it from being easily read/modified.
 The data is automatically stored at application exit.
 
 ## Main class and example code
