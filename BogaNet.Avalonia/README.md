@@ -1,5 +1,5 @@
 # BogaNet.Avalonia
-Little helpers to speed up Avalonia development.
+Little helpers for Avalonia development.
 
 ## Main classes
 * [ImageHelper](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_helper_1_1_image_helper.html): Helper for images in Avalonia.

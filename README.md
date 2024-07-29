@@ -4,9 +4,9 @@
 ## API:
 [https://www.crosstales.com/media/data/BogaNet/api/](https://www.crosstales.com/media/data/BogaNet/api/annotated.html)
 
-## Packages
+## Packages overview
 * [BogaNet.Common](https://github.com/slaubenberger/BogaNet#boganetcommon): Main library for all BogaNet-packages filled with useful helpers to speed up C# development, like helpers for file operations, JSON&XML, strings etc. It also contains many nice extensions, obfuscation and a short UID implementation.
-* [BogaNet.Avalonia](https://github.com/slaubenberger/BogaNet#boganetavalonia): Little helpers to speed up Avalonia development, like helpers for images and resources.
+* [BogaNet.Avalonia](https://github.com/slaubenberger/BogaNet#boganetavalonia): Little helpers for Avalonia development, like helpers for images and resources.
 * [BogaNet.Avalonia.Browser](https://github.com/slaubenberger/BogaNet#boganetavaloniabrowser): Browser-specific helpers for Avalonia development, like local preferences, i18n, TTS, close/reload callback.
 * [BogaNet.CRC](https://github.com/slaubenberger/BogaNet#boganetcrc): Various helpers for cyclic redundancy checks (CRC), namely CRC8, CRC16, CRC32 and CRC64.
 * [BogaNet.Encoder](https://github.com/slaubenberger/BogaNet#boganetencoder):  A collection of various binary encoders, namely base2, base16, base32, base64, base85 and base91.
@@ -38,7 +38,7 @@ There are also many powerful extensions for arrays, bytes, dictionaries, lists, 
 [BogaNet.Common](https://www.nuget.org/packages/BogaNet.Common/)
 
 ## BogaNet.Avalonia
-Little helpers to speed up Avalonia development.
+Little helpers for Avalonia development.
 
 ### Main classes
 * [ImageHelper](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_helper_1_1_image_helper.html): Helper for images in Avalonia.

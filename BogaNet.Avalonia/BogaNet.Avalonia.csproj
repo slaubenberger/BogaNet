@@ -7,7 +7,7 @@
         <Company>crosstales LLC</Company>
         <Copyright>© 2024 Stefan Laubenberger</Copyright>
         <Authors>Stefan Laubenberger</Authors>
-        <Description>Little helpers to speed up Avalonia development.</Description>
+        <Description>Little helpers for Avalonia development.</Description>
         <RepositoryUrl>https://github.com/slaubenberger/BogaNet</RepositoryUrl>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageTags>Avalonia Extension Image Text Resources i18n Translate Accessibility Preferences</PackageTags>
