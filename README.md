@@ -1,6 +1,6 @@
 # BogaNet
 .NET 8 version of Boga, a collection of tools to make C# development a joyride.
-<img src="./Resources/logos/logo_boga.jpg" align="right"/>
+<img src="./Resources/logos/logo_boga.png" align="right"/>
 ## API:
 [https://www.crosstales.com/media/data/BogaNet/api/](https://www.crosstales.com/media/data/BogaNet/api/annotated.html)
 
