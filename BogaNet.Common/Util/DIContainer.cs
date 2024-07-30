@@ -32,12 +32,31 @@ public static class DIContainer
    /// </summary>
    /// <typeparam name="TType">Type (interface/class) of the instance</typeparam>
    /// <returns>Type-instance</returns>
-   public static TType? Resolve<TType>()
+   /// <exception cref="Exception"></exception>
+   public static TType Resolve<TType>()
    {
-      if (_container.TryGetValue(typeof(TType), out object? value))
-         return value == null ? default : (TType)value;
+      if (!_container.ContainsKey(typeof(TType)))
+         throw new KeyNotFoundException();
 
-      return default;
+      object? value = _container[typeof(TType)];
+      return (TType)value!;
+   }
+
+   /// <summary>
+   /// Resolves a Type to a bound instance.
+   /// </summary>
+   /// <typeparam name="TType">Type (interface/class) of the instance</typeparam>
+   /// <returns>Type-instance</returns>
+   public static bool TryResolve<TType>(out TType result)
+   {
+      if (!_container.ContainsKey(typeof(TType)))
+      {
+         result = default!;
+         return false;
+      }
+
+      result = Resolve<TType>();
+      return true;
    }
 
    /// <summary>
