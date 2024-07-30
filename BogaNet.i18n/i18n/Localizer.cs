@@ -94,36 +94,60 @@ public class Localizer : Singleton<Localizer>, ILocalizer //NUnit
 
    #region Public methods
 
-   public virtual string? GetText(string key, TextType textType = TextType.LABEL) //NUnit
+   public virtual string GetText(string key, TextType textType = TextType.LABEL) //NUnit
    {
       return GetText(key, Culture, textType);
    }
 
-   public virtual string? GetText(string key, CultureInfo culture, TextType textType = TextType.LABEL) //NUnit
+   public virtual bool TryGetText(string key, out string result, TextType textType = TextType.LABEL)
+   {
+      result = GetText(key, textType);
+      return !result.BNStartsWith("???");
+   }
+
+   public virtual string GetText(string key, CultureInfo culture, TextType textType = TextType.LABEL) //NUnit
    {
       ArgumentNullException.ThrowIfNullOrEmpty(key);
 
       return getText(key, culture.ToString(), textType);
    }
 
-   public virtual string? GetTextWithReplacements(string key, TextType textType = TextType.LABEL, params string[] replacements) //NUnit
+   public virtual bool TryGetText(string key, out string result, CultureInfo culture, TextType textType = TextType.LABEL)
+   {
+      result = GetText(key, culture, textType);
+      return !result.BNStartsWith("???");
+   }
+
+   public virtual string GetTextWithReplacements(string key, TextType textType = TextType.LABEL, params string[] replacements) //NUnit
    {
       return GetTextWithReplacements(key, Culture, textType, replacements);
    }
 
-   public virtual string? GetTextWithReplacements(string key, CultureInfo culture, TextType textType = TextType.LABEL, params string[] replacements) //NUnit
+   public virtual bool TryGetTextWithReplacements(string key, out string result, TextType textType = TextType.LABEL, params string[] replacements)
+   {
+      result = GetTextWithReplacements(key, textType);
+      return !result.BNStartsWith("???");
+   }
+
+   public virtual string GetTextWithReplacements(string key, CultureInfo culture, TextType textType = TextType.LABEL, params string[] replacements) //NUnit
    {
       ArgumentNullException.ThrowIfNull(replacements);
 
-      string? text = GetText(key, culture, textType);
+      string text = GetText(key, culture, textType);
 
       for (int ii = 0; ii < replacements.Length; ii++)
       {
          string replacement = "{" + ii + "}";
-         text = text?.BNReplace(replacement, replacements[ii]);
+         text = text.BNReplace(replacement, replacements[ii])!;
       }
 
       return text;
+   }
+
+   public bool TryGetTextWithReplacements(string key, out string result, CultureInfo culture, TextType textType = TextType.LABEL, params string[] replacements)
+   {
+      result = GetTextWithReplacements(key, culture, textType);
+      return !result.BNStartsWith("???");
    }
 
    public bool ContainsKey(string key, CultureInfo? culture = null)
@@ -358,13 +382,13 @@ public class Localizer : Singleton<Localizer>, ILocalizer //NUnit
       }
 
       bool res = allLines.Count > 0;
-      
+
       if (res)
          Load(allLines);
 
       OnFilesLoaded?.Invoke(urls);
       IsLoaded = res; //too simple?
-      
+
       return res;
    }
 
@@ -396,7 +420,7 @@ public class Localizer : Singleton<Localizer>, ILocalizer //NUnit
 
    #region Private methods
 
-   protected string? getText(string? key, string culture, TextType textType, bool returnDefault = true)
+   protected string getText(string key, string culture, TextType textType, bool returnDefault = true)
    {
       ArgumentNullException.ThrowIfNull(key);
 
@@ -420,7 +444,7 @@ public class Localizer : Singleton<Localizer>, ILocalizer //NUnit
          //Dictionary<string, string> dict = languages[language];
 
          if (translation.TryGetValue(culture, out string? value))
-            return value.BNReplace("\\n", System.Environment.NewLine);
+            return value.BNReplace("\\n", System.Environment.NewLine)!;
 
          if (culture.Length > 2)
          {
@@ -446,7 +470,7 @@ public class Localizer : Singleton<Localizer>, ILocalizer //NUnit
             if (returnDefault)
             {
                var defaultValue = _messages[usedKey].Values.ElementAt(0);
-               return defaultValue.BNReplace("\\n", System.Environment.NewLine);
+               return defaultValue.BNReplace("\\n", System.Environment.NewLine) ?? string.Empty;
             }
          }
       }

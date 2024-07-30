@@ -99,7 +99,7 @@ public class Preferences : Singleton<Preferences>, IFilePreferences //NUnit
       return Container.Get(key, obfuscated).ToString()!;
    }
 
-   public bool TryGetString(string key, out string result, bool obfuscated = false)
+   public virtual bool TryGetString(string key, out string result, bool obfuscated = false)
    {
       if (!ContainsKey(key))
       {
@@ -117,7 +117,7 @@ public class Preferences : Singleton<Preferences>, IFilePreferences //NUnit
       return JsonHelper.DeserializeFromString<T>(str);
    }
 
-   public bool TryGetObject<T>(string key, out T result, bool obfuscated = false)
+   public virtual bool TryGetObject<T>(string key, out T result, bool obfuscated = false)
    {
       if (!ContainsKey(key))
       {
@@ -184,7 +184,7 @@ public class Preferences : Singleton<Preferences>, IFilePreferences //NUnit
       return T.CreateTruncating(0);
    }
 
-   public bool TryGetNumber<T>(string key, out T result, bool obfuscated = false) where T : INumber<T>
+   public virtual bool TryGetNumber<T>(string key, out T result, bool obfuscated = false) where T : INumber<T>
    {
       if (!ContainsKey(key))
       {
@@ -202,7 +202,7 @@ public class Preferences : Singleton<Preferences>, IFilePreferences //NUnit
       return "true".Equals(result.ToLower());
    }
 
-   public bool TryGetBool(string key, out bool result, bool obfuscated = false)
+   public virtual bool TryGetBool(string key, out bool result, bool obfuscated = false)
    {
       if (!ContainsKey(key))
       {
@@ -220,7 +220,7 @@ public class Preferences : Singleton<Preferences>, IFilePreferences //NUnit
       return DateTime.TryParse(date, out DateTime dt) ? dt.BNConvertToTimeZone(usedTZ) : default!;
    }
 
-   public bool TryGetDate(string key, out DateTime result, bool obfuscated = false, TimeZoneInfo? usedTZ = null)
+   public virtual bool TryGetDate(string key, out DateTime result, bool obfuscated = false, TimeZoneInfo? usedTZ = null)
    {
       if (!ContainsKey(key))
       {

@@ -152,7 +152,7 @@ public class PreferencesContainer : IPreferencesContainer //NUnit
       return obfuscated ? Obfuscator.Deobfuscate(Base91.FromBase91String(_preferences[key].ToString()!), IV).BNToString() : _preferences[key];
    }
 
-   public bool TryGet(string key, out object result, bool obfuscated)
+   public virtual bool TryGet(string key, out object result, bool obfuscated)
    {
       if (!ContainsKey(key))
       {

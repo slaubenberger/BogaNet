@@ -91,7 +91,16 @@ public interface ILocalizer
    /// <param name="key">Key for the text</param>
    /// <param name="textType">Type of the text (optional, default: LABEL)</param>
    /// <returns>Text for the key</returns>
-   string? GetText(string key, TextType textType = TextType.LABEL);
+   string GetText(string key, TextType textType = TextType.LABEL);
+
+   /// <summary>
+   /// Tries to get the text for a key and the current culture.
+   /// </summary>
+   /// <param name="key">Key for the text</param>
+   /// <param name="result">out parameter for the result</param>
+   /// <param name="textType">Type of the text (optional, default: LABEL)</param>
+   /// <returns>True if the operation was successful</returns>
+   bool TryGetText(string key, out string result, TextType textType = TextType.LABEL);
 
    /// <summary>
    /// Gets the text for a key and a given culture.
@@ -100,7 +109,17 @@ public interface ILocalizer
    /// <param name="culture">Culture for the text</param>
    /// <param name="textType">Type of the text (optional, default: LABEL)</param>
    /// <returns>Text for the key</returns>
-   string? GetText(string key, CultureInfo culture, TextType textType = TextType.LABEL);
+   string GetText(string key, CultureInfo culture, TextType textType = TextType.LABEL);
+
+   /// <summary>
+   /// Tries to get the text for a key and a given culture.
+   /// </summary>
+   /// <param name="key">Key for the text</param>
+   /// <param name="result">out parameter for the result</param>
+   /// <param name="culture">Culture for the text</param>
+   /// <param name="textType">Type of the text (optional, default: LABEL)</param>
+   /// <returns>True if the operation was successful</returns>
+   bool TryGetText(string key, out string result, CultureInfo culture, TextType textType = TextType.LABEL);
 
    /// <summary>
    /// Gets the text for a key with replacements (for placeholders like '{0}') and the current culture.
@@ -109,7 +128,17 @@ public interface ILocalizer
    /// <param name="textType">Type of the text (optional, default: LABEL)</param>
    /// <param name="replacements">Replacements for the text</param>
    /// <returns>Text with replacements for the key</returns>
-   string? GetTextWithReplacements(string key, TextType textType = TextType.LABEL, params string[] replacements);
+   string GetTextWithReplacements(string key, TextType textType = TextType.LABEL, params string[] replacements);
+
+   /// <summary>
+   /// Tries to get the text for a key with replacements (for placeholders like '{0}') and the current culture.
+   /// </summary>
+   /// <param name="key">Key for the text</param>
+   /// <param name="result">out parameter for the result</param>
+   /// <param name="textType">Type of the text (optional, default: LABEL)</param>
+   /// <param name="replacements">Replacements for the text</param>
+   /// <returns>True if the operation was successful</returns>
+   bool TryGetTextWithReplacements(string key, out string result, TextType textType = TextType.LABEL, params string[] replacements);
 
    /// <summary>
    /// Gets the text for a key with replacements (for placeholders like '{0}') and a given culture.
@@ -119,7 +148,18 @@ public interface ILocalizer
    /// <param name="textType">Type of the text (optional, default: LABEL)</param>
    /// <param name="replacements">Replacements for the text</param>
    /// <returns>Text with replacements for the key</returns>
-   string? GetTextWithReplacements(string key, CultureInfo culture, TextType textType = TextType.LABEL, params string[] replacements);
+   string GetTextWithReplacements(string key, CultureInfo culture, TextType textType = TextType.LABEL, params string[] replacements);
+
+   /// <summary>
+   /// Tries to get the text for a key with replacements (for placeholders like '{0}') and a given culture.
+   /// </summary>
+   /// <param name="key">Key for the text</param>
+   /// <param name="result">out parameter for the result</param>
+   /// <param name="culture">Culture for the text</param>
+   /// <param name="textType">Type of the text (optional, default: LABEL)</param>
+   /// <param name="replacements">Replacements for the text</param>
+   /// <returns>True if the operation was successful</returns>
+   bool TryGetTextWithReplacements(string key, out string result, CultureInfo culture, TextType textType = TextType.LABEL, params string[] replacements);
 
    //void Load(Dictionary<string, string[]> dataDict);
 
