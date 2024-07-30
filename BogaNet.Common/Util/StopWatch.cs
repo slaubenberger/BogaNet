@@ -40,7 +40,7 @@ public class StopWatch
    /// <summary>
    /// Elapsed time in milliseconds.
    /// </summary>
-   public long? ElapsedTime => _watch.ElapsedMilliseconds;
+   public long ElapsedTime => _watch.ElapsedMilliseconds;
 
    #endregion
 

@@ -20,7 +20,7 @@ public class ShortUIDTest
          Assert.That(suid1.Code, Has.Length.EqualTo(22));
          //Assert.That(suid1.Code, Has.Length.EqualTo(20)); //Base85 and 91
 
-         Guid? resGuid = suid1.ToGuid();
+         Guid resGuid = suid1.ToGuid();
          Assert.That(resGuid, Is.EqualTo(refGuid));
       }
 

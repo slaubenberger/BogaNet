@@ -16,10 +16,10 @@ public static class StringExtension
    /// </summary>
    /// <param name="str">String-instance</param>
    /// <returns>Reversed string</returns>
-   public static string? BNReverse(this string? str)
+   public static string BNReverse(this string str)
    {
       if (str == null)
-         return str;
+         return str!;
 
       char[] charArray = str.ToCharArray();
       charArray.BNReverse();
@@ -35,10 +35,10 @@ public static class StringExtension
    /// <param name="newString">New replacement string</param>
    /// <param name="comp">StringComparison-method (optional, default: StringComparison.OrdinalIgnoreCase)</param>
    /// <returns>Replaced string</returns>
-   public static string? BNReplace(this string? str, string? oldString, string? newString, StringComparison comp = StringComparison.OrdinalIgnoreCase)
+   public static string BNReplace(this string? str, string? oldString, string? newString, StringComparison comp = StringComparison.OrdinalIgnoreCase)
    {
       if (str == null)
-         return str;
+         return string.Empty;
 
       if (oldString == null)
          return str;
@@ -70,10 +70,10 @@ public static class StringExtension
    /// <param name="str">String-instance</param>
    /// <param name="removeChars">Characters to remove</param>
    /// <returns>String without the given characters</returns>
-   public static string? BNRemoveChars(this string? str, params char[]? removeChars)
+   public static string BNRemoveChars(this string? str, params char[]? removeChars)
    {
       if (str == null)
-         return str;
+           return string.Empty;;
 
       if (removeChars == null)
          return str;

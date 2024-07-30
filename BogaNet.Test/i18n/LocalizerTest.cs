@@ -22,7 +22,7 @@ public class LocalizerTest
       //Assert.That(Localizer.Instance.ContainsKey(null), Is.EqualTo(false));
 
       string key = "Greeting";
-      string? text = Localizer.Instance.GetText(key);
+      string text = Localizer.Instance.GetText(key);
       string refText = "Hi there!";
       Assert.That(text, Is.EqualTo(refText));
 
@@ -49,7 +49,7 @@ public class LocalizerTest
       string refText = "Hello world!";
       Localizer.Instance.Add(newKey, new CultureInfo("en"), refText);
 
-      string? text = Localizer.Instance.GetText(newKey);
+      string text = Localizer.Instance.GetText(newKey);
       Assert.That(text, Is.EqualTo(refText));
 
       Localizer.Instance.Culture = new CultureInfo("de");
@@ -69,7 +69,7 @@ public class LocalizerTest
       Localizer.Instance.Culture = new CultureInfo("en");
 
       const string key = "ReplaceMe";
-      string? text = Localizer.Instance.GetTextWithReplacements(key, TextType.LABEL, "BogaNet", ".NET 8");
+      string text = Localizer.Instance.GetTextWithReplacements(key, TextType.LABEL, "BogaNet", ".NET 8");
       const string refText = "Hello, I'm BogaNet, your awesome library for .NET 8!";
       Assert.That(text, Is.EqualTo(refText));
    }
@@ -80,7 +80,7 @@ public class LocalizerTest
       Localizer.Instance.Culture = new CultureInfo("en");
 
       const string key = "Name";
-      string? text = Localizer.Instance.GetText(key);
+      string text = Localizer.Instance.GetText(key);
       string refText = "Name:";
       Assert.That(text, Is.EqualTo(refText));
 

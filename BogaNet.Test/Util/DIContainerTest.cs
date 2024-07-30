@@ -15,7 +15,7 @@ public class DIContainerTest
       };
 
       DIContainer.Bind<ITestClass, TestClass>(tc);
-      ITestClass? res = DIContainer.Resolve<ITestClass>();
+      ITestClass res = DIContainer.Resolve<ITestClass>();
       Assert.That(res, Is.EqualTo(tc));
 
       DIContainer.Unbind<ITestClass>();

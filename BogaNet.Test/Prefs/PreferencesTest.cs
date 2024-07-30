@@ -19,7 +19,7 @@ public class PreferencesTest
       const string refText = "Hello wörld!";
       const string key = "text";
       Preferences.Instance.Set(key, refText);
-      string? text = Preferences.Instance.GetString(key);
+      string text = Preferences.Instance.GetString(key);
       Assert.That(text, Is.EqualTo(refText));
 
       const string refTextObf = "Hello obfuscated wörld!";
@@ -39,7 +39,7 @@ public class PreferencesTest
       };
       const string key = "object";
       Preferences.Instance.Set(key, refValue);
-      TestClass? testClass = Preferences.Instance.GetObject<TestClass>(key);
+      TestClass testClass = Preferences.Instance.GetObject<TestClass>(key);
       Assert.That(testClass, Is.EqualTo(refValue));
 
       const string keyObf = "objectObf";
@@ -85,7 +85,7 @@ public class PreferencesTest
       DateTime refVal = DateTime.UtcNow;
       const string key = "date";
       Preferences.Instance.Set(key, refVal);
-      DateTime? dt = Preferences.Instance.GetDate(key, false, TimeZoneInfo.Utc);
+      DateTime dt = Preferences.Instance.GetDate(key, false, TimeZoneInfo.Utc);
       Assert.That(dt, Is.EqualTo(refVal));
 
       const string keyObf = "dateObf";
@@ -100,7 +100,7 @@ public class PreferencesTest
       DateTime refVal = DateTime.Now;
       const string key = "date";
       Preferences.Instance.Set(key, refVal);
-      DateTime? dt = Preferences.Instance.GetDate(key);
+      DateTime dt = Preferences.Instance.GetDate(key);
       Assert.That(dt, Is.EqualTo(refVal));
 
       const string keyObf = "dateObf";

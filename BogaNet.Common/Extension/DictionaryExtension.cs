@@ -24,7 +24,7 @@ public static class DictionaryExtension
    /// <param name="delimiter">Delimiter if appendNewLine is false (optional, default: "; ")</param>
    /// <returns>String with lines for all dictionary entries</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static string BNDump<K, V>(this IDictionary<K, V>? dict, bool appendNewLine = true, string? prefix = "", string? postfix = "", string delimiter = "; ")
+   public static string BNDump<K, V>(this IDictionary<K, V> dict, bool appendNewLine = true, string? prefix = "", string? postfix = "", string delimiter = "; ")
    {
       ArgumentNullException.ThrowIfNull(dict);
 

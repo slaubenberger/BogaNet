@@ -16,7 +16,7 @@ public static class DateTimeExtension //NUnit
    /// <param name="isoString">ISO 8601 string representation to convert</param>
    /// <returns>The DateTime equivalent</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static DateTime BNFromISO8601(this string? isoString)
+   public static DateTime BNFromISO8601(this string isoString)
    {
       ArgumentNullException.ThrowIfNullOrEmpty(isoString);
 

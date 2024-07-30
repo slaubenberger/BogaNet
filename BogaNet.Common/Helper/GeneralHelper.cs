@@ -85,18 +85,18 @@ public abstract class GeneralHelper
    /// <param name="name">Name for the argument</param>
    /// <param name="args">Arguments to search for (optional)</param>
    /// <returns>Argument for a name from the command line</returns>
-   public static string? GetCLIArgument(string? name, params string[]? args)
+   /// <exception cref="ArgumentNullException"></exception>
+   public static string? GetCLIArgument(string name, params string[]? args)
    {
-      if (!string.IsNullOrEmpty(name))
-      {
-         string[] array = args == null || args.Length == 0 ? GetCLIArguments() : args;
+      ArgumentNullException.ThrowIfNullOrEmpty(name);
 
-         for (int ii = 0; ii < array.Length; ii++)
+      string[] array = args == null || args.Length == 0 ? GetCLIArguments() : args;
+
+      for (int ii = 0; ii < array.Length; ii++)
+      {
+         if (name.BNEquals(array[ii]) && array.Length > ii + 1)
          {
-            if (name.BNEquals(array[ii]) && array.Length > ii + 1)
-            {
-               return array[ii + 1];
-            }
+            return array[ii + 1];
          }
       }
 

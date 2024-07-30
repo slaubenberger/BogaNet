@@ -16,7 +16,7 @@ public static class ArrayExtension //NUnit
    /// <param name="array">Array-instance</param>
    /// <returns>Reversed object array</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static void BNReverse(this object[]? array)
+   public static void BNReverse(this object[] array)
    {
       ArgumentNullException.ThrowIfNull(array);
 
@@ -44,7 +44,7 @@ public static class ArrayExtension //NUnit
    /// <param name="offset">Offset inside the byte-array (optional, default: 0)</param>
    /// <param name="length">Number of bytes (optional, default: 0 = all)</param>
    /// <returns>String from the byte-array</returns>
-   public static string? BNToString(this byte[]? bytes, Encoding? encoding = null, int offset = 0, int length = 0)
+   public static string BNToString(this byte[] bytes, Encoding? encoding = null, int offset = 0, int length = 0)
    {
       if (bytes == null)
          return null;

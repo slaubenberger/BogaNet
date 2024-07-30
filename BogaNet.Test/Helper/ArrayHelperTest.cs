@@ -9,7 +9,7 @@ public class ArrayHelperTest
    {
       //Test: input good
       const string input = "crosstales LLC";
-      string? result = input.BNReverse();
+      string result = input.BNReverse();
 
       Assert.That(result, Is.EqualTo("CLL selatssorc"));
    }
@@ -19,7 +19,7 @@ public class ArrayHelperTest
    {
       //Test: input empty
       const string input = "";
-      string? result = input.BNReverse();
+      string result = input.BNReverse();
 
       Assert.That(result, Is.Empty);
    }
@@ -31,7 +31,7 @@ public class ArrayHelperTest
       const string input = "crosstales GmbH";
       const string oldString = "gmbh";
       const string newString = "LLC";
-      string? result = input.BNReplace(oldString, newString);
+      string result = input.BNReplace(oldString, newString);
 
       Assert.That(result, Is.EqualTo("crosstales LLC"));
    }
@@ -43,7 +43,7 @@ public class ArrayHelperTest
       const string input = "";
       const string oldString = "gmbh";
       const string newString = "LLC";
-      string? result = input.BNReplace(oldString, newString);
+      string result = input.BNReplace(oldString, newString);
 
       Assert.That(result, Is.Empty);
 /*
