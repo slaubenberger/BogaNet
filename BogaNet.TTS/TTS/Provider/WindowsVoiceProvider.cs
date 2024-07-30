@@ -64,7 +64,7 @@ public class WindowsVoiceProvider : Singleton<WindowsVoiceProvider>, IVoiceProvi
    }
 
    public virtual bool IsReady { get; private set; }
-   public bool IsSpeaking { get; private set; }
+   public virtual bool IsSpeaking { get; private set; }
 
    private string _applicationName => WindowsWrapper.Application;
 

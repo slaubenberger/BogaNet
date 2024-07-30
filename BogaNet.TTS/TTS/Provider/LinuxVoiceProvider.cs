@@ -77,7 +77,7 @@ public class LinuxVoiceProvider : Singleton<LinuxVoiceProvider>, IVoiceProvider
    }
 
    public virtual bool IsReady { get; private set; }
-   public bool IsSpeaking { get; private set; }
+   public virtual bool IsSpeaking { get; private set; }
 
    #endregion
 

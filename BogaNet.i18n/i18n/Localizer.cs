@@ -144,13 +144,13 @@ public class Localizer : Singleton<Localizer>, ILocalizer //NUnit
       return text;
    }
 
-   public bool TryGetTextWithReplacements(string key, out string result, CultureInfo culture, TextType textType = TextType.LABEL, params string[] replacements)
+   public virtual bool TryGetTextWithReplacements(string key, out string result, CultureInfo culture, TextType textType = TextType.LABEL, params string[] replacements)
    {
       result = GetTextWithReplacements(key, culture, textType);
       return !result.BNStartsWith("???");
    }
 
-   public bool ContainsKey(string key, CultureInfo? culture = null)
+   public virtual bool ContainsKey(string key, CultureInfo? culture = null)
    {
       ArgumentNullException.ThrowIfNullOrEmpty(key);
 
@@ -362,12 +362,12 @@ public class Localizer : Singleton<Localizer>, ILocalizer //NUnit
       return res;
    }
 
-   public bool LoadFilesFromUrl(params string[] urls)
+   public virtual bool LoadFilesFromUrl(params string[] urls)
    {
       return Task.Run(() => LoadFilesFromUrlAsync(urls)).GetAwaiter().GetResult();
    }
 
-   public async Task<bool> LoadFilesFromUrlAsync(params string[] urls)
+   public virtual async Task<bool> LoadFilesFromUrlAsync(params string[] urls)
    {
       ArgumentNullException.ThrowIfNull(urls);
 
