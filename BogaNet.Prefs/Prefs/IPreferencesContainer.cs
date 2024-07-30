@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace BogaNet.Prefs;
 
@@ -76,7 +77,15 @@ public interface IPreferencesContainer
    /// <param name="key">Key for the object</param>
    /// <param name="obfuscated">Obfuscate value in the preferences (optional, default: false)</param>
    /// <returns>Object for the key</returns>
-   object? Get(string key, bool obfuscated);
+   /// <exception cref="KeyNotFoundException"></exception>
+   object Get(string key, bool obfuscated);
+
+   /// <summary>Tries to get an object for a key.</summary>
+   /// <param name="key">Key for the object</param>
+   /// <param name="result">out parameter for the result</param>
+   /// <param name="obfuscated">Obfuscate value in the preferences (optional, default: false)</param>
+   /// <returns>True if the operation was successful</returns>
+   bool TryGet(string key, out object result, bool obfuscated);
 
    /// <summary>Set an object for a key.</summary>
    /// <param name="key">Key for the string</param>

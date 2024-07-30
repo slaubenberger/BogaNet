@@ -94,23 +94,44 @@ public class Preferences : Singleton<Preferences>, IFilePreferences //NUnit
 
    #region Getter
 
-   public virtual string? GetString(string key, bool obfuscated = false)
+   public virtual string GetString(string key, bool obfuscated = false)
    {
-      return Container.Get(key, obfuscated)?.ToString();
+      return Container.Get(key, obfuscated).ToString()!;
    }
 
-   public virtual T? GetObject<T>(string key, bool obfuscated = false)
+   public bool TryGetString(string key, out string result, bool obfuscated = false)
    {
-      string? str = GetString(key, obfuscated);
-      return str == null ? default : JsonHelper.DeserializeFromString<T>(str);
+      if (!ContainsKey(key))
+      {
+         result = null!;
+         return false;
+      }
+
+      result = GetString(key, obfuscated);
+      return true;
    }
 
-   public virtual T? GetNumber<T>(string key, bool obfuscated = false) where T : INumber<T>
+   public virtual T GetObject<T>(string key, bool obfuscated = false)
    {
-      string? plainValue = GetString(key, obfuscated);
+      string str = GetString(key, obfuscated);
+      return JsonHelper.DeserializeFromString<T>(str);
+   }
 
-      if (plainValue == null)
-         return default;
+   public bool TryGetObject<T>(string key, out T result, bool obfuscated = false)
+   {
+      if (!ContainsKey(key))
+      {
+         result = default!;
+         return false;
+      }
+
+      result = GetObject<T>(key, obfuscated);
+      return true;
+   }
+
+   public virtual T GetNumber<T>(string key, bool obfuscated = false) where T : INumber<T>
+   {
+      string plainValue = GetString(key, obfuscated);
 
       Type type = typeof(T);
 
@@ -163,17 +184,52 @@ public class Preferences : Singleton<Preferences>, IFilePreferences //NUnit
       return T.CreateTruncating(0);
    }
 
-   public virtual bool GetBool(string key, bool obfuscated = false)
+   public bool TryGetNumber<T>(string key, out T result, bool obfuscated = false) where T : INumber<T>
    {
-      string? result = GetString(key, obfuscated);
-      return result != null && "true".Equals(result.ToLower());
+      if (!ContainsKey(key))
+      {
+         result = default!;
+         return false;
+      }
+
+      result = GetNumber<T>(key, obfuscated);
+      return true;
    }
 
-   public virtual DateTime? GetDate(string key, bool obfuscated = false, TimeZoneInfo? usedTZ = null)
+   public virtual bool GetBool(string key, bool obfuscated = false)
    {
-      string? date = GetString(key, obfuscated);
+      string result = GetString(key, obfuscated);
+      return "true".Equals(result.ToLower());
+   }
 
-      return DateTime.TryParse(date, out DateTime dt) ? dt.BNConvertToTimeZone(usedTZ) : default(DateTime?);
+   public bool TryGetBool(string key, out bool result, bool obfuscated = false)
+   {
+      if (!ContainsKey(key))
+      {
+         result = default!;
+         return false;
+      }
+
+      result = GetBool(key, obfuscated);
+      return true;
+   }
+
+   public virtual DateTime GetDate(string key, bool obfuscated = false, TimeZoneInfo? usedTZ = null)
+   {
+      string date = GetString(key, obfuscated);
+      return DateTime.TryParse(date, out DateTime dt) ? dt.BNConvertToTimeZone(usedTZ) : default!;
+   }
+
+   public bool TryGetDate(string key, out DateTime result, bool obfuscated = false, TimeZoneInfo? usedTZ = null)
+   {
+      if (!ContainsKey(key))
+      {
+         result = default!;
+         return false;
+      }
+
+      result = GetDate(key, obfuscated);
+      return true;
    }
 
    #endregion

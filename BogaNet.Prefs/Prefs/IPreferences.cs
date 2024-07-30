@@ -1,5 +1,6 @@
 ﻿using System.Numerics;
 using System;
+using System.Collections.Generic;
 
 namespace BogaNet.Prefs;
 
@@ -43,32 +44,73 @@ public interface IPreferences
    /// <param name="key">Key for the string</param>
    /// <param name="obfuscated">Obfuscate value in the preferences (optional, default: false)</param>
    /// <returns>String for the key</returns>
-   string? GetString(string key, bool obfuscated = false);
+   /// <exception cref="KeyNotFoundException"></exception>
+   string GetString(string key, bool obfuscated = false);
+
+   /// <summary>Tries to get a string for a key.</summary>
+   /// <param name="key">Key for the string</param>
+   /// <param name="result">out parameter for the result</param>
+   /// <param name="obfuscated">Obfuscate value in the preferences (optional, default: false)</param>
+   /// <returns>True if the operation was successful</returns>
+   bool TryGetString(string key, out string result, bool obfuscated = false);
 
    /// <summary>Get an object for a key.</summary>
    /// <param name="key">Key for the object</param>
    /// <param name="obfuscated">Obfuscate value in the preferences (optional, default: false)</param>
    /// <returns>Object for the key</returns>
-   T? GetObject<T>(string key, bool obfuscated = false);
+   /// <exception cref="KeyNotFoundException"></exception>
+   T GetObject<T>(string key, bool obfuscated = false);
+
+   /// <summary>Tries to get an object for a key.</summary>
+   /// <param name="key">Key for the object</param>
+   /// <param name="result">out parameter for the result</param>
+   /// <param name="obfuscated">Obfuscate value in the preferences (optional, default: false)</param>
+   /// <returns>True if the operation was successful</returns>
+   bool TryGetObject<T>(string key, out T result, bool obfuscated = false);
 
    /// <summary>Get a number for a key.</summary>
    /// <param name="key">Key for the number</param>
    /// <param name="obfuscated">Obfuscate value in the preferences (optional, default: false)</param>
    /// <returns>Number for the key</returns>
-   T? GetNumber<T>(string key, bool obfuscated = false) where T : INumber<T>;
+   /// <exception cref="KeyNotFoundException"></exception>
+   T GetNumber<T>(string key, bool obfuscated = false) where T : INumber<T>;
+
+   /// <summary>Tries to get a number for a key.</summary>
+   /// <param name="key">Key for the number</param>
+   /// <param name="result">out parameter for the result</param>
+   /// <param name="obfuscated">Obfuscate value in the preferences (optional, default: false)</param>
+   /// <returns>True if the operation was successful</returns>
+   bool TryGetNumber<T>(string key, out T result, bool obfuscated = false) where T : INumber<T>;
 
    /// <summary>Get a bool for a key.</summary>
    /// <param name="key">Key for the bol.</param>
    /// <param name="obfuscated">Obfuscate value in the preferences (optional, default: false)</param>
    /// <returns>Bool for the key</returns>
+   /// <exception cref="KeyNotFoundException"></exception>
    bool GetBool(string key, bool obfuscated = false);
+
+   /// <summary>Tries to get a bool for a key.</summary>
+   /// <param name="key">Key for the bol.</param>
+   /// <param name="result">out parameter for the result</param>
+   /// <param name="obfuscated">Obfuscate value in the preferences (optional, default: false)</param>
+   /// <returns>True if the operation was successful</returns>
+   bool TryGetBool(string key, out bool result, bool obfuscated = false);
 
    /// <summary>Get a DateTime for a key.</summary>
    /// <param name="key">Key for the DateTime.</param>
    /// <param name="obfuscated">Obfuscate value in the preferences (optional, default: false)</param>
    /// <param name="usedTZ">Time zone of the date (optional, default: local)</param>
    /// <returns>DateTime for the key</returns>
-   DateTime? GetDate(string key, bool obfuscated = false, TimeZoneInfo? usedTZ = null);
+   /// <exception cref="KeyNotFoundException"></exception>
+   DateTime GetDate(string key, bool obfuscated = false, TimeZoneInfo? usedTZ = null);
+
+   /// <summary>Tries to get a DateTime for a key.</summary>
+   /// <param name="key">Key for the DateTime.</param>
+   /// <param name="result">out parameter for the result</param>
+   /// <param name="obfuscated">Obfuscate value in the preferences (optional, default: false)</param>
+   /// <param name="usedTZ">Time zone of the date (optional, default: local)</param>
+   /// <returns>True if the operation was successful</returns>
+   bool TryGetDate(string key, out DateTime result, bool obfuscated = false, TimeZoneInfo? usedTZ = null);
 
    #endregion
 
