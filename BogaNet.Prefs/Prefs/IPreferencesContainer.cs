@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using System.Collections.Generic;
+using System;
 
 namespace BogaNet.Prefs;
 
@@ -29,6 +29,7 @@ public interface IPreferencesContainer
    /// </summary>
    /// <param name="filepath">Preference file to load</param>
    ///<returns>True if the operation was successful</returns>
+   /// <exception cref="Exception"></exception>
    bool Load(string filepath = "");
 
    /// <summary>
@@ -36,6 +37,7 @@ public interface IPreferencesContainer
    /// </summary>
    /// <param name="filepath">Preference file to load</param>
    ///<returns>True if the operation was successful</returns>
+   /// <exception cref="Exception"></exception>
    Task<bool> LoadAsync(string filepath = "");
 
    /// <summary>
@@ -43,6 +45,7 @@ public interface IPreferencesContainer
    /// </summary>
    /// <param name="filepath">Preference file to save</param>
    ///<returns>True if the operation was successful</returns>
+   /// <exception cref="Exception"></exception>
    bool Save(string filepath = "");
 
    /// <summary>
@@ -50,6 +53,7 @@ public interface IPreferencesContainer
    /// </summary>
    /// <param name="filepath">Preference file to save</param>
    ///<returns>True if the operation was successful</returns>
+   /// <exception cref="Exception"></exception>
    Task<bool> SaveAsync(string filepath = "");
 
    /// <summary>
@@ -57,6 +61,7 @@ public interface IPreferencesContainer
    /// </summary>
    /// <param name="filepath">Preference file to delete</param>
    ///<returns>True if the operation was successful</returns>
+   /// <exception cref="Exception"></exception>
    bool Delete(string filepath = "");
 
    /// <summary>
@@ -64,6 +69,7 @@ public interface IPreferencesContainer
    /// </summary>
    /// <param name="key">Key (and value) to delete</param>
    ///<returns>True if the operation was successful</returns>
+   /// <exception cref="ArgumentNullException"></exception>
    bool Remove(string key);
 
    /// <summary>
@@ -71,27 +77,30 @@ public interface IPreferencesContainer
    /// </summary>
    /// <param name="key">Key to check</param>
    /// <returns>True if the key exists in the preferences</returns>
+   /// <exception cref="ArgumentNullException"></exception>
    bool ContainsKey(string key);
 
    /// <summary>Get an object for a key.</summary>
    /// <param name="key">Key for the object</param>
    /// <param name="obfuscated">Obfuscate value in the preferences (optional, default: false)</param>
    /// <returns>Object for the key</returns>
-   /// <exception cref="KeyNotFoundException"></exception>
-   object Get(string key, bool obfuscated);
+   /// <exception cref="ArgumentNullException"></exception>
+   object Get(string key, bool obfuscated = false);
 
    /// <summary>Tries to get an object for a key.</summary>
    /// <param name="key">Key for the object</param>
    /// <param name="result">out parameter for the result</param>
    /// <param name="obfuscated">Obfuscate value in the preferences (optional, default: false)</param>
    /// <returns>True if the operation was successful</returns>
-   bool TryGet(string key, out object result, bool obfuscated);
+   /// <exception cref="ArgumentNullException"></exception>
+   bool TryGet(string key, out object result, bool obfuscated = false);
 
    /// <summary>Set an object for a key.</summary>
    /// <param name="key">Key for the string</param>
    /// <param name="value">Object for the preferences</param>
    /// <param name="obfuscated">Obfuscate value in the preferences (optional, default: false)</param>
-   void Set(string key, object value, bool obfuscated);
+   /// <exception cref="ArgumentNullException"></exception>
+   void Set(string key, object value, bool obfuscated = false);
 
    #endregion
 }

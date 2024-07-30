@@ -32,31 +32,24 @@ public static class DIContainer
    /// </summary>
    /// <typeparam name="TType">Type (interface/class) of the instance</typeparam>
    /// <returns>Type-instance</returns>
-   /// <exception cref="Exception"></exception>
    public static TType Resolve<TType>()
    {
-      if (!_container.ContainsKey(typeof(TType)))
-         throw new KeyNotFoundException();
-
-      object? value = _container[typeof(TType)];
-      return (TType)value!;
+      return (TryResolve(out TType result) ? result : default)!;
    }
 
    /// <summary>
-   /// Resolves a Type to a bound instance.
+   /// Tries to resolve a Type to a bound instance.
    /// </summary>
+   /// <param name="result">out parameter for the result</param>
    /// <typeparam name="TType">Type (interface/class) of the instance</typeparam>
-   /// <returns>Type-instance</returns>
+   ///<returns>True if the operation was successful</returns>
    public static bool TryResolve<TType>(out TType result)
    {
-      if (!_container.ContainsKey(typeof(TType)))
-      {
-         result = default!;
-         return false;
-      }
+      bool res = _container.TryGetValue(typeof(TType), out object? value);
 
-      result = Resolve<TType>();
-      return true;
+      result = res ? (TType)value! : default!;
+
+      return res;
    }
 
    /// <summary>
@@ -77,6 +70,14 @@ public static class DIContainer
    public static bool IsBound<TType>()
    {
       return _container.ContainsKey(typeof(TType));
+   }
+
+   /// <summary>
+   /// Clears all types and instances.
+   /// </summary>
+   public static void Clear()
+   {
+      _container.Clear();
    }
 
    #endregion

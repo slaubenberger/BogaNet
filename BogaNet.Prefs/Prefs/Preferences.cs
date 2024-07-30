@@ -96,140 +96,139 @@ public class Preferences : Singleton<Preferences>, IFilePreferences //NUnit
 
    public virtual string GetString(string key, bool obfuscated = false)
    {
-      return Container.Get(key, obfuscated).ToString()!;
+      return TryGetString(key, out string result, obfuscated) ? result : null!;
    }
 
    public virtual bool TryGetString(string key, out string result, bool obfuscated = false)
    {
-      if (!ContainsKey(key))
-      {
-         result = null!;
-         return false;
-      }
+      ArgumentNullException.ThrowIfNullOrEmpty(key);
 
-      result = GetString(key, obfuscated);
-      return true;
+      bool res = Container.TryGet(key, out object obj, obfuscated);
+
+      result = (res ? obj.ToString() : null)!;
+      return res;
    }
 
    public virtual T GetObject<T>(string key, bool obfuscated = false)
    {
-      string str = GetString(key, obfuscated);
-      return JsonHelper.DeserializeFromString<T>(str);
+      return TryGetObject(key, out T result, obfuscated) ? result : default!;
    }
 
    public virtual bool TryGetObject<T>(string key, out T result, bool obfuscated = false)
    {
-      if (!ContainsKey(key))
-      {
-         result = default!;
-         return false;
-      }
+      bool res = TryGetString(key, out string str, obfuscated);
 
-      result = GetObject<T>(key, obfuscated);
-      return true;
+      result = res ? JsonHelper.DeserializeFromString<T>(str) : default!;
+      return res;
    }
 
    public virtual T GetNumber<T>(string key, bool obfuscated = false) where T : INumber<T>
    {
-      string plainValue = GetString(key, obfuscated);
+      return TryGetNumber(key, out T result, obfuscated) ? result : T.CreateTruncating(0);
+   }
+
+   public virtual bool TryGetNumber<T>(string key, out T result, bool obfuscated = false) where T : INumber<T>
+   {
+      bool res = TryGetString(key, out string str, obfuscated);
+
+      if (!res)
+      {
+         result = T.CreateTruncating(0);
+         return false;
+      }
 
       Type type = typeof(T);
 
       switch (type)
       {
          case not null when type == typeof(double):
-            double doubleVal = double.Parse(plainValue);
-            return T.CreateTruncating(doubleVal);
+            double doubleVal = double.Parse(str);
+            result = T.CreateTruncating(doubleVal);
+            break;
          case not null when type == typeof(float):
-            float floatVal = float.Parse(plainValue);
-            return T.CreateTruncating(floatVal);
+            float floatVal = float.Parse(str);
+            result = T.CreateTruncating(floatVal);
+            break;
          case not null when type == typeof(long):
-            long longVal = long.Parse(plainValue);
-            return T.CreateTruncating(longVal);
+            long longVal = long.Parse(str);
+            result = T.CreateTruncating(longVal);
+            break;
          case not null when type == typeof(ulong):
-            ulong ulongVal = ulong.Parse(plainValue);
-            return T.CreateTruncating(ulongVal);
+            ulong ulongVal = ulong.Parse(str);
+            result = T.CreateTruncating(ulongVal);
+            break;
          case not null when type == typeof(int):
-            int intVal = int.Parse(plainValue);
-            return T.CreateTruncating(intVal);
+            int intVal = int.Parse(str);
+            result = T.CreateTruncating(intVal);
+            break;
          case not null when type == typeof(uint):
-            uint uintVal = uint.Parse(plainValue);
-            return T.CreateTruncating(uintVal);
+            uint uintVal = uint.Parse(str);
+            result = T.CreateTruncating(uintVal);
+            break;
          case not null when type == typeof(short):
-            short shortVal = short.Parse(plainValue);
-            return T.CreateTruncating(shortVal);
+            short shortVal = short.Parse(str);
+            result = T.CreateTruncating(shortVal);
+            break;
          case not null when type == typeof(ushort):
-            ushort ushortVal = ushort.Parse(plainValue);
-            return T.CreateTruncating(ushortVal);
+            ushort ushortVal = ushort.Parse(str);
+            result = T.CreateTruncating(ushortVal);
+            break;
          case not null when type == typeof(nint):
-            nint nintVal = nint.Parse(plainValue);
-            return T.CreateTruncating(nintVal);
+            nint nintVal = nint.Parse(str);
+            result = T.CreateTruncating(nintVal);
+            break;
          case not null when type == typeof(nuint):
-            nint nuintVal = nint.Parse(plainValue);
-            return T.CreateTruncating(nuintVal);
+            nint nuintVal = nint.Parse(str);
+            result = T.CreateTruncating(nuintVal);
+            break;
          case not null when type == typeof(byte):
-            byte byteVal = byte.Parse(plainValue);
-            return T.CreateTruncating(byteVal);
+            byte byteVal = byte.Parse(str);
+            result = T.CreateTruncating(byteVal);
+            break;
          case not null when type == typeof(sbyte):
-            sbyte sbyteVal = sbyte.Parse(plainValue);
-            return T.CreateTruncating(sbyteVal);
+            sbyte sbyteVal = sbyte.Parse(str);
+            result = T.CreateTruncating(sbyteVal);
+            break;
          case not null when type == typeof(char):
-            char charVal = char.Parse(plainValue);
-            return T.CreateTruncating(charVal);
+            char charVal = char.Parse(str);
+            result = T.CreateTruncating(charVal);
+            break;
          default:
             _logger.LogWarning("Number type is not supported!");
-            break;
+            result = T.CreateTruncating(0);
+            return false;
       }
 
-      return T.CreateTruncating(0);
-   }
-
-   public virtual bool TryGetNumber<T>(string key, out T result, bool obfuscated = false) where T : INumber<T>
-   {
-      if (!ContainsKey(key))
-      {
-         result = default!;
-         return false;
-      }
-
-      result = GetNumber<T>(key, obfuscated);
       return true;
    }
 
    public virtual bool GetBool(string key, bool obfuscated = false)
    {
-      string result = GetString(key, obfuscated);
-      return "true".Equals(result.ToLower());
+      return TryGetBool(key, out bool result, obfuscated) && result;
    }
 
    public virtual bool TryGetBool(string key, out bool result, bool obfuscated = false)
    {
-      if (!ContainsKey(key))
-      {
-         result = default!;
-         return false;
-      }
+      bool res = TryGetString(key, out string str, obfuscated);
 
-      result = GetBool(key, obfuscated);
-      return true;
+      result = res && "true".Equals(str.ToLower());
+      return res;
    }
 
    public virtual DateTime GetDate(string key, bool obfuscated = false, TimeZoneInfo? usedTZ = null)
    {
-      string date = GetString(key, obfuscated);
-      return DateTime.TryParse(date, out DateTime dt) ? dt.BNConvertToTimeZone(usedTZ) : default!;
+      return TryGetDate(key, out DateTime result, obfuscated, usedTZ) ? result : default!;
    }
 
    public virtual bool TryGetDate(string key, out DateTime result, bool obfuscated = false, TimeZoneInfo? usedTZ = null)
    {
-      if (!ContainsKey(key))
-      {
-         result = default!;
-         return false;
-      }
+      bool res = TryGetString(key, out string str, obfuscated);
 
-      result = GetDate(key, obfuscated);
-      return true;
+      bool parsed = DateTime.TryParse(str, out DateTime dt);
+
+      result = res && parsed ? dt.BNConvertToTimeZone(usedTZ) : default!;
+
+      return res && parsed;
    }
 
    #endregion

@@ -28,13 +28,10 @@ public abstract class MimeTypeMap //NUnit
    /// </summary>
    /// <param name="file">The filename or extension</param>
    /// <param name="mimeType">The variable to store the MIME type</param>
-   /// <returns>The MIME type</returns>
-   /// <exception cref="ArgumentNullException"></exception>
-   public static bool TryGetMimeType(string file, out string? mimeType)
+   /// <returns>True if the operation was successful</returns>
+   public static bool TryGetMimeType(string file, out string mimeType)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(file);
-
-      return _mappings.Value.TryGetValue(FileHelper.GetExtension(file), out mimeType);
+      return _mappings.Value.TryGetValue(FileHelper.GetExtension(file), out mimeType!);
    }
 
    /// <summary>
@@ -42,10 +39,9 @@ public abstract class MimeTypeMap //NUnit
    /// </summary>
    /// <param name="file">The filename or extension</param>
    /// <returns>The MIME type</returns>
-   /// <exception cref="ArgumentNullException"></exception>
    public static string GetMimeType(string file)
    {
-      return TryGetMimeType(file, out string? result) ? result! : DEFAULT_TYPE;
+      return TryGetMimeType(file, out string? result) ? result : DEFAULT_TYPE;
    }
 
    /// <summary>
@@ -53,9 +49,9 @@ public abstract class MimeTypeMap //NUnit
    /// </summary>
    /// <param name="mimeType">MIME type</param>
    /// <param name="extension">The variable to store the file extension</param>
-   /// <returns>The extension for the MIME type</returns>
+   /// <returns>True if the operation was successful</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static bool TryGetExtension(string mimeType, out string? extension)
+   public static bool TryGetExtension(string mimeType, out string extension)
    {
       ArgumentNullException.ThrowIfNullOrEmpty(mimeType);
 
@@ -65,7 +61,7 @@ public abstract class MimeTypeMap //NUnit
          return true;
       }
 
-      extension = null;
+      extension = null!;
       return false;
    }
 
@@ -77,7 +73,7 @@ public abstract class MimeTypeMap //NUnit
    /// <exception cref="ArgumentNullException"></exception>
    public static string GetExtension(string mimeType)
    {
-      return TryGetExtension(mimeType, out string? result) ? result! : DEFAULT_EXT;
+      return TryGetExtension(mimeType, out string? result) ? result : DEFAULT_EXT;
    }
 
    #endregion

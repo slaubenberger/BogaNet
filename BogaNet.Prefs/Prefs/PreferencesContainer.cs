@@ -144,15 +144,12 @@ public class PreferencesContainer : IPreferencesContainer //NUnit
       return _preferences.ContainsKey(key);
    }
 
-   public virtual object Get(string key, bool obfuscated)
+   public virtual object Get(string key, bool obfuscated = false)
    {
-      if (!ContainsKey(key))
-         throw new KeyNotFoundException();
-
-      return obfuscated ? Obfuscator.Deobfuscate(Base91.FromBase91String(_preferences[key].ToString()!), IV).BNToString() : _preferences[key];
+      return TryGet(key, out object result, obfuscated) ? result : null!;
    }
 
-   public virtual bool TryGet(string key, out object result, bool obfuscated)
+   public virtual bool TryGet(string key, out object result, bool obfuscated = false)
    {
       if (!ContainsKey(key))
       {
@@ -164,7 +161,7 @@ public class PreferencesContainer : IPreferencesContainer //NUnit
       return true;
    }
 
-   public virtual void Set(string key, object value, bool obfuscated)
+   public virtual void Set(string key, object value, bool obfuscated = false)
    {
       ArgumentNullException.ThrowIfNullOrEmpty(key);
       ArgumentNullException.ThrowIfNull(value);

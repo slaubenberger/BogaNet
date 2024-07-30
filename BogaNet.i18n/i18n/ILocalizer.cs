@@ -91,6 +91,7 @@ public interface ILocalizer
    /// <param name="key">Key for the text</param>
    /// <param name="textType">Type of the text (optional, default: LABEL)</param>
    /// <returns>Text for the key</returns>
+   /// <exception cref="ArgumentNullException"></exception>
    string GetText(string key, TextType textType = TextType.LABEL);
 
    /// <summary>
@@ -100,6 +101,7 @@ public interface ILocalizer
    /// <param name="result">out parameter for the result</param>
    /// <param name="textType">Type of the text (optional, default: LABEL)</param>
    /// <returns>True if the operation was successful</returns>
+   /// <exception cref="ArgumentNullException"></exception>
    bool TryGetText(string key, out string result, TextType textType = TextType.LABEL);
 
    /// <summary>
@@ -109,6 +111,7 @@ public interface ILocalizer
    /// <param name="culture">Culture for the text</param>
    /// <param name="textType">Type of the text (optional, default: LABEL)</param>
    /// <returns>Text for the key</returns>
+   /// <exception cref="ArgumentNullException"></exception>
    string GetText(string key, CultureInfo culture, TextType textType = TextType.LABEL);
 
    /// <summary>
@@ -119,6 +122,7 @@ public interface ILocalizer
    /// <param name="culture">Culture for the text</param>
    /// <param name="textType">Type of the text (optional, default: LABEL)</param>
    /// <returns>True if the operation was successful</returns>
+   /// <exception cref="ArgumentNullException"></exception>
    bool TryGetText(string key, out string result, CultureInfo culture, TextType textType = TextType.LABEL);
 
    /// <summary>
@@ -128,6 +132,7 @@ public interface ILocalizer
    /// <param name="textType">Type of the text (optional, default: LABEL)</param>
    /// <param name="replacements">Replacements for the text</param>
    /// <returns>Text with replacements for the key</returns>
+   /// <exception cref="ArgumentNullException"></exception>
    string GetTextWithReplacements(string key, TextType textType = TextType.LABEL, params string[] replacements);
 
    /// <summary>
@@ -138,6 +143,7 @@ public interface ILocalizer
    /// <param name="textType">Type of the text (optional, default: LABEL)</param>
    /// <param name="replacements">Replacements for the text</param>
    /// <returns>True if the operation was successful</returns>
+   /// <exception cref="ArgumentNullException"></exception>
    bool TryGetTextWithReplacements(string key, out string result, TextType textType = TextType.LABEL, params string[] replacements);
 
    /// <summary>
@@ -148,6 +154,7 @@ public interface ILocalizer
    /// <param name="textType">Type of the text (optional, default: LABEL)</param>
    /// <param name="replacements">Replacements for the text</param>
    /// <returns>Text with replacements for the key</returns>
+   /// <exception cref="ArgumentNullException"></exception>
    string GetTextWithReplacements(string key, CultureInfo culture, TextType textType = TextType.LABEL, params string[] replacements);
 
    /// <summary>
@@ -159,6 +166,7 @@ public interface ILocalizer
    /// <param name="textType">Type of the text (optional, default: LABEL)</param>
    /// <param name="replacements">Replacements for the text</param>
    /// <returns>True if the operation was successful</returns>
+   /// <exception cref="ArgumentNullException"></exception>
    bool TryGetTextWithReplacements(string key, out string result, CultureInfo culture, TextType textType = TextType.LABEL, params string[] replacements);
 
    //void Load(Dictionary<string, string[]> dataDict);
@@ -169,6 +177,7 @@ public interface ILocalizer
    /// <param name="key">Key to check</param>
    /// <param name="culture">Culture of the key (optional, default: any)</param>
    /// <returns>True if the key exists in the localizer</returns>
+   /// <exception cref="ArgumentNullException"></exception>
    public bool ContainsKey(string key, CultureInfo? culture = null);
 
    /// <summary>
@@ -177,6 +186,7 @@ public interface ILocalizer
    /// <param name="key">Key for the text</param>
    /// <param name="culture">Culture for the text</param>
    /// <param name="value">Value of the text</param>
+   /// <exception cref="ArgumentNullException"></exception>
    void Add(string key, CultureInfo culture, string value);
 
    /// <summary>
@@ -185,6 +195,7 @@ public interface ILocalizer
    /// <param name="key">Key to remove</param>
    /// <param name="culture">Culture of the key (optional, default: all)</param>
    ///<returns>True if the operation was successful</returns>
+   /// <exception cref="ArgumentNullException"></exception>
    bool Remove(string key, CultureInfo? culture = null);
 
    /// <summary>

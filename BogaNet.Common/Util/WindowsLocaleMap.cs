@@ -23,10 +23,10 @@ public abstract class WindowsLocaleMap
    /// </summary>
    /// <param name="locale">Windows locale</param>
    /// <param name="isoCulture">The variable to store the ISO type</param>
-   /// <returns>The ISO-culture</returns>
-   public static bool TryGetISO(int locale, out string? isoCulture)
+   /// <returns>True if the operation was successful</returns>
+   public static bool TryGetISO(int locale, out string isoCulture)
    {
-      return _mappings.Value.TryGetValue(locale, out isoCulture);
+      return _mappings.Value.TryGetValue(locale, out isoCulture!);
    }
 
    /// <summary>
@@ -36,7 +36,7 @@ public abstract class WindowsLocaleMap
    /// <returns>The ISO-culture</returns>
    public static string GetISO(int locale)
    {
-      return TryGetISO(locale, out string? result) ? result! : "en-us";
+      return TryGetISO(locale, out string? result) ? result : "en-us";
    }
 
    /// <summary>
@@ -44,7 +44,7 @@ public abstract class WindowsLocaleMap
    /// </summary>
    /// <param name="isoCulture">ISO-culture</param>
    /// <param name="windowsLocale">The variable to store the Windows Locale</param>
-   /// <returns>The Windows Locale</returns>
+   /// <returns>True if the operation was successful</returns>
    /// <exception cref="ArgumentNullException"></exception>
    public static bool TryGetLocale(string isoCulture, out int windowsLocale)
    {
