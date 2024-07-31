@@ -34,6 +34,9 @@ export function getVoices() {
 }
 
 export function speak(text, voice, rate, pitch, volume) {
+    if (synth.speaking)
+        synth.cancel();
+    
     const utterance = new SpeechSynthesisUtterance(text);
 
     let usedVoice;
@@ -56,7 +59,7 @@ export function speak(text, voice, rate, pitch, volume) {
 }
 
 export function silence() {
-    synth.speaking = false;
+    synth.cancel();
 }
 
 console.log("+++ boganet_tts loaded!");
