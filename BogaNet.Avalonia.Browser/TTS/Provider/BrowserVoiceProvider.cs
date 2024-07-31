@@ -98,8 +98,7 @@ public partial class BrowserVoiceProvider : Singleton<BrowserVoiceProvider>, IVo
       JSSilence();
    }
 
-   public virtual bool Speak(string text, Voice? voice = null, float rate = 1, float pitch = 1, float volume = 1,
-      bool forceSSML = true)
+   public virtual bool Speak(string text, Voice? voice = null, float rate = 1, float pitch = 1, float volume = 1, bool forceSSML = true, bool useThreads = false)
    {
       _logger.LogInformation("Speak called.");
 
