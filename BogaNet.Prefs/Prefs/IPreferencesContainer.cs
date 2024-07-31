@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using System;
+using System.Collections.Generic;
 
 namespace BogaNet.Prefs;
 
@@ -20,6 +21,16 @@ public interface IPreferencesContainer
    /// </summary>
    bool IsSaved { get; }
 
+   /// <summary>
+   /// Current keys of the localizer.
+   /// </summary>
+   List<string> Keys { get; }
+
+   /// <summary>
+   /// Current count of keys from the localizer.
+   /// </summary>
+   int Count { get; }
+   
    #endregion
 
    #region Methods

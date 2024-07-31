@@ -11,6 +11,7 @@
 * Faker-clone?
 * Add support for Vector2, Vector3, Vector4 and Quaternion (port my code from Unity for Common, Crypto, TR etc.)
 * CSVHelper
+* i18n&prefs: add list of unused keys?
 
 # Features
 * BWF

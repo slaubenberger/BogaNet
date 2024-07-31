@@ -5,6 +5,7 @@ using System;
 using BogaNet.Extension;
 using BogaNet.Util;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace BogaNet.Prefs;
 
@@ -25,6 +26,8 @@ public class Preferences : Singleton<Preferences>, IFilePreferences //NUnit
    public virtual bool AutoSaveOnExit { get; set; } = true;
    public virtual bool IsLoaded => Container.IsLoaded;
    public bool IsSaved => Container.IsSaved;
+   public virtual List<string> Keys => Container.Keys;
+   public virtual int Count => Container.Count;
 
    #endregion
 

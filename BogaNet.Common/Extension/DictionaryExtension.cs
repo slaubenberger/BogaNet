@@ -90,5 +90,18 @@ public static class DictionaryExtension
       return xmlDict;
    }
 
+   /// <summary>
+   /// Gets the keys of a Dictionary as List.
+   /// </summary>
+   /// <param name="dict">Dictionary with the keys</param>
+   /// <returns>List of all keys from the dictionary</returns>
+   /// <exception cref="ArgumentNullException"></exception>
+   public static List<K> BNKeys<K, V>(this IDictionary<K, V> dict) where K : notnull
+   {
+      ArgumentNullException.ThrowIfNull(dict);
+
+      return [..dict.Keys];
+   }
+
    #endregion
 }

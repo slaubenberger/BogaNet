@@ -47,6 +47,16 @@ public interface ILocalizer
    /// </summary>
    bool IsLoaded { get; }
 
+   /// <summary>
+   /// Current keys of the localizer.
+   /// </summary>
+   List<string> Keys { get; }
+
+   /// <summary>
+   /// Current count of keys from the localizer.
+   /// </summary>
+   int Count { get; }
+
    #endregion
 
    #region Events

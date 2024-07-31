@@ -30,7 +30,9 @@ public class PreferencesContainer : IPreferencesContainer //NUnit
    public virtual ByteObf IV { get; set; } = 139;
 
    public virtual bool IsLoaded { get; protected set; }
-   public bool IsSaved { get; protected set; }
+   public virtual bool IsSaved { get; protected set; }
+   public virtual List<string> Keys => _preferences.BNKeys();
+   public virtual int Count => _preferences.Count;
 
    #endregion
 

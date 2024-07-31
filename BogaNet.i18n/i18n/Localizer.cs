@@ -73,6 +73,8 @@ public class Localizer : Singleton<Localizer>, ILocalizer //NUnit
    public virtual List<string> RemovedTranslations { get; } = [];
    public virtual List<string> AddedTranslations { get; } = [];
    public virtual bool IsLoaded { get; protected set; }
+   public virtual List<string> Keys => _messages.BNKeys();
+   public virtual int Count => _messages.Count;
 
    #endregion
 
