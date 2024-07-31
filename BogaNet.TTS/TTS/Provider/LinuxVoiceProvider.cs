@@ -25,7 +25,7 @@ public class LinuxVoiceProvider : Singleton<LinuxVoiceProvider>, IVoiceProvider
    private const int _defaultVolume = 100;
    private const int _defaultPitch = 50;
 
-   private ProcessRunner? _process;
+   private readonly List<ProcessRunner> _processes = [];
 
    private List<Voice>? _cachedVoices;
    private readonly List<string> _cachedCultures = [];
@@ -117,18 +117,40 @@ public class LinuxVoiceProvider : Singleton<LinuxVoiceProvider>, IVoiceProvider
 
    public virtual void Silence()
    {
-      _process?.Stop();
+      foreach (var process in _processes)
+      {
+         process.Stop();
+      }
+
+      _processes.Clear();
    }
 
-   public virtual bool Speak(string text, Voice? voice = null, float rate = 1, float pitch = 1, float volume = 1, bool forceSSML = true)
+   public virtual bool Speak(string text, Voice? voice = null, float rate = 1, float pitch = 1, float volume = 1, bool forceSSML = true, bool useThreads = false)
    {
-      return Task.Run(() => SpeakAsync(text, voice, rate, pitch, volume, forceSSML)).GetAwaiter().GetResult();
+      ArgumentNullException.ThrowIfNull(text);
+
+      if (useThreads)
+      {
+         System.Threading.Thread t = new(() => _ = speakAsync(text, voice, rate, pitch, volume, forceSSML));
+         t.Start();
+
+         return true;
+      }
+
+      return Task.Run(() => speakAsync(text, voice, rate, pitch, volume, forceSSML)).GetAwaiter().GetResult();
    }
 
    public virtual async Task<bool> SpeakAsync(string text, Voice? voice = null, float rate = 1, float pitch = 1, float volume = 1, bool forceSSML = true)
    {
-      ArgumentNullException.ThrowIfNull(text);
+      return await speakAsync(text, voice, rate, pitch, volume, forceSSML);
+   }
 
+   #endregion
+
+   #region Private methods
+
+   private async Task<bool> speakAsync(string text, Voice? voice = null, float rate = 1, float pitch = 1, float volume = 1, bool forceSSML = true)
+   {
       OnSpeakStarted?.Invoke(text);
       IsSpeaking = true;
 
@@ -152,12 +174,14 @@ public class LinuxVoiceProvider : Singleton<LinuxVoiceProvider>, IVoiceProvider
 
       string args = sb.ToString();
 
-      _process = new();
+      ProcessRunner pr = new();
+      _processes.Add(pr);
 
-      Process process = await _process.StartAsync(ESpeakApplication, args, true);
+      Process process = await pr.StartAsync(ESpeakApplication, args, true);
 
       OnSpeakCompleted?.Invoke(text);
       IsSpeaking = false;
+      _processes.Remove(pr);
 
       if (process.ExitCode is 0 or -1 or 137) //0 = normal ended, -1/137 = killed
       {
@@ -165,14 +189,10 @@ public class LinuxVoiceProvider : Singleton<LinuxVoiceProvider>, IVoiceProvider
          return true;
       }
 
-      _logger.LogError($"Could not speak the text: {text} - Exit code: {process.ExitCode} - Error: {_process.Error.BNDump()}");
+      _logger.LogError($"Could not speak the text: {text} - Exit code: {process.ExitCode} - Error: {pr.Error.BNDump()}");
 
       return false;
    }
-
-   #endregion
-
-   #region Private methods
 
    private string getVoiceName(Voice? voice)
    {
@@ -197,17 +217,17 @@ public class LinuxVoiceProvider : Singleton<LinuxVoiceProvider>, IVoiceProvider
 
    private async Task<List<Voice>?> getVoices()
    {
-      _process = new();
+      ProcessRunner pr = new();
 
       string args = "--voices" + (string.IsNullOrEmpty(ESpeakDataPath) ? string.Empty : $" --path=\"{ESpeakDataPath}\"");
 
-      var process = await _process.StartAsync(ESpeakApplication, args, true);
+      var process = await pr.StartAsync(ESpeakApplication, args, true);
 
       if (process.ExitCode == 0)
       {
          List<Voice> voices = new(150);
 
-         List<string> lines = _process.Output.ToList();
+         List<string> lines = pr.Output.ToList();
 
          foreach (var line in lines)
          {
@@ -250,7 +270,7 @@ public class LinuxVoiceProvider : Singleton<LinuxVoiceProvider>, IVoiceProvider
       }
       else
       {
-         _logger.LogError($"Could not get any voices: {process.ExitCode} - Error: {_process.Error.BNDump()}");
+         _logger.LogError($"Could not get any voices: {process.ExitCode} - Error: {pr.Error.BNDump()}");
       }
 
       return _cachedVoices;

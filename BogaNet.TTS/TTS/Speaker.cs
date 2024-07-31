@@ -477,7 +477,7 @@ public class Speaker : Singleton<Speaker>, IVoiceProvider
 
    #endregion
 
-   #region SpeakNative
+   #region Voice provider
 
    public List<Voice> GetVoices()
    {
@@ -533,9 +533,9 @@ public class Speaker : Singleton<Speaker>, IVoiceProvider
       }
    }
 
-   public bool Speak(string text, Voice? voice = null, float rate = 1, float pitch = 1, float volume = 1, bool forceSSML = true)
+   public bool Speak(string text, Voice? voice = null, float rate = 1, float pitch = 1, float volume = 1, bool forceSSML = true, bool useThreaded = false)
    {
-      _logger.LogDebug($"Speak called: {text} - Voice: {voice} - Rate: {rate} - Pitch: {pitch} - Volume: {volume} - ForceSSML: {forceSSML}");
+      _logger.LogDebug($"Speak called: {text} - Voice: {voice} - Rate: {rate} - Pitch: {pitch} - Volume: {volume} - ForceSSML: {forceSSML} - useThreaded: {useThreaded}");
 
       OnSpeakStarted?.Invoke(text);
       IsSpeaking = true;
@@ -544,7 +544,7 @@ public class Speaker : Singleton<Speaker>, IVoiceProvider
 
       if (_voiceProvider != null)
       {
-         res = _voiceProvider.Speak(text, voice, rate, pitch, volume, forceSSML);
+         res = _voiceProvider.Speak(text, voice, rate, pitch, volume, forceSSML, useThreaded);
       }
       else
       {

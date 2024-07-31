@@ -100,8 +100,9 @@ public interface IVoiceProvider
    /// <param name="pitch">Pitch of the speech in percent (1 = 100%, values: 0-2, default: 1, optional).</param>
    /// <param name="volume">Volume of the speaker in percent (1 = 100%, values: 0.01-1, default: 1, optional).</param>
    /// <param name="forceSSML">Force SSML on supported platforms (default: true, optional).</param>
+   /// <param name="useThreads">Allows to run every Speak-call on a separate thread (default: false, optional).</param>
    /// <returns>True if the speech was successful</returns>
-   bool Speak(string text, Voice? voice = null, float rate = 1f, float pitch = 1f, float volume = 1f, bool forceSSML = true);
+   bool Speak(string text, Voice? voice = null, float rate = 1f, float pitch = 1f, float volume = 1f, bool forceSSML = true, bool useThreads = false);
 
    /// <summary>The current provider speaks a text with a given voice asynchronously.</summary>
    /// <param name="text">Text to speak.</param>

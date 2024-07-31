@@ -23,8 +23,9 @@ public static class Program
 
       _logger.LogDebug("Hi there, this is a test app!");
 
-      testPrefs();
-      
+      testTTS();
+      //testPrefs();
+
       /*
       Task task1 = Task1();
       Task task2 = Task2();
@@ -69,12 +70,13 @@ public static class Program
       if (BogaNet.Prefs.Preferences.Instance.IsLoaded)
       {
          _logger.LogInformation("ready!");
-         
+
          _logger.LogInformation(BogaNet.Prefs.Preferences.Instance.GetString("user"));
       }
 
       BogaNet.Prefs.Preferences.Instance.Set("user", "ueli " + DateTime.Now);
    }
+
    public static async Task Task1()
    {
       await Task.Delay(1000);
@@ -87,7 +89,7 @@ public static class Program
       _logger.LogInformation("Finished Task2");
    }
 
-   private static async Task testTTS()
+   private static void testTTS()
    {
       //await FileHelper.WriteAllTextAsync("WindowsWrapper.txt", await Base64.Base64FromFileAsync("./contentFiles/BogaNetTTSWrapper.exe"));
       //_logger.LogDebug(Base64.ToBase64String(HashHelper.HashSHA256File("./contentFiles/BogaNetTTSWrapper.exe")));
@@ -105,14 +107,22 @@ public static class Program
          tts.ESpeakApplication = @"C:\Program Files\eSpeak NG\espeak-ng.exe";
       }
 
-      var voices = await tts.GetVoicesAsync();
+      var voices = tts.GetVoices();
 
       //_logger.LogDebug(voices.BNDump());
 
       var voice = tts.VoiceForCulture("de");
       //var voice = tts.VoiceForCulture("hi");
 
-      await tts.SpeakAsync("Hallo Ramon, wie geht es dir?", voice);
+      tts.Speak("Hallo Ramon, wie geht es dir? Was für ein wunderbarer Tag!", voice, 1, 1, 1, true, true);
+
+      Thread.Sleep(1000);
+
+      tts.Speak("Hallo Stefan, wie geht es dir? Was für ein wunderbarer Tag!", voice, 1, 1, 1, true, true);
+
+      Thread.Sleep(2000);
+
+      tts.Silence();
    }
 
    private static async Task testTTSAsync()

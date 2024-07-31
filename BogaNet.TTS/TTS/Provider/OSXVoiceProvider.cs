@@ -27,7 +27,7 @@ public partial class OSXVoiceProvider : Singleton<OSXVoiceProvider>, IVoiceProvi
 
    private const int _defaultRate = 175;
 
-   private ProcessRunner? _process;
+   private readonly List<ProcessRunner> _processes = [];
 
    private List<Voice>? _cachedVoices;
    private readonly List<string> _cachedCultures = [];
@@ -108,18 +108,42 @@ public partial class OSXVoiceProvider : Singleton<OSXVoiceProvider>, IVoiceProvi
 
    public virtual void Silence()
    {
-      _process?.Stop();
+      foreach (var process in _processes)
+      {
+         process.Stop();
+      }
+
+      _processes.Clear();
    }
 
-   public virtual bool Speak(string text, Voice? voice = null, float rate = 1f, float pitch = 1f, float volume = 1f, bool forceSSML = true)
+   public virtual bool Speak(string text, Voice? voice = null, float rate = 1f, float pitch = 1f, float volume = 1f, bool forceSSML = true, bool useThreads = false)
    {
-      return Task.Run(() => SpeakAsync(text, voice, rate, pitch, volume, forceSSML)).GetAwaiter().GetResult();
+      ArgumentNullException.ThrowIfNull(text);
+
+      if (useThreads)
+      {
+         System.Threading.Thread t = new(() => _ = speakAsync(text, voice, rate, pitch, volume, forceSSML));
+         t.Start();
+
+         return true;
+      }
+
+      return Task.Run(() => speakAsync(text, voice, rate, pitch, volume, forceSSML)).GetAwaiter().GetResult();
    }
 
    public virtual async Task<bool> SpeakAsync(string text, Voice? voice = null, float rate = 1f, float pitch = 1f, float volume = 1f, bool forceSSML = true)
    {
       ArgumentNullException.ThrowIfNull(text);
 
+      return await speakAsync(text, voice, rate, pitch, volume, forceSSML);
+   }
+
+   #endregion
+
+   #region Private methods
+
+   private async Task<bool> speakAsync(string text, Voice? voice = null, float rate = 1f, float pitch = 1f, float volume = 1f, bool forceSSML = true)
+   {
       OnSpeakStarted?.Invoke(text);
       IsSpeaking = true;
 
@@ -135,12 +159,14 @@ public partial class OSXVoiceProvider : Singleton<OSXVoiceProvider>, IVoiceProvi
 
       string args = sb.ToString();
 
-      _process = new();
+      ProcessRunner pr = new();
+      _processes.Add(pr);
 
-      Process process = await _process.StartAsync(_applicationName, args, true, Encoding.UTF8);
+      Process process = await pr.StartAsync(_applicationName, args, true, Encoding.UTF8);
 
       OnSpeakCompleted?.Invoke(text);
       IsSpeaking = false;
+      _processes.Remove(pr);
 
       if (process.ExitCode is 0 or -1 or 137) //0 = normal ended, -1/137 = killed
       {
@@ -148,26 +174,22 @@ public partial class OSXVoiceProvider : Singleton<OSXVoiceProvider>, IVoiceProvi
          return true;
       }
 
-      _logger.LogError($"Could not speak the text: {text} - Exit code: {process.ExitCode} - Error: {_process.Error.BNDump()}");
+      _logger.LogError($"Could not speak the text: {text} - Exit code: {process.ExitCode} - Error: {pr.Error.BNDump()}");
 
       return false;
    }
 
-   #endregion
-
-   #region Private methods
-
    private async Task<List<Voice>?> getVoices()
    {
-      _process = new();
+      ProcessRunner pr = new();
 
-      Process process = await _process.StartAsync(_applicationName, "-v ?", true, Encoding.UTF8);
+      Process process = await pr.StartAsync(_applicationName, "-v ?", true, Encoding.UTF8);
 
       if (process.ExitCode == 0)
       {
          List<Voice> voices = new(200);
 
-         List<string> lines = _process.Output.ToList();
+         List<string> lines = pr.Output.ToList();
 
          foreach (var line in lines)
          {
@@ -191,7 +213,7 @@ public partial class OSXVoiceProvider : Singleton<OSXVoiceProvider>, IVoiceProvi
       }
       else
       {
-         _logger.LogError($"Could not get any voices: {process.ExitCode} - Error: {_process.Error.BNDump()}");
+         _logger.LogError($"Could not get any voices: {process.ExitCode} - Error: {pr.Error.BNDump()}");
       }
 
       return _cachedVoices;
