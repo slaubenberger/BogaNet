@@ -1,8 +1,5 @@
 # TODO
-* Check and test TTS with multiple calls and in browser
-* RSA for file
-* add even more and detailed NUnit tests
-* make ObjectObf and ObjectSec more useful, but how exactly?
+* all good :-)
 
 # Ideas
 * Pressure unit
@@ -12,6 +9,8 @@
 * Add support for Vector2, Vector3, Vector4 and Quaternion (port my code from Unity for Common, Crypto, TR etc.)
 * CSVHelper
 * i18n&prefs: add list of unused keys?
+* RSA for file
+* make ObjectObf and ObjectSec more useful, but how exactly?
 
 # Features
 * BWF
