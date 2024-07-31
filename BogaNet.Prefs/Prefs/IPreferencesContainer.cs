@@ -22,12 +22,12 @@ public interface IPreferencesContainer
    bool IsSaved { get; }
 
    /// <summary>
-   /// Current keys of the localizer.
+   /// Current keys of the preferences.
    /// </summary>
    List<string> Keys { get; }
 
    /// <summary>
-   /// Current count of keys from the localizer.
+   /// Current count of keys from the preferences.
    /// </summary>
    int Count { get; }
    
