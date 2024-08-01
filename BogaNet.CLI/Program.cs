@@ -125,14 +125,6 @@ public static class Program
       tts.Silence();
    }
 
-   private static async Task testTTSAsync()
-   {
-      var tts = BogaNet.TTS.Provider.OSXVoiceProvider.Instance;
-
-      //tts.Speak("Hello there!", new BogaNet.TTS.Model.Voice("Daniel", null, BogaNet.TTS.Model.Enum.Gender.MALE, "unknown", "en"));
-      await tts.SpeakAsync("Hello there, I'm TTS for c-sharp");
-   }
-
    private static void buildCode()
    {
       var lines = FileHelper.ReadAllLines("~/Desktop/Locales.csv");

@@ -14,7 +14,7 @@ namespace BogaNet.TTS.Provider;
 /// <summary>
 /// Provider for TTS in Avalonia (browser).
 /// </summary>
-public partial class BrowserVoiceProvider : Singleton<BrowserVoiceProvider>, IVoiceProvider
+public partial class BrowserVoiceProvider : IVoiceProvider
 {
    #region Variables
 
@@ -68,7 +68,7 @@ public partial class BrowserVoiceProvider : Singleton<BrowserVoiceProvider>, IVo
 
    #region Constructor
 
-   private BrowserVoiceProvider()
+   public BrowserVoiceProvider()
    {
       if (!Constants.IsBrowser)
          _logger.LogError("BrowserVoiceProvider works only in a browser!");
@@ -113,8 +113,7 @@ public partial class BrowserVoiceProvider : Singleton<BrowserVoiceProvider>, IVo
       return true;
    }
 
-   public virtual Task<bool> SpeakAsync(string text, Voice? voice = null, float rate = 1, float pitch = 1,
-      float volume = 1, bool forceSSML = true)
+   public virtual Task<bool> SpeakAsync(string text, Voice? voice = null, float rate = 1, float pitch = 1, float volume = 1, bool forceSSML = true)
    {
       return Task.FromResult(Speak(text, voice, rate, pitch, volume, forceSSML));
    }

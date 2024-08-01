@@ -83,29 +83,29 @@ public class Speaker : Singleton<Speaker>, IVoiceProvider
    /// <summary>eSpeak application name/path.</summary>
    public string ESpeakApplication
    {
-      get => LinuxVoiceProvider.Instance.ESpeakApplication;
-      set => LinuxVoiceProvider.Instance.ESpeakApplication = value;
+      get => LinuxVoiceProvider.ESpeakApplication;
+      set => LinuxVoiceProvider.ESpeakApplication = value;
    }
 
    /// <summary>eSpeak application data path.</summary>
    public string ESpeakDataPath
    {
-      get => LinuxVoiceProvider.Instance.ESpeakDataPath;
-      set => LinuxVoiceProvider.Instance.ESpeakDataPath = value;
+      get => LinuxVoiceProvider.ESpeakDataPath;
+      set => LinuxVoiceProvider.ESpeakDataPath = value;
    }
 
    /// <summary>Active modifier for all eSpeak voices.</summary>
    public ESpeakModifiers ESpeakModifier
    {
-      get => LinuxVoiceProvider.Instance.ESpeakModifier;
-      set => LinuxVoiceProvider.Instance.ESpeakModifier = value;
+      get => LinuxVoiceProvider.ESpeakModifier;
+      set => LinuxVoiceProvider.ESpeakModifier = value;
    }
 
    /// <summary>Female modifier for female eSpeak voices.</summary>
    public ESpeakModifiers ESpeakFemaleModifier
    {
-      get => LinuxVoiceProvider.Instance.ESpeakFemaleModifier;
-      set => LinuxVoiceProvider.Instance.ESpeakFemaleModifier = value;
+      get => LinuxVoiceProvider.ESpeakFemaleModifier;
+      set => LinuxVoiceProvider.ESpeakFemaleModifier = value;
    }
 
    #endregion
@@ -600,15 +600,15 @@ public class Speaker : Singleton<Speaker>, IVoiceProvider
       }
       else if (UseESpeak || Constants.IsLinux)
       {
-         _voiceProvider = LinuxVoiceProvider.Instance;
+         _voiceProvider = new LinuxVoiceProvider();
       }
       else if (Constants.IsWindows)
       {
-         _voiceProvider = WindowsVoiceProvider.Instance;
+         _voiceProvider = new WindowsVoiceProvider();
       }
       else if (Constants.IsOSX)
       {
-         _voiceProvider = OSXVoiceProvider.Instance;
+         _voiceProvider = new OSXVoiceProvider();
       }
       else
       {

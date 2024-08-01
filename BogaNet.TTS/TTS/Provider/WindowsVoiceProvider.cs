@@ -14,7 +14,7 @@ using BogaNet.Helper;
 namespace BogaNet.TTS.Provider;
 
 /// <summary>Windows voice provider.</summary>
-public class WindowsVoiceProvider : Singleton<WindowsVoiceProvider>, IVoiceProvider
+public class WindowsVoiceProvider : BaseVoiceProvider
 {
    #region Variables
 
@@ -24,46 +24,17 @@ public class WindowsVoiceProvider : Singleton<WindowsVoiceProvider>, IVoiceProvi
 
    private static readonly char[] splitChar = [':'];
 
-   private readonly List<ProcessRunner> _processes = [];
-
-   private List<Voice>? _cachedVoices;
-   private readonly List<string> _cachedCultures = [];
-
    #endregion
 
    #region Properties
 
-   public virtual List<Voice> Voices => _cachedVoices ??= GetVoices();
-
    //public override string DefaultVoiceName => "Microsoft Zira Desktop";
 
-   public virtual int MaxTextLength => 32000;
+   public override int MaxTextLength => 32000;
 
-   public virtual bool IsPlatformSupported => Constants.IsWindows;
+   public override bool IsPlatformSupported => Constants.IsWindows;
 
-   public virtual bool IsSSMLSupported => true;
-
-   public virtual List<string> Cultures
-   {
-      get
-      {
-         if (_cachedCultures.Count == 0)
-         {
-            IEnumerable<Voice> cultures = Voices.GroupBy(cul => cul.Culture)
-               .Select(grp => grp.First()).OrderBy(s => s.Culture).ToList();
-
-            foreach (Voice voice in cultures)
-            {
-               _cachedCultures.Add(voice.Culture);
-            }
-         }
-
-         return _cachedCultures;
-      }
-   }
-
-   public virtual bool IsReady { get; private set; }
-   public virtual bool IsSpeaking { get; private set; }
+   public override bool IsSSMLSupported => true;
 
    private string _applicationName => WindowsWrapper.Application;
 
@@ -71,15 +42,15 @@ public class WindowsVoiceProvider : Singleton<WindowsVoiceProvider>, IVoiceProvi
 
    #region Events
 
-   public virtual event IVoiceProvider.VoicesLoaded? OnVoicesLoaded;
-   public event IVoiceProvider.SpeakStarted? OnSpeakStarted;
-   public virtual event IVoiceProvider.SpeakCompleted? OnSpeakCompleted;
+   public override event IVoiceProvider.VoicesLoaded? OnVoicesLoaded;
+   public override event IVoiceProvider.SpeakStarted? OnSpeakStarted;
+   public override event IVoiceProvider.SpeakCompleted? OnSpeakCompleted;
 
    #endregion
 
    #region Constructor
 
-   private WindowsVoiceProvider()
+   public WindowsVoiceProvider()
    {
       if (!Constants.IsWindows)
          _logger.LogError("WindowsVoiceProvider works only under Windows!");
@@ -87,16 +58,11 @@ public class WindowsVoiceProvider : Singleton<WindowsVoiceProvider>, IVoiceProvi
 
    #endregion
 
-   #region Implemented methods
+   #region Public methods
 
-   public virtual List<Voice> GetVoices()
+   public override async Task<List<Voice>> GetVoicesAsync()
    {
-      return Task.Run(GetVoicesAsync).GetAwaiter().GetResult();
-   }
-
-   public virtual async Task<List<Voice>> GetVoicesAsync()
-   {
-      List<Voice> res = await getVoices() ?? [];
+      List<Voice> res = await getVoicesAsync() ?? [];
 
       IsReady = res.Count > 0;
       OnVoicesLoaded?.Invoke(res);
@@ -104,44 +70,13 @@ public class WindowsVoiceProvider : Singleton<WindowsVoiceProvider>, IVoiceProvi
       return res;
    }
 
-   public virtual void Silence()
-   {
-      foreach (var process in _processes)
-      {
-         process.Stop();
-      }
-
-      _processes.Clear();
-   }
-
-   public virtual bool Speak(string text, Voice? voice = null, float rate = 1f, float pitch = 1f, float volume = 1f, bool forceSSML = true, bool useThreads = false)
-   {
-      ArgumentNullException.ThrowIfNull(text);
-
-      if (useThreads)
-      {
-         System.Threading.Thread t = new(() => _ = speakAsync(text, voice, rate, pitch, volume, forceSSML));
-         t.Start();
-
-         return true;
-      }
-
-      return Task.Run(() => speakAsync(text, voice, rate, pitch, volume, forceSSML)).GetAwaiter().GetResult();
-   }
-
-   public virtual async Task<bool> SpeakAsync(string text, Voice? voice = null, float rate = 1f, float pitch = 1f, float volume = 1f, bool forceSSML = true)
-   {
-      return await speakAsync(text, voice, rate, pitch, volume, forceSSML);
-   }
-
    #endregion
 
    #region Private methods
 
-   private async Task<bool> speakAsync(string text, Voice? voice = null, float rate = 1f, float pitch = 1f, float volume = 1f, bool forceSSML = true)
+   protected override async Task<bool> speakAsync(string text, Voice? voice = null, float rate = 1f, float pitch = 1f, float volume = 1f, bool forceSSML = true)
    {
       OnSpeakStarted?.Invoke(text);
-      IsSpeaking = true;
 
       string voiceName = getVoiceName(voice);
       int calculatedRate = calculateRate(rate);
@@ -162,7 +97,6 @@ public class WindowsVoiceProvider : Singleton<WindowsVoiceProvider>, IVoiceProvi
       Process process = await pr.StartAsync(_applicationName, args, true, Encoding.UTF8);
 
       OnSpeakCompleted?.Invoke(text);
-      IsSpeaking = false;
       _processes.Remove(pr);
 
       if (process.ExitCode is 0 or -1 or 137) //0 = normal ended, -1/137 = killed
@@ -177,7 +111,7 @@ public class WindowsVoiceProvider : Singleton<WindowsVoiceProvider>, IVoiceProvi
       return false;
    }
 
-   private async Task<List<Voice>?> getVoices()
+   private async Task<List<Voice>?> getVoicesAsync()
    {
       ProcessRunner pr = new();
 

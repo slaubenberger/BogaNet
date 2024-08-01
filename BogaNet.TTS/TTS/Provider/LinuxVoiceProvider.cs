@@ -15,7 +15,7 @@ namespace BogaNet.TTS.Provider;
 /// Linux voice provider.
 /// NOTE: needs eSpeak or eSpeak-NG: http://espeak.sourceforge.net/
 /// </summary>
-public class LinuxVoiceProvider : Singleton<LinuxVoiceProvider>, IVoiceProvider
+public class LinuxVoiceProvider : BaseVoiceProvider
 {
    #region Variables
 
@@ -25,89 +25,45 @@ public class LinuxVoiceProvider : Singleton<LinuxVoiceProvider>, IVoiceProvider
    private const int _defaultVolume = 100;
    private const int _defaultPitch = 50;
 
-   private readonly List<ProcessRunner> _processes = [];
-
-   private List<Voice>? _cachedVoices;
-   private readonly List<string> _cachedCultures = [];
-
    #endregion
 
    #region Properties
 
    /// <summary>eSpeak application name/path.</summary>
-   public virtual string ESpeakApplication { get; set; } = "espeak-ng";
+   public static string ESpeakApplication { get; set; } = "espeak-ng";
 
    /// <summary>eSpeak application data path.</summary>
-   public virtual string ESpeakDataPath { get; set; } = string.Empty;
+   public static string ESpeakDataPath { get; set; } = string.Empty;
 
    /// <summary>Active modifier for all eSpeak voices.</summary>
-   public virtual ESpeakModifiers ESpeakModifier { get; set; } = ESpeakModifiers.none;
+   public static ESpeakModifiers ESpeakModifier { get; set; } = ESpeakModifiers.none;
 
    /// <summary>Female modifier for female eSpeak voices.</summary>
-   public virtual ESpeakModifiers ESpeakFemaleModifier { get; set; } = ESpeakModifiers.f3;
+   public static ESpeakModifiers ESpeakFemaleModifier { get; set; } = ESpeakModifiers.f3;
 
-   public virtual List<Voice> Voices => _cachedVoices ??= GetVoices();
+   //public virtual string DefaultVoiceName => "en";
 
-/*
-      public virtual string DefaultVoiceName => "en";
-*/
-   public virtual int MaxTextLength => 32000;
+   public override int MaxTextLength => 32000;
 
-   public virtual bool IsPlatformSupported => Constants.IsOSX || Constants.IsLinux || Constants.IsWindows;
+   public override bool IsPlatformSupported => Constants.IsOSX || Constants.IsLinux || Constants.IsWindows;
 
-   public virtual bool IsSSMLSupported => true;
-
-   public virtual List<string> Cultures
-   {
-      get
-      {
-         if (_cachedCultures.Count == 0)
-         {
-            IEnumerable<Voice> cultures = Voices.GroupBy(cul => cul.Culture)
-               .Select(grp => grp.First()).OrderBy(s => s.Culture).ToList();
-
-            foreach (Voice voice in cultures)
-            {
-               _cachedCultures.Add(voice.Culture);
-            }
-         }
-
-         return _cachedCultures;
-      }
-   }
-
-   public virtual bool IsReady { get; private set; }
-   public virtual bool IsSpeaking { get; private set; }
+   public override bool IsSSMLSupported => true;
 
    #endregion
 
    #region Events
 
-   public virtual event IVoiceProvider.VoicesLoaded? OnVoicesLoaded;
-   public event IVoiceProvider.SpeakStarted? OnSpeakStarted;
-
-   public virtual event IVoiceProvider.SpeakCompleted? OnSpeakCompleted;
-
-   #endregion
-
-   #region Constructor
-
-   private LinuxVoiceProvider()
-   {
-   }
+   public override event IVoiceProvider.VoicesLoaded? OnVoicesLoaded;
+   public override event IVoiceProvider.SpeakStarted? OnSpeakStarted;
+   public override event IVoiceProvider.SpeakCompleted? OnSpeakCompleted;
 
    #endregion
 
-   #region Implemented methods
+   #region Public methods
 
-   public virtual List<Voice> GetVoices()
+   public override async Task<List<Voice>> GetVoicesAsync()
    {
-      return Task.Run(GetVoicesAsync).GetAwaiter().GetResult();
-   }
-
-   public virtual async Task<List<Voice>> GetVoicesAsync()
-   {
-      List<Voice> res = await getVoices() ?? [];
+      List<Voice> res = await getVoicesAsync() ?? [];
 
       IsReady = res.Count > 0;
       OnVoicesLoaded?.Invoke(res);
@@ -115,44 +71,13 @@ public class LinuxVoiceProvider : Singleton<LinuxVoiceProvider>, IVoiceProvider
       return res;
    }
 
-   public virtual void Silence()
-   {
-      foreach (var process in _processes)
-      {
-         process.Stop();
-      }
-
-      _processes.Clear();
-   }
-
-   public virtual bool Speak(string text, Voice? voice = null, float rate = 1, float pitch = 1, float volume = 1, bool forceSSML = true, bool useThreads = false)
-   {
-      ArgumentNullException.ThrowIfNull(text);
-
-      if (useThreads)
-      {
-         System.Threading.Thread t = new(() => _ = speakAsync(text, voice, rate, pitch, volume, forceSSML));
-         t.Start();
-
-         return true;
-      }
-
-      return Task.Run(() => speakAsync(text, voice, rate, pitch, volume, forceSSML)).GetAwaiter().GetResult();
-   }
-
-   public virtual async Task<bool> SpeakAsync(string text, Voice? voice = null, float rate = 1, float pitch = 1, float volume = 1, bool forceSSML = true)
-   {
-      return await speakAsync(text, voice, rate, pitch, volume, forceSSML);
-   }
-
    #endregion
 
    #region Private methods
 
-   private async Task<bool> speakAsync(string text, Voice? voice = null, float rate = 1, float pitch = 1, float volume = 1, bool forceSSML = true)
+   protected override async Task<bool> speakAsync(string text, Voice? voice = null, float rate = 1, float pitch = 1, float volume = 1, bool forceSSML = true)
    {
       OnSpeakStarted?.Invoke(text);
-      IsSpeaking = true;
 
       _logger.LogDebug("Starting TTS2: " + text);
 
@@ -180,7 +105,6 @@ public class LinuxVoiceProvider : Singleton<LinuxVoiceProvider>, IVoiceProvider
       Process process = await pr.StartAsync(ESpeakApplication, args, true);
 
       OnSpeakCompleted?.Invoke(text);
-      IsSpeaking = false;
       _processes.Remove(pr);
 
       if (process.ExitCode is 0 or -1 or 137) //0 = normal ended, -1/137 = killed
@@ -215,7 +139,7 @@ public class LinuxVoiceProvider : Singleton<LinuxVoiceProvider>, IVoiceProvider
       return voice.Name + "+" + ESpeakModifier;
    }
 
-   private async Task<List<Voice>?> getVoices()
+   private async Task<List<Voice>?> getVoicesAsync()
    {
       ProcessRunner pr = new();
 
