@@ -102,7 +102,7 @@ To use the [BogaNet.TTS](https://www.nuget.org/packages/BogaNet.TTS/), add/modif
 private static async Task Main(string[] args)
 {
     await JSHost.ImportAsync("boganet_tts", "../boganet_tts.js");
-    Speaker.Instance.CustomVoiceProvider = BrowserVoiceProvider.Instance;
+    Speaker.Instance.CustomVoiceProvider = new BrowserVoiceProvider();
     //...rest of the Main-code
 }
 ```
