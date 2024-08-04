@@ -21,11 +21,10 @@ public partial class OSXVoiceProvider : BaseVoiceProvider
 
    private static readonly ILogger<OSXVoiceProvider> _logger = GlobalLogging.CreateLogger<OSXVoiceProvider>();
 
-   private const string _applicationName = "say";
+   private const string APPLICATION_NAME = "say";
+   private const int DEFAULT_RATE = 175;
 
    private static readonly Regex _sayRegex = sayRegex();
-
-   private const int _defaultRate = 175;
 
    #endregion
 
@@ -84,7 +83,7 @@ public partial class OSXVoiceProvider : BaseVoiceProvider
 
       StringBuilder sb = new();
       sb.Append(string.IsNullOrEmpty(voiceName) ? string.Empty : " -v \"" + voiceName.Replace('"', '\'') + '"');
-      sb.Append(calculatedRate != _defaultRate ? " -r " + calculatedRate : string.Empty);
+      sb.Append(calculatedRate != DEFAULT_RATE ? " -r " + calculatedRate : string.Empty);
       sb.Append(" \"");
       sb.Append(text.Replace('"', '\''));
       sb.Append('"');
@@ -94,7 +93,7 @@ public partial class OSXVoiceProvider : BaseVoiceProvider
       ProcessRunner pr = new();
       _processes.Add(pr);
 
-      Process process = await pr.StartAsync(_applicationName, args, true, Encoding.UTF8);
+      Process process = await pr.StartAsync(APPLICATION_NAME, args, true, Encoding.UTF8);
 
       OnSpeakCompleted?.Invoke(text);
       _processes.Remove(pr);
@@ -114,7 +113,7 @@ public partial class OSXVoiceProvider : BaseVoiceProvider
    {
       ProcessRunner pr = new();
 
-      Process process = await pr.StartAsync(_applicationName, "-v ?", true, Encoding.UTF8);
+      Process process = await pr.StartAsync(APPLICATION_NAME, "-v ?", true, Encoding.UTF8);
 
       if (process.ExitCode == 0)
       {
@@ -166,8 +165,8 @@ public partial class OSXVoiceProvider : BaseVoiceProvider
    private static int calculateRate(float rate)
    {
       return Math.Clamp(Math.Abs(rate - 1f) > Constants.FLOAT_TOLERANCE
-         ? (int)(_defaultRate * rate)
-         : _defaultRate, 1, 3 * _defaultRate);
+         ? (int)(DEFAULT_RATE * rate)
+         : DEFAULT_RATE, 1, 3 * DEFAULT_RATE);
    }
 
    [GeneratedRegex(@"^([^#]+?)\s*([^ ]+)\s*# (.*?)$")]

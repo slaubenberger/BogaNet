@@ -16,7 +16,7 @@ public abstract class CRC8 //NUnit
    #region Variables
 
    private static readonly byte[] _crc8table = new byte[256];
-   private const byte _crc8poly = 0x07;
+   private const byte CRC8_POLY = 0x07;
 
    #endregion
 
@@ -32,7 +32,7 @@ public abstract class CRC8 //NUnit
          {
             if ((temp & 0x80) != 0)
             {
-               temp = (temp << 1) ^ _crc8poly;
+               temp = (temp << 1) ^ CRC8_POLY;
             }
             else
             {

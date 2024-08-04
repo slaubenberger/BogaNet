@@ -12,7 +12,7 @@ public partial class BrowserPreferencesContainer : PreferencesContainer
 {
    #region Variables
 
-   private const string _containerKey = "BogaNetPrefs";
+   private const string CONTAINER_KEY = "BogaNetPrefs";
 
    #endregion
 
@@ -28,7 +28,7 @@ public partial class BrowserPreferencesContainer : PreferencesContainer
 
    public BrowserPreferencesContainer()
    {
-      _file = _containerKey;
+      _file = CONTAINER_KEY;
    }
 
    #endregion

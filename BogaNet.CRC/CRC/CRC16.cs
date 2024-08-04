@@ -16,7 +16,7 @@ public abstract class CRC16 //NUnit
    #region Variables
 
    private static readonly ushort[] _crc16table = new ushort[256];
-   private const ushort _crc16poly = 0xA001;
+   private const ushort CRC16_POLY = 0xA001;
 
    #endregion
 
@@ -34,7 +34,7 @@ public abstract class CRC16 //NUnit
          {
             if (((value ^ tempCrc16) & 0x0001) != 0)
             {
-               value = (ushort)((value >> 1) ^ _crc16poly);
+               value = (ushort)((value >> 1) ^ CRC16_POLY);
             }
             else
             {

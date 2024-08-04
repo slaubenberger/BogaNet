@@ -16,8 +16,8 @@ public static class Base91
 {
    #region Variables
 
-   private static readonly int[] _inverseAlphabet;
-   private const string _alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!#$%&()*+,./:;<=>?@[]^_`{|}~\"";
+   private const string CHARSET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!#$%&()*+,./:;<=>?@[]^_`{|}~\"";
+   private static readonly int[] _inverseCharset;
 
    #endregion
 
@@ -25,13 +25,13 @@ public static class Base91
 
    static Base91()
    {
-      _inverseAlphabet = new int[_alphabet.Max() + 1];
+      _inverseCharset = new int[CHARSET.Max() + 1];
 
-      for (int ii = 0; ii < _inverseAlphabet.Length; ii++)
-         _inverseAlphabet[ii] = -1;
+      for (int ii = 0; ii < _inverseCharset.Length; ii++)
+         _inverseCharset[ii] = -1;
 
       for (int ii = 0; ii < 91; ii++)
-         _inverseAlphabet[_alphabet[ii]] = ii;
+         _inverseCharset[CHARSET[ii]] = ii;
    }
 
    #endregion
@@ -167,18 +167,18 @@ public static class Base91
             }
 
             int quotient = Math.DivRem(encodedValue, 91, out int remainder);
-            result.Append(_alphabet[remainder]);
-            result.Append(_alphabet[quotient]);
+            result.Append(CHARSET[remainder]);
+            result.Append(CHARSET[quotient]);
          }
       }
 
       if (bitIndex > 0)
       {
          int quotient = Math.DivRem(bitQuotient, 91, out int remainder);
-         result.Append(_alphabet[remainder]);
+         result.Append(CHARSET[remainder]);
 
          if (bitIndex > 7 || bitQuotient > 90)
-            result.Append(_alphabet[quotient]);
+            result.Append(CHARSET[quotient]);
       }
 
       return result.ToString();
@@ -196,16 +196,16 @@ public static class Base91
 
          foreach (char theByte in data)
          {
-            if (_inverseAlphabet[theByte] == -1)
+            if (_inverseCharset[theByte] == -1)
                continue;
 
             if (decodedValue == -1)
             {
-               decodedValue = _inverseAlphabet[theByte];
+               decodedValue = _inverseCharset[theByte];
             }
             else
             {
-               decodedValue += _inverseAlphabet[theByte] * 91;
+               decodedValue += _inverseCharset[theByte] * 91;
                bitQuotient |= decodedValue << bitIndex;
                bitIndex += (decodedValue & 8191) > 88 ? 13 : 14;
 

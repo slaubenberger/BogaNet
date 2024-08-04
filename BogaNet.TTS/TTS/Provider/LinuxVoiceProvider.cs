@@ -21,9 +21,9 @@ public class LinuxVoiceProvider : BaseVoiceProvider
 
    private static readonly ILogger<LinuxVoiceProvider> _logger = GlobalLogging.CreateLogger<LinuxVoiceProvider>();
 
-   private const int _defaultRate = 160;
-   private const int _defaultVolume = 100;
-   private const int _defaultPitch = 50;
+   private const int DEFAULT_RATE = 160;
+   private const int DEFAULT_VOLUME = 100;
+   private const int DEFAULT_PITCH = 50;
 
    #endregion
 
@@ -88,9 +88,9 @@ public class LinuxVoiceProvider : BaseVoiceProvider
 
       System.Text.StringBuilder sb = new();
       sb.Append(string.IsNullOrEmpty(voiceName) ? string.Empty : "-v \"" + voiceName.Replace('"', '\'') + '"');
-      sb.Append(calculatedRate != _defaultRate ? " -s " + calculatedRate + " " : string.Empty);
-      sb.Append(calculatedVolume != _defaultVolume ? " -a " + calculatedVolume + " " : string.Empty);
-      sb.Append(calculatedPitch != _defaultPitch ? " -p " + calculatedPitch + " " : string.Empty);
+      sb.Append(calculatedRate != DEFAULT_RATE ? " -s " + calculatedRate + " " : string.Empty);
+      sb.Append(calculatedVolume != DEFAULT_VOLUME ? " -a " + calculatedVolume + " " : string.Empty);
+      sb.Append(calculatedPitch != DEFAULT_PITCH ? " -p " + calculatedPitch + " " : string.Empty);
       sb.Append(" -z ");
       sb.Append(" -m \"");
       sb.Append(text.Replace('"', '\''));
@@ -203,18 +203,18 @@ public class LinuxVoiceProvider : BaseVoiceProvider
    private static int calculateRate(float rate)
    {
       return Math.Clamp(Math.Abs(rate - 1f) > Constants.FLOAT_TOLERANCE
-         ? (int)(_defaultRate * rate)
-         : _defaultRate, 1, 3 * _defaultRate);
+         ? (int)(DEFAULT_RATE * rate)
+         : DEFAULT_RATE, 1, 3 * DEFAULT_RATE);
    }
 
    private static int calculateVolume(float volume)
    {
-      return Math.Clamp((int)(_defaultVolume * volume), 0, 200);
+      return Math.Clamp((int)(DEFAULT_VOLUME * volume), 0, 200);
    }
 
    private static int calculatePitch(float pitch)
    {
-      return Math.Clamp((int)(_defaultPitch * pitch), 0, 99);
+      return Math.Clamp((int)(DEFAULT_PITCH * pitch), 0, 99);
    }
 
    #endregion

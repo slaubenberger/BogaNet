@@ -121,9 +121,8 @@ public static class Base62
    /// </summary>
    private static class Base62_intern
    {
-      private const string DefaultCharacterSet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-
-      private const string InvertedCharacterSet = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+      private const string CHARSET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+      private const string INVERTED_CHARSET = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 /*
         /// <summary>
@@ -199,7 +198,7 @@ public static class Base62
       /// <returns>Base62 string</returns>
       public static string ToBase62(byte[] original, bool inverted = false)
       {
-         var characterSet = inverted ? InvertedCharacterSet : DefaultCharacterSet;
+         var characterSet = inverted ? INVERTED_CHARSET : CHARSET;
          var arr = Array.ConvertAll(original, t => (int)t);
 
          var converted = BaseConvert(arr, 256, 62);
@@ -264,7 +263,7 @@ public static class Base62
       {
          ArgumentNullException.ThrowIfNullOrEmpty(base62);
 
-         var characterSet = inverted ? InvertedCharacterSet : DefaultCharacterSet;
+         var characterSet = inverted ? INVERTED_CHARSET : CHARSET;
          var arr = Array.ConvertAll(base62.ToCharArray(), characterSet.IndexOf);
 
          var converted = BaseConvert(arr, 62, 256);
