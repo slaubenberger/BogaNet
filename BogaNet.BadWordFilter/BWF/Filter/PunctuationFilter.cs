@@ -56,7 +56,7 @@ namespace BogaNet.BWF.Filter
 
          if (string.IsNullOrEmpty(text))
          {
-            logContains();
+            _logger.LogWarning("Parameter 'text' is null or empty! 'Contains()' will return 'false'.");
          }
          else
          {
@@ -72,7 +72,7 @@ namespace BogaNet.BWF.Filter
 
          if (string.IsNullOrEmpty(text))
          {
-            logGetAll();
+            _logger.LogWarning("Parameter 'text' is null or empty! 'GetAll()' will return an empty list.");
          }
          else
          {
@@ -98,7 +98,7 @@ namespace BogaNet.BWF.Filter
 
          if (string.IsNullOrEmpty(text))
          {
-            logReplaceAll();
+            _logger.LogWarning("Parameter 'text' is null or empty! 'ReplaceAll()' will return an empty string.");
 
             result = string.Empty;
          }
@@ -115,25 +115,6 @@ namespace BogaNet.BWF.Filter
          }
 
          return result;
-      }
-
-      #endregion
-
-      #region Protected methods
-
-      protected static void logContains()
-      {
-         _logger.LogWarning("Parameter 'text' is null or empty! 'Contains()' will return 'false'.");
-      }
-
-      protected static void logGetAll()
-      {
-         _logger.LogWarning("Parameter 'text' is null or empty! 'GetAll()' will return an empty list.");
-      }
-
-      protected static void logReplaceAll()
-      {
-         _logger.LogWarning("Parameter 'text' is null or empty! 'ReplaceAll()' will return an empty string.");
       }
 
       #endregion

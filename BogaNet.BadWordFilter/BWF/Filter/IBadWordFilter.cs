@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using BogaNet.BWF.Enum;
 
 namespace BogaNet.BWF.Filter
@@ -30,7 +32,59 @@ namespace BogaNet.BWF.Filter
 
       #region Methods
 
-      void Add(string srcName, string[] words, bool isLTR = true);
+      /// <summary>
+      /// Load sources from a given Dictionary.
+      /// </summary>
+      /// <param name="isLTR">Is source written left-to-right?</param>
+      /// <param name="dataDict">Dictionary to load</param>
+      ///<returns>True if the operation was successful</returns>
+      /// <exception cref="Exception"></exception>
+      void Load(bool isLTR, Dictionary<string, string[]> dataDict);
+
+      /// <summary>
+      /// Load source files (CSV) from a given path.
+      /// </summary>
+      /// <param name="isLTR">Is source written left-to-right?</param>
+      /// <param name="files">Files to load (Item1 = source name, Item2 = file)</param>
+      ///<returns>True if the operation was successful</returns>
+      /// <exception cref="Exception"></exception>
+      bool LoadFiles(bool isLTR, params Tuple<string, string>[] files);
+
+      /// <summary>
+      /// Load source files (CSV) from a given path asynchronously.
+      /// </summary>
+      /// <param name="isLTR">Is source written left-to-right?</param>
+      /// <param name="files">Files to load (Item1 = source name, Item2 = file)</param>
+      ///<returns>True if the operation was successful</returns>
+      /// <exception cref="Exception"></exception>
+      Task<bool> LoadFilesAsync(bool isLTR, params Tuple<string, string>[] files);
+
+      /// <summary>
+      /// Load source files (CSV) from given URLs.
+      /// </summary>
+      /// <param name="isLTR">Is source written left-to-right?</param>
+      /// <param name="urls">URLs of files to load (Item1 = source name, Item2 = file)</param>
+      ///<returns>True if the operation was successful</returns>
+      /// <exception cref="Exception"></exception>
+      bool LoadFilesFromUrl(bool isLTR, params Tuple<string, string>[] urls);
+
+      /// <summary>
+      /// Load source files (CSV) from given URLs asynchronously.
+      /// </summary>
+      /// <param name="isLTR">Is source written left-to-right?</param>
+      /// <param name="urls">URLs of files to load (Item1 = source name, Item2 = file)</param>
+      ///<returns>True if the operation was successful</returns>
+      /// <exception cref="Exception"></exception>
+      Task<bool> LoadFilesFromUrlAsync(bool isLTR, params Tuple<string, string>[] urls);
+
+      /// <summary>
+      /// Adds a source with words.
+      /// </summary>
+      /// <param name="isLTR">Is source written left-to-right?</param>
+      /// <param name="srcName">Source name</param>
+      /// <param name="words">Words for the source</param>
+      /// <exception cref="ArgumentNullException"></exception>
+      void Add(bool isLTR, string srcName, params string[] words);
 
       #endregion
    }

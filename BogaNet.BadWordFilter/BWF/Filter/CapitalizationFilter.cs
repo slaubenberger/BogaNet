@@ -20,9 +20,9 @@ namespace BogaNet.BWF.Filter
 
       #region Properties
 
-      public Regex RegularExpression { get; set; }
+      public virtual Regex RegularExpression { get; set; }
 
-      public int CharacterNumber
+      public virtual int CharacterNumber
       {
          get => _characterNumber;
          set
@@ -48,13 +48,13 @@ namespace BogaNet.BWF.Filter
 
       #region Implemented methods
 
-      public bool Contains(string text, params string[] sourceNames) //sources are ignored
+      public virtual bool Contains(string text, params string[] sourceNames) //sources are ignored
       {
          bool result = false;
 
          if (string.IsNullOrEmpty(text))
          {
-            logContains();
+            _logger.LogWarning("Parameter 'text' is null or empty! 'Contains()' will return 'false'.");
          }
          else
          {
@@ -64,13 +64,13 @@ namespace BogaNet.BWF.Filter
          return result;
       }
 
-      public List<string> GetAll(string text, params string[] sourceNames) //sources are ignored
+      public virtual List<string> GetAll(string text, params string[] sourceNames) //sources are ignored
       {
          List<string> result = new();
 
          if (string.IsNullOrEmpty(text))
          {
-            logGetAll();
+            _logger.LogWarning("Parameter 'text' is null or empty! 'GetAll()' will return an empty list.");
          }
          else
          {
@@ -90,13 +90,13 @@ namespace BogaNet.BWF.Filter
          return result.Distinct().OrderBy(x => x).ToList();
       }
 
-      public string ReplaceAll(string text, string prefix = "", string postfix = "", params string[] sourceNames) //sources are ignored
+      public virtual string ReplaceAll(string text, string prefix = "", string postfix = "", params string[] sourceNames) //sources are ignored
       {
          string result = text;
 
          if (string.IsNullOrEmpty(text))
          {
-            logReplaceAll();
+            _logger.LogWarning("Parameter 'text' is null or empty! 'ReplaceAll()' will return an empty string.");
 
             result = string.Empty;
          }
@@ -113,25 +113,6 @@ namespace BogaNet.BWF.Filter
          }
 
          return result;
-      }
-
-      #endregion
-
-      #region Protected methods
-
-      protected static void logContains()
-      {
-         _logger.LogWarning("Parameter 'text' is null or empty! 'Contains()' will return 'false'.");
-      }
-
-      protected static void logGetAll()
-      {
-         _logger.LogWarning("Parameter 'text' is null or empty! 'GetAll()' will return an empty list.");
-      }
-
-      protected static void logReplaceAll()
-      {
-         _logger.LogWarning("Parameter 'text' is null or empty! 'ReplaceAll()' will return an empty string.");
       }
 
       #endregion

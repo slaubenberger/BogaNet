@@ -5,6 +5,7 @@ using BogaNet.Helper;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using BogaNet.Extension;
 using BogaNet.Util;
 
 namespace BogaNet.BWF.Filter
@@ -16,40 +17,33 @@ namespace BogaNet.BWF.Filter
 
       private static readonly ILogger<DomainFilter> _logger = GlobalLogging.CreateLogger<DomainFilter>();
 
-      private const string DOMAIN_REGEX_START = @"\b{0,1}((ht|f)tp(s?)\:\/\/)?[\w\-\.\@]*[\.]";
+      protected const string DOMAIN_REGEX_START = @"\b{0,1}((ht|f)tp(s?)\:\/\/)?[\w\-\.\@]*[\.]";
+      protected const string DOMAIN_REGEX_END = @"(:\d{1,5})?(\/|\b)";
 
-      //private const string domainRegexEnd = @"(:\d{1,5})?(\/|\b)([\a-zA-Z0-9\-\.\?\!\,\=\'\/\&\%#_]*)?\b";
-      private const string DOMAIN_REGEX_END = @"(:\d{1,5})?(\/|\b)";
-
-      /// <summary>Option1 (default: RegexOptions.IgnoreCase).</summary>
-      public RegexOptions RegexOption1 = RegexOptions.IgnoreCase; //DEFAULT
-
-      /// <summary>Option2 (default: RegexOptions.CultureInvariant).</summary>
-      public RegexOptions RegexOption2 = RegexOptions.CultureInvariant; //DEFAULT
-
-      /// <summary>Option3 (default: RegexOptions.None).</summary>
-      public RegexOptions RegexOption3 = RegexOptions.Compiled;
-
-      /// <summary>Option4 (default: RegexOptions.None).</summary>
-      public RegexOptions RegexOption4 = RegexOptions.None;
-
-      /// <summary>Option5 (default: RegexOptions.None).</summary>
-      public RegexOptions RegexOption5 = RegexOptions.None;
+      protected const RegexOptions REGEX_IC = RegexOptions.IgnoreCase; //DEFAULT
+      protected const RegexOptions REGEX_CI = RegexOptions.CultureInvariant; //DEFAULT
+      protected const RegexOptions REGEX_COMPILED = RegexOptions.Compiled;
 
       private readonly Dictionary<string, Regex> _domainsRegex = new();
       private readonly Dictionary<string, List<Regex>> _debugDomainsRegex = new();
 
       #endregion
 
-
       #region Properties
 
-      public int Count { get; }
-      public List<string> SourceNames { get; }
-      public bool IsLoaded { get; private set; }
+      public virtual int Count => Config.DEBUG_DOMAINS ? _debugDomainsRegex.Count : _domainsRegex.Count;
+      public virtual List<string> SourceNames => Config.DEBUG_DOMAINS ? _debugDomainsRegex.BNKeys() : _domainsRegex.BNKeys();
+      public virtual bool IsLoaded { get; private set; }
+
+      public virtual char[] ReplaceCharacters { get; set; }
 
       #endregion
 
+      #region Events
+
+      public virtual event ISourceFilter.FilesLoaded? OnFilesLoaded;
+
+      #endregion
 
       #region Constructor
 
@@ -59,38 +53,35 @@ namespace BogaNet.BWF.Filter
 
       #endregion
 
+      #region Public methods
 
-      #region Implemented methods
-
-      public event ISourceFilter.FilesLoaded? OnFilesLoaded;
-
-      public bool Remove(string srcName)
+      public virtual bool Remove(string srcName)
       {
          if (ContainsSource(srcName))
-            return _domainsRegex.Remove(srcName) & _debugDomainsRegex.Remove(srcName);
+            return Config.DEBUG_DOMAINS ? _debugDomainsRegex.Remove(srcName) : _domainsRegex.Remove(srcName);
 
          return false;
       }
 
-      public bool ContainsSource(string srcName)
+      public virtual bool ContainsSource(string srcName)
       {
          ArgumentNullException.ThrowIfNullOrEmpty(srcName);
 
-         return _domainsRegex.ContainsKey(srcName) || _debugDomainsRegex.ContainsKey(srcName);
+         return Config.DEBUG_DOMAINS ? _debugDomainsRegex.ContainsKey(srcName) : _domainsRegex.ContainsKey(srcName);
       }
 
-      public void Clear()
+      public virtual void Clear()
       {
          _domainsRegex.Clear();
          _debugDomainsRegex.Clear();
       }
 
-      public void Load(Dictionary<string, string[]> dataDict)
+      public virtual void Load(Dictionary<string, string[]> dataDict)
       {
          process(dataDict);
       }
 
-      public bool LoadFiles(params Tuple<string, string>[] files)
+      public virtual bool LoadFiles(params Tuple<string, string>[] files)
       {
          ArgumentNullException.ThrowIfNull(files);
 
@@ -115,7 +106,7 @@ namespace BogaNet.BWF.Filter
          return res;
       }
 
-      public async Task<bool> LoadFilesAsync(params Tuple<string, string>[] files)
+      public virtual async Task<bool> LoadFilesAsync(params Tuple<string, string>[] files)
       {
          ArgumentNullException.ThrowIfNull(files);
 
@@ -140,12 +131,12 @@ namespace BogaNet.BWF.Filter
          return res;
       }
 
-      public bool LoadFilesFromUrl(params Tuple<string, string>[] urls)
+      public virtual bool LoadFilesFromUrl(params Tuple<string, string>[] urls)
       {
          return Task.Run(() => LoadFilesFromUrlAsync(urls)).GetAwaiter().GetResult();
       }
 
-      public async Task<bool> LoadFilesFromUrlAsync(params Tuple<string, string>[] urls)
+      public virtual async Task<bool> LoadFilesFromUrlAsync(params Tuple<string, string>[] urls)
       {
          ArgumentNullException.ThrowIfNull(urls);
 
@@ -170,14 +161,13 @@ namespace BogaNet.BWF.Filter
          return res;
       }
 
-      public char[] ReplaceCharacters { get; set; }
 
-      public void Add(string srcName, string[] domains)
+      public virtual void Add(string srcName, params string[] domains)
       {
          process(new() { { srcName, domains } });
       }
 
-      public bool Contains(string text, params string[] sourceNames)
+      public virtual bool Contains(string text, params string[] sourceNames)
       {
          bool result = false;
 
@@ -185,7 +175,7 @@ namespace BogaNet.BWF.Filter
          {
             if (string.IsNullOrEmpty(text))
             {
-               logContains();
+               _logger.LogWarning("Parameter 'text' is null or empty! 'Contains()' will return 'false'.");
             }
             else
             {
@@ -228,7 +218,7 @@ namespace BogaNet.BWF.Filter
                         }
                         else
                         {
-                           logResourceNotFound(domainResource);
+                           logSourceNotFound(domainResource);
                         }
                      }
                   }
@@ -260,7 +250,7 @@ namespace BogaNet.BWF.Filter
                         }
                         else
                         {
-                           logResourceNotFound(domainResource);
+                           logSourceNotFound(domainResource);
                         }
                      }
                   }
@@ -275,7 +265,7 @@ namespace BogaNet.BWF.Filter
          return result;
       }
 
-      public List<string> GetAll(string text, params string[] sourceNames)
+      public virtual List<string> GetAll(string text, params string[] sourceNames)
       {
          List<string> result = new List<string>();
 
@@ -283,7 +273,7 @@ namespace BogaNet.BWF.Filter
          {
             if (string.IsNullOrEmpty(text))
             {
-               logGetAll();
+               _logger.LogWarning("Parameter 'text' is null or empty! 'GetAll()' will return an empty list.");
             }
             else
             {
@@ -330,7 +320,7 @@ namespace BogaNet.BWF.Filter
                         }
                         else
                         {
-                           logResourceNotFound(domainResource);
+                           logSourceNotFound(domainResource);
                         }
                      }
                   }
@@ -362,7 +352,7 @@ namespace BogaNet.BWF.Filter
                         }
                         else
                         {
-                           logResourceNotFound(domainResource);
+                           logSourceNotFound(domainResource);
                         }
                      }
                   }
@@ -377,7 +367,7 @@ namespace BogaNet.BWF.Filter
          return result.Distinct().OrderBy(x => x).ToList();
       }
 
-      public string ReplaceAll(string text, string prefix = "", string postfix = "", params string[] sourceNames)
+      public virtual string ReplaceAll(string text, string prefix = "", string postfix = "", params string[] sourceNames)
       {
          string result = text;
 
@@ -385,7 +375,7 @@ namespace BogaNet.BWF.Filter
          {
             if (string.IsNullOrEmpty(text))
             {
-               logReplaceAll();
+               _logger.LogWarning("Parameter 'text' is null or empty! 'ReplaceAll()' will return an empty string.");
 
                result = string.Empty;
             }
@@ -432,7 +422,7 @@ namespace BogaNet.BWF.Filter
                         }
                         else
                         {
-                           logResourceNotFound(domainResource);
+                           logSourceNotFound(domainResource);
                         }
                      }
                   }
@@ -458,7 +448,7 @@ namespace BogaNet.BWF.Filter
                         }
                         else
                         {
-                           logResourceNotFound(domainResource);
+                           logSourceNotFound(domainResource);
                         }
                      }
                   }
@@ -472,6 +462,10 @@ namespace BogaNet.BWF.Filter
 
          return result;
       }
+
+      #endregion
+
+      #region Private methods
 
       private void process(Dictionary<string, string[]> dataDict)
       {
@@ -487,8 +481,8 @@ namespace BogaNet.BWF.Filter
             {
                try
                {
-                  List<Regex> domainRegexes = new List<Regex>(domains.Length);
-                  domainRegexes.AddRange(domains.Select(line => new Regex(DOMAIN_REGEX_START + line + DOMAIN_REGEX_END, RegexOption1 | RegexOption2 | RegexOption3 | RegexOption4 | RegexOption5)));
+                  List<Regex> domainRegexes = new(domains.Length);
+                  domainRegexes.AddRange(domains.Select(line => new Regex(DOMAIN_REGEX_START + line + DOMAIN_REGEX_END, REGEX_IC | REGEX_CI | REGEX_COMPILED)));
 
                   if (!_debugDomainsRegex.ContainsKey(source))
                      _debugDomainsRegex.Add(source, domainRegexes);
@@ -503,7 +497,7 @@ namespace BogaNet.BWF.Filter
                try
                {
                   if (!_domainsRegex.ContainsKey(source))
-                     _domainsRegex.Add(source, new Regex($"{DOMAIN_REGEX_START}({string.Join("|", domains.ToArray())}){DOMAIN_REGEX_END}", RegexOption1 | RegexOption2 | RegexOption3 | RegexOption4 | RegexOption5));
+                     _domainsRegex.Add(source, new Regex($"{DOMAIN_REGEX_START}({string.Join("|", domains.ToArray())}){DOMAIN_REGEX_END}", REGEX_IC | REGEX_CI | REGEX_COMPILED));
                }
                catch (System.Exception ex)
                {
@@ -515,38 +509,17 @@ namespace BogaNet.BWF.Filter
                _logger.LogDebug($"Domain resource '{source}' loaded and {domains.Length} entries found.");
          }
 
-         //isReady = true;
-         //raiseOnProviderReady();
+         IsLoaded = true;
       }
-
-      #endregion
-
-
-      #region Protected methods
 
       protected static void logFilterNotReady()
       {
-         _logger.LogWarning("Filter is not ready - please wait until 'isReady' returns true.");
+         _logger.LogWarning("Filter is not ready - please wait until 'IsLoaded' returns true.");
       }
 
-      protected static void logResourceNotFound(string res)
+      protected static void logSourceNotFound(string res)
       {
-         _logger.LogWarning($"Resource not found: '{res}'!Did you call the method with the correct resource name?");
-      }
-
-      protected static void logContains()
-      {
-         _logger.LogWarning("Parameter 'text' is null or empty! 'Contains()' will return 'false'.");
-      }
-
-      protected static void logGetAll()
-      {
-         _logger.LogWarning("Parameter 'text' is null or empty! 'GetAll()' will return an empty list.");
-      }
-
-      protected static void logReplaceAll()
-      {
-         _logger.LogWarning("Parameter 'text' is null or empty! 'ReplaceAll()' will return an empty string.");
+         _logger.LogWarning($"Source not found: '{res}' - Did you call the method with the correct source name?");
       }
 
       #endregion

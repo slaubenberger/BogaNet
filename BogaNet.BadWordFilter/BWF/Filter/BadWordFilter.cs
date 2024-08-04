@@ -11,30 +11,32 @@ using BogaNet.Util;
 
 namespace BogaNet.BWF.Filter
 {
-   /// <summary>Filter for bad words. The class can also replace all bad words inside a string.</summary>
+   /// <summary>
+   /// Filter for bad words. The class can also replace all bad words inside a string.
+   /// </summary>
    public class BadWordFilter : Singleton<BadWordFilter>, IBadWordFilter
    {
       #region Variables
 
       private static readonly ILogger<BadWordFilter> _logger = GlobalLogging.CreateLogger<BadWordFilter>();
 
-      private const string EXACT_REGEX_START = @"(?<![\w\d])";
-      private const string EXACT_REGEX_END = @"s?(?![\w\d])";
+      protected const string EXACT_REGEX_START = @"(?<![\w\d])";
+      protected const string EXACT_REGEX_END = @"s?(?![\w\d])";
 
       /// <summary>Option1 (default: RegexOptions.IgnoreCase).</summary>
-      public RegexOptions RegexOption1 = RegexOptions.IgnoreCase; //DEFAULT
+      protected const RegexOptions REGEX_IC = RegexOptions.IgnoreCase; //DEFAULT
 
       /// <summary>Option2 (default: RegexOptions.CultureInvariant).</summary>
-      public RegexOptions RegexOption2 = RegexOptions.CultureInvariant; //DEFAULT
+      protected const RegexOptions REGEX_CI = RegexOptions.CultureInvariant; //DEFAULT
 
       /// <summary>Option3 (default: RegexOptions.None).</summary>
-      public RegexOptions RegexOption3 = RegexOptions.Compiled;
+      protected const RegexOptions REGEX_COMPILED = RegexOptions.Compiled;
 
       /// <summary>Option4 (default: RegexOptions.None).</summary>
-      public RegexOptions RegexOption4 = RegexOptions.None;
+      protected const RegexOptions REGEX_RTL = RegexOptions.RightToLeft;
 
       /// <summary>Option5 (default: RegexOptions.None).</summary>
-      public RegexOptions RegexOption5 = RegexOptions.None;
+      protected const RegexOptions REGEX_NONE = RegexOptions.None;
 
       private readonly Dictionary<string, Regex> _exactBadwordsRegex = new(30);
       private readonly Dictionary<string, List<Regex>> _debugExactBadwordsRegex = new(30);
@@ -42,21 +44,25 @@ namespace BogaNet.BWF.Filter
 
       #endregion
 
-
       #region Properties
 
-      public int Count { get; }
-      public List<string> SourceNames { get; }
-      public bool IsLoaded { get; private set; }
-      public char[] ReplaceCharacters { get; set; }
-      public ReplaceMode Mode { get; set; }
-      public bool RemoveSpaces { get; set; }
-      public int MaxTextLength { get; set; }
-      public string RemoveCharacters { get; set; }
-      public bool SimpleCheck { get; set; }
+      public virtual int Count => Config.DEBUG_BADWORDS ? _debugExactBadwordsRegex.Count : _exactBadwordsRegex.Count;
+      public virtual List<string> SourceNames => Config.DEBUG_BADWORDS ? _debugExactBadwordsRegex.BNKeys() : _exactBadwordsRegex.BNKeys();
+      public virtual bool IsLoaded { get; private set; }
+      public virtual char[] ReplaceCharacters { get; set; }
+      public virtual ReplaceMode Mode { get; set; }
+      public virtual bool RemoveSpaces { get; set; }
+      public virtual int MaxTextLength { get; set; }
+      public virtual string RemoveCharacters { get; set; }
+      public virtual bool SimpleCheck { get; set; }
 
       #endregion
 
+      #region Events
+
+      public virtual event ISourceFilter.FilesLoaded? OnFilesLoaded;
+
+      #endregion
 
       #region Constructor
 
@@ -66,39 +72,36 @@ namespace BogaNet.BWF.Filter
 
       #endregion
 
+      #region Public methods
 
-      #region Implemented methods
-
-      public event ISourceFilter.FilesLoaded? OnFilesLoaded;
-
-      public bool Remove(string srcName)
+      public virtual bool Remove(string srcName)
       {
          if (ContainsSource(srcName))
-            return _exactBadwordsRegex.Remove(srcName) & _debugExactBadwordsRegex.Remove(srcName) & _simpleBadwords.Remove(srcName);
+            return (Config.DEBUG_BADWORDS ? _debugExactBadwordsRegex.Remove(srcName) : _exactBadwordsRegex.Remove(srcName)) & _simpleBadwords.Remove(srcName);
 
          return false;
       }
 
-      public bool ContainsSource(string srcName)
+      public virtual bool ContainsSource(string srcName)
       {
          ArgumentNullException.ThrowIfNullOrEmpty(srcName);
 
-        return _exactBadwordsRegex.ContainsKey(srcName) || _debugExactBadwordsRegex.ContainsKey(srcName);
+         return Config.DEBUG_DOMAINS ? _debugExactBadwordsRegex.ContainsKey(srcName) : _exactBadwordsRegex.ContainsKey(srcName);
       }
 
-      public void Clear()
+      public virtual void Clear()
       {
          _exactBadwordsRegex.Clear();
          _debugExactBadwordsRegex.Clear();
          _simpleBadwords.Clear();
       }
 
-      public void Load(Dictionary<string, string[]> dataDict) //TODO handle RTL?
+      public virtual void Load(bool isLTR, Dictionary<string, string[]> dataDict)
       {
-         process(dataDict);
+         process(dataDict, isLTR);
       }
 
-      public bool LoadFiles(params Tuple<string, string>[] files) //TODO handle RTL?
+      public virtual bool LoadFiles(bool isLTR, params Tuple<string, string>[] files)
       {
          ArgumentNullException.ThrowIfNull(files);
 
@@ -115,7 +118,7 @@ namespace BogaNet.BWF.Filter
          bool res = allLines.Count > 0;
 
          if (res)
-            Load(allLines);
+            Load(isLTR, allLines);
 
          OnFilesLoaded?.Invoke(files);
          IsLoaded = res; //too simple?
@@ -123,7 +126,7 @@ namespace BogaNet.BWF.Filter
          return res;
       }
 
-      public async Task<bool> LoadFilesAsync(params Tuple<string, string>[] files) //TODO handle RTL?
+      public virtual async Task<bool> LoadFilesAsync(bool isLTR, params Tuple<string, string>[] files)
       {
          ArgumentNullException.ThrowIfNull(files);
 
@@ -140,7 +143,7 @@ namespace BogaNet.BWF.Filter
          bool res = allLines.Count > 0;
 
          if (res)
-            Load(allLines);
+            Load(isLTR, allLines);
 
          OnFilesLoaded?.Invoke(files);
          IsLoaded = res; //too simple?
@@ -148,12 +151,12 @@ namespace BogaNet.BWF.Filter
          return res;
       }
 
-      public bool LoadFilesFromUrl(params Tuple<string, string>[] urls) //TODO handle RTL?
+      public virtual bool LoadFilesFromUrl(bool isLTR, params Tuple<string, string>[] urls)
       {
-         return Task.Run(() => LoadFilesFromUrlAsync(urls)).GetAwaiter().GetResult();
+         return Task.Run(() => LoadFilesFromUrlAsync(isLTR, urls)).GetAwaiter().GetResult();
       }
 
-      public async Task<bool> LoadFilesFromUrlAsync(params Tuple<string, string>[] urls) //TODO handle RTL?
+      public virtual async Task<bool> LoadFilesFromUrlAsync(bool isLTR, params Tuple<string, string>[] urls)
       {
          ArgumentNullException.ThrowIfNull(urls);
 
@@ -170,7 +173,7 @@ namespace BogaNet.BWF.Filter
          bool res = allLines.Count > 0;
 
          if (res)
-            Load(allLines);
+            Load(isLTR, allLines);
 
          OnFilesLoaded?.Invoke(urls);
          IsLoaded = res; //too simple?
@@ -178,12 +181,12 @@ namespace BogaNet.BWF.Filter
          return res;
       }
 
-      public void Add(string srcName, string[] words, bool isLTR = true) //TODO handle RTL
+      public virtual void Add(bool isLTR, string srcName, string[] words)
       {
-         process(new() { { srcName, words } });
+         process(new() { { srcName, words } }, isLTR);
       }
 
-      public bool Contains(string text, params string[] sourceNames)
+      public virtual bool Contains(string text, params string[] sourceNames)
       {
          bool result = false;
 
@@ -191,7 +194,7 @@ namespace BogaNet.BWF.Filter
          {
             if (string.IsNullOrEmpty(text))
             {
-               logContains();
+               _logger.LogWarning("Parameter 'text' is null or empty! 'Contains()' will return 'false'.");
             }
             else
             {
@@ -252,7 +255,7 @@ namespace BogaNet.BWF.Filter
                            }
                            else
                            {
-                              logResourceNotFound(sourceNames[ii]);
+                              logSourceNotFound(sourceNames[ii]);
                            }
                         }
                         else
@@ -272,7 +275,7 @@ namespace BogaNet.BWF.Filter
                            }
                            else
                            {
-                              logResourceNotFound(sourceNames[ii]);
+                              logSourceNotFound(sourceNames[ii]);
                            }
                         }
                      }
@@ -312,7 +315,7 @@ namespace BogaNet.BWF.Filter
                            }
                            else
                            {
-                              logResourceNotFound(badWordsResource);
+                              logSourceNotFound(badWordsResource);
                            }
                         }
                         else
@@ -328,7 +331,7 @@ namespace BogaNet.BWF.Filter
                            }
                            else
                            {
-                              logResourceNotFound(badWordsResource);
+                              logSourceNotFound(badWordsResource);
                            }
                         }
                      }
@@ -344,15 +347,15 @@ namespace BogaNet.BWF.Filter
          return result;
       }
 
-      public List<string> GetAll(string text, params string[] sourceNames)
+      public virtual List<string> GetAll(string text, params string[] sourceNames)
       {
-         List<string> result = new List<string>();
+         List<string> result = new();
 
          if (IsLoaded)
          {
             if (string.IsNullOrEmpty(text))
             {
-               logGetAll();
+               _logger.LogWarning("Parameter 'text' is null or empty! 'GetAll()' will return an empty list.");
             }
             else
             {
@@ -411,7 +414,7 @@ namespace BogaNet.BWF.Filter
                            }
                            else
                            {
-                              logResourceNotFound(badWordsResource);
+                              logSourceNotFound(badWordsResource);
                            }
                         }
                         else
@@ -433,7 +436,7 @@ namespace BogaNet.BWF.Filter
                            }
                            else
                            {
-                              logResourceNotFound(badWordsResource);
+                              logSourceNotFound(badWordsResource);
                            }
                         }
                      }
@@ -476,7 +479,7 @@ namespace BogaNet.BWF.Filter
                            }
                            else
                            {
-                              logResourceNotFound(badWordsResource);
+                              logSourceNotFound(badWordsResource);
                            }
                         }
                         else
@@ -492,7 +495,7 @@ namespace BogaNet.BWF.Filter
                            }
                            else
                            {
-                              logResourceNotFound(badWordsResource);
+                              logSourceNotFound(badWordsResource);
                            }
                         }
                      }
@@ -510,7 +513,7 @@ namespace BogaNet.BWF.Filter
          return result.Distinct().OrderBy(x => x).ToList();
       }
 
-      public string ReplaceAll(string text, string prefix = "", string postfix = "", params string[] sourceNames)
+      public virtual string ReplaceAll(string text, string prefix = "", string postfix = "", params string[] sourceNames)
       {
          string result = string.Empty;
          bool hasBadWords = false;
@@ -519,7 +522,7 @@ namespace BogaNet.BWF.Filter
          {
             if (string.IsNullOrEmpty(text))
             {
-               logReplaceAll();
+               _logger.LogWarning("Parameter 'text' is null or empty! 'ReplaceAll()' will return an empty string.");
             }
             else
             {
@@ -581,7 +584,7 @@ namespace BogaNet.BWF.Filter
                         }
                         else
                         {
-                           logResourceNotFound(badWordsResource);
+                           logSourceNotFound(badWordsResource);
                         }
                      }
                   }
@@ -617,7 +620,7 @@ namespace BogaNet.BWF.Filter
                         }
                         else
                         {
-                           logResourceNotFound(badWordsResource);
+                           logSourceNotFound(badWordsResource);
                         }
                      }
                   }
@@ -633,7 +636,6 @@ namespace BogaNet.BWF.Filter
       }
 
       #endregion
-
 
       #region Private methods
 
@@ -1060,7 +1062,7 @@ namespace BogaNet.BWF.Filter
         }
 */
 
-      private void process(Dictionary<string, string[]> dataDict) //TODO handle RTL?
+      private void process(Dictionary<string, string[]> dataDict, bool isLTR)
       {
          if (Config.DEBUG_BADWORDS)
             _logger.LogDebug("++ BadWordFilter started in debug-mode ++");
@@ -1075,7 +1077,7 @@ namespace BogaNet.BWF.Filter
                try
                {
                   List<Regex> exactRegexes = new(words.Length);
-                  exactRegexes.AddRange(words.Select(line => new Regex(EXACT_REGEX_START + line + EXACT_REGEX_END, RegexOption1 | RegexOption2 | RegexOption3 | RegexOption4 | RegexOption5)));
+                  exactRegexes.AddRange(words.Select(line => new Regex(EXACT_REGEX_START + line + EXACT_REGEX_END, REGEX_IC | REGEX_CI | REGEX_COMPILED | (isLTR ? REGEX_RTL : REGEX_NONE))));
 
                   if (!_debugExactBadwordsRegex.ContainsKey(source))
                      _debugExactBadwordsRegex.Add(source, exactRegexes);
@@ -1091,16 +1093,16 @@ namespace BogaNet.BWF.Filter
                {
                   if (!_exactBadwordsRegex.ContainsKey(source))
                   {
-                     _exactBadwordsRegex.Add(source, new Regex($"{EXACT_REGEX_START}({string.Join("|", words.ToArray())}){EXACT_REGEX_END}", RegexOption1 | RegexOption2 | RegexOption3 | RegexOption4 | RegexOption5));
+                     _exactBadwordsRegex.Add(source, new Regex($"{EXACT_REGEX_START}({string.Join("|", words.ToArray())}){EXACT_REGEX_END}", REGEX_IC | REGEX_CI | REGEX_COMPILED | REGEX_RTL | REGEX_NONE));
                   }
                }
-               catch (System.Exception ex)
+               catch (Exception ex)
                {
                   _logger.LogError(ex, $"Could not generate exact regex for source '{source}'");
                }
             }
 
-            List<string> simpleWords = new List<string>(words.Length);
+            List<string> simpleWords = new(words.Length);
 
             simpleWords.AddRange(words);
 
@@ -1109,40 +1111,19 @@ namespace BogaNet.BWF.Filter
 
             if (Config.DEBUG_BADWORDS)
                _logger.LogDebug($"Bad word resource '{source}' loaded and {words.Length} entries found.");
+
+            IsLoaded = true;
          }
-
-         //isReady = true;
-         //raiseOnProviderReady();
       }
-
-      #endregion
-
-
-      #region Protected methods
 
       protected static void logFilterNotReady()
       {
-         _logger.LogWarning("Filter is not ready - please wait until 'isReady' returns true.");
+         _logger.LogWarning("Filter is not ready - please wait until 'IsLoaded' returns true.");
       }
 
-      protected static void logResourceNotFound(string res)
+      protected static void logSourceNotFound(string res)
       {
-         _logger.LogWarning($"Resource not found: '{res}'!Did you call the method with the correct resource name?");
-      }
-
-      protected static void logContains()
-      {
-         _logger.LogWarning("Parameter 'text' is null or empty! 'Contains()' will return 'false'.");
-      }
-
-      protected static void logGetAll()
-      {
-         _logger.LogWarning("Parameter 'text' is null or empty! 'GetAll()' will return an empty list.");
-      }
-
-      protected static void logReplaceAll()
-      {
-         _logger.LogWarning("Parameter 'text' is null or empty! 'ReplaceAll()' will return an empty string.");
+         _logger.LogWarning($"Source not found: '{res}' - Did you call the method with the correct source name?");
       }
 
       #endregion
