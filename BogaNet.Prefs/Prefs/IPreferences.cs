@@ -1,6 +1,7 @@
 ﻿using System.Numerics;
 using System;
 using System.Collections.Generic;
+using BogaNet.ObfuscatedType;
 
 namespace BogaNet.Prefs;
 
@@ -10,6 +11,11 @@ namespace BogaNet.Prefs;
 public interface IPreferences
 {
    #region Properties
+
+   /// <summary>
+   /// IV for the obfuscated data.
+   /// </summary>
+   ByteObf IV { set; }
 
    /// <summary>
    /// Are the preferences loaded?
@@ -30,7 +36,7 @@ public interface IPreferences
    /// Current count of keys from the preferences.
    /// </summary>
    int Count { get; }
-   
+
    #endregion
 
    #region Methods

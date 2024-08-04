@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using System;
 using System.Collections.Generic;
+using BogaNet.ObfuscatedType;
 
 namespace BogaNet.Prefs;
 
@@ -10,6 +11,11 @@ namespace BogaNet.Prefs;
 public interface IPreferencesContainer
 {
    #region Properties
+
+   /// <summary>
+   /// IV for the obfuscated data.
+   /// </summary>
+   ByteObf IV { set; }
 
    /// <summary>
    /// Is the preferences-container loaded?
@@ -30,7 +36,7 @@ public interface IPreferencesContainer
    /// Current count of keys from the preferences.
    /// </summary>
    int Count { get; }
-   
+
    #endregion
 
    #region Methods

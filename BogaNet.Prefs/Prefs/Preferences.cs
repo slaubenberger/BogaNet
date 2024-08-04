@@ -6,6 +6,7 @@ using BogaNet.Extension;
 using BogaNet.Util;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using BogaNet.ObfuscatedType;
 
 namespace BogaNet.Prefs;
 
@@ -21,6 +22,11 @@ public class Preferences : Singleton<Preferences>, IFilePreferences //NUnit
    #endregion
 
    #region Properties
+
+   public virtual ByteObf IV
+   {
+      set => Container.IV = value;
+   }
 
    public virtual IPreferencesContainer Container { get; set; } = new PreferencesContainer();
    public virtual bool AutoSaveOnExit { get; set; } = true;

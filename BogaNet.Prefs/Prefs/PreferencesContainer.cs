@@ -24,11 +24,7 @@ public class PreferencesContainer : IPreferencesContainer //NUnit
 
    #region Properties
 
-   /// <summary>
-   /// IV for the obfuscated data.
-   /// </summary>
-   public virtual ByteObf IV { get; set; } = 139;
-
+   public virtual ByteObf IV { private get; set; } = 139;
    public virtual bool IsLoaded { get; protected set; }
    public virtual bool IsSaved { get; protected set; }
    public virtual List<string> Keys => _preferences.BNKeys();
