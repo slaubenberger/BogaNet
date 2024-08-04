@@ -1,0 +1,139 @@
+﻿using System.Linq;
+using Microsoft.Extensions.Logging;
+using System.Text.RegularExpressions;
+using System.Collections.Generic;
+using BogaNet.Util;
+
+namespace BogaNet.BWF.Filter
+{
+   /// <summary>Filter for excessive capitalization. The class can also replace all capitalizations inside a string.</summary>
+   public class CapitalizationFilter : Singleton<CapitalizationFilter>, ICapitalizationFilter
+   {
+      #region Variables
+
+      private static readonly ILogger<CapitalizationFilter> _logger = GlobalLogging.CreateLogger<CapitalizationFilter>();
+
+      private int _characterNumber;
+
+      #endregion
+
+
+      #region Properties
+
+      public Regex RegularExpression { get; set; }
+
+      public int CharacterNumber
+      {
+         get => _characterNumber;
+         set
+         {
+            _characterNumber = value < 1 ? 1 : value;
+
+            RegularExpression = new System.Text.RegularExpressions.Regex($@"\b\w*[A-ZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝ]{{{_characterNumber + 1},}}\w*\b", System.Text.RegularExpressions.RegexOptions.CultureInvariant);
+         }
+      }
+
+      #endregion
+
+
+      #region Constructor
+
+      private CapitalizationFilter()
+      {
+         CharacterNumber = 3;
+      }
+
+      #endregion
+
+
+      #region Implemented methods
+
+      public bool Contains(string text, params string[] sourceNames) //sources are ignored
+      {
+         bool result = false;
+
+         if (string.IsNullOrEmpty(text))
+         {
+            logContains();
+         }
+         else
+         {
+            result = RegularExpression.Match(text).Success;
+         }
+
+         return result;
+      }
+
+      public List<string> GetAll(string text, params string[] sourceNames) //sources are ignored
+      {
+         List<string> result = new();
+
+         if (string.IsNullOrEmpty(text))
+         {
+            logGetAll();
+         }
+         else
+         {
+            System.Text.RegularExpressions.MatchCollection matches = RegularExpression.Matches(text);
+
+            foreach (System.Text.RegularExpressions.Capture capture in from System.Text.RegularExpressions.Match match in matches from System.Text.RegularExpressions.Capture capture in match.Captures select capture)
+            {
+               _logger.LogDebug($"Test string contains an excessive capital word: '{capture.Value}'");
+
+               if (!result.Contains(capture.Value))
+               {
+                  result.Add(capture.Value);
+               }
+            }
+         }
+
+         return result.Distinct().OrderBy(x => x).ToList();
+      }
+
+      public string ReplaceAll(string text, string prefix = "", string postfix = "", params string[] sourceNames) //sources are ignored
+      {
+         string result = text;
+
+         if (string.IsNullOrEmpty(text))
+         {
+            logReplaceAll();
+
+            result = string.Empty;
+         }
+         else
+         {
+            System.Text.RegularExpressions.MatchCollection matches = RegularExpression.Matches(text);
+
+            foreach (System.Text.RegularExpressions.Capture capture in from System.Text.RegularExpressions.Match match in matches from System.Text.RegularExpressions.Capture capture in match.Captures select capture)
+            {
+               _logger.LogDebug($"Test string contains an excessive capital word: '{capture.Value}'");
+
+               result = result.Replace(capture.Value, prefix + capture.Value.ToLowerInvariant() + postfix);
+            }
+         }
+
+         return result;
+      }
+
+      #endregion
+
+      #region Protected methods
+
+      protected static void logContains()
+      {
+         _logger.LogWarning("Parameter 'text' is null or empty! 'Contains()' will return 'false'.");
+      }
+
+      protected static void logGetAll()
+      {
+         _logger.LogWarning("Parameter 'text' is null or empty! 'GetAll()' will return an empty list.");
+      }
+
+      protected static void logReplaceAll()
+      {
+         _logger.LogWarning("Parameter 'text' is null or empty! 'ReplaceAll()' will return an empty string.");
+      }
+
+      #endregion
+   }
+}

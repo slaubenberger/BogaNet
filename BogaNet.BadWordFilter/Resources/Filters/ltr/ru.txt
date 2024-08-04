@@ -1,0 +1,203 @@
+# Russian
+#khuyovo#meaning "bad" like in "feeling oneself bad" or about something of bad quality
+#blyad
+#blyat
+#v pizdu
+#dermo
+#drochit
+#\bebat\b
+#ebar
+#eblo
+#ebnut
+#zhopa
+#zalupa
+#gandon
+#govno
+#kacap
+#\bmanda\b
+#mudak
+#na huy
+#naeba
+#ohuet
+#pidor
+#pizda
+#pizdu
+#seks
+#siski
+#sis'ki
+#spizdit
+#\bsuka\b
+#suchka
+#su4ka
+#\bsrat'\b
+#trahat
+#\bhren\b
+#\bhuy\b
+#\bhuilo\b
+#\bhuylo\b
+анал\b
+\bаналь
+бзд(ё|е)нок#
+\bбля
+\bблеа
+\bпробля
+\bвыбля
+блядки#
+блядовать#
+блядство#
+блядь#whore
+в пизду#
+встать раком#
+вы(ё|е)бываться#
+\bвагин
+г(о|а)ндон
+\bгеи
+\bг(о|а)м(о|а)сек
+\bг(о|а)вн
+г(о|а)вно#
+г(о|а)внюк#
+дать пизды#
+дерьм(о|а)#
+д(о|а)лб(о|а)еб
+дроч#e.g. дрочить - "wank" (oneself or someone).
+(ё|е)б твою мать#
+(ё|е)барь#
+(ё|е)бать#to fuck.
+\bеб(а|и|л|у|н|о)
+(у|вы|про|от|отъ|при|на|за|до|да)еб
+ебать#
+ебло#
+ебнуть#
+елда#"big dick". Rarely used and considered old-fashioned.
+жопа#
+жополиз#
+залупа#means "penis head" (from old Russian "lupit'" - here, "to peel off".
+играть на кожаной флейте#
+иди в пизду#meaning "go into the cunt", using similar to "Иди на хуй"
+иди на хуй#literally "go to the dick", equivalent to the English "go fuck yourself."
+измудохать#
+каждый дрочит как он хочет#
+как два пальца обоссать#
+кацап#Katsap or kacap or kacapas Ukrainian: кацап, Lithuanian: kacapas, disparaging terms for Russians used in Ukraine, Belarus, Poland, and Lithuania.
+курите мою трубку#
+лысого в кулаке гонять#
+\bлоховск
+\bлох\b
+\bлох(а|у|и|)\b
+\bлошар
+малофя#
+манда#cunt
+\bманд
+мандавошка#
+мент#
+муда#
+мудак#"stupid ass", "git". Also historically means "castrated piglet".
+муде#"testicles"
+муди#"testicles"
+мудило#which bears an abstract offensive meaning and is somewhat equal to "motherfucker."
+мудозмон#
+\bмуд(а|ил|л)
+муды#"testicles"
+мудя#"testicles"
+на фиг#
+на хуй#
+на хую вертеть#
+на хуя#
+наебать#
+наебениться#
+наебнуться#
+нахуячиться#
+не ебет#
+невъебенный#
+ни за хуй собачу#
+ни хуя#
+\bобмуд
+\bобконч
+обнаженный#
+обоссаться можно#
+один ебётся#
+опесдол#
+офигеть#
+охуеть#
+охуйтельно#
+охуительно#
+\bперд
+педераст
+\bпедик
+п(и|е)д(о|а|и|е)р
+пидорас#a bastardization of pederast "fag", meaning a homosexual male in Russian.
+п(и|е)зд#cunt
+пиздеть#to talk a lot or to lie.
+пиздец#"deep shit" is often used as an exclamation. Also means death or end of something.
+пиздить#"to steal" or "to beat somebody".
+\bпис(ю|я)
+\bписьк
+поебень
+половое сношение#
+пр(о|а)ститу
+с(е|э)кс
+\bскс
+сиски#
+сиськ#
+срать
+срал
+сран
+срак
+cрет\b
+отсос
+сос(и|ет|ал|нул|ни)
+\bсперм
+сперма
+спиздить#
+срать#
+ссать#
+сука#"traitor", "rascal", "scumbag"; despite original meaning "bitch" (female dog), the term is unisex and is often used to refer to men and has a dangerously pejorative connotation in the criminal world.
+сучка#literally "little bitch", meaning "whore", "prostitute", "wanton", "jilt"
+\bсуч
+траxать#
+\bтрах
+фарья#a dialectal variant of манда ("cunt"). Extremely rarely used.
+фига#
+хапать#
+хер#"cock"; somewhat less offensive than "khuy";
+хер с ней#
+хер с ним#
+хохол#Russians commonly use the word khokhol as an ethnic slur for Ukrainians
+хрен#
+хуёво#meaning "bad" like in "feeling oneself bad" or about something of bad quality
+хуёвый#
+хуем груши околачивать#
+хуеплет#
+хуило#
+хуиней страдать#
+хуиня#
+хуйня#
+хуй#penis, or for equivalent colloquial effect, dick.
+хуй пинать#
+хуйнуть#
+хуйло#
+хуярить#a verb of universal meaning in general and "beat someone up" in particular.
+\bху(й|и|е|я)
+\bнеху(й|я)
+\bнаху(й|я)
+\bаху(й|е|я)
+\bниху(й|я)
+\bпоху(й|ю)
+чпок
+\bчмош
+\bчмо\b
+\bчлен
+шалав
+шлюх
+\bпизда\w*\b
+ебанные
+ебанутое
+нихуя
+охуел
+бугор
+голый
+дрочить
+малофья
+мудозвон
+невебенный
+сиськи

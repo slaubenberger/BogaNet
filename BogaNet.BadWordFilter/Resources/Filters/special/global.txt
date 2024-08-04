@@ -1,0 +1,54 @@
+# Global forbidden words
+auschwitz
+\b(anal)+(sex\w*|fag\w*)?\b#anal
+\banus\w*\b#anus
+\bbdsm\b#bdsm
+\bbimbo\w*\b#bimbo
+buk+ak+e#bukkake
+buchenwald
+\bcfnm\b#cfnm
+\bctfd\b#ctfd#calm the fuck down
+\bdafuq\b#dafuq#What the fuck
+\bdomina\w*\b#domina
+cervix
+dachau
+\beichmann\b
+dildo
+fellatio#
+\bFOAD\b#foad#Fuck Off And Die
+\bgilf\b#gilf#
+\bg(oe|ö)bbels\b#goebbels
+\bg(oe|ö)ring\b#goering
+\bgtfo\b#gtfo#Get the fuck out
+\bhentai\b#hentai
+\bhimmler\b#himmler
+\b\w*hitler\w*\b#hitler
+\bhomo\w*\b#homo
+\bisis\b#isis
+\bkkk\b#kkk
+\bmaso\b#
+\bmilf\b#milf
+\b\w*moo*ngoo*\w*\b#mongo
+no{2,}b#noob
+\b\w*nazi\w*\b#nazi
+#\b(?!(\bniggardly\b)|(\bnigel\b))\w*n(i|e)+g{1,}(e|a)\w*\b#nigger
+\b(?!(\bniggard\w*\b))\w*nig{2,}(e|a)\w*\b#nigger
+\bnsfl\b#nsfl#not safe for life
+\bnsfw\b#nsfw#not safe for work
+\bOMGWTF\b#omgwtf
+\bosama\b#osama
+\b\w*po+rno*\w*\b#porn
+\b\w*pro+n\w*\b#pron
+\b\w*penis\w*\b#penis
+\bs&m\b#s&m
+\bsado\b#
+\b\w*sexx*\w*\b#sex
+smegma#
+\bstalin\b#stalin
+\bstfu\b#stfu#shut the fuck up
+swastika#
+vagina#
+vulva#
+\bwtf\b#wtf#What the fuck
+\bwth\b#wth#What the hell
+x{3,}#xxx

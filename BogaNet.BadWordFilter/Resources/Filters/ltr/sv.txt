@@ -1,0 +1,108 @@
+# Swedish
+arsle#ass
+\b\w*arsel\w*\b#ass
+\bbög\b#faggot
+brutta#
+\bfan\b#damn
+fitta#cunt 
+fittig#
+flens#dick cheese
+\bhård\b#hard
+helvete#hell
+jävlar#damn
+\b\w*knulla(re)?\b#fucker
+\bkuk\w*\b#cock 
+\bmoona\w*\b#showing ones ass
+mutta#pussy
+\bolla\b#
+pattar#tits
+pippa#to fcuk
+\bpitt\b#dick
+\bpök\b#babe-sort of
+prutt#fart
+\bröv\w*\b#ass
+runka#wank
+\bsås\b#sauce (sperm)
+satan#
+sätta( )*på#to fuck someone
+skäggbiff#pussy
+skita#take a shit
+sne(d)?fitta#pussy
+stake#boner
+subba#bitch
+tusan#damn
+\b\w*snusk\w*\b# something like dirty
+\b\w*dase\w*\b#dick
+\b\w*balle\w*\b#balls
+\b\w*blatte\w*\b#Immigrant
+\b\w*hora\w*\b#whore
+\b\w*horor\w*\b#whores
+\b\w*horunge\w*\b#whore
+\b\w*horungar\w*\b#whore
+\b\w*bånge\w*\b#boner
+\b\w*stånd\w*\b#boner
+\b\w*cp\w*\b#retarded
+fan#damn
+\b\w*fanken\w*\b#damn
+\b\w*bröst\w*\b#boobs
+fasen#damn
+fasiken#damn
+förbannad#damnit
+förbannat#damnit
+skitstövel#jerk
+\b\w*neger\w*\b#boobs
+störd#disturbed
+gubbe#old fart
+fanken#damn
+förbövelen#damn
+rumpa#ass
+\b\w*kuksugare\w*\b#boner
+din mamma#your mother
+din fula fan# you ugly fucker
+din inavlade kuksugare #You inbred cocksucker	
+\b\w*kukhuvud\w*\b#dickhead
+\b\w*kuksugare\w*\b#cock sucker
+\b\w*kötthuvud\w*\b#meat head
+\b\w*miffo\w*\b#retard
+\b\w*pajas\w*\b#fool
+Pappas smutsiga lilla hora#Daddys dirty little whore
+\b\w*pissluder\w*\b#pisswhore
+\b\w*pucko\w*\b#idiot
+\b\w*snopp\w*\b#penis
+\b\w*snoppen\w*\b#penis
+\b\w*snoppar\w*\b#penises
+\b\w*bajs\w*\b#poo
+\b\w*runk\w*\b#wank
+\b\w*runkare\w*\b#wanker
+\b\w*runkhora\w*\b#wanker
+\b\w*röv\w*\b#ass
+\b\w*sarre\w*\b#sperm
+\b\w*sperma\w*\b#sperm
+\b\w*satan\w*\b#
+\b\w*slampa\w*\b#slut
+\b\w*luder\w*\b#slut
+\b\w*ludret\w*\b#slut
+\b\w*snor\w*\b#snot
+sug kuk #suck dick
+\b\w*jävel\w*\b#devil
+\b\w*jävlar\w*\b#damn
+\b\w*tjock\w*\b#fet
+\b\w*tjocka\w*\b#fet
+\b\w*våld\w*\b#violence
+\b\w*fitta\w*\b#cunt
+\b\w*förböveln\w*\b#goddamnit
+\b\w*helvete\w*\b#hell
+\b\w*prostituerad\w*\b#prostitute
+\b\w*djävla\w*\b#fucking
+\b\w*knull\w*\b#fuck
+\b\w*kuk\w*\b#dick
+\b\w*kärring\w*\b#old lady sort of..
+mes#whimp
+\b\w*ollon\w*\b#head of penis
+\b\w*pattar\w*\b#tits
+\b\w*rattar\w*\b#tits
+skit#shit
+skitstövel#shithead
+\b\w*tutt\w*\b#tits
+\b\w*zigenar\w*\b#gypsy
+dö#die

@@ -179,8 +179,6 @@ public interface ILocalizer
    /// <exception cref="ArgumentNullException"></exception>
    bool TryGetTextWithReplacements(string key, out string result, CultureInfo culture, TextType textType = TextType.LABEL, params string[] replacements);
 
-   //void Load(Dictionary<string, string[]> dataDict);
-
    /// <summary>
    /// Checks if a given key exists in the localizer.
    /// </summary>
@@ -212,6 +210,14 @@ public interface ILocalizer
    /// Clears all translations.
    /// </summary>
    void Clear();
+
+   /// <summary>
+   /// Loads translations from a given Dictionary.
+   /// </summary>
+   /// <param name="dataDict">Dictionary to load</param>
+   ///<returns>True if the operation was successful</returns>
+   /// <exception cref="Exception"></exception>
+   void Load(Dictionary<string, string[]> dataDict);
 
    /// <summary>
    /// Load translation files (CSV) from a given path.

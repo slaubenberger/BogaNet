@@ -1,0 +1,55 @@
+# Vietnamese
+\blồn\b#cunt
+\bcặc\b#dick
+\bđụ\b#fuck
+\bđịt\b#fuck
+\bđĩ( )*mẹ( )*m\b
+\bdái\b
+\bđi( )*ăn( )*cứt\b
+\bđéo( )*biết\b
+\bAn( )*Cu( )*Cua( )*Toi\b
+\bBiến( )*đi\b
+\bBiến( )*mẹ( )*mày( )*đi\b
+\bBu( )*cu( )*cua( )*tao( )*ne\b
+\bCon( )*me( )*may\b
+\bDeet( )*miee( )*maii( )*\b
+\bDoor( )*an( )*nyu( )*cuit( )*cho-or\b
+\bDu( )*ma\b
+\bDu( )*ma( )*may\b
+\bDu( )*ma( )*may( )*con( )*di( )*ngua\b
+\bDu( )*mot( )*minh\b
+\bLam( )*Ye( )*Mo( )*Ye\b
+\bLon( )*ba( )*gia( )*may( )*lam( )*long\b
+\bTrich( )*khong\b
+\banj( )*cuc\b
+\bbu( )*buoi( )*bo( )*may( )*di\b
+\bchó( )*chết\b
+\bchơi( )*khăm\b
+\bcon( )*cac\b
+\bcon( )*di\b
+\bcu\b
+\bcái( )*tháng( )*chó( )*đẻ\b
+\bcâm( )*mồm\b
+\bdee( )*chaw\b
+\bdit\b
+\bdu( )*ma( )*nhieu\b
+\bdu( )*me( )*may\b
+\bdu( )*má\b
+\bgoo\b
+\blỗ( )*đít\b
+\blo( )*dit\b
+\bmẹ( )*đồ( )*ngu\b
+\bmay( )*dep( )*trai\b
+\bmẹ( )*mày( )*chết( )*đi\b
+\bvãi( )*đái\b
+\bvãi( )*cứt\b
+\bvãi( )*lìn\b
+\bngu( )*như( )*chó\b
+#\bvcc\b
+#\bvc\b
+#\bdcm\b
+#\bdmm\b
+#\bdkm\b
+#\bdm\b
+#\bvl\b
+#\bvkl\b
