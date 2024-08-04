@@ -13,7 +13,7 @@ public interface IDomainFilter : ISourceFilter
 
    #region Methods
 
-   void Add(string srcName, List<string> regexes);
+   void Add(string srcName, string[] domains);
 
    #endregion
 }

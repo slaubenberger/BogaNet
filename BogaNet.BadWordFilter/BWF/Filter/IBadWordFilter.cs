@@ -30,7 +30,7 @@ namespace BogaNet.BWF.Filter
 
       #region Methods
 
-      void Add(string srcName, List<string> regexes, bool isLTR = true);
+      void Add(string srcName, string[] words, bool isLTR = true);
 
       #endregion
    }

@@ -5,7 +5,6 @@ using BogaNet.Helper;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using BogaNet.BWF;
 using BogaNet.Util;
 
 namespace BogaNet.BWF.Filter
@@ -37,8 +36,8 @@ namespace BogaNet.BWF.Filter
       /// <summary>Option5 (default: RegexOptions.None).</summary>
       public RegexOptions RegexOption5 = RegexOptions.None;
 
-      private readonly Dictionary<string, Regex> _domainsRegex = new Dictionary<string, Regex>();
-      private readonly Dictionary<string, List<Regex>> _debugDomainsRegex = new Dictionary<string, List<Regex>>();
+      private readonly Dictionary<string, Regex> _domainsRegex = new();
+      private readonly Dictionary<string, List<Regex>> _debugDomainsRegex = new();
 
       #endregion
 
@@ -47,7 +46,7 @@ namespace BogaNet.BWF.Filter
 
       public int Count { get; }
       public List<string> SourceNames { get; }
-      public bool IsLoaded { get; }
+      public bool IsLoaded { get; private set; }
 
       #endregion
 
@@ -67,49 +66,115 @@ namespace BogaNet.BWF.Filter
 
       public bool Remove(string srcName)
       {
-         throw new NotImplementedException();
+         if (ContainsSource(srcName))
+            return _domainsRegex.Remove(srcName) & _debugDomainsRegex.Remove(srcName);
+
+         return false;
       }
 
       public bool ContainsSource(string srcName)
       {
-         throw new NotImplementedException();
+         ArgumentNullException.ThrowIfNullOrEmpty(srcName);
+
+         return _domainsRegex.ContainsKey(srcName) || _debugDomainsRegex.ContainsKey(srcName);
       }
 
       public void Clear()
       {
-         throw new NotImplementedException();
+         _domainsRegex.Clear();
+         _debugDomainsRegex.Clear();
       }
 
-      public void Load(Dictionary<string, List<string>> dataDict)
+      public void Load(Dictionary<string, string[]> dataDict)
       {
-         throw new NotImplementedException();
+         process(dataDict);
       }
 
       public bool LoadFiles(params Tuple<string, string>[] files)
       {
-         throw new NotImplementedException();
+         ArgumentNullException.ThrowIfNull(files);
+
+         Dictionary<string, string[]> allLines = new();
+
+         foreach (var srcFile in files)
+         {
+            string[] lines = FileHelper.ReadAllLines(srcFile.Item2);
+
+            if (lines.Length > 1)
+               allLines.Add(srcFile.Item1, lines);
+         }
+
+         bool res = allLines.Count > 0;
+
+         if (res)
+            Load(allLines);
+
+         OnFilesLoaded?.Invoke(files);
+         IsLoaded = res; //too simple?
+
+         return res;
       }
 
-      public Task<bool> LoadFilesAsync(params Tuple<string, string>[] files)
+      public async Task<bool> LoadFilesAsync(params Tuple<string, string>[] files)
       {
-         throw new NotImplementedException();
+         ArgumentNullException.ThrowIfNull(files);
+
+         Dictionary<string, string[]> allLines = new();
+
+         foreach (var srcFile in files)
+         {
+            string[] lines = await FileHelper.ReadAllLinesAsync(srcFile.Item2);
+
+            if (lines.Length > 1)
+               allLines.Add(srcFile.Item1, lines);
+         }
+
+         bool res = allLines.Count > 0;
+
+         if (res)
+            Load(allLines);
+
+         OnFilesLoaded?.Invoke(files);
+         IsLoaded = res; //too simple?
+
+         return res;
       }
 
       public bool LoadFilesFromUrl(params Tuple<string, string>[] urls)
       {
-         throw new NotImplementedException();
+         return Task.Run(() => LoadFilesFromUrlAsync(urls)).GetAwaiter().GetResult();
       }
 
-      public Task<bool> LoadFilesFromUrlAsync(params Tuple<string, string>[] urls)
+      public async Task<bool> LoadFilesFromUrlAsync(params Tuple<string, string>[] urls)
       {
-         throw new NotImplementedException();
+         ArgumentNullException.ThrowIfNull(urls);
+
+         Dictionary<string, string[]> allLines = new();
+
+         foreach (var srcFile in urls)
+         {
+            string[] lines = await NetworkHelper.ReadAllLinesAsync(srcFile.Item2);
+
+            if (lines.Length > 1)
+               allLines.Add(srcFile.Item1, lines);
+         }
+
+         bool res = allLines.Count > 0;
+
+         if (res)
+            Load(allLines);
+
+         OnFilesLoaded?.Invoke(urls);
+         IsLoaded = res; //too simple?
+
+         return res;
       }
 
       public char[] ReplaceCharacters { get; set; }
 
-      public void Add(string srcName, List<string> regexes)
+      public void Add(string srcName, string[] domains)
       {
-         throw new NotImplementedException();
+         process(new() { { srcName, domains } });
       }
 
       public bool Contains(string text, params string[] sourceNames)
@@ -408,7 +473,7 @@ namespace BogaNet.BWF.Filter
          return result;
       }
 
-      private void process(Dictionary<string, List<string>> dataDict)
+      private void process(Dictionary<string, string[]> dataDict)
       {
          if (Config.DEBUG_DOMAINS)
             _logger.LogDebug("++ DomainFilter started in debug-mode ++");
@@ -416,13 +481,13 @@ namespace BogaNet.BWF.Filter
          foreach (var kvp in dataDict)
          {
             string source = kvp.Key;
-            List<string> domains = kvp.Value;
+            string[] domains = kvp.Value;
 
             if (Config.DEBUG_DOMAINS)
             {
                try
                {
-                  List<Regex> domainRegexes = new List<Regex>(domains.Count);
+                  List<Regex> domainRegexes = new List<Regex>(domains.Length);
                   domainRegexes.AddRange(domains.Select(line => new Regex(DOMAIN_REGEX_START + line + DOMAIN_REGEX_END, RegexOption1 | RegexOption2 | RegexOption3 | RegexOption4 | RegexOption5)));
 
                   if (!_debugDomainsRegex.ContainsKey(source))
@@ -447,7 +512,7 @@ namespace BogaNet.BWF.Filter
             }
 
             if (Config.DEBUG_DOMAINS)
-               _logger.LogDebug($"Domain resource '{source}' loaded and {domains.Count} entries found.");
+               _logger.LogDebug($"Domain resource '{source}' loaded and {domains.Length} entries found.");
          }
 
          //isReady = true;

@@ -36,9 +36,9 @@ namespace BogaNet.BWF.Filter
       /// <summary>Option5 (default: RegexOptions.None).</summary>
       public RegexOptions RegexOption5 = RegexOptions.None;
 
-      private readonly Dictionary<string, Regex> _exactBadwordsRegex = new Dictionary<string, Regex>(30);
-      private readonly Dictionary<string, List<Regex>> _debugExactBadwordsRegex = new Dictionary<string, List<Regex>>(30);
-      private readonly Dictionary<string, List<string>> _simpleBadwords = new Dictionary<string, List<string>>(30);
+      private readonly Dictionary<string, Regex> _exactBadwordsRegex = new(30);
+      private readonly Dictionary<string, List<Regex>> _debugExactBadwordsRegex = new(30);
+      private readonly Dictionary<string, List<string>> _simpleBadwords = new(30);
 
       #endregion
 
@@ -47,7 +47,7 @@ namespace BogaNet.BWF.Filter
 
       public int Count { get; }
       public List<string> SourceNames { get; }
-      public bool IsLoaded { get; }
+      public bool IsLoaded { get; private set; }
       public char[] ReplaceCharacters { get; set; }
       public ReplaceMode Mode { get; set; }
       public bool RemoveSpaces { get; set; }
@@ -73,47 +73,114 @@ namespace BogaNet.BWF.Filter
 
       public bool Remove(string srcName)
       {
-         throw new NotImplementedException();
+         if (ContainsSource(srcName))
+            return _exactBadwordsRegex.Remove(srcName) & _debugExactBadwordsRegex.Remove(srcName) & _simpleBadwords.Remove(srcName);
+
+         return false;
       }
 
       public bool ContainsSource(string srcName)
       {
-         throw new NotImplementedException();
+         ArgumentNullException.ThrowIfNullOrEmpty(srcName);
+
+        return _exactBadwordsRegex.ContainsKey(srcName) || _debugExactBadwordsRegex.ContainsKey(srcName);
       }
 
       public void Clear()
       {
-         throw new NotImplementedException();
+         _exactBadwordsRegex.Clear();
+         _debugExactBadwordsRegex.Clear();
+         _simpleBadwords.Clear();
       }
 
-      public void Load(Dictionary<string, List<string>> dataDict)
+      public void Load(Dictionary<string, string[]> dataDict) //TODO handle RTL?
       {
          process(dataDict);
       }
 
-      public bool LoadFiles(params Tuple<string, string>[] files)
+      public bool LoadFiles(params Tuple<string, string>[] files) //TODO handle RTL?
       {
-         throw new NotImplementedException();
+         ArgumentNullException.ThrowIfNull(files);
+
+         Dictionary<string, string[]> allLines = new();
+
+         foreach (var srcFile in files)
+         {
+            string[] lines = FileHelper.ReadAllLines(srcFile.Item2);
+
+            if (lines.Length > 1)
+               allLines.Add(srcFile.Item1, lines);
+         }
+
+         bool res = allLines.Count > 0;
+
+         if (res)
+            Load(allLines);
+
+         OnFilesLoaded?.Invoke(files);
+         IsLoaded = res; //too simple?
+
+         return res;
       }
 
-      public Task<bool> LoadFilesAsync(params Tuple<string, string>[] files)
+      public async Task<bool> LoadFilesAsync(params Tuple<string, string>[] files) //TODO handle RTL?
       {
-         throw new NotImplementedException();
+         ArgumentNullException.ThrowIfNull(files);
+
+         Dictionary<string, string[]> allLines = new();
+
+         foreach (var srcFile in files)
+         {
+            string[] lines = await FileHelper.ReadAllLinesAsync(srcFile.Item2);
+
+            if (lines.Length > 1)
+               allLines.Add(srcFile.Item1, lines);
+         }
+
+         bool res = allLines.Count > 0;
+
+         if (res)
+            Load(allLines);
+
+         OnFilesLoaded?.Invoke(files);
+         IsLoaded = res; //too simple?
+
+         return res;
       }
 
-      public bool LoadFilesFromUrl(params Tuple<string, string>[] urls)
+      public bool LoadFilesFromUrl(params Tuple<string, string>[] urls) //TODO handle RTL?
       {
-         throw new NotImplementedException();
+         return Task.Run(() => LoadFilesFromUrlAsync(urls)).GetAwaiter().GetResult();
       }
 
-      public Task<bool> LoadFilesFromUrlAsync(params Tuple<string, string>[] urls)
+      public async Task<bool> LoadFilesFromUrlAsync(params Tuple<string, string>[] urls) //TODO handle RTL?
       {
-         throw new NotImplementedException();
+         ArgumentNullException.ThrowIfNull(urls);
+
+         Dictionary<string, string[]> allLines = new();
+
+         foreach (var srcFile in urls)
+         {
+            string[] lines = await NetworkHelper.ReadAllLinesAsync(srcFile.Item2);
+
+            if (lines.Length > 1)
+               allLines.Add(srcFile.Item1, lines);
+         }
+
+         bool res = allLines.Count > 0;
+
+         if (res)
+            Load(allLines);
+
+         OnFilesLoaded?.Invoke(urls);
+         IsLoaded = res; //too simple?
+
+         return res;
       }
 
-      public void Add(string srcName, List<string> regexes, bool isLTR = true)
+      public void Add(string srcName, string[] words, bool isLTR = true) //TODO handle RTL
       {
-         throw new NotImplementedException();
+         process(new() { { srcName, words } });
       }
 
       public bool Contains(string text, params string[] sourceNames)
@@ -993,7 +1060,7 @@ namespace BogaNet.BWF.Filter
         }
 */
 
-      private void process(Dictionary<string, List<string>> dataDict)
+      private void process(Dictionary<string, string[]> dataDict) //TODO handle RTL?
       {
          if (Config.DEBUG_BADWORDS)
             _logger.LogDebug("++ BadWordFilter started in debug-mode ++");
@@ -1001,13 +1068,13 @@ namespace BogaNet.BWF.Filter
          foreach (var kvp in dataDict)
          {
             string source = kvp.Key;
-            List<string> words = kvp.Value;
+            string[] words = kvp.Value;
 
             if (Config.DEBUG_BADWORDS)
             {
                try
                {
-                  List<Regex> exactRegexes = new(words.Count);
+                  List<Regex> exactRegexes = new(words.Length);
                   exactRegexes.AddRange(words.Select(line => new Regex(EXACT_REGEX_START + line + EXACT_REGEX_END, RegexOption1 | RegexOption2 | RegexOption3 | RegexOption4 | RegexOption5)));
 
                   if (!_debugExactBadwordsRegex.ContainsKey(source))
@@ -1033,7 +1100,7 @@ namespace BogaNet.BWF.Filter
                }
             }
 
-            List<string> simpleWords = new List<string>(words.Count);
+            List<string> simpleWords = new List<string>(words.Length);
 
             simpleWords.AddRange(words);
 
@@ -1041,7 +1108,7 @@ namespace BogaNet.BWF.Filter
                _simpleBadwords.Add(source, simpleWords);
 
             if (Config.DEBUG_BADWORDS)
-               _logger.LogDebug($"Bad word resource '{source}' loaded and {words.Count} entries found.");
+               _logger.LogDebug($"Bad word resource '{source}' loaded and {words.Length} entries found.");
          }
 
          //isReady = true;

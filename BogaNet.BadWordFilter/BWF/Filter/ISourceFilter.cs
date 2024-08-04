@@ -35,7 +35,7 @@ namespace BogaNet.BWF.Filter
       /// <summary>
       /// Delegate for the load status of the files.
       /// </summary>
-      delegate void FilesLoaded(params string[] files);
+      delegate void FilesLoaded(params Tuple<string, string>[] files);
 
       /// <summary>
       /// Event triggered whenever the files are loaded.
@@ -46,8 +46,20 @@ namespace BogaNet.BWF.Filter
 
       #region Methods
 
-      //void Add(string srcName, List<System.Text.RegularExpressions.Regex> regexes);
+      /// <summary>
+      /// Removes a source and assigned data.
+      /// </summary>
+      /// <param name="srcName">Source name to remove</param>
+      ///<returns>True if the operation was successful</returns>
+      /// <exception cref="ArgumentNullException"></exception>
       bool Remove(string srcName);
+
+      /// <summary>
+      /// Checks if a given source name exists in the filter.
+      /// </summary>
+      /// <param name="srcName">Source name to check</param>
+      /// <returns>True if the key exists in the filter</returns>
+      /// <exception cref="ArgumentNullException"></exception>
       bool ContainsSource(string srcName);
 
       /// <summary>
@@ -61,12 +73,12 @@ namespace BogaNet.BWF.Filter
       /// <param name="dataDict">Dictionary to load</param>
       ///<returns>True if the operation was successful</returns>
       /// <exception cref="Exception"></exception>
-      void Load(Dictionary<string, List<string>> dataDict);
+      void Load(Dictionary<string, string[]> dataDict);
 
       /// <summary>
       /// Load source files (CSV) from a given path.
       /// </summary>
-      /// <param name="files">Files to load</param>
+      /// <param name="files">Files to load (Item1 = source name, Item2 = file)</param>
       ///<returns>True if the operation was successful</returns>
       /// <exception cref="Exception"></exception>
       bool LoadFiles(params Tuple<string, string>[] files);
@@ -74,7 +86,7 @@ namespace BogaNet.BWF.Filter
       /// <summary>
       /// Load source files (CSV) from a given path asynchronously.
       /// </summary>
-      /// <param name="files">Files to load</param>
+      /// <param name="files">Files to load (Item1 = source name, Item2 = file)</param>
       ///<returns>True if the operation was successful</returns>
       /// <exception cref="Exception"></exception>
       Task<bool> LoadFilesAsync(params Tuple<string, string>[] files);
@@ -82,7 +94,7 @@ namespace BogaNet.BWF.Filter
       /// <summary>
       /// Load source files (CSV) from given URLs.
       /// </summary>
-      /// <param name="urls">URLs of files to load</param>
+      /// <param name="urls">URLs of files to load (Item1 = source name, Item2 = file)</param>
       ///<returns>True if the operation was successful</returns>
       /// <exception cref="Exception"></exception>
       bool LoadFilesFromUrl(params Tuple<string, string>[] urls);
@@ -90,7 +102,7 @@ namespace BogaNet.BWF.Filter
       /// <summary>
       /// Load source files (CSV) from given URLs asynchronously.
       /// </summary>
-      /// <param name="urls">URLs of files to load</param>
+      /// <param name="urls">URLs of files to load (Item1 = source name, Item2 = file)</param>
       ///<returns>True if the operation was successful</returns>
       /// <exception cref="Exception"></exception>
       Task<bool> LoadFilesFromUrlAsync(params Tuple<string, string>[] urls);
