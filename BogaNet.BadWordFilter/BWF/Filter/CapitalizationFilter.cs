@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
+using BogaNet.Helper;
 using BogaNet.Util;
 
 namespace BogaNet.BWF.Filter
@@ -29,7 +30,7 @@ namespace BogaNet.BWF.Filter
          {
             _characterNumber = value < 1 ? 1 : value;
 
-            RegularExpression = new System.Text.RegularExpressions.Regex($@"\b\w*[A-ZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝ]{{{_characterNumber + 1},}}\w*\b", System.Text.RegularExpressions.RegexOptions.CultureInvariant);
+            RegularExpression = new Regex($@"\b\w*[A-ZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝ]{{{_characterNumber + 1},}}\w*\b", RegexOptions.CultureInvariant);
          }
       }
 
@@ -74,16 +75,14 @@ namespace BogaNet.BWF.Filter
          }
          else
          {
-            System.Text.RegularExpressions.MatchCollection matches = RegularExpression.Matches(text);
+            MatchCollection matches = RegularExpression.Matches(text);
 
-            foreach (System.Text.RegularExpressions.Capture capture in from System.Text.RegularExpressions.Match match in matches from System.Text.RegularExpressions.Capture capture in match.Captures select capture)
+            foreach (Capture capture in from Match match in matches from Capture capture in match.Captures select capture)
             {
                _logger.LogDebug($"Test string contains an excessive capital word: '{capture.Value}'");
 
                if (!result.Contains(capture.Value))
-               {
                   result.Add(capture.Value);
-               }
             }
          }
 
@@ -102,13 +101,13 @@ namespace BogaNet.BWF.Filter
          }
          else
          {
-            System.Text.RegularExpressions.MatchCollection matches = RegularExpression.Matches(text);
+            MatchCollection matches = RegularExpression.Matches(text);
 
-            foreach (System.Text.RegularExpressions.Capture capture in from System.Text.RegularExpressions.Match match in matches from System.Text.RegularExpressions.Capture capture in match.Captures select capture)
+            foreach (Capture capture in from Match match in matches from Capture capture in match.Captures select capture)
             {
                _logger.LogDebug($"Test string contains an excessive capital word: '{capture.Value}'");
 
-               result = result.Replace(capture.Value, prefix + capture.Value.ToLowerInvariant() + postfix);
+               result = result.Replace(capture.Value, $"{prefix}{StringHelper.ToTitleCase(capture.Value)}{postfix}");
             }
          }
 

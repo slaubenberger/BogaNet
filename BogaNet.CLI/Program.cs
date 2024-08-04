@@ -1,4 +1,5 @@
-﻿using BogaNet.Encoder;
+﻿using BogaNet.BWF.Filter;
+using BogaNet.Encoder;
 using BogaNet.Extension;
 using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
@@ -23,7 +24,8 @@ public static class Program
 
       _logger.LogDebug("Hi there, this is a test app!");
 
-      testTTS();
+      testBWF();
+      //testTTS();
       //testPrefs();
 
       /*
@@ -34,7 +36,6 @@ public static class Program
       await Task.WhenAll(task1, task2, task3);
       */
 
-      //await testTTSAsync();
       //buildCode();
       //await testTrueRandom();
       //testNetwork();
@@ -63,7 +64,22 @@ public static class Program
 
    #region Private methods
 
-   public static void testPrefs()
+   private static void testBWF()
+   {
+      string foulText = "MARTIANS are asses.... => watch mypage.com";
+
+      string removedCapitalization = CapitalizationFilter.Instance.ReplaceAll(foulText);
+
+      _logger.LogInformation(removedCapitalization);
+
+      string removedPunctuation = PunctuationFilter.Instance.ReplaceAll(foulText);
+
+      _logger.LogInformation(removedPunctuation);
+
+      //TODO add rest
+   }
+
+   private static void testPrefs()
    {
       BogaNet.Prefs.Preferences.Instance.Load();
 
@@ -77,13 +93,13 @@ public static class Program
       BogaNet.Prefs.Preferences.Instance.Set("user", "ueli " + DateTime.Now);
    }
 
-   public static async Task Task1()
+   private static async Task Task1()
    {
       await Task.Delay(1000);
       _logger.LogInformation("Finished Task1");
    }
 
-   public static async Task Task2()
+   private static async Task Task2()
    {
       await Task.Delay(2000);
       _logger.LogInformation("Finished Task2");
@@ -156,34 +172,6 @@ public static class Program
       FileHelper.WriteAllText("~/Desktop/Locales.code", sb.ToString());
    }
 
-/*
-   private static async Task testTrueRandom()
-   {
-      int quotaStart = await BogaNet.TrueRandom.CheckQuota.GetQuotaAsync();
-      _logger.LogInformation($"Quota start: {quotaStart}");
-
-      //var res = await BogaNet.TrueRandom.BytesTRNG.GenerateAsync(5);
-      //var res = await BogaNet.TrueRandom.StringTRNG.GenerateAsync(5, 3);
-      //var res = await BogaNet.TrueRandom.IntegerTRNG.GenerateAsync(-10, 10, 5);
-      //var res = await BogaNet.TrueRandom.FloatTRNG.GenerateAsync(-10, 10, 5);
-      var res = await BogaNet.TrueRandom.SequenceTRNG.GenerateAsync(-5, 5);
-
-      //_logger.LogInformation(BogaNet.TrueRandom.BytesTRNG.CalcBits(5).ToString());
-      //_logger.LogInformation(BogaNet.TrueRandom.StringTRNG.CalcBits(5, 3).ToString());
-      //_logger.LogInformation("Calc: " + BogaNet.TrueRandom.IntegerTRNG.CalcBits(-10, 10, 5).ToString());
-      //_logger.LogInformation("Calc: " + BogaNet.TrueRandom.FloatTRNG.CalcBits(5).ToString());
-      _logger.LogInformation("Calc: " + BogaNet.TrueRandom.SequenceTRNG.CalcBits(-5, 5).ToString());
-
-      foreach (var number in res)
-      {
-         _logger.LogInformation(number.ToString());
-         //_logger.LogInformation(number.BNToString());
-      }
-
-      int quota = await BogaNet.TrueRandom.CheckQuota.GetQuotaAsync();
-      _logger.LogInformation($"Quota end: {quota} - {quotaStart - quota}");
-   }
-*/
    private static void testNetwork()
    {
       _logger.LogInformation("CPD: " + BogaNet.Helper.NetworkHelper.CheckInternetAvailability());
@@ -195,7 +183,6 @@ public static class Program
       _logger.LogInformation("Network adapters: " + BogaNet.Helper.NetworkHelper.GetNetworkAdapters().BNDump(false));
    }
 
-/*
    private static void testBitrateHRF()
    {
       bool useSI = true;
@@ -213,8 +200,7 @@ public static class Program
       _logger.LogInformation(BogaNet.Helper.GeneralHelper.FormatBitrateToHRF((long)Math.Pow(1024, 5), useSI));
       _logger.LogInformation(BogaNet.Helper.GeneralHelper.FormatBitrateToHRF((long)Math.Pow(1024, 6), useSI));
    }
-*/
-/*
+
    private static void testBytesHRF()
    {
       bool useSI = true;
@@ -232,7 +218,6 @@ public static class Program
       _logger.LogInformation(BogaNet.Helper.GeneralHelper.FormatBytesToHRF((long)Math.Pow(1024, 5), useSI));
       _logger.LogInformation(BogaNet.Helper.GeneralHelper.FormatBytesToHRF((long)Math.Pow(1024, 6), useSI));
    }
-*/
 
    #endregion
 }

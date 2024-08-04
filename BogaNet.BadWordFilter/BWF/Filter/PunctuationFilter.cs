@@ -14,17 +14,15 @@ namespace BogaNet.BWF.Filter
       private static readonly ILogger<PunctuationFilter> _logger = GlobalLogging.CreateLogger<PunctuationFilter>();
 
       private int _characterNumber;
-      //protected readonly List<string> _getAllResult = new List<string>();
 
       #endregion
 
 
       #region Properties
 
-      public Regex RegularExpression { get; set; }
+      public virtual Regex RegularExpression { get; set; }
 
-      /// <summary>Defines the number of allowed punctuations in a row.</summary>
-      public int CharacterNumber
+      public virtual int CharacterNumber
       {
          get => _characterNumber;
          set
@@ -50,7 +48,7 @@ namespace BogaNet.BWF.Filter
 
       #region Implemented methods
 
-      public bool Contains(string text, params string[] sourceNames) //sources are ignored
+      public virtual bool Contains(string text, params string[] sourceNames) //sources are ignored
       {
          bool result = false;
 
@@ -66,7 +64,7 @@ namespace BogaNet.BWF.Filter
          return result;
       }
 
-      public List<string> GetAll(string text, params string[] sourceNames) //sources are ignored
+      public virtual List<string> GetAll(string text, params string[] sourceNames) //sources are ignored
       {
          List<string> result = new();
 
@@ -92,7 +90,7 @@ namespace BogaNet.BWF.Filter
          return result.Distinct().OrderBy(x => x).ToList();
       }
 
-      public string ReplaceAll(string text, string prefix = "", string postfix = "", params string[] sourceNames) //sources are ignored
+      public virtual string ReplaceAll(string text, string prefix = "", string postfix = "", params string[] sourceNames) //sources are ignored
       {
          string result = text;
 

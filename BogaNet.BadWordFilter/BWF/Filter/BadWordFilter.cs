@@ -23,19 +23,10 @@ namespace BogaNet.BWF.Filter
       protected const string EXACT_REGEX_START = @"(?<![\w\d])";
       protected const string EXACT_REGEX_END = @"s?(?![\w\d])";
 
-      /// <summary>Option1 (default: RegexOptions.IgnoreCase).</summary>
-      protected const RegexOptions REGEX_IC = RegexOptions.IgnoreCase; //DEFAULT
-
-      /// <summary>Option2 (default: RegexOptions.CultureInvariant).</summary>
-      protected const RegexOptions REGEX_CI = RegexOptions.CultureInvariant; //DEFAULT
-
-      /// <summary>Option3 (default: RegexOptions.None).</summary>
+      protected const RegexOptions REGEX_IC = RegexOptions.IgnoreCase;
+      protected const RegexOptions REGEX_CI = RegexOptions.CultureInvariant;
       protected const RegexOptions REGEX_COMPILED = RegexOptions.Compiled;
-
-      /// <summary>Option4 (default: RegexOptions.None).</summary>
       protected const RegexOptions REGEX_RTL = RegexOptions.RightToLeft;
-
-      /// <summary>Option5 (default: RegexOptions.None).</summary>
       protected const RegexOptions REGEX_NONE = RegexOptions.None;
 
       private readonly Dictionary<string, Regex> _exactBadwordsRegex = new(30);

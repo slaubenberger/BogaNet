@@ -16,6 +16,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\BogaNet.BadWordFilter\BogaNet.BadWordFilter.csproj" />
         <ProjectReference Include="..\BogaNet.Common\BogaNet.Common.csproj"/>
         <ProjectReference Include="..\BogaNet.Crypto\BogaNet.Crypto.csproj" />
         <ProjectReference Include="..\BogaNet.Prefs\BogaNet.Prefs.csproj" />

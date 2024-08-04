@@ -20,8 +20,8 @@ namespace BogaNet.BWF.Filter
       protected const string DOMAIN_REGEX_START = @"\b{0,1}((ht|f)tp(s?)\:\/\/)?[\w\-\.\@]*[\.]";
       protected const string DOMAIN_REGEX_END = @"(:\d{1,5})?(\/|\b)";
 
-      protected const RegexOptions REGEX_IC = RegexOptions.IgnoreCase; //DEFAULT
-      protected const RegexOptions REGEX_CI = RegexOptions.CultureInvariant; //DEFAULT
+      protected const RegexOptions REGEX_IC = RegexOptions.IgnoreCase;
+      protected const RegexOptions REGEX_CI = RegexOptions.CultureInvariant;
       protected const RegexOptions REGEX_COMPILED = RegexOptions.Compiled;
 
       private readonly Dictionary<string, Regex> _domainsRegex = new();
