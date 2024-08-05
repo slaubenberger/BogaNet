@@ -165,7 +165,7 @@ BWF also includes those additional filters:
 * Global bad words
 * Emojis (miscellaneous symbols)
 * Excessive capitalization
-* Excessive punctuation.
+* Excessive punctuation
 
 It supports any language and any writing system.
 
