@@ -7,7 +7,7 @@
         <Company>crosstales LLC</Company>
         <Copyright>© 2024 Stefan Laubenberger</Copyright>
         <Authors>Stefan Laubenberger</Authors>
-        <Description>Detect swear words and more in C# applications.</Description>
+        <Description>Detect and replace swear words (profanities), urls, emails, excessive capitalization/punctuation and more.</Description>
         <RepositoryUrl>https://github.com/slaubenberger/BogaNet</RepositoryUrl>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageTags>BWF Profanity Obscenity Punctuation Capitalization Filter Pacifier Arabic Chinese Czech Danish Dutch English Finnish French German Greek Hindi Hungarian Italian Japanese Korean Norwegian Persian Polish Portuguese Russian Spanish Swedish Thai Turkish Vietnamese</PackageTags>

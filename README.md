@@ -7,8 +7,9 @@
 
 ## Packages overview
 * [BogaNet.Common](https://github.com/slaubenberger/BogaNet#boganetcommon): Main library for all BogaNet-packages filled with useful helpers to speed up C# development, like helpers for file operations, JSON&XML, strings etc. It also contains many nice extensions, obfuscation and a short UID implementation.
-* [BogaNet.Avalonia](https://github.com/slaubenberger/BogaNet#boganetavalonia): Little helpers for Avalonia development, like helpers for images and resources.
+* [BogaNet.Avalonia](https://github.com/slaubenberger/BogaNet#boganetavalonia): Little helpers for Avalonia development, like helpers for images and resources, i18n, profanity etc.
 * [BogaNet.Avalonia.Browser](https://github.com/slaubenberger/BogaNet#boganetavaloniabrowser): Browser-specific helpers for Avalonia development, like local preferences, i18n, TTS, close/reload callback.
+* [BogaNet.BadWordFilter](https://github.com/slaubenberger/BogaNet#boganetbadwordfilter): Detect and replace swear words (profanities), urls, emails, excessive capitalization/punctuation and more.
 * [BogaNet.CRC](https://github.com/slaubenberger/BogaNet#boganetcrc): Various helpers for cyclic redundancy checks (CRC), namely CRC8, CRC16, CRC32 and CRC64.
 * [BogaNet.Encoder](https://github.com/slaubenberger/BogaNet#boganetencoder):  A collection of various binary encoders, namely base2, base16, base32, base64, base85 and base91.
 * [BogaNet.i18n](https://github.com/slaubenberger/BogaNet#boganeti18n): Localizer for C# applications with CSV files as translations.
