@@ -1,4 +1,5 @@
 # BogaNet.TrueRandom
+“TrueRandom” is a new implementation for .NET8 of the battle proofed Unity package [TrueRandom PRO](https://assetstore.unity.com/packages/slug/61617?aid=1011lNGT).
 
 ## Why use TrueRandom?
 “TrueRandom” can generate random numbers and they are “truly random”, because they are generated with atmospheric noise, which supersedes the pseudo-random number algorithms typically use in computer programs.

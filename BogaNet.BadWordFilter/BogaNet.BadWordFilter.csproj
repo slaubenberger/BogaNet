@@ -10,7 +10,7 @@
         <Description>Detect swear words and more in C# applications.</Description>
         <RepositoryUrl>https://github.com/slaubenberger/BogaNet</RepositoryUrl>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageTags>BWF</PackageTags>
+        <PackageTags>BWF Profanity Obscenity Punctuation Capitalization Filter Pacifier</PackageTags>
         <PackageReleaseNotes>Initial release.</PackageReleaseNotes>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <!-- <PackageIconUrl>https://www.crosstales.com/media/data/BogaNet/logo_boga.png</PackageIconUrl> -->
@@ -20,102 +20,134 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <None Include="../Resources/logos/logo_boga_bwf.jpg" Pack="true" PackagePath="\"/>
-        <None Include="README.md" Pack="true" PackagePath="\"/>
-        <None Update="Resources\Filters\ltr\cs.txt">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Update="Resources\Filters\ltr\da.txt">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Update="Resources\Filters\ltr\de.txt">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Update="Resources\Filters\ltr\de_ch.txt">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Update="Resources\Filters\ltr\el.txt">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Update="Resources\Filters\ltr\en.txt">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Update="Resources\Filters\ltr\es.txt">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Update="Resources\Filters\ltr\fi.txt">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Update="Resources\Filters\ltr\fr.txt">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Update="Resources\Filters\ltr\hi.txt">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Update="Resources\Filters\ltr\hu.txt">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Update="Resources\Filters\ltr\it.txt">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Update="Resources\Filters\ltr\ja.txt">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Update="Resources\Filters\ltr\ko.txt">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Update="Resources\Filters\ltr\nl.txt">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Update="Resources\Filters\ltr\no.txt">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Update="Resources\Filters\ltr\pl.txt">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Update="Resources\Filters\ltr\pt.txt">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Update="Resources\Filters\ltr\ru.txt">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Update="Resources\Filters\ltr\sv.txt">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Update="Resources\Filters\ltr\th.txt">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Update="Resources\Filters\ltr\tr.txt">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Update="Resources\Filters\ltr\vi.txt">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Update="Resources\Filters\ltr\zh.txt">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Update="Resources\Filters\rtl\fa.txt">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Update="Resources\Filters\rtl\ar.txt">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Update="Resources\Filters\special\emoji.txt">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Update="Resources\Filters\special\global.txt">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Update="Resources\Filters\domains.txt">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
+        <Content Include="Resources\Filters\ltr\cs.txt">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <PackageCopyToOutput>true</PackageCopyToOutput>
+        </Content>
+        <Content Include="Resources\Filters\ltr\da.txt">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <PackageCopyToOutput>true</PackageCopyToOutput>
+        </Content>
+        <Content Include="Resources\Filters\ltr\de.txt">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <PackageCopyToOutput>true</PackageCopyToOutput>
+        </Content>
+        <Content Include="Resources\Filters\ltr\de_ch.txt">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <PackageCopyToOutput>true</PackageCopyToOutput>
+        </Content>
+        <Content Include="Resources\Filters\ltr\el.txt">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <PackageCopyToOutput>true</PackageCopyToOutput>
+        </Content>
+        <Content Include="Resources\Filters\ltr\en.txt">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <PackageCopyToOutput>true</PackageCopyToOutput>
+        </Content>
+        <Content Include="Resources\Filters\ltr\es.txt">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <PackageCopyToOutput>true</PackageCopyToOutput>
+        </Content>
+        <Content Include="Resources\Filters\ltr\fi.txt">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <PackageCopyToOutput>true</PackageCopyToOutput>
+        </Content>
+        <Content Include="Resources\Filters\ltr\fr.txt">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <PackageCopyToOutput>true</PackageCopyToOutput>
+        </Content>
+        <Content Include="Resources\Filters\ltr\hi.txt">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <PackageCopyToOutput>true</PackageCopyToOutput>
+        </Content>
+        <Content Include="Resources\Filters\ltr\hu.txt">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <PackageCopyToOutput>true</PackageCopyToOutput>
+        </Content>
+        <Content Include="Resources\Filters\ltr\it.txt">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <PackageCopyToOutput>true</PackageCopyToOutput>
+        </Content>
+        <Content Include="Resources\Filters\ltr\ja.txt">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <PackageCopyToOutput>true</PackageCopyToOutput>
+        </Content>
+        <Content Include="Resources\Filters\ltr\ko.txt">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <PackageCopyToOutput>true</PackageCopyToOutput>
+        </Content>
+        <Content Include="Resources\Filters\ltr\nl.txt">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <PackageCopyToOutput>true</PackageCopyToOutput>
+        </Content>
+        <Content Include="Resources\Filters\ltr\no.txt">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <PackageCopyToOutput>true</PackageCopyToOutput>
+        </Content>
+        <Content Include="Resources\Filters\ltr\pl.txt">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <PackageCopyToOutput>true</PackageCopyToOutput>
+        </Content>
+        <Content Include="Resources\Filters\ltr\pt.txt">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <PackageCopyToOutput>true</PackageCopyToOutput>
+        </Content>
+        <Content Include="Resources\Filters\ltr\ru.txt">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <PackageCopyToOutput>true</PackageCopyToOutput>
+        </Content>
+        <Content Include="Resources\Filters\ltr\sv.txt">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <PackageCopyToOutput>true</PackageCopyToOutput>
+        </Content>
+        <Content Include="Resources\Filters\ltr\th.txt">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <PackageCopyToOutput>true</PackageCopyToOutput>
+        </Content>
+        <Content Include="Resources\Filters\ltr\tr.txt">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <PackageCopyToOutput>true</PackageCopyToOutput>
+        </Content>
+        <Content Include="Resources\Filters\ltr\vi.txt">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <PackageCopyToOutput>true</PackageCopyToOutput>
+        </Content>
+        <Content Include="Resources\Filters\ltr\zh.txt">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <PackageCopyToOutput>true</PackageCopyToOutput>
+        </Content>
+        <Content Include="Resources\Filters\rtl\ar.txt">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <PackageCopyToOutput>true</PackageCopyToOutput>
+        </Content>
+        <Content Include="Resources\Filters\rtl\fa.txt">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <PackageCopyToOutput>true</PackageCopyToOutput>
+        </Content>
+        <Content Include="Resources\Filters\special\emoji.txt">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <PackageCopyToOutput>true</PackageCopyToOutput>
+        </Content>
+        <Content Include="Resources\Filters\special\global.txt">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <PackageCopyToOutput>true</PackageCopyToOutput>
+        </Content>
+        <Content Include="Resources\Filters\domains.txt">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <PackageCopyToOutput>true</PackageCopyToOutput>
+        </Content>
     </ItemGroup>
 
-    <!--    <ItemGroup>-->
-    <!--        <PackageReference Include="BogaNet.Common" Version="1.1.2" />-->
-    <!--    </ItemGroup>-->
+    <ItemGroup>
+        <None Include="../Resources/logos/logo_boga_bwf.jpg" Pack="true" PackagePath="\"/>
+        <None Include="README.md" Pack="true" PackagePath="\"/>
+     </ItemGroup>
+
+<!--        <ItemGroup>-->
+<!--            <PackageReference Include="BogaNet.Common" Version="1.3.2" />-->
+<!--        </ItemGroup>-->
 
     <ItemGroup>
-        <ProjectReference Include="..\BogaNet.Common\BogaNet.Common.csproj" />
+        <ProjectReference Include="..\BogaNet.Common\BogaNet.Common.csproj"/>
     </ItemGroup>
 </Project>

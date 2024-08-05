@@ -10,7 +10,7 @@
         <Description>Generates true random numbers from atmospheric noise.</Description>
         <RepositoryUrl>https://github.com/slaubenberger/BogaNet</RepositoryUrl>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageTags>TrueRandom</PackageTags>
+        <PackageTags>TrueRandom TRNG PRNG Generator Integer Float Sequence String Lotto Sweepstakes Dice Casino Science Entropy Random.org</PackageTags>
         <PackageReleaseNotes>Release 1.3.0.</PackageReleaseNotes>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <!-- <PackageIconUrl>https://www.crosstales.com/media/data/BogaNet/logo_boga.png</PackageIconUrl> -->

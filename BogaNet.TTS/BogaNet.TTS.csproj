@@ -10,7 +10,7 @@
         <Description>Use the built-in Text-To-Speech (TTS) engine under Windows, OSX and Linux.</Description>
         <RepositoryUrl>https://github.com/slaubenberger/BogaNet</RepositoryUrl>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageTags>TTS Text-To-Speech Windows OSX Mac Linux ADA SSML</PackageTags>
+        <PackageTags>TTS Text-To-Speech Synthesis Windows OSX Mac Linux Web Browser Voice ADA SSML RT-Voice</PackageTags>
         <PackageReleaseNotes>Support for threads (= multiple speeches at the same time).</PackageReleaseNotes>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <!-- <PackageIconUrl>https://www.crosstales.com/media/data/BogaNet/logo_boga.png</PackageIconUrl> -->
