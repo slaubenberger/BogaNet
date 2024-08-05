@@ -18,9 +18,9 @@ public partial class BrowserPreferencesContainer : PreferencesContainer
 
    #region Events
 
-   public override event IFilePreferences.FileLoaded? OnFileLoaded;
+   public new event IFilePreferences.FileLoaded? OnFileLoaded;
 
-   public override event IFilePreferences.FileSaved? OnFileSaved;
+   public new event IFilePreferences.FileSaved? OnFileSaved;
 
    #endregion
 

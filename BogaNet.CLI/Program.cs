@@ -24,7 +24,7 @@ public static class Program
 
       _logger.LogDebug("Hi there, this is a test app!");
 
-      testBWF();
+      await testBWF();
       //testTTS();
       //testPrefs();
 
@@ -64,17 +64,42 @@ public static class Program
 
    #region Private methods
 
-   private static void testBWF()
+   private static async Task testBWF()
    {
-      string foulText = "MARTIANS are asses.... => watch mypage.com";
+      string foulText = "MARTIANS are assholes.... => watch mypage.com => badguy@evilmail.com";
 
       string removedCapitalization = CapitalizationFilter.Instance.ReplaceAll(foulText);
 
       _logger.LogInformation(removedCapitalization);
 
-      string removedPunctuation = PunctuationFilter.Instance.ReplaceAll(foulText);
+      string removedPunctuation = PunctuationFilter.Instance.ReplaceAll(removedCapitalization);
 
       _logger.LogInformation(removedPunctuation);
+
+      await BadWordFilter.Instance.LoadFilesAsync(true, new Tuple<string, string>("en", "./Resources/Filters/ltr/en.txt"));
+
+      do
+      {
+         await Task.Delay(100);
+      } while (!BadWordFilter.Instance.IsLoaded);
+
+      string removedProfanity = BadWordFilter.Instance.ReplaceAll(removedPunctuation);
+
+      //BadWordFilter.Instance.SimpleCheck = true;
+      //_logger.LogInformation("CONTAINS: " + BadWordFilter.Instance.Contains(foulText));
+
+      _logger.LogInformation(removedProfanity);
+
+      await DomainFilter.Instance.LoadFilesAsync(new Tuple<string, string>("domains", "./Resources/Filters/domains.txt"));
+
+      do
+      {
+         await Task.Delay(100);
+      } while (!DomainFilter.Instance.IsLoaded);
+
+      string removedDomain = DomainFilter.Instance.ReplaceAll(removedProfanity);
+
+      _logger.LogInformation(removedDomain);
 
       //TODO add rest
    }

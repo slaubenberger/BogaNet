@@ -1,7 +1,7 @@
 namespace BogaNet.BWF;
 
-public class Config
+public static class Config
 {
-   public static bool DEBUG_BADWORDS = false;
-   public static bool DEBUG_DOMAINS = false;
+   public static readonly bool DEBUG_BADWORDS = false;
+   public static readonly bool DEBUG_DOMAINS = false;
 }

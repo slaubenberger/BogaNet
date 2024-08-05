@@ -60,9 +60,9 @@ public partial class BrowserVoiceProvider : IVoiceProvider
 
    #region Events
 
-   public virtual event IVoiceProvider.VoicesLoaded? OnVoicesLoaded;
-   public virtual event IVoiceProvider.SpeakStarted? OnSpeakStarted;
-   public virtual event IVoiceProvider.SpeakCompleted? OnSpeakCompleted;
+   public event IVoiceProvider.VoicesLoaded? OnVoicesLoaded;
+   public event IVoiceProvider.SpeakStarted? OnSpeakStarted;
+   public event IVoiceProvider.SpeakCompleted? OnSpeakCompleted;
 
    #endregion
 

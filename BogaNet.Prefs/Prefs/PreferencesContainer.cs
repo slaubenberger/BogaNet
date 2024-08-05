@@ -34,9 +34,9 @@ public class PreferencesContainer : IPreferencesContainer //NUnit
 
    #region Events
 
-   public virtual event IFilePreferences.FileLoaded? OnFileLoaded;
+   public event IFilePreferences.FileLoaded? OnFileLoaded;
 
-   public virtual event IFilePreferences.FileSaved? OnFileSaved;
+   public event IFilePreferences.FileSaved? OnFileSaved;
 
    #endregion
 
