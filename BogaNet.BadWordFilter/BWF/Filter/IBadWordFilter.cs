@@ -25,7 +25,7 @@ public interface IBadWordFilter : ISourceFilter
    /// <summary>Remove unnecessary characters from the input string.</summary>
    string RemoveCharacters { get; set; }
 
-   /// <summary>Use simple detection algorithm (e.g. for Chinese).</summary>
+   /// <summary>Use simple detection algorithm (e.g. for Chinese, Japanese, Korean, Thai etc.).</summary>
    bool SimpleCheck { get; set; }
 
    #endregion

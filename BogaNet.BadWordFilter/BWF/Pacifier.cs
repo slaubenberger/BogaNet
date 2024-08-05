@@ -5,6 +5,9 @@ using BogaNet.Util;
 
 namespace BogaNet.BWF;
 
+/// <summary>
+/// Combines all filters into one.
+/// </summary>
 public class Pacifier : Singleton<Pacifier>, IFilter
 {
    #region Properties

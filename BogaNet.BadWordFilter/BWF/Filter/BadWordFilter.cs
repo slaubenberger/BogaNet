@@ -12,7 +12,7 @@ using BogaNet.Util;
 namespace BogaNet.BWF.Filter;
 
 /// <summary>
-/// Filter for bad words. The class can also replace all bad words inside a string.
+/// Filter to remove bad words aka profanity.
 /// </summary>
 public class BadWordFilter : Singleton<BadWordFilter>, IBadWordFilter
 {
@@ -37,8 +37,8 @@ public class BadWordFilter : Singleton<BadWordFilter>, IBadWordFilter
 
    #region Properties
 
-   public virtual int Count => Config.DEBUG_BADWORDS ? _debugExactBadwordsRegex.Count : _exactBadwordsRegex.Count;
-   public virtual List<string> SourceNames => Config.DEBUG_BADWORDS ? _debugExactBadwordsRegex.BNKeys() : _exactBadwordsRegex.BNKeys();
+   public virtual int Count => BWFConstants.DEBUG_BADWORDS ? _debugExactBadwordsRegex.Count : _exactBadwordsRegex.Count;
+   public virtual List<string> SourceNames => BWFConstants.DEBUG_BADWORDS ? _debugExactBadwordsRegex.BNKeys() : _exactBadwordsRegex.BNKeys();
    public virtual bool IsLoaded { get; private set; }
    public virtual char[] ReplaceCharacters { get; set; } = ['*'];
    public virtual ReplaceMode Mode { get; set; } = ReplaceMode.Default;
@@ -68,7 +68,7 @@ public class BadWordFilter : Singleton<BadWordFilter>, IBadWordFilter
    public virtual bool Remove(string srcName)
    {
       if (ContainsSource(srcName))
-         return (Config.DEBUG_BADWORDS ? _debugExactBadwordsRegex.Remove(srcName) : _exactBadwordsRegex.Remove(srcName)) & _simpleBadwords.Remove(srcName);
+         return (BWFConstants.DEBUG_BADWORDS ? _debugExactBadwordsRegex.Remove(srcName) : _exactBadwordsRegex.Remove(srcName)) & _simpleBadwords.Remove(srcName);
 
       return false;
    }
@@ -77,7 +77,7 @@ public class BadWordFilter : Singleton<BadWordFilter>, IBadWordFilter
    {
       ArgumentNullException.ThrowIfNullOrEmpty(srcName);
 
-      return Config.DEBUG_DOMAINS ? _debugExactBadwordsRegex.ContainsKey(srcName) : _exactBadwordsRegex.ContainsKey(srcName);
+      return BWFConstants.DEBUG_DOMAINS ? _debugExactBadwordsRegex.ContainsKey(srcName) : _exactBadwordsRegex.ContainsKey(srcName);
    }
 
    public virtual void Clear()
@@ -194,7 +194,7 @@ public class BadWordFilter : Singleton<BadWordFilter>, IBadWordFilter
 
             #region DEBUG
 
-            if (Config.DEBUG_BADWORDS)
+            if (BWFConstants.DEBUG_BADWORDS)
             {
                if (sourceNames == null || sourceNames.Length == 0)
                {
@@ -362,7 +362,7 @@ public class BadWordFilter : Singleton<BadWordFilter>, IBadWordFilter
 
             #region DEBUG
 
-            if (Config.DEBUG_BADWORDS)
+            if (BWFConstants.DEBUG_BADWORDS)
             {
                if (sourceNames == null || sourceNames.Length == 0)
                {
@@ -555,7 +555,7 @@ public class BadWordFilter : Singleton<BadWordFilter>, IBadWordFilter
 
             #region DEBUG
 
-            else if (Config.DEBUG_BADWORDS)
+            else if (BWFConstants.DEBUG_BADWORDS)
             {
                if (sourceNames == null || sourceNames.Length == 0)
                {
@@ -1091,7 +1091,7 @@ public class BadWordFilter : Singleton<BadWordFilter>, IBadWordFilter
 
    private void process(Dictionary<string, string[]> dataDict, bool isLTR)
    {
-      if (Config.DEBUG_BADWORDS)
+      if (BWFConstants.DEBUG_BADWORDS)
          _logger.LogDebug("++ BadWordFilter started in debug-mode ++");
 
       foreach (var kvp in dataDict)
@@ -1102,7 +1102,7 @@ public class BadWordFilter : Singleton<BadWordFilter>, IBadWordFilter
          list.AddRange(from str in kvp.Value where !str.BNStartsWith("#") select str.Split('#')[0]);
          string[] words = list.ToArray();
 
-         if (Config.DEBUG_BADWORDS)
+         if (BWFConstants.DEBUG_BADWORDS)
          {
             try
             {
@@ -1134,7 +1134,7 @@ public class BadWordFilter : Singleton<BadWordFilter>, IBadWordFilter
 
          _simpleBadwords.TryAdd(source, simpleWords);
 
-         if (Config.DEBUG_BADWORDS)
+         if (BWFConstants.DEBUG_BADWORDS)
             _logger.LogDebug($"Bad word resource '{source}' loaded and {words.Length} entries found.");
 
          IsLoaded = true;

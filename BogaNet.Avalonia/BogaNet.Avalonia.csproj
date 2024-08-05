@@ -11,7 +11,7 @@
         <RepositoryUrl>https://github.com/slaubenberger/BogaNet</RepositoryUrl>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageTags>Avalonia Extension Image Text Resources i18n Translate Accessibility Preferences</PackageTags>
-        <PackageReleaseNotes>Seperate package for browser created.</PackageReleaseNotes>
+        <PackageReleaseNotes>Support for BWF added.</PackageReleaseNotes>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <!-- <PackageIconUrl>https://www.crosstales.com/media/data/BogaNet/logo_boga.png</PackageIconUrl> -->
         <PackageIcon>logo_boga_avalonia.jpg</PackageIcon>
@@ -33,6 +33,7 @@
     </ItemGroup>
     
     <ItemGroup>
+        <ProjectReference Include="..\BogaNet.BadWordFilter\BogaNet.BadWordFilter.csproj" />
         <ProjectReference Include="..\BogaNet.Common\BogaNet.Common.csproj"/>
         <ProjectReference Include="..\BogaNet.i18n\BogaNet.i18n.csproj"/>
     </ItemGroup>

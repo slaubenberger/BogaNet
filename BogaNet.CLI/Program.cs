@@ -67,7 +67,9 @@ public static class Program
 
    private static async Task testBWF2()
    {
-      await BadWordFilter.Instance.LoadFilesAsync(true, new Tuple<string, string>("en", "./Resources/Filters/ltr/en.txt"), new Tuple<string, string>("de", "./Resources/Filters/ltr/de.txt"));
+      //await BadWordFilter.Instance.LoadFilesAsync(true, new Tuple<string, string>("en", "./Resources/Filters/ltr/en.txt"), new Tuple<string, string>("de", "./Resources/Filters/ltr/de.txt"));
+      await BadWordFilter.Instance.LoadFilesAsync(true, BWFConstants.BWF_LTR);
+      await BadWordFilter.Instance.LoadFilesAsync(false, BWFConstants.BWF_RTL);
 
       do
       {
@@ -81,7 +83,7 @@ public static class Program
          await Task.Delay(100);
       } while (!DomainFilter.Instance.IsLoaded);
 
-      string foulText = "MARTIANS are assholes.... arsch => watch mypage.com => badguy@evilmail.com";
+      string foulText = "MARTIANS are assholes.... arsch culo => watch mypage.com => badguy@evilmail.com";
 
       bool contains = Pacifier.Instance.Contains(foulText);
       _logger.LogInformation("Contains: " + contains);
@@ -89,7 +91,7 @@ public static class Program
       //var allBaddies = Pacifier.Instance.GetAll(foulText);
       //_logger.LogInformation(allBaddies.BNDump());
 
-      string removedProfanity = Pacifier.Instance.ReplaceAll(foulText);
+      string removedProfanity = Pacifier.Instance.ReplaceAll(foulText, "en", "it");
       _logger.LogInformation(removedProfanity);
    }
 

@@ -10,7 +10,7 @@ using BogaNet.Util;
 
 namespace BogaNet.BWF.Filter;
 
-/// <summary>Filter for domains. The class can also replace all domains inside a string.</summary>
+/// <summary>Filter to remove domains (urls/emails etc.).</summary>
 public class DomainFilter : Singleton<DomainFilter>, IDomainFilter
 {
    #region Variables
@@ -31,8 +31,8 @@ public class DomainFilter : Singleton<DomainFilter>, IDomainFilter
 
    #region Properties
 
-   public virtual int Count => Config.DEBUG_DOMAINS ? _debugDomainsRegex.Count : _domainsRegex.Count;
-   public virtual List<string> SourceNames => Config.DEBUG_DOMAINS ? _debugDomainsRegex.BNKeys() : _domainsRegex.BNKeys();
+   public virtual int Count => BWFConstants.DEBUG_DOMAINS ? _debugDomainsRegex.Count : _domainsRegex.Count;
+   public virtual List<string> SourceNames => BWFConstants.DEBUG_DOMAINS ? _debugDomainsRegex.BNKeys() : _domainsRegex.BNKeys();
    public virtual bool IsLoaded { get; private set; }
 
    public virtual char[] ReplaceCharacters { get; set; } = ['*'];
@@ -58,7 +58,7 @@ public class DomainFilter : Singleton<DomainFilter>, IDomainFilter
    public virtual bool Remove(string srcName)
    {
       if (ContainsSource(srcName))
-         return Config.DEBUG_DOMAINS ? _debugDomainsRegex.Remove(srcName) : _domainsRegex.Remove(srcName);
+         return BWFConstants.DEBUG_DOMAINS ? _debugDomainsRegex.Remove(srcName) : _domainsRegex.Remove(srcName);
 
       return false;
    }
@@ -67,7 +67,7 @@ public class DomainFilter : Singleton<DomainFilter>, IDomainFilter
    {
       ArgumentNullException.ThrowIfNullOrEmpty(srcName);
 
-      return Config.DEBUG_DOMAINS ? _debugDomainsRegex.ContainsKey(srcName) : _domainsRegex.ContainsKey(srcName);
+      return BWFConstants.DEBUG_DOMAINS ? _debugDomainsRegex.ContainsKey(srcName) : _domainsRegex.ContainsKey(srcName);
    }
 
    public virtual void Clear()
@@ -181,7 +181,7 @@ public class DomainFilter : Singleton<DomainFilter>, IDomainFilter
          {
             #region DEBUG
 
-            if (Config.DEBUG_DOMAINS)
+            if (BWFConstants.DEBUG_DOMAINS)
             {
                if (sourceNames == null || sourceNames.Length == 0)
                {
@@ -286,7 +286,7 @@ public class DomainFilter : Singleton<DomainFilter>, IDomainFilter
          {
             #region DEBUG
 
-            if (Config.DEBUG_DOMAINS)
+            if (BWFConstants.DEBUG_DOMAINS)
             {
                if (sourceNames == null || sourceNames.Length == 0)
                {
@@ -400,7 +400,7 @@ public class DomainFilter : Singleton<DomainFilter>, IDomainFilter
          {
             #region DEBUG
 
-            if (Config.DEBUG_DOMAINS)
+            if (BWFConstants.DEBUG_DOMAINS)
             {
                if (sourceNames == null || sourceNames.Length == 0)
                {
@@ -526,7 +526,7 @@ public class DomainFilter : Singleton<DomainFilter>, IDomainFilter
 
    private void process(Dictionary<string, string[]> dataDict)
    {
-      if (Config.DEBUG_DOMAINS)
+      if (BWFConstants.DEBUG_DOMAINS)
          _logger.LogDebug("++ DomainFilter started in debug-mode ++");
 
       foreach (var kvp in dataDict)
@@ -537,7 +537,7 @@ public class DomainFilter : Singleton<DomainFilter>, IDomainFilter
          list.AddRange(from str in kvp.Value where !str.BNStartsWith("#") select str.Split('#')[0]);
          string[] domains = list.ToArray();
 
-         if (Config.DEBUG_DOMAINS)
+         if (BWFConstants.DEBUG_DOMAINS)
          {
             try
             {
@@ -563,7 +563,7 @@ public class DomainFilter : Singleton<DomainFilter>, IDomainFilter
             }
          }
 
-         if (Config.DEBUG_DOMAINS)
+         if (BWFConstants.DEBUG_DOMAINS)
             _logger.LogDebug($"Domain resource '{source}' loaded and {domains.Length} entries found.");
       }
 

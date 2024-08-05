@@ -7,7 +7,9 @@ using BogaNet.Util;
 
 namespace BogaNet.BWF.Filter;
 
-/// <summary>Filter for excessive capitalization. The class can also replace all capitalizations inside a string.</summary>
+/// <summary>
+/// Filter to remove excessive capitalization.
+/// </summary>
 public class CapitalizationFilter : Singleton<CapitalizationFilter>, ICapitalizationFilter
 {
    #region Variables

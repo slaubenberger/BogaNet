@@ -103,9 +103,6 @@
         <None Update="Resources\Filters\special\emoji.txt">
           <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
-        <None Update="Resources\Filters\special\names.txt">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
         <None Update="Resources\Filters\special\global.txt">
           <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>

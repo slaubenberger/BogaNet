@@ -6,7 +6,9 @@ using BogaNet.Util;
 
 namespace BogaNet.BWF.Filter;
 
-/// <summary>Filter for excessive punctuation. The class can also replace all punctuations inside a string.</summary>
+/// <summary>
+/// Filter to remove excessive punctuation.
+/// </summary>
 public class PunctuationFilter : Singleton<PunctuationFilter>, IPunctuationFilter
 {
    #region Variables

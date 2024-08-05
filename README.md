@@ -335,7 +335,7 @@ It is recommended to use "TrueRandom" only to set seeds in the PRNG and refresh 
 [BogaNet.TrueRandom](https://www.nuget.org/packages/BogaNet.TrueRandom/)
 
 ## BogaNet.TTS
-Use the built-in Text-To-Speech (TTS) engine under Windows, OSX and Linux.
+This library is a new implementation for .NET8 of the highly-regarded Unity package [RT-Voice PRO](https://assetstore.unity.com/packages/slug/41068?aid=1011lNGT) and uses the built-in Text-To-Speech (TTS) engine under Windows, OSX and Linux.
 It provides all installed voices and support for [SSML](https://www.w3.org/TR/speech-synthesis/).
 For an implementation for the web browser, please check my other package [BogaNet.Avalonia.Browser](https://www.nuget.org/packages/BogaNet.Avalonia.Browser/).
 It's also possible to implement your own custom voice provider (e.g. to use other engines like AWS Polly, Azure, Google, ElvenLabs etc.).
