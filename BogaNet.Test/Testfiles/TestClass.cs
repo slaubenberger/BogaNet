@@ -1,3 +1,4 @@
+using System;
 using BogaNet.Extension;
 
 namespace BogaNet.Test.Testfiles;

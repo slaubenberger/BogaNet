@@ -4,7 +4,7 @@
         <TargetFramework>net8.0-browser</TargetFramework>
         <Nullable>enable</Nullable>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-        <Version>0.6.1</Version>
+        <Version>1.4.0</Version>
         <Company>crosstales LLC</Company>
         <Copyright>© 2024 Stefan Laubenberger</Copyright>
         <Authors>Stefan Laubenberger</Authors>
@@ -12,7 +12,7 @@
         <RepositoryUrl>https://github.com/slaubenberger/BogaNet</RepositoryUrl>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageTags>Avalonia Web WASM Browser Preference Option Setting Config TTS Text-To-Speech ADA SSML</PackageTags>
-        <PackageReleaseNotes>Fix for TTS silence.</PackageReleaseNotes>
+        <PackageReleaseNotes>Release Common 1.4.0.</PackageReleaseNotes>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <!-- <PackageIconUrl>https://www.crosstales.com/media/data/BogaNet/logo_boga.png</PackageIconUrl> -->
         <PackageIcon>logo_boga_avalonia_browser.jpg</PackageIcon>
@@ -33,9 +33,9 @@
 <!--    </ItemGroup>-->
 
 <!--    <ItemGroup>-->
-<!--        <PackageReference Include="BogaNet.Common" Version="1.3.2" />-->
-<!--        <PackageReference Include="BogaNet.Prefs" Version="1.3.2" />-->
-<!--        <PackageReference Include="BogaNet.TTS" Version="1.3.3" />-->
+<!--        <PackageReference Include="BogaNet.Common" Version="1.4.0" />-->
+<!--        <PackageReference Include="BogaNet.Prefs" Version="1.4.0" />-->
+<!--        <PackageReference Include="BogaNet.TTS" Version="1.4.0" />-->
 <!--    </ItemGroup>-->
 
     <ItemGroup>

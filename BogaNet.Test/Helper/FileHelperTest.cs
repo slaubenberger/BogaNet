@@ -1,4 +1,5 @@
-﻿using BogaNet.Helper;
+﻿using System;
+using BogaNet.Helper;
 using BogaNet.Extension;
 
 namespace BogaNet.Test.Helper;

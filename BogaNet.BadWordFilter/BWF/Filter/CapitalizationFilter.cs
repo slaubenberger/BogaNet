@@ -20,7 +20,6 @@ public class CapitalizationFilter : Singleton<CapitalizationFilter>, ICapitaliza
 
    #endregion
 
-
    #region Properties
 
    public virtual Regex RegularExpression { get; set; }
@@ -38,7 +37,6 @@ public class CapitalizationFilter : Singleton<CapitalizationFilter>, ICapitaliza
 
    #endregion
 
-
    #region Constructor
 
    private CapitalizationFilter()
@@ -47,7 +45,6 @@ public class CapitalizationFilter : Singleton<CapitalizationFilter>, ICapitaliza
    }
 
    #endregion
-
 
    #region Implemented methods
 

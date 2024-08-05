@@ -1,5 +1,5 @@
 # TODO
-* all good :-)
+* implement ignore of # (= remark) in all file readers
 
 # Ideas
 * Pressure unit
@@ -13,7 +13,6 @@
 * make ObjectObf and ObjectSec more useful, but how exactly?
 
 # Features
-* BWF
 * FB
 * TB
 

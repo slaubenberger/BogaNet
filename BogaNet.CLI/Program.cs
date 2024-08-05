@@ -1,4 +1,8 @@
-﻿using BogaNet.BWF;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+using BogaNet.BWF;
 using BogaNet.BWF.Filter;
 using BogaNet.Extension;
 using Microsoft.Extensions.Logging;
@@ -76,14 +80,14 @@ public static class Program
          await Task.Delay(100);
       } while (!BadWordFilter.Instance.IsLoaded);
 
-      await DomainFilter.Instance.LoadFilesAsync(new Tuple<string, string>("domains", "./Resources/Filters/domains.txt"));
+      await DomainFilter.Instance.LoadFilesAsync(BWFConstants.DOMAINS);
 
       do
       {
          await Task.Delay(100);
       } while (!DomainFilter.Instance.IsLoaded);
 
-      string foulText = "MARTIANS are assholes.... arsch culo => watch mypage.com => badguy@evilmail.com";
+      string foulText = "MARTIANS are assholes/arschlöcher/culo!!!!!!!!!!  => WATCH: https//mytruthpage.com/weirdowatch/martians123.divx or WRITE an EMAIL: weirdo@gmail.com";
 
       bool contains = Pacifier.Instance.Contains(foulText);
       _logger.LogInformation("Contains: " + contains);
@@ -91,7 +95,7 @@ public static class Program
       //var allBaddies = Pacifier.Instance.GetAll(foulText);
       //_logger.LogInformation(allBaddies.BNDump());
 
-      string removedProfanity = Pacifier.Instance.ReplaceAll(foulText, "en", "it");
+      string removedProfanity = Pacifier.Instance.ReplaceAll(foulText);
       _logger.LogInformation(removedProfanity);
    }
 

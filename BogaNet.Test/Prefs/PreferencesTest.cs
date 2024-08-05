@@ -1,3 +1,4 @@
+using System;
 using BogaNet.Prefs;
 using BogaNet.Test.Testfiles;
 

@@ -45,6 +45,33 @@ Little helpers for Avalonia development.
 * [ImageHelper](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_helper_1_1_image_helper.html): Helper for images in Avalonia.
 * [ResourceHelper](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_helper_1_1_resource_helper.html): Helper for resources in Avalonia.
 
+#### i18n
+To load translations in Avalonia, move them to the "Assets"-folder. Then use them like this:
+```csharp
+ResourceHelper.ResourceAssembly = "YourApp"; //set your app ID here
+ 
+Localizer.Instance.LoadResources("Assets/Translation.csv", "Assets/Translation_de.csv"); //load the translation files
+Localizer.Instance.Culture = new CultureInfo("en"); //set the culture to English
+Console.WriteLine(Localizer.Instance.GetText("Greeting"));
+```
+
+#### BadWordFilter
+To load BWF sources in Avalonia, move them to the "Assets/Filters"-folder. Then use them like this:
+```csharp
+ResourceHelper.ResourceAssembly = "YourApp"; //set your app ID here
+ 
+BadWordFilter.Instance.LoadResources(true, BWFAvaloniaConstants.BWF_AV_EN, BWFAvaloniaConstants.BWF_AV_DE); //load English and German
+
+// load all domains to detect urls, emails etc.
+DomainFilter.Instance.LoadResources(BWFAvaloniaConstants.DOMAINS_AV);
+
+string foulText = "MARTIANS are assholes/arschlöcher!!!!!!!!!!  => WATCH: https//mytruthpage.com/weirdowatch/martians123.divx or WRITE an EMAIL: weirdo@gmail.com";
+
+// replace all bad words, domains or excessive capitalizations/punctuations
+string removedProfanity = Pacifier.Instance.ReplaceAll(foulText);
+Console.WriteLine(removedProfanity);
+```
+
 ### Nuget:
 [BogaNet.Avalonia](https://www.nuget.org/packages/BogaNet.Avalonia/)
 
@@ -125,6 +152,56 @@ Console.WriteLine("Browser-URL: " + UrlHelper.URL);
 ### Nuget:
 [BogaNet.Avalonia.Browser](https://www.nuget.org/packages/BogaNet.Avalonia.Browser/)
 
+## BogaNet.BadWordFilter
+The “Bad Word Filter” (aka profanity or obscenity filter) is a fresh implementation for .NET8 of the well-known Unity package [BadWordFilter PRO](https://assetstore.unity.com/packages/slug/26255?aid=1011lNGT) and is exactly what the title suggests: a tool to filter swearwords and other “bad sentences”.
+The library already includes support for over 5’000 of regular expressions (equivalent to tens of thousands of word variations) in 25 languages:
+Arabic, Chinese, Czech, Danish, Dutch, English, Finnish, French, German, Greek, Hindi, Hungarian, Italian, Japanese, Korean, Norwegian, Persian, Polish, Portuguese, Russian, Spanish, Swedish, Thai, Turkish and Vietnamese.
+
+Fell free to add any words and languages that are missing!
+
+BWF also includes those additional filters: 
+* Domains (URLs/emails)
+* Global bad words
+* Emojis (miscellaneous symbols)
+* Excessive capitalization
+* Excessive punctuation.
+
+It supports any language and any writing system.
+
+### Main classes and example code
+* [Pacifier](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_b_w_f_1_1_pacifier.html): Combines all filters into one.
+* [BadWordFilter](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_b_w_f_1_1_filter_1_1_bad_word_filter.html): Filter to remove bad words aka profanity.
+* [DomainFilter](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_b_w_f_1_1_filter_1_1_domain_filter.html): Filter to remove domains (urls/emails etc.).
+* [CapitalizationFilter](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_b_w_f_1_1_filter_1_1_capitalization_filter.html): Filter to remove excessive capitalization.
+* [PunctuationFilter](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_b_w_f_1_1_filter_1_1_punctuation_filter.html): Filter to remove excessive punctuation.
+
+```csharp
+// load bad words for all left-to-right written languages
+BadWordFilter.Instance.LoadFiles(true, BWFConstants.BWF_LTR);
+
+// load bad words for all right-to-left written languages
+BadWordFilter.Instance.LoadFiles(false, BWFConstants.BWF_RTL);
+
+// load all domains to detect urls, emails etc.
+DomainFilter.Instance.LoadFiles(BWFConstants.DOMAINS);
+
+string foulText = "MARTIANS are assholes/arschlöcher!!!!!!!!!!  => WATCH: https//mytruthpage.com/weirdowatch/martians123.divx or WRITE an EMAIL: weirdo@gmail.com";
+
+// does the text contain any bad words, domains, excessive capitalizations/punctuations?
+bool contains = Pacifier.Instance.Contains(foulText);
+Console.WriteLine("Contains: " + contains);
+
+// get all bad words, domains and excessive capitalizations/punctuations
+var allBaddies = Pacifier.Instance.GetAll(foulText);
+Console.WriteLine(allBaddies.BNDump());
+
+// replace all bad words, domains or excessive capitalizations/punctuations
+string removedProfanity = Pacifier.Instance.ReplaceAll(foulText);
+Console.WriteLine(removedProfanity);
+```
+
+### Nuget:
+[BogaNet.BadWordFilter](https://www.nuget.org/packages/BogaNet.BadWordFilter/)
 
 ## BogaNet.CRC
 Various helpers for cyclic redundancy checks (CRC), namely CRC8, CRC16, CRC32 and CRC64.

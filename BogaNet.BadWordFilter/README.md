@@ -15,16 +15,35 @@ BWF also includes those additional filters:
 It supports any language and any writing system.
 
 ## Main classes and example code
-* [Pacifier](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1i18n_1_1_localizer.html): Combines all filters into one.
-* [BadWordFilter](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1i18n_1_1_localizer.html): Filter to remove bad words aka profanity.
-* [DomainFilter](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1i18n_1_1_localizer.html): Filter to remove domains (urls/emails etc.).
-* [CapitalizationFilter](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1i18n_1_1_localizer.html): Filter to remove excessive capitalization.
-* [PunctuationFilter](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1i18n_1_1_localizer.html): Filter to remove excessive punctuation.
+* [Pacifier](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_b_w_f_1_1_pacifier.html): Combines all filters into one.
+* [BadWordFilter](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_b_w_f_1_1_filter_1_1_bad_word_filter.html): Filter to remove bad words aka profanity.
+* [DomainFilter](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_b_w_f_1_1_filter_1_1_domain_filter.html): Filter to remove domains (urls/emails etc.).
+* [CapitalizationFilter](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_b_w_f_1_1_filter_1_1_capitalization_filter.html): Filter to remove excessive capitalization.
+* [PunctuationFilter](https://www.crosstales.com/media/data/BogaNet/api/class_boga_net_1_1_b_w_f_1_1_filter_1_1_punctuation_filter.html): Filter to remove excessive punctuation.
 
 ```csharp
-Localizer.Instance.LoadFiles("./Resources/Translation.csv", "./Resources/Translation_de.csv"); //load the translation files
-Localizer.Instance.Culture = new CultureInfo("en"); //set the culture to English
-Console.WriteLine(Localizer.Instance.GetText("Greeting"));
+// load bad words for all left-to-right written languages
+BadWordFilter.Instance.LoadFiles(true, BWFConstants.BWF_LTR);
+
+// load bad words for all right-to-left written languages
+BadWordFilter.Instance.LoadFiles(false, BWFConstants.BWF_RTL);
+
+// load all domains to detect urls, emails etc.
+DomainFilter.Instance.LoadFiles(BWFConstants.DOMAINS);
+
+string foulText = "MARTIANS are assholes/arschlöcher!!!!!!!!!!  => WATCH: https//mytruthpage.com/weirdowatch/martians123.divx or WRITE an EMAIL: weirdo@gmail.com";
+
+// does the text contain any bad words, domains, excessive capitalizations/punctuations?
+bool contains = Pacifier.Instance.Contains(foulText);
+Console.WriteLine("Contains: " + contains);
+
+// get all bad words, domains and excessive capitalizations/punctuations
+var allBaddies = Pacifier.Instance.GetAll(foulText);
+Console.WriteLine(allBaddies.BNDump());
+
+// replace all bad words, domains or excessive capitalizations/punctuations
+string removedProfanity = Pacifier.Instance.ReplaceAll(foulText);
+Console.WriteLine(removedProfanity);
 ```
 
 ## Nuget:

@@ -18,8 +18,7 @@ public class PunctuationFilter : Singleton<PunctuationFilter>, IPunctuationFilte
    private int _characterNumber = 3;
 
    #endregion
-
-
+   
    #region Properties
 
    public virtual Regex RegularExpression { get; set; }
@@ -36,8 +35,7 @@ public class PunctuationFilter : Singleton<PunctuationFilter>, IPunctuationFilte
    }
 
    #endregion
-
-
+   
    #region Constructor
 
    private PunctuationFilter()
@@ -46,7 +44,6 @@ public class PunctuationFilter : Singleton<PunctuationFilter>, IPunctuationFilte
    }
 
    #endregion
-
 
    #region Implemented methods
 

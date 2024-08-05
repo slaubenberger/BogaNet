@@ -1,4 +1,5 @@
-﻿using BogaNet.Encoder;
+﻿using System;
+using BogaNet.Encoder;
 using BogaNet.Extension;
 
 namespace BogaNet.Test.Encoder;

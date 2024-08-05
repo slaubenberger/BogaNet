@@ -2,6 +2,9 @@ using System;
 
 namespace BogaNet.BWF;
 
+/// <summary>
+/// Constants for BWF.
+/// </summary>
 public static class BWFConstants
 {
    #region Changable variables
@@ -171,7 +174,7 @@ public static class BWFConstants
    /// <summary>
    /// Source for DomainFilter: all domains.
    /// </summary>
-   public static Tuple<string, string> DOMAINS = new("en", "./Resources/Filters/ltr/en.txt");
+   public static Tuple<string, string> DOMAINS = new("domains", "./Resources/Filters/domains.txt");
 
    /// <summary>
    /// Debug the BadWordFilter. Enable this to identify the exact word that was detected.

@@ -1,4 +1,5 @@
-﻿using BogaNet.SecureType;
+﻿using System;
+using BogaNet.SecureType;
 using BogaNet.Test.Testfiles;
 
 namespace BogaNet.Test.SecureType;

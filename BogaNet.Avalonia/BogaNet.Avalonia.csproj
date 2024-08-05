@@ -3,14 +3,14 @@
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
-        <Version>0.7.0</Version>
+        <Version>1.4.0</Version>
         <Company>crosstales LLC</Company>
         <Copyright>© 2024 Stefan Laubenberger</Copyright>
         <Authors>Stefan Laubenberger</Authors>
         <Description>Little helpers for Avalonia development.</Description>
         <RepositoryUrl>https://github.com/slaubenberger/BogaNet</RepositoryUrl>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageTags>Avalonia Extension Image Text Resources i18n Translate Accessibility Preferences</PackageTags>
+        <PackageTags>Avalonia Extension Image Text Resources i18n Translate Accessibility Preferences Profanity Obscenity Filter</PackageTags>
         <PackageReleaseNotes>Support for BWF added.</PackageReleaseNotes>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <!-- <PackageIconUrl>https://www.crosstales.com/media/data/BogaNet/logo_boga.png</PackageIconUrl> -->
@@ -28,12 +28,13 @@
         <PackageReference Include="Avalonia" Version="11.0.10">
             <!--            <PrivateAssets>all</PrivateAssets>-->
         </PackageReference>
-<!--        <PackageReference Include="BogaNet.Common" Version="1.3.0" />-->
-<!--        <PackageReference Include="BogaNet.i18n" Version="1.3.0" />-->
+<!--        <PackageReference Include="BogaNet.BadWordFilter" Version="1.4.0" />-->
+<!--        <PackageReference Include="BogaNet.Common" Version="1.4.0" />-->
+<!--        <PackageReference Include="BogaNet.i18n" Version="1.4.0" />-->
     </ItemGroup>
-    
+
     <ItemGroup>
-        <ProjectReference Include="..\BogaNet.BadWordFilter\BogaNet.BadWordFilter.csproj" />
+        <ProjectReference Include="..\BogaNet.BadWordFilter\BogaNet.BadWordFilter.csproj"/>
         <ProjectReference Include="..\BogaNet.Common\BogaNet.Common.csproj"/>
         <ProjectReference Include="..\BogaNet.i18n\BogaNet.i18n.csproj"/>
     </ItemGroup>

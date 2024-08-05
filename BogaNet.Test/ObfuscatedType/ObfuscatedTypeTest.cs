@@ -1,4 +1,5 @@
-﻿using BogaNet.ObfuscatedType;
+﻿using System;
+using BogaNet.ObfuscatedType;
 using BogaNet.Test.Testfiles;
 
 namespace BogaNet.Test.ObfuscatedType;
