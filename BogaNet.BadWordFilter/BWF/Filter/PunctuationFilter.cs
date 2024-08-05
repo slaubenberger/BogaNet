@@ -81,9 +81,7 @@ public class PunctuationFilter : Singleton<PunctuationFilter>, IPunctuationFilte
             _logger.LogDebug($"Test string contains an excessive punctuation: '{capture.Value}'");
 
             if (!result.Contains(capture.Value))
-            {
                result.Add(capture.Value);
-            }
          }
       }
 

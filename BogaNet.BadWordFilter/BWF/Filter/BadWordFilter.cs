@@ -618,6 +618,8 @@ public class BadWordFilter : Singleton<BadWordFilter>, IBadWordFilter
                {
                   foreach (Capture capture in from badWordsResource in _exactBadwordsRegex.Values select badWordsResource.Matches(_text) into matches from Match match in matches from Capture capture in match.Captures select capture)
                   {
+                     _logger.LogDebug($"Test string contains a bad word: '{capture.Value}'");
+
                      result = replaceCapture(result, capture, result.Length - _text.Length);
 
                      hasBadWords = true;
@@ -635,6 +637,8 @@ public class BadWordFilter : Singleton<BadWordFilter>, IBadWordFilter
                         {
                            foreach (Capture capture in from Match match in matches from Capture capture in match.Captures select capture)
                            {
+                              _logger.LogDebug($"Test string contains a bad word: '{capture.Value}'");
+
                               result = replaceCapture(result, capture, result.Length - _text.Length);
 
                               hasBadWords = true;

@@ -386,6 +386,7 @@ public class DomainFilter : Singleton<DomainFilter>, IDomainFilter
    public virtual string ReplaceAll(string text, params string[]? sourceNames)
    {
       string result = text;
+      bool hasDomains = false;
 
       if (IsLoaded)
       {
@@ -416,6 +417,8 @@ public class DomainFilter : Singleton<DomainFilter>, IDomainFilter
                               _logger.LogDebug($"Test string contains a domain: '{capture.Value}' detected by regex '{domainRegex}'");
 
                               result = result.Replace(capture.Value, StringHelper.CreateString(capture.Value.Length, ReplaceCharacters));
+
+                              hasDomains = true;
                            }
                         }
                      }
@@ -438,6 +441,8 @@ public class DomainFilter : Singleton<DomainFilter>, IDomainFilter
                                  _logger.LogDebug($"Test string contains a domain: '{capture.Value}' detected by regex '{domainRegex}'' from source '{domainResource}'");
 
                                  result = result.Replace(capture.Value, StringHelper.CreateString(capture.Value.Length, ReplaceCharacters));
+
+                                 hasDomains = true;
                               }
                            }
                         }
@@ -456,7 +461,14 @@ public class DomainFilter : Singleton<DomainFilter>, IDomainFilter
             {
                if (sourceNames == null || sourceNames.Length == 0)
                {
-                  result = (from domainRegex in _domainsRegex.Values from Match match in domainRegex.Matches(text) from Capture capture in match.Captures select capture).Aggregate(result, (current, capture) => current.Replace(capture.Value, StringHelper.CreateString(capture.Value.Length, ReplaceCharacters)));
+                  foreach (Capture capture in from badWordsResource in _domainsRegex.Values select badWordsResource.Matches(text) into matches from Match match in matches from Capture capture in match.Captures select capture)
+                  {
+                     _logger.LogDebug($"Test string contains a domain: '{capture.Value}'");
+
+                     result = replaceCapture(result, capture, result.Length - text.Length);
+
+                     hasDomains = true;
+                  }
                }
                else
                {
@@ -466,8 +478,17 @@ public class DomainFilter : Singleton<DomainFilter>, IDomainFilter
                      {
                         MatchCollection? matches = domainRegex?.Matches(text);
 
-                        if (matches != null) 
-                           result = (from Match match in matches from Capture capture in match.Captures select capture).Aggregate(result, (current, capture) => current.Replace(capture.Value, StringHelper.CreateString(capture.Value.Length, ReplaceCharacters)));
+                        if (matches != null)
+                        {
+                           foreach (Capture capture in from Match match in matches from Capture capture in match.Captures select capture)
+                           {
+                              _logger.LogDebug($"Test string contains a domain: '{capture.Value}'");
+
+                              result = replaceCapture(result, capture, result.Length - text.Length);
+
+                              hasDomains = true;
+                           }
+                        }
                      }
                      else
                      {
@@ -483,12 +504,25 @@ public class DomainFilter : Singleton<DomainFilter>, IDomainFilter
          logFilterNotReady();
       }
 
-      return result;
+      return hasDomains ? result : text;
+      //return result;
    }
 
    #endregion
 
    #region Private methods
+
+   private string replaceCapture(string text, Capture capture, int offset)
+   {
+      System.Text.StringBuilder sb = new(text);
+
+      string replacement = StringHelper.CreateString(capture.Value.Length, ReplaceCharacters);
+
+      sb.Remove(capture.Index + offset, capture.Value.Length);
+      sb.Insert(capture.Index + offset, replacement);
+
+      return sb.ToString();
+   }
 
    private void process(Dictionary<string, string[]> dataDict)
    {

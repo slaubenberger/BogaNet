@@ -1,5 +1,5 @@
-﻿using BogaNet.BWF.Filter;
-using BogaNet.Encoder;
+﻿using BogaNet.BWF;
+using BogaNet.BWF.Filter;
 using BogaNet.Extension;
 using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
@@ -24,7 +24,8 @@ public static class Program
 
       _logger.LogDebug("Hi there, this is a test app!");
 
-      await testBWF();
+      await testBWF2();
+      //await testBWF();
       //testTTS();
       //testPrefs();
 
@@ -64,6 +65,34 @@ public static class Program
 
    #region Private methods
 
+   private static async Task testBWF2()
+   {
+      await BadWordFilter.Instance.LoadFilesAsync(true, new Tuple<string, string>("en", "./Resources/Filters/ltr/en.txt"), new Tuple<string, string>("de", "./Resources/Filters/ltr/de.txt"));
+
+      do
+      {
+         await Task.Delay(100);
+      } while (!BadWordFilter.Instance.IsLoaded);
+
+      await DomainFilter.Instance.LoadFilesAsync(new Tuple<string, string>("domains", "./Resources/Filters/domains.txt"));
+
+      do
+      {
+         await Task.Delay(100);
+      } while (!DomainFilter.Instance.IsLoaded);
+
+      string foulText = "MARTIANS are assholes.... arsch => watch mypage.com => badguy@evilmail.com";
+
+      bool contains = Pacifier.Instance.Contains(foulText);
+      _logger.LogInformation("Contains: " + contains);
+
+      //var allBaddies = Pacifier.Instance.GetAll(foulText);
+      //_logger.LogInformation(allBaddies.BNDump());
+
+      string removedProfanity = Pacifier.Instance.ReplaceAll(foulText);
+      _logger.LogInformation(removedProfanity);
+   }
+
    private static async Task testBWF()
    {
       string foulText = "MARTIANS are assholes.... => watch mypage.com => badguy@evilmail.com";
@@ -100,8 +129,6 @@ public static class Program
       string removedDomain = DomainFilter.Instance.ReplaceAll(removedProfanity);
 
       _logger.LogInformation(removedDomain);
-
-      //TODO add rest
    }
 
    private static void testPrefs()
