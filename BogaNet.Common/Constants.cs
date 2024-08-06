@@ -130,6 +130,11 @@ public abstract partial class Constants
    public static readonly Regex REGEX_EMAIL = emailRegex();
 
    /// <summary>
+   /// Regex to identify international phone numbers.
+   /// </summary>
+   public static readonly Regex REGEX_PHONE = phoneRegex();
+
+   /// <summary>
    /// Regex to identify credit cards.
    /// </summary>
    public static readonly Regex REGEX_CREDITCARD = creditcardRegex();
@@ -140,7 +145,7 @@ public abstract partial class Constants
    public static readonly Regex REGEX_URL_WEB = urlRegex();
 
    /// <summary>
-   /// Regex to detect alpha numeric strings..
+   /// Regex to detect alpha numeric strings.
    /// </summary>
    public static readonly Regex REGEX_ALPHANUMERIC = alphanumericRegex();
 
@@ -293,6 +298,9 @@ public abstract partial class Constants
    [GeneratedRegex(@"^(?("")("".+?""@)|(([0-9a-zA-Z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-zA-Z])@))(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,6}))$")]
    private static partial Regex emailRegex();
 
+   [GeneratedRegex("^\\+?\\d{1,4}?[-.\\s]?\\(?\\d{1,3}?\\)?[-.\\s]?\\d{1,4}[-.\\s]?\\d{1,4}[-.\\s]?\\d{1,9}$")]
+   private static partial Regex phoneRegex();
+
    [GeneratedRegex(@"^((\d{4}[- ]?){3}\d{4})$")]
    private static partial Regex creditcardRegex();
 
@@ -322,57 +330,58 @@ public abstract partial class Constants
 
    [GeneratedRegex(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)")]
    private static partial Regex csvRegex();
-/*
-   [GeneratedRegex(@"^.*\.[\w]+$")]
-   private static partial Regex fileRegex();
+
+   /*
+[GeneratedRegex(@"^.*\.[\w]+$")]
+private static partial Regex fileRegex();
 */
-/*
-   [GeneratedRegex("([0-9]+)")]
-   private static partial Regex uintRegex();
-*/
+   /*
+      [GeneratedRegex("([0-9]+)")]
+      private static partial Regex uintRegex();
+   */
    /*
    [GeneratedRegex(@"\s*")]
    private static partial Regex spaceRegex();
 */
-/*
-   [GeneratedRegex(@"^([\-\w]+\.)+[a-zA-Z]{2,4}$")]
-   private static partial Regex domainRegex();
-*/
+   /*
+      [GeneratedRegex(@"^([\-\w]+\.)+[a-zA-Z]{2,4}$")]
+      private static partial Regex domainRegex();
+   */
 
    #endregion
 
-/*
-   public const int MAX_SECOND_VALUE = 59;
-   public const int MAX_MINUTE_VALUE = 59;
-   public const int MAX_HOUR_VALUE = 23;
-   public const int MAX_DAY_VALUE = 31;
-   public const int MAX_MONTH_VALUE = 12;
-   public const int MIN_YEAR_VALUE = -290000000;
-   public const int MAX_YEAR_VALUE = 290000000;
+   /*
+      public const int MAX_SECOND_VALUE = 59;
+      public const int MAX_MINUTE_VALUE = 59;
+      public const int MAX_HOUR_VALUE = 23;
+      public const int MAX_DAY_VALUE = 31;
+      public const int MAX_MONTH_VALUE = 12;
+      public const int MIN_YEAR_VALUE = -290000000;
+      public const int MAX_YEAR_VALUE = 290000000;
 
-   public const int HOURS_PER_DAY = 24;
-   public const int DAYS_PER_WEEK = 7;
-   public const int DAYS_PER_YEAR = 365;
+      public const int HOURS_PER_DAY = 24;
+      public const int DAYS_PER_WEEK = 7;
+      public const int DAYS_PER_YEAR = 365;
 
-   public const int MINUTES_PER_HOUR = 60;
-   public const int MINUTES_PER_DAY = HOURS_PER_DAY * MINUTES_PER_HOUR;
-   public const int MINUTES_PER_WEEK = DAYS_PER_WEEK * MINUTES_PER_DAY;
-   public const int MINUTES_PER_YEAR = DAYS_PER_YEAR * MINUTES_PER_DAY;
+      public const int MINUTES_PER_HOUR = 60;
+      public const int MINUTES_PER_DAY = HOURS_PER_DAY * MINUTES_PER_HOUR;
+      public const int MINUTES_PER_WEEK = DAYS_PER_WEEK * MINUTES_PER_DAY;
+      public const int MINUTES_PER_YEAR = DAYS_PER_YEAR * MINUTES_PER_DAY;
 
-   public const int SECONDS_PER_MINUTE = 60;
-   public const int SECONDS_PER_HOUR = SECONDS_PER_MINUTE * MINUTES_PER_HOUR;
-   public const int SECONDS_PER_DAY = HOURS_PER_DAY * SECONDS_PER_HOUR;
-   public const int SECONDS_PER_WEEK = DAYS_PER_WEEK * SECONDS_PER_DAY;
-   public const int SECONDS_PER_YEAR = DAYS_PER_YEAR * SECONDS_PER_DAY;
+      public const int SECONDS_PER_MINUTE = 60;
+      public const int SECONDS_PER_HOUR = SECONDS_PER_MINUTE * MINUTES_PER_HOUR;
+      public const int SECONDS_PER_DAY = HOURS_PER_DAY * SECONDS_PER_HOUR;
+      public const int SECONDS_PER_WEEK = DAYS_PER_WEEK * SECONDS_PER_DAY;
+      public const int SECONDS_PER_YEAR = DAYS_PER_YEAR * SECONDS_PER_DAY;
 
-   public const long MILLISECONDS_PER_SECOND = 1000L;
-   public const long MILLISECONDS_PER_MINUTE = SECONDS_PER_MINUTE * MILLISECONDS_PER_SECOND;
-   public const long MILLISECONDS_PER_HOUR = MINUTES_PER_HOUR * MILLISECONDS_PER_MINUTE;
-   public const long MILLISECONDS_PER_DAY = HOURS_PER_DAY * MILLISECONDS_PER_HOUR;
-   public const long MILLISECONDS_PER_WEEK = DAYS_PER_WEEK * MILLISECONDS_PER_DAY;
-   public const long MILLISECONDS_PER_YEAR = DAYS_PER_YEAR * MILLISECONDS_PER_DAY;
-   public const long SECONDS_BETWEEN_1900_AND_1970 = 2208988800L;
-*/
+      public const long MILLISECONDS_PER_SECOND = 1000L;
+      public const long MILLISECONDS_PER_MINUTE = SECONDS_PER_MINUTE * MILLISECONDS_PER_SECOND;
+      public const long MILLISECONDS_PER_HOUR = MINUTES_PER_HOUR * MILLISECONDS_PER_MINUTE;
+      public const long MILLISECONDS_PER_DAY = HOURS_PER_DAY * MILLISECONDS_PER_HOUR;
+      public const long MILLISECONDS_PER_WEEK = DAYS_PER_WEEK * MILLISECONDS_PER_DAY;
+      public const long MILLISECONDS_PER_YEAR = DAYS_PER_YEAR * MILLISECONDS_PER_DAY;
+      public const long SECONDS_BETWEEN_1900_AND_1970 = 2208988800L;
+   */
    //		//time
    //		public static final BigDecimal FACTOR_NANOSECOND_TO_SECOND = new BigDecimal("1000000000"); //nanoseconds to seconds
    //		public static final BigDecimal FACTOR_MICROSECOND_TO_SECOND = HelperNumber.NUMBER_1000000; //microseconds to seconds

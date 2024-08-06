@@ -56,6 +56,16 @@ public static class StringHelper
    }
 
    /// <summary>
+   /// Checks if the string is a phone number.
+   /// </summary>
+   /// <param name="str">String-instance</param>
+   /// <returns>True if the string is a phone number</returns>
+   public static bool IsPhone(string? str)
+   {
+      return str != null && Constants.REGEX_PHONE.IsMatch(str);
+   }
+
+   /// <summary>
    /// Checks if the string is a website address.
    /// </summary>
    /// <param name="str">String-instance</param>
