@@ -1596,7 +1596,7 @@ public abstract class FileHelper
    /// <param name="encoding">Encoding of the text (optional, default: UTF8)</param>
    /// <returns>True if the operation was successful</returns>
    /// <exception cref="Exception"></exception>
-   public static bool WriteAllLines(string destFile, string[] lines, Encoding? encoding = null) //NUnit
+   public static bool WriteAllLines(string destFile, IList<string> lines, Encoding? encoding = null) //NUnit
    {
       ArgumentNullException.ThrowIfNullOrEmpty(destFile);
       ArgumentNullException.ThrowIfNull(lines);
@@ -1627,7 +1627,7 @@ public abstract class FileHelper
    /// <param name="encoding">Encoding of the text (optional, default: UTF8)</param>
    /// <returns>True if the operation was successful</returns>
    /// <exception cref="Exception"></exception>
-   public static async Task<bool> WriteAllLinesAsync(string destFile, string[] lines, Encoding? encoding = null) //NUnit
+   public static async Task<bool> WriteAllLinesAsync(string destFile, IList<string> lines, Encoding? encoding = null) //NUnit
    {
       ArgumentNullException.ThrowIfNullOrEmpty(destFile);
       ArgumentNullException.ThrowIfNull(lines);

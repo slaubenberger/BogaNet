@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace BogaNet.Helper;
@@ -19,12 +20,12 @@ public static class ArrayHelper
    /// <param name="count">Number of bytes to convert (optional, default: 0 = all)</param>
    /// <returns>Converted float-array</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static float[] ByteArrayToFloatArray(byte[] bytes, int count = 0)
+   public static float[] ByteArrayToFloatArray(IList<byte> bytes, int count = 0)
    {
       ArgumentNullException.ThrowIfNull(bytes);
 
       if (count <= 0)
-         count = bytes.Length;
+         count = bytes.Count;
 
       float[] floats = new float[count / 2];
 
@@ -45,12 +46,12 @@ public static class ArrayHelper
    /// <param name="count">Number of floats to convert (optional, default: 0 = all)</param>
    /// <returns>Converted byte-array</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static byte[] FloatArrayToByteArray(float[] array, int count = 0)
+   public static byte[] FloatArrayToByteArray(IList<float> array, int count = 0)
    {
       ArgumentNullException.ThrowIfNull(array);
 
       if (count <= 0)
-         count = array.Length;
+         count = array.Count;
 
       byte[] bytes = new byte[count * 2];
       int byteIndex = 0;
@@ -76,12 +77,12 @@ public static class ArrayHelper
    /// <param name="count">Number of bytes to convert (optional, default: 0 = all)</param>
    /// <returns>Converted sbyte-array</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static sbyte[] ByteArrayToSByteArray(byte[] bytes, int count = 0)
+   public static sbyte[] ByteArrayToSByteArray(IList<byte> bytes, int count = 0)
    {
       ArgumentNullException.ThrowIfNull(bytes);
 
       if (count <= 0)
-         count = bytes.Length;
+         count = bytes.Count;
 
       sbyte[] sbytes = new sbyte[count];
 
@@ -100,12 +101,12 @@ public static class ArrayHelper
    /// <param name="count">Number of sbytes to convert (optional, default: 0 = all)</param>
    /// <returns>Converted byte-array</returns>
    /// <exception cref="ArgumentNullException"></exception>
-   public static byte[] SByteArrayToByteArray(sbyte[] sbytes, int count = 0)
+   public static byte[] SByteArrayToByteArray(IList<sbyte> sbytes, int count = 0)
    {
       ArgumentNullException.ThrowIfNull(sbytes);
 
       if (count <= 0)
-         count = sbytes.Length;
+         count = sbytes.Count;
 
       byte[] bytes = new byte[count];
 
