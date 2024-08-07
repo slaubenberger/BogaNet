@@ -134,7 +134,7 @@ public abstract class IntegerTRNG : BaseTRNG //NUnit
    /// <param name="number">How many numbers you want to generate (optional, default: 1)</param>
    /// <param name="seed">Seed for the PRNG (optional, default: 0 (=standard))</param>
    /// <returns>List with the generated integers.</returns>
-   public static System.Collections.Generic.List<int> GeneratePRNG(int min, int max, int number = 1, int seed = 0)
+   public static List<int> GeneratePRNG(int min, int max, int number = 1, int seed = 0)
    {
       Random rnd = seed == 0 ? new Random() : new Random(seed);
       int _number = Math.Abs(number);

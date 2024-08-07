@@ -22,7 +22,7 @@ public static class Base32 //NUnit
    /// <exception cref="ArgumentNullException"></exception>
    public static byte[] FromBase32String(string base32string)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(base32string);
+      ArgumentException.ThrowIfNullOrEmpty(base32string);
 
       base32string = base32string.TrimEnd('=');
       int byteCount = base32string.Length * 5 / 8;
@@ -120,7 +120,7 @@ public static class Base32 //NUnit
    /// <exception cref="Exception"></exception>
    public static string Base32FromFile(string file)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(file);
+      ArgumentException.ThrowIfNullOrEmpty(file);
 
       return ToBase32String(FileHelper.ReadAllBytes(file));
    }
@@ -133,7 +133,7 @@ public static class Base32 //NUnit
    /// <exception cref="Exception"></exception>
    public static async Task<string> Base32FromFileAsync(string file)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(file);
+      ArgumentException.ThrowIfNullOrEmpty(file);
 
       return ToBase32String(await FileHelper.ReadAllBytesAsync(file));
    }
@@ -147,7 +147,7 @@ public static class Base32 //NUnit
    /// <exception cref="Exception"></exception>
    public static bool FileFromBase32(string file, string base32string)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(file);
+      ArgumentException.ThrowIfNullOrEmpty(file);
 
       return FileHelper.WriteAllBytes(file, FromBase32String(base32string));
    }
@@ -161,7 +161,7 @@ public static class Base32 //NUnit
    /// <exception cref="Exception"></exception>
    public static async Task<bool> FileFromBase32Async(string file, string base32string)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(file);
+      ArgumentException.ThrowIfNullOrEmpty(file);
 
       return await FileHelper.WriteAllBytesAsync(file, FromBase32String(base32string));
    }

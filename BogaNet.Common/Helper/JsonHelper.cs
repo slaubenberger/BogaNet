@@ -2,7 +2,6 @@
 using Newtonsoft.Json;
 using System.Threading.Tasks;
 using System;
-using System.IO;
 using BogaNet.Extension;
 using Newtonsoft.Json.Converters;
 
@@ -78,7 +77,7 @@ public abstract class JsonHelper
    public static bool SerializeToFile(object obj, string path, JsonSerializerSettings? settings = null)
    {
       ArgumentNullException.ThrowIfNull(obj);
-      ArgumentNullException.ThrowIfNullOrEmpty(path);
+      ArgumentException.ThrowIfNullOrEmpty(path);
 
       try
       {
@@ -102,7 +101,7 @@ public abstract class JsonHelper
    public static async Task<bool> SerializeToFileAsync(object obj, string path, JsonSerializerSettings? settings = null)
    {
       ArgumentNullException.ThrowIfNull(obj);
-      ArgumentNullException.ThrowIfNullOrEmpty(path);
+      ArgumentException.ThrowIfNullOrEmpty(path);
 
       try
       {
@@ -158,7 +157,7 @@ public abstract class JsonHelper
    /// <exception cref="Exception"></exception>
    public static T DeserializeFromFile<T>(string path, JsonSerializerSettings? settings = null)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(path);
+      ArgumentException.ThrowIfNullOrEmpty(path);
 
       try
       {
@@ -180,7 +179,7 @@ public abstract class JsonHelper
    /// <exception cref="Exception"></exception>
    public static async Task<T> DeserializeFromFileAsync<T>(string path, JsonSerializerSettings? settings = null)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(path);
+      ArgumentException.ThrowIfNullOrEmpty(path);
 
       try
       {
@@ -202,7 +201,7 @@ public abstract class JsonHelper
    /// <exception cref="Exception"></exception>
    public static T DeserializeFromString<T>(string jsonAsString, JsonSerializerSettings? settings = null)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(jsonAsString);
+      ArgumentException.ThrowIfNullOrEmpty(jsonAsString);
 
       try
       {

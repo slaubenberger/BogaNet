@@ -315,7 +315,7 @@ public static class NumberExtension
    /// <returns>Decimal value from the given type.</returns>
    public static decimal BNToDecimal<T>(this T number) where T : INumber<T>
    {
-      return System.Convert.ToDecimal(number);
+      return Convert.ToDecimal(number);
    }
 
    /*

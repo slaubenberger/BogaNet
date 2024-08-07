@@ -110,7 +110,7 @@ public class Preferences : Singleton<Preferences>, IFilePreferences //NUnit
 
    public virtual bool TryGetString(string key, out string result, bool obfuscated = false)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(key);
+      ArgumentException.ThrowIfNullOrEmpty(key);
 
       bool res = Container.TryGet(key, out object obj, obfuscated);
 

@@ -25,7 +25,7 @@ public static class Base2 //NUnit
    /// <exception cref="ArgumentNullException"></exception>
    public static byte[] FromBase2String(string base2string)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(base2string);
+      ArgumentException.ThrowIfNullOrEmpty(base2string);
 
       int diff = base2string.Length % 8;
 
@@ -123,7 +123,7 @@ public static class Base2 //NUnit
    /// <exception cref="Exception"></exception>
    public static string Base2FromFile(string file)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(file);
+      ArgumentException.ThrowIfNullOrEmpty(file);
 
       return ToBase2String(FileHelper.ReadAllBytes(file));
    }
@@ -136,7 +136,7 @@ public static class Base2 //NUnit
    /// <exception cref="Exception"></exception>
    public static async Task<string> Base2FromFileAsync(string file)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(file);
+      ArgumentException.ThrowIfNullOrEmpty(file);
 
       return ToBase2String(await FileHelper.ReadAllBytesAsync(file));
    }
@@ -150,7 +150,7 @@ public static class Base2 //NUnit
    /// <exception cref="Exception"></exception>
    public static bool FileFromBase2(string file, string base2string)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(file);
+      ArgumentException.ThrowIfNullOrEmpty(file);
 
       return FileHelper.WriteAllBytes(file, FromBase2String(base2string));
    }
@@ -164,7 +164,7 @@ public static class Base2 //NUnit
    /// <exception cref="Exception"></exception>
    public static async Task<bool> FileFromBase2Async(string file, string base2string)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(file);
+      ArgumentException.ThrowIfNullOrEmpty(file);
 
       return await FileHelper.WriteAllBytesAsync(file, FromBase2String(base2string));
    }

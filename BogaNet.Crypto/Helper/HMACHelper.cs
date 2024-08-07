@@ -61,7 +61,7 @@ public abstract class HMACHelper //NUnit
    /// <exception cref="Exception"></exception>
    public static byte[] Hash(string? text, HMAC algo, Encoding? encoding = null)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(text);
+      ArgumentException.ThrowIfNullOrEmpty(text);
 
       return Hash(text.BNToByteArray(encoding), algo);
    }
@@ -75,7 +75,7 @@ public abstract class HMACHelper //NUnit
    /// <exception cref="Exception"></exception>
    public static byte[] HashFile(string file, HMAC algo)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(file);
+      ArgumentException.ThrowIfNullOrEmpty(file);
 
       byte[] bytes = FileHelper.ReadAllBytes(file);
       return Hash(bytes, algo);
@@ -90,7 +90,7 @@ public abstract class HMACHelper //NUnit
    /// <exception cref="Exception"></exception>
    public static async Task<byte[]> HashFileAsync(string file, HMAC algo)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(file);
+      ArgumentException.ThrowIfNullOrEmpty(file);
 
       byte[] bytes = await FileHelper.ReadAllBytesAsync(file);
       return Hash(bytes, algo);

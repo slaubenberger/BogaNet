@@ -125,17 +125,17 @@ public abstract class NetworkHelper
       bool isOk = true;
 
       // If there are errors in the certificate chain, look at each error to determine the cause.
-      if (sslPolicyErrors != SslPolicyErrors.None)
-      {
-         foreach (X509ChainStatus unused in chain.ChainStatus.Where(t => t.Status != X509ChainStatusFlags.RevocationStatusUnknown))
-         {
-            chain.ChainPolicy.RevocationFlag = X509RevocationFlag.EntireChain;
-            chain.ChainPolicy.RevocationMode = X509RevocationMode.Online;
-            chain.ChainPolicy.UrlRetrievalTimeout = new TimeSpan(0, 1, 0);
-            chain.ChainPolicy.VerificationFlags = X509VerificationFlags.AllFlags;
+      if (sslPolicyErrors == SslPolicyErrors.None)
+         return isOk;
 
-            isOk = chain.Build((X509Certificate2)certificate);
-         }
+      foreach (X509ChainStatus unused in chain.ChainStatus.Where(t => t.Status != X509ChainStatusFlags.RevocationStatusUnknown))
+      {
+         chain.ChainPolicy.RevocationFlag = X509RevocationFlag.EntireChain;
+         chain.ChainPolicy.RevocationMode = X509RevocationMode.Online;
+         chain.ChainPolicy.UrlRetrievalTimeout = new TimeSpan(0, 1, 0);
+         chain.ChainPolicy.VerificationFlags = X509VerificationFlags.AllFlags;
+
+         isOk = chain.Build((X509Certificate2)certificate);
       }
 
       return isOk;
@@ -148,7 +148,7 @@ public abstract class NetworkHelper
    /// <returns>URL of the file path</returns>
    public static string GetURLForFile(string path) //NUnit
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(path);
+      ArgumentException.ThrowIfNullOrEmpty(path);
 
       string validFile = FileHelper.ValidateFile(path);
 
@@ -169,34 +169,31 @@ public abstract class NetworkHelper
    /// <exception cref="ArgumentNullException"></exception>
    public static string ValidateURL(string url, bool removeProtocol = false, bool removeWWW = true, bool removeSlash = true) //NUnit
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(url);
+      ArgumentException.ThrowIfNullOrEmpty(url);
 
-      if (IsURL(url))
-      {
-         string result = url.Trim().Replace('\\', '/');
+      if (!IsURL(url)) 
+         return url;
 
-         if (removeWWW)
-            result = result.BNReplace("www.", string.Empty)!;
+      string result = url.Trim().Replace('\\', '/');
 
-         if (removeSlash && result.BNEndsWith(Constants.PATH_DELIMITER_UNIX))
-            result = result.Substring(0, result.Length - 1);
+      if (removeWWW)
+         result = result.BNReplace("www.", string.Empty);
 
-         if (!string.IsNullOrEmpty(result))
-         {
-            if (removeProtocol)
-            {
-               int split = result.BNIndexOf("//");
-               //string? protocol = result?.Substring(0, split + 2);
-               string data = result.Substring(split > 1 ? split + 2 : 0);
+      if (removeSlash && result.BNEndsWith(Constants.PATH_DELIMITER_UNIX))
+         result = result.Substring(0, result.Length - 1);
 
-               return $"{StringHelper.EscapeURL(data)}";
-            }
+      if (string.IsNullOrEmpty(result))
+         return url;
 
-            return $"{StringHelper.EscapeURL(result)}";
-         }
-      }
+      if (!removeProtocol)
+         return $"{StringHelper.EscapeURL(result)}";
+      
+      int split = result.BNIndexOf("//");
+      //string? protocol = result?.Substring(0, split + 2);
+      string data = result.Substring(split > 1 ? split + 2 : 0);
 
-      return url;
+      return $"{StringHelper.EscapeURL(data)}";
+
    }
 
    /// <summary>
@@ -241,7 +238,7 @@ public abstract class NetworkHelper
    /// <exception cref="Exception"></exception>
    public static string GetIP(string host) //NUnit
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(host);
+      ArgumentException.ThrowIfNullOrEmpty(host);
 
       if (IsIPv4(host) || IsIPv6(host))
          return host;
@@ -278,7 +275,7 @@ public abstract class NetworkHelper
    public static async Task<string> GetPublicIPAsync(string checkUrl = "https://checkip.amazonaws.com/") //alternatives: "https://icanhazip.com", "https://ipinfo.io/ip"
    {
 #if !BROWSER
-      ArgumentNullException.ThrowIfNullOrEmpty(checkUrl);
+      ArgumentException.ThrowIfNullOrEmpty(checkUrl);
 
       try
       {
@@ -428,7 +425,7 @@ public abstract class NetworkHelper
    /// <exception cref="Exception"></exception>
    public static async Task<long> PingAsync(string hostname)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(hostname);
+      ArgumentException.ThrowIfNullOrEmpty(hostname);
 
       try
       {
@@ -465,7 +462,7 @@ public abstract class NetworkHelper
    /// <exception cref="Exception"></exception>
    public static async Task<string> ReadAllTextAsync(string url)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(url);
+      ArgumentException.ThrowIfNullOrEmpty(url);
 
       try
       {
@@ -528,7 +525,7 @@ public abstract class NetworkHelper
    /// <exception cref="Exception"></exception>
    public static async Task<byte[]> ReadAllBytesAsync(string url)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(url);
+      ArgumentException.ThrowIfNullOrEmpty(url);
 
       try
       {

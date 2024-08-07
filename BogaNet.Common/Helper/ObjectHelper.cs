@@ -29,7 +29,7 @@ public abstract class ObjectHelper
    public static object? GetField(object obj, string name, BindingFlags flags = BindingFlags.NonPublic | BindingFlags.Instance)
    {
       ArgumentNullException.ThrowIfNull(obj);
-      ArgumentNullException.ThrowIfNullOrEmpty(name);
+      ArgumentException.ThrowIfNullOrEmpty(name);
 
       FieldInfo? field = obj.GetType().GetField(name, flags);
 
@@ -66,7 +66,7 @@ public abstract class ObjectHelper
    public static void SetField(object obj, string name, object value, BindingFlags flags = BindingFlags.NonPublic | BindingFlags.Instance)
    {
       ArgumentNullException.ThrowIfNull(obj);
-      ArgumentNullException.ThrowIfNullOrEmpty(name);
+      ArgumentException.ThrowIfNullOrEmpty(name);
       ArgumentNullException.ThrowIfNull(value);
 
       obj.GetType().GetField(name, flags)?.SetValue(obj, value);
@@ -83,7 +83,7 @@ public abstract class ObjectHelper
    public static object? GetProperty(object obj, string name, BindingFlags flags = BindingFlags.NonPublic | BindingFlags.Instance)
    {
       ArgumentNullException.ThrowIfNull(obj);
-      ArgumentNullException.ThrowIfNullOrEmpty(name);
+      ArgumentException.ThrowIfNullOrEmpty(name);
 
       PropertyInfo? property = obj.GetType().GetProperty(name, flags);
 
@@ -120,7 +120,7 @@ public abstract class ObjectHelper
    public static void SetProperty(object obj, string name, object value, BindingFlags flags = BindingFlags.NonPublic | BindingFlags.Instance)
    {
       ArgumentNullException.ThrowIfNull(obj);
-      ArgumentNullException.ThrowIfNullOrEmpty(name);
+      ArgumentException.ThrowIfNullOrEmpty(name);
       ArgumentNullException.ThrowIfNull(value);
 
       obj.GetType().GetProperty(name, flags)?.SetValue(obj, value);
@@ -136,21 +136,22 @@ public abstract class ObjectHelper
    /// <exception cref="Exception"></exception>
    public static object? InvokeMethod(string className, string methodName, BindingFlags flags = BindingFlags.Static | BindingFlags.Public, params object[] parameters)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(className);
-      ArgumentNullException.ThrowIfNullOrEmpty(methodName);
+      ArgumentException.ThrowIfNullOrEmpty(className);
+      ArgumentException.ThrowIfNullOrEmpty(methodName);
 
       foreach (Type type in AppDomain.CurrentDomain.GetAssemblies().SelectMany(assembly => assembly.GetTypes()))
       {
          try
          {
-            if (type.FullName?.Equals(className) == true)
-               if (type.IsClass)
-               {
-                  MethodInfo? method = type.GetMethod(methodName, flags);
+            if (type.FullName?.Equals(className) != true) continue;
+            
+            if (type.IsClass)
+            {
+               MethodInfo? method = type.GetMethod(methodName, flags);
 
-                  if (method != null)
-                     return method.Invoke(null, parameters);
-               }
+               if (method != null)
+                  return method.Invoke(null, parameters);
+            }
          }
          catch (Exception ex)
          {

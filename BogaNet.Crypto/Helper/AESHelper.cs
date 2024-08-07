@@ -47,7 +47,7 @@ public abstract class AESHelper //NUnit //TODO add other algorithms, key&blocksi
    /// <exception cref="Exception"></exception>
    public static bool EncryptFile(string file, byte[] key, byte[] IV)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(file);
+      ArgumentException.ThrowIfNullOrEmpty(file);
 
       byte[] bytes = FileHelper.ReadAllBytes(file);
       return FileHelper.WriteAllBytes(file, Encrypt(bytes, key, IV));
@@ -63,7 +63,7 @@ public abstract class AESHelper //NUnit //TODO add other algorithms, key&blocksi
    /// <exception cref="Exception"></exception>
    public static async Task<bool> EncryptFileAsync(string file, byte[] key, byte[] IV)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(file);
+      ArgumentException.ThrowIfNullOrEmpty(file);
 
       byte[] bytes = await FileHelper.ReadAllBytesAsync(file);
       return await FileHelper.WriteAllBytesAsync(file, await EncryptAsync(bytes, key, IV));
@@ -79,7 +79,7 @@ public abstract class AESHelper //NUnit //TODO add other algorithms, key&blocksi
    /// <exception cref="Exception"></exception>
    public static bool DecryptFile(string file, byte[] key, byte[] IV)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(file);
+      ArgumentException.ThrowIfNullOrEmpty(file);
 
       byte[] bytes = FileHelper.ReadAllBytes(file);
       return FileHelper.WriteAllBytes(file, Decrypt(bytes, key, IV));
@@ -95,7 +95,7 @@ public abstract class AESHelper //NUnit //TODO add other algorithms, key&blocksi
    /// <exception cref="Exception"></exception>
    public static async Task<bool> DecryptFileAsync(string file, byte[] key, byte[] IV)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(file);
+      ArgumentException.ThrowIfNullOrEmpty(file);
 
       byte[] bytes = await FileHelper.ReadAllBytesAsync(file);
       return await FileHelper.WriteAllBytesAsync(file, await DecryptAsync(bytes, key, IV));
@@ -112,7 +112,7 @@ public abstract class AESHelper //NUnit //TODO add other algorithms, key&blocksi
    /// <exception cref="Exception"></exception>
    public static byte[] Encrypt(string textToEncrypt, byte[] key, byte[] IV, Encoding? encoding = null)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(textToEncrypt);
+      ArgumentException.ThrowIfNullOrEmpty(textToEncrypt);
 
       return Encrypt(textToEncrypt.BNToByteArray(encoding), key, IV);
    }

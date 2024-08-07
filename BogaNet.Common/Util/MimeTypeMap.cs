@@ -53,7 +53,7 @@ public abstract class MimeTypeMap //NUnit
    /// <exception cref="ArgumentNullException"></exception>
    public static bool TryGetExtension(string mimeType, out string extension)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(mimeType);
+      ArgumentException.ThrowIfNullOrEmpty(mimeType);
 
       foreach (KeyValuePair<string, string> kvp in _mappings.Value.Where(kvp => kvp.Value.BNEquals(mimeType)))
       {

@@ -123,18 +123,16 @@ public partial class OSXVoiceProvider : BaseVoiceProvider
 
          foreach (var line in lines)
          {
-            if (!string.IsNullOrEmpty(line))
-            {
-               Match match = _sayRegex.Match(line);
+            if (string.IsNullOrEmpty(line)) continue;
+            
+            Match match = _sayRegex.Match(line);
 
-               if (match.Success)
-               {
-                  string name = match.Groups[1].ToString();
-                  voices.Add(new Voice(name, match.Groups[3].ToString(),
-                     BogaNet.TTS.Util.Helper.AppleVoiceNameToGender(name), "unknown",
-                     match.Groups[2].ToString(), "", "Apple"));
-               }
-            }
+            if (!match.Success) continue;
+            
+            string name = match.Groups[1].ToString();
+            voices.Add(new Voice(name, match.Groups[3].ToString(),
+               Util.Helper.AppleVoiceNameToGender(name), "unknown",
+               match.Groups[2].ToString(), "", "Apple"));
          }
 
          _cachedVoices = voices.OrderBy(s => s.Name).ToList();
@@ -151,15 +149,14 @@ public partial class OSXVoiceProvider : BaseVoiceProvider
 
    private static string getVoiceName(Voice? voice)
    {
-      if (voice == null || string.IsNullOrEmpty(voice.Name))
-      {
-         _logger.LogWarning("'Voice' or 'Voice.Name' is null! Using the providers 'default' voice.");
+      if (voice != null && !string.IsNullOrEmpty(voice.Name))
+         return voice.Name;
+      
+      _logger.LogWarning("'Voice' or 'Voice.Name' is null! Using the providers 'default' voice.");
 
-         //return DefaultVoiceName;
-         return string.Empty;
-      }
+      //return DefaultVoiceName;
+      return string.Empty;
 
-      return voice.Name;
    }
 
    private static int calculateRate(float rate)

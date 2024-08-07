@@ -88,7 +88,7 @@ public abstract class GeneralHelper
    /// <exception cref="ArgumentNullException"></exception>
    public static string? GetCLIArgument(string name, params string[]? args)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(name);
+      ArgumentException.ThrowIfNullOrEmpty(name);
 
       string[] array = args == null || args.Length == 0 ? GetCLIArguments() : args;
 

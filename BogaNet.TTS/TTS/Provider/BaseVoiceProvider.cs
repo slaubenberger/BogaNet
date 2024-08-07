@@ -4,6 +4,7 @@ using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using BogaNet.Util;
+using System.Threading;
 
 namespace BogaNet.TTS.Provider;
 
@@ -35,15 +36,15 @@ public abstract class BaseVoiceProvider : IVoiceProvider
    {
       get
       {
-         if (_cachedCultures.Count == 0)
-         {
-            IEnumerable<Voice> cultures = Voices.GroupBy(cul => cul.Culture)
-               .Select(grp => grp.First()).OrderBy(s => s.Culture).ToList();
+         if (_cachedCultures.Count != 0)
+            return _cachedCultures;
+         
+         IEnumerable<Voice> cultures = Voices.GroupBy(cul => cul.Culture)
+            .Select(grp => grp.First()).OrderBy(s => s.Culture).ToList();
 
-            foreach (Voice voice in cultures)
-            {
-               _cachedCultures.Add(voice.Culture);
-            }
+         foreach (Voice voice in cultures)
+         {
+            _cachedCultures.Add(voice.Culture);
          }
 
          return _cachedCultures;
@@ -86,15 +87,14 @@ public abstract class BaseVoiceProvider : IVoiceProvider
    {
       ArgumentNullException.ThrowIfNull(text);
 
-      if (useThreads)
-      {
-         System.Threading.Thread t = new(() => _ = speakAsync(text, voice, rate, pitch, volume, forceSSML));
-         t.Start();
+      if (!useThreads)
+         return Task.Run(() => speakAsync(text, voice, rate, pitch, volume, forceSSML)).GetAwaiter().GetResult();
+      
+      Thread t = new(() => _ = speakAsync(text, voice, rate, pitch, volume, forceSSML));
+      t.Start();
 
-         return true;
-      }
+      return true;
 
-      return Task.Run(() => speakAsync(text, voice, rate, pitch, volume, forceSSML)).GetAwaiter().GetResult();
    }
 
    public virtual async Task<bool> SpeakAsync(string text, Voice? voice = null, float rate = 1f, float pitch = 1f, float volume = 1f, bool forceSSML = true)

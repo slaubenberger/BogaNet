@@ -53,12 +53,11 @@ public static class StringExtension
 
          matchFound = index >= 0;
 
-         if (matchFound)
-         {
-            str = str.Remove(index, oldString.Length);
+         if (!matchFound) continue;
 
-            str = str.Insert(index, newString);
-         }
+         str = str.Remove(index, oldString.Length);
+
+         str = str.Insert(index, newString);
       } while (matchFound);
 
       return str;
@@ -248,16 +247,15 @@ public static class StringExtension
 
       Encoding _encoding = encoding ?? Encoding.UTF8;
 
-      if (off > 0)
-      {
-         int len = length > 0 ? length : bytes.Length;
-         byte[] content = new byte[len];
-         Buffer.BlockCopy(bytes, off, content, 0, len);
-         string res = content.BNToString(encoding);
-         return res.Trim('\0');
-      }
+      if (off <= 0) 
+         return _encoding.GetString(bytes);
 
-      return _encoding.GetString(bytes);
+      int len = length > 0 ? length : bytes.Length;
+      byte[] content = new byte[len];
+      Buffer.BlockCopy(bytes, off, content, 0, len);
+      string res = content.BNToString(encoding);
+      return res.Trim('\0');
+
    }
 
    #endregion

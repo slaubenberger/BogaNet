@@ -22,7 +22,7 @@ public static class Base64 //NUnit
    /// <exception cref="ArgumentNullException"></exception>
    public static byte[] FromBase64String(string base64string, bool useSaveFormat = true)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(base64string);
+      ArgumentException.ThrowIfNullOrEmpty(base64string);
 
       return Convert.FromBase64String(useSaveFormat ? base64string.Replace("_", "/").Replace("-", "+") : base64string);
    }
@@ -53,7 +53,7 @@ public static class Base64 //NUnit
    /// <exception cref="ArgumentNullException"></exception>
    public static string ToBase64String(string str, Encoding? encoding = null, bool useSaveFormat = true)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(str);
+      ArgumentException.ThrowIfNullOrEmpty(str);
 
       byte[] bytes = str.BNToByteArray(encoding);
       //bytes.BNReverse();
@@ -69,7 +69,7 @@ public static class Base64 //NUnit
    /// <exception cref="Exception"></exception>
    public static string Base64FromFile(string file, bool useSaveFormat = true)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(file);
+      ArgumentException.ThrowIfNullOrEmpty(file);
 
       return ToBase64String(FileHelper.ReadAllBytes(file), useSaveFormat);
    }
@@ -83,7 +83,7 @@ public static class Base64 //NUnit
    /// <exception cref="Exception"></exception>
    public static async Task<string> Base64FromFileAsync(string file, bool useSaveFormat = true)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(file);
+      ArgumentException.ThrowIfNullOrEmpty(file);
 
       return ToBase64String(await FileHelper.ReadAllBytesAsync(file), useSaveFormat);
    }
@@ -98,7 +98,7 @@ public static class Base64 //NUnit
    /// <exception cref="Exception"></exception>
    public static bool FileFromBase64(string file, string base64string, bool useSaveFormat = true)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(file);
+      ArgumentException.ThrowIfNullOrEmpty(file);
 
       return FileHelper.WriteAllBytes(file, FromBase64String(base64string, useSaveFormat));
    }
@@ -113,7 +113,7 @@ public static class Base64 //NUnit
    /// <exception cref="Exception"></exception>
    public static async Task<bool> FileFromBase64Async(string file, string base64string, bool useSaveFormat = true)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(file);
+      ArgumentException.ThrowIfNullOrEmpty(file);
 
       return await FileHelper.WriteAllBytesAsync(file, FromBase64String(base64string, useSaveFormat));
    }

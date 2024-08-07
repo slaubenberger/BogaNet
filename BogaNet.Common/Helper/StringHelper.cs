@@ -223,14 +223,13 @@ public static class StringHelper
 
       int diff = length - str.Length;
 
-      if (diff > 0)
-      {
-         string fill = new(filler, diff);
+      if (diff <= 0)
+         return str[..length];
+      
+      string fill = new(filler, diff);
 
-         return padRight ? $"{str}{fill}" : $"{fill}{str}";
-      }
+      return padRight ? $"{str}{fill}" : $"{fill}{str}";
 
-      return str[..length];
    }
 
    /// <summary>
@@ -246,19 +245,18 @@ public static class StringHelper
       if (fillerCharacters == null)
          return string.Empty;
 
-      if (fillerCharacters.Length > 1)
+      if (fillerCharacters.Length <= 1)
+         return fillerCharacters.Length == 1 ? new string(fillerCharacters[0], length) : string.Empty;
+      
+      char[] chars = new char[length];
+
+      for (int ii = 0; ii < length; ii++)
       {
-         char[] chars = new char[length];
-
-         for (int ii = 0; ii < length; ii++)
-         {
-            chars[ii] = fillerCharacters[_rnd.Next(0, fillerCharacters.Length)];
-         }
-
-         return new string(chars);
+         chars[ii] = fillerCharacters[_rnd.Next(0, fillerCharacters.Length)];
       }
 
-      return fillerCharacters.Length == 1 ? new string(fillerCharacters[0], length) : string.Empty;
+      return new string(chars);
+
    }
 
    /// <summary>
@@ -283,20 +281,17 @@ public static class StringHelper
 
       for (int ii = 0; ii < lines.Length; ii++)
       {
-         if (ii + 1 > skipHeaderLines && ii < lines.Length - skipFooterLines)
+         if (ii + 1 <= skipHeaderLines || ii >= lines.Length - skipFooterLines) continue;
+         if (string.IsNullOrEmpty(lines[ii])) continue;
+         
+         if (ignoreCommentedLines)
          {
-            if (!string.IsNullOrEmpty(lines[ii]))
-            {
-               if (ignoreCommentedLines)
-               {
-                  if (!lines[ii].BNStartsWith("#")) //valid and not disabled line?
-                     result.Add(lines[ii]);
-               }
-               else
-               {
-                  result.Add(lines[ii]);
-               }
-            }
+            if (!lines[ii].BNStartsWith("#")) //valid and not disabled line?
+               result.Add(lines[ii]);
+         }
+         else
+         {
+            result.Add(lines[ii]);
          }
       }
 
@@ -311,7 +306,7 @@ public static class StringHelper
    /// <exception cref="ArgumentNullException"></exception>
    public static string DecodeFromHTMLString(string input)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(input);
+      ArgumentException.ThrowIfNullOrEmpty(input);
 
       return HttpUtility.HtmlDecode(input);
    }
@@ -324,7 +319,7 @@ public static class StringHelper
    /// <exception cref="ArgumentNullException"></exception>
    public static string EncodeToHTMLString(string input)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(input);
+      ArgumentException.ThrowIfNullOrEmpty(input);
 
       return HttpUtility.HtmlEncode(input);
    }
@@ -337,7 +332,7 @@ public static class StringHelper
    /// <exception cref="ArgumentNullException"></exception>
    public static string EscapeURL(string url)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(url);
+      ArgumentException.ThrowIfNullOrEmpty(url);
 
       return Uri.EscapeDataString(url).Replace("%2F", "/").Replace("%3A", ":");
    }

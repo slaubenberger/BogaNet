@@ -1,6 +1,7 @@
 ﻿#if true //change this to false if .NET 4.8 is not installed
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Speech.Synthesis;
 using System.Text;
 
@@ -185,10 +186,10 @@ namespace BogaNet.TTS
          writeOut("@SPEAK");
          using (SpeechSynthesizer speechSynthesizer = new SpeechSynthesizer())
          {
-            speechSynthesizer.SpeakStarted += new EventHandler<SpeakStartedEventArgs>(synthSpeakStarted);
-            speechSynthesizer.SpeakCompleted += new EventHandler<SpeakCompletedEventArgs>(synthSpeakCompleted);
-            speechSynthesizer.StateChanged += new EventHandler<StateChangedEventArgs>(synthStateChanged);
-            speechSynthesizer.VoiceChange += new EventHandler<VoiceChangeEventArgs>(synthVoiceChange);
+            speechSynthesizer.SpeakStarted += synthSpeakStarted;
+            speechSynthesizer.SpeakCompleted += synthSpeakCompleted;
+            speechSynthesizer.StateChanged += synthStateChanged;
+            speechSynthesizer.VoiceChange += synthVoiceChange;
 
             selectVoice(string.IsNullOrEmpty(voice) ? string.Empty : voice, speechSynthesizer);
 
@@ -233,10 +234,10 @@ namespace BogaNet.TTS
 
          using (SpeechSynthesizer speechSynthesizer = new SpeechSynthesizer())
          {
-            speechSynthesizer.SpeakStarted += new EventHandler<SpeakStartedEventArgs>(synthSpeakStarted);
-            speechSynthesizer.SpeakCompleted += new EventHandler<SpeakCompletedEventArgs>(synthSpeakCompleted);
-            speechSynthesizer.StateChanged += new EventHandler<StateChangedEventArgs>(synthStateChanged);
-            speechSynthesizer.VoiceChange += new EventHandler<VoiceChangeEventArgs>(synthVoiceChange);
+            speechSynthesizer.SpeakStarted += synthSpeakStarted;
+            speechSynthesizer.SpeakCompleted += synthSpeakCompleted;
+            speechSynthesizer.StateChanged += synthStateChanged;
+            speechSynthesizer.VoiceChange += synthVoiceChange;
 
             selectVoice(string.IsNullOrEmpty(voice) ? string.Empty : voice, speechSynthesizer);
 
@@ -287,14 +288,10 @@ namespace BogaNet.TTS
 
          if (!string.IsNullOrEmpty(voiceName))
          {
-            foreach (InstalledVoice installedVoice in speechSynthesizer.GetInstalledVoices())
+            if (speechSynthesizer.GetInstalledVoices().Any(installedVoice => installedVoice.VoiceInfo.Name.Equals(voiceName)))
             {
-               if (installedVoice.VoiceInfo.Name.Equals(voiceName))
-               {
-                  speechSynthesizer.SelectVoice(voiceName);
-                  found = true;
-                  break;
-               }
+               speechSynthesizer.SelectVoice(voiceName);
+               found = true;
             }
          }
 
@@ -304,23 +301,24 @@ namespace BogaNet.TTS
 
       private static int clamp(int value, int min, int max)
       {
-         return (value < min) ? min : (value > max) ? max : value;
+         return value < min ? min : value > max ? max : value;
       }
 
       private static int getRate(string ra)
       {
          int rate = 1;
-         if (!string.IsNullOrEmpty(ra))
+         
+         if (string.IsNullOrEmpty(ra)) 
+            return rate;
+         
+         if (int.TryParse(ra, out rate))
          {
-            if (int.TryParse(ra, out rate))
-            {
-               rate = clamp(rate, -10, 10);
-            }
-            else
-            {
-               writeOut($"WARNING: Argument -rate is not a number: '{ra}'");
-               rate = 1;
-            }
+            rate = clamp(rate, -10, 10);
+         }
+         else
+         {
+            writeOut($"WARNING: Argument -rate is not a number: '{ra}'");
+            rate = 1;
          }
 
          return rate;
@@ -329,17 +327,18 @@ namespace BogaNet.TTS
       private static int getVolume(string vol)
       {
          int volume = 100;
-         if (!string.IsNullOrEmpty(vol))
+         
+         if (string.IsNullOrEmpty(vol)) 
+            return volume;
+         
+         if (int.TryParse(vol, out volume))
          {
-            if (int.TryParse(vol, out volume))
-            {
-               volume = clamp(volume, 0, 100);
-            }
-            else
-            {
-               writeOut($"WARNING: Argument '-volume' is not a number: '{vol}'");
-               volume = 100;
-            }
+            volume = clamp(volume, 0, 100);
+         }
+         else
+         {
+            writeOut($"WARNING: Argument '-volume' is not a number: '{vol}'");
+            volume = 100;
          }
 
          return volume;

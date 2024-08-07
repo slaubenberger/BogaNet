@@ -118,7 +118,7 @@ public class LinuxVoiceProvider : BaseVoiceProvider
       return false;
    }
 
-   private string getVoiceName(Voice? voice)
+   private static string getVoiceName(Voice? voice)
    {
       if (voice == null || string.IsNullOrEmpty(voice.Name))
       {
@@ -128,15 +128,13 @@ public class LinuxVoiceProvider : BaseVoiceProvider
          return string.Empty;
       }
 
-      if (ESpeakModifier == ESpeakModifiers.none)
-      {
-         if (voice.Gender == Gender.FEMALE)
-            return voice.Name + $"+{ESpeakFemaleModifier.ToString()}";
+      if (ESpeakModifier != ESpeakModifiers.none) 
+         return voice.Name + "+" + ESpeakModifier;
+      
+      if (voice.Gender == Gender.FEMALE)
+         return voice.Name + $"+{ESpeakFemaleModifier.ToString()}";
 
-         return voice.Name;
-      }
-
-      return voice.Name + "+" + ESpeakModifier;
+      return voice.Name;
    }
 
    private async Task<List<Voice>?> getVoicesAsync()
@@ -153,39 +151,33 @@ public class LinuxVoiceProvider : BaseVoiceProvider
 
          List<string> lines = pr.Output.ToList();
 
-         foreach (var line in lines)
+         foreach (var line in lines.Where(line => !string.IsNullOrEmpty(line)).Where(line => !line.BNStartsWith("Pty")))
          {
-            if (!string.IsNullOrEmpty(line))
+            Voice voice;
+
+            if (ESpeakApplication.BNContains("espeak-ng"))
             {
-               if (!line.BNStartsWith("Pty")) //ignore header
-               {
-                  Voice voice;
+               string endLine = line[30..];
+               int index = endLine.BNIndexOf(")");
+               string name = index > 0 ? endLine.Substring(0, index + 1).Trim().Replace('_', ' ') : endLine[..19].Trim().Replace('_', ' ');
 
-                  if (ESpeakApplication.BNContains("espeak-ng"))
-                  {
-                     string endLine = line[30..];
-                     int index = endLine.BNIndexOf(")");
-                     string name = index > 0 ? endLine.Substring(0, index + 1).Trim().Replace('_', ' ') : endLine[..19].Trim().Replace('_', ' ');
+               string desc = line[50..].Trim();
+               Gender gender = Util.Helper.StringToGender(line.Substring(23, 1));
+               string culture = line.Substring(4, 15).Trim();
 
-                     string desc = line[50..].Trim();
-                     Gender gender = BogaNet.TTS.Util.Helper.StringToGender(line.Substring(23, 1));
-                     string culture = line.Substring(4, 15).Trim();
-
-                     voice = new Voice(name, desc, gender, "unknown", culture, "", "espeak-ng");
-                  }
-                  else
-                  {
-                     string name = line.Substring(22, 20).Trim();
-                     string desc = line[43..].Trim();
-                     Gender gender = BogaNet.TTS.Util.Helper.StringToGender(line.Substring(19, 1));
-                     string culture = line.Substring(4, 15).Trim();
-
-                     voice = new Voice(name, desc, gender, "unknown", culture, "", "espeak");
-                  }
-
-                  voices.Add(voice);
-               }
+               voice = new Voice(name, desc, gender, "unknown", culture, "", "espeak-ng");
             }
+            else
+            {
+               string name = line.Substring(22, 20).Trim();
+               string desc = line[43..].Trim();
+               Gender gender = Util.Helper.StringToGender(line.Substring(19, 1));
+               string culture = line.Substring(4, 15).Trim();
+
+               voice = new Voice(name, desc, gender, "unknown", culture, "", "espeak");
+            }
+
+            voices.Add(voice);
          }
 
          _cachedVoices = voices.OrderBy(s => s.Name).ToList();

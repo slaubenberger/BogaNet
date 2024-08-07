@@ -75,7 +75,7 @@ public class BadWordFilter : Singleton<BadWordFilter>, IBadWordFilter
 
    public virtual bool ContainsSource(string srcName)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(srcName);
+      ArgumentException.ThrowIfNullOrEmpty(srcName);
 
       return BWFConstants.DEBUG_DOMAINS ? _debugExactBadwordsRegex.ContainsKey(srcName) : _exactBadwordsRegex.ContainsKey(srcName);
    }
@@ -205,29 +205,27 @@ public class BadWordFilter : Singleton<BadWordFilter>, IBadWordFilter
                         if (words != null)
                            result = words.Any(simpleWord => _text.BNContains(simpleWord));
 
-                        if (result)
-                        {
-                           _logger.LogDebug("Test string contains a bad word.");
-                           break;
-                        }
+                        if (!result) continue;
+                        
+                        _logger.LogDebug("Test string contains a bad word.");
+                        break;
                      }
                   }
                   else
                   {
                      foreach (List<Regex>? badWordRegexes in _debugExactBadwordsRegex.Values)
                      {
-                        if (badWordRegexes != null)
+                        if (badWordRegexes == null) continue;
+                        
+                        foreach (Regex badWordRegex in badWordRegexes)
                         {
-                           foreach (Regex badWordRegex in badWordRegexes)
-                           {
-                              match = badWordRegex.Match(_text);
-                              if (match.Success)
-                              {
-                                 _logger.LogDebug($"Test string contains a bad word: '{match.Value}' detected by regex '{badWordRegex}'");
-                                 result = true;
-                                 break;
-                              }
-                           }
+                           match = badWordRegex.Match(_text);
+                           
+                           if (!match.Success) continue;
+                           
+                           _logger.LogDebug($"Test string contains a bad word: '{match.Value}' detected by regex '{badWordRegex}'");
+                           result = true;
+                           break;
                         }
                      }
                   }
@@ -243,11 +241,10 @@ public class BadWordFilter : Singleton<BadWordFilter>, IBadWordFilter
                            if (words != null)
                               result = words.Any(simpleWord => _text.BNContains(simpleWord));
 
-                           if (result)
-                           {
-                              _logger.LogDebug($"Test string contains a bad word from source '{sourceNames[ii]}'");
-                              break;
-                           }
+                           if (!result) continue;
+                           
+                           _logger.LogDebug($"Test string contains a bad word from source '{sourceNames[ii]}'");
+                           break;
                         }
                         else
                         {
@@ -258,18 +255,17 @@ public class BadWordFilter : Singleton<BadWordFilter>, IBadWordFilter
                      {
                         if (_debugExactBadwordsRegex.TryGetValue(sourceNames[ii], out List<Regex>? badWordRegexes))
                         {
-                           if (badWordRegexes != null)
+                           if (badWordRegexes == null) continue;
+                           
+                           foreach (Regex badWordRegex in badWordRegexes)
                            {
-                              foreach (Regex badWordRegex in badWordRegexes)
-                              {
-                                 match = badWordRegex.Match(_text);
-                                 if (match.Success)
-                                 {
-                                    _logger.LogDebug($"Test string contains a bad word: '{match.Value}' detected by regex '{badWordRegex}' from source '{sourceNames[ii]}'");
-                                    result = true;
-                                    break;
-                                 }
-                              }
+                              match = badWordRegex.Match(_text);
+                              
+                              if (!match.Success) continue;
+                              
+                              _logger.LogDebug($"Test string contains a bad word: '{match.Value}' detected by regex '{badWordRegex}' from source '{sourceNames[ii]}'");
+                              result = true;
+                              break;
                            }
                         }
                         else
@@ -306,11 +302,10 @@ public class BadWordFilter : Singleton<BadWordFilter>, IBadWordFilter
                      {
                         if (_simpleBadwords.TryGetValue(badWordsResource, out List<string>? words))
                         {
-                           if (words != null && words.Any(simpleWord => _text.BNContains(simpleWord)))
-                           {
-                              result = true;
-                              break;
-                           }
+                           if (words == null || !words.Any(simpleWord => _text.BNContains(simpleWord))) continue;
+                           
+                           result = true;
+                           break;
                         }
                         else
                         {
@@ -322,11 +317,11 @@ public class BadWordFilter : Singleton<BadWordFilter>, IBadWordFilter
                         if (_exactBadwordsRegex.TryGetValue(badWordsResource, out Regex? badWordRegex))
                         {
                            match = badWordRegex?.Match(_text);
-                           if (match != null && match.Success)
-                           {
-                              result = true;
-                              break;
-                           }
+                           
+                           if (match == null || !match.Success) continue;
+                           
+                           result = true;
+                           break;
                         }
                         else
                         {
@@ -380,19 +375,18 @@ public class BadWordFilter : Singleton<BadWordFilter>, IBadWordFilter
                   {
                      foreach (List<Regex>? badWordsResources in _debugExactBadwordsRegex.Values)
                      {
-                        if (badWordsResources != null)
+                        if (badWordsResources == null) continue;
+                        
+                        foreach (Regex badWordsResource in badWordsResources)
                         {
-                           foreach (Regex badWordsResource in badWordsResources)
+                           MatchCollection matches = badWordsResource.Matches(_text);
+
+                           foreach (Capture capture in from Match match in matches from Capture capture in match.Captures select capture)
                            {
-                              MatchCollection matches = badWordsResource.Matches(_text);
+                              _logger.LogDebug($"Test string contains a bad word: '{capture.Value}' detected by regex '{badWordsResource}'");
 
-                              foreach (Capture capture in from Match match in matches from Capture capture in match.Captures select capture)
-                              {
-                                 _logger.LogDebug($"Test string contains a bad word: '{capture.Value}' detected by regex '{badWordsResource}'");
-
-                                 if (!result.Contains(capture.Value))
-                                    result.Add(capture.Value);
-                              }
+                              if (!result.Contains(capture.Value))
+                                 result.Add(capture.Value);
                            }
                         }
                      }
@@ -406,15 +400,14 @@ public class BadWordFilter : Singleton<BadWordFilter>, IBadWordFilter
                      {
                         if (_simpleBadwords.TryGetValue(badWordsResource, out List<string>? words))
                         {
-                           if (words != null)
+                           if (words == null) continue;
+                           
+                           foreach (string simpleWord in words.Where(simpleWord => _text.BNContains(simpleWord)))
                            {
-                              foreach (string simpleWord in words.Where(simpleWord => _text.BNContains(simpleWord)))
-                              {
-                                 _logger.LogDebug($"Test string contains a bad word detected by word '{simpleWord}' from source '{badWordsResource}'");
+                              _logger.LogDebug($"Test string contains a bad word detected by word '{simpleWord}' from source '{badWordsResource}'");
 
-                                 if (!result.Contains(simpleWord))
-                                    result.Add(simpleWord);
-                              }
+                              if (!result.Contains(simpleWord))
+                                 result.Add(simpleWord);
                            }
                         }
                         else
@@ -426,19 +419,18 @@ public class BadWordFilter : Singleton<BadWordFilter>, IBadWordFilter
                      {
                         if (_debugExactBadwordsRegex.TryGetValue(badWordsResource, out List<Regex>? badWordRegexes))
                         {
-                           if (badWordRegexes != null)
+                           if (badWordRegexes == null) continue;
+                           
+                           foreach (Regex badWordRegex in badWordRegexes)
                            {
-                              foreach (Regex badWordRegex in badWordRegexes)
+                              MatchCollection matches = badWordRegex.Matches(_text);
+
+                              foreach (Capture capture in from Match match in matches from Capture capture in match.Captures select capture)
                               {
-                                 MatchCollection matches = badWordRegex.Matches(_text);
+                                 _logger.LogDebug($"Test string contains a bad word: '{capture.Value}' detected by regex '{badWordRegex}' from source '{badWordsResource}'");
 
-                                 foreach (Capture capture in from Match match in matches from Capture capture in match.Captures select capture)
-                                 {
-                                    _logger.LogDebug($"Test string contains a bad word: '{capture.Value}' detected by regex '{badWordRegex}' from source '{badWordsResource}'");
-
-                                    if (!result.Contains(capture.Value))
-                                       result.Add(capture.Value);
-                                 }
+                                 if (!result.Contains(capture.Value))
+                                    result.Add(capture.Value);
                               }
                            }
                         }
@@ -480,12 +472,11 @@ public class BadWordFilter : Singleton<BadWordFilter>, IBadWordFilter
                      {
                         if (_simpleBadwords.TryGetValue(badWordsResource, out List<string>? words))
                         {
-                           if (words != null)
+                           if (words == null) continue;
+                           
+                           foreach (string simpleWord in words.Where(simpleWord => _text.BNContains(simpleWord)).Where(simpleWord => !result.Contains(simpleWord)))
                            {
-                              foreach (string simpleWord in words.Where(simpleWord => _text.BNContains(simpleWord)).Where(simpleWord => !result.Contains(simpleWord)))
-                              {
-                                 result.Add(simpleWord);
-                              }
+                              result.Add(simpleWord);
                            }
                         }
                         else
@@ -499,12 +490,11 @@ public class BadWordFilter : Singleton<BadWordFilter>, IBadWordFilter
                         {
                            MatchCollection? matches = badWordRegex?.Matches(_text);
 
-                           if (matches != null)
+                           if (matches == null) continue;
+                           
+                           foreach (Capture capture in from Match match in matches from Capture capture in match.Captures where !result.Contains(capture.Value) select capture)
                            {
-                              foreach (Capture capture in from Match match in matches from Capture capture in match.Captures where !result.Contains(capture.Value) select capture)
-                              {
-                                 result.Add(capture.Value);
-                              }
+                              result.Add(capture.Value);
                            }
                         }
                         else
@@ -561,20 +551,19 @@ public class BadWordFilter : Singleton<BadWordFilter>, IBadWordFilter
                {
                   foreach (List<Regex>? badWordsResources in _debugExactBadwordsRegex.Values)
                   {
-                     if (badWordsResources != null)
+                     if (badWordsResources == null) continue;
+                     
+                     foreach (Regex badWordsResource in badWordsResources)
                      {
-                        foreach (Regex badWordsResource in badWordsResources)
+                        MatchCollection matches = badWordsResource.Matches(_text);
+
+                        foreach (Capture capture in from Match match in matches from Capture capture in match.Captures select capture)
                         {
-                           MatchCollection matches = badWordsResource.Matches(_text);
+                           _logger.LogDebug($"Test string contains a bad word: '{capture.Value}' detected by regex '{badWordsResource}'");
 
-                           foreach (Capture capture in from Match match in matches from Capture capture in match.Captures select capture)
-                           {
-                              _logger.LogDebug($"Test string contains a bad word: '{capture.Value}' detected by regex '{badWordsResource}'");
+                           result = replaceCapture(result, capture, result.Length - _text.Length);
 
-                              result = replaceCapture(result, capture, result.Length - _text.Length);
-
-                              hasBadWords = true;
-                           }
+                           hasBadWords = true;
                         }
                      }
                   }
@@ -585,20 +574,19 @@ public class BadWordFilter : Singleton<BadWordFilter>, IBadWordFilter
                   {
                      if (_debugExactBadwordsRegex.TryGetValue(badWordsResource, out List<Regex>? badWordRegexes))
                      {
-                        if (badWordRegexes != null)
+                        if (badWordRegexes == null) continue;
+                        
+                        foreach (Regex badWordRegex in badWordRegexes)
                         {
-                           foreach (Regex badWordRegex in badWordRegexes)
+                           MatchCollection matches = badWordRegex.Matches(_text);
+
+                           foreach (Capture capture in from Match match in matches from Capture capture in match.Captures select capture)
                            {
-                              MatchCollection matches = badWordRegex.Matches(_text);
+                              _logger.LogDebug($"Test string contains a bad word: '{capture.Value}' detected by regex '{badWordRegex}'' from source '{badWordsResource}'");
 
-                              foreach (Capture capture in from Match match in matches from Capture capture in match.Captures select capture)
-                              {
-                                 _logger.LogDebug($"Test string contains a bad word: '{capture.Value}' detected by regex '{badWordRegex}'' from source '{badWordsResource}'");
+                              result = replaceCapture(result, capture, result.Length - _text.Length);
 
-                                 result = replaceCapture(result, capture, result.Length - _text.Length);
-
-                                 hasBadWords = true;
-                              }
+                              hasBadWords = true;
                            }
                         }
                      }
@@ -633,16 +621,15 @@ public class BadWordFilter : Singleton<BadWordFilter>, IBadWordFilter
                      {
                         MatchCollection? matches = badWordRegex?.Matches(_text);
 
-                        if (matches != null)
+                        if (matches == null) continue;
+                        
+                        foreach (Capture capture in from Match match in matches from Capture capture in match.Captures select capture)
                         {
-                           foreach (Capture capture in from Match match in matches from Capture capture in match.Captures select capture)
-                           {
-                              _logger.LogDebug($"Test string contains a bad word: '{capture.Value}'");
+                           _logger.LogDebug($"Test string contains a bad word: '{capture.Value}'");
 
-                              result = replaceCapture(result, capture, result.Length - _text.Length);
+                           result = replaceCapture(result, capture, result.Length - _text.Length);
 
-                              hasBadWords = true;
-                           }
+                           hasBadWords = true;
                         }
                      }
                      else
@@ -1094,12 +1081,11 @@ public class BadWordFilter : Singleton<BadWordFilter>, IBadWordFilter
       if (BWFConstants.DEBUG_BADWORDS)
          _logger.LogDebug("++ BadWordFilter started in debug-mode ++");
 
-      foreach (var kvp in dataDict)
+      foreach (var (source, value) in dataDict)
       {
-         string source = kvp.Key;
          List<string> list = [];
 
-         list.AddRange(from str in kvp.Value where !str.BNStartsWith("#") select str.Split('#')[0]);
+         list.AddRange(from str in value where !str.BNStartsWith("#") select str.Split('#')[0]);
          string[] words = list.ToArray();
 
          if (BWFConstants.DEBUG_BADWORDS)

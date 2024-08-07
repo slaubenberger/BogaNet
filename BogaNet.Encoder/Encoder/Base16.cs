@@ -25,7 +25,7 @@ public static class Base16 //NUnit
    /// <exception cref="ArgumentNullException"></exception>
    public static byte[] FromBase16String(string base16string)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(base16string);
+      ArgumentException.ThrowIfNullOrEmpty(base16string);
 
       int diff = base16string.Length % 2;
 
@@ -38,20 +38,19 @@ public static class Base16 //NUnit
       string hexVal = base16string.BNStartsWith("0x") ? base16string[2..] : base16string;
 
       //remove leading zeros
-      if (hexVal.Length > 2)
+      if (hexVal.Length <= 2) return Convert.FromHexString(hexVal);
+      
+      do
       {
-         do
+         if (hexVal.BNStartsWith("00") && hexVal.Length > 2)
          {
-            if (hexVal.BNStartsWith("00") && hexVal.Length > 2)
-            {
-               hexVal = hexVal[2..];
-            }
-            else
-            {
-               break;
-            }
-         } while (true);
-      }
+            hexVal = hexVal[2..];
+         }
+         else
+         {
+            break;
+         }
+      } while (true);
 
       return Convert.FromHexString(hexVal);
    }
@@ -165,7 +164,7 @@ public static class Base16 //NUnit
    /// <exception cref="Exception"></exception>
    public static string Base16FromFile(string file)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(file);
+      ArgumentException.ThrowIfNullOrEmpty(file);
 
       return ToBase16String(FileHelper.ReadAllBytes(file));
    }
@@ -178,7 +177,7 @@ public static class Base16 //NUnit
    /// <exception cref="Exception"></exception>
    public static async Task<string> Base16FromFileAsync(string file)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(file);
+      ArgumentException.ThrowIfNullOrEmpty(file);
 
       return ToBase16String(await FileHelper.ReadAllBytesAsync(file));
    }
@@ -192,7 +191,7 @@ public static class Base16 //NUnit
    /// <exception cref="Exception"></exception>
    public static bool FileFromBase16(string file, string base16string)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(file);
+      ArgumentException.ThrowIfNullOrEmpty(file);
 
       return FileHelper.WriteAllBytes(file, FromBase16String(base16string));
    }
@@ -206,7 +205,7 @@ public static class Base16 //NUnit
    /// <exception cref="Exception"></exception>
    public static async Task<bool> FileFromBase16Async(string file, string base16string)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(file);
+      ArgumentException.ThrowIfNullOrEmpty(file);
 
       return await FileHelper.WriteAllBytesAsync(file, FromBase16String(base16string));
    }

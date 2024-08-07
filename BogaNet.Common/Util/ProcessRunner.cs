@@ -106,7 +106,7 @@ public class ProcessRunner
    /// <exception cref="Exception"></exception>
    public async Task<Process> StartAsync(string command, string? args = null, bool waitForExit = false, Encoding? encoding = null, bool createNoWindow = true)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(command);
+      ArgumentException.ThrowIfNullOrEmpty(command);
 
       try
       {
@@ -204,20 +204,18 @@ public class ProcessRunner
 
    private void outputReceived(object sender, DataReceivedEventArgs e)
    {
-      if (e.Data != null)
-      {
-         _outputList.Add(e.Data);
-         OnOutputReceived?.Invoke(e.Data);
-      }
+      if (e.Data == null) return;
+      
+      _outputList.Add(e.Data);
+      OnOutputReceived?.Invoke(e.Data);
    }
 
    private void errorReceived(object sender, DataReceivedEventArgs e)
    {
-      if (e.Data != null)
-      {
-         _errorList.Add(e.Data);
-         OnErrorReceived?.Invoke(e.Data);
-      }
+      if (e.Data == null) return;
+
+      _errorList.Add(e.Data);
+      OnErrorReceived?.Invoke(e.Data);
    }
 
    #endregion

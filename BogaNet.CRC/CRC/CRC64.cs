@@ -52,7 +52,7 @@ public abstract class CRC64 //NUnit
    /// <exception cref="Exception"></exception>
    public static ulong CalcCRCFile(string file)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(file);
+      ArgumentException.ThrowIfNullOrEmpty(file);
 
       byte[] bytes = FileHelper.ReadAllBytes(file);
       return CalcCRC(bytes);
@@ -66,7 +66,7 @@ public abstract class CRC64 //NUnit
    /// <exception cref="Exception"></exception>
    public static async Task<ulong> CalcCRCFileAsync(string file)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(file);
+      ArgumentException.ThrowIfNullOrEmpty(file);
 
       byte[] bytes = await FileHelper.ReadAllBytesAsync(file);
       return CalcCRC(bytes);

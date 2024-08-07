@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using BogaNet.Extension;
 using System.Threading.Tasks;
@@ -24,7 +25,7 @@ public static class Base58
    /// <exception cref="ArgumentNullException"></exception>
    public static byte[] FromBase58String(string base58string)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(base58string);
+      ArgumentException.ThrowIfNullOrEmpty(base58string);
 
       return Base58_intern.AsBytes(base58string);
    }
@@ -51,7 +52,7 @@ public static class Base58
    /// <exception cref="ArgumentNullException"></exception>
    public static string ToBase58String(string str, Encoding? encoding = null)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(str);
+      ArgumentException.ThrowIfNullOrEmpty(str);
 
       byte[] bytes = str.BNToByteArray(encoding);
       //bytes.BNReverse();
@@ -66,7 +67,7 @@ public static class Base58
    /// <exception cref="Exception"></exception>
    public static string Base58FromFile(string file)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(file);
+      ArgumentException.ThrowIfNullOrEmpty(file);
 
       return ToBase58String(FileHelper.ReadAllBytes(file));
    }
@@ -79,7 +80,7 @@ public static class Base58
    /// <exception cref="Exception"></exception>
    public static async Task<string> Base58FromFileAsync(string file)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(file);
+      ArgumentException.ThrowIfNullOrEmpty(file);
 
       return ToBase58String(await FileHelper.ReadAllBytesAsync(file));
    }
@@ -93,7 +94,7 @@ public static class Base58
    /// <exception cref="Exception"></exception>
    public static bool FileFromBase58(string file, string base58string)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(file);
+      ArgumentException.ThrowIfNullOrEmpty(file);
 
       return FileHelper.WriteAllBytes(file, FromBase58String(base58string));
    }
@@ -107,7 +108,7 @@ public static class Base58
    /// <exception cref="Exception"></exception>
    public static async Task<bool> FileFromBase58Async(string file, string base58string)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(file);
+      ArgumentException.ThrowIfNullOrEmpty(file);
 
       return await FileHelper.WriteAllBytesAsync(file, FromBase58String(base58string));
    }
@@ -165,7 +166,7 @@ public static class Base58
       /// <exception cref="NullReferenceException">Text cannot be null.</exception>
       public static string ToString(string text)
       {
-         ArgumentNullException.ThrowIfNullOrEmpty(text);
+         ArgumentException.ThrowIfNullOrEmpty(text);
 
          return ToString(Utf8.GetBytes(text));
       }
@@ -232,7 +233,7 @@ public static class Base58
       /// <exception cref="NullReferenceException">Text cannot be null.</exception>
       public static bool TryToString(string text, out string result)
       {
-         ArgumentNullException.ThrowIfNullOrEmpty(text);
+         ArgumentException.ThrowIfNullOrEmpty(text);
 
          return TryToString(Utf8.GetBytes(text), out result);
       }
@@ -251,7 +252,7 @@ public static class Base58
       /// <exception cref="FormatException">Unknown character.</exception>
       public static byte[] AsBytes(string base58)
       {
-         ArgumentNullException.ThrowIfNullOrEmpty(base58);
+         ArgumentException.ThrowIfNullOrEmpty(base58);
 
          if (TryAsBytes(base58, out var result))
             return result;
@@ -268,7 +269,7 @@ public static class Base58
       /// <exception cref="FormatException">Unknown character.</exception>
       public static bool TryAsBytes(string base58, out byte[] result)
       {
-         ArgumentNullException.ThrowIfNullOrEmpty(base58);
+         ArgumentException.ThrowIfNullOrEmpty(base58);
 
          if (string.IsNullOrEmpty(base58))
          {
@@ -280,12 +281,11 @@ public static class Base58
          var startingZeros = 0;
          var indices = new List<int>();
 
-         foreach (var c in base58)
+         foreach (var index in base58.Select(c => Array.IndexOf(Base58Map, c)))
          {
-            var index = Array.IndexOf(Base58Map, c);
             if (index >= 0)
             {
-               if (inStarting && (index == 0))
+               if (inStarting && index == 0)
                {
                   startingZeros += 1;
                }
@@ -314,7 +314,7 @@ public static class Base58
 
          try
          {
-            var extraZeros = (outputBytes[0] == 0x00) ? startingZeros - 1 : startingZeros;
+            var extraZeros = outputBytes[0] == 0x00 ? startingZeros - 1 : startingZeros;
             var buffer = new byte[outputBytes.Length + extraZeros];
 
             if (extraZeros >= 0)
@@ -348,7 +348,7 @@ public static class Base58
       /// <exception cref="FormatException">Unknown character.</exception>
       public static string? AsString(string base58)
       {
-         ArgumentNullException.ThrowIfNullOrEmpty(base58);
+         ArgumentException.ThrowIfNullOrEmpty(base58);
 
          if (TryAsString(base58, out var result))
             return result;
@@ -365,7 +365,7 @@ public static class Base58
       /// <exception cref="FormatException">Unknown character.</exception>
       public static bool TryAsString(string base58, out string? result)
       {
-         ArgumentNullException.ThrowIfNullOrEmpty(base58);
+         ArgumentException.ThrowIfNullOrEmpty(base58);
 
          if (TryAsBytes(base58, out var bytes))
          {

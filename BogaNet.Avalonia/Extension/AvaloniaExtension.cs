@@ -64,7 +64,6 @@ public static class AvaloniaExtension
    /// Load source files as resources for DomainFilter.
    /// </summary>
    /// <param name="filter">DomainFilter-instance</param>
-   /// <param name="isLTR">Is source written left-to-right?</param>
    /// <param name="files">Files to load (Item1 = source name, Item2 = file)</param>
    /// <exception cref="ArgumentNullException"></exception>
    public static void LoadResources(this IDomainFilter filter, params Tuple<string, string>[] files)

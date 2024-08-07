@@ -137,7 +137,7 @@ public class PreferencesContainer : IPreferencesContainer //NUnit
 
    public virtual bool ContainsKey(string key)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(key);
+      ArgumentException.ThrowIfNullOrEmpty(key);
 
       return _preferences.ContainsKey(key);
    }
@@ -161,7 +161,7 @@ public class PreferencesContainer : IPreferencesContainer //NUnit
 
    public virtual void Set(string key, object value, bool obfuscated = false)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(key);
+      ArgumentException.ThrowIfNullOrEmpty(key);
       ArgumentNullException.ThrowIfNull(value);
 
       if (ContainsKey(key))

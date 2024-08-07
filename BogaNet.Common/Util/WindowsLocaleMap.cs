@@ -48,7 +48,7 @@ public abstract class WindowsLocaleMap
    /// <exception cref="ArgumentNullException"></exception>
    public static bool TryGetLocale(string isoCulture, out int windowsLocale)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(isoCulture);
+      ArgumentException.ThrowIfNullOrEmpty(isoCulture);
 
       foreach (KeyValuePair<int, string> kvp in _mappings.Value.Where(kvp => kvp.Value.Substring(0, kvp.Value.Length > isoCulture.Length ? isoCulture.Length : kvp.Value.Length).BNEquals(isoCulture)))
       {

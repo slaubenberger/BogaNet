@@ -126,14 +126,14 @@ public abstract class Helper
    /// <returns>Gender from the given Apple voice name.</returns>
    public static Gender AppleVoiceNameToGender(string voiceName)
    {
-      if (!string.IsNullOrEmpty(voiceName))
-      {
-         if (appleFemales.Any(female => voiceName.BNContains(female)))
-            return Gender.FEMALE;
+      if (string.IsNullOrEmpty(voiceName))
+         return Gender.UNKNOWN;
+      
+      if (appleFemales.Any(female => voiceName.BNContains(female)))
+         return Gender.FEMALE;
 
-         if (appleMales.Any(male => voiceName.BNContains(male)))
-            return Gender.MALE;
-      }
+      if (appleMales.Any(male => voiceName.BNContains(male)))
+         return Gender.MALE;
 
       return Gender.UNKNOWN;
    }

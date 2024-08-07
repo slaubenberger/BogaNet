@@ -86,7 +86,7 @@ public abstract class CRC8 //NUnit
    /// <exception cref="Exception"></exception>
    public static byte CalcCRCFile(string file)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(file);
+      ArgumentException.ThrowIfNullOrEmpty(file);
 
       byte[] bytes = FileHelper.ReadAllBytes(file);
       return CalcCRC(bytes);
@@ -100,7 +100,7 @@ public abstract class CRC8 //NUnit
    /// <exception cref="Exception"></exception>
    public static async Task<byte> CalcCRCFileAsync(string file)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(file);
+      ArgumentException.ThrowIfNullOrEmpty(file);
 
       byte[] bytes = await FileHelper.ReadAllBytesAsync(file);
       return CalcCRC(bytes);

@@ -43,11 +43,7 @@ public class Pacifier : Singleton<Pacifier>, IFilter
 
       res = BadWordFilter.Contains(text, sourceNames);
 
-      if (res)
-         return res;
-
-      //return DomainFilter.Contains(text, sourceNames);
-      return DomainFilter.Contains(text, null);
+      return res ? res : DomainFilter.Contains(text, null);
    }
 
    public virtual List<string> GetAll(string text, params string[]? sourceNames)

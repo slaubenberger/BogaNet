@@ -22,23 +22,21 @@ public class Singleton<T> where T : class
    {
       get
       {
-         if (_instance == null)
+         if (_instance != null)
+            return _instance;
+
+         lock (_mutex)
          {
-            lock (_mutex)
+            if (_instance != null) 
+               return _instance;
+
+            ConstructorInfo? ci = typeof(T).GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, Type.EmptyTypes, null);
+            if (ci == null)
             {
-               if (_instance == null)
-               {
-                  //_instance = new T();
-
-                  ConstructorInfo? ci = typeof(T).GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, Type.EmptyTypes, null);
-                  if (ci == null)
-                  {
-                     throw new InvalidOperationException("Class must contain a private constructor");
-                  }
-
-                  _instance = (T)ci.Invoke(null);
-               }
+               throw new InvalidOperationException("Class must contain a private constructor");
             }
+
+            _instance = (T)ci.Invoke(null);
          }
 
          return _instance;

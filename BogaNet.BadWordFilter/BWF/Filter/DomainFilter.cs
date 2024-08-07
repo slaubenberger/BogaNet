@@ -65,7 +65,7 @@ public class DomainFilter : Singleton<DomainFilter>, IDomainFilter
 
    public virtual bool ContainsSource(string srcName)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(srcName);
+      ArgumentException.ThrowIfNullOrEmpty(srcName);
 
       return BWFConstants.DEBUG_DOMAINS ? _debugDomainsRegex.ContainsKey(srcName) : _domainsRegex.ContainsKey(srcName);
    }
@@ -187,18 +187,17 @@ public class DomainFilter : Singleton<DomainFilter>, IDomainFilter
                {
                   foreach (List<Regex>? domainRegexes in _debugDomainsRegex.Values)
                   {
-                     if (domainRegexes != null)
+                     if (domainRegexes == null) continue;
+                     
+                     foreach (Regex domainRegex in domainRegexes)
                      {
-                        foreach (Regex domainRegex in domainRegexes)
-                        {
-                           Match match = domainRegex.Match(text);
-                           if (match.Success)
-                           {
-                              _logger.LogDebug($"Test string contains a domain: '{match.Value}' detected by regex '{domainRegex}'");
-                              result = true;
-                              break;
-                           }
-                        }
+                        Match match = domainRegex.Match(text);
+                           
+                        if (!match.Success) continue;
+                           
+                        _logger.LogDebug($"Test string contains a domain: '{match.Value}' detected by regex '{domainRegex}'");
+                        result = true;
+                        break;
                      }
                   }
                }
@@ -208,18 +207,17 @@ public class DomainFilter : Singleton<DomainFilter>, IDomainFilter
                   {
                      if (_debugDomainsRegex.TryGetValue(domainResource, out List<Regex>? domainRegexes))
                      {
-                        if (domainRegexes != null)
+                        if (domainRegexes == null) continue;
+                        
+                        foreach (Regex domainRegex in domainRegexes)
                         {
-                           foreach (Regex domainRegex in domainRegexes)
-                           {
-                              Match match = domainRegex.Match(text);
-                              if (match.Success)
-                              {
-                                 _logger.LogDebug($"Test string contains a domain: '{match.Value}' detected by regex '{domainRegex}' from source '{domainResource}'");
-                                 result = true;
-                                 break;
-                              }
-                           }
+                           Match match = domainRegex.Match(text);
+                              
+                           if (!match.Success) continue;
+                              
+                           _logger.LogDebug($"Test string contains a domain: '{match.Value}' detected by regex '{domainRegex}' from source '{domainResource}'");
+                           result = true;
+                           break;
                         }
                      }
                      else
@@ -249,11 +247,10 @@ public class DomainFilter : Singleton<DomainFilter>, IDomainFilter
                      {
                         Match? match = domainRegex?.Match(text);
 
-                        if (match != null && match.Success)
-                        {
-                           result = true;
-                           break;
-                        }
+                        if (match == null || !match.Success) continue;
+                        
+                        result = true;
+                        break;
                      }
                      else
                      {
@@ -292,19 +289,18 @@ public class DomainFilter : Singleton<DomainFilter>, IDomainFilter
                {
                   foreach (List<Regex>? domainRegexes in _debugDomainsRegex.Values)
                   {
-                     if (domainRegexes != null)
+                     if (domainRegexes == null) continue;
+                     
+                     foreach (Regex domainRegex in domainRegexes)
                      {
-                        foreach (Regex domainRegex in domainRegexes)
+                        MatchCollection matches = domainRegex.Matches(text);
+
+                        foreach (Capture capture in from Match match in matches from Capture capture in match.Captures select capture)
                         {
-                           MatchCollection matches = domainRegex.Matches(text);
+                           _logger.LogDebug($"Test string contains a domain: '{capture.Value}' detected by regex '{domainRegex}'");
 
-                           foreach (Capture capture in from Match match in matches from Capture capture in match.Captures select capture)
-                           {
-                              _logger.LogDebug($"Test string contains a domain: '{capture.Value}' detected by regex '{domainRegex}'");
-
-                              if (!result.Contains(capture.Value))
-                                 result.Add(capture.Value);
-                           }
+                           if (!result.Contains(capture.Value))
+                              result.Add(capture.Value);
                         }
                      }
                   }
@@ -315,19 +311,18 @@ public class DomainFilter : Singleton<DomainFilter>, IDomainFilter
                   {
                      if (_debugDomainsRegex.TryGetValue(domainResource, out List<Regex>? domainRegexes))
                      {
-                        if (domainRegexes != null)
+                        if (domainRegexes == null) continue;
+                        
+                        foreach (Regex domainRegex in domainRegexes)
                         {
-                           foreach (Regex domainRegex in domainRegexes)
+                           MatchCollection matches = domainRegex.Matches(text);
+
+                           foreach (Capture capture in from Match match in matches from Capture capture in match.Captures select capture)
                            {
-                              MatchCollection matches = domainRegex.Matches(text);
+                              _logger.LogDebug($"Test string contains a domain: '{capture.Value}' detected by regex '{domainRegex}'' from source '{domainResource}'");
 
-                              foreach (Capture capture in from Match match in matches from Capture capture in match.Captures select capture)
-                              {
-                                 _logger.LogDebug($"Test string contains a domain: '{capture.Value}' detected by regex '{domainRegex}'' from source '{domainResource}'");
-
-                                 if (!result.Contains(capture.Value))
-                                    result.Add(capture.Value);
-                              }
+                              if (!result.Contains(capture.Value))
+                                 result.Add(capture.Value);
                            }
                         }
                      }
@@ -358,12 +353,11 @@ public class DomainFilter : Singleton<DomainFilter>, IDomainFilter
                      {
                         MatchCollection? matches = domainRegex?.Matches(text);
 
-                        if (matches != null)
+                        if (matches == null) continue;
+                        
+                        foreach (Capture capture in from Match match in matches from Capture capture in match.Captures where !result.Contains(capture.Value) select capture)
                         {
-                           foreach (Capture capture in from Match match in matches from Capture capture in match.Captures where !result.Contains(capture.Value) select capture)
-                           {
-                              result.Add(capture.Value);
-                           }
+                           result.Add(capture.Value);
                         }
                      }
                      else
@@ -406,20 +400,19 @@ public class DomainFilter : Singleton<DomainFilter>, IDomainFilter
                {
                   foreach (List<Regex>? domainRegexes in _debugDomainsRegex.Values)
                   {
-                     if (domainRegexes != null)
+                     if (domainRegexes == null) continue;
+                     
+                     foreach (Regex domainRegex in domainRegexes)
                      {
-                        foreach (Regex domainRegex in domainRegexes)
+                        MatchCollection matches = domainRegex.Matches(text);
+
+                        foreach (Capture capture in from Match match in matches from Capture capture in match.Captures select capture)
                         {
-                           MatchCollection matches = domainRegex.Matches(text);
+                           _logger.LogDebug($"Test string contains a domain: '{capture.Value}' detected by regex '{domainRegex}'");
 
-                           foreach (Capture capture in from Match match in matches from Capture capture in match.Captures select capture)
-                           {
-                              _logger.LogDebug($"Test string contains a domain: '{capture.Value}' detected by regex '{domainRegex}'");
+                           result = result.Replace(capture.Value, StringHelper.CreateString(capture.Value.Length, ReplaceCharacters));
 
-                              result = result.Replace(capture.Value, StringHelper.CreateString(capture.Value.Length, ReplaceCharacters));
-
-                              hasDomains = true;
-                           }
+                           hasDomains = true;
                         }
                      }
                   }
@@ -430,20 +423,19 @@ public class DomainFilter : Singleton<DomainFilter>, IDomainFilter
                   {
                      if (_debugDomainsRegex.TryGetValue(domainResource, out List<Regex>? domainRegexes))
                      {
-                        if (domainRegexes != null)
+                        if (domainRegexes == null) continue;
+                        
+                        foreach (Regex domainRegex in domainRegexes)
                         {
-                           foreach (Regex domainRegex in domainRegexes)
+                           MatchCollection matches = domainRegex.Matches(text);
+
+                           foreach (Capture capture in from Match match in matches from Capture capture in match.Captures select capture)
                            {
-                              MatchCollection matches = domainRegex.Matches(text);
+                              _logger.LogDebug($"Test string contains a domain: '{capture.Value}' detected by regex '{domainRegex}'' from source '{domainResource}'");
 
-                              foreach (Capture capture in from Match match in matches from Capture capture in match.Captures select capture)
-                              {
-                                 _logger.LogDebug($"Test string contains a domain: '{capture.Value}' detected by regex '{domainRegex}'' from source '{domainResource}'");
+                              result = result.Replace(capture.Value, StringHelper.CreateString(capture.Value.Length, ReplaceCharacters));
 
-                                 result = result.Replace(capture.Value, StringHelper.CreateString(capture.Value.Length, ReplaceCharacters));
-
-                                 hasDomains = true;
-                              }
+                              hasDomains = true;
                            }
                         }
                      }
@@ -478,16 +470,15 @@ public class DomainFilter : Singleton<DomainFilter>, IDomainFilter
                      {
                         MatchCollection? matches = domainRegex?.Matches(text);
 
-                        if (matches != null)
+                        if (matches == null) continue;
+                        
+                        foreach (Capture capture in from Match match in matches from Capture capture in match.Captures select capture)
                         {
-                           foreach (Capture capture in from Match match in matches from Capture capture in match.Captures select capture)
-                           {
-                              _logger.LogDebug($"Test string contains a domain: '{capture.Value}'");
+                           _logger.LogDebug($"Test string contains a domain: '{capture.Value}'");
 
-                              result = replaceCapture(result, capture, result.Length - text.Length);
+                           result = replaceCapture(result, capture, result.Length - text.Length);
 
-                              hasDomains = true;
-                           }
+                           hasDomains = true;
                         }
                      }
                      else
@@ -529,12 +520,11 @@ public class DomainFilter : Singleton<DomainFilter>, IDomainFilter
       if (BWFConstants.DEBUG_DOMAINS)
          _logger.LogDebug("++ DomainFilter started in debug-mode ++");
 
-      foreach (var kvp in dataDict)
+      foreach (var (source, value) in dataDict)
       {
-         string source = kvp.Key;
          List<string> list = [];
 
-         list.AddRange(from str in kvp.Value where !str.BNStartsWith("#") select str.Split('#')[0]);
+         list.AddRange(from str in value where !str.BNStartsWith("#") select str.Split('#')[0]);
          string[] domains = list.ToArray();
 
          if (BWFConstants.DEBUG_DOMAINS)

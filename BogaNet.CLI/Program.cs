@@ -87,7 +87,7 @@ public static class Program
          await Task.Delay(100);
       } while (!DomainFilter.Instance.IsLoaded);
 
-      string foulText = "MARTIANS are assholes/arschlöcher/culo!!!!!!!!!!  => WATCH: https//mytruthpage.com/weirdowatch/martians123.divx or WRITE an EMAIL: weirdo@gmail.com";
+      const string foulText = "MARTIANS are assholes/arschlöcher/culo!!!!!!!!!!  => WATCH: https//mytruthpage.com/weirdowatch/martians123.divx or WRITE an EMAIL: weirdo@gmail.com";
 
       bool contains = Pacifier.Instance.Contains(foulText);
       _logger.LogInformation("Contains: " + contains);
@@ -101,7 +101,7 @@ public static class Program
 
    private static async Task testBWF()
    {
-      string foulText = "MARTIANS are assholes.... => watch mypage.com => badguy@evilmail.com";
+      const string foulText = "MARTIANS are assholes.... => watch mypage.com => badguy@evilmail.com";
 
       string removedCapitalization = CapitalizationFilter.Instance.ReplaceAll(foulText);
 
@@ -169,16 +169,16 @@ public static class Program
       //_logger.LogDebug(Base64.ToBase64String(HashHelper.HashSHA256File("./contentFiles/BogaNetTTSWrapper.exe")));
 
       //var tts = BogaNet.TTS.Provider.OSXVoiceProvider.Instance;
-      var tts = BogaNet.TTS.Speaker.Instance;
+      var tts = TTS.Speaker.Instance;
       tts.UseESpeak = false;
 
       if (Constants.IsOSX)
       {
-         tts.ESpeakApplication = "/opt/local/bin/espeak-ng";
+         TTS.Speaker.ESpeakApplication = "/opt/local/bin/espeak-ng";
       }
       else if (Constants.IsWindows)
       {
-         tts.ESpeakApplication = @"C:\Program Files\eSpeak NG\espeak-ng.exe";
+         TTS.Speaker.ESpeakApplication = @"C:\Program Files\eSpeak NG\espeak-ng.exe";
       }
 
       var voices = tts.GetVoices();
@@ -245,36 +245,36 @@ public static class Program
    {
       bool useSI = true;
 
-      _logger.LogInformation(BogaNet.Helper.GeneralHelper.FormatBitrateToHRF(1000, useSI));
-      _logger.LogInformation(BogaNet.Helper.GeneralHelper.FormatBitrateToHRF((long)Math.Pow(1000, 2), useSI));
-      _logger.LogInformation(BogaNet.Helper.GeneralHelper.FormatBitrateToHRF((long)Math.Pow(1000, 3), useSI));
-      _logger.LogInformation(BogaNet.Helper.GeneralHelper.FormatBitrateToHRF((long)Math.Pow(1000, 4), useSI));
-      _logger.LogInformation(BogaNet.Helper.GeneralHelper.FormatBitrateToHRF((long)Math.Pow(1000, 5), useSI));
-      _logger.LogInformation(BogaNet.Helper.GeneralHelper.FormatBitrateToHRF((long)Math.Pow(1000, 6), useSI));
-      _logger.LogInformation(BogaNet.Helper.GeneralHelper.FormatBitrateToHRF(1024, useSI));
-      _logger.LogInformation(BogaNet.Helper.GeneralHelper.FormatBitrateToHRF((long)Math.Pow(1024, 2), useSI));
-      _logger.LogInformation(BogaNet.Helper.GeneralHelper.FormatBitrateToHRF((long)Math.Pow(1024, 3), useSI));
-      _logger.LogInformation(BogaNet.Helper.GeneralHelper.FormatBitrateToHRF((long)Math.Pow(1024, 4), useSI));
-      _logger.LogInformation(BogaNet.Helper.GeneralHelper.FormatBitrateToHRF((long)Math.Pow(1024, 5), useSI));
-      _logger.LogInformation(BogaNet.Helper.GeneralHelper.FormatBitrateToHRF((long)Math.Pow(1024, 6), useSI));
+      _logger.LogInformation(GeneralHelper.FormatBitrateToHRF(1000, useSI));
+      _logger.LogInformation(GeneralHelper.FormatBitrateToHRF((long)Math.Pow(1000, 2), useSI));
+      _logger.LogInformation(GeneralHelper.FormatBitrateToHRF((long)Math.Pow(1000, 3), useSI));
+      _logger.LogInformation(GeneralHelper.FormatBitrateToHRF((long)Math.Pow(1000, 4), useSI));
+      _logger.LogInformation(GeneralHelper.FormatBitrateToHRF((long)Math.Pow(1000, 5), useSI));
+      _logger.LogInformation(GeneralHelper.FormatBitrateToHRF((long)Math.Pow(1000, 6), useSI));
+      _logger.LogInformation(GeneralHelper.FormatBitrateToHRF(1024, useSI));
+      _logger.LogInformation(GeneralHelper.FormatBitrateToHRF((long)Math.Pow(1024, 2), useSI));
+      _logger.LogInformation(GeneralHelper.FormatBitrateToHRF((long)Math.Pow(1024, 3), useSI));
+      _logger.LogInformation(GeneralHelper.FormatBitrateToHRF((long)Math.Pow(1024, 4), useSI));
+      _logger.LogInformation(GeneralHelper.FormatBitrateToHRF((long)Math.Pow(1024, 5), useSI));
+      _logger.LogInformation(GeneralHelper.FormatBitrateToHRF((long)Math.Pow(1024, 6), useSI));
    }
 
    private static void testBytesHRF()
    {
       bool useSI = true;
 
-      _logger.LogInformation(BogaNet.Helper.GeneralHelper.FormatBytesToHRF(1000, useSI));
-      _logger.LogInformation(BogaNet.Helper.GeneralHelper.FormatBytesToHRF((long)Math.Pow(1000, 2), useSI));
-      _logger.LogInformation(BogaNet.Helper.GeneralHelper.FormatBytesToHRF((long)Math.Pow(1000, 3), useSI));
-      _logger.LogInformation(BogaNet.Helper.GeneralHelper.FormatBytesToHRF((long)Math.Pow(1000, 4), useSI));
-      _logger.LogInformation(BogaNet.Helper.GeneralHelper.FormatBytesToHRF((long)Math.Pow(1000, 5), useSI));
-      _logger.LogInformation(BogaNet.Helper.GeneralHelper.FormatBytesToHRF((long)Math.Pow(1000, 6), useSI));
-      _logger.LogInformation(BogaNet.Helper.GeneralHelper.FormatBytesToHRF(1024, useSI));
-      _logger.LogInformation(BogaNet.Helper.GeneralHelper.FormatBytesToHRF((long)Math.Pow(1024, 2), useSI));
-      _logger.LogInformation(BogaNet.Helper.GeneralHelper.FormatBytesToHRF((long)Math.Pow(1024, 3), useSI));
-      _logger.LogInformation(BogaNet.Helper.GeneralHelper.FormatBytesToHRF((long)Math.Pow(1024, 4), useSI));
-      _logger.LogInformation(BogaNet.Helper.GeneralHelper.FormatBytesToHRF((long)Math.Pow(1024, 5), useSI));
-      _logger.LogInformation(BogaNet.Helper.GeneralHelper.FormatBytesToHRF((long)Math.Pow(1024, 6), useSI));
+      _logger.LogInformation(GeneralHelper.FormatBytesToHRF(1000, useSI));
+      _logger.LogInformation(GeneralHelper.FormatBytesToHRF((long)Math.Pow(1000, 2), useSI));
+      _logger.LogInformation(GeneralHelper.FormatBytesToHRF((long)Math.Pow(1000, 3), useSI));
+      _logger.LogInformation(GeneralHelper.FormatBytesToHRF((long)Math.Pow(1000, 4), useSI));
+      _logger.LogInformation(GeneralHelper.FormatBytesToHRF((long)Math.Pow(1000, 5), useSI));
+      _logger.LogInformation(GeneralHelper.FormatBytesToHRF((long)Math.Pow(1000, 6), useSI));
+      _logger.LogInformation(GeneralHelper.FormatBytesToHRF(1024, useSI));
+      _logger.LogInformation(GeneralHelper.FormatBytesToHRF((long)Math.Pow(1024, 2), useSI));
+      _logger.LogInformation(GeneralHelper.FormatBytesToHRF((long)Math.Pow(1024, 3), useSI));
+      _logger.LogInformation(GeneralHelper.FormatBytesToHRF((long)Math.Pow(1024, 4), useSI));
+      _logger.LogInformation(GeneralHelper.FormatBytesToHRF((long)Math.Pow(1024, 5), useSI));
+      _logger.LogInformation(GeneralHelper.FormatBytesToHRF((long)Math.Pow(1024, 6), useSI));
    }
 
    #endregion

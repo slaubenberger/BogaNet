@@ -38,7 +38,7 @@ public static class Base85
    /// <exception cref="ArgumentNullException"></exception>
    public static byte[] FromBase85String(string base85string, bool useMarks = false)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(base85string);
+      ArgumentException.ThrowIfNullOrEmpty(base85string);
 
       Ascii85 ascii85 = new()
       {
@@ -83,7 +83,7 @@ public static class Base85
    /// <exception cref="ArgumentNullException"></exception>
    public static string ToBase85String(string str, Encoding? encoding = null, bool useMarks = false)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(str);
+      ArgumentException.ThrowIfNullOrEmpty(str);
 
       byte[] bytes = str.BNToByteArray(encoding);
       //bytes.BNReverse();
@@ -99,7 +99,7 @@ public static class Base85
    /// <exception cref="Exception"></exception>
    public static string Base85FromFile(string file, bool useMarks = false)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(file);
+      ArgumentException.ThrowIfNullOrEmpty(file);
 
       return ToBase85String(FileHelper.ReadAllBytes(file), useMarks);
    }
@@ -113,7 +113,7 @@ public static class Base85
    /// <exception cref="Exception"></exception>
    public static async Task<string> Base85FromFileAsync(string file, bool useMarks = false)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(file);
+      ArgumentException.ThrowIfNullOrEmpty(file);
 
       return ToBase85String(await FileHelper.ReadAllBytesAsync(file), useMarks);
    }
@@ -128,7 +128,7 @@ public static class Base85
    /// <exception cref="Exception"></exception>
    public static bool FileFromBase85(string file, string base85string, bool useMarks = false)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(file);
+      ArgumentException.ThrowIfNullOrEmpty(file);
 
       return FileHelper.WriteAllBytes(file, FromBase85String(base85string, useMarks));
    }
@@ -143,7 +143,7 @@ public static class Base85
    /// <exception cref="Exception"></exception>
    public static async Task<bool> FileFromBase85Async(string file, string base85string, bool useMarks = false)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(file);
+      ArgumentException.ThrowIfNullOrEmpty(file);
 
       return await FileHelper.WriteAllBytesAsync(file, FromBase85String(base85string, useMarks));
    }
@@ -249,35 +249,33 @@ public static class Base85
                   break;
             }
 
-            if (processChar)
-            {
-               _tuple += (uint)(c - _asciiOffset) * pow85[count];
-               count++;
+            if (!processChar) continue;
+            
+            _tuple += (uint)(c - _asciiOffset) * pow85[count];
+            count++;
 
-               if (count == _encodedBlock.Length)
-               {
-                  decodeBlock();
-                  ms.Write(_decodedBlock, 0, _decodedBlock.Length);
-                  _tuple = 0;
-                  count = 0;
-               }
-            }
+            if (count != _encodedBlock.Length) continue;
+            
+            decodeBlock();
+            ms.Write(_decodedBlock, 0, _decodedBlock.Length);
+            _tuple = 0;
+            count = 0;
          }
 
          // if we have some bytes left over at the end...
-         if (count != 0)
+         if (count == 0) 
+            return ms.ToArray();
+         
+         if (count == 1)
+            throw new Exception("The last block of ASCII85 data cannot be a single byte.");
+
+         count--;
+         _tuple += pow85[count];
+         decodeBlock(count);
+
+         for (int i = 0; i < count; i++)
          {
-            if (count == 1)
-               throw new Exception("The last block of ASCII85 data cannot be a single byte.");
-
-            count--;
-            _tuple += pow85[count];
-            decodeBlock(count);
-
-            for (int i = 0; i < count; i++)
-            {
-               ms.WriteByte(_decodedBlock[i]);
-            }
+            ms.WriteByte(_decodedBlock[i]);
          }
 
          return ms.ToArray();
@@ -387,11 +385,10 @@ public static class Base85
          sb.Append(c);
          _linePos++;
 
-         if (LineLength > 0 && _linePos >= LineLength)
-         {
-            _linePos = 0;
-            sb.Append('\n');
-         }
+         if (LineLength <= 0 || _linePos < LineLength) return;
+         
+         _linePos = 0;
+         sb.Append('\n');
       }
    }
 

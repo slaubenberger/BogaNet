@@ -24,7 +24,7 @@ public static class Base62
    /// <exception cref="ArgumentNullException"></exception>
    public static byte[] FromBase62String(string base62string)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(base62string);
+      ArgumentException.ThrowIfNullOrEmpty(base62string);
 
       return Base62_intern.FromBase62(base62string);
    }
@@ -51,7 +51,7 @@ public static class Base62
    /// <exception cref="ArgumentNullException"></exception>
    public static string ToBase62String(string str, Encoding? encoding = null)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(str);
+      ArgumentException.ThrowIfNullOrEmpty(str);
 
       byte[] bytes = str.BNToByteArray(encoding);
       //bytes.BNReverse();
@@ -66,7 +66,7 @@ public static class Base62
    /// <exception cref="Exception"></exception>
    public static string Base62FromFile(string file)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(file);
+      ArgumentException.ThrowIfNullOrEmpty(file);
 
       return ToBase62String(FileHelper.ReadAllBytes(file));
    }
@@ -79,7 +79,7 @@ public static class Base62
    /// <exception cref="Exception"></exception>
    public static async Task<string> Base62FromFileAsync(string file)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(file);
+      ArgumentException.ThrowIfNullOrEmpty(file);
 
       return ToBase62String(await FileHelper.ReadAllBytesAsync(file));
    }
@@ -93,7 +93,7 @@ public static class Base62
    /// <exception cref="Exception"></exception>
    public static bool FileFromBase62(string file, string base62string)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(file);
+      ArgumentException.ThrowIfNullOrEmpty(file);
 
       return FileHelper.WriteAllBytes(file, FromBase62String(base62string));
    }
@@ -107,7 +107,7 @@ public static class Base62
    /// <exception cref="Exception"></exception>
    public static async Task<bool> FileFromBase62Async(string file, string base62string)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(file);
+      ArgumentException.ThrowIfNullOrEmpty(file);
 
       return await FileHelper.WriteAllBytesAsync(file, FromBase62String(base62string));
    }
@@ -261,7 +261,7 @@ public static class Base62
       /// <returns>Byte array</returns>
       public static byte[] FromBase62(string base62, bool inverted = false)
       {
-         ArgumentNullException.ThrowIfNullOrEmpty(base62);
+         ArgumentException.ThrowIfNullOrEmpty(base62);
 
          var characterSet = inverted ? INVERTED_CHARSET : CHARSET;
          var arr = Array.ConvertAll(base62.ToCharArray(), characterSet.IndexOf);

@@ -64,7 +64,7 @@ public class DictionaryXML<TKey, TVal> : Dictionary<TKey, TVal>, IXmlSerializabl
       int itemCount = info.GetInt32("ItemCount");
       for (int ii = 0; ii < itemCount; ii++)
       {
-         System.Collections.Generic.KeyValuePair<TKey, TVal> kvp = (KeyValuePair<TKey, TVal>)info.GetValue($"Item{ii}", typeof(KeyValuePair<TKey, TVal>))!;
+         KeyValuePair<TKey, TVal> kvp = (KeyValuePair<TKey, TVal>)info.GetValue($"Item{ii}", typeof(KeyValuePair<TKey, TVal>))!;
          Add(kvp.Key, kvp.Value);
       }
    }
@@ -75,7 +75,7 @@ public class DictionaryXML<TKey, TVal> : Dictionary<TKey, TVal>, IXmlSerializabl
       int itemIdx = 0;
       foreach (KeyValuePair<TKey, TVal> kvp in this)
       {
-         info.AddValue($"Item{itemIdx}", kvp, typeof(System.Collections.Generic.KeyValuePair<TKey, TVal>));
+         info.AddValue($"Item{itemIdx}", kvp, typeof(KeyValuePair<TKey, TVal>));
          itemIdx++;
       }
    }
@@ -107,7 +107,7 @@ public class DictionaryXML<TKey, TVal> : Dictionary<TKey, TVal>, IXmlSerializabl
       if (!reader.Read())
          throw new XmlException("Error in Deserialization of Dictionary");
 
-      while (reader.NodeType != System.Xml.XmlNodeType.EndElement)
+      while (reader.NodeType != XmlNodeType.EndElement)
       {
          reader.ReadStartElement(ITEM_NODE_NAME);
          reader.ReadStartElement(KEY_NODE_NAME);

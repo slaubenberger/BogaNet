@@ -36,7 +36,7 @@ public class WindowsVoiceProvider : BaseVoiceProvider
 
    public override bool IsSSMLSupported => true;
 
-   private string _applicationName => WindowsWrapper.Application;
+   private static string _applicationName => WindowsWrapper.Application;
 
    #endregion
 
@@ -125,24 +125,20 @@ public class WindowsVoiceProvider : BaseVoiceProvider
 
          foreach (var line in lines)
          {
-            if (!string.IsNullOrEmpty(line))
-            {
-               if (line.BNStartsWith(ID_VOICE))
-               {
-                  string[] splittedString = line.Split(splitChar,
-                     System.StringSplitOptions.RemoveEmptyEntries);
+            if (string.IsNullOrEmpty(line)) continue;
+            if (!line.BNStartsWith(ID_VOICE)) continue;
+            
+            string[] splittedString = line.Split(splitChar, StringSplitOptions.RemoveEmptyEntries);
 
-                  if (splittedString.Length == 6)
-                  {
-                     voices.Add(new Model.Voice(splittedString[1], splittedString[2],
-                        BogaNet.TTS.Util.Helper.StringToGender(splittedString[3]), splittedString[4],
-                        splittedString[5]));
-                  }
-                  else
-                  {
-                     _logger.LogWarning($"Voice is invalid: {line}");
-                  }
-               }
+            if (splittedString.Length == 6)
+            {
+               voices.Add(new Voice(splittedString[1], splittedString[2],
+                  Util.Helper.StringToGender(splittedString[3]), splittedString[4],
+                  splittedString[5]));
+            }
+            else
+            {
+               _logger.LogWarning($"Voice is invalid: {line}");
             }
          }
 
@@ -160,15 +156,14 @@ public class WindowsVoiceProvider : BaseVoiceProvider
 
    private static string getVoiceName(Voice? voice)
    {
-      if (voice == null || string.IsNullOrEmpty(voice.Name))
-      {
-         _logger.LogWarning("'Voice' or 'Voice.Name' is null! Using the providers 'default' voice.");
+      if (voice != null && !string.IsNullOrEmpty(voice.Name))
+         return voice.Name;
+      
+      _logger.LogWarning("'Voice' or 'Voice.Name' is null! Using the providers 'default' voice.");
 
-         //return DefaultVoiceName;
-         return string.Empty;
-      }
+      //return DefaultVoiceName;
+      return string.Empty;
 
-      return voice.Name;
    }
 
    private static string prepareText(string text, Voice? voice, float pitch, bool forceSSML)
@@ -176,39 +171,38 @@ public class WindowsVoiceProvider : BaseVoiceProvider
       //TEST
       //wrapper.ForceSSML = false;
 
-      if (forceSSML)
+      if (!forceSSML) 
+         return text.Replace('"', '\'');
+      
+      StringBuilder sbXML = new();
+
+      sbXML.Append("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>");
+      sbXML.Append("<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xml:lang=\"");
+      sbXML.Append(voice == null ? "en-US" : voice.Culture);
+      sbXML.Append("\">");
+
+      float _pitch = pitch - 1f;
+
+      if (Math.Abs(_pitch) > Constants.FLOAT_TOLERANCE)
       {
-         StringBuilder sbXML = new();
+         sbXML.Append("<prosody pitch='");
 
-         sbXML.Append("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>");
-         sbXML.Append("<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xml:lang=\"");
-         sbXML.Append(voice == null ? "en-US" : voice.Culture);
-         sbXML.Append("\">");
+         sbXML.Append(_pitch > 0f
+            ? _pitch.ToString("+#0%", Constants.CurrentCulture)
+            : _pitch.ToString("#0%", Constants.CurrentCulture));
 
-         float _pitch = pitch - 1f;
-
-         if (Math.Abs(_pitch) > Constants.FLOAT_TOLERANCE)
-         {
-            sbXML.Append("<prosody pitch='");
-
-            sbXML.Append(_pitch > 0f
-               ? _pitch.ToString("+#0%", Constants.CurrentCulture)
-               : _pitch.ToString("#0%", Constants.CurrentCulture));
-
-            sbXML.Append("'>");
-         }
-
-         sbXML.Append(text);
-
-         if (Math.Abs(_pitch) > Constants.FLOAT_TOLERANCE)
-            sbXML.Append("</prosody>");
-
-         sbXML.Append("</speak>");
-
-         return getValidXML(sbXML.ToString().Replace('"', '\''));
+         sbXML.Append("'>");
       }
 
-      return text.Replace('"', '\'');
+      sbXML.Append(text);
+
+      if (Math.Abs(_pitch) > Constants.FLOAT_TOLERANCE)
+         sbXML.Append("</prosody>");
+
+      sbXML.Append("</speak>");
+
+      return getValidXML(sbXML.ToString().Replace('"', '\''));
+
    }
 
    private static string getValidXML(string xml)
@@ -228,44 +222,44 @@ public class WindowsVoiceProvider : BaseVoiceProvider
       //allowed range: 0 - 3f - all other values were cropped
       int result = 0;
 
-      if (Math.Abs(rate - 1f) > Constants.FLOAT_TOLERANCE)
+      if (!(Math.Abs(rate - 1f) > Constants.FLOAT_TOLERANCE)) 
+         return result;
+      
+      if (rate > 1f)
       {
-         if (rate > 1f)
+         //larger than 1
+         result = rate switch
          {
-            //larger than 1
-            result = rate switch
-            {
-               >= 2.75f => 10,
-               >= 2.6f and < 2.75f => 9,
-               >= 2.35f and < 2.6f => 8,
-               >= 2.2f and < 2.35f => 7,
-               >= 2f and < 2.2f => 6,
-               >= 1.8f and < 2f => 5,
-               >= 1.6f and < 1.8f => 4,
-               >= 1.4f and < 1.6f => 3,
-               >= 1.2f and < 1.4f => 2,
-               > 1f and < 1.2f => 1,
-               _ => result
-            };
-         }
-         else
+            >= 2.75f => 10,
+            >= 2.6f and < 2.75f => 9,
+            >= 2.35f and < 2.6f => 8,
+            >= 2.2f and < 2.35f => 7,
+            >= 2f and < 2.2f => 6,
+            >= 1.8f and < 2f => 5,
+            >= 1.6f and < 1.8f => 4,
+            >= 1.4f and < 1.6f => 3,
+            >= 1.2f and < 1.4f => 2,
+            > 1f and < 1.2f => 1,
+            _ => result
+         };
+      }
+      else
+      {
+         //smaller than 1
+         result = rate switch
          {
-            //smaller than 1
-            result = rate switch
-            {
-               <= 0.3f => -10,
-               > 0.3f and <= 0.4f => -9,
-               > 0.4f and <= 0.45f => -8,
-               > 0.45f and <= 0.5f => -7,
-               > 0.5f and <= 0.55f => -6,
-               > 0.55f and <= 0.6f => -5,
-               > 0.6f and <= 0.7f => -4,
-               > 0.7f and <= 0.8f => -3,
-               > 0.8f and <= 0.9f => -2,
-               > 0.9f and < 1f => -1,
-               _ => result
-            };
-         }
+            <= 0.3f => -10,
+            > 0.3f and <= 0.4f => -9,
+            > 0.4f and <= 0.45f => -8,
+            > 0.45f and <= 0.5f => -7,
+            > 0.5f and <= 0.55f => -6,
+            > 0.55f and <= 0.6f => -5,
+            > 0.6f and <= 0.7f => -4,
+            > 0.7f and <= 0.8f => -3,
+            > 0.8f and <= 0.9f => -2,
+            > 0.9f and < 1f => -1,
+            _ => result
+         };
       }
 
       return result;

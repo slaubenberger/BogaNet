@@ -185,30 +185,30 @@ public abstract class StringTRNG : BaseTRNG //NUnit
    {
       int num = number;
 
-      if (unique && length is > 0 and <= 10)
-      {
-         double basis = 0d;
+      if (!unique || length is <= 0 or > 10)
+         return num;
+      
+      double basis = 0d;
 
-         if (digits)
-            basis += 10d;
+      if (digits)
+         basis += 10d;
 
-         if (upper)
-            basis += 26d;
+      if (upper)
+         basis += 26d;
 
-         if (lower)
-            basis += 26d;
+      if (lower)
+         basis += 26d;
 
-         if (basis > 0d)
-         {
-            long maxNumber = (long)Math.Pow(basis, length);
+      if (!(basis > 0d)) 
+         return num;
+      
+      long maxNumber = (long)Math.Pow(basis, length);
 
-            if (maxNumber < num)
-            {
-               _logger.LogWarning($"Too many numbers requested with 'unique' on - result reduced to {maxNumber} numbers!");
-               num = (int)maxNumber;
-            }
-         }
-      }
+      if (maxNumber >= num) 
+         return num;
+
+      _logger.LogWarning($"Too many numbers requested with 'unique' on - result reduced to {maxNumber} numbers!");
+      num = (int)maxNumber;
 
       return num;
    }

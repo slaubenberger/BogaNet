@@ -25,7 +25,7 @@ public class ImageHelper //TODO make partial?
    /// <exception cref="ArgumentNullException"></exception>
    public static Bitmap LoadFromResource(string imageResource, string? resourceAssembly = null)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(imageResource);
+      ArgumentException.ThrowIfNullOrEmpty(imageResource);
 
       return new Bitmap(AssetLoader.Open(new Uri(ResourceHelper.ValidateResource(imageResource, resourceAssembly))));
    }
@@ -38,7 +38,7 @@ public class ImageHelper //TODO make partial?
    /// <exception cref="Exception"></exception>
    public static Bitmap LoadFromUrl(string imageUrl)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(imageUrl);
+      ArgumentException.ThrowIfNullOrEmpty(imageUrl);
 
       try
       {
@@ -61,7 +61,7 @@ public class ImageHelper //TODO make partial?
    /// <exception cref="Exception"></exception>
    public static async Task<Bitmap> LoadFromUrlAsync(string imageUrl)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(imageUrl);
+      ArgumentException.ThrowIfNullOrEmpty(imageUrl);
 
       try
       {

@@ -31,7 +31,7 @@ public abstract class XmlHelper
    public static bool SerializeToFile<T>(T obj, string filename)
    {
       ArgumentNullException.ThrowIfNull(obj);
-      ArgumentNullException.ThrowIfNullOrEmpty(filename);
+      ArgumentException.ThrowIfNullOrEmpty(filename);
 
       try
       {
@@ -54,7 +54,7 @@ public abstract class XmlHelper
    public static async Task<bool> SerializeToFileAsync<T>(T obj, string filename)
    {
       ArgumentNullException.ThrowIfNull(obj);
-      ArgumentNullException.ThrowIfNullOrEmpty(filename);
+      ArgumentException.ThrowIfNullOrEmpty(filename);
 
       try
       {
@@ -127,7 +127,7 @@ public abstract class XmlHelper
    /// <exception cref="Exception"></exception>
    public static T DeserializeFromFile<T>(string filename, bool skipBOM = false)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(filename);
+      ArgumentException.ThrowIfNullOrEmpty(filename);
 
       try
       {
@@ -153,7 +153,7 @@ public abstract class XmlHelper
    /// <exception cref="Exception"></exception>
    public static async Task<T> DeserializeFromFileAsync<T>(string filename, bool skipBOM = false)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(filename);
+      ArgumentException.ThrowIfNullOrEmpty(filename);
 
       try
       {
@@ -179,7 +179,7 @@ public abstract class XmlHelper
    /// <exception cref="Exception"></exception>
    public static T DeserializeFromString<T>(string xmlAsString, bool skipBOM = true)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(xmlAsString);
+      ArgumentException.ThrowIfNullOrEmpty(xmlAsString);
 
       try
       {

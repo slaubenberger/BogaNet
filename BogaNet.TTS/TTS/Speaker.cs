@@ -81,28 +81,28 @@ public class Speaker : Singleton<Speaker>, IVoiceProvider
    public bool IsSpeaking { get; private set; }
 
    /// <summary>eSpeak application name/path.</summary>
-   public string ESpeakApplication
+   public static string ESpeakApplication
    {
       get => LinuxVoiceProvider.ESpeakApplication;
       set => LinuxVoiceProvider.ESpeakApplication = value;
    }
 
    /// <summary>eSpeak application data path.</summary>
-   public string ESpeakDataPath
+   public static string ESpeakDataPath
    {
       get => LinuxVoiceProvider.ESpeakDataPath;
       set => LinuxVoiceProvider.ESpeakDataPath = value;
    }
 
    /// <summary>Active modifier for all eSpeak voices.</summary>
-   public ESpeakModifiers ESpeakModifier
+   public static ESpeakModifiers ESpeakModifier
    {
       get => LinuxVoiceProvider.ESpeakModifier;
       set => LinuxVoiceProvider.ESpeakModifier = value;
    }
 
    /// <summary>Female modifier for female eSpeak voices.</summary>
-   public ESpeakModifiers ESpeakFemaleModifier
+   public static ESpeakModifiers ESpeakFemaleModifier
    {
       get => LinuxVoiceProvider.ESpeakFemaleModifier;
       set => LinuxVoiceProvider.ESpeakFemaleModifier = value;
@@ -144,13 +144,13 @@ public class Speaker : Singleton<Speaker>, IVoiceProvider
    /// <returns>Approximated speech length in seconds of the given text and rate.</returns>
    public float ApproximateSpeechLength(string text, float rate = 1f, float wordsPerMinute = 175f, float timeFactor = 0.9f)
    {
-      float words = text.Split(_splitCharWords, System.StringSplitOptions.RemoveEmptyEntries).Length;
+      float words = text.Split(_splitCharWords, StringSplitOptions.RemoveEmptyEntries).Length;
       float characters = text.Length - words + 1;
       float ratio = characters / words;
 
-      if (BogaNet.Constants.IsWindows && !UseESpeak)
+      if (Constants.IsWindows && !UseESpeak)
       {
-         if (Math.Abs(rate - 1f) > BogaNet.Constants.FLOAT_TOLERANCE)
+         if (Math.Abs(rate - 1f) > Constants.FLOAT_TOLERANCE)
          {
             if (rate > 1f)
             {
@@ -364,7 +364,7 @@ public class Speaker : Singleton<Speaker>, IVoiceProvider
 //TODO remove?
          List<Voice> voices = Voices.Where(s => s.SimplifiedCulture.StartsWith(_culture, System.StringComparison.OrdinalIgnoreCase)).OrderBy(s => s.Name).ToList();
 #else
-      List<Voice> voices = Voices.Where(s => s.SimplifiedCulture.StartsWith(_culture, System.StringComparison.InvariantCultureIgnoreCase)).OrderBy(s => s.Name).ToList();
+      List<Voice> voices = Voices.Where(s => s.SimplifiedCulture.StartsWith(_culture, StringComparison.InvariantCultureIgnoreCase)).OrderBy(s => s.Name).ToList();
 #endif
       if (voices.Count == 0 && isFuzzy)
       {
@@ -393,37 +393,37 @@ public class Speaker : Singleton<Speaker>, IVoiceProvider
    {
       Voice? result = null;
 
-      if (!string.IsNullOrEmpty(culture))
-      {
-         List<Voice> voices = VoicesForCulture(culture, isFuzzy);
+      if (string.IsNullOrEmpty(culture))
+         return result;
+      
+      List<Voice> voices = VoicesForCulture(culture, isFuzzy);
 
-         if (voices.Count > 0)
+      if (voices.Count > 0)
+      {
+         if (voices.Count - 1 >= index && index >= 0)
          {
-            if (voices.Count - 1 >= index && index >= 0)
-            {
-               result = voices[index];
-            }
-            else
-            {
-               //use the default voice
-               //result = voices[0];
-               _logger.LogWarning($"No voices for culture '{culture}' with index {index} found! Speaking with the default voice!");
-            }
+            result = voices[index];
          }
          else
          {
-            voices = VoicesForCulture(fallbackCulture, isFuzzy);
+            //use the default voice
+            //result = voices[0];
+            _logger.LogWarning($"No voices for culture '{culture}' with index {index} found! Speaking with the default voice!");
+         }
+      }
+      else
+      {
+         voices = VoicesForCulture(fallbackCulture, isFuzzy);
 
-            if (voices.Count > 0)
-            {
-               result = voices[0];
-               _logger.LogWarning($"No voices for culture '{culture}' found! Speaking with the fallback culture: '{fallbackCulture}'");
-            }
-            else
-            {
-               //use the default voice
-               _logger.LogWarning($"No voices for culture '{culture}' found! Speaking with the default voice!");
-            }
+         if (voices.Count > 0)
+         {
+            result = voices[0];
+            _logger.LogWarning($"No voices for culture '{culture}' found! Speaking with the fallback culture: '{fallbackCulture}'");
+         }
+         else
+         {
+            //use the default voice
+            _logger.LogWarning($"No voices for culture '{culture}' found! Speaking with the default voice!");
          }
       }
 

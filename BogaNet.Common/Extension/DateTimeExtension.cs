@@ -18,7 +18,7 @@ public static class DateTimeExtension //NUnit
    /// <exception cref="ArgumentNullException"></exception>
    public static DateTime BNFromISO8601(this string isoString)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(isoString);
+      ArgumentException.ThrowIfNullOrEmpty(isoString);
 
       return DateTime.ParseExact(isoString, Constants.FORMAT_DATETIME_ISO8601, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal);
    }

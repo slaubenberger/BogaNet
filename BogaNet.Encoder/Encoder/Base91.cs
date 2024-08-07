@@ -46,7 +46,7 @@ public static class Base91
    /// <exception cref="ArgumentNullException"></exception>
    public static byte[] FromBase91String(string base91string)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(base91string);
+      ArgumentException.ThrowIfNullOrEmpty(base91string);
 
       return decode(base91string);
    }
@@ -73,7 +73,7 @@ public static class Base91
    /// <exception cref="ArgumentNullException"></exception>
    public static string ToBase91String(string str, Encoding? encoding = null)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(str);
+      ArgumentException.ThrowIfNullOrEmpty(str);
 
       byte[] bytes = str.BNToByteArray(encoding);
       //bytes.BNReverse();
@@ -88,7 +88,7 @@ public static class Base91
    /// <exception cref="Exception"></exception>
    public static string Base91FromFile(string file)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(file);
+      ArgumentException.ThrowIfNullOrEmpty(file);
 
       return ToBase91String(FileHelper.ReadAllBytes(file));
    }
@@ -101,7 +101,7 @@ public static class Base91
    /// <exception cref="Exception"></exception>
    public static async Task<string> Base91FromFileAsync(string file)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(file);
+      ArgumentException.ThrowIfNullOrEmpty(file);
 
       return ToBase91String(await FileHelper.ReadAllBytesAsync(file));
    }
@@ -115,7 +115,7 @@ public static class Base91
    /// <exception cref="Exception"></exception>
    public static bool FileFromBase91(string file, string base91string)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(file);
+      ArgumentException.ThrowIfNullOrEmpty(file);
 
       return FileHelper.WriteAllBytes(file, FromBase91String(base91string));
    }
@@ -129,7 +129,7 @@ public static class Base91
    /// <exception cref="Exception"></exception>
    public static async Task<bool> FileFromBase91Async(string file, string base91string)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(file);
+      ArgumentException.ThrowIfNullOrEmpty(file);
 
       return await FileHelper.WriteAllBytesAsync(file, FromBase91String(base91string));
    }
@@ -194,11 +194,8 @@ public static class Base91
 
          List<byte> result = new(data.Length);
 
-         foreach (char theByte in data)
+         foreach (var theByte in data.Where(theByte => _inverseCharset[theByte] != -1))
          {
-            if (_inverseCharset[theByte] == -1)
-               continue;
-
             if (decodedValue == -1)
             {
                decodedValue = _inverseCharset[theByte];

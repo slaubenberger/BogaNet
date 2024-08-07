@@ -159,7 +159,7 @@ public abstract class FileHelper
    /// <exception cref="ArgumentNullException"></exception>
    public static string ValidatePath(string path, bool addEndDelimiter = true, bool preserveFile = true, bool removeInvalidChars = true) //NUnit
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(path);
+      ArgumentException.ThrowIfNullOrEmpty(path);
 
       if (IsURL(path))
       {
@@ -207,7 +207,7 @@ public abstract class FileHelper
    /// <exception cref="ArgumentNullException"></exception>
    public static string ValidateFile(string path, bool removeInvalidChars = true) //NUnit
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(path);
+      ArgumentException.ThrowIfNullOrEmpty(path);
 
       if (IsURL(path))
          return path;
@@ -281,7 +281,7 @@ public abstract class FileHelper
    /// <exception cref="Exception"></exception>
    public static string[] GetFilesForName(string path, bool isRecursive = false, params string[]? filenames) //NUnit
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(path);
+      ArgumentException.ThrowIfNullOrEmpty(path);
 
       try
       {
@@ -328,19 +328,18 @@ public abstract class FileHelper
    /// <exception cref="Exception"></exception>
    public static string[] GetFiles(string path, bool isRecursive = false, params string[]? extensions) //NUnit
    {
-      if (extensions?.Length > 0)
+      if (!(extensions?.Length > 0)) 
+         return GetFilesForName(path, isRecursive, extensions);
+
+      string[] wildcardExt = new string[extensions.Length];
+
+      for (int ii = 0; ii < extensions.Length; ii++)
       {
-         string[] wildcardExt = new string[extensions.Length];
-
-         for (int ii = 0; ii < extensions.Length; ii++)
-         {
-            wildcardExt[ii] = $"*.{extensions[ii]}";
-         }
-
-         return GetFilesForName(path, isRecursive, wildcardExt);
+         wildcardExt[ii] = $"*.{extensions[ii]}";
       }
 
-      return GetFilesForName(path, isRecursive, extensions);
+      return GetFilesForName(path, isRecursive, wildcardExt);
+
    }
 
    /// <summary>
@@ -353,7 +352,7 @@ public abstract class FileHelper
    /// <exception cref="Exception"></exception>
    public static string[] GetDirectories(string path, bool isRecursive = false) //NUnit
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(path);
+      ArgumentException.ThrowIfNullOrEmpty(path);
 
       try
       {
@@ -413,8 +412,8 @@ public abstract class FileHelper
    /// <exception cref="ArgumentNullException"></exception>
    public static string Combine(string path1, string path2)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(path1);
-      ArgumentNullException.ThrowIfNullOrEmpty(path2);
+      ArgumentException.ThrowIfNullOrEmpty(path1);
+      ArgumentException.ThrowIfNullOrEmpty(path2);
 
       //path1 = ValidatePath(path1);
       //path2 = ValidatePath(path2);
@@ -449,8 +448,8 @@ public abstract class FileHelper
    /// <exception cref="Exception"></exception>
    public static bool CopyFile(string sourceFile, string destFile, bool move = false, bool moveSafe = true) //NUnit
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(sourceFile);
-      ArgumentNullException.ThrowIfNullOrEmpty(destFile);
+      ArgumentException.ThrowIfNullOrEmpty(sourceFile);
+      ArgumentException.ThrowIfNullOrEmpty(destFile);
 
       bool success = false;
 
@@ -516,8 +515,8 @@ public abstract class FileHelper
    /// <exception cref="Exception"></exception>
    public static bool CopyDirectory(string sourceDir, string destDir, bool move = false, bool moveSafe = true) //NUnit
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(sourceDir);
-      ArgumentNullException.ThrowIfNullOrEmpty(destDir);
+      ArgumentException.ThrowIfNullOrEmpty(sourceDir);
+      ArgumentException.ThrowIfNullOrEmpty(destDir);
 
       bool success = false;
 
@@ -629,8 +628,8 @@ public abstract class FileHelper
    /// <exception cref="Exception"></exception>
    public static string RenameFile(string path, string newName) //NUnit
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(path);
-      ArgumentNullException.ThrowIfNullOrEmpty(newName);
+      ArgumentException.ThrowIfNullOrEmpty(path);
+      ArgumentException.ThrowIfNullOrEmpty(newName);
 
       try
       {
@@ -657,8 +656,8 @@ public abstract class FileHelper
    /// <exception cref="Exception"></exception>
    public static string RenameDirectory(string path, string newName) //NUnit
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(path);
-      ArgumentNullException.ThrowIfNullOrEmpty(newName);
+      ArgumentException.ThrowIfNullOrEmpty(path);
+      ArgumentException.ThrowIfNullOrEmpty(newName);
 
       try
       {
@@ -703,7 +702,7 @@ public abstract class FileHelper
    /// <exception cref="Exception"></exception>
    public static bool DeleteFile(string file) //NUnit
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(file);
+      ArgumentException.ThrowIfNullOrEmpty(file);
 
       bool success = false;
 
@@ -739,7 +738,7 @@ public abstract class FileHelper
    /// <exception cref="Exception"></exception>
    public static bool DeleteDirectory(string dir) //NUnit
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(dir);
+      ArgumentException.ThrowIfNullOrEmpty(dir);
 
       bool success = false;
 
@@ -813,8 +812,8 @@ public abstract class FileHelper
    /// <exception cref="Exception"></exception>
    public static string CreateFile(string path, string fileName) //NUnit
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(path);
-      ArgumentNullException.ThrowIfNullOrEmpty(fileName);
+      ArgumentException.ThrowIfNullOrEmpty(path);
+      ArgumentException.ThrowIfNullOrEmpty(fileName);
 
       try
       {
@@ -845,8 +844,8 @@ public abstract class FileHelper
    /// <exception cref="Exception"></exception>
    public static string CreateDirectory(string path, string folderName) //NUnit
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(path);
-      ArgumentNullException.ThrowIfNullOrEmpty(folderName);
+      ArgumentException.ThrowIfNullOrEmpty(path);
+      ArgumentException.ThrowIfNullOrEmpty(folderName);
 
       try
       {
@@ -874,7 +873,7 @@ public abstract class FileHelper
    /// <exception cref="Exception"></exception>
    public static bool CreateFile(string path) //NUnit
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(path);
+      ArgumentException.ThrowIfNullOrEmpty(path);
 
       bool success;
 
@@ -905,7 +904,7 @@ public abstract class FileHelper
    /// <exception cref="Exception"></exception>
    public static bool CreateDirectory(string path) //NUnit
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(path);
+      ArgumentException.ThrowIfNullOrEmpty(path);
 
       bool success;
 
@@ -942,13 +941,12 @@ public abstract class FileHelper
       if (ExistsFile(path))
          return false;
 
-      if (checkForExtensions)
-      {
-         string extension = GetExtension(path);
-         return extension.Length <= 1; // extension includes '.'
-      }
+      if (!checkForExtensions) 
+         return false;
+      
+      string extension = GetExtension(path);
+      return extension.Length <= 1; // extension includes '.'
 
-      return false;
    }
 
    /// <summary>
@@ -990,7 +988,7 @@ public abstract class FileHelper
    /// <returns>File name for the path</returns>
    public static string GetFileName(string path, bool removeInvalidChars = true) //NUnit
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(path);
+      ArgumentException.ThrowIfNullOrEmpty(path);
 
       string validPath = ValidatePath(path, false, removeInvalidChars);
       //string validPath = ValidateFile(path, removeInvalidChars);
@@ -1023,7 +1021,7 @@ public abstract class FileHelper
    /// <exception cref="Exception"></exception>
    public static string GetDirectoryName(string path, bool fullPath = false) //NUnit
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(path);
+      ArgumentException.ThrowIfNullOrEmpty(path);
 
       string validPath = ValidatePath(path, false);
       string dname = validPath;
@@ -1040,13 +1038,13 @@ public abstract class FileHelper
          //do nothing
       }
 
-      if (string.IsNullOrEmpty(dname) || dname == validPath)
-      {
-         dname = IsWindowsPath(validPath) ? validPath.Substring(validPath.BNLastIndexOf(Constants.PATH_DELIMITER_WINDOWS) + 1) : validPath.Substring(validPath.BNLastIndexOf(Constants.PATH_DELIMITER_UNIX) + 1);
+      if (!string.IsNullOrEmpty(dname) && dname != validPath)
+         return dname;
+      
+      dname = IsWindowsPath(validPath) ? validPath.Substring(validPath.BNLastIndexOf(Constants.PATH_DELIMITER_WINDOWS) + 1) : validPath.Substring(validPath.BNLastIndexOf(Constants.PATH_DELIMITER_UNIX) + 1);
 
-         if (HasPathInvalidChars(dname))
-            dname = string.Join(string.Empty, dname.Split(_invalidPathChars));
-      }
+      if (HasPathInvalidChars(dname))
+         dname = string.Join(string.Empty, dname.Split(_invalidPathChars));
 
       return dname;
    }
@@ -1070,7 +1068,7 @@ public abstract class FileHelper
    /// <exception cref="Exception"></exception>
    public static long GetFileSize(string path) //NUnit
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(path);
+      ArgumentException.ThrowIfNullOrEmpty(path);
 
       path = ValidateFile(path);
 
@@ -1100,7 +1098,7 @@ public abstract class FileHelper
    /// <exception cref="Exception"></exception>
    public static long GetDirectorySize(string path)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(path);
+      ArgumentException.ThrowIfNullOrEmpty(path);
 
       path = ValidatePath(path);
 
@@ -1132,7 +1130,7 @@ public abstract class FileHelper
    /// <exception cref="Exception"></exception>
    public static string GetExtension(string path) //NUnit
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(path);
+      ArgumentException.ThrowIfNullOrEmpty(path);
 
       try
       {
@@ -1194,7 +1192,7 @@ public abstract class FileHelper
    /// <exception cref="Exception"></exception>
    public static DateTime GetLastFileWriteTime(string file) //NUnit
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(file);
+      ArgumentException.ThrowIfNullOrEmpty(file);
 
       file = ValidateFile(file);
 
@@ -1224,7 +1222,7 @@ public abstract class FileHelper
    /// <exception cref="Exception"></exception>
    public static DateTime GetLastFileAccessTime(string file) //NUnit
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(file);
+      ArgumentException.ThrowIfNullOrEmpty(file);
 
       file = ValidateFile(file);
 
@@ -1254,7 +1252,7 @@ public abstract class FileHelper
    /// <exception cref="Exception"></exception>
    public static DateTime GetFileCreationTime(string file) //NUnit
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(file);
+      ArgumentException.ThrowIfNullOrEmpty(file);
 
       file = ValidateFile(file);
 
@@ -1284,7 +1282,7 @@ public abstract class FileHelper
    /// <exception cref="Exception"></exception>
    public static DateTime GetLastDirectoryWriteTime(string path) //NUnit
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(path);
+      ArgumentException.ThrowIfNullOrEmpty(path);
 
       path = ValidatePath(path);
 
@@ -1314,7 +1312,7 @@ public abstract class FileHelper
    /// <exception cref="Exception"></exception>
    public static DateTime GetLastDirectoryAccessTime(string path) //NUnit
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(path);
+      ArgumentException.ThrowIfNullOrEmpty(path);
 
       path = ValidatePath(path);
 
@@ -1344,7 +1342,7 @@ public abstract class FileHelper
    /// <exception cref="Exception"></exception>
    public static DateTime GetDirectoryCreationTime(string path) //NUnit
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(path);
+      ArgumentException.ThrowIfNullOrEmpty(path);
 
       path = ValidatePath(path);
 
@@ -1375,7 +1373,7 @@ public abstract class FileHelper
    /// <exception cref="Exception"></exception>
    public static string ReadAllText(string path, Encoding? encoding = null) //NUnit
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(path);
+      ArgumentException.ThrowIfNullOrEmpty(path);
 
       try
       {
@@ -1402,7 +1400,7 @@ public abstract class FileHelper
    /// <exception cref="Exception"></exception>
    public static async Task<string> ReadAllTextAsync(string path, Encoding? encoding = null)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(path);
+      ArgumentException.ThrowIfNullOrEmpty(path);
 
       try
       {
@@ -1429,7 +1427,7 @@ public abstract class FileHelper
    /// <exception cref="Exception"></exception>
    public static string[] ReadAllLines(string path, Encoding? encoding = null) //NUnit
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(path);
+      ArgumentException.ThrowIfNullOrEmpty(path);
 
       try
       {
@@ -1456,7 +1454,7 @@ public abstract class FileHelper
    /// <exception cref="Exception"></exception>
    public static async Task<string[]> ReadAllLinesAsync(string path, Encoding? encoding = null)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(path);
+      ArgumentException.ThrowIfNullOrEmpty(path);
 
       try
       {
@@ -1482,7 +1480,7 @@ public abstract class FileHelper
    /// <exception cref="Exception"></exception>
    public static byte[] ReadAllBytes(string path) //NUnit
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(path);
+      ArgumentException.ThrowIfNullOrEmpty(path);
 
       try
       {
@@ -1508,7 +1506,7 @@ public abstract class FileHelper
    /// <exception cref="Exception"></exception>
    public static async Task<byte[]> ReadAllBytesAsync(string path)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(path);
+      ArgumentException.ThrowIfNullOrEmpty(path);
 
       try
       {
@@ -1536,7 +1534,7 @@ public abstract class FileHelper
    /// <exception cref="Exception"></exception>
    public static bool WriteAllText(string destFile, string text, Encoding? encoding = null) //NUnit
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(destFile);
+      ArgumentException.ThrowIfNullOrEmpty(destFile);
       ArgumentNullException.ThrowIfNull(text);
 
       bool success;
@@ -1567,7 +1565,7 @@ public abstract class FileHelper
    /// <exception cref="Exception"></exception>
    public static async Task<bool> WriteAllTextAsync(string destFile, string text, Encoding? encoding = null)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(destFile);
+      ArgumentException.ThrowIfNullOrEmpty(destFile);
       ArgumentNullException.ThrowIfNull(text);
 
       bool success;
@@ -1592,13 +1590,13 @@ public abstract class FileHelper
    /// Writes all lines of text to a file.
    /// </summary>
    /// <param name="destFile">Destination file path</param>
-   /// <param name="lines">Array of text lines to write</param>
+   /// <param name="lines">IEnumerable of text lines to write</param>
    /// <param name="encoding">Encoding of the text (optional, default: UTF8)</param>
    /// <returns>True if the operation was successful</returns>
    /// <exception cref="Exception"></exception>
-   public static bool WriteAllLines(string destFile, IList<string> lines, Encoding? encoding = null) //NUnit
+   public static bool WriteAllLines(string destFile, IEnumerable<string> lines, Encoding? encoding = null) //NUnit
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(destFile);
+      ArgumentException.ThrowIfNullOrEmpty(destFile);
       ArgumentNullException.ThrowIfNull(lines);
 
       bool success;
@@ -1623,13 +1621,13 @@ public abstract class FileHelper
    /// Writes all lines of text to a file asynchronously.
    /// </summary>
    /// <param name="destFile">Destination file path</param>
-   /// <param name="lines">Array of text lines to write</param>
+   /// <param name="lines">IEnumerable of text lines to write</param>
    /// <param name="encoding">Encoding of the text (optional, default: UTF8)</param>
    /// <returns>True if the operation was successful</returns>
    /// <exception cref="Exception"></exception>
-   public static async Task<bool> WriteAllLinesAsync(string destFile, IList<string> lines, Encoding? encoding = null) //NUnit
+   public static async Task<bool> WriteAllLinesAsync(string destFile, IEnumerable<string> lines, Encoding? encoding = null) //NUnit
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(destFile);
+      ArgumentException.ThrowIfNullOrEmpty(destFile);
       ArgumentNullException.ThrowIfNull(lines);
 
       bool success;
@@ -1659,7 +1657,7 @@ public abstract class FileHelper
    /// <exception cref="Exception"></exception>
    public static bool WriteAllBytes(string destFile, byte[] data) //NUnit
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(destFile);
+      ArgumentException.ThrowIfNullOrEmpty(destFile);
       ArgumentNullException.ThrowIfNull(data);
 
       bool success;
@@ -1689,7 +1687,7 @@ public abstract class FileHelper
    /// <exception cref="Exception"></exception>
    public static async Task<bool> WriteAllBytesAsync(string destFile, byte[] data) //NUnit
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(destFile);
+      ArgumentException.ThrowIfNullOrEmpty(destFile);
       ArgumentNullException.ThrowIfNull(data);
 
       bool success;

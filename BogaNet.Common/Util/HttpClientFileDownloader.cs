@@ -47,8 +47,8 @@ public class HttpClientFileDownloader
    /// <exception cref="Exception"></exception>
    public async Task<bool> Download(string downloadUrl, string destinationPath, int timeout = 3600)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(downloadUrl);
-      ArgumentNullException.ThrowIfNullOrEmpty(destinationPath);
+      ArgumentException.ThrowIfNullOrEmpty(downloadUrl);
+      ArgumentException.ThrowIfNullOrEmpty(destinationPath);
 
       try
       {

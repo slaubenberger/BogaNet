@@ -5,7 +5,6 @@ using System.Linq;
 using System;
 using BogaNet.Extension;
 using Microsoft.Extensions.Logging;
-using BogaNet.Util;
 using System.Runtime.InteropServices.JavaScript;
 using BogaNet.TTS.Model.Enum;
 
@@ -38,15 +37,15 @@ public partial class BrowserVoiceProvider : IVoiceProvider
    {
       get
       {
-         if (_cachedCultures.Count == 0)
-         {
-            IEnumerable<Voice> cultures = Voices.GroupBy(cul => cul.Culture)
-               .Select(grp => grp.First()).OrderBy(s => s.Culture).ToList();
+         if (_cachedCultures.Count != 0) 
+            return _cachedCultures;
+         
+         IEnumerable<Voice> cultures = Voices.GroupBy(cul => cul.Culture)
+            .Select(grp => grp.First()).OrderBy(s => s.Culture).ToList();
 
-            foreach (Voice voice in cultures)
-            {
-               _cachedCultures.Add(voice.Culture);
-            }
+         foreach (Voice voice in cultures)
+         {
+            _cachedCultures.Add(voice.Culture);
          }
 
          return _cachedCultures;

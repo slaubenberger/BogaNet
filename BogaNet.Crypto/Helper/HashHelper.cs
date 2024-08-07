@@ -51,7 +51,7 @@ public abstract class HashHelper //NUnit
    /// <exception cref="Exception"></exception>
    public static byte[] Hash(string text, HashAlgorithm algo, Encoding? encoding = null)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(text);
+      ArgumentException.ThrowIfNullOrEmpty(text);
 
       return Hash(text.BNToByteArray(encoding), algo);
    }
@@ -65,7 +65,7 @@ public abstract class HashHelper //NUnit
    /// <exception cref="Exception"></exception>
    public static byte[] HashFile(string file, HashAlgorithm algo)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(file);
+      ArgumentException.ThrowIfNullOrEmpty(file);
 
       byte[] bytes = FileHelper.ReadAllBytes(file);
       return Hash(bytes, algo);
@@ -80,7 +80,7 @@ public abstract class HashHelper //NUnit
    /// <exception cref="Exception"></exception>
    public static async Task<byte[]> HashFileAsync(string file, HashAlgorithm algo)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(file);
+      ArgumentException.ThrowIfNullOrEmpty(file);
 
       byte[] bytes = await FileHelper.ReadAllBytesAsync(file);
       return Hash(bytes, algo);

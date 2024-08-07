@@ -173,7 +173,7 @@ public abstract class RSAHelper
    /// <exception cref="Exception"></exception>
    public static bool WritePublicCertificateToFile(string filename, X509Certificate2 cert, string? password = null)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(filename);
+      ArgumentException.ThrowIfNullOrEmpty(filename);
       ArgumentNullException.ThrowIfNull(cert);
 
       return FileHelper.WriteAllBytes(filename, password == null ? [] : cert.BNToByteArray(password));
@@ -189,7 +189,7 @@ public abstract class RSAHelper
    /// <exception cref="Exception"></exception>
    public static async Task<bool> WritePublicCertificateToFileAsync(string filename, X509Certificate2 cert, string? password = null)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(filename);
+      ArgumentException.ThrowIfNullOrEmpty(filename);
       ArgumentNullException.ThrowIfNull(cert);
 
       return await FileHelper.WriteAllBytesAsync(filename, password == null ? [] : cert.BNToByteArray(password));
@@ -206,7 +206,7 @@ public abstract class RSAHelper
    /// <exception cref="Exception"></exception>
    public static bool WritePrivateCertificateToFile(string filename, X509Certificate2 cert, string password)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(filename);
+      ArgumentException.ThrowIfNullOrEmpty(filename);
       ArgumentNullException.ThrowIfNull(cert);
 
       return FileHelper.WriteAllBytes(filename, cert.BNToByteArray(password, X509ContentType.Pfx));
@@ -223,7 +223,7 @@ public abstract class RSAHelper
    /// <exception cref="Exception"></exception>
    public static async Task<bool> WritePrivateCertificateToFileAsync(string filename, X509Certificate2 cert, string password)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(filename);
+      ArgumentException.ThrowIfNullOrEmpty(filename);
       ArgumentNullException.ThrowIfNull(cert);
 
       return await FileHelper.WriteAllBytesAsync(filename, cert.BNToByteArray(password, X509ContentType.Pfx));
@@ -238,7 +238,7 @@ public abstract class RSAHelper
    /// <exception cref="Exception"></exception>
    public static X509Certificate2 ReadCertificateFromFile(string filename, string? password = null)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(filename);
+      ArgumentException.ThrowIfNullOrEmpty(filename);
 
       byte[] bytes = FileHelper.ReadAllBytes(filename);
       return GetCertificate(bytes, password);
@@ -253,7 +253,7 @@ public abstract class RSAHelper
    /// <exception cref="Exception"></exception>
    public static async Task<X509Certificate2> ReadCertificateFromFileAsync(string filename, string? password = null)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(filename);
+      ArgumentException.ThrowIfNullOrEmpty(filename);
 
       byte[] bytes = await FileHelper.ReadAllBytesAsync(filename);
       return GetCertificate(bytes, password);
@@ -299,7 +299,7 @@ public abstract class RSAHelper
    /// <exception cref="ArgumentNullException"></exception>
    public static byte[] Encrypt(string? textToEncrypt, X509Certificate2 cert, RSAEncryptionPadding? padding = null, Encoding? encoding = null)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(textToEncrypt);
+      ArgumentException.ThrowIfNullOrEmpty(textToEncrypt);
 
       return Encrypt(textToEncrypt.BNToByteArray(encoding), cert, padding);
    }

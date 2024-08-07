@@ -34,16 +34,15 @@ public abstract class ResourceHelper //TODO make partial?
    /// <exception cref="ArgumentNullException"></exception>
    public static string ValidateResource(string resourcePath, string? resourceAssembly = null)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(resourcePath);
+      ArgumentException.ThrowIfNullOrEmpty(resourcePath);
 
-      if (!resourcePath.BNStartsWith("avares://"))
-      {
-         ResourceAssembly ??= Assembly.GetEntryAssembly()?.GetName().Name;
+      if (resourcePath.BNStartsWith("avares://")) 
+         return resourcePath;
 
-         return $"avares://{resourceAssembly ?? ResourceAssembly}/{resourcePath.TrimStart('/')}";
-      }
+      ResourceAssembly ??= Assembly.GetEntryAssembly()?.GetName().Name;
 
-      return resourcePath;
+      return $"avares://{resourceAssembly ?? ResourceAssembly}/{resourcePath.TrimStart('/')}";
+
    }
 
    /// <summary>
@@ -55,7 +54,7 @@ public abstract class ResourceHelper //TODO make partial?
    /// <exception cref="ArgumentNullException"></exception>
    public static string LoadText(string resourcePath, string? resourceAssembly = null)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(resourcePath);
+      ArgumentException.ThrowIfNullOrEmpty(resourcePath);
 
       Uri fileUri = new(ValidateResource(resourcePath, resourceAssembly));
       using StreamReader streamReader = new(AssetLoader.Open(fileUri));
@@ -71,7 +70,7 @@ public abstract class ResourceHelper //TODO make partial?
    /// <exception cref="ArgumentNullException"></exception>
    public static async Task<string> LoadTextAsync(string resourcePath, string? resourceAssembly = null)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(resourcePath);
+      ArgumentException.ThrowIfNullOrEmpty(resourcePath);
 
       Uri fileUri = new(ValidateResource(resourcePath, resourceAssembly));
       using StreamReader streamReader = new(AssetLoader.Open(fileUri));
@@ -87,7 +86,7 @@ public abstract class ResourceHelper //TODO make partial?
    /// <exception cref="ArgumentNullException"></exception>
    public static byte[] LoadBinary(string resourcePath, string? resourceAssembly = null)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(resourcePath);
+      ArgumentException.ThrowIfNullOrEmpty(resourcePath);
 
       Uri fileUri = new(ValidateResource(resourcePath, resourceAssembly));
       using BufferedStream streamReader = new(AssetLoader.Open(fileUri));
@@ -103,7 +102,7 @@ public abstract class ResourceHelper //TODO make partial?
    /// <exception cref="ArgumentNullException"></exception>
    public static async Task<byte[]> LoadBinaryAsync(string resourcePath, string? resourceAssembly = null)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(resourcePath);
+      ArgumentException.ThrowIfNullOrEmpty(resourcePath);
 
       Uri fileUri = new(ValidateResource(resourcePath, resourceAssembly));
       await using BufferedStream streamReader = new(AssetLoader.Open(fileUri));
