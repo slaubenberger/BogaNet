@@ -139,16 +139,16 @@ public static class Program
 
    private static void testPrefs()
    {
-      BogaNet.Prefs.Preferences.Instance.Load();
+      Prefs.Preferences.Instance.Load();
 
-      if (BogaNet.Prefs.Preferences.Instance.IsLoaded)
+      if (Prefs.Preferences.Instance.IsLoaded)
       {
          _logger.LogInformation("ready!");
 
-         _logger.LogInformation(BogaNet.Prefs.Preferences.Instance.GetString("user"));
+         _logger.LogInformation(Prefs.Preferences.Instance.GetString("user"));
       }
 
-      BogaNet.Prefs.Preferences.Instance.Set("user", "ueli " + DateTime.Now);
+      Prefs.Preferences.Instance.Set("user", "ueli " + DateTime.Now);
    }
 
    private static async Task Task1()
@@ -232,13 +232,13 @@ public static class Program
 
    private static void testNetwork()
    {
-      _logger.LogInformation("CPD: " + BogaNet.Helper.NetworkHelper.CheckInternetAvailability());
+      _logger.LogInformation("CPD: " + NetworkHelper.CheckInternetAvailability());
 
-      _logger.LogInformation("Ping: " + BogaNet.Helper.NetworkHelper.Ping("crosstales.com"));
+      _logger.LogInformation("Ping: " + NetworkHelper.Ping("crosstales.com"));
 
-      _logger.LogInformation("Public IP: " + BogaNet.Helper.NetworkHelper.GetPublicIP());
+      _logger.LogInformation("Public IP: " + NetworkHelper.GetPublicIP());
 
-      _logger.LogInformation("Network adapters: " + BogaNet.Helper.NetworkHelper.GetNetworkAdapters().BNDump(false));
+      _logger.LogInformation("Network adapters: " + NetworkHelper.GetNetworkAdapters().BNDump(false));
    }
 
    private static void testBitrateHRF()

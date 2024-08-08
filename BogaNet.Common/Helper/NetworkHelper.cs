@@ -64,14 +64,13 @@ public abstract class NetworkHelper
    /// <returns>Used global proxy</returns>
    public static IWebProxy? SetGlobalProxyToDefault()
    {
-      if (WebRequest.DefaultWebProxy != null)
-      {
-         WebRequest.DefaultWebProxy.Credentials = CredentialCache.DefaultNetworkCredentials;
-         HttpClient.DefaultProxy = WebRequest.DefaultWebProxy;
-         return WebRequest.DefaultWebProxy;
-      }
+      if (WebRequest.DefaultWebProxy == null) 
+         return null;
+      
+      WebRequest.DefaultWebProxy.Credentials = CredentialCache.DefaultNetworkCredentials;
+      HttpClient.DefaultProxy = WebRequest.DefaultWebProxy;
+      return WebRequest.DefaultWebProxy;
 
-      return null;
    }
 
    /// <summary>

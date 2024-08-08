@@ -164,7 +164,7 @@ public class DomainFilter : Singleton<DomainFilter>, IDomainFilter
 
    public virtual void Add(string srcName, params string[] domains)
    {
-      process(new() { { srcName, domains } });
+      process(new Dictionary<string, string[]> { { srcName, domains } });
    }
 
    public virtual bool Contains(string text, params string[]? sourceNames)

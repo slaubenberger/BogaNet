@@ -174,7 +174,7 @@ public class BadWordFilter : Singleton<BadWordFilter>, IBadWordFilter
 
    public virtual void Add(bool isLTR, string srcName, string[] words)
    {
-      process(new() { { srcName, words } }, isLTR);
+      process(new Dictionary<string, string[]> { { srcName, words } }, isLTR);
    }
 
    public virtual bool Contains(string text, params string[]? sourceNames)
@@ -246,10 +246,8 @@ public class BadWordFilter : Singleton<BadWordFilter>, IBadWordFilter
                            _logger.LogDebug($"Test string contains a bad word from source '{sourceNames[ii]}'");
                            break;
                         }
-                        else
-                        {
-                           logSourceNotFound(sourceNames[ii]);
-                        }
+
+                        logSourceNotFound(sourceNames[ii]);
                      }
                      else
                      {
@@ -307,10 +305,8 @@ public class BadWordFilter : Singleton<BadWordFilter>, IBadWordFilter
                            result = true;
                            break;
                         }
-                        else
-                        {
-                           logSourceNotFound(badWordsResource);
-                        }
+
+                        logSourceNotFound(badWordsResource);
                      }
                      else
                      {
@@ -323,10 +319,8 @@ public class BadWordFilter : Singleton<BadWordFilter>, IBadWordFilter
                            result = true;
                            break;
                         }
-                        else
-                        {
-                           logSourceNotFound(badWordsResource);
-                        }
+
+                        logSourceNotFound(badWordsResource);
                      }
                   }
                }
@@ -892,7 +886,7 @@ public class BadWordFilter : Singleton<BadWordFilter>, IBadWordFilter
       result = result.Replace("][_", "l");
 
       // M
-      result = result.Replace("/\\/\\", "m");
+      result = result.Replace(@"/\/\", "m");
       result = result.Replace("/v\\", "m");
       result = result.Replace("|V|", "m");
       result = result.Replace("]V[", "m");
@@ -924,7 +918,7 @@ public class BadWordFilter : Singleton<BadWordFilter>, IBadWordFilter
       result = result.Replace("|_|", "u");
 
       // W
-      result = result.Replace("\\/\\/", "w");
+      result = result.Replace(@"\/\/", "w");
 
       // V
       result = result.Replace("\\/", "v");

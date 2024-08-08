@@ -91,11 +91,10 @@ public static class Base32 //NUnit
       }
 
       //if we didn't end with a full char
-      if (arrayIndex != charCount)
-      {
-         returnArray[arrayIndex++] = valueToChar(nextChar);
-         while (arrayIndex != charCount) returnArray[arrayIndex++] = '='; //padding
-      }
+      if (arrayIndex == charCount) return new string(returnArray);
+      
+      returnArray[arrayIndex++] = valueToChar(nextChar);
+      while (arrayIndex != charCount) returnArray[arrayIndex++] = '='; //padding
 
       return new string(returnArray);
    }

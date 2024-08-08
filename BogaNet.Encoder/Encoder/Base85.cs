@@ -16,12 +16,12 @@ public static class Base85
    #region Variables
 
    /// <summary>
-   /// Prefix mark that identifies an encoded Base85-string (default: <~).
+   /// Prefix mark that identifies an encoded Base85-string.
    /// </summary>
    public static string PrefixMark = "<~";
 
    /// <summary>
-   /// Suffix mark that identifies an encoded Base85-string (default: ~>).
+   /// Suffix mark that identifies an encoded Base85-string.
    /// </summary>
    public static string SuffixMark = "~>";
 
@@ -42,8 +42,8 @@ public static class Base85
 
       Ascii85 ascii85 = new()
       {
-         PrefixMark = PrefixMark,
-         SuffixMark = SuffixMark,
+         PM = PrefixMark,
+         SM = SuffixMark,
          LineLength = 0,
          EnforceMarks = useMarks
       };
@@ -64,8 +64,8 @@ public static class Base85
 
       Ascii85 ascii85 = new()
       {
-         PrefixMark = PrefixMark,
-         SuffixMark = SuffixMark,
+         PM = PrefixMark,
+         SM = SuffixMark,
          LineLength = 0,
          EnforceMarks = useMarks
       };
@@ -165,12 +165,12 @@ public static class Base85
       /// <summary>
       /// Prefix mark that identifies an encoded ASCII85 string, traditionally '<~'
       /// </summary>
-      public string PrefixMark = "<~";
+      public string PM = "<~";
 
       /// <summary>
       /// Suffix mark that identifies an encoded ASCII85 string, traditionally '~>'
       /// </summary>
-      public string SuffixMark = "~>";
+      public string SM = "~>";
 
       /// <summary>
       /// Maximum line length for encoded ASCII85 string;
@@ -200,16 +200,16 @@ public static class Base85
       {
          if (EnforceMarks)
          {
-            if (!s.BNStartsWith(PrefixMark) | !s.BNEndsWith(SuffixMark))
-               throw new Exception("ASCII85 encoded data should begin with '" + PrefixMark + "' and end with '" + SuffixMark + "'");
+            if (!s.BNStartsWith(PM) | !s.BNEndsWith(SM))
+               throw new Exception("ASCII85 encoded data should begin with '" + PM + "' and end with '" + SM + "'");
          }
 
          // strip prefix and suffix if present
-         if (s.BNStartsWith(PrefixMark))
-            s = s.Substring(PrefixMark.Length);
+         if (s.BNStartsWith(PM))
+            s = s.Substring(PM.Length);
 
-         if (s.BNEndsWith(SuffixMark))
-            s = s.Substring(0, s.Length - SuffixMark.Length);
+         if (s.BNEndsWith(SM))
+            s = s.Substring(0, s.Length - SM.Length);
 
          MemoryStream ms = new();
          int count = 0;
@@ -292,7 +292,7 @@ public static class Base85
          _linePos = 0;
 
          if (EnforceMarks)
-            appendString(sb, PrefixMark);
+            appendString(sb, PM);
 
          int count = 0;
          _tuple = 0;
@@ -327,7 +327,7 @@ public static class Base85
             encodeBlock(count + 1, sb);
 
          if (EnforceMarks)
-            appendString(sb, SuffixMark);
+            appendString(sb, SM);
 
          return sb.ToString();
       }

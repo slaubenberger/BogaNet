@@ -34,7 +34,7 @@ public class Base85Test
       plain2 = bytes.BNToString();
       Assert.That(plain2, Is.EqualTo(plain));
 
-      output = "5sdq,77Kd<8P2WL9hnJ\\;,U=l<E<1'=^&^n_h,dZ_hQ'a_hc3e_hu?i_iDWq_j&-'_jSE3_jk.E@q9._B4u!oCM[j*DfB]:F*)PJGBeCZ_k=oA_kb2I_l(DN_l:PR_lL\\X_lptb`KS3M_n3h!0JP==1c70M3&p";
+      output = @"5sdq,77Kd<8P2WL9hnJ\;,U=l<E<1'=^&^n_h,dZ_hQ'a_hc3e_hu?i_iDWq_j&-'_jSE3_jk.E@q9._B4u!oCM[j*DfB]:F*)PJGBeCZ_k=oA_kb2I_l(DN_l:PR_lL\X_lptb`KS3M_n3h!0JP==1c70M3&p";
       plain2 = Base85.FromBase85String(output).BNToString();
       Assert.That(plain2, Is.EqualTo(plain));
    }

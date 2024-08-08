@@ -72,7 +72,7 @@ public static class StringExtension
    public static string BNRemoveChars(this string? str, params char[]? removeChars)
    {
       if (str == null)
-           return string.Empty;;
+           return string.Empty;
 
       if (removeChars == null)
          return str;

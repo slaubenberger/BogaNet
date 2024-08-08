@@ -144,14 +144,13 @@ public abstract class ObjectHelper
          try
          {
             if (type.FullName?.Equals(className) != true) continue;
-            
-            if (type.IsClass)
-            {
-               MethodInfo? method = type.GetMethod(methodName, flags);
 
-               if (method != null)
-                  return method.Invoke(null, parameters);
-            }
+            if (!type.IsClass) continue;
+            
+            MethodInfo? method = type.GetMethod(methodName, flags);
+
+            if (method != null)
+               return method.Invoke(null, parameters);
          }
          catch (Exception ex)
          {

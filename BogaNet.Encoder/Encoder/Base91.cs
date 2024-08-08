@@ -150,26 +150,25 @@ public static class Base91
          bitQuotient |= (theByte & 255) << bitIndex;
          bitIndex += 8;
 
-         if (bitIndex > 13)
+         if (bitIndex <= 13) continue;
+         
+         int encodedValue = bitQuotient & 8191;
+
+         if (encodedValue > 88)
          {
-            int encodedValue = bitQuotient & 8191;
-
-            if (encodedValue > 88)
-            {
-               bitQuotient >>= 13;
-               bitIndex -= 13;
-            }
-            else
-            {
-               encodedValue = bitQuotient & 16383;
-               bitQuotient >>= 14;
-               bitIndex -= 14;
-            }
-
-            int quotient = Math.DivRem(encodedValue, 91, out int remainder);
-            result.Append(CHARSET[remainder]);
-            result.Append(CHARSET[quotient]);
+            bitQuotient >>= 13;
+            bitIndex -= 13;
          }
+         else
+         {
+            encodedValue = bitQuotient & 16383;
+            bitQuotient >>= 14;
+            bitIndex -= 14;
+         }
+
+         int quotient = Math.DivRem(encodedValue, 91, out int remainder);
+         result.Append(CHARSET[remainder]);
+         result.Append(CHARSET[quotient]);
       }
 
       if (bitIndex > 0)

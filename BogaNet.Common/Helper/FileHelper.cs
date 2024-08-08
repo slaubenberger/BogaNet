@@ -1811,22 +1811,14 @@ public abstract class FileHelper
                else if (Constants.IsOSX)
                {
                   process.StartInfo.FileName = "open";
-
-                  if (file != null)
-                  {
-                     process.StartInfo.WorkingDirectory = GetDirectoryName(file) + Constants.PATH_DELIMITER_UNIX;
-                     process.StartInfo.Arguments = $"-t \"{GetFileName(file)}\"";
-                  }
+                  process.StartInfo.WorkingDirectory = GetDirectoryName(file) + Constants.PATH_DELIMITER_UNIX;
+                  process.StartInfo.Arguments = $"-t \"{GetFileName(file)}\"";
                }
                else
                {
                   process.StartInfo.FileName = "xdg-open";
-
-                  if (file != null)
-                  {
-                     process.StartInfo.WorkingDirectory = GetDirectoryName(file) + Constants.PATH_DELIMITER_UNIX;
-                     process.StartInfo.Arguments = GetFileName(file);
-                  }
+                  process.StartInfo.WorkingDirectory = GetDirectoryName(file) + Constants.PATH_DELIMITER_UNIX;
+                  process.StartInfo.Arguments = GetFileName(file);
                }
 
                process.Start();

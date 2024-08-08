@@ -302,10 +302,10 @@ public class FileHelperTest
    [Test]
    public void RenameDirectory_Test()
    {
-      string fname = FileHelper.CreateDirectory(FileHelper.TempPath, System.Guid.NewGuid().ToString());
+      string fname = FileHelper.CreateDirectory(FileHelper.TempPath, Guid.NewGuid().ToString());
       Assert.That(FileHelper.ExistsDirectory(fname), Is.True);
 
-      string fnameNew = FileHelper.RenameDirectory(fname, System.Guid.NewGuid().ToString());
+      string fnameNew = FileHelper.RenameDirectory(fname, Guid.NewGuid().ToString());
 
       Assert.Multiple(() =>
       {
@@ -402,7 +402,7 @@ public class FileHelperTest
    [Test]
    public void CreateDirectory_Test()
    {
-      string path = FileHelper.CreateDirectory(FileHelper.TempPath, System.Guid.NewGuid().ToString());
+      string path = FileHelper.CreateDirectory(FileHelper.TempPath, Guid.NewGuid().ToString());
 
       Assert.Multiple(() =>
       {
@@ -418,7 +418,7 @@ public class FileHelperTest
    [Test]
    public void CreateFile_Test()
    {
-      string fname = FileHelper.CreateFile(FileHelper.TempPath, $"{System.Guid.NewGuid()}.tmp");
+      string fname = FileHelper.CreateFile(FileHelper.TempPath, $"{Guid.NewGuid()}.tmp");
 
       Assert.Multiple(() =>
       {

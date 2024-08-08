@@ -34,14 +34,13 @@ public class Localizer : Singleton<Localizer>, ILocalizer //NUnit
 
       set
       {
-         if (!Equals(value, _culture))
-         {
-            if (!SupportedCultures.Contains(value))
-               _logger.LogWarning($"No supported culture for {Culture} found!");
+         if (Equals(value, _culture)) return;
+         
+         if (!SupportedCultures.Contains(value))
+            _logger.LogWarning($"No supported culture for {Culture} found!");
 
-            _culture = value;
-            OnCultureChanged?.Invoke(_culture);
-         }
+         _culture = value;
+         OnCultureChanged?.Invoke(_culture);
       }
    }
 
@@ -49,19 +48,18 @@ public class Localizer : Singleton<Localizer>, ILocalizer //NUnit
    {
       get
       {
-         if (_cultures.Count == 0)
+         if (_cultures.Count != 0) return _cultures;
+         
+         List<string> culturesString = [];
+
+         foreach (KeyValuePair<string, string> cultureKvp in _messages.SelectMany(translationKvp => translationKvp.Value.Where(cultureKvp => !culturesString.Contains(cultureKvp.Key))))
          {
-            List<string> culturesString = [];
+            culturesString.Add(cultureKvp.Key);
+         }
 
-            foreach (KeyValuePair<string, string> cultureKvp in _messages.SelectMany(translationKvp => translationKvp.Value.Where(cultureKvp => !culturesString.Contains(cultureKvp.Key))))
-            {
-               culturesString.Add(cultureKvp.Key);
-            }
-
-            foreach (var culture in culturesString)
-            {
-               _cultures.Add(new CultureInfo(culture));
-            }
+         foreach (var culture in culturesString)
+         {
+            _cultures.Add(new CultureInfo(culture));
          }
 
          return _cultures;
@@ -109,7 +107,7 @@ public class Localizer : Singleton<Localizer>, ILocalizer //NUnit
 
    public virtual string GetText(string key, CultureInfo culture, TextType textType = TextType.LABEL) //NUnit
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(key);
+      ArgumentException.ThrowIfNullOrEmpty(key);
 
       return getText(key, culture.ToString(), textType);
    }
@@ -140,7 +138,7 @@ public class Localizer : Singleton<Localizer>, ILocalizer //NUnit
       for (int ii = 0; ii < replacements.Length; ii++)
       {
          string replacement = "{" + ii + "}";
-         text = text.BNReplace(replacement, replacements[ii])!;
+         text = text.BNReplace(replacement, replacements[ii]);
       }
 
       return text;
@@ -154,7 +152,7 @@ public class Localizer : Singleton<Localizer>, ILocalizer //NUnit
 
    public virtual bool ContainsKey(string key, CultureInfo? culture = null)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(key);
+      ArgumentException.ThrowIfNullOrEmpty(key);
 
       bool contains = _messages.ContainsKey(key);
 
@@ -163,9 +161,9 @@ public class Localizer : Singleton<Localizer>, ILocalizer //NUnit
 
    public virtual void Add(string key, CultureInfo culture, string value)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(key);
+      ArgumentException.ThrowIfNullOrEmpty(key);
       ArgumentNullException.ThrowIfNull(culture);
-      ArgumentNullException.ThrowIfNullOrEmpty(value);
+      ArgumentException.ThrowIfNullOrEmpty(value);
 
       string lang = culture.ToString();
 
@@ -189,36 +187,33 @@ public class Localizer : Singleton<Localizer>, ILocalizer //NUnit
 
    public virtual bool Remove(string key, CultureInfo? culture = null)
    {
-      if (ContainsKey(key))
+      if (!ContainsKey(key)) return false;
+      
+      if (culture == null)
       {
-         if (culture == null)
-         {
-            _messages.Remove(key);
+         _messages.Remove(key);
 
-            if (!RemovedTranslations.Contains(key))
-               RemovedTranslations.Add(key);
+         if (!RemovedTranslations.Contains(key))
+            RemovedTranslations.Add(key);
 
-            hasChanged();
+         hasChanged();
 
-            return true;
-         }
-
-         if (_messages[key].ContainsKey(culture.ToString()))
-         {
-            _messages[key].Remove(culture.ToString());
-
-            string id = $"{key},{culture}";
-
-            if (!RemovedTranslations.Contains(id))
-               RemovedTranslations.Add(id);
-
-            hasChanged();
-
-            return true;
-         }
+         return true;
       }
 
-      return false;
+      if (!_messages[key].ContainsKey(culture.ToString())) return false;
+         
+      _messages[key].Remove(culture.ToString());
+
+      string id = $"{key},{culture}";
+
+      if (!RemovedTranslations.Contains(id))
+         RemovedTranslations.Add(id);
+
+      hasChanged();
+
+      return true;
+
    }
 
    public virtual void Clear()
@@ -281,27 +276,26 @@ public class Localizer : Singleton<Localizer>, ILocalizer //NUnit
                   }
                }
 
-               if (translation != null && key != null)
+               if (translation == null || key == null) continue;
+               
+               if (_messages.TryGetValue(key, out Dictionary<string, string>? value))
                {
-                  if (_messages.TryGetValue(key, out Dictionary<string, string>? value))
+                  foreach (var translationKvp in translation)
                   {
-                     foreach (var translationKvp in translation)
+                     if (value.ContainsKey(translationKvp.Key))
                      {
-                        if (value.ContainsKey(translationKvp.Key))
-                        {
-                           _logger.LogInformation($"Duplicate key '{key}' for language '{translationKvp.Key}' found: {value[translationKvp.Key]} => {translationKvp.Value}");
-                           value[translationKvp.Key] = translationKvp.Value;
-                        }
-                        else
-                        {
-                           value.Add(translationKvp.Key, translationKvp.Value);
-                        }
+                        _logger.LogInformation($"Duplicate key '{key}' for language '{translationKvp.Key}' found: {value[translationKvp.Key]} => {translationKvp.Value}");
+                        value[translationKvp.Key] = translationKvp.Value;
+                     }
+                     else
+                     {
+                        value.Add(translationKvp.Key, translationKvp.Value);
                      }
                   }
-                  else
-                  {
-                     _messages.Add(key, translation);
-                  }
+               }
+               else
+               {
+                  _messages.Add(key, translation);
                }
             }
          }
@@ -396,7 +390,7 @@ public class Localizer : Singleton<Localizer>, ILocalizer //NUnit
 
    public virtual bool SaveFile(string filename)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(filename);
+      ArgumentException.ThrowIfNullOrEmpty(filename);
 
       string content = getEntries();
       bool res = FileHelper.WriteAllText(filename, content);
@@ -408,7 +402,7 @@ public class Localizer : Singleton<Localizer>, ILocalizer //NUnit
 
    public virtual async Task<bool> SaveFileAsync(string filename)
    {
-      ArgumentNullException.ThrowIfNullOrEmpty(filename);
+      ArgumentException.ThrowIfNullOrEmpty(filename);
 
       string content = getEntries();
       bool res = await FileHelper.WriteAllTextAsync(filename, content);
@@ -446,7 +440,7 @@ public class Localizer : Singleton<Localizer>, ILocalizer //NUnit
          //Dictionary<string, string> dict = languages[language];
 
          if (translation.TryGetValue(culture, out string? value))
-            return value.BNReplace("\\n", System.Environment.NewLine)!;
+            return value.BNReplace("\\n", Environment.NewLine);
 
          if (culture.Length > 2)
          {
@@ -469,11 +463,11 @@ public class Localizer : Singleton<Localizer>, ILocalizer //NUnit
 
             _logger.LogInformation($"No translation found for key '{usedKey}' in '{culture}' - using the default value.");
 
-            if (returnDefault)
-            {
-               var defaultValue = _messages[usedKey].Values.ElementAt(0);
-               return defaultValue.BNReplace("\\n", System.Environment.NewLine) ?? string.Empty;
-            }
+            if (!returnDefault)
+               return "???" + usedKey + "???";
+            
+            var defaultValue = _messages[usedKey].Values.ElementAt(0);
+            return defaultValue.BNReplace("\\n", Environment.NewLine);
          }
       }
       else
