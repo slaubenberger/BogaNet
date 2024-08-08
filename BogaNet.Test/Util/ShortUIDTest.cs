@@ -18,7 +18,7 @@ public class ShortUIDTest
          refGuid = Guid.NewGuid();
          suid1 = refGuid.BNToShortUID();
 
-         Assert.That(suid1.Code, Has.Length.EqualTo(22));
+         Assert.That(suid1.UID, Has.Length.EqualTo(22));
          //Assert.That(suid1.Code, Has.Length.EqualTo(20)); //Base85 and 91
 
          Guid resGuid = suid1.ToGuid();

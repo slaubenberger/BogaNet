@@ -10,6 +10,7 @@ namespace BogaNet.Encoder;
 
 /// <summary>
 /// Base91 encoder class.
+/// NOTE: The generated strings are not suitable for URLs and files due their used character set.
 /// Partially based on: https://github.com/KvanTTT/BaseNcoding
 /// </summary>
 public static class Base91

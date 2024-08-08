@@ -1,17 +1,23 @@
-using System.Text;
 using System;
-using BogaNet.Extension;
+using System.Linq;
+using System.Numerics;
 
 namespace BogaNet.Util;
 
 /// <summary>
-/// Short Guid implementation with a length of 22 characters (instead 36 of the normal Guid).
+/// Short Guid implementation with 22 characters instead of 36 (normal Guid).
 /// </summary>
 public class ShortUID
 {
    #region Variables
 
-   public string Code { get; set; }
+   private readonly byte[] _guid;
+   private string? _uid;
+
+   /// <summary>
+   /// Guid as 22 character representation, safe format suitable for URLs and files.
+   /// </summary>
+   public string UID => _uid ??= Convert.ToBase64String(_guid).Replace("/", "_").Replace("+", "-").Replace("=", "");
 
    #endregion
 
@@ -23,16 +29,16 @@ public class ShortUID
    /// <param name="data">ShortUID as byte-array</param>
    public ShortUID(byte[] data)
    {
-      Code = data.BNToString(Encoding.ASCII);
+      _guid = data;
    }
 
    /// <summary>
    /// Constructor for a ShortUID with a given string.
    /// </summary>
-   /// <param name="code">ShortUID as string</param>
-   public ShortUID(string code)
+   /// <param name="uid">ShortUID as string</param>
+   public ShortUID(string uid)
    {
-      Code = code; //.BNFixedLength(22, '-');
+      _guid = Convert.FromBase64String(uid.Replace("_", "/").Replace("-", "+") + "==");
    }
 
    /// <summary>
@@ -40,7 +46,7 @@ public class ShortUID
    /// </summary>
    public ShortUID()
    {
-      Code = NewShortUID().Code;
+      _guid = NewShortUID()._guid;
    }
 
    #endregion
@@ -62,7 +68,7 @@ public class ShortUID
    /// <returns>ShortUID as byte-array</returns>
    public byte[] ToByteArray()
    {
-      return Code.BNToByteArray(Encoding.ASCII);
+      return _guid;
    }
 
    /// <summary>
@@ -71,13 +77,7 @@ public class ShortUID
    /// <returns>Guid-instance</returns>
    public Guid ToGuid()
    {
-      string code = Code.Replace("_", "/").Replace("-", "+") + "==";
-      Guid guid = new(Convert.FromBase64String(code));
-      //Guid guid = new(Base64.FromBase64String(Code + "=="));
-      //Guid guid = new(Base85.FromBase85String(Code));
-      //Guid guid = new(Base91.FromBase91String(Code));
-
-      return guid;
+      return new Guid(_guid);
    }
 
    #endregion
@@ -86,7 +86,7 @@ public class ShortUID
 
    public override string ToString()
    {
-      return Code;
+      return UID;
    }
 
    public override bool Equals(object? obj)
@@ -96,12 +96,12 @@ public class ShortUID
 
       ShortUID su = (ShortUID)obj;
 
-      return Code.Equals(su.Code);
+      return _guid.SequenceEqual(su._guid);
    }
 
    public override int GetHashCode()
    {
-      return Code.GetHashCode();
+      return new BigInteger(_guid).GetHashCode();
    }
 
    #endregion
@@ -122,11 +122,6 @@ public static class GuidExtension
    {
       ArgumentNullException.ThrowIfNull(uid);
 
-      string guid = Convert.ToBase64String(uid.ToByteArray()).Replace("/", "_").Replace("+", "-").Replace("=", "");
-      //string guid = Base64.ToBase64String(uid.ToByteArray());
-      //string guid = Base85.ToBase85String(uid.ToByteArray());
-      //string guid = Base91.ToBase91String(uid.ToByteArray());
-
-      return new ShortUID(guid);
+      return new ShortUID(uid.ToByteArray());
    }
 }

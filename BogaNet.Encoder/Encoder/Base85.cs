@@ -9,6 +9,7 @@ namespace BogaNet.Encoder;
 
 /// <summary>
 /// Base85 encoder class.
+/// NOTE: The generated strings are not suitable for URLs and files due their used character set.
 /// Partially based on: https://github.com/coding-horror/ascii85/tree/master
 /// </summary>
 public static class Base85
