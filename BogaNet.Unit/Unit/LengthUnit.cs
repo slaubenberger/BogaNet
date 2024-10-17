@@ -20,7 +20,8 @@ public enum LengthUnit //NUnit
    FOOT,
    YARD,
    MILE,
-   NAUTICAL_MILE
+   NAUTICAL_MILE,
+   POINT
 }
 
 /// <summary>
@@ -89,6 +90,11 @@ public static class LengthUnitExtension
    /// </summary>
    public const decimal FACTOR_NAUTICAL_MILE_TO_M = 1852m;
 
+   /// <summary>
+   /// Point to meters.
+   /// </summary>
+   public const decimal FACTOR_POINT_TO_M = 0.0003527778m;
+   
    #endregion
 
    #region Public methods
@@ -148,6 +154,9 @@ public static class LengthUnitExtension
          case LengthUnit.NAUTICAL_MILE:
             val *= FACTOR_NAUTICAL_MILE_TO_M;
             break;
+         case LengthUnit.POINT:
+            val *= FACTOR_POINT_TO_M;
+            break;
          default:
             _logger.LogWarning($"There is no conversion for the fromUnit: {fromLengthUnit}");
             break;
@@ -191,6 +200,9 @@ public static class LengthUnitExtension
             break;
          case LengthUnit.NAUTICAL_MILE:
             outVal = val / FACTOR_NAUTICAL_MILE_TO_M;
+            break;
+         case LengthUnit.POINT:
+            outVal = val / FACTOR_POINT_TO_M;
             break;
          default:
             _logger.LogWarning($"There is no conversion for the toUnit: {toLengthUnit}");
