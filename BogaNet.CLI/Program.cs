@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using BogaNet.BWF;
-using BogaNet.BWF.Filter;
 using BogaNet.Extension;
 using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
@@ -28,7 +28,10 @@ public static class Program
 
       _logger.LogDebug("Hi there, this is a test app!");
 
-      await testBWF2();
+      //fileRenamer();
+      fileMerger();
+
+      //await testBWF2();
       //await testBWF();
       //testTTS();
       //testPrefs();
@@ -69,6 +72,95 @@ public static class Program
 
    #region Private methods
 
+   private static void fileRenamer()
+   {
+      var files = FileHelper.GetFiles("/Volumes/NAS_Public/video/series/Arrested Development", true);
+
+      foreach (var file in files)
+      {
+         string newFile = file.Replace("[", "- ").Replace("]", " -");
+         _logger.LogWarning(file + " -> " + newFile);
+         FileHelper.RenameFile(file, newFile);
+      }
+   }
+
+   private static void fileMerger()
+   {
+      _logger.LogInformation("File merge started");
+
+      string outputDir = "/Volumes/NAS_Public/video/movies hd";
+      var dirs = FileHelper.GetDirectories("/Volumes/NAS_Public/video/_replace/");
+
+      foreach (var dir in dirs)
+      {
+         string dirName = FileHelper.GetDirectoryName(dir);
+         _logger.LogInformation(dir);
+         mergeMtsFiles(dir, $"{outputDir}/{dirName}.m2ts");
+
+         //break;
+      }
+
+      _logger.LogInformation("File merge finished!");
+   }
+
+   private static void mergeMtsFiles(string sourceDirectory, string outputFile)
+   {
+      const int bufferSize = 128 * 1024 * 1024;
+
+      try
+      {
+         // Get all M2TS files in the directory
+         var mtsFiles = FileHelper.GetFiles(sourceDirectory, true, "m2ts")
+            .OrderBy(f => f)
+            .ToList();
+
+         if (mtsFiles.Count == 0)
+         {
+            _logger.LogWarning($"No MTS files found in the specified directory: {sourceDirectory}");
+            return;
+         }
+
+         //return;
+
+         // Create a FileStream for the output file
+         using (var outputStream = new FileStream(outputFile, FileMode.Create, FileAccess.Write, FileShare.None, bufferSize))
+         {
+            byte[] buffer = new byte[bufferSize];
+            long totalBytes = 0;
+            long totalSize = mtsFiles.Sum(f => new FileInfo(f).Length);
+
+            foreach (var file in mtsFiles)
+            {
+               using (var inputStream = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read, bufferSize))
+               {
+                  int bytesRead;
+                  while ((bytesRead = inputStream.Read(buffer, 0, buffer.Length)) > 0)
+                  {
+                     outputStream.Write(buffer, 0, bytesRead);
+                     totalBytes += bytesRead;
+                     reportProgress(totalBytes, totalSize);
+                  }
+               }
+
+               Console.WriteLine($"\nMerged: {Path.GetFileName(file)}");
+            }
+         }
+
+         _logger.LogInformation($"All files merged successfully: {outputFile}");
+      }
+      catch (Exception ex)
+      {
+         _logger.LogError(ex, "An error occurred!");
+      }
+   }
+
+   private static void reportProgress(long current, long total)
+   {
+      int percentage = (int)((current * 100) / total);
+      Console.Write($"\rProgress: {percentage}% [{current}/{total} bytes]");
+   }
+
+/*
    private static async Task testBWF2()
    {
       //await BadWordFilter.Instance.LoadFilesAsync(true, new Tuple<string, string>("en", "./Resources/Filters/ltr/en.txt"), new Tuple<string, string>("de", "./Resources/Filters/ltr/de.txt"));
@@ -136,7 +228,8 @@ public static class Program
 
       _logger.LogInformation(removedDomain);
    }
-
+*/
+/*
    private static void testPrefs()
    {
       Prefs.Preferences.Instance.Load();
@@ -150,7 +243,7 @@ public static class Program
 
       Prefs.Preferences.Instance.Set("user", "ueli " + DateTime.Now);
    }
-
+*/
    private static async Task Task1()
    {
       await Task.Delay(1000);
@@ -163,6 +256,7 @@ public static class Program
       _logger.LogInformation("Finished Task2");
    }
 
+/*
    private static void testTTS()
    {
       //await FileHelper.WriteAllTextAsync("WindowsWrapper.txt", await Base64.Base64FromFileAsync("./contentFiles/BogaNetTTSWrapper.exe"));
@@ -198,7 +292,7 @@ public static class Program
 
       tts.Silence();
    }
-
+*/
    private static void buildCode()
    {
       var lines = FileHelper.ReadAllLines("~/Desktop/Locales.csv");
