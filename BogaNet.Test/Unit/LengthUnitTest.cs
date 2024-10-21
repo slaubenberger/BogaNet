@@ -90,6 +90,12 @@ public class LengthUnitTest
       Assert.That(conv, Is.EqualTo(tRef));
       res = LengthUnit.YARD.Convert(LengthUnit.NAUTICAL_MILE, conv);
       Assert.That(res, Is.EqualTo(refValue));
+
+      conv = LengthUnit.POINT.Convert(LengthUnit.YARD, valIn);
+      tRef = 0.4762993703284938544619422572m;
+      Assert.That(conv, Is.EqualTo(tRef));
+      res = LengthUnit.YARD.Convert(LengthUnit.POINT, conv);
+      Assert.That(res, Is.EqualTo(refValue));
    }
 
    #endregion
