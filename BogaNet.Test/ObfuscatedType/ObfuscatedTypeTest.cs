@@ -16,7 +16,7 @@ public class ObfuscatedTypeTest
       age += years;
 
       byte res = age;
-      Assert.True(age == res);
+      Assert.That(age == res);
    }
 
    [Test]
@@ -25,7 +25,7 @@ public class ObfuscatedTypeTest
       BoolObf isOk = true;
 
       bool res = isOk;
-      Assert.True(isOk == res);
+      Assert.That(isOk == res);
    }
 
    [Test]
@@ -34,7 +34,7 @@ public class ObfuscatedTypeTest
       CharObf ch = 'A';
 
       char res = ch;
-      Assert.True(ch == res);
+      Assert.That(ch == res);
    }
 
    [Test]
@@ -45,7 +45,7 @@ public class ObfuscatedTypeTest
       age += years;
 
       decimal res = age;
-      Assert.True(age == res);
+      Assert.That(age == res);
    }
 
    [Test]
@@ -56,7 +56,7 @@ public class ObfuscatedTypeTest
       age += years;
 
       double res = age;
-      Assert.True(age == res);
+      Assert.That(age == res);
    }
 
    [Test]
@@ -67,7 +67,7 @@ public class ObfuscatedTypeTest
       age += years;
 
       float res = age;
-      Assert.True(age == res);
+      Assert.That(age == res);
    }
 
    [Test]
@@ -78,7 +78,7 @@ public class ObfuscatedTypeTest
       age += years;
 
       int res = age;
-      Assert.True(age == res);
+      Assert.That(age == res);
    }
 
    [Test]
@@ -89,7 +89,7 @@ public class ObfuscatedTypeTest
       age += years;
 
       long res = age;
-      Assert.True(age == res);
+      Assert.That(age == res);
    }
 
    [Test]
@@ -100,7 +100,7 @@ public class ObfuscatedTypeTest
       age += years;
 
       nint res = age;
-      Assert.True(age == res);
+      Assert.That(age == res);
    }
 
    [Test]
@@ -111,7 +111,7 @@ public class ObfuscatedTypeTest
       age += years;
 
       nuint res = age;
-      Assert.True(age == res);
+      Assert.That(age == res);
    }
 
    [Test]
@@ -122,7 +122,7 @@ public class ObfuscatedTypeTest
       age += years;
 
       sbyte res = age;
-      Assert.True(age == res);
+      Assert.That(age == res);
    }
 
    [Test]
@@ -133,7 +133,7 @@ public class ObfuscatedTypeTest
       age += years;
 
       short res = age;
-      Assert.True(age == res);
+      Assert.That(age == res);
    }
 
    [Test]
@@ -156,7 +156,7 @@ public class ObfuscatedTypeTest
       age += years;
 
       uint res = age;
-      Assert.True(age == res);
+      Assert.That(age == res);
    }
 
    [Test]
@@ -167,7 +167,7 @@ public class ObfuscatedTypeTest
       age += years;
 
       ulong res = age;
-      Assert.True(age == res);
+      Assert.That(age == res);
    }
 
    [Test]
@@ -178,7 +178,7 @@ public class ObfuscatedTypeTest
       age += years;
 
       ushort res = age;
-      Assert.True(age == res);
+      Assert.That(age == res);
    }
 
    [Test]
@@ -187,7 +187,7 @@ public class ObfuscatedTypeTest
       TestClass refObj = new();
       ObjectObf<TestClass> obj = refObj;
       TestClass tm = obj;
-      Assert.True(obj.Equals(refObj));
+      Assert.That(obj.Equals(refObj));
       Assert.That(tm, Is.EqualTo(refObj));
    }
 

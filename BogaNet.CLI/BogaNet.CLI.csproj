@@ -11,7 +11,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="NLog.Web.AspNetCore" Version="5.3.11"/>
+        <PackageReference Include="NLog.Web.AspNetCore" Version="5.4.0" />
     </ItemGroup>
 
     <ItemGroup>
